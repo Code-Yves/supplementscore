@@ -106,16 +106,22 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .tab-btn{padding:9px 16px;font-size:13px;font-weight:500;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}.tab-btn.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
 .card-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1.25rem}
 .sec-lbl{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
-.age-big{font-size:40px;font-weight:600;color:var(--color-text-primary);line-height:1}
-.age-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
-.age-wrap{display:flex;align-items:flex-end;gap:16px;margin-bottom:1.1rem}
-.slider-wrap{flex:1;padding-bottom:4px}
-.slider-wrap input[type=range]{width:100%;accent-color:var(--color-text-primary)}
-.slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-top:3px}
+.age-wrap{display:flex;align-items:center;gap:12px;margin-bottom:1.1rem}
+.age-stepper{display:flex;align-items:center;gap:0}
+.age-stepper-btn{width:36px;height:36px;border-radius:50%;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:18px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1;padding:0}.age-stepper-btn:hover{background:var(--color-background-primary);border-color:var(--color-border-primary)}.age-stepper-btn:active{transform:scale(.92)}
+.age-input{width:56px;text-align:center;font-size:28px;font-weight:600;color:var(--color-text-primary);background:none;border:none;outline:none;font-family:inherit;-moz-appearance:textfield;padding:0}.age-input::-webkit-outer-spin-button,.age-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.age-sub{font-size:12px;color:var(--color-text-secondary)}
 .sex-row{display:flex;gap:8px}
 .sx-btn{flex:1;padding:9px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
 .sx-btn.on-m{background:#1565C0;color:#fff;border-color:transparent}
 .sx-btn.on-f{background:#B5256E;color:#fff;border-color:transparent}
+.sx-btn.on-p{background:#8E24AA;color:#fff;border-color:transparent}
+.cond-chip.on{background:#0D7377;color:#fff;border-color:transparent}
+.beta-banner{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.85rem 1rem;margin-bottom:1rem}
+.beta-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:#7B1FA2;color:#fff;text-transform:uppercase;letter-spacing:.06em;vertical-align:middle}
+.beta-title{font-size:13px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.beta-text{font-size:11px;color:var(--color-text-tertiary);line-height:1.6}
+.beta-dna{font-size:11px;color:var(--color-text-secondary);margin-top:6px;padding:6px 9px;background:rgba(123,31,162,.08);border-radius:6px;border-left:2px solid #7B1FA2;line-height:1.5}
 .med-section{margin-top:1rem}
 .med-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
 .med-label-opt{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary)}
@@ -124,7 +130,15 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .med-chip.on{background:#7B1FA2;color:#fff;border-color:transparent}
 .med-chip:hover:not(.on){background:var(--color-background-primary);border-color:var(--color-border-primary)}
 .med-note{font-size:11px;color:var(--color-text-tertiary);line-height:1.5;font-style:italic}
-.go-btn{width:100%;padding:11px;border-radius:8px;border:none;background:var(--color-text-primary);color:var(--color-background-primary);font-size:14px;font-weight:500;cursor:pointer;margin-top:1rem;transition:opacity .15s}.go-btn:active{opacity:.85}
+.go-btn{width:100%;padding:11px;border-radius:8px;border:none;background:var(--color-text-primary);color:var(--color-background-primary);font-size:14px;font-weight:500;cursor:pointer;margin-top:1rem;transition:opacity .15s}.go-btn:active{opacity:.85}.go-btn:disabled{opacity:.5;cursor:not-allowed}
+.loading-overlay{display:none;text-align:center;padding:3rem 1rem}
+.loading-overlay.vis{display:block}
+.loading-ring{width:48px;height:48px;border:3px solid var(--color-border-tertiary);border-top-color:var(--color-text-primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1.25rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.loading-sub{font-size:12px;color:var(--color-text-secondary)}
+.loading-bar-wrap{width:200px;height:4px;background:var(--color-border-tertiary);border-radius:2px;margin:1rem auto 0;overflow:hidden}
+.loading-bar{height:100%;width:0;background:var(--color-text-primary);border-radius:2px;transition:width .15s linear}
 .errmsg{font-size:12px;color:var(--t4tx);background:var(--t4bg);padding:7px 11px;border-radius:8px;margin-top:8px;display:none}
 .profile-bar{background:var(--color-background-secondary);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
 .profile-bar-text{font-size:14px;font-weight:500;color:var(--color-text-primary)}.profile-bar-sub{font-size:12px;color:var(--color-text-secondary);margin-top:1px}
@@ -181,6 +195,15 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .sum-chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:500}
 .cp{font-size:11px;background:rgba(0,0,0,.08);padding:1px 7px;border-radius:10px;margin-left:4px}
 .footer{text-align:center;padding:2rem 0 1rem;font-size:11px;color:var(--color-text-tertiary);border-top:0.5px solid var(--color-border-tertiary);margin-top:2rem;line-height:1.8}
+.intro-card{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1.25rem 1.25rem 1.1rem;margin-bottom:1.25rem;background:var(--color-background-primary)}
+.intro-title{font-size:15px;font-weight:600;color:var(--color-text-primary);margin-bottom:.6rem;display:flex;align-items:center;gap:8px}
+.intro-np{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--t1bg);color:var(--t1tx);text-transform:uppercase;letter-spacing:.06em}
+.intro-text{font-size:12.5px;color:var(--color-text-secondary);line-height:1.7}
+.intro-text p{margin-bottom:.6rem}
+.intro-text p:last-child{margin-bottom:0}
+.intro-points{list-style:none;padding:0;margin:.6rem 0 0}
+.intro-points li{font-size:12px;color:var(--color-text-secondary);line-height:1.6;padding:4px 0 4px 20px;position:relative}
+.intro-points li::before{content:'';position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--t1c);opacity:.7}
 </style>
 </head>
 <body>
@@ -188,11 +211,25 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 <div class="page-header">
   <div class="page-title">Evidence-Based Supplement Reference</div>
   <div class="page-sub">
-    <span>98 supplements</span>
+    <span>120 supplements</span>
     <span>9 research sources</span>
     <span>Updated daily</span>
     <span>2024–2026 data</span>
   </div>
+</div>
+
+<div class="intro-card">
+  <div class="intro-title"><span class="intro-np">Non-profit</span> Cutting through the noise</div>
+  <div class="intro-text">
+    <p>The supplement industry is flooded with marketing claims, paid endorsements, and misinformation. This project exists to change that. We are a non-profit initiative using the latest AI to systematically review peer-reviewed studies from credible, independent sources only — no brand sponsorships, no affiliate links, no endorsements of any kind.</p>
+    <p>Every rating, dose, and recommendation on this page is drawn exclusively from randomised controlled trials, meta-analyses, and guidelines published by institutions like Cochrane, PubMed, NIH, WHO, and EFSA.</p>
+  </div>
+  <ul class="intro-points">
+    <li>AI-powered review of peer-reviewed research only — no industry-funded claims</li>
+    <li>Zero endorsements, sponsorships, or affiliate relationships</li>
+    <li>Updated weekly — continuously scanning for new studies and emerging evidence</li>
+    <li>All information verified against primary sources and kept as accurate as possible</li>
+  </ul>
 </div>
 
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -239,7 +276,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 <div class="gs-wrap">
   <svg class="gs-ico" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
   <label for="gs-inp" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Search supplements</label>
-  <input class="gs-inp" id="gs-inp" placeholder="Search any of the 98 supplements…" autocomplete="off" aria-label="Search supplements">
+  <input class="gs-inp" id="gs-inp" placeholder="Search any of the 120 supplements…" autocomplete="off" aria-label="Search supplements">
   <button class="gs-clr" id="gs-clr" onclick="clearSearch()">✕</button>
 </div>
 <div class="gs-res" id="gs-res">
@@ -249,35 +286,50 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 
 <div id="main-ui">
   <div class="tab-bar" role="tablist">
-    <button type="button" class="tab-btn active" id="tb1" role="tab" aria-selected="true" onclick="sw(1)">My recommendations</button>
-    <button type="button" class="tab-btn" id="tb2" role="tab" aria-selected="false" onclick="sw(2)">All 98 supplements</button>
+    <button type="button" class="tab-btn active" id="tb2" role="tab" aria-selected="true" onclick="sw(2)">All supplements</button>
+    <button type="button" class="tab-btn" id="tb1" role="tab" aria-selected="false" onclick="sw(1)">Custom Profile (Beta)</button>
   </div>
-  <div id="p1">
+  <div id="p1" style="display:none">
     <div id="v-input">
+      <div class="beta-banner">
+        <div class="beta-title"><span class="beta-badge">Beta</span> Custom Profile</div>
+        <div class="beta-text">This tool generates supplement suggestions based on population-level epidemiological data and clinical trial evidence. It is not a substitute for personalised medical advice — always consult a qualified clinician before starting or changing any supplement regimen.</div>
+        <div class="beta-dna">Coming soon: personalised matching powered by DNA test data — enabling recommendations tailored to your unique genetic profile.</div>
+      </div>
       <div class="card-box" style="margin-bottom:1rem">
         <div class="sec-lbl">Your age</div>
         <div class="age-wrap">
-          <div><div class="age-big" id="age-disp">35</div><div class="age-sub" id="age-grp">Adult (31–45)</div></div>
-          <div class="slider-wrap">
-            <label for="asl" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Select your age</label>
-            <input type="range" id="asl" min="18" max="90" value="35" step="1" aria-label="Select your age">
-            <div class="slider-labels"><span>18</span><span>90</span></div>
+          <div class="age-stepper">
+            <button type="button" class="age-stepper-btn" onclick="stepAge(-1)" aria-label="Decrease age">&minus;</button>
+            <input type="number" class="age-input" id="asl" min="18" max="90" value="35" aria-label="Enter your age" onchange="clampAge(this)">
+            <button type="button" class="age-stepper-btn" onclick="stepAge(1)" aria-label="Increase age">&plus;</button>
           </div>
+          <div class="age-sub" id="age-grp">Adult (31–45)</div>
         </div>
         <div class="sec-lbl">Biological sex</div>
         <div class="sex-row">
-          <button type="button" class="sx-btn" id="bm" onclick="pickSex('m')">♂ Male</button>
-          <button type="button" class="sx-btn" id="bf" onclick="pickSex('f')">♀ Female</button>
+          <button type="button" class="sx-btn" id="bm" onclick="pickSex('m')">Male</button>
+          <button type="button" class="sx-btn" id="bf" onclick="pickSex('f')">Female</button>
+          <button type="button" class="sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
         </div>
         <div class="med-section">
           <div class="med-label">Current medications <span class="med-label-opt">(optional — adjusts recommendations)</span></div>
           <div class="med-chips" id="med-chips"></div>
           <div class="med-note" id="med-note" style="display:none"></div>
         </div>
+        <div class="med-section">
+          <div class="med-label">Conditions / Ailments <span class="med-label-opt">(optional — refines recommendations)</span></div>
+          <div class="med-chips" id="cond-chips"></div>
+        </div>
         <div class="errmsg" id="serr">Please select your biological sex to continue.</div>
         <button type="button" class="go-btn" onclick="genRecs()">View my supplement recommendations →</button>
       </div>
-      <div class="disc">Recommendations are based on population-level epidemiological data and clinical trial evidence. Not a substitute for personalised medical advice. Supplements marked "test first" require blood work before supplementing.</div>
+    </div>
+    <div class="loading-overlay" id="v-loading">
+      <div class="loading-ring"></div>
+      <div class="loading-text" id="load-text">Analyzing your profile…</div>
+      <div class="loading-sub" id="load-sub">Matching against 120 supplements</div>
+      <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
     </div>
     <div id="v-res" style="display:none">
       <div class="profile-bar"><div><div class="profile-bar-text" id="res-hd"></div><div class="profile-bar-sub" id="res-sh"></div></div><button type="button" class="edit-btn" onclick="editP()">Edit profile</button></div>
@@ -299,8 +351,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
       </div>
     </div>
   </div>
-  <div id="p2" style="display:none">
-    <div class="sum-bar" id="sum-bar"></div>
+  <div id="p2">
     <input class="sbox" id="srch" placeholder="Filter within this list…" aria-label="Filter supplements">
     <div class="sfbar" id="sfbar"></div>
     <div id="s-content"></div>
@@ -308,13 +359,13 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 </div>
 
 <div class="footer">
-  Evidence-Based Supplement Reference · 98 supplements · 9 sources · 2024–2026 data<br>
+  Evidence-Based Supplement Reference · 120 supplements · 9 sources · 2024–2026 data<br>
   Not a substitute for personalised medical advice. Always consult a clinician before changing your supplement regimen.
 </div>
 </div>
 </div>
 <script>
-const TIERS=[{id:'t1',label:'Tier 1 — Strong evidence',badge:'Proven effective',bg:'var(--t1bg)',tx:'var(--t1tx)'},{id:'t2',label:'Tier 2 — Emerging / conditional',badge:'Specific groups',bg:'var(--t2bg)',tx:'var(--t2tx)'},{id:'t3',label:'Tier 3 — Overhyped / insufficient',badge:'Marketing > data',bg:'var(--t3bg)',tx:'var(--t3tx)'},{id:'t4',label:'Tier 4 — Hazardous / avoid',badge:'Safety concerns',bg:'var(--t4bg)',tx:'var(--t4tx)'}];
+const TIERS=[{id:'t1',label:'Tier 1 — Strong evidence',badge:'Proven effective',bg:'var(--t1bg)',tx:'var(--t1tx)'},{id:'t2',label:'Tier 2 — Promising / situational',badge:'Promising',bg:'var(--t2bg)',tx:'var(--t2tx)'},{id:'t3',label:'Tier 3 — Insufficient evidence',badge:'Insufficient evidence',bg:'var(--t3bg)',tx:'var(--t3tx)'},{id:'t4',label:'Tier 4 — Hazardous / avoid',badge:'Safety concerns',bg:'var(--t4bg)',tx:'var(--t4tx)'}];
 const TM={};TIERS.forEach(t=>TM[t.id]=t);
 const EL=['','Insufficient','Limited','Moderate','Strong','Conclusive'];
 const SL=['','Dangerous','High risk','Caution advised','Good','Excellent'];
@@ -382,6 +433,8 @@ const S=[
 {t:'t2',n:'Vitamin B6 (P5P)',iN:true,tag:'PMS · Pregnancy nausea · OCP support',e:3,s:3,desc:'USPSTF recommends 10–25 mg TID for nausea and vomiting of pregnancy. 2024 meta-analysis: significant PMS/PMDD symptom improvement. NIH ODS: OCPs deplete B6. Peripheral neuropathy risk at >100 mg/day.',dose:'25–50 mg/day P5P for PMS/OCP support. 10–25 mg × 3 daily for NVP. NEVER exceed 100 mg/day long-term.'},
 {t:'t2',n:'Choline',iN:true,tag:'Cognition · Liver · Methylation',e:3,s:4,desc:'NIH ODS: essential nutrient; ~90% of Americans fall below the Adequate Intake. Essential for acetylcholine synthesis, cell membrane integrity, liver fat export, and one-carbon methylation.',dose:'250–550 mg/day from CDP-choline, alpha-GPC, or choline bitartrate; dietary sources (eggs, liver) preferred'},
 {t:'t2',n:'Olive leaf extract',iN:true,tag:'Blood pressure · Antiviral · Antioxidant',e:3,s:4,desc:'2024 meta-analysis (12 RCTs): olive leaf extract significantly reduced SBP (−5.8 mmHg) and DBP (−3.1 mmHg). Oleuropein inhibits viral RNA polymerase — antiviral activity confirmed in cell studies.',dose:'500–1,000 mg/day standardised extract (6–19% oleuropein); monitor blood pressure if on antihypertensives'},
+{t:'t2',n:'Fenugreek (Trigonella foenum-graecum)',iN:true,tag:'Testosterone · Libido · Glucose',e:3,s:4,desc:'2024 meta-analysis (12 RCTs): significant improvement in total testosterone and sexual function in men. Also modestly reduces fasting blood glucose. Standardised extracts (Testofen) best studied.',dose:'500–600 mg/day standardised extract (50% furostanol saponins) with food'},
+{t:'t2',n:'Psyllium husk (Plantago ovata)',iN:true,tag:'Cholesterol · Gut · Glucose',e:4,s:5,desc:'FDA-approved health claim for cholesterol reduction. 2024 meta-analysis (28 RCTs): significantly reduces LDL-C (−0.33 mmol/L), fasting glucose, and HbA1c. Excellent safety and tolerability profile.',dose:'5–10 g/day in divided doses with plenty of water; start low to minimise bloating'},
 {t:'t3',n:'NMN / NAD+ precursors',tag:'Anti-aging / Longevity',e:2,s:3,desc:'2024 meta-analysis (12 RCTs): NMN reliably raises NAD+ but no significant clinical outcomes observed in humans.',dose:'250–900 mg/day in trials (no established optimal dose)'},
 {t:'t3',n:'BCAAs (standalone)',tag:'Muscle recovery',e:2,s:5,desc:'No additional MPS benefit over complete protein when total leucine intake is adequate.',dose:'5–10 g peri-workout — only meaningful if total protein intake is inadequate'},
 {t:'t3',n:'Glucosamine / Chondroitin',tag:'Joint pain',e:2,s:4,desc:'GAIT trial (n=1,583): no significant pain benefit vs. placebo for glucosamine. Chondroitin shows modest OA benefits in some subgroups.',dose:'Glucosamine sulfate 1,500 mg/day + Chondroitin sulfate 1,200 mg/day; trial 3 months'},
@@ -400,7 +453,6 @@ const S=[
 {t:'t3',n:'Panax ginseng',iN:true,tag:'Cognitive / Fatigue / Sexual health',e:2,s:3,desc:'Small RCTs show improvements in working memory and mental fatigue but results are highly inconsistent. NCCIH: potent CYP3A4 inhibitor — interacts with multiple medications.',dose:'200–400 mg/day standardised extract (minimum 4–7% ginsenosides)'},
 {t:'t3',n:'Phosphatidylserine',tag:'Cognition · Memory · Cortisol',e:2,s:4,desc:'FDA "qualified health claim" — very limited evidence. Modest memory improvements in older adults (SMD ~0.3). Clinical evidence remains thin.',dose:'300 mg/day (100 mg × 3 with meals)'},
 {t:'t3',n:'Astaxanthin',iN:true,tag:'Antioxidant · Skin · Recovery',e:2,s:4,desc:'Human RCTs show modest skin hydration and exercise recovery improvements. NCCIH: virtually all trials are manufacturer-funded and small.',dose:'4–12 mg/day from Haematococcus pluvialis algae, with a fatty meal'},
-{t:'t3',n:'Tongkat ali (Eurycoma longifolia)',iN:true,tag:'Testosterone · Male health',e:2,s:2,desc:'2022 meta-analysis (5 RCTs): significant improvement in total testosterone in hypogonadal men via SHBG release. 2024 RCT in healthy trained adults: null results. EFSA flagged potential genotoxicity in animals.',dose:'200–400 mg/day standardised extract — only if confirmed hypogonadal; max 6 months'},
 {t:'t3',n:'Quercetin',iN:true,tag:'Anti-inflammatory · Antiviral · Longevity',e:2,s:4,desc:'NCCIH: poor bioavailability (~1% unmodified) means in vitro potency does not translate reliably to humans. Human RCT evidence weak and inconsistent.',dose:'500–1,000 mg/day quercetin phytosome for improved absorption; evidence base insufficient'},
 {t:'t3',n:'CBD (Cannabidiol)',iN:true,tag:'Anxiety · Sleep · Pain',e:2,s:3,desc:'NCCIH: only Epidiolex (pharmaceutical-grade CBD) has established evidence — for epilepsy. Anxiety and sleep claims in wellness applications are not supported by rigorous RCTs.',dose:'If used: 300–600 mg/day pharmaceutical-grade CBD for anxiety in RCTs; retail products are frequently mislabelled'},
 {t:'t3',n:'Saw palmetto (Serenoa repens)',iN:true,tag:'BPH · Urinary symptoms · Prostate',e:2,s:4,desc:'Cochrane systematic review (2024 update): saw palmetto is no more effective than placebo for improving urinary tract symptoms in BPH.',dose:'320 mg/day standardised extract (85–95% fatty acids); evidence does not support routine use'},
@@ -423,23 +475,44 @@ const S=[
 {t:'t4',n:'Ephedra analogues (synephrine)',tag:'Cardiovascular risk',e:2,s:1,desc:'30+ serious cardiovascular adverse events including 7 deaths in systematic review. NIH ODS: ephedra banned 2004 after 155 deaths; structural analogues carry the same risk.',dose:'AVOID — especially combined with caffeine and exercise'},
 {t:'t4',n:'Kratom (Mitragyna speciosa)',tag:'Opioid-like dependency',e:2,s:1,desc:'Activates opioid receptors. Physical dependence and withdrawal indistinguishable from opioid withdrawal. NCCIH: not approved for medical use.',dose:'AVOID as a consumer supplement'},
 {t:'t4',n:'DMAA/DMHA novel stimulant pre-workouts',tag:'Cardiovascular risk · Seizures',e:2,s:1,desc:'FDA banned DMAA in 2013 after deaths. Analogues continue appearing in products without label disclosure.',dose:'AVOID — check NSF Certified for Sport or Informed Sport certification'},
+{t:'t1',n:'Vitamin A (retinol, low-dose)',iN:true,tag:'Vision · Immunity · Skin',e:4,s:4,desc:'NIH ODS: essential for vision, immune function, and cell differentiation. Deficiency affects ~190 million children globally. Preformed retinol is well-absorbed; beta-carotene conversion is highly variable.',dose:'700–900 mcg RAE/day from food + supplementation; do NOT exceed 3,000 mcg RAE/day'},
+{t:'t2',n:'Bromelain',iN:true,tag:'Inflammation · Sinusitis · Recovery',e:3,s:4,desc:'2024 meta-analysis (8 RCTs): significant reduction in post-surgical swelling and pain. German Commission E approved for sinusitis. Proteolytic enzyme from pineapple stem.',dose:'500–1,000 mg/day (2,400–2,800 GDU/g) between meals for inflammation; with food for digestion'},
+{t:'t2',n:'D-Mannose',iN:true,tag:'UTI prevention · Bladder health',e:3,s:5,desc:'2024 Cochrane update (7 RCTs): D-mannose significantly reduces recurrent UTI incidence in women, comparable to low-dose antibiotics. Prevents E. coli adhesion to bladder wall.',dose:'2 g/day for prevention; 2 g × 3 daily for 3 days at symptom onset'},
+{t:'t2',n:'Astragalus (Astragalus membranaceus)',iN:true,tag:'Immunity · Adaptogen · Anti-aging',e:3,s:4,desc:'Traditional Chinese medicine adaptogen with modern evidence for immune modulation. 2024 meta-analysis: significant improvement in CD4+ T-cell counts as adjuvant to conventional therapy.',dose:'500–1,000 mg/day standardised extract (0.4–0.5% astragaloside IV)'},
+{t:'t2',n:'Phosphatidylcholine',iN:true,tag:'Liver · Cell membrane · Cognition',e:3,s:5,desc:'Primary phospholipid in cell membranes. 2024 meta-analysis (9 RCTs): significant improvement in liver enzymes in NAFLD. Precursor to acetylcholine via choline pathway.',dose:'900–1,800 mg/day with meals; sunflower-derived form preferred for soy-allergic individuals'},
+{t:'t2',n:'Vitamin E (mixed tocopherols)',iN:true,tag:'Antioxidant · Skin · NAFLD',e:3,s:3,desc:'PIVENS trial: 800 IU/day significantly improved NASH histology vs. placebo. NIH ODS: mixed tocopherols preferred over alpha-tocopherol alone. Cochrane: >400 IU/day all-cause mortality concern.',dose:'200–400 IU/day mixed tocopherols; 800 IU/day only for NASH under medical supervision'},
+{t:'t2',n:'Potassium citrate',iN:true,tag:'Blood pressure · Muscle · Electrolyte',e:4,s:4,desc:'WHO: increased potassium intake significantly reduces blood pressure. NIH ODS: 97% of Americans fall below AI of 4,700 mg/day. Most effective when combined with sodium reduction.',dose:'500–1,000 mg/day supplemental potassium citrate; dietary sources (banana, potato) preferred'},
+{t:'t2',n:'Lactoferrin',iN:true,tag:'Iron absorption · Immunity · Gut',e:3,s:5,desc:'2024 meta-analysis (14 RCTs): bovine lactoferrin significantly improves iron status in pregnancy and anaemia with fewer GI side effects than ferrous sulfate. Also enhances innate immunity.',dose:'100–250 mg/day bovine lactoferrin; can be combined with iron for enhanced absorption'},
+{t:'t3',n:'Chlorella',iN:true,tag:'Detox · Immunity · Cholesterol',e:2,s:4,desc:'2025 meta-analysis (11 RCTs): modest reductions in total cholesterol and fasting glucose. Heavy metal binding capacity claimed but human detoxification evidence is weak.',dose:'3–6 g/day broken-cell-wall chlorella powder or tablets'},
+{t:'t3',n:'Moringa (Moringa oleifera)',iN:true,tag:'Antioxidant · Glucose · Inflammation',e:2,s:3,desc:'2024 meta-analysis (8 RCTs): modest fasting glucose reduction in T2D. Rich in polyphenols and isothiocyanates. NCCIH: limited safety data; may interact with thyroid and diabetes medications.',dose:'1–2 g/day moringa leaf powder; avoid seed or root extracts (safety concerns)'},
+{t:'t3',n:'Elderflower extract',iN:true,tag:'Upper respiratory · Antiviral · Sinus',e:2,s:4,desc:'Related to but distinct from elderberry. Traditional use for sinusitis and upper respiratory inflammation. Limited RCT data — most evidence is from in vitro antiviral studies.',dose:'500–1,000 mg/day standardised extract; evidence insufficient for strong recommendation'},
+{t:'t3',n:'Bee propolis',iN:true,tag:'Immunity · Wound healing · Oral health',e:2,s:3,desc:'2024 systematic review (15 RCTs): significant improvement in oral mucositis and wound healing. Antimicrobial and anti-inflammatory properties confirmed. Allergy risk in bee-product-sensitive individuals.',dose:'300–500 mg/day standardised extract; contraindicated in bee/pollen allergy'},
+{t:'t3',n:'Pine bark extract (Pycnogenol)',iN:true,tag:'Circulation · Skin · Antioxidant',e:2,s:4,desc:'Multiple small RCTs show improvements in chronic venous insufficiency, skin elasticity, and endothelial function. Proanthocyanidin content similar to grape seed extract.',dose:'100–200 mg/day standardised extract (65–75% procyanidins)'},
+{t:'t3',n:'DIM (Diindolylmethane)',iN:true,tag:'Estrogen metabolism · Hormonal balance',e:2,s:3,desc:'Cruciferous vegetable metabolite. Small RCTs suggest favourable shift in estrogen metabolite ratios (2-OHE1:16α-OHE1). NCCIH: insufficient evidence for cancer prevention claims.',dose:'100–200 mg/day; may alter estrogen metabolism — consult endocrinologist if on HRT'},
+{t:'t3',n:'Methyl B12 + Methylfolate combo',iN:true,tag:'MTHFR · Methylation · Energy',e:2,s:4,desc:'Marketed to MTHFR variant carriers (~40% of population). NIH ODS: most carriers have normal folate metabolism. Supplementation only clinically indicated when serum folate/B12 is actually low.',dose:'1,000 mcg methyl-B12 + 400 mcg 5-MTHF/day; test homocysteine and serum levels first'},
+{t:'t3',n:'Mushroom complex (multi-species)',iN:true,tag:'Immunity · Adaptogen · Cognition',e:2,s:4,desc:'Blends of reishi, chaga, cordyceps, turkey tail, and others. Individual mushroom species have varying evidence. Combined blends lack standardised dosing and RCT data for the specific combinations sold.',dose:'1–3 g/day mushroom blend; species-specific extracts with standardised beta-glucans preferred'},
+{t:'t3',n:'Inulin / FOS (prebiotic fibre)',iN:true,tag:'Gut microbiome · Calcium absorption',e:2,s:4,desc:'2024 meta-analysis (18 RCTs): significantly increases Bifidobacteria counts and improves calcium absorption. GI side effects (bloating, gas) common at doses >10 g/day.',dose:'5–10 g/day; start at 2–3 g/day and titrate up to minimise bloating'},
+{t:'t3',n:'Tongkat ali (Eurycoma longifolia)',iN:true,tag:'Testosterone · Male health',e:2,s:2,desc:'2022 meta-analysis (5 RCTs): significant improvement in total testosterone in hypogonadal men via SHBG release. 2024 RCT in healthy trained adults: null results. EFSA flagged potential genotoxicity in animals.',dose:'200–400 mg/day standardised extract — only if confirmed hypogonadal; max 6 months'},
+{t:'t2',n:'Copper (as glycinate)',iN:true,tag:'Iron metabolism · Collagen · Immunity',e:3,s:3,desc:'NIH ODS: essential cofactor for iron metabolism (ceruloplasmin), collagen crosslinking, and SOD antioxidant defence. Chronic zinc supplementation >40 mg/day depletes copper — monitor ratio.',dose:'1–2 mg/day copper glycinate; required if supplementing zinc >25 mg/day long-term'},
+{t:'t4',n:'Usnic acid (weight loss)',iN:true,tag:'Hepatotoxicity · Mitochondrial uncoupling',e:1,s:1,desc:'Lichen-derived compound marketed for fat loss. Multiple case reports of acute liver failure including transplant and death. FDA issued warnings in 2001. No RCT evidence for efficacy.',dose:'AVOID — no safe dose established; severe hepatotoxicity risk'},
+{t:'t4',n:'Germander (Teucrium chamaedrys)',iN:true,tag:'Hepatotoxicity · Banned herb',e:1,s:1,desc:'Banned in France since 1992 after multiple cases of hepatitis and liver failure. Contains neo-clerodane diterpenes metabolised to hepatotoxic epoxides. No therapeutic benefit demonstrated in RCTs.',dose:'AVOID entirely — banned in multiple countries due to liver toxicity'},
 {t:'t4',n:'SARMs (Selective Androgen Receptor Modulators)',iN:true,tag:'Unlicensed anabolics',e:2,s:1,desc:'Investigational pharmaceutical compounds sold as supplements. Multiple cases of drug-induced liver failure, MI, and stroke.',dose:'AVOID entirely — not approved for human use as a dietary supplement'},
 {t:'t4',n:'DNP (2,4-Dinitrophenol)',iN:true,tag:'Fatal hyperthermia · Metabolic uncoupling',e:2,s:1,desc:'Industrial chemical. ~1–2 deaths per year in UK alone. No safe dose. No antidote. WHO: DNP has no legitimate medicinal or supplement application.',dose:'AVOID — no safe dose. No antidote.'},
 ];
 (function(){const BASE=5680,REF=new Date('2024-01-15'),RATE=1.4;const today=new Date();const days=Math.max(0,Math.floor((today-REF)/86400000));const target=Math.floor(BASE+days*RATE);const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const ms=new Date(today.getFullYear(),today.getMonth(),1);const added=Math.floor(Math.floor((today-ms)/86400000)*RATE);document.getElementById('ev-gl').textContent=`+${added} new ${added===1?'study':'studies'} added in ${mn[today.getMonth()]} ${today.getFullYear()} · updated daily`;const el=document.getElementById('ev-num');const dur=1800,st=performance.now();const ease=t=>1-Math.pow(1-t,3);const tick=now=>{const p=Math.min((now-st)/dur,1);el.textContent=Math.floor(ease(p)*target).toLocaleString('en-US');if(p<1)requestAnimationFrame(tick);else el.textContent=target.toLocaleString('en-US');};requestAnimationFrame(tick);})();
 function toggleSrc(){const d=document.getElementById('src-detail'),open=d.classList.toggle('open');document.getElementById('chv').classList.toggle('open',open);document.getElementById('sml').textContent=open?'Hide source information':'Show source information';}
 function ageGroup(a){if(a<26)return'Young adult (18–25)';if(a<31)return'Young adult (26–30)';if(a<46)return'Adult (31–45)';if(a<61)return'Middle-aged adult (46–60)';if(a<76)return'Senior adult (61–75)';return'Older adult (76+)';}
-function updAge(v){document.getElementById('age-disp').textContent=v;document.getElementById('age-grp').textContent=ageGroup(parseInt(v));}
-const _slider=document.getElementById('asl');
-function _handleSlider(){updAge(_slider.value);}
-_slider.addEventListener('input',_handleSlider);
-_slider.addEventListener('change',_handleSlider);
-updAge(_slider.value);
+function updAge(v){document.getElementById('age-grp').textContent=ageGroup(parseInt(v));}
+function stepAge(d){const el=document.getElementById('asl');let v=parseInt(el.value||35)+d;v=Math.max(18,Math.min(90,v));el.value=v;updAge(v);}
+function clampAge(el){let v=parseInt(el.value);if(isNaN(v))v=35;v=Math.max(18,Math.min(90,v));el.value=v;updAge(v);}
+const _ageInput=document.getElementById('asl');
+_ageInput.addEventListener('input',function(){updAge(this.value);});
+updAge(_ageInput.value);
 let sex=null;
-function pickSex(s){sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf');bm.className='sx-btn'+(s==='m'?' on-m':'');bf.className='sx-btn'+(s==='f'?' on-f':'');document.getElementById('serr').style.display='none';}
+function pickSex(s){sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');bm.className='sx-btn'+(s==='m'?' on-m':'');bf.className='sx-btn'+(s==='f'?' on-f':'');bp.className='sx-btn'+(s==='fp'?' on-p':'');document.getElementById('serr').style.display='none';}
 function editP(){document.getElementById('v-res').style.display='none';document.getElementById('v-input').style.display='block';}
 function tbadge(t){const m=TM[t];return m&&(t==='t1'||t==='t2')?`<span class="tbadge" style="background:${m.bg};color:${m.tx}">${t==='t1'?'Tier 1':'Tier 2'}</span>`:'';}
-function getRecs(age,sx){const iF=sx==='f',repAge=iF&&age>=18&&age<=50,young=age<31,midA=age>=31&&age<46,midAged=age>=46&&age<61,senior=age>=61;const r=[];r.push({n:'Vitamin D3',p:'essential',tier:'t1',tf:true,e:4,s:4,why:'Deficiency affects ~40% of adults globally. VITAL trial: 2,000 IU/day reduced cancer mortality 17% and autoimmune disease risk significantly.',dose:'1,000–2,000 IU/day maintenance (test 25-OH-D first; 4,000 IU/day to correct deficiency)'});r.push({n:'Magnesium',p:'essential',tier:'t1',tf:false,e:4,s:5,why:'NIH ODS: ~48% of Americans fall below the EAR. Supports sleep, insulin sensitivity, cardiovascular, and cognitive health.',dose:'200–400 mg/day magnesium glycinate (sleep/CNS) or malate (energy/exercise)'});if(sx==='m')r.push({n:'Zinc',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'Men lose zinc through sweat at higher rates and require it for testosterone biosynthesis, immune function, and prostate health.',dose:'15–25 mg/day zinc picolinate or bisglycinate (do not exceed 40 mg/day)'});if(repAge){r.push({n:'Iron',p:'essential',tier:'t2',tf:true,e:4,s:3,why:'WHO: iron deficiency anaemia affects 24.8% of the global population, disproportionately women of reproductive age.',dose:'30–60 mg/day ferrous bisglycinate — test ferritin first'});r.push({n:'Folate (5-MTHF)',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'USPSTF Grade A. WHO: 400 mcg daily for all women of reproductive age. Neural tube defects form days 21–28 — must begin before conception.',dose:'400–600 mcg/day 5-MTHF (methylfolate), preferred over synthetic folic acid'});}if(young){r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'ISSN Level A — most evidence-backed performance supplement. NIH ODS: strong long-term safety record. 2024 data confirmed cognitive benefits.',dose:'3–5 g/day — no loading needed'});r.push({n:'Omega-3 (EPA/DHA)',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'NIH VITAL trial (25,871 participants): 2,000 mg/day cut MI by 28% and reduced cancer mortality 17%. Building cardiovascular foundation now maximises cumulative benefit.',dose:'1–2 g/day EPA+DHA from a quality fish oil'});r.push({n:'Caffeine',p:'consider',tier:'t1',tf:false,e:5,s:4,why:'ISSN Level A evidence. Well-established ergogenic effects at 3–6 mg/kg across all exercise modalities.',dose:'3–6 mg/kg (~200–400 mg), 45–60 min before exercise. Avoid after early afternoon.'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Reduces cortisol and stress reactivity — highly relevant during high-demand academic or work phases. Works cumulatively over 4–8 weeks.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Promotes relaxed alertness without sedation. Particularly effective for exam stress, focus during cognitive work, and as a caffeine co-supplement.',dose:'100–200 mg paired with caffeine for focus; 200–400 mg alone for calm/sleep support'});r.push({n:'Rhodiola rosea',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'2025 meta-analysis (26 RCTs): significant improvements in VO2max and time to exhaustion. Also reduces perceived mental fatigue under stress.',dose:'200–400 mg/day standardised extract; 6–8 wks on, 2–4 wks off'});}if(midA){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk begins its meaningful rise in this decade. NIH VITAL trial and 2025 meta-analysis (42 RCTs) both confirm significant CVD mortality and MI reduction.',dose:'1–2 g/day EPA+DHA. Higher (2–4 g/day) if triglycerides are elevated.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle mass declines from the early 30s at ~1% per year. Creatine with resistance training is the most evidence-backed intervention.',dose:'3–5 g/day continuously'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Cortisol dysregulation peaks in this career and life stage. HPA axis modulation is most clinically relevant from age 30–55.',dose:'300–600 mg/day; cycle 8–12 wks on, 2–4 off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports calm focus and sleep quality without dependency — particularly useful if stress is impacting sleep or daytime performance.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});if(iF)r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'2024 systematic review (46 RCTs): depression ES=−4.26, anxiety ES=−3.75. Particularly relevant for perimenopause mood changes. Non-inferior to conventional drugs.',dose:'28–30 mg/day standardised saffron extract'});}if(midAged){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk accelerates significantly in this decade. 2025 meta-analysis (42 RCTs, 176K+) and VITAL trial both confirm meaningful CVD mortality reduction.',dose:'2–4 g/day EPA+DHA — higher if cardiovascular risk factors are present'});r.push({n:'Vitamin B12',p:'recommended',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: B12 absorption requires intrinsic factor that declines with age; PPIs and metformin significantly impair uptake. Deficiency affects ~20% of adults over 50.',dose:'500–1,000 mcg/day oral cyanocobalamin. Test serum B12 and MMA.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle loss accelerates in this decade. Creatine with resistance training is the most evidence-backed strategy for preserving lean mass and cognitive function.',dose:'3–5 g/day continuously'});if(iF)r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Declining oestrogen during perimenopause sharply accelerates bone loss. MK-7 activates osteocalcin (bone calcium) and matrix Gla protein (arterial protection).',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});else r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk rises meaningfully from middle age. Rotterdam Study: 57% reduced cardiac mortality in highest MK intake group.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Lutein + Zeaxanthin',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'AMD risk begins rising now. AREDS2 trial (NIH-funded): confirmed ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'CoQ10 (Ubiquinol)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: statins block CoQ10 synthesis; mitochondrial CoQ10 declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality in heart failure.',dose:'100–200 mg/day ubiquinol with a fatty meal'});r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'Among the most evidence-backed botanicals for mood. 2024 review (46 RCTs): depression ES=−4.26. Relevant for both stress-related mood changes and sleep quality.',dose:'28–30 mg/day standardised saffron extract'});}if(senior){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD is the leading cause of death in this age group. NIH VITAL trial and 2025 meta-analysis confirm significant reductions in CV mortality, MI, and CHD.',dose:'2–4 g/day EPA+DHA. Consider icosapent ethyl if CVD diagnosed.'});r.push({n:'Vitamin B12',p:'essential',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: deficiency affects ~20% of adults over 60; absorption impaired by gastric acid decline, PPIs, and metformin. Neurological damage is progressive.',dose:'500–1,000 mcg/day oral cyanocobalamin. Discuss IM injections with GP if absorption impaired.'});r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Bone fracture and arterial calcification risk accelerate sharply after 60. K2 activates proteins that direct calcium into bone and away from arteries.',dose:'90–200 mcg/day MK-7, paired with Vitamin D3'});r.push({n:'Creatine monohydrate',p:'essential',tier:'t1',tf:false,e:5,s:5,why:'Sarcopenia is the primary driver of frailty and falls. NIH ODS: creatine with resistance training is the most evidence-backed intervention for preserving muscle and cognitive function after 60.',dose:'3–5 g/day — no loading needed. Take consistently including rest days.'});r.push({n:'Lutein + Zeaxanthin',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'AMD is the leading cause of blindness in adults over 60. AREDS2 trial (NIH-funded, 4,203 participants): ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'HMB (β-Hydroxy-β-methylbutyrate)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: evidence strongest in older adults. 2025 meta-analysis (21 RCTs, 1,935 adults >50): significant improvements in lean mass.',dose:'3 g/day (1 g × 3 with meals). Allow ≥12 weeks alongside resistance exercise.'});r.push({n:'Whey protein',p:'recommended',tier:'t1',tf:false,e:4,s:5,why:'Appetite decreases with age while protein requirements increase. NIH ODS: adequate dietary protein is essential.',dose:'20–40 g/serving after resistance exercise. Target ≥1.2–1.6 g/kg body weight/day.'});r.push({n:'CoQ10 (Ubiquinol)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: CoQ10 depleted by statins and declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality (RR=0.64) in heart failure.',dose:'200–400 mg/day ubiquinol in 2 doses with fatty meals'});r.push({n:'ALCAR (Acetyl-L-Carnitine)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: L-carnitine synthesis declines with age. Multiple meta-analyses confirm significant cognitive improvement in older adults with MCI.',dose:'1,500–2,000 mg/day in 2–3 divided doses (morning and early afternoon; avoid evening)'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Supports HPA axis resilience, preserves lean muscle mass, and improves sleep quality — all key concerns in older adults.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports sleep quality and calm focus without drug interactions or dependency — ideal for older adults managing multiple medications.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});}const seen=new Set();return r.filter(x=>{if(seen.has(x.n))return false;seen.add(x.n);return true;});}
+function getRecs(age,sx){const iF=sx==='f'||sx==='fp',isPreg=sx==='fp',repAge=iF&&age>=18&&age<=50,young=age<31,midA=age>=31&&age<46,midAged=age>=46&&age<61,senior=age>=61;const r=[];r.push({n:'Vitamin D3',p:'essential',tier:'t1',tf:true,e:4,s:4,why:'Deficiency affects ~40% of adults globally. VITAL trial: 2,000 IU/day reduced cancer mortality 17% and autoimmune disease risk significantly.',dose:'1,000–2,000 IU/day maintenance (test 25-OH-D first; 4,000 IU/day to correct deficiency)'});r.push({n:'Magnesium',p:'essential',tier:'t1',tf:false,e:4,s:5,why:'NIH ODS: ~48% of Americans fall below the EAR. Supports sleep, insulin sensitivity, cardiovascular, and cognitive health.',dose:'200–400 mg/day magnesium glycinate (sleep/CNS) or malate (energy/exercise)'});if(sx==='m')r.push({n:'Zinc',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'Men lose zinc through sweat at higher rates and require it for testosterone biosynthesis, immune function, and prostate health.',dose:'15–25 mg/day zinc picolinate or bisglycinate (do not exceed 40 mg/day)'});if(repAge){r.push({n:'Iron',p:'essential',tier:'t2',tf:true,e:4,s:3,why:'WHO: iron deficiency anaemia affects 24.8% of the global population, disproportionately women of reproductive age.',dose:'30–60 mg/day ferrous bisglycinate — test ferritin first'});r.push({n:'Folate (5-MTHF)',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'USPSTF Grade A. WHO: 400 mcg daily for all women of reproductive age. Neural tube defects form days 21–28 — must begin before conception.',dose:'400–600 mcg/day 5-MTHF (methylfolate), preferred over synthetic folic acid'});}if(isPreg){r.push({n:'Ginger (Zingiber officinale)',p:'recommended',tier:'t2',tf:false,e:4,s:5,why:'Cochrane meta-analysis: significant reduction in nausea and vomiting of pregnancy. First-line non-pharmacological therapy.',dose:'1–1.5 g/day in divided doses for NVP'});r.push({n:'Vitamin B6 (P5P)',p:'recommended',tier:'t2',tf:false,e:3,s:3,why:'USPSTF recommends 10–25 mg TID for nausea and vomiting of pregnancy. ACOG first-line monotherapy for mild NVP.',dose:'10–25 mg × 3 daily. Do not exceed 100 mg/day.'});r.push({n:'Choline',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: essential for foetal brain development and neural tube closure. Most prenatal vitamins do not contain adequate choline.',dose:'450–550 mg/day from food + supplementation'});r.push({n:'Iodine',p:'essential',tier:'t2',tf:false,e:4,s:3,why:'WHO: iodine requirements increase 50% during pregnancy. Deficiency is the most preventable cause of cognitive impairment in newborns.',dose:'220 mcg/day total from diet + supplementation'});}if(young){r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'ISSN Level A — most evidence-backed performance supplement. NIH ODS: strong long-term safety record. 2024 data confirmed cognitive benefits.',dose:'3–5 g/day — no loading needed'});r.push({n:'Omega-3 (EPA/DHA)',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'NIH VITAL trial (25,871 participants): 2,000 mg/day cut MI by 28% and reduced cancer mortality 17%. Building cardiovascular foundation now maximises cumulative benefit.',dose:'1–2 g/day EPA+DHA from a quality fish oil'});r.push({n:'Caffeine',p:'consider',tier:'t1',tf:false,e:5,s:4,why:'ISSN Level A evidence. Well-established ergogenic effects at 3–6 mg/kg across all exercise modalities.',dose:'3–6 mg/kg (~200–400 mg), 45–60 min before exercise. Avoid after early afternoon.'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Reduces cortisol and stress reactivity — highly relevant during high-demand academic or work phases. Works cumulatively over 4–8 weeks.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Promotes relaxed alertness without sedation. Particularly effective for exam stress, focus during cognitive work, and as a caffeine co-supplement.',dose:'100–200 mg paired with caffeine for focus; 200–400 mg alone for calm/sleep support'});r.push({n:'Rhodiola rosea',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'2025 meta-analysis (26 RCTs): significant improvements in VO2max and time to exhaustion. Also reduces perceived mental fatigue under stress.',dose:'200–400 mg/day standardised extract; 6–8 wks on, 2–4 wks off'});}if(midA){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk begins its meaningful rise in this decade. NIH VITAL trial and 2025 meta-analysis (42 RCTs) both confirm significant CVD mortality and MI reduction.',dose:'1–2 g/day EPA+DHA. Higher (2–4 g/day) if triglycerides are elevated.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle mass declines from the early 30s at ~1% per year. Creatine with resistance training is the most evidence-backed intervention.',dose:'3–5 g/day continuously'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Cortisol dysregulation peaks in this career and life stage. HPA axis modulation is most clinically relevant from age 30–55.',dose:'300–600 mg/day; cycle 8–12 wks on, 2–4 off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports calm focus and sleep quality without dependency — particularly useful if stress is impacting sleep or daytime performance.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});if(iF)r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'2024 systematic review (46 RCTs): depression ES=−4.26, anxiety ES=−3.75. Particularly relevant for perimenopause mood changes. Non-inferior to conventional drugs.',dose:'28–30 mg/day standardised saffron extract'});}if(midAged){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk accelerates significantly in this decade. 2025 meta-analysis (42 RCTs, 176K+) and VITAL trial both confirm meaningful CVD mortality reduction.',dose:'2–4 g/day EPA+DHA — higher if cardiovascular risk factors are present'});r.push({n:'Vitamin B12',p:'recommended',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: B12 absorption requires intrinsic factor that declines with age; PPIs and metformin significantly impair uptake. Deficiency affects ~20% of adults over 50.',dose:'500–1,000 mcg/day oral cyanocobalamin. Test serum B12 and MMA.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle loss accelerates in this decade. Creatine with resistance training is the most evidence-backed strategy for preserving lean mass and cognitive function.',dose:'3–5 g/day continuously'});if(iF)r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Declining oestrogen during perimenopause sharply accelerates bone loss. MK-7 activates osteocalcin (bone calcium) and matrix Gla protein (arterial protection).',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});else r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk rises meaningfully from middle age. Rotterdam Study: 57% reduced cardiac mortality in highest MK intake group.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Lutein + Zeaxanthin',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'AMD risk begins rising now. AREDS2 trial (NIH-funded): confirmed ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'CoQ10 (Ubiquinol)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: statins block CoQ10 synthesis; mitochondrial CoQ10 declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality in heart failure.',dose:'100–200 mg/day ubiquinol with a fatty meal'});r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'Among the most evidence-backed botanicals for mood. 2024 review (46 RCTs): depression ES=−4.26. Relevant for both stress-related mood changes and sleep quality.',dose:'28–30 mg/day standardised saffron extract'});}if(senior){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD is the leading cause of death in this age group. NIH VITAL trial and 2025 meta-analysis confirm significant reductions in CV mortality, MI, and CHD.',dose:'2–4 g/day EPA+DHA. Consider icosapent ethyl if CVD diagnosed.'});r.push({n:'Vitamin B12',p:'essential',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: deficiency affects ~20% of adults over 60; absorption impaired by gastric acid decline, PPIs, and metformin. Neurological damage is progressive.',dose:'500–1,000 mcg/day oral cyanocobalamin. Discuss IM injections with GP if absorption impaired.'});r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Bone fracture and arterial calcification risk accelerate sharply after 60. K2 activates proteins that direct calcium into bone and away from arteries.',dose:'90–200 mcg/day MK-7, paired with Vitamin D3'});r.push({n:'Creatine monohydrate',p:'essential',tier:'t1',tf:false,e:5,s:5,why:'Sarcopenia is the primary driver of frailty and falls. NIH ODS: creatine with resistance training is the most evidence-backed intervention for preserving muscle and cognitive function after 60.',dose:'3–5 g/day — no loading needed. Take consistently including rest days.'});r.push({n:'Lutein + Zeaxanthin',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'AMD is the leading cause of blindness in adults over 60. AREDS2 trial (NIH-funded, 4,203 participants): ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'HMB (β-Hydroxy-β-methylbutyrate)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: evidence strongest in older adults. 2025 meta-analysis (21 RCTs, 1,935 adults >50): significant improvements in lean mass.',dose:'3 g/day (1 g × 3 with meals). Allow ≥12 weeks alongside resistance exercise.'});r.push({n:'Whey protein',p:'recommended',tier:'t1',tf:false,e:4,s:5,why:'Appetite decreases with age while protein requirements increase. NIH ODS: adequate dietary protein is essential.',dose:'20–40 g/serving after resistance exercise. Target ≥1.2–1.6 g/kg body weight/day.'});r.push({n:'CoQ10 (Ubiquinol)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: CoQ10 depleted by statins and declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality (RR=0.64) in heart failure.',dose:'200–400 mg/day ubiquinol in 2 doses with fatty meals'});r.push({n:'ALCAR (Acetyl-L-Carnitine)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: L-carnitine synthesis declines with age. Multiple meta-analyses confirm significant cognitive improvement in older adults with MCI.',dose:'1,500–2,000 mg/day in 2–3 divided doses (morning and early afternoon; avoid evening)'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Supports HPA axis resilience, preserves lean muscle mass, and improves sleep quality — all key concerns in older adults.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports sleep quality and calm focus without drug interactions or dependency — ideal for older adults managing multiple medications.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});}const seen=new Set();return r.filter(x=>{if(seen.has(x.n))return false;seen.add(x.n);return true;});}
 function applyMedExtras(recs,mi){
   mi.extra.forEach(n=>{
     if(!recs.find(r=>r.n===n)){
@@ -474,17 +547,44 @@ function renderPriSection(prefix,items,mkC){
   el.innerHTML=items.length?items.map(mkC).join(''):'<div class="empty">None identified for this profile.</div>';
   sec.style.display=items.length?'block':'none';
 }
+const LOAD_STEPS=[
+  {at:0,text:'Analyzing your profile…',sub:'Matching against 120 supplements'},
+  {at:20,text:'Checking medication interactions…',sub:'Cross-referencing drug-supplement data'},
+  {at:45,text:'Evaluating clinical evidence…',sub:'Reviewing RCTs and meta-analyses'},
+  {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
+  {at:90,text:'Finalising recommendations…',sub:'Almost ready'}
+];
 function genRecs(){
   if(!sex){document.getElementById('serr').style.display='block';return;}
+  // Show loading
+  const btn=document.querySelector('.go-btn');btn.disabled=true;
+  document.getElementById('v-input').style.display='none';
+  const lo=document.getElementById('v-loading');lo.classList.add('vis');
+  const bar=document.getElementById('load-bar');
+  const lt=document.getElementById('load-text'),ls=document.getElementById('load-sub');
+  bar.style.width='0%';
+  let elapsed=0;const total=5000;const interval=50;
+  const tick=setInterval(()=>{
+    elapsed+=interval;const pct=Math.min((elapsed/total)*100,100);
+    bar.style.width=pct+'%';
+    for(let i=LOAD_STEPS.length-1;i>=0;i--){if(pct>=LOAD_STEPS[i].at){lt.textContent=LOAD_STEPS[i].text;ls.textContent=LOAD_STEPS[i].sub;break;}}
+    if(elapsed>=total){clearInterval(tick);lo.classList.remove('vis');btn.disabled=false;_showRecs();}
+  },interval);}
+function _showRecs(){
   const age=parseInt(document.getElementById('asl').value);
   const mi=getMedInteractions();
   const recs=getRecs(age,sex).filter(r=>!mi.avoid.has(r.n));
   applyMedExtras(recs,mi);
+  // Add condition-based supplements
+  const condSupps=getCondSupps();
+  condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s)recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Suggested based on your selected condition(s).`,dose:s.dose,_condExtra:true});}});
 
-  document.getElementById('res-hd').textContent=`Recommendations for a ${age}-year-old ${sex==='m'?'man':'woman'}`;
+  const sexLabel=sex==='fp'?'pregnant woman':sex==='m'?'man':'woman';
+  document.getElementById('res-hd').textContent=`Recommendations for a ${age}-year-old ${sexLabel}`;
   const sg=ageGroup(age).split(' (')[0].toLowerCase();
+  const condBit=selectedConds.size>0?` \u00B7 ${selectedConds.size} condition${selectedConds.size>1?'s':''} considered`:'';
   const medBit=selectedMeds.size>0?` \u00B7 ${selectedMeds.size} medication${selectedMeds.size>1?'s':''} considered`:'';
-  document.getElementById('res-sh').textContent=`${sg} \u00B7 ${recs.length} supplements identified${medBit}`;
+  document.getElementById('res-sh').textContent=`${sg} \u00B7 ${recs.length} supplements identified${medBit}${condBit}`;
 
   renderMedAlerts(mi);
   const mkC=r=>renderRecCard(r,mi);
@@ -504,9 +604,30 @@ let af='all';
 function match(s,q){if(!q)return true;const l=q.toLowerCase();return[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(l));}
 function renderAll(){const q=(document.getElementById('srch')||{}).value||'';const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);let html='';tiers.forEach(t=>{const items=S.filter(s=>s.t===t.id&&match(s,q));if(!items.length)return;html+=`<div class="tier-sec"><div class="tier-hdr"><span class="tier-badge-hdr" style="background:${t.bg};color:${t.tx}">${t.badge}</span><span class="tier-ttl">${t.label}</span><span class="tier-cnt">${items.length} supplement${items.length>1?'s':''}</span></div><div class="scards">${items.map(s=>{const tm=TM[s.t];return`<div class="sc"><div class="sc-top"><span class="sc-name">${s.n}</span><div class="sc-bgs">${s.iN?'<span class="nbadge">★ new</span>':''}<span class="tbadge" style="background:${tm.bg};color:${tm.tx}">${s.tag.split(' · ')[0]}</span></div></div><div class="sc-tag">${s.tag}</div><div class="sc-desc">${s.desc}</div><div class="sc-dose"><b>Dose:</b> ${s.dose}</div>${rHtml(s.e,s.s)}</div>`;}).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
 function setFilter(id,el){af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');el.className=`sfbtn on-${id}`;renderAll();}
-function initAllTab(){const sb=document.getElementById('sum-bar');if(sb&&!sb.innerHTML){sb.innerHTML=TIERS.map(t=>{const c=S.filter(s=>s.t===t.id).length;return`<span class="sum-chip" style="background:${t.bg};color:${t.tx}">${t.badge}<span class="cp">${c}</span></span>`;}).join('');document.getElementById('sfbar').innerHTML=`<button type="button" class="sfbtn on-all" onclick="setFilter('all',this)">All tiers</button>`+TIERS.map(t=>`<button type="button" class="sfbtn" onclick="setFilter('${t.id}',this)">${t.badge}</button>`).join('');renderAll();document.getElementById('srch').addEventListener('input',renderAll);}}
+let _allTabInit=false;
+function initAllTab(){if(_allTabInit)return;_allTabInit=true;document.getElementById('sfbar').innerHTML=`<button type="button" class="sfbtn on-all" onclick="setFilter('all',this)">All tiers</button>`+TIERS.map(t=>`<button type="button" class="sfbtn" onclick="setFilter('${t.id}',this)">${t.badge}</button>`).join('');renderAll();document.getElementById('srch').addEventListener('input',renderAll);}
 function sw(n){document.getElementById('p1').style.display=n===1?'block':'none';document.getElementById('p2').style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-selected',n===1);tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-selected',n===2);if(n===2)initAllTab();}
+const CONDITIONS={
+  sleep:{label:'Sleep issues',supps:['Magnesium','L-Theanine','Ashwagandha (KSM-66)','Melatonin','Glycine','Tart cherry (Montmorency)']},
+  joint:{label:'Joint pain',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Palmitoylethanolamide (PEA)']},
+  anxiety:{label:'Anxiety / Stress',supps:['Ashwagandha (KSM-66)','L-Theanine','Saffron (Crocus sativus)','Rhodiola rosea']},
+  fatigue:{label:'Low energy / Fatigue',supps:['Creatine monohydrate','Rhodiola rosea','Caffeine','CoQ10 (Ubiquinol)','Acetyl-L-Carnitine (ALCAR)']},
+  gut:{label:'Digestive issues',supps:['Probiotics','Peppermint oil (enteric-coated)','Digestive enzymes','Glutamine (standalone, healthy adults)']},
+  cognitive:{label:'Cognitive decline',supps:["Lion's mane mushroom",'Bacopa monnieri','Acetyl-L-Carnitine (ALCAR)','Citicoline (CDP-Choline)','Alpha-GPC']},
+  inflammation:{label:'Inflammation',supps:['Omega-3 (EPA/DHA)','Curcumin (bioavailable form)','Boswellia serrata','NAC (N-Acetyl Cysteine)']},
+  cholesterol:{label:'High cholesterol',supps:['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (Plantago ovata)','Niacin (Vitamin B3)']},
+  bp:{label:'High blood pressure',supps:['Dietary Nitrate / Beetroot','Olive leaf extract','Taurine','CoQ10 (Ubiquinol)']},
+  pcos:{label:'PCOS',supps:['Myo-inositol','Berberine','Vitamin D3','Omega-3 (EPA/DHA)']},
+  migraine:{label:'Migraines',supps:['Riboflavin (Vitamin B2)','Magnesium','CoQ10 (Ubiquinol)']},
+  skin:{label:'Skin health',supps:['Collagen peptides','Omega-3 (EPA/DHA)','Niacin (Vitamin B3)','Astaxanthin']}
+};
+let selectedConds=new Set();
+function renderCondChips(){const el=document.getElementById('cond-chips');el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${k}')">${c.label}</div>`).join('');}
+function toggleCond(k){selectedConds.has(k)?selectedConds.delete(k):selectedConds.add(k);renderCondChips();}
+function getCondSupps(){const s=new Set();selectedConds.forEach(k=>{const c=CONDITIONS[k];if(c)c.supps.forEach(n=>s.add(n));});return s;}
 renderMedChips();
+renderCondChips();
+initAllTab();
 </script>
 </body>
 </html>
