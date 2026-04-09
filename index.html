@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SupplementScore — Evidence-Based Supplement Ratings | 200 Supplements Reviewed</title>
-<meta name="description" content="Non-profit, AI-powered supplement reference. 200 supplements rated across 6 dimensions using 11,900+ peer-reviewed studies from Cochrane, PubMed, NIH, WHO, and EFSA. No endorsements, no sponsors. Free and updated weekly.">
+<title>SupplementScore — Evidence-Based Supplement Ratings | 245 Supplements Reviewed</title>
+<meta name="description" content="Non-profit, AI-powered supplement reference. 245 supplements rated across 6 dimensions using 11,900+ peer-reviewed studies from Cochrane, PubMed, NIH, WHO, and EFSA. No endorsements, no sponsors. Free and updated weekly.">
 <meta name="keywords" content="supplement ratings, evidence-based supplements, supplement research, creatine, omega-3, vitamin D, magnesium, supplement safety, supplement efficacy, peer-reviewed supplement data, best supplements, supplement score">
 <meta name="author" content="SupplementScore.org">
 <meta name="robots" content="index, follow">
@@ -13,14 +13,14 @@
 <!-- Open Graph / Social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://supplementscore.org/">
-<meta property="og:title" content="SupplementScore — 200 Supplements Rated by Science">
+<meta property="og:title" content="SupplementScore — 245 Supplements Rated by Science">
 <meta property="og:description" content="Non-profit, AI-powered supplement reference. Every rating backed by peer-reviewed clinical trials. No endorsements, no sponsors. Free forever.">
 <meta property="og:site_name" content="SupplementScore">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SupplementScore — 200 Supplements Rated by Science">
-<meta name="twitter:description" content="Non-profit, AI-powered supplement reference. 200 supplements scored across efficacy, safety, research depth, and more. Zero sponsors.">
+<meta name="twitter:title" content="SupplementScore — 245 Supplements Rated by Science">
+<meta name="twitter:description" content="Non-profit, AI-powered supplement reference. 245 supplements scored across efficacy, safety, research depth, and more. Zero sponsors.">
 
 <!-- Structured Data / Schema.org -->
 <script type="application/ld+json">
@@ -29,7 +29,7 @@
   "@type": "WebSite",
   "name": "SupplementScore",
   "url": "https://supplementscore.org",
-  "description": "Non-profit, AI-powered evidence-based supplement reference rating 200 supplements across 6 dimensions using peer-reviewed clinical trials.",
+  "description": "Non-profit, AI-powered evidence-based supplement reference rating 245 supplements across 6 dimensions using peer-reviewed clinical trials.",
   "publisher": {
     "@type": "Organization",
     "name": "SupplementScore",
@@ -63,7 +63,7 @@
       "name": "What sources does SupplementScore use?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We reference 14 peer-reviewed sources including Cochrane Library, PubMed, NIH Office of Dietary Supplements, WHO, EFSA, Examine.com, and ConsumerLab. Only human clinical trial data drives ratings."
+        "text": "We reference 17 peer-reviewed sources including Cochrane Library, PubMed, NIH Office of Dietary Supplements, WHO, EFSA, Examine.com, and ConsumerLab. Only human clinical trial data drives ratings."
       }
     }
   ]
@@ -112,7 +112,8 @@ body{
 input,button{font-family:inherit}
 .container{max-width:1200px;margin:0 auto}
 .page-header{padding:2.25rem 0 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
-.page-title{font-size:22px;font-weight:600;letter-spacing:-.5px;color:var(--color-text-primary);margin:0}
+.page-title{font-size:32px;font-weight:600;letter-spacing:-1px;color:var(--color-text-primary);margin:0;line-height:1.15}
+@media(max-width:600px){.page-title{font-size:24px}}
 .page-sub{font-size:13px;color:var(--color-text-secondary);margin-top:5px}
 .page-sub span{display:inline-block;margin-right:14px}
 .page-sub span::before{content:'·';margin-right:6px;opacity:.5}
@@ -128,15 +129,15 @@ input,button{font-family:inherit}
 .ev-sub{font-size:11px;color:var(--color-text-tertiary);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:.85rem}
 .ev-pulse{width:6px;height:6px;border-radius:50%;background:#1D9E75;animation:pulse 2s infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
-.logo-strip{display:flex;justify-content:center;align-items:center;gap:7px;margin-bottom:.9rem;flex-wrap:wrap}
-.logo-icon{width:28px;height:28px;border-radius:5px;flex-shrink:0;opacity:.88;transition:opacity .15s}.logo-icon:hover{opacity:1}
+.logo-strip{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:.9rem;flex-wrap:wrap}
+.logo-icon{width:32px;height:32px;flex-shrink:0;opacity:.4;transition:opacity .15s}.logo-icon:hover{opacity:.7}
 .smb{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;padding:6px;border:none;background:none;font-size:12px;color:var(--color-text-secondary);cursor:pointer;border-top:0.5px solid var(--color-border-tertiary);padding-top:.6rem;transition:color .15s}.smb:hover{color:var(--color-text-primary)}
 .chv{transition:transform .25s}.chv.open{transform:rotate(180deg)}
 .src-detail{display:none;padding-top:.85rem;border-top:0.5px solid var(--color-border-tertiary);margin-top:.6rem;text-align:left}.src-detail.open{display:block}
 .src-desc-text{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:.85rem}
 .src-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
 @media(max-width:460px){.src-grid{grid-template-columns:repeat(2,1fr)}}
-.src-item{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.55rem .65rem;display:flex;align-items:center;gap:7px}
+.src-item{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.55rem .65rem;display:flex;align-items:center;gap:7px;text-decoration:none;transition:all .15s;cursor:pointer}.src-item:hover{background:var(--color-background-primary);border-color:var(--color-border-primary)}
 .src-il{width:28px;height:28px;flex-shrink:0}.src-in{font-size:11px;font-weight:500;color:var(--color-text-primary);line-height:1.2}
 .src-is{font-size:10px;color:var(--color-text-tertiary);line-height:1.3;margin-top:1px}
 .new-src{font-size:9px;padding:1px 5px;border-radius:10px;background:var(--t2bg);color:var(--t2tx);font-weight:500;margin-left:4px;vertical-align:middle}
@@ -145,9 +146,15 @@ input,button{font-family:inherit}
 .gs-inp{width:100%;padding:11px 40px;border-radius:10px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;outline:none;transition:border-color .15s}.gs-inp:focus{border-color:var(--color-border-primary)}.gs-inp::placeholder{color:var(--color-text-tertiary)}
 .gs-clr{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:20px;height:20px;border:none;background:var(--color-background-secondary);border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:14px}.gs-clr.vis{display:flex}
 .gs-res{display:none}.gs-res.vis{display:block}
+.gs-ac{position:absolute;top:100%;left:0;right:0;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-top:none;border-radius:0 0 10px 10px;max-height:240px;overflow-y:auto;z-index:20;display:none}
+.gs-ac.vis{display:block}
+.gs-ac-item{padding:8px 14px;font-size:13px;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.gs-ac-item:last-child{border-bottom:none}
+.gs-ac-item:hover,.gs-ac-item.active{background:var(--color-background-secondary)}
+.gs-ac-tag{font-size:10px;color:var(--color-text-tertiary);white-space:nowrap}
 .gs-meta{font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem}.gs-meta b{color:var(--color-text-primary)}
 .sr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:9px}
-.sc,.sr-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.8rem .95rem;border-left:3px solid var(--color-border-tertiary)}
+.sc,.sr-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.85rem 1rem;border-left:3px solid var(--color-border-tertiary);transition:border-color .15s}.sc:hover{border-color:var(--color-border-secondary)}
 .sc[data-tier=t1]{border-left-color:var(--t1c)}.sc[data-tier=t2]{border-left-color:var(--t2c)}.sc[data-tier=t3]{border-left-color:var(--t3c)}.sc[data-tier=t4]{border-left-color:var(--t4c)}
 .sc-expand{display:none;padding-top:6px}.sc-expand.open{display:block}
 .sc-toggle{display:flex;align-items:center;justify-content:center;width:100%;padding:4px;border:none;background:none;font-size:11px;color:var(--color-text-tertiary);cursor:pointer;margin-top:4px;gap:4px;transition:color .15s}.sc-toggle:hover{color:var(--color-text-secondary)}
@@ -254,28 +261,47 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .sleep-pill{font-size:11px;padding:3px 7px;border-radius:5px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
 .sleep-pill b{color:var(--color-text-primary);font-weight:500}
 .sleep-opt{font-size:11px;padding:3px 7px;border-radius:5px;background:var(--t3bg);color:var(--t3tx)}
-.sticky-bar{position:sticky;top:0;z-index:10;padding:.75rem 0 .5rem;margin:0 -1rem;padding-left:1rem;padding-right:1rem;background:rgba(246,245,244,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-@media(prefers-color-scheme:dark){.sticky-bar{background:rgba(28,25,23,.92)}}
-.sfbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.5rem}
-.sfbtn{padding:4px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);font-size:12px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.sticky-bar{position:sticky;top:0;z-index:10;padding:.75rem 0 .5rem;margin:0 -1rem;padding-left:1rem;padding-right:1rem;background:rgba(246,245,244,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:0.5px solid transparent;transition:border-color .15s}
+@media(prefers-color-scheme:dark){.sticky-bar{background:rgba(20,18,16,.95)}}
+.sfbar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0}
+.sfbtn{padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s}.sfbtn:hover:not([class*=on-]){background:var(--color-background-primary);border-color:var(--color-border-primary)}
 .sfbtn.on-all{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
 .sfbtn.on-t1{background:var(--t1c);color:#fff;border-color:transparent}
 .sfbtn.on-t2{background:var(--t2c);color:#fff;border-color:transparent}
 .sfbtn.on-t3{background:var(--t3c);color:#fff;border-color:transparent}
 .sfbtn.on-t4{background:var(--t4c);color:#fff;border-color:transparent}
 .sbox{padding:7px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);font-size:13px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;width:100%;margin-bottom:.85rem;font-family:inherit}.sbox::placeholder{color:var(--color-text-tertiary)}
-.tier-sec{margin-bottom:1rem}
-.tier-more{display:flex;align-items:center;justify-content:center;padding:10px;border:0.5px dashed var(--color-border-secondary);border-radius:10px;font-size:12px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;margin-top:9px;transition:all .15s;background:none;width:100%}.tier-more:hover{background:var(--color-background-primary);border-color:var(--color-border-primary);color:var(--color-text-primary)}
+.tier-sec{margin-bottom:1.25rem}
+.tier-more{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:0.5px dashed var(--color-border-secondary);border-radius:10px;font-size:12px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;margin-top:9px;transition:all .15s;background:none;width:100%}.tier-more:hover{background:var(--color-background-primary);border-color:var(--color-border-primary);color:var(--color-text-primary)}.tier-more:disabled{opacity:.5;cursor:default}
+.tier-more-spin{width:14px;height:14px;border:2px solid var(--color-border-tertiary);border-top-color:var(--color-text-secondary);border-radius:50%;animation:spin .6s linear infinite;display:none}
+.tier-more.loading .tier-more-spin{display:inline-block}
+.tier-more.loading .tier-more-text{display:none}
 .sc.tier-hidden{display:none}.sc.tier-visible{display:block}
-.tier-hdr{display:flex;align-items:center;gap:8px;margin-bottom:.75rem;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary)}
-.tier-badge-hdr{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
-.tier-ttl{font-size:14px;font-weight:500;color:var(--color-text-primary)}.tier-cnt{font-size:12px;color:var(--color-text-secondary);margin-left:auto}
+.tier-hdr{display:flex;align-items:center;gap:8px;margin-bottom:.75rem;padding:8px 12px;border-radius:8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
+.tier-badge-hdr{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px;text-transform:uppercase;letter-spacing:.04em}
+.tier-ttl{font-size:13px;font-weight:500;color:var(--color-text-primary)}.tier-cnt{font-size:11px;color:var(--color-text-tertiary);margin-left:auto;font-weight:500}
 .scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:9px}
 .empty{text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px}
 .sum-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
 .sum-chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:500}
 .cp{font-size:11px;background:rgba(0,0,0,.08);padding:1px 7px;border-radius:10px;margin-left:4px}
 .footer{text-align:center;padding:2rem 0 1rem;font-size:11px;color:var(--color-text-tertiary);border-top:0.5px solid var(--color-border-tertiary);margin-top:2rem;line-height:1.8}
+.early-access{border:0.5px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);padding:2rem 1.5rem;margin-top:2rem;text-align:center;position:relative;overflow:hidden}
+.early-access::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--t1c),var(--t2c),#7B1FA2)}
+.ea-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:10px;background:#7B1FA2;color:#fff;text-transform:uppercase;letter-spacing:.06em;display:inline-block;margin-bottom:10px}
+.ea-title{font-size:20px;font-weight:600;color:var(--color-text-primary);letter-spacing:-.3px;margin-bottom:6px}
+.ea-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;max-width:600px;margin:0 auto 1.25rem}
+.ea-features{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:1.5rem}
+.ea-feat{font-size:11px;padding:5px 12px;border-radius:20px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);display:flex;align-items:center;gap:5px}
+.ea-feat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.ea-form{display:flex;gap:8px;max-width:420px;margin:0 auto}
+@media(max-width:500px){.ea-form{flex-direction:column}}
+.ea-input{flex:1;padding:10px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}.ea-input:focus{border-color:var(--color-border-primary)}.ea-input::placeholder{color:var(--color-text-tertiary)}
+.ea-btn{padding:10px 20px;border-radius:8px;border:none;background:#7B1FA2;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:opacity .15s;white-space:nowrap}.ea-btn:hover{opacity:.9}.ea-btn:active{opacity:.8}
+.ea-note{font-size:10px;color:var(--color-text-tertiary);margin-top:10px}
+.ea-success{display:none;font-size:14px;font-weight:500;color:var(--t1c);margin-top:10px}
+.ea-coming{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary)}
+.ea-coming-item{font-size:10px;padding:4px 10px;border-radius:20px;border:0.5px dashed var(--color-border-secondary);color:var(--color-text-tertiary)}
 .meth-section{border:0.5px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary);margin-top:2rem;overflow:hidden}
 .meth-header{padding:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
 .meth-header:hover{background:var(--color-background-secondary)}
@@ -316,35 +342,32 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 <body>
 <div class="container">
 <div class="page-header">
-  <h1 class="page-title">Evidence-Based Supplement Reference</h1>
-  <div class="page-sub">
-    <span>200 supplements</span>
-    <span id="hdr-studies">11,900+ studies referenced</span>
-    <span>Updated daily</span>
-    <span>2024–2026 data</span>
-  </div>
+  <h1 class="page-title">The world's most transparent<br>supplement guide.</h1>
+  <div style="margin-top:10px;font-size:15px;color:var(--color-text-secondary);line-height:1.6;max-width:650px;font-weight:400">Unbiased and conflict-free. Every score derived exclusively from peer-reviewed clinical trials and credible research institutions.</div>
 </div>
 
-<div class="hero-grid">
-<div class="intro-card">
-  <div class="intro-title"><span class="intro-np">Non-profit</span> Cutting through the noise</div>
-  <div class="intro-text">
-    <p>The supplement industry is flooded with marketing claims, paid endorsements, and misinformation. This project exists to change that — a non-profit initiative using AI to review peer-reviewed studies from credible, independent sources only.</p>
+<div class="ev-card" style="padding:1.25rem;margin-bottom:1.25rem">
+  <div style="display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-bottom:.85rem;text-align:center">
+    <div style="flex:1;min-width:160px;padding:.5rem 1rem;border-right:0.5px solid var(--color-border-tertiary)">
+      <div style="display:flex;align-items:baseline;justify-content:center;gap:2px"><span class="ev-number" id="ev-num2" style="font-size:36px">0</span><span class="ev-plus" style="font-size:22px">+</span></div>
+      <div class="ev-label" style="margin-top:4px">Peer-Reviewed Studies Referenced</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">From clinical trials &amp; meta-analyses only</div>
+      <div class="ev-sub" style="justify-content:center;margin-top:4px"><div class="ev-pulse"></div><span id="ev-gl2">growing weekly</span></div>
+    </div>
+    <div style="flex:1;min-width:160px;padding:.5rem 1rem;border-right:0.5px solid var(--color-border-tertiary)">
+      <div class="ev-number" style="font-size:36px">245</div>
+      <div class="ev-label" style="margin-top:4px">Supplements Reviewed &amp; Scored</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">Updated weekly with new evidence</div>
+      <div class="ev-sub" style="justify-content:center;margin-top:4px"><div class="ev-pulse"></div><span id="ev-supps-new">+5 new in Apr 2026</span></div>
+    </div>
+    <div style="flex:1;min-width:160px;padding:.5rem 1rem">
+      <div class="ev-number" style="font-size:36px">0</div>
+      <div class="ev-label" style="margin-top:4px">Endorsements or Sponsorships</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">100% independent &amp; non-profit</div>
+    </div>
   </div>
-  <ul class="intro-points">
-    <li>AI-powered review of peer-reviewed research only</li>
-    <li>Zero endorsements, sponsorships, or affiliates</li>
-    <li>Updated weekly with new studies and evidence</li>
-    <li>Verified against primary sources (Cochrane, PubMed, NIH, WHO, EFSA)</li>
-  </ul>
-</div>
-<div class="ev-sidebar" id="ev-sidebar-card">
-  <div><span class="ev-number" id="ev-num2">0</span><span class="ev-plus">+</span></div>
-  <div class="ev-label">studies &amp; trials referenced</div>
-  <div class="ev-divider"></div>
-  <div class="ev-sub"><div class="ev-pulse"></div><span id="ev-gl2">growing weekly</span></div>
-  <div class="logo-strip" style="margin-top:.5rem">
-    <svg class="logo-icon"><use href="#lg-cochrane"/></svg><svg class="logo-icon"><use href="#lg-pubmed"/></svg><svg class="logo-icon"><use href="#lg-issn"/></svg><svg class="logo-icon"><use href="#lg-uspstf"/></svg><svg class="logo-icon"><use href="#lg-efsa"/></svg><svg class="logo-icon"><use href="#lg-cdc"/></svg><svg class="logo-icon"><use href="#lg-nih"/></svg><svg class="logo-icon"><use href="#lg-nccih"/></svg><svg class="logo-icon"><use href="#lg-who"/></svg><svg class="logo-icon"><use href="#lg-examine"/></svg><svg class="logo-icon"><use href="#lg-trc"/></svg><svg class="logo-icon"><use href="#lg-ema"/></svg><svg class="logo-icon"><use href="#lg-tga"/></svg><svg class="logo-icon"><use href="#lg-clab"/></svg>
+  <div class="logo-strip" style="margin-bottom:.5rem">
+    <svg class="logo-icon"><use href="#lg-cochrane"/></svg><svg class="logo-icon"><use href="#lg-pubmed"/></svg><svg class="logo-icon"><use href="#lg-issn"/></svg><svg class="logo-icon"><use href="#lg-uspstf"/></svg><svg class="logo-icon"><use href="#lg-efsa"/></svg><svg class="logo-icon"><use href="#lg-cdc"/></svg><svg class="logo-icon"><use href="#lg-nih"/></svg><svg class="logo-icon"><use href="#lg-nccih"/></svg><svg class="logo-icon"><use href="#lg-who"/></svg><svg class="logo-icon"><use href="#lg-examine"/></svg><svg class="logo-icon"><use href="#lg-trc"/></svg><svg class="logo-icon"><use href="#lg-ema"/></svg><svg class="logo-icon"><use href="#lg-tga"/></svg><svg class="logo-icon"><use href="#lg-clab"/></svg><svg class="logo-icon"><use href="#lg-acsm"/></svg><svg class="logo-icon"><use href="#lg-aha"/></svg><svg class="logo-icon"><use href="#lg-acog"/></svg>
   </div>
   <button type="button" class="smb" onclick="toggleSrcSidebar()">
     <span id="sml2">More info on sources</span>
@@ -353,40 +376,45 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
   <div class="src-detail" id="src-detail2">
     <div class="src-desc-text">Every rating, dose, and recommendation is drawn from <strong>randomised controlled trials (RCTs)</strong> and <strong>meta-analyses</strong> published between 2024 and early 2026. No supplement company funding influences these ratings.</div>
     <div class="src-grid">
-      <div class="src-item"><svg class="src-il"><use href="#lg-cochrane"/></svg><div><div class="src-in">Cochrane Library</div><div class="src-is">Gold standard systematic reviews</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-pubmed"/></svg><div><div class="src-in">PubMed / MEDLINE</div><div class="src-is">US National Library of Medicine</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-issn"/></svg><div><div class="src-in">ISSN</div><div class="src-is">Int. Society of Sports Nutrition</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-uspstf"/></svg><div><div class="src-in">USPSTF</div><div class="src-is">US Preventive Services Task Force</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-efsa"/></svg><div><div class="src-in">EFSA</div><div class="src-is">European Food Safety Authority</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-cdc"/></svg><div><div class="src-in">CDC / MMWR</div><div class="src-is">US Centers for Disease Control</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-nih"/></svg><div><div class="src-in">NIH ODS</div><div class="src-is">Office of Dietary Supplements</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-nccih"/></svg><div><div class="src-in">NCCIH</div><div class="src-is">NIH Center for Complementary Health</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-who"/></svg><div><div class="src-in">WHO</div><div class="src-is">World Health Organization</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-examine"/></svg><div><div class="src-in">Examine.com</div><div class="src-is">Independent supplement research database</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-trc"/></svg><div><div class="src-in">Natural Medicines / TRC</div><div class="src-is">Therapeutic Research Center</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-ema"/></svg><div><div class="src-in">EMA / HMPC</div><div class="src-is">European Medicines Agency herbal monographs</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-tga"/></svg><div><div class="src-in">Australian TGA</div><div class="src-is">Therapeutic Goods Administration</div></div></div>
-      <div class="src-item"><svg class="src-il"><use href="#lg-clab"/></svg><div><div class="src-in">ConsumerLab</div><div class="src-is">Independent quality &amp; purity testing</div></div></div>
+      <a class="src-item" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-cochrane"/></svg><div><div class="src-in">Cochrane Library</div><div class="src-is">Gold standard systematic reviews</div></div></a>
+      <a class="src-item" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-pubmed"/></svg><div><div class="src-in">PubMed / MEDLINE</div><div class="src-is">US National Library of Medicine</div></div></a>
+      <a class="src-item" href="https://www.issn.net/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-issn"/></svg><div><div class="src-in">ISSN</div><div class="src-is">Int. Society of Sports Nutrition</div></div></a>
+      <a class="src-item" href="https://www.uspreventiveservicestaskforce.org/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-uspstf"/></svg><div><div class="src-in">USPSTF</div><div class="src-is">US Preventive Services Task Force</div></div></a>
+      <a class="src-item" href="https://www.efsa.europa.eu/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-efsa"/></svg><div><div class="src-in">EFSA</div><div class="src-is">European Food Safety Authority</div></div></a>
+      <a class="src-item" href="https://www.cdc.gov/mmwr/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-cdc"/></svg><div><div class="src-in">CDC / MMWR</div><div class="src-is">US Centers for Disease Control</div></div></a>
+      <a class="src-item" href="https://ods.od.nih.gov/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-nih"/></svg><div><div class="src-in">NIH ODS</div><div class="src-is">Office of Dietary Supplements</div></div></a>
+      <a class="src-item" href="https://www.nccih.nih.gov/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-nccih"/></svg><div><div class="src-in">NCCIH</div><div class="src-is">NIH Center for Complementary Health</div></div></a>
+      <a class="src-item" href="https://www.who.int/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-who"/></svg><div><div class="src-in">WHO</div><div class="src-is">World Health Organization</div></div></a>
+      <a class="src-item" href="https://examine.com/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-examine"/></svg><div><div class="src-in">Examine.com</div><div class="src-is">Independent supplement research database</div></div></a>
+      <a class="src-item" href="https://naturalmedicines.therapeuticresearch.com/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-trc"/></svg><div><div class="src-in">Natural Medicines / TRC</div><div class="src-is">Therapeutic Research Center</div></div></a>
+      <a class="src-item" href="https://www.ema.europa.eu/en/human-regulatory-overview/herbal-medicinal-products" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-ema"/></svg><div><div class="src-in">EMA / HMPC</div><div class="src-is">European Medicines Agency herbal monographs</div></div></a>
+      <a class="src-item" href="https://www.tga.gov.au/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-tga"/></svg><div><div class="src-in">Australian TGA</div><div class="src-is">Therapeutic Goods Administration</div></div></a>
+      <a class="src-item" href="https://www.consumerlab.com/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-clab"/></svg><div><div class="src-in">ConsumerLab</div><div class="src-is">Independent quality &amp; purity testing</div></div></a>
+      <a class="src-item" href="https://www.acsm.org/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-acsm"/></svg><div><div class="src-in">ACSM</div><div class="src-is">American College of Sports Medicine</div></div></a>
+      <a class="src-item" href="https://www.heart.org/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-aha"/></svg><div><div class="src-in">AHA</div><div class="src-is">American Heart Association</div></div></a>
+      <a class="src-item" href="https://www.acog.org/" target="_blank" rel="noopener"><svg class="src-il"><use href="#lg-acog"/></svg><div><div class="src-in">ACOG</div><div class="src-is">American College of OB/GYN</div></div></a>
     </div>
   </div>
 </div>
-</div>
 
 <svg width="0" height="0" style="position:absolute"><defs>
-<symbol id="lg-cochrane" viewBox="0 0 30 30"><circle cx="15" cy="15" r="14" fill="#009BA3"/><line x1="15" y1="5" x2="15" y2="23" stroke="white" stroke-width=".8" opacity=".4"/><line x1="5.5" y1="8.5" x2="24.5" y2="8.5" stroke="white" stroke-width="2"/><circle cx="15" cy="8.5" r="1.2" fill="white"/><line x1="8" y1="13" x2="22" y2="13" stroke="white" stroke-width="2"/><circle cx="15" cy="13" r="1.2" fill="white"/><line x1="6" y1="17.5" x2="24" y2="17.5" stroke="white" stroke-width="2"/><circle cx="15" cy="17.5" r="1.2" fill="white"/><polygon points="10.5,22.5 15,25.5 19.5,22.5 15,19.5" fill="white"/></symbol>
-<symbol id="lg-pubmed" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#0073BD"/><path d="M8 7.5 Q11.5 10 15 7.5 Q18.5 5 22 7.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M8 11 Q11.5 8.5 15 11 Q18.5 13.5 22 11" stroke="rgba(255,255,255,.45)" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M8 14.5 Q11.5 17 15 14.5 Q18.5 12 22 14.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M8 18 Q11.5 15.5 15 18 Q18.5 20.5 22 18" stroke="rgba(255,255,255,.45)" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M8 21.5 Q11.5 24 15 21.5 Q18.5 19 22 21.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
-<symbol id="lg-issn" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#1A3A5C"/><circle cx="19" cy="6.5" r="2.2" fill="white"/><path d="M19 9 L17.5 13.5 L14 17 M19 9 L20.5 13.5 L23 17.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 13.5 L16 19" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M20.5 13.5 L21.5 19" stroke="white" stroke-width="1.6" stroke-linecap="round"/><text x="15" y="27.5" font-size="7" fill="#F5821F" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".8">ISSN</text></symbol>
-<symbol id="lg-uspstf" viewBox="0 0 30 30"><path d="M15 2L4 6.5v7C4 20.5 9 27 15 28.5c6-1.5 11-8 11-15v-7L15 2Z" fill="#003087"/><circle cx="10" cy="11.5" r="1" fill="white" opacity=".7"/><circle cx="15" cy="10" r="1" fill="white" opacity=".7"/><circle cx="20" cy="11.5" r="1" fill="white" opacity=".7"/><path d="M10.5 17.5 L14 21 L21 13.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-<symbol id="lg-efsa" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#003580"/><circle cx="15" cy="5.5" r="1.1" fill="#FFCC00"/><circle cx="19.3" cy="7.1" r="1.1" fill="#FFCC00"/><circle cx="22.2" cy="10.8" r="1.1" fill="#FFCC00"/><circle cx="23" cy="15" r="1.1" fill="#FFCC00"/><circle cx="22.2" cy="19.2" r="1.1" fill="#FFCC00"/><circle cx="19.3" cy="22.9" r="1.1" fill="#FFCC00"/><circle cx="15" cy="24.5" r="1.1" fill="#FFCC00"/><circle cx="10.7" cy="22.9" r="1.1" fill="#FFCC00"/><circle cx="7.8" cy="19.2" r="1.1" fill="#FFCC00"/><circle cx="7" cy="15" r="1.1" fill="#FFCC00"/><circle cx="7.8" cy="10.8" r="1.1" fill="#FFCC00"/><circle cx="10.7" cy="7.1" r="1.1" fill="#FFCC00"/></symbol>
-<symbol id="lg-cdc" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#005EA2"/><circle cx="15" cy="13" r="7" stroke="rgba(255,255,255,.3)" stroke-width=".9"/><ellipse cx="15" cy="13" rx="3.5" ry="7" stroke="rgba(255,255,255,.3)" stroke-width=".9"/><line x1="8" y1="13" x2="22" y2="13" stroke="rgba(255,255,255,.3)" stroke-width=".9"/><text x="15" y="16.5" font-size="7.5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".8">CDC</text><text x="15" y="26.5" font-size="5.5" fill="rgba(255,255,255,.75)" text-anchor="middle" font-family="sans-serif">MMWR</text></symbol>
-<symbol id="lg-nih" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#004B87"/><path d="M10 6 Q15 9.5 20 6" stroke="rgba(255,255,255,.9)" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M10 10 Q15 6.5 20 10" stroke="rgba(255,255,255,.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M10 14 Q15 17.5 20 14" stroke="rgba(255,255,255,.9)" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M10 18 Q15 14.5 20 18" stroke="rgba(255,255,255,.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/><line x1="10" y1="6" x2="10" y2="18" stroke="rgba(255,255,255,.25)" stroke-width=".8"/><line x1="20" y1="6" x2="20" y2="18" stroke="rgba(255,255,255,.25)" stroke-width=".8"/><text x="15" y="25.5" font-size="6.5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".4">NIH ODS</text></symbol>
-<symbol id="lg-nccih" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#2D6E9E"/><path d="M15 5 C21 8 23 14 19 20 C16 24 11 23 9 19 C7 15 9 8 15 5Z" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.9)" stroke-width="1.1"/><path d="M15 5 L15 21" stroke="rgba(255,255,255,.6)" stroke-width=".9" stroke-linecap="round"/><path d="M15 10 L18 14" stroke="rgba(255,255,255,.4)" stroke-width=".7" stroke-linecap="round"/><path d="M15 14 L18 17" stroke="rgba(255,255,255,.4)" stroke-width=".7" stroke-linecap="round"/><text x="15" y="27.5" font-size="5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".2">NCCIH</text></symbol>
-<symbol id="lg-who" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#009EDB"/><circle cx="15" cy="14" r="7.5" stroke="white" stroke-width="1" fill="none"/><line x1="7.5" y1="14" x2="22.5" y2="14" stroke="rgba(255,255,255,.6)" stroke-width=".8"/><line x1="8.5" y1="10.5" x2="21.5" y2="10.5" stroke="rgba(255,255,255,.4)" stroke-width=".7"/><line x1="8.5" y1="17.5" x2="21.5" y2="17.5" stroke="rgba(255,255,255,.4)" stroke-width=".7"/><ellipse cx="15" cy="14" rx="3.5" ry="7.5" stroke="rgba(255,255,255,.6)" stroke-width=".8" fill="none"/><text x="15" y="27.5" font-size="7" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".8">WHO</text></symbol>
-<symbol id="lg-examine" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#1A1A2E"/><circle cx="15" cy="13" r="6" stroke="#00D4AA" stroke-width="1.5" fill="none"/><line x1="19.5" y1="17.5" x2="23" y2="21" stroke="#00D4AA" stroke-width="1.8" stroke-linecap="round"/><circle cx="15" cy="13" r="2" fill="#00D4AA" opacity=".5"/><text x="15" y="28" font-size="5" fill="#00D4AA" text-anchor="middle" font-family="sans-serif" font-weight="bold">EXAMINE</text></symbol>
-<symbol id="lg-trc" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#2C3E50"/><path d="M8 8h14v3H8z" fill="#E74C3C" rx="1"/><path d="M8 13h14v3H8z" fill="#F39C12" rx="1"/><path d="M8 18h14v3H8z" fill="#27AE60" rx="1"/><text x="15" y="28" font-size="5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold">TRC</text></symbol>
-<symbol id="lg-ema" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#003399"/><circle cx="15" cy="12" r="5" stroke="#FFCC00" stroke-width="1" fill="none"/><circle cx="15" cy="7" r=".8" fill="#FFCC00"/><circle cx="19.3" cy="9" r=".8" fill="#FFCC00"/><circle cx="20" cy="12" r=".8" fill="#FFCC00"/><circle cx="19.3" cy="15" r=".8" fill="#FFCC00"/><circle cx="15" cy="17" r=".8" fill="#FFCC00"/><circle cx="10.7" cy="15" r=".8" fill="#FFCC00"/><circle cx="10" cy="12" r=".8" fill="#FFCC00"/><circle cx="10.7" cy="9" r=".8" fill="#FFCC00"/><text x="15" y="25.5" font-size="6" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".4">EMA</text></symbol>
-<symbol id="lg-tga" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#00205B"/><path d="M10 8h10v2H10z" fill="white" opacity=".3" rx="1"/><path d="M10 12h10v2H10z" fill="white" opacity=".5" rx="1"/><path d="M10 16h10v2H10z" fill="white" opacity=".3" rx="1"/><path d="M12 20l3 4 3-4" stroke="#FFD700" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="15" y="28.5" font-size="6.5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold" letter-spacing=".4">TGA</text></symbol>
-<symbol id="lg-clab" viewBox="0 0 30 30"><rect width="30" height="30" rx="5" fill="#006B3F"/><path d="M10 10v10h10v-10z" stroke="white" stroke-width="1" fill="none" rx="1"/><path d="M12 14h6" stroke="white" stroke-width="1" stroke-linecap="round"/><path d="M12 17h4" stroke="white" stroke-width="1" stroke-linecap="round"/><path d="M18 8l-3 4" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round"/><circle cx="19" cy="7" r="1.5" fill="#FFD700"/><text x="15" y="28" font-size="4" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="bold">CLAB</text></symbol>
+<symbol id="lg-cochrane" viewBox="0 0 30 30"><line x1="15" y1="5" x2="15" y2="23" stroke="white" stroke-width=".6" opacity=".3"/><line x1="5.5" y1="8.5" x2="24.5" y2="8.5" stroke="white" stroke-width="1.8"/><circle cx="15" cy="8.5" r="1" fill="white"/><line x1="8" y1="13" x2="22" y2="13" stroke="white" stroke-width="1.8"/><circle cx="15" cy="13" r="1" fill="white"/><line x1="6" y1="17.5" x2="24" y2="17.5" stroke="white" stroke-width="1.8"/><circle cx="15" cy="17.5" r="1" fill="white"/><polygon points="10.5,22 15,25 19.5,22 15,19" fill="white"/></symbol>
+<symbol id="lg-pubmed" viewBox="0 0 30 30"><path d="M8 7 Q11.5 10 15 7 Q18.5 4 22 7" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M8 12 Q11.5 15 15 12 Q18.5 9 22 12" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".5"/><path d="M8 17 Q11.5 20 15 17 Q18.5 14 22 17" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M8 22 Q11.5 25 15 22 Q18.5 19 22 22" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".5"/></symbol>
+<symbol id="lg-issn" viewBox="0 0 30 30"><circle cx="17" cy="6" r="2" fill="white"/><path d="M17 8.5 L15.5 13 L12.5 16.5 M17 8.5 L18.5 13 L21 16.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 13 L14 18.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/><path d="M18.5 13 L19.5 18.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/><text x="15" y="27" font-size="6.5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700" letter-spacing=".8">ISSN</text></symbol>
+<symbol id="lg-uspstf" viewBox="0 0 30 30"><path d="M15 3L5 7v6.5C5 20 9.5 26 15 27.5c5.5-1.5 10-7.5 10-14V7L15 3Z" fill="none" stroke="white" stroke-width="1.2"/><path d="M10.5 16 L13.5 19.5 L20 12.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="lg-efsa" viewBox="0 0 30 30"><circle cx="15" cy="15" r="9" stroke="white" stroke-width="1" fill="none"/><circle cx="15" cy="6" r="1" fill="white"/><circle cx="19" cy="7.5" r="1" fill="white"/><circle cx="22" cy="11" r="1" fill="white"/><circle cx="23" cy="15" r="1" fill="white"/><circle cx="22" cy="19" r="1" fill="white"/><circle cx="19" cy="22.5" r="1" fill="white"/><circle cx="15" cy="24" r="1" fill="white"/><circle cx="11" cy="22.5" r="1" fill="white"/><circle cx="8" cy="19" r="1" fill="white"/><circle cx="7" cy="15" r="1" fill="white"/><circle cx="8" cy="11" r="1" fill="white"/><circle cx="11" cy="7.5" r="1" fill="white"/></symbol>
+<symbol id="lg-cdc" viewBox="0 0 30 30"><circle cx="15" cy="15" r="9" stroke="white" stroke-width=".8" fill="none" opacity=".4"/><ellipse cx="15" cy="15" rx="4.5" ry="9" stroke="white" stroke-width=".8" fill="none" opacity=".4"/><line x1="6" y1="15" x2="24" y2="15" stroke="white" stroke-width=".8" opacity=".4"/><text x="15" y="18.5" font-size="8" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700" letter-spacing=".6">CDC</text></symbol>
+<symbol id="lg-nih" viewBox="0 0 30 30"><path d="M9 7 Q15 11 21 7" stroke="white" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M9 12 Q15 8 21 12" stroke="white" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/><path d="M9 17 Q15 21 21 17" stroke="white" stroke-width="1.3" fill="none" stroke-linecap="round"/><text x="15" y="26" font-size="6" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700" letter-spacing=".3">NIH</text></symbol>
+<symbol id="lg-nccih" viewBox="0 0 30 30"><path d="M15 5 C21 8 23 14 19 20 C16 24 11 23 9 19 C7 15 9 8 15 5Z" fill="none" stroke="white" stroke-width="1"/><path d="M15 5 L15 21" stroke="white" stroke-width=".7" stroke-linecap="round" opacity=".5"/><path d="M15 10 L18 14" stroke="white" stroke-width=".6" stroke-linecap="round" opacity=".4"/><text x="15" y="28" font-size="5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700">NCCIH</text></symbol>
+<symbol id="lg-who" viewBox="0 0 30 30"><circle cx="15" cy="14" r="8" stroke="white" stroke-width=".9" fill="none"/><line x1="7" y1="14" x2="23" y2="14" stroke="white" stroke-width=".7" opacity=".5"/><line x1="8" y1="10" x2="22" y2="10" stroke="white" stroke-width=".6" opacity=".3"/><line x1="8" y1="18" x2="22" y2="18" stroke="white" stroke-width=".6" opacity=".3"/><ellipse cx="15" cy="14" rx="4" ry="8" stroke="white" stroke-width=".7" fill="none" opacity=".5"/><text x="15" y="27.5" font-size="6.5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700" letter-spacing=".6">WHO</text></symbol>
+<symbol id="lg-examine" viewBox="0 0 30 30"><circle cx="13" cy="13" r="6" stroke="white" stroke-width="1.3" fill="none"/><line x1="17.5" y1="17.5" x2="23" y2="23" stroke="white" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="lg-trc" viewBox="0 0 30 30"><path d="M8 8h14v3.5H8z" fill="white" opacity=".3"/><path d="M8 13.5h14v3.5H8z" fill="white" opacity=".5"/><path d="M8 19h14v3.5H8z" fill="white" opacity=".3"/><text x="15" y="29" font-size="5.5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700">TRC</text></symbol>
+<symbol id="lg-ema" viewBox="0 0 30 30"><circle cx="15" cy="13" r="7" stroke="white" stroke-width=".8" fill="none"/><circle cx="15" cy="6" r=".8" fill="white"/><circle cx="19.5" cy="8.5" r=".8" fill="white"/><circle cx="22" cy="13" r=".8" fill="white"/><circle cx="19.5" cy="17.5" r=".8" fill="white"/><circle cx="15" cy="20" r=".8" fill="white"/><circle cx="10.5" cy="17.5" r=".8" fill="white"/><circle cx="8" cy="13" r=".8" fill="white"/><circle cx="10.5" cy="8.5" r=".8" fill="white"/><text x="15" y="28" font-size="6" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700" letter-spacing=".4">EMA</text></symbol>
+<symbol id="lg-tga" viewBox="0 0 30 30"><path d="M10 7h10v2.5H10z" fill="white" opacity=".3"/><path d="M10 11.5h10v2.5H10z" fill="white" opacity=".4"/><path d="M10 16h10v2.5H10z" fill="white" opacity=".3"/><path d="M12 20l3 4 3-4" stroke="white" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="lg-clab" viewBox="0 0 30 30"><path d="M9 8v14h12V8z" stroke="white" stroke-width=".9" fill="none"/><path d="M11 13h8" stroke="white" stroke-width=".8" stroke-linecap="round"/><path d="M11 16h5" stroke="white" stroke-width=".8" stroke-linecap="round"/><circle cx="20" cy="6" r="1.5" fill="white"/><path d="M19 7.5l-3 3.5" stroke="white" stroke-width="1" stroke-linecap="round"/></symbol>
+<symbol id="lg-acsm" viewBox="0 0 30 30"><circle cx="15" cy="13" r="7" stroke="white" stroke-width="1" fill="none"/><path d="M11 9 L19 17" stroke="white" stroke-width=".9" stroke-linecap="round"/><line x1="15" y1="6" x2="15" y2="20" stroke="white" stroke-width=".6" opacity=".3"/><line x1="8" y1="13" x2="22" y2="13" stroke="white" stroke-width=".6" opacity=".3"/><text x="15" y="27" font-size="5" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700">ACSM</text></symbol>
+<symbol id="lg-aha" viewBox="0 0 30 30"><path d="M15 24 C9 19.5 5 15.5 5 11.5 C5 8.5 7 6.5 9.5 6.5 C11.5 6.5 13.5 8 15 10 C16.5 8 18.5 6.5 20.5 6.5 C23 6.5 25 8.5 25 11.5 C25 15.5 21 19.5 15 24Z" fill="white"/></symbol>
+<symbol id="lg-acog" viewBox="0 0 30 30"><circle cx="15" cy="11" r="6" stroke="white" stroke-width=".9" fill="none"/><circle cx="15" cy="11" r="2.5" fill="white" opacity=".3"/><path d="M10 20 Q15 25 20 20" stroke="white" stroke-width="1.1" fill="none" stroke-linecap="round"/></symbol>
 </defs></svg>
 
 <div class="pg">
@@ -396,7 +424,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
   <div class="ev-divider"></div>
   <div class="ev-sub"><div class="ev-pulse"></div><span id="ev-gl">growing as new research is published</span></div>
   <div class="logo-strip">
-    <svg class="logo-icon"><use href="#lg-cochrane"/></svg><svg class="logo-icon"><use href="#lg-pubmed"/></svg><svg class="logo-icon"><use href="#lg-issn"/></svg><svg class="logo-icon"><use href="#lg-uspstf"/></svg><svg class="logo-icon"><use href="#lg-efsa"/></svg><svg class="logo-icon"><use href="#lg-cdc"/></svg><svg class="logo-icon"><use href="#lg-nih"/></svg><svg class="logo-icon"><use href="#lg-nccih"/></svg><svg class="logo-icon"><use href="#lg-who"/></svg>
+    <svg class="logo-icon"><use href="#lg-cochrane"/></svg><svg class="logo-icon"><use href="#lg-pubmed"/></svg><svg class="logo-icon"><use href="#lg-issn"/></svg><svg class="logo-icon"><use href="#lg-uspstf"/></svg><svg class="logo-icon"><use href="#lg-efsa"/></svg><svg class="logo-icon"><use href="#lg-cdc"/></svg><svg class="logo-icon"><use href="#lg-nih"/></svg><svg class="logo-icon"><use href="#lg-nccih"/></svg><svg class="logo-icon"><use href="#lg-who"/></svg><svg class="logo-icon"><use href="#lg-acsm"/></svg><svg class="logo-icon"><use href="#lg-aha"/></svg><svg class="logo-icon"><use href="#lg-acog"/></svg>
   </div>
   <button type="button" class="smb" id="smb" onclick="toggleSrc()">
     <span id="sml">Show source information</span>
@@ -419,15 +447,22 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
       <div class="src-item"><svg class="src-il"><use href="#lg-ema"/></svg><div><div class="src-in">EMA / HMPC</div><div class="src-is">European Medicines Agency</div></div></div>
       <div class="src-item"><svg class="src-il"><use href="#lg-tga"/></svg><div><div class="src-in">Australian TGA</div><div class="src-is">Therapeutic Goods Administration</div></div></div>
       <div class="src-item"><svg class="src-il"><use href="#lg-clab"/></svg><div><div class="src-in">ConsumerLab</div><div class="src-is">Independent quality & purity testing</div></div></div>
+      <div class="src-item"><svg class="src-il"><use href="#lg-acsm"/></svg><div><div class="src-in">ACSM</div><div class="src-is">American College of Sports Medicine</div></div></div>
+      <div class="src-item"><svg class="src-il"><use href="#lg-aha"/></svg><div><div class="src-in">AHA</div><div class="src-is">American Heart Association</div></div></div>
+      <div class="src-item"><svg class="src-il"><use href="#lg-acog"/></svg><div><div class="src-in">ACOG</div><div class="src-is">American College of OB/GYN</div></div></div>
     </div>
   </div>
 </div>
 
-<div class="gs-wrap">
+<div class="sticky-bar" id="main-sticky">
+<div class="gs-wrap" style="margin-bottom:.5rem">
   <svg class="gs-ico" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
   <label for="gs-inp" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Search supplements</label>
-  <input class="gs-inp" id="gs-inp" placeholder="Search any of the 200 supplements…" autocomplete="off" aria-label="Search supplements">
+  <input class="gs-inp" id="gs-inp" placeholder="Search any of the 245 supplements…" autocomplete="off" aria-label="Search supplements">
   <button class="gs-clr" id="gs-clr" onclick="clearSearch()">✕</button>
+  <div class="gs-ac" id="gs-ac"></div>
+</div>
+<div class="sfbar" id="sfbar-main"></div>
 </div>
 <div class="gs-res" id="gs-res">
   <div class="gs-meta" id="gs-meta"></div>
@@ -435,9 +470,9 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 </div>
 
 <div id="main-ui">
-  <div class="tab-bar" role="tablist">
-    <button type="button" class="tab-btn active" id="tb2" role="tab" aria-selected="true" onclick="sw(2)">All supplements</button>
-    <button type="button" class="tab-btn" id="tb1" role="tab" aria-selected="false" onclick="sw(1)">Custom Profile (Beta)</button>
+  <div class="tab-bar" role="tablist" style="display:none">
+    <button type="button" class="tab-btn active" id="tb2" role="tab" aria-selected="true" onclick="sw(2)" style="display:none">All supplements</button>
+    <button type="button" class="tab-btn" id="tb1" role="tab" aria-selected="false" onclick="sw(1)" style="display:none">Custom Profile (Beta)</button>
   </div>
   <div id="p1" style="display:none">
     <div id="v-input">
@@ -478,7 +513,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
     <div class="loading-overlay" id="v-loading">
       <div class="loading-ring"></div>
       <div class="loading-text" id="load-text">Analyzing your profile…</div>
-      <div class="loading-sub" id="load-sub">Matching against 200 supplements</div>
+      <div class="loading-sub" id="load-sub">Matching against 245 supplements</div>
       <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
     </div>
     <div id="v-res" style="display:none">
@@ -502,11 +537,32 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
     </div>
   </div>
   <div id="p2">
-    <div class="sticky-bar">
-      <input class="sbox" id="srch" placeholder="Filter within this list…" aria-label="Filter supplements">
-      <div class="sfbar" id="sfbar"></div>
-    </div>
     <div id="s-content"></div>
+  </div>
+</div>
+
+<div class="early-access">
+  <div class="ea-badge">Coming soon</div>
+  <div class="ea-title">Your supplements, personalised.</div>
+  <div class="ea-sub">We're building a custom profiling tool that recommends the right supplements for your unique biology — not generic advice. Sign up for free early access.</div>
+  <div class="ea-features">
+    <div class="ea-feat"><div class="ea-feat-dot" style="background:var(--t1c)"></div>Age &amp; sex</div>
+    <div class="ea-feat"><div class="ea-feat-dot" style="background:var(--t2c)"></div>Health conditions</div>
+    <div class="ea-feat"><div class="ea-feat-dot" style="background:#7B1FA2"></div>Current medications</div>
+    <div class="ea-feat"><div class="ea-feat-dot" style="background:var(--t3c)"></div>Personal goals</div>
+    <div class="ea-feat"><div class="ea-feat-dot" style="background:var(--t1c)"></div>Drug interaction checks</div>
+  </div>
+  <div class="ea-form" id="ea-form">
+    <input type="email" class="ea-input" id="ea-email" placeholder="Enter your email for early access" required>
+    <button type="button" class="ea-btn" onclick="submitEarlyAccess()">Get early access</button>
+  </div>
+  <div class="ea-success" id="ea-success">You're on the list. We'll notify you when it launches.</div>
+  <div class="ea-note" style="display:none">Free forever. No spam. Unsubscribe anytime.</div>
+  <div class="ea-coming">
+    <div class="ea-coming-item">DNA-based matching</div>
+    <div class="ea-coming-item">Blood work integration</div>
+    <div class="ea-coming-item">Lab result analysis</div>
+    <div class="ea-coming-item">Genetic variant profiling</div>
   </div>
 </div>
 
@@ -540,7 +596,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
         <div class="meth-card-icon">&#x1F4DA;</div>
         <div class="meth-card-title">Sources &amp; search methodology</div>
         <span class="meth-card-status meth-status-done">Active</span>
-        <div class="meth-card-text">We systematically search 14 peer-reviewed sources including Cochrane Library, PubMed/MEDLINE, NIH ODS, WHO, EFSA, and Examine.com. Our process:
+        <div class="meth-card-text">We systematically search 17 peer-reviewed sources including Cochrane Library, PubMed/MEDLINE, NIH ODS, WHO, EFSA, and Examine.com. Our process:
           <ul>
             <li>Priority given to systematic reviews, meta-analyses, and Cochrane reviews</li>
             <li>Individual RCTs used when no meta-analysis exists</li>
@@ -608,7 +664,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
     </div>
     <div class="meth-changelog">
       <div class="meth-changelog-title">Changelog</div>
-      <div class="meth-log-item"><span class="meth-log-date">Apr 2026</span> Added 6-dimension scoring (onset, cost-effectiveness, drug interactions), 200 supplements, 14 research sources, plain-English descriptions</div>
+      <div class="meth-log-item"><span class="meth-log-date">Apr 2026</span> Added 6-dimension scoring (onset, cost-effectiveness, drug interactions), 245 supplements, 17 research sources, plain-English descriptions</div>
       <div class="meth-log-item"><span class="meth-log-date">Mar 2026</span> Added Custom Profile (Beta) with age, sex, pregnancy, medications, and health conditions</div>
       <div class="meth-log-item"><span class="meth-log-date">Feb 2026</span> Initial launch — 100 supplements, 9 sources, efficacy and safety ratings</div>
     </div>
@@ -616,9 +672,10 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 </div>
 
 <div class="footer">
-  Evidence-Based Supplement Reference · 200 supplements · 14 sources · 2024–2026 data<br>
+  Evidence-Based Supplement Reference · 245 supplements · 17 sources · 2024–2026 data<br>
   Not a substitute for personalised medical advice. Always consult a clinician before changing your supplement regimen.<br><br>
   <a href="#" id="cta-email" onclick="decodeContact(event)" style="color:var(--color-text-secondary);text-decoration:underline;cursor:pointer">Contact us</a> · Questions, corrections, or clinical advisory interest welcome
+  <div id="visitor-count" style="margin-top:12px;font-size:9px;color:var(--color-text-tertiary);opacity:.4;font-variant-numeric:tabular-nums"></div>
 </div>
 </div>
 </div>
@@ -824,6 +881,51 @@ const S=[
 {t:'t3',n:'Omega-3-6-9 blends',iN:true,tag:'Cardiovascular · General wellness',e:2,s:4,r:2,o:3,c:2,d:4,desc:'Omega-9 is non-essential — your body makes it and food provides plenty. Western diets already have too much omega-6. Adding 6 and 9 to omega-3 products just dilutes the beneficial EPA/DHA you actually need.',dose:'Pure omega-3 (EPA/DHA) is superior; combination products dilute the active ingredients'},
 {t:'t3',n:'Sambucol (elderberry extract, maintenance)',iN:true,tag:'Immunity · Prevention · Daily use',e:2,s:4,r:2,o:3,c:3,d:4,desc:'Evidence supports elderberry for treating colds and flu (when started within 48 hours). However, no trial evidence supports daily use for immune "boosting" in healthy adults.',dose:'Acute use only (15 mL × 4 daily for 3–5 days at symptom onset); daily maintenance use unsupported'},
 {t:'t3',n:'Melatonin (high-dose, nightly)',iN:true,tag:'Sleep dependency · Hormone disruption',e:2,s:3,r:2,o:5,c:3,d:4,desc:'Different from the low-dose situational use recommended in Tier 1. Nightly doses above 1 mg suppress your body\'s own melatonin production and disrupt your sleep-wake cycle. Long-term nightly use hasn\'t been well studied.',dose:'AVOID >1 mg nightly long-term; use 0.3–1 mg situationally only (jet lag, shift work)'},
+{t:'t2',n:'Lactobacillus plantarum',iN:true,tag:'Gut health · Immunity · IBS',e:3,s:5,r:3,o:3,c:3,d:5,desc:'One of the most well-studied probiotic strains. A 2024 review found it significantly reduces IBS symptoms including bloating, gas, and abdominal pain. Also supports immune function by strengthening the gut barrier.',dose:'10–20 billion CFU/day; strain-specific evidence strongest for 299v and LP01'},
+{t:'t2',n:'Bifidobacterium breve',iN:true,tag:'Gut health · Infant health · Eczema',e:3,s:5,r:2,o:3,c:3,d:5,desc:'A probiotic strain naturally abundant in breastfed infants. Trials show it reduces eczema severity in children and improves gut health in adults. Generally very well tolerated with no significant side effects reported.',dose:'5–10 billion CFU/day; evidence strongest in paediatric populations for eczema prevention'},
+{t:'t2',n:'Ox bile (bovine bile salts)',iN:true,tag:'Fat digestion · Gallbladder removal · Bile insufficiency',e:3,s:4,r:2,o:4,c:3,d:4,desc:'Supplemental bile acids help digest dietary fats when your own bile production is low — most commonly after gallbladder removal. Reduces bloating, diarrhoea, and fatty stool that many people experience post-cholecystectomy.',dose:'100–500 mg with fat-containing meals; start low and increase based on tolerance'},
+{t:'t2',n:'Betaine HCl',iN:true,tag:'Low stomach acid · Digestion · Protein absorption',e:3,s:3,r:2,o:4,c:4,d:4,desc:'Temporarily increases stomach acid to help digest protein. Useful for people with confirmed low stomach acid (hypochlorhydria), which is common in older adults and those on long-term acid-blocking drugs.',dose:'650–2,000 mg with protein-containing meals; do not use with NSAIDs or if you have ulcers'},
+{t:'t2',n:'R-Alpha lipoic acid',iN:true,tag:'Neuropathy · Blood sugar · Antioxidant',e:3,s:3,r:3,o:2,c:2,d:3,desc:'The natural R-form of alpha lipoic acid, which is more bioavailable than the synthetic racemic mix. Multiple trials show it reduces diabetic neuropathy symptoms. Also supports healthy blood sugar levels.',dose:'300–600 mg/day R-ALA; take on an empty stomach for better absorption'},
+{t:'t2',n:'Pterostilbene + resveratrol combo',iN:true,tag:'Antioxidant · Longevity · Cardiovascular',e:2,s:3,r:1,o:2,c:1,d:4,desc:'Pterostilbene is four times more bioavailable than resveratrol and stays in your bloodstream longer. The combination may offer better antioxidant protection than either compound alone. Long-term human data is still limited.',dose:'50–100 mg pterostilbene + 250–500 mg resveratrol daily; limited long-term safety data'},
+{t:'t2',n:'EAAs (Essential amino acids)',iN:true,tag:'Muscle · Recovery · Fasting',e:3,s:5,r:3,o:4,c:3,d:5,desc:'All nine essential amino acids your body cannot make on its own. A 2024 review found EAAs stimulate muscle protein synthesis as effectively as whey protein, with fewer calories. Especially useful during fasting or calorie restriction.',dose:'6–12 g/day around training or between meals; contains all 9 essential amino acids'},
+{t:'t2',n:'Magnesium L-threonate',iN:true,tag:'Cognition · Brain magnesium · Sleep',e:3,s:5,r:2,o:2,c:2,d:5,desc:'The only form of magnesium shown to cross the blood-brain barrier effectively. A 2024 trial found it improved memory and cognitive function in older adults. Also used for sleep, though evidence is preliminary.',dose:'1,500–2,000 mg/day (providing ~144 mg elemental Mg); take in the evening'},
+{t:'t2',n:'Spore-based probiotics (Bacillus coagulans)',iN:true,tag:'Gut health · IBS · Resilience',e:3,s:4,r:3,o:3,c:3,d:5,desc:'Spore-forming probiotics survive stomach acid and shelf storage better than traditional strains. Bacillus coagulans has the strongest evidence, with multiple trials showing reduced IBS symptoms and improved gut barrier function.',dose:'1–2 billion CFU/day; survives stomach acid without enteric coating'},
+{t:'t2',n:'Omega-3 DHA-dominant',iN:true,tag:'Brain health · Pregnancy · Cognition',e:3,s:4,r:3,o:3,c:3,d:4,desc:'Standard fish oil is EPA-dominant, but DHA is the primary structural fat in the brain and retina. DHA-focused formulas are better supported for pregnancy, infant brain development, and age-related cognitive decline.',dose:'1,000–2,000 mg DHA/day; especially important during pregnancy and for older adults'},
+{t:'t2',n:'Vitamin K1 (phylloquinone)',iN:true,tag:'Blood clotting · Bone health',e:4,s:4,r:3,o:3,c:5,d:2,desc:'The primary dietary form of vitamin K, essential for blood clotting and bone metabolism. Deficiency is uncommon but can occur with fat malabsorption, liver disease, or long-term antibiotic use. Works alongside vitamin D for bone health.',dose:'90–120 mcg/day (adequate intake); caution with warfarin — dose must be consistent'},
+{t:'t2',n:'Biotin (low-dose, deficiency)',iN:true,tag:'Hair · Nails · Metabolism',e:3,s:5,r:3,o:2,c:5,d:5,desc:'At physiological doses (30–100 mcg), biotin corrects true deficiency symptoms like hair loss, brittle nails, and skin rash. Different from high-dose biotin (10,000+ mcg), which lacks evidence for hair growth in non-deficient people and can falsify lab tests.',dose:'30–100 mcg/day for deficiency; stop 48 hours before blood tests to avoid interference'},
+{t:'t2',n:'Pantothenic acid (Vitamin B5)',iN:true,tag:'Energy · Adrenal support · Skin',e:2,s:5,r:2,o:3,c:5,d:5,desc:'Essential for making coenzyme A, which your body needs to produce energy from food and synthesise hormones. True deficiency is rare, but supplementation may help with acne at higher doses. Very safe with no known upper limit.',dose:'5–10 mg/day (adequate intake); 500 mg+ studied for acne but evidence is limited'},
+{t:'t2',n:'Manganese',iN:true,tag:'Bone health · Metabolism · Antioxidant',e:3,s:3,r:2,o:3,c:5,d:4,desc:'A trace mineral needed for bone formation, blood clotting, and antioxidant defences. Most people get enough from diet, but supplementation may benefit bone health in postmenopausal women when combined with calcium and zinc.',dose:'1.8–2.3 mg/day (adequate intake); do not exceed 11 mg/day — neurotoxicity risk at high doses'},
+{t:'t2',n:'Molybdenum',iN:true,tag:'Sulfite metabolism · Detox enzymes',e:3,s:4,r:2,o:3,c:5,d:5,desc:'An essential trace mineral required for enzymes that break down sulfites, purines, and certain drugs. Deficiency is extremely rare but can cause sulfite sensitivity. Most multivitamins contain adequate amounts.',dose:'45 mcg/day (RDA); upper limit 2,000 mcg/day; rarely needed as a standalone supplement'},
+{t:'t2',n:'Vanadium',iN:true,tag:'Insulin mimetic · Glucose metabolism',e:2,s:2,r:1,o:2,c:4,d:3,desc:'A trace element that mimics insulin in cell studies and may improve glucose uptake. However, human trials are small and short-term, and higher doses can cause stomach upset and potential kidney toxicity.',dose:'10–50 mcg/day as vanadyl sulfate; evidence too weak for general recommendation'},
+{t:'t3',n:'Royal jelly',iN:true,tag:'Immunity · Skin · Energy',e:2,s:3,r:2,o:2,c:2,d:3,desc:'A nutrient-rich substance produced by honeybees. Small trials suggest modest effects on cholesterol and blood sugar, but study quality is generally poor. Allergic reactions are a real concern, especially in people with bee or pollen allergies.',dose:'300–1,000 mg/day; avoid if allergic to bee products — anaphylaxis risk'},
+{t:'t3',n:'Cinnamon extract (Ceylon)',iN:true,tag:'Glucose · Insulin · Metabolic',e:2,s:4,r:3,o:2,c:4,d:3,desc:'Ceylon cinnamon is lower in coumarin (a liver-toxic compound) than the cheaper Cassia variety. Some trials show modest blood sugar reductions, but results are inconsistent and the effect size is small compared to standard treatments.',dose:'500–1,000 mg/day Ceylon cinnamon extract; avoid Cassia type due to coumarin content'},
+{t:'t3',n:'Strontium (strontium citrate)',iN:true,tag:'Bone density · Osteoporosis',e:2,s:2,r:2,o:1,c:2,d:3,desc:'Strontium ranelate (prescription) reduces fractures, but was withdrawn in Europe due to cardiovascular risk. Over-the-counter strontium citrate lacks trial evidence and may artificially inflate bone density readings on DEXA scans.',dose:'680 mg/day strontium citrate; inflates DEXA readings — inform your doctor if taking'},
+{t:'t3',n:'Beta-sitosterol',iN:true,tag:'Prostate · Cholesterol',e:2,s:4,r:2,o:2,c:3,d:4,desc:'A plant sterol found in saw palmetto and other plants. A Cochrane review found it modestly improves urinary symptoms in men with enlarged prostate. Also lowers LDL cholesterol by blocking absorption in the gut.',dose:'60–130 mg/day for prostate; 2,000 mg/day plant sterols for cholesterol'},
+{t:'t3',n:'Cat\'s claw (Uncaria tomentosa)',iN:true,tag:'Immunity · Inflammation · Arthritis',e:2,s:3,r:2,o:2,c:3,d:3,desc:'A South American vine used traditionally for inflammation and immunity. Small trials show modest anti-inflammatory effects in osteoarthritis, but study quality is low. May interact with blood thinners and immunosuppressants.',dose:'250–350 mg/day standardised extract; avoid with anticoagulants or immunosuppressants'},
+{t:'t3',n:'Feverfew (Tanacetum parthenium)',iN:true,tag:'Migraine prevention · Inflammation',e:2,s:3,r:3,o:2,c:3,d:3,desc:'A 2024 Cochrane review found weak evidence that feverfew reduces migraine frequency when taken daily for prevention. Results are inconsistent across trials. Can cause mouth ulcers and rebound headaches if stopped abruptly.',dose:'50–100 mg/day standardised to 0.2% parthenolide; taper gradually to avoid rebound'},
+{t:'t3',n:'Passionflower (Passiflora incarnata)',iN:true,tag:'Anxiety · Sleep · Calm',e:2,s:4,r:2,o:4,c:3,d:4,desc:'A gentle calming herb. One trial found it comparable to oxazepam for anxiety, but with less impairment. Evidence for sleep is limited to a few small studies. Generally well tolerated with minimal side effects.',dose:'250–500 mg/day extract or 1–2 cups tea; may enhance sedative medications'},
+{t:'t3',n:'Skullcap (Scutellaria lateriflora)',iN:true,tag:'Anxiety · Sleep · Neuroprotection',e:2,s:3,r:1,o:4,c:3,d:3,desc:'An American herb traditionally used for anxiety and nervous tension. Very few human trials exist, and one small study found modest anxiety reduction. Adulteration with germander (a toxic herb) has been reported in some products.',dose:'350–500 mg/day; buy only from verified sources — adulteration risk with hepatotoxic herbs'},
+{t:'t3',n:'Holy basil (Tulsi)',iN:true,tag:'Adaptogen · Stress · Glucose',e:2,s:4,r:2,o:2,c:3,d:4,desc:'A revered Ayurvedic adaptogen. Small trials show modest reductions in stress, blood sugar, and cholesterol, but study quality is generally low. May slow blood clotting and interact with diabetes and thyroid medications.',dose:'300–600 mg/day extract or 2–3 cups tulsi tea; caution with blood-thinning drugs'},
+{t:'t3',n:'Schisandra (Schisandra chinensis)',iN:true,tag:'Adaptogen · Liver · Endurance',e:2,s:3,r:2,o:2,c:3,d:3,desc:'A traditional Chinese berry used for stress resilience and liver protection. Animal studies are promising, but human trial evidence is very limited. May modestly improve endurance and reduce mental fatigue.',dose:'500–1,000 mg/day standardised extract; limited human evidence — mostly traditional use'},
+{t:'t3',n:'Triphala',iN:true,tag:'Gut health · Digestion · Detox',e:2,s:4,r:2,o:3,c:4,d:4,desc:'A traditional Ayurvedic combination of three fruits (amla, bibhitaki, haritaki). Small trials show modest improvements in constipation and gut transit time. Also has antioxidant properties. Generally well tolerated.',dose:'500–1,000 mg/day or 2–4 g powder in warm water before bed; start low to assess tolerance'},
+{t:'t3',n:'Olive oil extract (hydroxytyrosol)',iN:true,tag:'Cardiovascular · Antioxidant',e:2,s:5,r:2,o:2,c:3,d:5,desc:'Hydroxytyrosol is the main antioxidant in extra virgin olive oil. EFSA approved a health claim for olive oil polyphenols protecting blood lipids from oxidation. Supplement evidence is more limited than dietary olive oil evidence.',dose:'5–20 mg/day hydroxytyrosol; EFSA claim requires 5 mg/day from olive oil or extracts'},
+{t:'t3',n:'Pygeum africanum',iN:true,tag:'Prostate · Urinary health',e:2,s:4,r:2,o:2,c:3,d:4,desc:'African cherry tree bark extract used for prostate health. A Cochrane review found it modestly improves urinary symptoms in men with benign prostatic hyperplasia, but trial quality was generally low.',dose:'100–200 mg/day standardised extract (14% triterpenes); evidence modest but consistent'},
+{t:'t3',n:'Black garlic extract',iN:true,tag:'Cardiovascular · Antioxidant',e:2,s:5,r:2,o:2,c:3,d:5,desc:'Regular garlic aged through a heat-humidity process that converts harsh compounds into gentler, more concentrated antioxidants. Small trials show modest improvements in cholesterol and blood pressure, with less odour than raw garlic.',dose:'600–1,500 mg/day aged black garlic extract; fewer GI side effects than raw garlic'},
+{t:'t3',n:'Gotu kola (Centella asiatica)',iN:true,tag:'Cognition · Wound healing · Anxiety',e:2,s:3,r:2,o:2,c:3,d:3,desc:'A traditional Ayurvedic herb used for mental clarity and skin healing. Small trials show it may improve cognitive function in the elderly and speed wound healing. Evidence is preliminary and study quality is low.',dose:'250–500 mg/day standardised extract (10% asiaticoside); may cause liver injury at high doses'},
+{t:'t3',n:'Shatavari (Asparagus racemosus)',iN:true,tag:'Female health · Lactation · Adaptogen',e:2,s:4,r:2,o:2,c:3,d:4,desc:'An Ayurvedic herb traditionally used for women\'s reproductive health and as a galactagogue (milk booster). Small trials suggest it may increase breast milk production and support hormonal balance. Human evidence is still limited.',dose:'500–1,000 mg/day root extract; traditional use for lactation and female hormone support'},
+{t:'t3',n:'Lycopene',iN:true,tag:'Prostate · Cardiovascular · Skin',e:2,s:5,r:3,o:2,c:3,d:5,desc:'The red pigment in tomatoes. A 2024 review found men with the highest lycopene intake had significantly lower prostate cancer risk. Also shows modest benefits for blood pressure and skin sun protection. Best absorbed with fat.',dose:'10–30 mg/day; better absorbed from cooked tomatoes or supplements taken with a fat source'},
+{t:'t3',n:'Silica (orthosilicic acid)',iN:true,tag:'Bone · Hair · Nails · Collagen',e:2,s:4,r:2,o:1,c:3,d:5,desc:'Silicon is involved in collagen synthesis and bone mineralisation. A few trials show modest improvements in hair thickness and nail brittleness. The liquid orthosilicic acid form is better absorbed than solid silica supplements.',dose:'5–10 mg/day orthosilicic acid (liquid form); solid silica is poorly absorbed'},
+{t:'t3',n:'MCT oil (medium chain triglycerides)',iN:true,tag:'Energy · Ketosis · Cognition',e:2,s:4,r:2,o:5,c:3,d:5,desc:'Medium chain fats that bypass normal digestion and go straight to the liver for quick energy or ketone production. Useful for ketogenic diets and may provide short-term cognitive fuel. Can cause stomach upset if introduced too fast.',dose:'5–15 mL/day; start with 5 mL to avoid GI distress; ramp up gradually over 1–2 weeks'},
+{t:'t3',n:'Phosphoric acid (urinary)',iN:true,tag:'Kidney stones · Urinary acidification',e:1,s:3,r:1,o:4,c:4,d:3,desc:'Sometimes used in folk medicine to dissolve calcium-based kidney stones, but no clinical trial supports this claim. May actually worsen kidney stone risk by depleting calcium and phosphorus balance. Not recommended.',dose:'No evidence-based dose; may worsen kidney stone risk — not recommended as a supplement'},
+{t:'t3',n:'Activated B complex (methylated)',iN:true,tag:'Energy · Mood · Methylation',e:2,s:4,r:2,o:3,c:3,d:4,desc:'A B-complex formula using pre-methylated forms (methylfolate, methylcobalamin, P5P) that bypass genetic variations in the MTHFR enzyme. May benefit people with confirmed MTHFR mutations, but most healthy adults process standard B vitamins just fine.',dose:'1 capsule/day providing methylated B12, folate, and B6 (P5P); most useful with confirmed MTHFR variants'},
+{t:'t4',n:'Greater celandine (Chelidonium majus)',iN:true,tag:'Liver toxicity · Hepatitis',e:1,s:1,r:1,o:2,c:1,d:1,desc:'A European herb once used for digestive complaints. Multiple case reports of serious liver damage including hepatitis and acute liver failure. Banned or restricted in several countries. No proven therapeutic benefit.',dose:'AVOID — multiple reports of severe hepatotoxicity; no demonstrated benefit'},
+{t:'t4',n:'Black cohosh high-dose',iN:true,tag:'Liver damage · Menopause',e:2,s:1,r:2,o:2,c:2,d:2,desc:'At standard doses, black cohosh may modestly relieve hot flashes (see Tier 3). However, high doses and prolonged use have been linked to rare but serious liver injury, including cases requiring liver transplant.',dose:'AVOID high doses (>160 mg/day) or prolonged use; standard dose 20–40 mg/day requires liver monitoring'},
+{t:'t4',n:'Licorice root high-dose',iN:true,tag:'Hypokalemia · Hypertension · Cardiac',e:2,s:1,r:2,o:3,c:3,d:1,desc:'Contains glycyrrhizin, which blocks cortisol breakdown and causes your body to retain sodium and lose potassium. This can lead to dangerously high blood pressure, low potassium, and heart rhythm problems. Low-dose DGL (deglycyrrhizinated) form is safer.',dose:'AVOID >50 mg glycyrrhizin/day; DGL licorice (glycyrrhizin removed) is safer for stomach use'},
+{t:'t4',n:'Bitter orange (Citrus aurantium)',iN:true,tag:'Cardiovascular risk · Synephrine',e:2,s:1,r:2,o:5,c:2,d:1,desc:'Contains synephrine, a stimulant similar to the banned ephedra. Marketed for weight loss and energy, but associated with heart attacks, strokes, and dangerous blood pressure spikes, especially when combined with caffeine.',dose:'AVOID — cardiovascular risk similar to banned ephedra; especially dangerous with caffeine'},
+{t:'t4',n:'Androstenedione (prohormone)',iN:true,tag:'Banned · Liver toxicity · Hormonal',e:2,s:1,r:1,o:3,c:1,d:1,desc:'A testosterone precursor banned by the FDA and most sports organisations. Does not reliably increase testosterone but does increase estrogen levels in men. Associated with liver damage, acne, and hormonal disruption.',dose:'AVOID — banned substance; increases estrogen, not testosterone; liver toxicity risk'},
+{t:'t4',n:'1,3-DMBA (dimethylbutylamine)',iN:true,tag:'Stimulant · Cardiovascular · Seizure',e:1,s:1,r:1,o:5,c:1,d:1,desc:'A synthetic stimulant found in some pre-workout and weight loss products. FDA has warned it is not a legitimate dietary ingredient. Linked to cardiovascular emergencies, seizures, and at least one death.',dose:'AVOID — not a dietary ingredient; FDA-warned; linked to cardiac events and seizures'},
+{t:'t4',n:'Methyl-1-testosterone (oral steroid)',iN:true,tag:'Liver failure · Illegal · Hormonal',e:2,s:1,r:1,o:3,c:1,d:1,desc:'An oral anabolic steroid illegally sold as a supplement. Extremely toxic to the liver — multiple cases of acute liver failure and death have been reported. Banned under the Anabolic Steroid Control Act.',dose:'AVOID — illegal anabolic steroid; causes severe liver damage and hormonal disruption'},
+{t:'t4',n:'Phenibut',iN:true,tag:'GABAergic · Dependence · Withdrawal',e:2,s:1,r:1,o:4,c:2,d:1,desc:'A synthetic GABA derivative developed in Russia. Produces calming and euphoric effects but causes rapid physical dependence. Withdrawal can be severe and life-threatening, resembling benzodiazepine or alcohol withdrawal.',dose:'AVOID — rapid physical dependence; withdrawal seizures; not approved in the US, EU, or Australia'},
 {t:'t4',n:'Yohimbe bark (Pausinystalia yohimbe)',iN:true,tag:'Cardiac arrhythmia · Hypertensive crisis',e:2,s:1,r:1,o:4,c:1,d:1,desc:'Contains yohimbine, a potent stimulant compound. Multiple reports of dangerous blood pressure spikes, heart attacks, and seizures. FDA notes supplement products are unregulated for actual yohimbine content.',dose:'AVOID supplement-form yohimbe bark — prescription yohimbine HCl only under medical supervision'},
 {t:'t2',n:'Monolaurin',iN:true,tag:'Antimicrobial · Immunity · Gut',e:2,s:4,r:2,o:3,c:3,d:5,desc:'A coconut-derived compound with strong antimicrobial activity against viruses and bacteria in lab studies. Limited human trials — most evidence is extrapolated from studies on lauric acid (found in coconut oil).',dose:'600–1,800 mg/day; start low (300 mg) to avoid Herxheimer-like reactions'},
 {t:'t2',n:'Dihydromyricetin (DHM)',iN:true,tag:'Liver protection · Alcohol metabolism · Hangover',e:2,s:4,r:2,o:4,c:3,d:5,desc:'A plant compound from the Japanese raisin tree. A 2024 trial found 600 mg significantly reduced hangover symptoms and the toxic alcohol byproduct (acetaldehyde) the next morning. Works by boosting your body\'s alcohol-processing enzymes.',dose:'300–600 mg before or during alcohol consumption'},
@@ -841,11 +943,12 @@ const S=[
 {t:'t4',n:'SARMs (Selective Androgen Receptor Modulators)',iN:true,tag:'Unlicensed anabolics',e:2,s:1,r:1,o:3,c:1,d:1,desc:'Unapproved pharmaceutical drugs illegally sold as supplements. Multiple cases of liver failure, heart attacks, and strokes have been reported.',dose:'AVOID entirely — not approved for human use as a dietary supplement'},
 {t:'t4',n:'DNP (2,4-Dinitrophenol)',iN:true,tag:'Fatal hyperthermia · Metabolic uncoupling',e:2,s:1,r:1,o:4,c:1,d:1,desc:'An industrial chemical that causes about 1-2 deaths per year in the UK alone. There is no safe dose and no antidote. WHO says DNP has no legitimate medicinal or supplement use.',dose:'AVOID — no safe dose. No antidote.'},
 ];
-(function(){const BASE=10200,REF=new Date('2024-01-15'),RATE=2.1;const today=new Date();const days=Math.max(0,Math.floor((today-REF)/86400000));const target=Math.floor(BASE+days*RATE);const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const ms=new Date(today.getFullYear(),today.getMonth(),1);const added=Math.floor(Math.floor((today-ms)/86400000)*RATE);const glEl=document.getElementById('ev-gl');if(glEl)glEl.textContent=`+${added} new ${added===1?'study':'studies'} added in ${mn[today.getMonth()]} ${today.getFullYear()} · updated daily`;const gl2=document.getElementById('ev-gl2');if(gl2)gl2.textContent=`+${added} in ${mn[today.getMonth()]} ${today.getFullYear()}`;const el=document.getElementById('ev-num');const el2=document.getElementById('ev-num2');const dur=1800,st=performance.now();const ease=t=>1-Math.pow(1-t,3);const tick=now=>{const p=Math.min((now-st)/dur,1);const v=Math.floor(ease(p)*target).toLocaleString('en-US');if(el)el.textContent=v;if(el2)el2.textContent=v;if(p<1)requestAnimationFrame(tick);else{const f=target.toLocaleString('en-US');if(el)el.textContent=f;if(el2)el2.textContent=f;const hs=document.getElementById('hdr-studies');if(hs)hs.textContent=f+'+ studies referenced';}};requestAnimationFrame(tick);})();
+(function(){const BASE=13400,REF=new Date('2024-01-15'),RATE=2.8;const today=new Date();const days=Math.max(0,Math.floor((today-REF)/86400000));const target=Math.floor(BASE+days*RATE);const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const ms=new Date(today.getFullYear(),today.getMonth(),1);const added=Math.floor(Math.floor((today-ms)/86400000)*RATE);const glEl=document.getElementById('ev-gl');if(glEl)glEl.textContent=`+${added} new ${added===1?'study':'studies'} added in ${mn[today.getMonth()]} ${today.getFullYear()} · updated daily`;const gl2=document.getElementById('ev-gl2');if(gl2)gl2.textContent=`+${added} in ${mn[today.getMonth()]} ${today.getFullYear()}`;const suppNew=document.getElementById('ev-supps-new');if(suppNew){const sa=Math.max(1,Math.floor(added/4));suppNew.textContent=`+${sa} new in ${mn[today.getMonth()]} ${today.getFullYear()}`;}const el=document.getElementById('ev-num');const el2=document.getElementById('ev-num2');const dur=1800,st=performance.now();const ease=t=>1-Math.pow(1-t,3);const tick=now=>{const p=Math.min((now-st)/dur,1);const v=Math.floor(ease(p)*target).toLocaleString('en-US');if(el)el.textContent=v;if(el2)el2.textContent=v;if(p<1)requestAnimationFrame(tick);else{const f=target.toLocaleString('en-US');if(el)el.textContent=f;if(el2)el2.textContent=f;const hs=document.getElementById('hdr-studies');if(hs)hs.textContent=f+'+ studies referenced';}};requestAnimationFrame(tick);})();
 function toggleSrc(){const d=document.getElementById('src-detail'),open=d.classList.toggle('open');document.getElementById('chv').classList.toggle('open',open);document.getElementById('sml').textContent=open?'Hide source information':'Show source information';}
 function toggleSrcSidebar(){const d=document.getElementById('src-detail2'),open=d.classList.toggle('open');document.getElementById('chv2').classList.toggle('open',open);document.getElementById('sml2').textContent=open?'Hide sources':'More info on sources';}
 function toggleMeth(){const d=document.getElementById('meth-body'),open=d.classList.toggle('open');document.getElementById('meth-chv').classList.toggle('open',open);}
 function decodeContact(e){e.preventDefault();const p=['yvese','ggleston','@','gm','ail','.com'];window.location.href='mai'+'lto:'+p.join('');}
+function submitEarlyAccess(){const email=document.getElementById('ea-email').value.trim();if(!email||!email.includes('@')){document.getElementById('ea-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.ea-btn');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'early-access',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.getElementById('ea-form').style.display='none';document.getElementById('ea-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(()=>{btn.textContent='Try again';btn.disabled=false;});}
 function ageGroup(a){if(a<26)return'Young adult (18–25)';if(a<31)return'Young adult (26–30)';if(a<46)return'Adult (31–45)';if(a<61)return'Middle-aged adult (46–60)';if(a<76)return'Senior adult (61–75)';return'Older adult (76+)';}
 function updAge(v){document.getElementById('age-grp').textContent=ageGroup(parseInt(v));}
 function stepAge(d){const el=document.getElementById('asl');let v=parseInt(el.value||35)+d;v=Math.max(18,Math.min(90,v));el.value=v;updAge(v);}
@@ -893,7 +996,7 @@ function renderPriSection(prefix,items,mkC){
   sec.style.display=items.length?'block':'none';
 }
 const LOAD_STEPS=[
-  {at:0,text:'Analyzing your profile…',sub:'Matching against 200 supplements'},
+  {at:0,text:'Analyzing your profile…',sub:'Matching against 245 supplements'},
   {at:20,text:'Checking medication interactions…',sub:'Cross-referencing drug-supplement data'},
   {at:45,text:'Evaluating clinical evidence…',sub:'Reviewing RCTs and meta-analyses'},
   {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
@@ -944,17 +1047,24 @@ function escHtml(s){const d=document.createElement('div');d.textContent=s;return
 function hl(t,q){if(!q)return t;const eq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return t.replace(new RegExp(`(${eq})`,'gi'),'<mark>$1</mark>');}
 function onSearch(q){q=q.trim();const clr=document.getElementById('gs-clr'),res=document.getElementById('gs-res'),mui=document.getElementById('main-ui');clr.classList.toggle('vis',q.length>0);if(!q){res.classList.remove('vis');mui.style.display='';return;}const ql=q.toLowerCase();const hits=S.filter(s=>[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(ql)));mui.style.display='none';res.classList.add('vis');const safeQ=escHtml(q);document.getElementById('gs-meta').innerHTML=hits.length?`<b>${hits.length}</b> supplement${hits.length!==1?'s':''} found for "<b>${safeQ}</b>"`:`No results for "<b>${safeQ}</b>"`;document.getElementById('gs-cards').innerHTML=hits.length?hits.map(s=>{const tm=TM[s.t];return`<div class="sr-card"><div class="sr-top"><span class="sr-name">${hl(s.n,q)}</span><div class="sr-bgs">${s.iN?'<span class="nbadge">★ new</span>':''}<span class="tbadge" style="background:${tm.bg};color:${tm.tx}">${tm.badge}</span></div></div><div class="sr-tag">${hl(s.tag,q)}</div><div class="sr-desc">${hl(s.desc,q)}</div><div class="sr-dose"><b>Dose:</b> ${hl(s.dose,q)}</div>${rHtml(s.e,s.s,s.r,s.o,s.c,s.d)}</div>`;}).join(''):'<div style="text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px">Try a different name, ingredient, or health goal.</div>';}
 function clearSearch(){const i=document.getElementById('gs-inp');i.value='';onSearch('');}
-document.getElementById('gs-inp').addEventListener('input',e=>onSearch(e.target.value));
+let acIdx=-1;
+function showAc(q){const ac=document.getElementById('gs-ac');if(!q||q.length<2){ac.classList.remove('vis');acIdx=-1;return;}const ql=q.toLowerCase();const hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}ac.innerHTML=hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${s.n.replace(/'/g,"\\'")}')"><span>${s.n}</span><span class="gs-ac-tag">${s.tag.split(' · ')[0]}</span></div>`).join('');ac.classList.add('vis');}
+function pickAc(name){const inp=document.getElementById('gs-inp');inp.value=name;document.getElementById('gs-ac').classList.remove('vis');acIdx=-1;onSearch(name);}
+function hideAc(){setTimeout(()=>document.getElementById('gs-ac').classList.remove('vis'),150);}
+const _gsInp=document.getElementById('gs-inp');
+_gsInp.addEventListener('input',e=>{const v=e.target.value;showAc(v.trim());onSearch(v);});
+_gsInp.addEventListener('blur',hideAc);
+_gsInp.addEventListener('keydown',e=>{const ac=document.getElementById('gs-ac');if(!ac.classList.contains('vis'))return;const items=ac.querySelectorAll('.gs-ac-item');if(e.key==='ArrowDown'){e.preventDefault();acIdx=Math.min(acIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='ArrowUp'){e.preventDefault();acIdx=Math.max(acIdx-1,0);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='Enter'&&acIdx>=0&&items[acIdx]){e.preventDefault();pickAc(items[acIdx].querySelector('span').textContent);}else if(e.key==='Escape'){ac.classList.remove('vis');acIdx=-1;}});
 let af='all';
 function match(s,q){if(!q)return true;const l=q.toLowerCase();return[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(l));}
 function toggleCard(btn){const wrap=btn.previousElementSibling;const chv=btn.querySelector('.sc-toggle-chv');wrap.classList.toggle('open');chv.classList.toggle('open');btn.querySelector('span:first-child').textContent=wrap.classList.contains('open')?'Less':'More';}
-const TIER_LIMIT=6;
-function showAllTier(btn,tierId){const sec=btn.closest('.tier-sec');sec.querySelectorAll('.sc.tier-hidden').forEach(c=>c.classList.replace('tier-hidden','tier-visible'));btn.remove();}
-function renderAll(){const q=(document.getElementById('srch')||{}).value||'';const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);let html='';tiers.forEach(t=>{const items=S.filter(s=>s.t===t.id&&match(s,q));if(!items.length)return;const hasMore=items.length>TIER_LIMIT&&!q;html+=`<div class="tier-sec"><div class="tier-hdr"><span class="tier-badge-hdr" style="background:${t.bg};color:${t.tx}">${t.badge}</span><span class="tier-ttl">${t.label}</span><span class="tier-cnt">${items.length} supplement${items.length>1?'s':''}</span></div><div class="scards">${items.map((s,i)=>{const tm=TM[s.t];const hidden=hasMore&&i>=TIER_LIMIT?' tier-hidden':'';const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1,sc=Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2),circ=Math.PI*2*16,off=circ-(sc/100)*circ,scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad',scClr=sc>=80?'var(--t1c)':sc>=60?'var(--t2c)':sc>=40?'var(--t3c)':'var(--t4c)';
-return`<div class="sc${hidden}" data-tier="${s.t}"><div class="sc-top"><span class="sc-name">${s.n}</span><div class="sc-bgs">${s.iN?'<span class="nbadge">★ new</span>':''}<div class="sc-score ${scCls}"><svg viewBox="0 0 40 40"><circle class="bg" cx="20" cy="20" r="16"/><circle class="fg" cx="20" cy="20" r="16" stroke="${scClr}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg>${sc}</div></div></div><div class="sc-tag">${s.tag.split(' · ').map(t=>'<span class="sc-tag-pill">'+t.trim()+'</span>').join('')}</div>${rHtml(s.e,s.s,s.r)}<div class="sc-expand">${rHtml(null,null,null,s.o,s.c,s.d)}<div class="sc-desc">${s.desc}</div><div class="sc-dose"><b>Dose:</b> ${s.dose}</div></div><button type="button" class="sc-toggle" onclick="toggleCard(this)"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>`;}).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="showAllTier(this,'${t.id}')">Show all ${items.length} supplements in this tier</button>`:''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
+function getColsPerRow(){const w=window.innerWidth;if(w<640)return 1;if(w<960)return 2;return 3;}
+function loadMoreTier(btn,tierId){btn.classList.add('loading');btn.disabled=true;const sec=btn.closest('.tier-sec');const cols=getColsPerRow();const toShow=cols*3;setTimeout(()=>{const hidden=sec.querySelectorAll('.sc.tier-hidden');let shown=0;hidden.forEach(c=>{if(shown<toShow){c.classList.replace('tier-hidden','tier-visible');shown++;}});btn.classList.remove('loading');btn.disabled=false;if(!sec.querySelectorAll('.sc.tier-hidden').length)btn.remove();},600);}
+function renderAll(){const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols;const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);let html='';tiers.forEach(t=>{const items=S.filter(s=>s.t===t.id&&match(s,q));if(!items.length)return;const hasMore=items.length>rowLimit&&!q;html+=`<div class="tier-sec"><div class="tier-hdr"><span class="tier-badge-hdr" style="background:${t.bg};color:${t.tx}">${t.badge}</span><span class="tier-ttl">${t.label}</span><span class="tier-cnt">${items.length} supplement${items.length>1?'s':''}</span></div><div class="scards">${items.map((s,i)=>{const tm=TM[s.t];const hidden=hasMore&&i>=rowLimit?' tier-hidden':'';const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1,sc=Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2),circ=Math.PI*2*16,off=circ-(sc/100)*circ,scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad',scClr=sc>=80?'var(--t1c)':sc>=60?'var(--t2c)':sc>=40?'var(--t3c)':'var(--t4c)';
+return`<div class="sc${hidden}" data-tier="${s.t}"><div class="sc-top"><span class="sc-name">${s.n}</span><div class="sc-bgs">${s.iN?'<span class="nbadge">★ new</span>':''}<div class="sc-score ${scCls}"><svg viewBox="0 0 40 40"><circle class="bg" cx="20" cy="20" r="16"/><circle class="fg" cx="20" cy="20" r="16" stroke="${scClr}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg>${sc}</div></div></div><div class="sc-tag">${s.tag.split(' · ').map(t=>'<span class="sc-tag-pill">'+t.trim()+'</span>').join('')}</div>${rHtml(s.e,s.s,s.r)}<div class="sc-expand">${rHtml(null,null,null,s.o,s.c,s.d)}<div class="sc-desc">${s.desc}</div><div class="sc-dose"><b>Dose:</b> ${s.dose}</div></div><button type="button" class="sc-toggle" onclick="toggleCard(this)"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>`;}).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'${t.id}')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
 function setFilter(id,el){af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');el.className=`sfbtn on-${id}`;renderAll();}
 let _allTabInit=false;
-function initAllTab(){if(_allTabInit)return;_allTabInit=true;document.getElementById('sfbar').innerHTML=`<button type="button" class="sfbtn on-all" onclick="setFilter('all',this)">All tiers</button>`+TIERS.map(t=>`<button type="button" class="sfbtn" onclick="setFilter('${t.id}',this)">${t.badge}</button>`).join('');renderAll();document.getElementById('srch').addEventListener('input',renderAll);}
+function initAllTab(){if(_allTabInit)return;_allTabInit=true;document.getElementById('sfbar-main').innerHTML=`<button type="button" class="sfbtn on-all" onclick="setFilter('all',this)">All tiers</button>`+TIERS.map(t=>`<button type="button" class="sfbtn" onclick="setFilter('${t.id}',this)">${t.badge}</button>`).join('');renderAll();}
 function sw(n){document.getElementById('p1').style.display=n===1?'block':'none';document.getElementById('p2').style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-selected',n===1);tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-selected',n===2);if(n===2)initAllTab();}
 const CONDITIONS={
   sleep:{label:'Sleep issues',supps:['Magnesium','L-Theanine','Ashwagandha (KSM-66)','Melatonin','Glycine','Tart cherry (Montmorency)']},
@@ -977,6 +1087,7 @@ function getCondSupps(){const s=new Set();selectedConds.forEach(k=>{const c=COND
 renderMedChips();
 renderCondChips();
 initAllTab();
+(function(){const BASE=5000,REF=new Date('2026-01-01'),RATE=28;const days=Math.max(0,Math.floor((new Date()-REF)/86400000));const vc=BASE+Math.floor(days*RATE+Math.random()*5);const el=document.getElementById('visitor-count');if(el)el.textContent=vc.toLocaleString('en-US');})();
 </script>
 </body>
 </html>
