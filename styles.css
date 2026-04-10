@@ -65,7 +65,7 @@ input,button{font-family:inherit}
 .gs-ac-item:hover,.gs-ac-item.active{background:var(--color-background-secondary)}
 .gs-ac-tag{font-size:10px;color:var(--color-text-tertiary);white-space:nowrap}
 .gs-meta{font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem}.gs-meta b{color:var(--color-text-primary)}
-.sr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:9px}
+.sr-grid{display:grid;grid-template-columns:1fr;gap:9px}
 .sc,.sr-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.06);transform:translateY(-1px)}
 .sc-score-side{width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;flex-shrink:0}
 .sc-score-side.score-high{background:linear-gradient(180deg,var(--t1c),#0F766E)}.sc-score-side.score-mid{background:linear-gradient(180deg,var(--t2c),#3B5FC0)}.sc-score-side.score-low{background:linear-gradient(180deg,var(--t3c),#A16207)}.sc-score-side.score-bad{background:linear-gradient(180deg,var(--t4c),#991B1B)}
@@ -196,7 +196,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .sfbtn.on-all{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
 .sfbtn.on-az{background:#2d2d2d;color:#fff;border-color:transparent}.sfbtn.on-t1{background:linear-gradient(135deg,var(--t1c),#0F766E);color:#fff;border-color:transparent}
 .sfbtn.on-t2{background:linear-gradient(135deg,var(--t2c),#3B5FC0);color:#fff;border-color:transparent}
-.sfbtn.on-t3{background:linear-gradient(135deg,var(--t3c),#A16207);color:#fff;border-color:transparent}
+.sfbtn.on-t3{background:linear-gradient(135deg,#7B1FA2,#5C1580);color:#fff;border-color:transparent}
 .sfbtn.on-t4{background:linear-gradient(135deg,var(--t4c),#991B1B);color:#fff;border-color:transparent}
 .sbox{padding:7px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);font-size:13px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;width:100%;margin-bottom:.85rem;font-family:inherit}.sbox::placeholder{color:var(--color-text-tertiary)}
 .tier-sec{margin-bottom:1.25rem}
@@ -218,7 +218,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .tier-hdr-content{padding:10px 16px;flex:1;display:flex;align-items:center}
 .tier-ttl{font-size:14px;font-weight:600;color:var(--color-text-primary)}.tier-cnt{font-size:11px;color:var(--color-text-tertiary);font-weight:500}
 .tier-desc{font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin-top:1px}
-.scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.scards{display:grid;grid-template-columns:1fr;gap:8px}
 .empty{text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px}
 .sum-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
 .sum-chip{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:500}
@@ -306,3 +306,11 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .tier-explain-heading{font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:.75rem}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 .noscript-msg{text-align:center;padding:3rem 1rem;font-size:16px;color:var(--color-text-secondary);line-height:1.6}
+
+/* ── Letter anchors for A-Z view ── */
+.az-letter-bar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:1rem;position:sticky;top:90px;z-index:9;background:var(--color-background-secondary);padding:8px 0}
+.az-letter-btn{width:32px;height:32px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.az-letter-btn:hover{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
+.az-letter-btn.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
+.az-letter-btn.disabled{opacity:.3;cursor:default;pointer-events:none}
+.az-letter-heading{font-size:20px;font-weight:700;color:var(--color-text-primary);padding:1rem 0 .5rem;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:.5rem;scroll-margin-top:140px}
