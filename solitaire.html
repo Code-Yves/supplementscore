@@ -40,18 +40,17 @@
     justify-content: space-between;
     padding: 6px 10px 5px;
     flex-shrink: 0;
-    gap: 8px;
+    gap: 12px;
   }
 
-  h1 { font-size: 22px; font-weight: bold; color: #fff;
-       letter-spacing: 2px; text-shadow: 0 2px 5px rgba(0,0,0,.5); white-space: nowrap; }
+  h1 { display: none; }
 
-  .stats { display: flex; gap: 8px; }
-  .stat  { background: rgba(0,0,0,.3); border-radius: 8px; padding: 2px 12px; text-align: center; }
-  .stat-lbl { font-size: 10px; color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: 1px; }
-  .stat-val { font-size: 18px; font-weight: bold; color: #fff; line-height: 1.1; }
+  .stats { display: flex; gap: 10px; }
+  .stat  { background: rgba(0,0,0,.3); border-radius: 10px; padding: 4px 18px; text-align: center; }
+  .stat-lbl { font-size: 11px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-val { font-size: 22px; font-weight: bold; color: #fff; line-height: 1.1; }
 
-  .btns { display: flex; gap: 8px; }
+  .btns { display: flex; gap: 8px; align-items: center; }
 
   /* ── BIGGER BUTTONS ── */
   .btn {
@@ -108,28 +107,28 @@
   .col.empty {
     height: var(--card-h);
     border-radius: var(--radius);
-    border: 3px dashed rgba(255,255,255,.35);
-    background: rgba(0,0,0,.14);
+    border: 3px dashed rgba(255,255,255,.55);
+    background: rgba(0,0,0,.18);
   }
 
   /* ── SLOTS ── */
   .slot {
     width: var(--card-w); height: var(--card-h);
     border-radius: var(--radius);
-    border: 3px dashed rgba(255,255,255,.28);
-    background: rgba(0,0,0,.14);
+    border: 3px dashed rgba(255,255,255,.55);
+    background: rgba(0,0,0,.18);
     position: relative; flex-shrink: 0;
   }
   .slot-icon {
     position: absolute; inset: 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 2px; pointer-events: none;
+    gap: 4px; pointer-events: none;
   }
-  .slot-icon .si  { font-size: 36px; opacity: .33; line-height: 1; }
-  .slot-icon .si.red { color: #ff8888; }
-  .slot-icon .sl  { font-size: 10px; color: rgba(255,255,255,.33);
-                    letter-spacing: 1px; text-transform: uppercase; }
+  .slot-icon .si  { font-size: 44px; opacity: 0.75; line-height: 1; color: #fff; }
+  .slot-icon .si.red { color: #ff9999; opacity: 0.85; }
+  .slot-icon .sl  { font-size: 13px; font-weight: bold; color: rgba(255,255,255,.7);
+                    letter-spacing: 2px; text-transform: uppercase; }
 
   /* ── CARDS ── */
   .card {
@@ -171,13 +170,16 @@
   /* Corner labels */
   .tl { position: absolute; top: 4px; left: 5px;
         display: flex; flex-direction: column; align-items: center; line-height: 1; }
-  .br { position: absolute; bottom: 4px; right: 5px;
-        display: flex; flex-direction: column; align-items: center; line-height: 1;
-        transform: rotate(180deg); }
   .rk { font-family: Georgia, serif; font-weight: bold; line-height: 1; }
   .su { line-height: 1; margin-top: -1px; }
-  .cx { position: absolute; inset: 0; display: flex; align-items: center;
-        justify-content: center; opacity: .13; pointer-events: none; }
+  .cx {
+    position: absolute;
+    bottom: 4px;
+    right: 10px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.55;
+    pointer-events: none;
+  }
 
   /* ── WIN ── */
   #win { display: none; position: fixed; inset: 0; z-index: 500;
@@ -202,7 +204,7 @@
 <body>
 
 <div id="header">
-  <h1>♠ Solitaire</h1>
+
   <div class="stats">
     <div class="stat">
       <div class="stat-lbl">Score</div>
@@ -230,10 +232,10 @@
       <div class="slot" id="waste"></div>
     </div>
     <div id="foundations">
-      <div class="slot" id="f0"><div class="slot-icon"><div class="si">♠</div><div class="sl">Spades</div></div></div>
-      <div class="slot" id="f1"><div class="slot-icon"><div class="si red">♥</div><div class="sl">Hearts</div></div></div>
-      <div class="slot" id="f2"><div class="slot-icon"><div class="si red">♦</div><div class="sl">Diamonds</div></div></div>
-      <div class="slot" id="f3"><div class="slot-icon"><div class="si">♣</div><div class="sl">Clubs</div></div></div>
+      <div class="slot" id="f0"><div class="slot-icon"><div class="si">♠</div></div></div>
+      <div class="slot" id="f1"><div class="slot-icon"><div class="si red">♥</div></div></div>
+      <div class="slot" id="f2"><div class="slot-icon"><div class="si red">♦</div></div></div>
+      <div class="slot" id="f3"><div class="slot-icon"><div class="si">♣</div></div></div>
     </div>
   </div>
   <div id="tableau">
@@ -262,14 +264,13 @@ function sizeCards() {
   var W = window.innerWidth, H = window.innerHeight;
   var sidePad = 12, cols = 7, gap = 7;
   var cardW = Math.floor((W - sidePad - (cols - 1) * gap) / cols);
-  var cardH = Math.floor(cardW * 1.42);
-  // Stack offset must be tall enough to show the rank + suit in the corner.
-  // Corner label = top:4px + rankSize + suitSize. Use ~36% of cardH.
-  var sOff  = Math.floor(cardH * 0.36);   // e.g. ~60px — shows full rank & suit
-  var fdOff = Math.floor(cardH * 0.13);   // face-down: just needs a sliver
-  var rkSz  = Math.max(22, Math.floor(cardW * 0.38));
-  var suSz  = Math.max(18, Math.floor(cardW * 0.30));
-  var cxSz  = Math.max(32, Math.floor(cardW * 0.52));
+  var cardH = Math.floor(cardW * 0.95);
+  // Stack offset: show the rank & suit corner clearly
+  var sOff  = Math.floor(cardH * 0.36);
+  var fdOff = Math.floor(cardH * 0.13);
+  var rkSz  = Math.max(16, Math.floor(cardW * 0.30));
+  var suSz  = Math.max(13, Math.floor(cardW * 0.22));
+  var cxSz  = Math.max(40, Math.floor(cardW * 0.585));
   var s = document.documentElement.style;
   s.setProperty('--card-w', cardW + 'px');
   s.setProperty('--card-h', cardH + 'px');
@@ -322,7 +323,6 @@ function newGame() {
     }
   for (; k < deck.length; k++)
     G.stock.push({s: deck[k].s, r: deck[k].r, up: false});
-  hint('Tap a card to select it');
   renderAll(); updateStats(); checkFinish();
 }
 
@@ -334,9 +334,7 @@ function mkCard(card) {
     el.innerHTML =
       '<div class="tl"><div class="rk" style="font-size:var(--rk)">' + card.r + '</div>' +
                       '<div class="su" style="font-size:var(--su)">' + card.s + '</div></div>' +
-      '<div class="cx" style="font-size:var(--cx)">' + card.s + '</div>' +
-      '<div class="br"><div class="rk" style="font-size:var(--rk)">' + card.r + '</div>' +
-                      '<div class="su" style="font-size:var(--su)">' + card.s + '</div></div>';
+      '<div class="cx" style="font-size:var(--cx)">' + card.s + '</div>';
   }
   return el;
 }
@@ -558,7 +556,7 @@ function autoFinish() {
     }
     renderAll(); updateStats();
     if (moved) {
-      checkWin();
+      checkWin(); checkFinish();
       if (!document.getElementById('win').classList.contains('show')) setTimeout(step, 70);
     }
   }
