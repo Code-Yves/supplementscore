@@ -26,7 +26,7 @@
 
   body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;   /* sidebar left, game right */
     font-family: Georgia, 'Times New Roman', serif;
     background:
       radial-gradient(ellipse at 25% 15%, #3e8a54 0%, transparent 50%),
@@ -34,33 +34,37 @@
       #2a6038;
   }
 
-  /* ── HEADER ── */
-  #header {
-    display: flex; align-items: center;
-    justify-content: space-between;
-    padding: 6px 10px 5px;
+  #sidebar {
+    width: 54px;
     flex-shrink: 0;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 16px;
+    padding: 14px 5px;
+    background: rgba(0,0,0,0.15);
+    border-right: 1px solid rgba(255,255,255,0.08);
   }
 
-  h1 { display: none; }
+  .stat {
+    background: rgba(0,0,0,.35);
+    border-radius: 8px;
+    padding: 12px 2px;
+    text-align: center;
+  }
+  .stat-lbl { font-size: 8px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-val  { font-size: 22px; font-weight: bold; color: #fff; line-height: 1.1; }
 
-  .stats { display: flex; gap: 10px; }
-  .stat  { background: rgba(0,0,0,.3); border-radius: 10px; padding: 4px 18px; text-align: center; }
-  .stat-lbl { font-size: 11px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 1px; }
-  .stat-val { font-size: 22px; font-weight: bold; color: #fff; line-height: 1.1; }
-
-  .btns { display: flex; gap: 8px; align-items: center; }
-
-  /* ── BIGGER BUTTONS ── */
+  /* ── BUTTONS ── */
   .btn {
-    border: none; border-radius: 12px;
-    font-family: Georgia, serif; font-weight: bold;
-    font-size: 18px;                /* was 15px */
-    padding: 11px 22px;             /* was 7px 16px */
+    border: none; border-radius: 10px;
+    font-size: 22px;
+    padding: 18px 2px;
     cursor: pointer;
     box-shadow: 0 3px 10px rgba(0,0,0,.4);
-    white-space: nowrap;
+    width: 100%;
+    line-height: 1;
     -webkit-appearance: none;
   }
   .btn:active { opacity: .75; transform: scale(0.96); }
@@ -69,15 +73,20 @@
   #btn-undo   { background: rgba(255,255,255,.18); color: #fff;
                 border: 2px solid rgba(255,255,255,.35); }
   #btn-finish { background: #4caf7d; color: #fff; display: none; }
-  #btn-finish.show { display: inline-block; }
+  #btn-finish.show { display: block; }
 
 
 
   /* ── GAME AREA ── */
   #game {
-    flex: 1; display: flex; flex-direction: column;
-    padding: 0 6px 5px; gap: var(--gap);
-    overflow: hidden; min-height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 6px 6px;
+    gap: var(--gap);
+    overflow: hidden;
+    min-height: 0;
+    min-width: 0;
   }
 
   #top {
@@ -174,11 +183,11 @@
   .su { line-height: 1; margin-top: -1px; }
   .cx {
     position: absolute;
-    bottom: 4px;
-    right: 10px;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0.55;
+    bottom: 6px;
+    right: 6px;
+    opacity: 0.5;
     pointer-events: none;
+    line-height: 1;
   }
 
   /* ── WIN ── */
@@ -203,24 +212,18 @@
 </head>
 <body>
 
-<div id="header">
-
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-lbl">Score</div>
-      <div class="stat-val" id="v-score">0</div>
-    </div>
-    <div class="stat">
-      <div class="stat-lbl">Moves</div>
-      <div class="stat-val" id="v-moves">0</div>
-    </div>
+<div id="sidebar">
+  <div class="stat">
+    <div class="stat-lbl">Score</div>
+    <div class="stat-val" id="v-score">0</div>
   </div>
-
-  <div class="btns">
-    <button class="btn" id="btn-finish">✓ Finish</button>
-    <button class="btn" id="btn-undo">↩ Undo</button>
-    <button class="btn" id="btn-new">New Game</button>
+  <div class="stat">
+    <div class="stat-lbl">Moves</div>
+    <div class="stat-val" id="v-moves">0</div>
   </div>
+  <button class="btn" id="btn-finish">✓</button>
+  <button class="btn" id="btn-undo">↩</button>
+  <button class="btn" id="btn-new">↺</button>
 </div>
 
 <div id="game">
@@ -261,7 +264,8 @@
 <script>
 // ── SIZE CARDS TO FILL SCREEN ─────────────────────────────────────
 function sizeCards() {
-  var W = window.innerWidth, H = window.innerHeight;
+  var sidebarW = 54;
+  var W = window.innerWidth - sidebarW, H = window.innerHeight;
   var sidePad = 12, cols = 7, gap = 7;
   var cardW = Math.floor((W - sidePad - (cols - 1) * gap) / cols);
   var cardH = Math.floor(cardW * 0.95);
@@ -270,7 +274,7 @@ function sizeCards() {
   var fdOff = Math.floor(cardH * 0.13);
   var rkSz  = Math.max(16, Math.floor(cardW * 0.30));
   var suSz  = Math.max(13, Math.floor(cardW * 0.22));
-  var cxSz  = Math.max(40, Math.floor(cardW * 0.585));
+  var cxSz  = Math.max(45, Math.floor(cardH * 0.72));
   var s = document.documentElement.style;
   s.setProperty('--card-w', cardW + 'px');
   s.setProperty('--card-h', cardH + 'px');
@@ -332,8 +336,7 @@ function mkCard(card) {
   el.className = 'card ' + (card.up ? 'up ' + clr(card.s) : 'dn');
   if (card.up) {
     el.innerHTML =
-      '<div class="tl"><div class="rk" style="font-size:var(--rk)">' + card.r + '</div>' +
-                      '<div class="su" style="font-size:var(--su)">' + card.s + '</div></div>' +
+      '<div class="tl"><div class="rk" style="font-size:var(--rk)">' + card.r + '</div></div>' +
       '<div class="cx" style="font-size:var(--cx)">' + card.s + '</div>';
   }
   return el;
