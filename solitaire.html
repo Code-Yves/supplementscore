@@ -72,13 +72,7 @@
   #btn-finish { background: #4caf7d; color: #fff; display: none; }
   #btn-finish.show { display: inline-block; }
 
-  #hint {
-    font-size: 13px; color: rgba(255,255,255,.8);
-    padding: 4px 10px;
-    background: rgba(0,0,0,.22); border-radius: 8px;
-    white-space: nowrap; flex-shrink: 1; overflow: hidden;
-    text-overflow: ellipsis;
-  }
+
 
   /* ── GAME AREA ── */
   #game {
@@ -98,15 +92,24 @@
     display: flex; gap: var(--gap);
     justify-content: space-between;
     flex: 1; position: relative;
-    overflow: hidden; min-height: 0;
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    min-height: 0;
   }
 
   .col {
     width: var(--card-w);
     position: relative;
     flex-shrink: 0;
-    /* height is set by JS to exact card stack height, not stretched */
     align-self: flex-start;
+  }
+
+  /* Empty column placeholder — matches the foundation slot style */
+  .col.empty {
+    height: var(--card-h);
+    border-radius: var(--radius);
+    border: 3px dashed rgba(255,255,255,.35);
+    background: rgba(0,0,0,.14);
   }
 
   /* ── SLOTS ── */
@@ -210,7 +213,7 @@
       <div class="stat-val" id="v-moves">0</div>
     </div>
   </div>
-  <div id="hint">Tap a card to select it</div>
+
   <div class="btns">
     <button class="btn" id="btn-finish">✓ Finish</button>
     <button class="btn" id="btn-undo">↩ Undo</button>
@@ -260,10 +263,10 @@ function sizeCards() {
   var sidePad = 12, cols = 7, gap = 7;
   var cardW = Math.floor((W - sidePad - (cols - 1) * gap) / cols);
   var cardH = Math.floor(cardW * 1.42);
-  var headerH  = 58;
-  var tableauH = H - headerH - cardH - gap * 3 - 5;
-  var sOff  = Math.max(20, Math.min(30, Math.floor(tableauH / 22)));
-  var fdOff = Math.max(10, Math.floor(sOff * 0.48));
+  // Stack offset must be tall enough to show the rank + suit in the corner.
+  // Corner label = top:4px + rankSize + suitSize. Use ~36% of cardH.
+  var sOff  = Math.floor(cardH * 0.36);   // e.g. ~60px — shows full rank & suit
+  var fdOff = Math.floor(cardH * 0.13);   // face-down: just needs a sliver
   var rkSz  = Math.max(22, Math.floor(cardW * 0.38));
   var suSz  = Math.max(18, Math.floor(cardW * 0.30));
   var cxSz  = Math.max(32, Math.floor(cardW * 0.52));
@@ -393,6 +396,9 @@ function rTableau() {
   var sOff = cssInt('--s-off'), fdOff = cssInt('--fd-off'), cardH = cssInt('--card-h');
   for (var c = 0; c < 7; c++) {
     var el = clearCards('t' + c);
+    // Show outline placeholder when column is empty
+    if (G.t[c].length === 0) { el.classList.add('empty'); }
+    else { el.classList.remove('empty'); }
     var y = 0;
     for (var i = 0; i < G.t[c].length; i++) {
       var card = G.t[c][i];
@@ -418,7 +424,7 @@ function updateStats() {
   document.getElementById('v-score').textContent = G.score;
   document.getElementById('v-moves').textContent = G.moves;
 }
-function hint(msg) { document.getElementById('hint').textContent = msg; }
+function hint(msg) {}
 
 // ── RULES ─────────────────────────────────────────────────────────
 function canF(card, fi) {
@@ -746,8 +752,12 @@ document.addEventListener('click', function(e) {
   onTap(e.clientX, e.clientY);
 });
 
-// Prevent iOS page bounce
-document.addEventListener('touchmove', function(e) { e.preventDefault(); }, { passive: false });
+// Prevent iOS page bounce, but allow the tableau to scroll vertically
+document.addEventListener('touchmove', function(e) {
+  var tableau = document.getElementById('tableau');
+  if (tableau.contains(e.target)) return; // let tableau scroll naturally
+  e.preventDefault();
+}, { passive: false });
 document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
 
 // Start!
