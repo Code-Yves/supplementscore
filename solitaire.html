@@ -10,8 +10,8 @@
     --card-h: 168px;
     --radius:  10px;
     --gap:      7px;
-    --s-off:   30px;   /* face-up stack offset   */
-    --fd-off:  14px;   /* face-down stack offset */
+    --s-off:   30px;
+    --fd-off:  14px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0;
@@ -21,7 +21,7 @@
     width: 100%; height: 100%;
     overflow: hidden;
     user-select: none; -webkit-user-select: none;
-    touch-action: manipulation;   /* allows tap, blocks scroll-zoom */
+    touch-action: manipulation;
   }
 
   body {
@@ -63,8 +63,7 @@
   #btn-finish { background: #4caf7d; color:#fff; font-size:15px; padding:7px 14px; display:none; }
   #btn-finish.show { display:inline-block; }
 
-  /* hint bar */
-  #hint { font-size:13px; color:rgba(255,255,255,.7);
+  #hint { font-size:13px; color:rgba(255,255,255,.75);
           min-width:180px; text-align:center; padding:3px 8px;
           background:rgba(0,0,0,.2); border-radius:8px; white-space:nowrap; }
 
@@ -79,7 +78,6 @@
     min-height: 0;
   }
 
-  /* top row */
   #top {
     display: flex;
     justify-content: space-between;
@@ -90,7 +88,6 @@
   #left-piles  { display:flex; gap:var(--gap); }
   #foundations { display:flex; gap:var(--gap); }
 
-  /* tableau */
   #tableau {
     display: flex;
     gap: var(--gap);
@@ -136,10 +133,8 @@
     position: absolute;
     cursor: pointer;
     -webkit-touch-callout: none;
-    transition: box-shadow .12s, outline .12s;
   }
 
-  /* face down */
   .card.dn {
     background: #1a4080;
     border: 3px solid rgba(255,255,255,.14);
@@ -152,13 +147,15 @@
       rgba(255,255,255,.04) 0 2px, transparent 2px 10px);
   }
 
-  /* face up */
-  .card.up { background:#fff; border:3px solid #bbb;
-             box-shadow: 2px 3px 8px rgba(0,0,0,.4); }
+  .card.up {
+    background:#fff;
+    border: 3px solid #bbb;
+    box-shadow: 2px 3px 8px rgba(0,0,0,.4);
+  }
   .card.red   { color:#cc0000; }
   .card.black { color:#111; }
 
-  /* SELECTED — bright yellow glow */
+  /* SELECTED */
   .card.selected {
     outline: 4px solid #f5e642;
     outline-offset: 1px;
@@ -166,18 +163,28 @@
     z-index: 200 !important;
   }
 
-  /* corner labels */
-  .tl { position:absolute; top:5px; left:6px;
-        display:flex; flex-direction:column; align-items:center; line-height:1; }
-  .br { position:absolute; bottom:5px; right:6px;
-        display:flex; flex-direction:column; align-items:center; line-height:1;
-        transform:rotate(180deg); }
+  /* Corner labels — bigger than before */
+  .tl {
+    position:absolute; top:4px; left:5px;
+    display:flex; flex-direction:column; align-items:center; line-height:1;
+  }
+  .br {
+    position:absolute; bottom:4px; right:5px;
+    display:flex; flex-direction:column; align-items:center; line-height:1;
+    transform:rotate(180deg);
+  }
+  /* rank and suit use CSS vars set by sizeCards() */
   .rk { font-family:Georgia,serif; font-weight:bold; line-height:1; }
-  .su { line-height:1; margin-top:-3px; }
-  .cx { position:absolute; inset:0; display:flex; align-items:center;
-        justify-content:center; opacity:.15; pointer-events:none; }
+  .su { line-height:1; margin-top:-1px; }
 
-  /* ── WIN OVERLAY ── */
+  /* big faint center suit */
+  .cx {
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    opacity:.13; pointer-events:none;
+  }
+
+  /* ── WIN ── */
   #win { display:none; position:fixed; inset:0; z-index:500;
          background:rgba(0,0,0,.7); align-items:center; justify-content:center; }
   #win.show { display:flex; }
@@ -250,26 +257,23 @@
 </div>
 
 <script>
-// ── SIZE CARDS TO FILL LANDSCAPE SCREEN ──────────────────────────
+// ── SIZE CARDS ────────────────────────────────────────────────────
 function sizeCards() {
-  var W = window.innerWidth, H = window.innerHeight;
+  var W = window.innerWidth;
+  var H = window.innerHeight;
   var sidePad = 12, numCols = 7, gap = 7;
   var cardW = Math.floor((W - sidePad - (numCols - 1) * gap) / numCols);
+  var cardH = Math.floor(cardW * 1.42);
 
-  // In landscape the height is the limit — header ~50px, top-row, gaps
-  // Reserve height for top-row + header, rest goes to tableau
-  var headerH = 50;
-  var topRowH  = Math.floor(cardW * 1.42);
-  var tableauH = H - headerH - topRowH - gap * 3 - 5;
-  var cardH    = topRowH; // same height for all cards
-
-  // Stack offsets: tune so long columns fit without scrolling
+  var headerH  = 52;
+  var tableauH = H - headerH - cardH - gap * 3 - 5;
   var sOff  = Math.max(20, Math.min(32, Math.floor(tableauH / 22)));
   var fdOff = Math.max(10, Math.floor(sOff * 0.48));
 
-  var rkSz = Math.max(16, Math.floor(cardW * 0.25));
-  var suSz = Math.max(13, Math.floor(cardW * 0.19));
-  var cxSz = Math.max(28, Math.floor(cardW * 0.46));
+  // ── BIGGER NUMBERS: ~38% of card width for rank, ~30% for suit ──
+  var rkSz = Math.max(22, Math.floor(cardW * 0.38));
+  var suSz = Math.max(18, Math.floor(cardW * 0.30));
+  var cxSz = Math.max(32, Math.floor(cardW * 0.52));
 
   var r = document.documentElement.style;
   r.setProperty('--card-w', cardW + 'px');
@@ -283,11 +287,10 @@ function sizeCards() {
 window.addEventListener('resize', function() { sizeCards(); renderAll(); });
 sizeCards();
 
-// ── GAME CONSTANTS ────────────────────────────────────────────────
+// ── CONSTANTS ─────────────────────────────────────────────────────
 var SUITS = ['♠','♥','♦','♣'];
 var RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 var IS_RED = { '♥':1, '♦':1 };
-
 function col(s) { return IS_RED[s] ? 'red' : 'black'; }
 function rv(r)  { return RANKS.indexOf(r) + 1; }
 function css(n) { return parseInt(getComputedStyle(document.documentElement).getPropertyValue(n)) || 0; }
@@ -295,7 +298,7 @@ function css(n) { return parseInt(getComputedStyle(document.documentElement).get
 // ── STATE ─────────────────────────────────────────────────────────
 var G;
 var hist = [];
-var sel  = null;   // selected: { area, col, idx }
+var sel  = null;
 
 // ── DECK ──────────────────────────────────────────────────────────
 function makeDeck() {
@@ -311,26 +314,30 @@ function shuffle(a) {
 // ── NEW GAME ──────────────────────────────────────────────────────
 function newGame() {
   document.getElementById('win').classList.remove('show');
-  hist = []; sel = null;
-  G = { stock:[], waste:[], f:[[],[],[],[]], t:[[],[],[],[],[],[],[]], score:0, moves:0 };
-  var deck = shuffle(makeDeck()), k=0;
-  for (var c=0;c<7;c++) for (var r=0;r<=c;r++) { var cd={s:deck[k].s,r:deck[k].r,up:(r===c)}; G.t[c].push(cd); k++; }
-  for (;k<deck.length;k++) G.stock.push({s:deck[k].s,r:deck[k].r,up:false});
+  hist=[]; sel=null;
+  G={stock:[],waste:[],f:[[],[],[],[]],t:[[],[],[],[],[],[],[]],score:0,moves:0};
+  var deck=shuffle(makeDeck()),k=0;
+  for(var c=0;c<7;c++) for(var r=0;r<=c;r++){var cd={s:deck[k].s,r:deck[k].r,up:(r===c)};G.t[c].push(cd);k++;}
+  for(;k<deck.length;k++) G.stock.push({s:deck[k].s,r:deck[k].r,up:false});
   hint('Tap a card to select it');
   renderAll(); updateStats(); checkFinish();
 }
 
-// ── MAKE CARD EL ──────────────────────────────────────────────────
+// ── MAKE CARD ELEMENT ─────────────────────────────────────────────
 function mkCard(card) {
   var el = document.createElement('div');
   el.className = 'card ' + (card.up ? 'up '+col(card.s) : 'dn');
   if (card.up) {
     el.innerHTML =
-      '<div class="tl"><div class="rk" style="font-size:var(--rk)">'+card.r+'</div>'+
-                      '<div class="su" style="font-size:var(--su)">'+card.s+'</div></div>'+
-      '<div class="cx" style="font-size:var(--cx)">'+card.s+'</div>'+
-      '<div class="br"><div class="rk" style="font-size:var(--rk)">'+card.r+'</div>'+
-                      '<div class="su" style="font-size:var(--su)">'+card.s+'</div></div>';
+      '<div class="tl">' +
+        '<div class="rk" style="font-size:var(--rk)">' + card.r + '</div>' +
+        '<div class="su" style="font-size:var(--su)">' + card.s + '</div>' +
+      '</div>' +
+      '<div class="cx" style="font-size:var(--cx)">' + card.s + '</div>' +
+      '<div class="br">' +
+        '<div class="rk" style="font-size:var(--rk)">' + card.r + '</div>' +
+        '<div class="su" style="font-size:var(--su)">' + card.s + '</div>' +
+      '</div>';
   }
   return el;
 }
@@ -346,81 +353,75 @@ function clearEl(id) {
 
 function rStock() {
   var el=clearEl('stock'), icon=el.querySelector('.slot-icon');
-  if (G.stock.length) {
+  if(G.stock.length){
     icon.style.display='none';
     var c=mkCard({s:'♠',r:'A',up:false}); c.dataset.z='stock'; el.appendChild(c);
   } else {
     icon.style.display='';
-    icon.querySelector('.si').textContent  = G.waste.length ? '↺' : '—';
-    icon.querySelector('.sl').textContent  = G.waste.length ? 'Tap reset' : 'Empty';
+    icon.querySelector('.si').textContent = G.waste.length ? '↺' : '—';
+    icon.querySelector('.sl').textContent = G.waste.length ? 'Tap reset' : 'Empty';
   }
 }
 function rWaste() {
   var el=clearEl('waste');
-  if (G.waste.length) {
-    var c=mkCard(G.waste[G.waste.length-1]); c.dataset.z='waste'; c.dataset.i=G.waste.length-1; el.appendChild(c);
+  if(G.waste.length){
+    var c=mkCard(G.waste[G.waste.length-1]); c.dataset.z='waste'; c.dataset.i=G.waste.length-1;
+    if(sel && sel.area==='waste') c.classList.add('selected');
+    el.appendChild(c);
   }
 }
 function rFoundations() {
-  for(var i=0;i<4;i++) {
+  for(var i=0;i<4;i++){
     var el=clearEl('f'+i), icon=el.querySelector('.slot-icon');
-    if(G.f[i].length) { icon.style.display='none'; var c=mkCard(G.f[i][G.f[i].length-1]); c.dataset.z='f'; c.dataset.i=i; el.appendChild(c); }
+    if(G.f[i].length){ icon.style.display='none'; var c=mkCard(G.f[i][G.f[i].length-1]); c.dataset.z='f'; c.dataset.i=i; el.appendChild(c); }
     else icon.style.display='';
   }
 }
 function rTableau() {
   var sOff=css('--s-off'), fdOff=css('--fd-off'), cardH=css('--card-h');
-  for(var col=0;col<7;col++) {
-    var el=clearEl('t'+col); var y=0;
-    for(var i=0;i<G.t[col].length;i++) {
-      var card=G.t[col][i]; var ce=mkCard(card);
-      ce.style.top=y+'px'; ce.dataset.z='t'; ce.dataset.col=col; ce.dataset.i=i;
-      // mark selected cards
-      if (sel && sel.area==='t' && sel.col===col && i>=sel.idx) ce.classList.add('selected');
-      if (sel && sel.area==='waste' && col===0 && false) {} // waste handled separately
+  for(var c=0;c<7;c++){
+    var el=clearEl('t'+c); var y=0;
+    for(var i=0;i<G.t[c].length;i++){
+      var card=G.t[c][i]; var ce=mkCard(card);
+      ce.style.top=y+'px'; ce.dataset.z='t'; ce.dataset.col=c; ce.dataset.i=i;
+      if(sel && sel.area==='t' && sel.col===c && i>=sel.idx) ce.classList.add('selected');
       el.appendChild(ce);
       y += card.up ? sOff : fdOff;
     }
-    var last=G.t[col].length ? G.t[col][G.t[col].length-1] : null;
-    var lastOff = last ? (last.up ? sOff : fdOff) : 0;
-    el.style.minHeight = Math.max(cardH, (y>0?y-lastOff:0)+cardH)+'px';
-  }
-  // highlight waste top if selected
-  if (sel && sel.area==='waste') {
-    var wCards=document.getElementById('waste').querySelectorAll('.card');
-    for(var i=0;i<wCards.length;i++) wCards[i].classList.add('selected');
+    var last=G.t[c].length ? G.t[c][G.t[c].length-1] : null;
+    var lastOff=last ? (last.up ? sOff : fdOff) : 0;
+    el.style.minHeight=Math.max(cardH,(y>0?y-lastOff:0)+cardH)+'px';
   }
 }
-
-function updateStats() {
-  document.getElementById('v-score').textContent = G.score;
-  document.getElementById('v-moves').textContent = G.moves;
+function updateStats(){
+  document.getElementById('v-score').textContent=G.score;
+  document.getElementById('v-moves').textContent=G.moves;
 }
-function hint(msg) { document.getElementById('hint').textContent = msg; }
+function hint(msg){ document.getElementById('hint').textContent=msg; }
 
 // ── RULES ─────────────────────────────────────────────────────────
-function canF(card, fi) {
+function canF(card,fi){
   var p=G.f[fi];
   return p.length===0 ? card.r==='A' : p[p.length-1].s===card.s && rv(card.r)===rv(p[p.length-1].r)+1;
 }
-function canT(card, c) {
+function canT(card,c){
   var p=G.t[c];
-  if (!p.length) return card.r==='K';
+  if(!p.length) return card.r==='K';
   var up=[]; for(var i=0;i<p.length;i++) if(p[i].up) up.push(p[i]);
-  if (!up.length) return false;
+  if(!up.length) return false;
   var top=up[up.length-1];
   return col(card.s)!==col(top.s) && rv(card.r)===rv(top.r)-1;
 }
 
 // ── HISTORY ───────────────────────────────────────────────────────
-function save() { hist.push(JSON.parse(JSON.stringify(G))); if(hist.length>60) hist.shift(); }
-function undo()  { if(!hist.length) return; sel=null; G=hist.pop(); renderAll(); updateStats(); checkFinish(); hint('Undone'); }
+function save(){ hist.push(JSON.parse(JSON.stringify(G))); if(hist.length>60) hist.shift(); }
+function undo(){ if(!hist.length) return; sel=null; G=hist.pop(); renderAll(); updateStats(); checkFinish(); hint('Undone'); }
 
-// ── FLIP STOCK ────────────────────────────────────────────────────
-function flipStock() {
+// ── STOCK ─────────────────────────────────────────────────────────
+function flipStock(){
   save(); sel=null;
-  if (!G.stock.length) {
-    if (!G.waste.length) { hint('Stock is empty'); return; }
+  if(!G.stock.length){
+    if(!G.waste.length){ hint('Stock is empty'); return; }
     G.stock=[]; for(var i=G.waste.length-1;i>=0;i--) G.stock.push({s:G.waste[i].s,r:G.waste[i].r,up:false});
     G.waste=[]; G.score=Math.max(0,G.score-100); hint('Stock reset');
   } else {
@@ -430,17 +431,17 @@ function flipStock() {
   renderAll(); updateStats(); checkFinish();
 }
 
-// ── AUTO-MOVE TO FOUNDATION ───────────────────────────────────────
-function autoToFoundation(area, c, idx) {
+// ── AUTO TO FOUNDATION ────────────────────────────────────────────
+function autoToF(area,c,idx){
   var card;
-  if (area==='waste') { if(!G.waste.length) return false; card=G.waste[G.waste.length-1]; }
-  else if (area==='t') { if(idx!==G.t[c].length-1) return false; card=G.t[c][idx]; if(!card||!card.up) return false; }
+  if(area==='waste'){ if(!G.waste.length) return false; card=G.waste[G.waste.length-1]; }
+  else if(area==='t'){ if(idx!==G.t[c].length-1) return false; card=G.t[c][idx]; if(!card||!card.up) return false; }
   else return false;
-  for(var f=0;f<4;f++) {
-    if(canF(card,f)) {
+  for(var f=0;f<4;f++){
+    if(canF(card,f)){
       save();
       if(area==='waste') G.waste.pop();
-      else { G.t[c].pop(); var p=G.t[c]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
+      else{ G.t[c].pop(); var p=G.t[c]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
       G.f[f].push(card); G.score+=15; G.moves++;
       sel=null; renderAll(); updateStats(); checkFinish(); checkWin();
       hint('Moved to foundation ✓');
@@ -451,205 +452,137 @@ function autoToFoundation(area, c, idx) {
 }
 
 // ── EXECUTE MOVE ──────────────────────────────────────────────────
-function execMove(fromArea, fromCol, fromIdx, toArea, toCol) {
+function execMove(fromArea,fromCol,fromIdx,toArea,toCol){
   save();
   var cards=[];
-  if(fromArea==='waste') { cards=[G.waste.pop()]; }
-  else { cards=G.t[fromCol].splice(fromIdx); var p=G.t[fromCol]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
-  if(toArea==='f') { G.f[toCol].push(cards[0]); G.score+=15; }
-  else { for(var i=0;i<cards.length;i++) G.t[toCol].push(cards[i]); if(fromArea==='waste') G.score+=5; }
+  if(fromArea==='waste'){ cards=[G.waste.pop()]; }
+  else{ cards=G.t[fromCol].splice(fromIdx); var p=G.t[fromCol]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
+  if(toArea==='f'){ G.f[toCol].push(cards[0]); G.score+=15; }
+  else{ for(var i=0;i<cards.length;i++) G.t[toCol].push(cards[i]); if(fromArea==='waste') G.score+=5; }
   G.moves++;
   sel=null; renderAll(); updateStats(); checkFinish(); checkWin();
 }
 
-// ── TAP HANDLER ───────────────────────────────────────────────────
-// Find card or zone under a tap using bounding rects (reliable on iOS)
-function rectHit(el, x, y) {
-  var r=el.getBoundingClientRect();
-  return x>=r.left && x<=r.right && y>=r.top && y<=r.bottom;
+// ── HIT TESTING ───────────────────────────────────────────────────
+function hit(el,x,y){ var r=el.getBoundingClientRect(); return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom; }
+
+function findCardInCol(c,x,y){
+  var cards=document.getElementById('t'+c).querySelectorAll('.card');
+  for(var i=cards.length-1;i>=0;i--) if(hit(cards[i],x,y)) return parseInt(cards[i].dataset.i);
+  return null;
 }
 
-var lastTapData='', lastTapTime=0;
+var lastKey='', lastTime=0;
 
-function onTap(e) {
-  // Only process actual taps (not scrolls etc.)
-  var x, y;
-  if (e.changedTouches) {
-    x=e.changedTouches[0].clientX; y=e.changedTouches[0].clientY;
-  } else {
-    x=e.clientX; y=e.clientY;
-  }
+// ── TAP HANDLER ───────────────────────────────────────────────────
+function onTap(e){
+  var x,y;
+  if(e.changedTouches){ x=e.changedTouches[0].clientX; y=e.changedTouches[0].clientY; }
+  else { x=e.clientX; y=e.clientY; }
 
-  // ── Stock? ──
-  if (rectHit(document.getElementById('stock'), x, y)) { flipStock(); return; }
+  // Stock?
+  if(hit(document.getElementById('stock'),x,y)){ flipStock(); return; }
 
-  // ── If something is selected, look for a drop target first ──
-  if (sel) {
-    // Try foundations
-    for (var f=0;f<4;f++) {
-      var fEl=document.getElementById('f'+f);
-      if (rectHit(fEl, x, y)) {
-        var card = sel.area==='waste' ? G.waste[G.waste.length-1] : G.t[sel.col][sel.idx];
-        var cards = sel.area==='waste' ? [G.waste[G.waste.length-1]] : G.t[sel.col].slice(sel.idx);
-        if (cards.length===1 && canF(card, f)) {
-          execMove(sel.area, sel.col, sel.idx, 'f', f);
-          hint('Moved to foundation ✓');
-        } else { hint("Can't place there"); sel=null; renderAll(); }
+  // Something selected — try to place it
+  if(sel){
+    for(var f=0;f<4;f++){
+      if(hit(document.getElementById('f'+f),x,y)){
+        var cards=sel.area==='waste'?[G.waste[G.waste.length-1]]:G.t[sel.col].slice(sel.idx);
+        if(cards.length===1 && canF(cards[0],f)){ execMove(sel.area,sel.col,sel.idx,'f',f); hint('Moved to foundation ✓'); }
+        else{ hint("Can't place there"); sel=null; renderAll(); }
         return;
       }
     }
-    // Try tableau columns
-    for (var c=0;c<7;c++) {
-      var tEl=document.getElementById('t'+c);
-      if (rectHit(tEl, x, y)) {
-        // Check any card in this column was tapped — find the topmost face-up card in column
-        // If tapping on own column, deselect
-        if (sel.area==='t' && sel.col===c) { sel=null; renderAll(); hint('Deselected'); return; }
-        var card = sel.area==='waste' ? G.waste[G.waste.length-1] : G.t[sel.col][sel.idx];
-        if (canT(card, c)) {
-          execMove(sel.area, sel.col, sel.idx, 't', c);
-          hint('Card moved ✓');
-        } else {
-          // Maybe they're tapping a card in this column to select it instead
-          var tapped = findCardInCol(c, x, y);
-          if (tapped !== null) {
-            trySelect('t', c, tapped, x, y);
-          } else {
-            sel=null; renderAll(); hint("Can't place there");
-          }
+    for(var c=0;c<7;c++){
+      if(hit(document.getElementById('t'+c),x,y)){
+        if(sel.area==='t'&&sel.col===c){ sel=null; renderAll(); hint('Deselected'); return; }
+        var card=sel.area==='waste'?G.waste[G.waste.length-1]:G.t[sel.col][sel.idx];
+        if(canT(card,c)){ execMove(sel.area,sel.col,sel.idx,'t',c); hint('Card moved ✓'); }
+        else{
+          var tapped=findCardInCol(c,x,y);
+          if(tapped!==null) trySelect('t',c,tapped);
+          else{ sel=null; renderAll(); hint("Can't place there"); }
         }
         return;
       }
     }
-    // Tapped elsewhere — deselect
     sel=null; renderAll(); hint('Deselected');
     return;
   }
 
-  // ── Nothing selected yet — try to select or auto-move ──
-
-  // Waste top card?
-  var wasteEl=document.getElementById('waste');
-  var wCards=wasteEl.querySelectorAll('.card');
-  if (wCards.length && rectHit(wCards[wCards.length-1], x, y)) {
-    var key='waste:0:0';
-    var now=Date.now();
-    if (key===lastTapData && now-lastTapTime<400) {
-      lastTapData=''; autoToFoundation('waste',0,0); return;
-    }
-    lastTapData=key; lastTapTime=now;
-    sel={area:'waste',col:0,idx:0};
-    renderAll(); hint('Card selected — tap where to place it');
+  // Nothing selected — select something
+  var wCards=document.getElementById('waste').querySelectorAll('.card');
+  if(wCards.length && hit(wCards[wCards.length-1],x,y)){
+    var key='waste'; var now=Date.now();
+    if(key===lastKey&&now-lastTime<400){ lastKey=''; autoToF('waste',0,0); return; }
+    lastKey=key; lastTime=now;
+    sel={area:'waste',col:0,idx:0}; renderAll(); hint('Card selected — tap where to place it');
     return;
   }
 
-  // Tableau cards?
-  for (var c=0;c<7;c++) {
-    var hit=findCardInCol(c, x, y);
-    if (hit !== null) {
-      trySelect('t', c, hit, x, y);
-      return;
-    }
-  }
-
-  // Tapped empty foundation slot?
-  for (var f=0;f<4;f++) {
-    if (rectHit(document.getElementById('f'+f), x, y)) {
-      hint('Select a card first, then tap here to place it');
-      return;
-    }
+  for(var c=0;c<7;c++){
+    var idx=findCardInCol(c,x,y);
+    if(idx!==null){ trySelect('t',c,idx); return; }
   }
 }
 
-function findCardInCol(col, x, y) {
-  // Returns the index of the topmost card hit in this column
-  var colEl=document.getElementById('t'+col);
-  var cards=colEl.querySelectorAll('.card');
-  // Iterate in reverse — last card rendered is on top visually
-  for (var i=cards.length-1; i>=0; i--) {
-    if (rectHit(cards[i], x, y)) return parseInt(cards[i].dataset.i);
+function trySelect(area,c,idx){
+  var card=G.t[c][idx];
+  if(!card.up){ hint('That card is face down'); return; }
+  var key='t:'+c+':'+idx; var now=Date.now();
+  if(key===lastKey&&now-lastTime<400&&idx===G.t[c].length-1){
+    lastKey=''; if(!autoToF('t',c,idx)) hint("Can't move to foundation yet"); return;
   }
-  return null;
+  lastKey=key; lastTime=now;
+  sel={area:'t',col:c,idx:idx};
+  var count=G.t[c].length-idx;
+  renderAll();
+  hint(count===1 ? card.r+card.s+' selected — tap destination' : count+' cards selected — tap destination');
 }
 
-function trySelect(area, c, idx, x, y) {
-  if (area==='t') {
-    var card=G.t[c][idx];
-    // Tapping face-down card does nothing
-    if (!card.up) { hint("That card is face down"); return; }
-    // Double-tap = auto-move to foundation
-    var key='t:'+c+':'+idx;
-    var now=Date.now();
-    if (key===lastTapData && now-lastTapTime<400 && idx===G.t[c].length-1) {
-      lastTapData='';
-      if (!autoToFoundation('t',c,idx)) hint("Can't move to foundation yet");
-      return;
-    }
-    lastTapData=key; lastTapTime=now;
-    sel={area:'t', col:c, idx:idx};
-    var count=G.t[c].length-idx;
-    renderAll();
-    hint(count===1 ? card.r+card.s+' selected — tap destination' : count+' cards selected — tap destination');
-  }
-}
-
-// ── WIN / FINISH ──────────────────────────────────────────────────
-function checkWin() {
+// ── WIN ───────────────────────────────────────────────────────────
+function checkWin(){
   var n=0; for(var i=0;i<4;i++) n+=G.f[i].length;
-  if(n===52) { document.getElementById('win-p').textContent='Score: '+G.score+'\nMoves: '+G.moves; document.getElementById('win').classList.add('show'); }
+  if(n===52){ document.getElementById('win-p').textContent='Score: '+G.score+'\nMoves: '+G.moves; document.getElementById('win').classList.add('show'); }
 }
-function checkFinish() {
+function checkFinish(){
   var allUp=G.stock.length===0;
   if(allUp) for(var c=0;c<7&&allUp;c++) for(var i=0;i<G.t[c].length&&allUp;i++) if(!G.t[c][i].up) allUp=false;
   document.getElementById('btn-finish').className='btn'+(allUp?' show':'');
 }
-function autoFinish() {
+function autoFinish(){
   save();
-  function step() {
+  function step(){
     var moved=false;
     var srcs=[];
     if(G.waste.length) srcs.push({area:'waste',c:0,card:G.waste[G.waste.length-1]});
-    for(var c=0;c<7;c++) { var p=G.t[c]; if(p.length&&p[p.length-1].up) srcs.push({area:'t',c:c,idx:p.length-1,card:p[p.length-1]}); }
-    outer: for(var si=0;si<srcs.length;si++) {
-      for(var f=0;f<4;f++) {
-        if(canF(srcs[si].card,f)) {
+    for(var c=0;c<7;c++){ var p=G.t[c]; if(p.length&&p[p.length-1].up) srcs.push({area:'t',c:c,idx:p.length-1,card:p[p.length-1]}); }
+    outer: for(var si=0;si<srcs.length;si++){
+      for(var f=0;f<4;f++){
+        if(canF(srcs[si].card,f)){
           var src=srcs[si];
           if(src.area==='waste') G.waste.pop();
-          else { G.t[src.c].pop(); var p=G.t[src.c]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
+          else{ G.t[src.c].pop(); var p=G.t[src.c]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
           G.f[f].push(src.card); G.score+=15; G.moves++;
           moved=true; break outer;
         }
       }
     }
     renderAll(); updateStats();
-    if(moved) { checkWin(); if(!document.getElementById('win').classList.contains('show')) setTimeout(step,70); }
+    if(moved){ checkWin(); if(!document.getElementById('win').classList.contains('show')) setTimeout(step,70); }
   }
   step();
 }
 
 // ── EVENTS ───────────────────────────────────────────────────────
-// Use touchend for taps on iOS (most reliable)
-document.addEventListener('touchend', function(e) {
-  // Only treat as tap if the touch didn't move much
-  var t=e.changedTouches[0];
-  onTap(e);
-  e.preventDefault();
-}, { passive: false });
-
-// Mouse click for desktop testing
-document.addEventListener('click', function(e) {
-  // Don't double-fire on touch devices
-  if (e.sourceCapabilities && !e.sourceCapabilities.firesTouchEvents) onTap(e);
-  else if (!('ontouchstart' in window)) onTap(e);
-});
+document.addEventListener('touchend', function(e){ onTap(e); e.preventDefault(); }, { passive:false });
+document.addEventListener('click', function(e){ if(!('ontouchstart' in window)) onTap(e); });
+document.addEventListener('touchmove', function(e){ e.preventDefault(); }, { passive:false });
+document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
 
 document.getElementById('btn-new').addEventListener('click', newGame);
 document.getElementById('btn-undo').addEventListener('click', undo);
 document.getElementById('btn-finish').addEventListener('click', autoFinish);
-
-// Prevent iOS bounce/zoom
-document.addEventListener('touchmove', function(e){ e.preventDefault(); }, { passive:false });
-document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
 
 newGame();
 </script>
