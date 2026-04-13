@@ -97,8 +97,234 @@ function renderPriSection(prefix,items,mkC){
   el.innerHTML=items.length?items.map(mkC).join(''):'<div class="empty">None identified for this profile.</div>';
   sec.style.display=items.length?'block':'none';
 }
+/* ── Blood work ── */
+let bloodWork={};
+
+const BW_ICONS={
+  sun:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>',
+  pulse:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+  clock:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+  moon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>',
+  leaf:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22c-4-3.5-8-7-8-12a8 8 0 1116 0c0 5-4 8.5-8 12z"/></svg>',
+  thyroid:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>',
+  bolt:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+  globe:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',
+  shield:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  droplet:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>',
+  heart:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>',
+  heartPlus:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/><path d="M12 11v4M10 13h4"/></svg>'
+};
+
+function renderBwGrid(){
+  const grid=document.getElementById('bw-grid');
+  if(!grid)return;
+  grid.innerHTML=Object.entries(BIOMARKERS).map(([key,bio])=>{
+    const rangeText=bio.highOnly?'Optimal: <'+bio.optHigh+' '+bio.unit:'Optimal: '+bio.optLow+'-'+bio.optHigh+' '+bio.unit;
+    return`<div class="bw-row" id="bw-row-${key}"><div class="bw-row-icon" style="background:linear-gradient(135deg,${bio.gradient[0]},${bio.gradient[1]})">${BW_ICONS[bio.icon]||''}</div><div class="bw-row-info"><div class="bw-row-name">${bio.name}</div><div class="bw-row-range">${rangeText}</div></div><input type="text" id="bw-${key}" placeholder="\u2014" oninput="updateBwRow('${key}',this.value)"><div class="bw-row-unit">${bio.unit}</div><div class="bw-row-dot"></div></div>`;
+  }).join('');
+}
+
+function updateBwRow(key,val){
+  const num=parseFloat(val);
+  const row=document.getElementById('bw-row-'+key);
+  const input=document.getElementById('bw-'+key);
+  const dot=row?.querySelector('.bw-row-dot');
+  if(!row||!input)return;
+  if(isNaN(num)||val.trim()===''){
+    delete bloodWork[key];
+    row.classList.remove('has-val');
+    input.style.borderColor='';input.style.color='';input.style.fontWeight='';
+    if(dot)dot.style.background='';
+  }else{
+    bloodWork[key]=num;
+    row.classList.add('has-val');
+    const bio=BIOMARKERS[key];
+    let color;
+    if(bio.highOnly){
+      color=num<=bio.optHigh?'var(--t1c)':num<=bio.high?'var(--t3c)':'var(--t4c)';
+    }else{
+      if(num<bio.low)color='var(--t4c)';
+      else if(num<bio.optLow)color='var(--t3c)';
+      else if(num<=bio.optHigh)color='var(--t1c)';
+      else if(num<=bio.high)color='var(--t2c)';
+      else color='var(--t4c)';
+    }
+    input.style.borderColor=color;input.style.color=color;input.style.fontWeight='700';
+    if(dot)dot.style.background=color;
+  }
+  updateBwCount();
+}
+
+function updateBwCount(){
+  const ct=document.getElementById('bw-count');
+  if(!ct)return;
+  const total=Object.keys(BIOMARKERS).length;
+  const filled=Object.keys(bloodWork).length;
+  if(!filled){ct.textContent='';return;}
+  const criticals=Object.entries(bloodWork).filter(([k,v])=>{
+    const b=BIOMARKERS[k];if(!b)return false;
+    if(b.highOnly)return v>b.high;
+    return v<b.low||v>b.high;
+  }).length;
+  const lows=Object.entries(bloodWork).filter(([k,v])=>{
+    const b=BIOMARKERS[k];if(!b)return false;
+    if(b.highOnly)return v>b.optHigh&&v<=b.high;
+    return v>=b.low&&v<b.optLow;
+  }).length;
+  let txt=`<b>${filled}</b> of ${total} entered`;
+  if(criticals)txt+=` \u00B7 <span style="color:var(--t4c);font-weight:600">${criticals} critical</span>`;
+  if(lows)txt+=` \u00B7 <span style="color:var(--t3c);font-weight:600">${lows} low</span>`;
+  ct.innerHTML=txt;
+}
+
+function toggleBwManual(){
+  const m=document.getElementById('bw-manual');
+  const btn=document.getElementById('bw-manual-toggle');
+  const open=m.style.display==='none';
+  m.style.display=open?'block':'none';
+  btn.innerHTML=open?'Hide manual entry &#9652;':'Enter values manually &#9662;';
+}
+
+const BW_ALIASES={
+  vitD:[/vitamin\s*d.*?25.*?[\s:]+(\d+\.?\d*)/i,/25[\s-]*(?:oh|hydroxy).*?[\s:]+(\d+\.?\d*)/i],
+  b12:[/(?:vitamin\s*)?b[\s-]*12.*?[\s:]+(\d+\.?\d*)/i,/cobalamin.*?[\s:]+(\d+\.?\d*)/i],
+  ferritin:[/ferritin.*?[\s:]+(\d+\.?\d*)/i],
+  magRbc:[/magnesium.*?rbc.*?[\s:]+(\d+\.?\d*)/i,/rbc.*?mag.*?[\s:]+(\d+\.?\d*)/i],
+  folate:[/folate.*?[\s:]+(\d+\.?\d*)/i,/folic\s*acid.*?[\s:]+(\d+\.?\d*)/i],
+  tsh:[/\btsh\b.*?[\s:]+(\d+\.?\d*)/i,/thyroid\s*stim.*?[\s:]+(\d+\.?\d*)/i],
+  crp:[/(?:hs[\s-]?)?c[\s-]?reactive.*?[\s:]+(\d+\.?\d*)/i,/\bcrp\b.*?[\s:]+(\d+\.?\d*)/i],
+  omega3:[/omega.*?3.*?index.*?[\s:]+(\d+\.?\d*)/i],
+  zinc:[/\bzinc\b.*?[\s:]+(\d+\.?\d*)/i],
+  hba1c:[/\b(?:hba1c|a1c|hemoglobin\s*a1c)\b.*?[\s:]+(\d+\.?\d*)/i],
+  totalChol:[/total\s*cholesterol.*?[\s:]+(\d+\.?\d*)/i],
+  hdl:[/\bhdl\b.*?[\s:]+(\d+\.?\d*)/i]
+};
+
+async function handleBwUpload(file){
+  if(!file)return;
+  const uploadEl=document.getElementById('bw-upload');
+  const uploadedEl=document.getElementById('bw-uploaded');
+  try{
+    if(typeof pdfjsLib==='undefined'){alert('PDF.js not loaded. Please enter values manually.');return;}
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const arrayBuf=await file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:arrayBuf}).promise;
+    let allText='';
+    for(let i=1;i<=pdf.numPages;i++){
+      const page=await pdf.getPage(i);
+      const tc=await page.getTextContent();
+      allText+=tc.items.map(it=>it.str).join(' ')+'\n';
+    }
+    let found=0;
+    for(const[key,patterns]of Object.entries(BW_ALIASES)){
+      if(bloodWork[key])continue;
+      for(const rx of patterns){
+        const m=allText.match(rx);
+        if(m&&m[1]){
+          const v=parseFloat(m[1]);
+          if(!isNaN(v)){
+            bloodWork[key]=v;
+            const input=document.getElementById('bw-'+key);
+            if(input){input.value=v;updateBwRow(key,v+'');}
+            found++;break;
+          }
+        }
+      }
+    }
+    uploadEl.style.display='none';
+    uploadedEl.style.display='flex';
+    document.getElementById('bw-file-name').textContent=file.name;
+    document.getElementById('bw-extracted-count').textContent=found+' biomarker'+(found!==1?'s':'')+' extracted';
+    // Auto-show manual grid so user can verify
+    document.getElementById('bw-manual').style.display='block';
+    document.getElementById('bw-manual-toggle').innerHTML='Hide manual entry &#9652;';
+    updateBwCount();
+  }catch(e){
+    console.warn('PDF parse error:',e);
+    alert('Could not parse this PDF. Please enter values manually.');
+  }
+}
+
+function clearBwUpload(){
+  document.getElementById('bw-upload').style.display='flex';
+  document.getElementById('bw-uploaded').style.display='none';
+  document.getElementById('bw-file').value='';
+}
+
+function analyzeBloodWork(){
+  const results=[];
+  for(const[key,val]of Object.entries(bloodWork)){
+    const bio=BIOMARKERS[key];
+    if(!bio)continue;
+    let status,statusLabel,color;
+    if(bio.highOnly){
+      if(val<=bio.optHigh){status='optimal';statusLabel='Optimal';color='t1';}
+      else if(val<=bio.high){status='high';statusLabel='Elevated';color='t3';}
+      else{status='critical';statusLabel='High';color='t4';}
+    }else{
+      if(val<bio.low){status='critical';statusLabel='Deficient';color='t4';}
+      else if(val<bio.optLow){status='low';statusLabel='Below optimal';color='t3';}
+      else if(val<=bio.optHigh){status='optimal';statusLabel='Optimal';color='t1';}
+      else if(val<=bio.high){status='high';statusLabel='Elevated';color='t2';}
+      else{status='critical';statusLabel='High';color='t4';}
+    }
+    results.push({key,val,bio,status,statusLabel,color,needsAction:status!=='optimal'});
+  }
+  const order={critical:0,low:1,high:2,optimal:3};
+  results.sort((a,b)=>order[a.status]-order[b.status]);
+  return results;
+}
+
+function renderBwResults(results){
+  const hdr=document.getElementById('bw-results-header');
+  const strip=document.getElementById('bw-summary-strip');
+  const cards=document.getElementById('bw-deficiency-cards');
+  if(!hdr||!strip||!cards)return;
+
+  const needsAtt=results.filter(r=>r.needsAction).length;
+  const total=results.length;
+
+  hdr.innerHTML=`<div class="bw-score-badge"><div style="font-size:18px;font-weight:700;color:#fff;line-height:1">${needsAtt}</div><div style="font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">of ${total}</div></div><div style="flex:1"><div style="font-size:14px;font-weight:700">Blood Work Analysis</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">${needsAtt?needsAtt+' biomarker'+(needsAtt!==1?'s':'')+' need attention':'All biomarkers in optimal range'}</div></div>`;
+
+  const counts={critical:0,low:0,optimal:0,high:0};
+  results.forEach(r=>counts[r.status]=(counts[r.status]||0)+1);
+
+  strip.innerHTML=[
+    {n:counts.critical,l:'Critical',c:'var(--t4c)'},
+    {n:counts.low,l:'Below optimal',c:'var(--t3c)'},
+    {n:counts.optimal,l:'Optimal',c:'var(--t1c)'},
+    {n:counts.high,l:'Elevated',c:'var(--t2c)'}
+  ].map(s=>`<div class="bw-summary-item"><div style="font-size:18px;font-weight:700;color:${s.c};line-height:1">${s.n}</div><div style="font-size:8px;color:var(--color-text-tertiary);margin-top:3px;text-transform:uppercase;letter-spacing:.04em">${s.l}</div></div>`).join('');
+
+  const colorMap={t1:'var(--t1c)',t2:'var(--t2c)',t3:'var(--t3c)',t4:'var(--t4c)'};
+  const bgMap={t1:'var(--t1bg)',t2:'var(--t2bg)',t3:'var(--t3bg)',t4:'var(--t4bg)'};
+  const txMap={t1:'var(--t1tx)',t2:'var(--t2tx)',t3:'var(--t3tx)',t4:'var(--t4tx)'};
+  const statusClass={critical:'bw-critical',low:'bw-low',optimal:'bw-optimal',high:'bw-high'};
+
+  let html='';
+  results.forEach(r=>{
+    // Range bar position
+    const range=r.bio.high-((r.bio.highOnly)?0:(r.bio.low||0));
+    const base=r.bio.highOnly?0:(r.bio.low||0);
+    const pct=Math.max(2,Math.min(98,((r.val-base)/range)*100));
+
+    let suppHtml='';
+    if(r.needsAction&&r.bio.supps){
+      r.bio.supps.forEach(sr=>{
+        const sup=S.find(x=>x.n===sr.name);
+        const sc=sup?calcScore(sup):0;
+        suppHtml+=`<div class="bw-supp-rec"><div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(180deg,var(--t1c),#0F766E);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${sc}</div><div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600">${sr.name} \u2014 ${sr.dose}</div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:1px">${sr.note}</div></div></div>`;
+      });
+    }
+
+    html+=`<div class="bw-def-card ${statusClass[r.status]||''}"><div style="width:36px;text-align:center;flex-shrink:0"><div style="font-size:16px;font-weight:700;color:${colorMap[r.color]};line-height:1">${r.val}</div><div style="font-size:7px;color:var(--color-text-tertiary);margin-top:2px">${r.bio.unit}</div></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:5px;margin-bottom:2px"><div style="font-size:12px;font-weight:600">${r.bio.name}</div><div style="font-size:8px;font-weight:600;padding:1px 6px;border-radius:8px;background:${bgMap[r.color]};color:${txMap[r.color]}">${r.statusLabel}</div></div><div style="font-size:10px;color:var(--color-text-secondary);line-height:1.4">${r.bio.desc}</div>${!r.bio.highOnly?`<div style="display:flex;align-items:center;gap:6px;margin-top:5px"><div style="flex:1;height:5px;border-radius:3px;background:#eee;position:relative;overflow:visible"><div style="height:100%;border-radius:3px;width:100%;background:linear-gradient(90deg,var(--t4c),var(--t3c) 35%,var(--t1c) 55%,var(--t2c));position:absolute;left:0;top:0"></div><div style="width:8px;height:8px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);position:absolute;top:-1.5px;left:${pct}%;background:${colorMap[r.color]};z-index:1"></div></div></div><div style="display:flex;justify-content:space-between;font-size:7px;color:var(--color-text-tertiary);margin-top:2px"><span>${r.bio.low||0}</span><span>${r.bio.optLow}-${r.bio.optHigh} Optimal</span><span>${r.bio.high}</span></div>`:''}`+suppHtml+`</div></div>`;
+  });
+
+  cards.innerHTML=html;
+}
+
 const LOAD_STEPS=[
-  {at:0,text:'Analyzing your profile…',sub:'Matching against 528 supplements'},
+  {at:0,text:'Analyzing your profile…',sub:'Matching against 628 supplements'},
   {at:20,text:'Checking medication interactions…',sub:'Cross-referencing drug-supplement data'},
   {at:45,text:'Evaluating clinical evidence…',sub:'Reviewing RCTs and meta-analyses'},
   {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
@@ -130,6 +356,33 @@ function _showRecs(){
   const goalSupps=getGoalSupps();
   goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s)recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:'Suggested based on your selected goal(s).',dose:s.dose,_goalExtra:true});}});
   condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s)recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Suggested based on your selected condition(s).`,dose:s.dose,_condExtra:true});}});
+
+  // Blood work integration — boost supplements matching deficiencies
+  const bwResults=Object.keys(bloodWork).length>0?analyzeBloodWork():[];
+  if(bwResults.length>0){
+    bwResults.forEach(r=>{
+      if(!r.needsAction)return;
+      r.bio.supps.forEach(sr=>{
+        // Add supplement if not already in recs
+        const existing=recs.find(x=>x.n===sr.name);
+        if(!existing&&!mi.avoid.has(sr.name)){
+          const s=S.find(x=>x.n===sr.name);
+          if(s)recs.push({n:s.n,p:r.status==='critical'?'essential':'recommended',tier:s.t,tf:false,e:s.e,s:s.s,why:'Based on your blood work results.',dose:s.dose,_bwExtra:true});
+        }else if(existing){
+          if(existing.p==='consider')existing.p='recommended';
+          if(r.status==='critical'&&existing.p==='recommended')existing.p='essential';
+          if(!existing._bwExtra)existing.why=(existing.why||'')+' Also supported by your blood work.';
+          existing._bwExtra=true;
+        }
+      });
+    });
+    renderBwResults(bwResults);
+    document.getElementById('bw-results').style.display='block';
+    const csb=document.getElementById('coming-soon-bar');if(csb)csb.style.display='none';
+  }else{
+    document.getElementById('bw-results').style.display='none';
+    const csb=document.getElementById('coming-soon-bar');if(csb)csb.style.display='flex';
+  }
 
   const sexLabel=sex==='fp'?'pregnant woman':sex==='m'?'man':'woman';
   document.getElementById('res-hd').textContent='Your supplement plan';
@@ -306,7 +559,7 @@ _gsInp.addEventListener('blur',hideAc);
 _gsInp.addEventListener('keydown',e=>{const ac=document.getElementById('gs-ac');const items=ac.classList.contains('vis')?ac.querySelectorAll('.gs-ac-item'):[];if(e.key==='ArrowDown'&&items.length){e.preventDefault();acIdx=Math.min(acIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='ArrowUp'&&items.length){e.preventDefault();acIdx=Math.max(acIdx-1,0);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='Enter'){e.preventDefault();if(acIdx>=0&&items[acIdx]){pickAc(items[acIdx].querySelector('span').textContent);}else{ac.classList.remove('vis');onSearch(e.target.value);}}else if(e.key==='Escape'){ac.classList.remove('vis');acIdx=-1;}});
 let af='az';
 function match(s,q){if(!q)return true;const l=q.toLowerCase();return[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(l));}
-function toggleCard(btn){const wrap=btn.previousElementSibling;const chv=btn.querySelector('.sc-toggle-chv');const isOpen=wrap.classList.toggle('open');chv.classList.toggle('open');btn.querySelector('span:first-child').textContent=isOpen?'Less':'More';const preview=btn.closest('.sc-inner').querySelector('.sc-desc-preview');if(preview)preview.style.display=isOpen?'none':'';}
+function toggleCard(btn){const wrap=btn.closest('.sc-inner').querySelector('.sc-expand');const chv=btn.querySelector('.sc-toggle-chv');const isOpen=wrap.classList.toggle('open');chv.classList.toggle('open');btn.querySelector('span:first-child').textContent=isOpen?'Less':'More';const preview=btn.closest('.sc-inner').querySelector('.sc-desc-preview');if(preview)preview.style.display=isOpen?'none':'';}
 // Build reverse interaction map: supplement name -> [{med, type}]
 const INTERACT_MAP={};Object.entries(MEDS).forEach(([k,m])=>{m.avoid.forEach(n=>{if(!INTERACT_MAP[n])INTERACT_MAP[n]=[];INTERACT_MAP[n].push({med:m.label,type:'avoid'});});m.caution.forEach(n=>{if(!INTERACT_MAP[n])INTERACT_MAP[n]=[];INTERACT_MAP[n].push({med:m.label,type:'caution'});});});
 function interactHtml(name){const ints=INTERACT_MAP[name];if(!ints||!ints.length)return'<div class="sc-interact"><div class="sc-interact-title">Medication interactions</div><div class="sc-interact-safe">No known major interactions identified.</div></div>';return'<div class="sc-interact"><div class="sc-interact-title">Medication interactions</div><div class="sc-interact-list">'+ints.map(i=>`<span class="sc-interact-pill${i.type==='avoid'?' danger':''}">${i.type==='avoid'?'Avoid with':'Caution with'}: ${i.med}</span>`).join('')+'</div></div>';}
@@ -319,18 +572,67 @@ var cycleInfo=function(s){if(s.cycle)return s.cycle;var n=s.n.toLowerCase(),t=s.
 function eTier(s){const sc=calcScore(s);if(sc>=72)return 't1';if(sc>=60)return 't2';if(sc>=40)return 't3';return 't4';}
 function first2(txt){const m=txt.match(/[^.!?]*[.!?]/g);if(!m||m.length<=2)return{preview:txt,rest:''};return{preview:m.slice(0,2).join(''),rest:m.slice(2).join('')};}
 function interactBarScore(name){const ints=INTERACT_MAP[name];if(!ints||!ints.length)return 5;if(ints.some(i=>i.type==='avoid'))return 1;return 2;}
-function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${i.med.split(' ')[0]}</span>`).join(''):'';const et=eTier(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${s.desc}</div><div class="sc-expand"><div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Dose</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.dose}</span></div>${s.tips?`<div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">How to take</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.tips}</span></div>`:''}<div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Cycling &amp; Duration</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.cycle||(function(s){var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase();if(t==='t4')return 'Do not take.';if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('omega')||n.includes('fish')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine')||n.includes('fibre')||n.includes('psyllium'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('melatonin'))return 'Use situationally (2-4 weeks). Not for nightly long-term use.';if(tag.includes('adaptogen')||n.includes('ginseng'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('john')||n.includes('kava')||n.includes('black cohosh'))return 'Short-term use (4-8 weeks). Consult provider before extending.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses.';if(s.s===3)return 'Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term data. Use shortest effective duration.';})(s)}</span></div><div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Onset: ${OL_SHORT[so]||'Varies'}</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</span></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+i.med+':</b> '+m[1].note:'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${s.desc}</div></div><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>`;}
+const ART_CAT_GRAD={guide:'linear-gradient(180deg,#2563EB,#1D4ED8)',breakthrough:'linear-gradient(180deg,#16A34A,#15803D)',myth:'linear-gradient(180deg,#EA580C,#C2410C)',safety:'linear-gradient(180deg,#DC2626,#B91C1C)',kids:'linear-gradient(180deg,#0D9488,#0F766E)'};
+const ART_CAT_CLR={guide:'#2563EB',breakthrough:'#16A34A',myth:'#EA580C',safety:'#DC2626',kids:'#0D9488'};
+const ART_CAT_LBL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety',kids:'Kids'};
+/* Reverse map: article ID → supplement names */
+const ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});
+function suppCardForArticle(name){const s=S.find(x=>x.n===name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
+function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
+function openSuppModal(name){const s=S.find(x=>x.n===name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
+function closeSuppModal(){document.getElementById('supp-modal').classList.remove('open');document.body.style.overflow='';}
+/* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
+function processArticleSources(container){
+  let sourcesDiv=null;
+  container.querySelectorAll('h3').forEach(h=>{if(h.textContent.trim()==='Sources')sourcesDiv=h.parentElement;});
+  if(!sourcesDiv)return null;
+  sourcesDiv.classList.add('art-sources');
+  const ol=sourcesDiv.querySelector('ol');
+  if(ol){
+    ol.style.fontSize='0.78rem';ol.style.lineHeight='1.7';
+    ol.querySelectorAll('li').forEach(li=>{
+      const m=li.innerHTML.match(/\u201c([^\u201d]+)\u201d|"([^"]+)"/);
+      if(m){
+        const title=m[1]||m[2];
+        const url='https://scholar.google.com/scholar?q='+encodeURIComponent(title);
+        li.innerHTML=li.innerHTML.replace(m[0],
+          m[0].charAt(0)+'<a href="'+url+'" target="_blank" rel="noopener" class="src-link">'+title+'</a>'+m[0].charAt(m[0].length-1));
+      }
+    });
+  }
+  return sourcesDiv;
+}
+function goArticle(id){event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const body=document.getElementById('art-modal-body');body.innerHTML=src.querySelector('[style*="padding"]').innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
+function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('supp-modal').classList.contains('open')){closeSuppModal();return;}if(document.getElementById('art-modal').classList.contains('open'))closeArtModal();}});
+function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
+function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div style="margin-top:10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-tertiary);margin-bottom:6px">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>'<div class="art-mini" onclick="goArticle('+a.id+')" style="margin-bottom:4px"><div class="art-mini-side" style="background:'+ART_CAT_GRAD[a.c]+'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><div class="art-mini-side-div"></div><div class="art-mini-side-stat">'+a.m+'</div><div class="art-mini-side-label">min</div></div><div class="art-mini-body"><div class="art-mini-cat" style="color:'+(ART_CAT_CLR[a.c]||'#7B1FA2')+'">'+ART_CAT_LBL[a.c]+'</div><div class="art-mini-title">'+a.t+'</div><div class="art-mini-meta">'+a.m+' min read</div></div></div>').join('')+'</div>';}
+function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${i.med.split(' ')[0]}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${s.desc}</div><div class="sc-expand"><div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Dose</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.dose}</span></div>${s.tips?`<div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">How to take</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.tips}</span></div>`:''}<div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Cycling &amp; Duration</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.cycle||(function(s){var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase();if(t==='t4')return 'Do not take.';if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('omega')||n.includes('fish')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine')||n.includes('fibre')||n.includes('psyllium'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('melatonin'))return 'Use situationally (2-4 weeks). Not for nightly long-term use.';if(tag.includes('adaptogen')||n.includes('ginseng'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('john')||n.includes('kava')||n.includes('black cohosh'))return 'Short-term use (4-8 weeks). Consult provider before extending.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses.';if(s.s===3)return 'Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term data. Use shortest effective duration.';})(s)}</span></div><div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Onset: ${OL_SHORT[so]||'Varies'}</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</span></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+i.med+':</b> '+m[1].note:'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${s.desc}</div>${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
 function renderAll(){const q=(document.getElementById('srch')||{}).value||'';const initShow=5;
+if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>initShow&&!q;document.getElementById('s-content').innerHTML=`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'unproven')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`||'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>initShow&&!q;html+=`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'${t.id}')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
-function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}af='cat';const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols*2;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>rowLimit&&!q;let html=`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'cat')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`;document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+10:60;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z\u2026');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols*2;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>rowLimit&&!q;let html=`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'cat')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`;document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+10:60;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 var _initialLoad=true;
-function setFilter(id,el){const catSel=document.getElementById('cat-filter');if(catSel)catSel.value='';const azSel=document.getElementById('az-filter');if(azSel)azSel.value='';af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
-function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const catSel=document.getElementById('cat-filter');if(catSel)catSel.value='';if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setFilter(id,el){_ddLabel('cat-filter','Category\u2026');_ddLabel('az-filter','A\u2013Z\u2026');_ddLabel('tier-filter','Tier\u2026');af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Category\u2026');_ddLabel('tier-filter','Tier\u2026');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 let _allTabInit=false;
 const CATS=['Performance','Cognition','Sleep','Immunity','Cardiovascular','Joint','Mood','Gut','Metabolic','Inflammation','Skin','Bone','Energy','Hormonal','Neuropathy','Antioxidant','Weight','UTI','Migraine','Liver','Eye health','Pregnancy'];
 const AZ_PAIRS=[['A','B'],['C','D'],['E','F'],['G','H'],['I','J'],['K','L'],['M','N'],['O','P'],['Q','R'],['S','T'],['U','V'],['W','X'],['Y','Z']];
-function initAllTab(){if(_allTabInit)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return`<option value="${p[0]}${p[1]}">${p[0]} & ${p[1]} (${count})</option>`;}).join('');const btnOrder=['t3','t1','t2','t4'];document.getElementById('sfbar-main').innerHTML=btnOrder.map(id=>{const t=tierCounts.find(x=>x.id===id);return`<button type="button" class="sfbtn" title="${t.desc}" onclick="setFilter('${t.id}',this)">${t.badge} <span style="font-size:9px;opacity:.7;margin-left:2px">${t.count}</span></button>`;}).join('')+`<select id="az-filter" onchange="setAzFilter(this.value)" style="padding:6px 10px;border-radius:8px;border:1px solid var(--color-border-secondary);font-size:12px;font-family:inherit;background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;outline:none"><option value="">A–Z...</option><option value="all">All A–Z (${S.length})</option>${azOpts}</select>`+`<select id="cat-filter" onchange="setCatFilter(this.value)" style="padding:6px 10px;border-radius:8px;border:1px solid var(--color-border-secondary);font-size:12px;font-family:inherit;background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;outline:none"><option value="">Category...</option>${CATS.map(c=>'<option value="'+c+'">'+c+'</option>').join('')}</select>`;setFilter('t3',document.querySelector('.sfbtn'));}
+function _dd(id,label,opts,onSelect){
+  return`<div class="cdd" id="${id}-wrap">
+    <button type="button" class="cdd-btn" onclick="toggleDD('${id}')">${label} <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="cdd-menu" id="${id}-menu">${opts.map(o=>`<div class="cdd-item" data-val="${o.val}" onclick="${onSelect}('${o.val}');closeDD('${id}')">${o.label}</div>`).join('')}</div>
+  </div>`;
+}
+function toggleDD(id){const m=document.getElementById(id+'-menu');const open=m.classList.toggle('open');if(open){document.querySelectorAll('.cdd-menu.open').forEach(x=>{if(x.id!==id+'-menu')x.classList.remove('open');});}document.getElementById(id+'-wrap').classList.toggle('cdd-open',open);}
+function closeDD(id){document.getElementById(id+'-menu').classList.remove('open');document.getElementById(id+'-wrap').classList.remove('cdd-open');}
+function _ddLabel(id,txt){const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.firstChild.textContent=txt+' ';}
+document.addEventListener('click',function(e){if(!e.target.closest('.cdd'))document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');m.parentElement.classList.remove('cdd-open');});});
+function initAllTab(){if(_allTabInit)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const catOpts=CATS.map(c=>({val:c,label:c}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tierOpts=['t1','t2','t4'].map(id=>{const t=tierCounts.find(x=>x.id===id);return{val:t.id,label:t.badge+' ('+t.count+')'};});tierOpts.splice(2,0,{val:'unproven',label:'Unproven ('+unpCount+')'});const tr=tierCounts.find(x=>x.id==='t3');document.getElementById('sfbar-main').innerHTML=`<button type="button" class="sfbtn" title="${tr.desc}" onclick="setFilter('t3',this)">${tr.badge} <span style="font-size:9px;opacity:.7;margin-left:2px">${tr.count}</span></button>`+_dd('cat-filter','Category\u2026',catOpts,'_catPick')+_dd('tier-filter','Tier\u2026',tierOpts,'_tierPick')+_dd('az-filter','A\u2013Z\u2026',azOpts,'_azPick');setFilter('t3',document.querySelector('.sfbtn'));}
+function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Category\u2026');_ddLabel('az-filter','A\u2013Z\u2026');af=v;renderAll();const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function _azPick(v){_ddLabel('az-filter',v==='all'?'All A\u2013Z':v.charAt(0)+' & '+v.charAt(1));setAzFilter(v);}
+function _catPick(v){_ddLabel('cat-filter',v);setCatFilter(v);}
 function sw(n){document.getElementById('p1').style.display=n===1?'block':'none';document.getElementById('p2').style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-selected',n===1);tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-selected',n===2);if(n===2)initAllTab();}
 let selectedConds=new Set();
 function renderCondChips(){const el=document.getElementById('cond-chips');el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${k}')">${c.label}</div>`).join('');}
@@ -377,7 +679,8 @@ function calcBMI(){
 /* ── Profile persistence: localStorage + URL + email ── */
 function saveProfile(){
   const profile={age:document.getElementById('asl').value,sex:sex,meds:[...selectedMeds],conds:[...selectedConds],goals:[...selectedGoals],
-    heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||''};
+    heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
+    bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined};
   localStorage.setItem('ss-profile',JSON.stringify(profile));
 }
 
@@ -448,6 +751,28 @@ function generatePDF(){
   addSection('Recommended',[75,123,229],Array.from(document.querySelectorAll('#rec-cards .rc')));
   addSection('Worth considering',[202,138,4],Array.from(document.querySelectorAll('#con-cards .rc')));
 
+  // Blood work results
+  if(Object.keys(bloodWork).length>0){
+    const bwRes=analyzeBloodWork();
+    checkPage(15);
+    doc.setDrawColor(200,200,200);doc.line(margin,y,pw-margin,y);y+=8;
+    doc.setFontSize(12);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
+    doc.text('Blood Work Analysis',margin,y);y+=7;
+    bwRes.forEach(r=>{
+      checkPage(15);
+      const sc={critical:[185,28,28],low:[202,138,4],optimal:[13,148,136],high:[75,123,229]};
+      doc.setFontSize(10);doc.setFont(undefined,'bold');
+      doc.setTextColor(...(sc[r.status]||[60,60,60]));
+      doc.text(r.bio.name+': '+r.val+' '+r.bio.unit+' \u2014 '+r.statusLabel,margin,y);y+=5;
+      if(r.needsAction&&r.bio.supps.length){
+        doc.setFontSize(8);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
+        r.bio.supps.forEach(s=>{doc.text('\u2192 '+s.name+': '+s.dose,margin+4,y);y+=4;});
+      }
+      y+=2;
+    });
+    y+=3;
+  }
+
   // Footer
   checkPage(20);
   doc.setDrawColor(200,200,200);doc.line(margin,y,pw-margin,y);y+=6;
@@ -477,6 +802,13 @@ function loadProfile(){
     if(p.heightFt){const el=document.getElementById('prof-height-ft');if(el)el.value=p.heightFt;}
     if(p.heightIn){const el=document.getElementById('prof-height-in');if(el)el.value=p.heightIn;}
     if(p.weight){const el=document.getElementById('prof-weight');if(el)el.value=p.weight;}
+    if(p.bloodWork&&typeof p.bloodWork==='object'){
+      bloodWork=p.bloodWork;
+      for(const[key,val]of Object.entries(bloodWork)){
+        const input=document.getElementById('bw-'+key);
+        if(input){input.value=val;updateBwRow(key,val+'');}
+      }
+    }
     calcBMI();
     return true;
   }catch(e){return false;}
@@ -489,6 +821,7 @@ function clearProfile(){
   selectedConds=new Set();renderCondChips();
   selectedGoals=new Set();renderGoalChips();
   ['prof-height-ft','prof-height-in','prof-weight'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  bloodWork={};renderBwGrid();clearBwUpload();
   const bmi=document.getElementById('bmi-display');if(bmi)bmi.textContent='';
   const wb=document.getElementById('welcome-back');if(wb)wb.style.display='none';
   document.getElementById('v-res').style.display='none';
@@ -501,6 +834,7 @@ function getShareUrl(){
   if(sex)params.set('sex',sex);
   if(selectedMeds.size)params.set('meds',[...selectedMeds].join(','));
   if(selectedConds.size)params.set('conds',[...selectedConds].join(','));
+  if(Object.keys(bloodWork).length>0)params.set('bw',Object.entries(bloodWork).map(([k,v])=>k+':'+v).join(','));
   return window.location.origin+window.location.pathname+'?'+params.toString();
 }
 function loadFromUrl(){
@@ -511,6 +845,7 @@ function loadFromUrl(){
   const s=params.get('sex');if(s)pickSex(s);
   const meds=params.get('meds');if(meds){selectedMeds=new Set(meds.split(','));renderMedChips();}
   const conds=params.get('conds');if(conds){selectedConds=new Set(conds.split(','));renderCondChips();}
+  const bw=params.get('bw');if(bw){bw.split(',').forEach(pair=>{const[k,v]=pair.split(':');if(k&&v){bloodWork[k]=parseFloat(v);const input=document.getElementById('bw-'+k);if(input){input.value=v;updateBwRow(k,v);}}});}
   return true;
 }
 function shareProfile(){
@@ -553,6 +888,7 @@ function sendEmailReport(){
 renderMedChips();
 renderCondChips();
 renderGoalChips();
+renderBwGrid();
 ['prof-height-ft','prof-height-in','prof-weight'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',calcBMI);});
 initAllTab();
 
