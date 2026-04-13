@@ -74,7 +74,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260413c">
+<link rel="stylesheet" href="styles.css?v=20260413r">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
@@ -87,8 +87,8 @@
     </div>
     <div class="site-nav-tabs">
       <button type="button" class="site-nav-tab active" id="tab-supplements" onclick="switchTab('supplements')">Supplements</button>
-      <button type="button" class="site-nav-tab" id="tab-profile" onclick="switchTab('profile')" style="display:none">My Profile</button>
       <button type="button" class="site-nav-tab" id="tab-research" onclick="switchTab('research')">Research</button>
+      <button type="button" class="site-nav-tab" id="tab-profile" onclick="switchTab('profile')">My Profile</button>
       <button type="button" class="site-nav-tab" id="tab-about" onclick="switchTab('about')">About</button>
     </div>
   </div>
@@ -221,79 +221,158 @@
     <button type="button" class="tab-btn active" id="tb2" role="tab" aria-selected="true" onclick="sw(2)">All supplements</button>
     <button type="button" class="tab-btn" id="tb1" role="tab" aria-selected="false" onclick="sw(1)">Custom Profile (Beta)</button>
   </div>
+  <!-- Profile Gate Overlay -->
+  <div id="profile-gate" style="display:none;position:relative;min-height:100vh">
+    <!-- Blurred fake background -->
+    <div class="gate-bg" aria-hidden="true">
+      <div class="res-banner" style="pointer-events:none">
+        <div class="res-banner-body">
+          <div class="res-banner-title">Your recommendations</div>
+          <div class="res-banner-sub">32-year-old man &middot; Last updated today</div>
+          <div class="res-banner-chips">
+            <span class="res-chip">&#9679; 3 Essential</span>
+            <span class="res-chip">&#9679; 4 Recommended</span>
+            <span class="res-chip">&#9679; 8 Consider</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 1rem">
+        <div class="gate-fake-tier">&#9679; Essential &mdash; Take these daily <span style="color:var(--color-text-tertiary);font-weight:400">3 supplements</span></div>
+        <div class="gate-fake-card"><div class="gate-fake-score" style="background:var(--t1c)">83</div><div class="gate-fake-body"><div class="gate-fake-name">Vitamin D3</div><div class="gate-fake-line"></div><div class="gate-fake-line short"></div></div></div>
+        <div class="gate-fake-card"><div class="gate-fake-score" style="background:var(--t1c)">82</div><div class="gate-fake-body"><div class="gate-fake-name">Magnesium</div><div class="gate-fake-line"></div><div class="gate-fake-line short"></div></div></div>
+        <div class="gate-fake-card"><div class="gate-fake-score" style="background:var(--t1c)">79</div><div class="gate-fake-body"><div class="gate-fake-name">Omega-3 (EPA/DHA)</div><div class="gate-fake-line"></div><div class="gate-fake-line short"></div></div></div>
+        <div class="gate-fake-tier" style="margin-top:18px">&#9679; Recommended &mdash; Strong evidence <span style="color:var(--color-text-tertiary);font-weight:400">4 supplements</span></div>
+        <div class="gate-fake-card"><div class="gate-fake-score" style="background:var(--t2c)">75</div><div class="gate-fake-body"><div class="gate-fake-name">Zinc</div><div class="gate-fake-line"></div><div class="gate-fake-line short"></div></div></div>
+        <div class="gate-fake-card"><div class="gate-fake-score" style="background:var(--t2c)">74</div><div class="gate-fake-body"><div class="gate-fake-name">Creatine monohydrate</div><div class="gate-fake-line"></div><div class="gate-fake-line short"></div></div></div>
+      </div>
+    </div>
+    <!-- Foreground CTA overlay -->
+    <div class="gate-overlay">
+      <div class="gate-card">
+        <div class="gate-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7B1FA2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M16 3l2 2-2 2"/></svg>
+        </div>
+        <h2 class="gate-title">Your Plan, Built for You</h2>
+        <p class="gate-subtitle">Coming Soon</p>
+        <p class="gate-desc">A fully personalized supplement plan powered by the same evidence database behind our 628 supplement scores.</p>
+        <div class="gate-steps">
+          <div class="gate-step">
+            <div class="gate-step-num">1</div>
+            <div class="gate-step-text"><strong>Tell us about yourself</strong><br>Age, sex, health goals, conditions, and current medications</div>
+          </div>
+          <div class="gate-step">
+            <div class="gate-step-num">2</div>
+            <div class="gate-step-text"><strong>Upload blood work</strong> (optional)<br>We'll flag deficiencies and tailor doses to your labs</div>
+          </div>
+          <div class="gate-step">
+            <div class="gate-step-num">3</div>
+            <div class="gate-step-text"><strong>Get your ranked plan</strong><br>Essential, recommended, and optional supplements with safety checks</div>
+          </div>
+        </div>
+        <div class="gate-dna-hint">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7B1FA2" stroke-width="1.5" stroke-linecap="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="M17 6l-2.5-2.5"/><path d="M14 8l-2.5-2.5"/><path d="M7 18l2.5 2.5"/><path d="M10 16l2.5 2.5"/></svg>
+          <span>DNA matched recommendations arriving later this year</span>
+        </div>
+        <form class="gate-form" onsubmit="return handleGateSubmit(event)">
+          <input type="text" id="gate-email" class="gate-input" placeholder="Enter your email for early access" autocomplete="email">
+          <button type="submit" class="gate-btn gate-btn-purple">Join the Waitlist</button>
+        </form>
+        <div id="gate-success" class="gate-success" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          You're on the list! We'll email you when it launches.
+        </div>
+        <p class="gate-privacy">No spam. Unsubscribe anytime. We respect your privacy.</p>
+      </div>
+    </div>
+  </div>
+
   <div id="p1" style="display:none">
     <div id="v-input">
-      <div style="background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 20px;margin-bottom:1rem">
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#7B1FA2;margin-bottom:14px;display:flex;align-items:center;gap:6px"><span style="font-size:8px;padding:2px 6px;border-radius:6px;background:#7B1FA2;color:#fff">Beta</span> Build your supplement profile</div>
+      <div class="pf-wrap">
+        <!-- Hero -->
+        <div class="pf-hero">
+          <h1 class="pf-title">Your Profile</h1>
+          <p class="pf-sub">We'll build a personalized supplement plan based on your answers</p>
+        </div>
 
-        <!-- Row 1: Age, Sex, Weight -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
-          <div>
-            <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Age</div>
-            <input type="number" class="age-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)" style="width:100%;padding:8px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:14px;font-family:inherit;outline:none">
+        <!-- Basics: Age, Sex, Weight -->
+        <div class="pf-basics">
+          <div class="pf-group pf-group-age">
+            <label class="pf-label">Age</label>
+            <input type="number" class="pf-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
           </div>
-          <div>
-            <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Biological sex</div>
-            <div class="sex-row" style="gap:4px">
-              <button type="button" class="sx-btn" id="bm" onclick="pickSex('m')" style="padding:8px 0;font-size:12px;flex:1">Male</button>
-              <button type="button" class="sx-btn" id="bf" onclick="pickSex('f')" style="padding:8px 0;font-size:12px;flex:1">Female</button>
-              <button type="button" class="sx-btn" id="bp" onclick="pickSex('fp')" style="padding:8px 0;font-size:12px;flex:1">Pregnant</button>
+          <div class="pf-divider"></div>
+          <div class="pf-group pf-group-sex">
+            <label class="pf-label">Sex</label>
+            <div class="pf-sex-pill">
+              <button type="button" class="pf-sex-opt sx-btn" id="bm" onclick="pickSex('m')">Male</button>
+              <button type="button" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
+              <button type="button" class="pf-sex-opt sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
             </div>
           </div>
-          <div>
-            <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Weight (lbs)</div>
-            <input type="number" id="prof-weight" min="50" max="500" placeholder="lbs" aria-label="Weight" style="width:100%;padding:8px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:14px;font-family:inherit;outline:none">
-          </div>
         </div>
 
-        <!-- Chip sections: Conditions, Goals, Medications -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;border-top:1px solid var(--color-border-tertiary)">
-          <div>
-            <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Conditions &amp; Ailments</div>
-            <div class="med-chips" id="cond-chips"></div>
+        <!-- Accordion sections -->
+        <div class="pf-sections">
+          <!-- Goals -->
+          <div class="pf-section pf-open" id="pf-sec-goals">
+            <button type="button" class="pf-sec-toggle" onclick="pfToggle(this)">
+              <span class="pf-sec-left">Goals <span class="pf-sec-count" id="pf-count-goals"></span></span>
+              <span class="pf-sec-arrow">&#9660;</span>
+            </button>
+            <div class="pf-sec-body">
+              <div class="med-chips" id="goal-chips"></div>
+            </div>
           </div>
-          <div>
-            <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Your Goals</div>
-            <div class="med-chips" id="goal-chips"></div>
-          </div>
-        </div>
 
-        <!-- Medications (full width) -->
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--color-border-tertiary)">
-          <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Current Medications <span style="font-weight:400;text-transform:none;letter-spacing:0">(adjusts for drug interactions)</span></div>
-          <div class="med-chips" id="med-chips"></div>
-          <div class="med-note" id="med-note" style="display:none"></div>
-        </div>
+          <!-- Conditions -->
+          <div class="pf-section" id="pf-sec-conds">
+            <button type="button" class="pf-sec-toggle" onclick="pfToggle(this)">
+              <span class="pf-sec-left">Conditions <span class="pf-sec-count" id="pf-count-conds"></span></span>
+              <span class="pf-sec-arrow">&#9660;</span>
+            </button>
+            <div class="pf-sec-body">
+              <div class="med-chips" id="cond-chips"></div>
+            </div>
+          </div>
 
-        <!-- Blood Work (optional) -->
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--color-border-tertiary)">
-          <div style="font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Blood Work <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional &mdash; upload PDF or enter values)</span></div>
-          <div id="bw-upload" class="bw-upload-zone" onclick="document.getElementById('bw-file').click()" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="event.preventDefault();this.classList.remove('dragging');handleBwUpload(event.dataTransfer.files[0])">
-            <div class="bw-upload-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3-3 3 3"/></svg></div>
-            <div><div style="font-size:12px;font-weight:600">Drop lab report PDF here</div><div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">or click to choose file &middot; 100% client-side</div></div>
-            <input type="file" id="bw-file" accept=".pdf" style="display:none" onchange="handleBwUpload(this.files[0])">
+          <!-- Medications -->
+          <div class="pf-section" id="pf-sec-meds">
+            <button type="button" class="pf-sec-toggle" onclick="pfToggle(this)">
+              <span class="pf-sec-left">Medications <span class="pf-sec-count" id="pf-count-meds"></span></span>
+              <span class="pf-sec-arrow">&#9660;</span>
+            </button>
+            <div class="pf-sec-body">
+              <div class="med-chips" id="med-chips"></div>
+              <div class="med-note" id="med-note" style="display:none"></div>
+            </div>
           </div>
-          <div id="bw-uploaded" style="display:none" class="bw-uploaded-bar">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-            <span id="bw-file-name" style="flex:1"></span>
-            <span id="bw-extracted-count" style="font-size:10px;color:var(--color-text-tertiary)"></span>
-            <button type="button" onclick="clearBwUpload()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:2px 8px;cursor:pointer;font-family:inherit">Change</button>
-          </div>
-          <div style="margin-top:8px">
-            <button type="button" id="bw-manual-toggle" onclick="toggleBwManual()" style="font-size:10px;color:#7B1FA2;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:500;padding:0">Enter values manually &#9662;</button>
-            <div id="bw-manual" style="display:none;margin-top:8px">
-              <div id="bw-grid" class="bw-grid"></div>
-              <div id="bw-count" style="font-size:10px;color:var(--color-text-tertiary);margin-top:6px;text-align:right"></div>
+
+          <!-- Blood Work -->
+          <div class="pf-section" id="pf-sec-bw">
+            <button type="button" class="pf-sec-toggle" onclick="pfToggle(this)">
+              <span class="pf-sec-left">Blood Work <span class="pf-sec-count" id="pf-count-bw" style="color:var(--color-text-tertiary);background:rgba(0,0,0,.04)">coming soon</span></span>
+              <span class="pf-sec-arrow">&#9660;</span>
+            </button>
+            <div class="pf-sec-body">
+              <div style="padding:16px 0;text-align:center">
+                <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:4px">Blood work analysis coming soon</div>
+                <div style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5">Upload a lab report PDF or enter biomarker values to get<br>targeted supplement recommendations based on your results.</div>
+              </div>
+              <div id="bw-upload" style="display:none"><input type="file" id="bw-file" accept=".pdf" style="display:none"></div>
+              <div id="bw-uploaded" style="display:none"></div>
+              <div id="bw-manual" style="display:none"><div id="bw-grid" class="bw-grid"></div><div id="bw-count"></div></div>
             </div>
           </div>
         </div>
 
         <!-- Error + Submit -->
-        <div class="errmsg" id="serr" style="margin-top:10px">Please select your biological sex to continue.</div>
-        <button type="button" class="go-btn" onclick="genRecs()" style="width:100%;margin:14px 0 0;padding:12px;font-size:14px;border-radius:8px">Get my supplement plan &rarr;</button>
+        <div class="errmsg" id="serr">Please select your biological sex to continue.</div>
+        <button type="button" class="go-btn pf-submit" onclick="genRecs()">Get my supplement plan &rarr;</button>
+        <div class="pf-hint">Takes about 3 seconds &middot; No account needed</div>
       </div>
       <div id="bmi-display" style="display:none"></div>
-      <input type="hidden" id="prof-height-ft"><input type="hidden" id="prof-height-in">
+      <input type="hidden" id="prof-height-ft"><input type="hidden" id="prof-height-in"><input type="hidden" id="prof-weight">
       <input type="hidden" id="prof-email">
       <div id="age-grp" style="display:none"></div>
     </div>
@@ -304,47 +383,57 @@
       <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
     </div>
     <div id="v-res" style="display:none">
-      <!-- Dashboard header -->
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:12px">
-        <div>
-          <div style="font-size:20px;font-weight:700" id="res-hd"></div>
-          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:3px" id="res-sh"></div>
+      <!-- Dashboard banner -->
+      <div class="res-banner">
+        <div class="res-banner-body">
+          <div class="res-banner-title" id="res-hd">Your recommendations</div>
+          <div class="res-banner-sub" id="res-sh"></div>
+          <div class="res-banner-chips" id="res-chips"></div>
         </div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap">
-          <button type="button" class="edit-btn" style="background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent" onclick="editP()">Edit profile</button>
-          <button type="button" class="edit-btn" onclick="downloadPDF()">Download PDF</button>
-          <button type="button" class="edit-btn" id="share-btn" onclick="shareProfile()">Share</button>
-          <button type="button" class="edit-btn" onclick="showEmailReport()">Email</button>
-        </div>
+        <button type="button" class="res-banner-edit" onclick="editP()">Edit profile</button>
       </div>
-      <!-- Stat cards -->
-      <div id="dash-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem"></div>
-      <!-- Profile summary strip -->
-      <div id="dash-profile-strip" style="background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:10px;padding:10px 16px;margin-bottom:1rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--color-text-secondary)"></div>
+      <!-- Profile summary strip (removed) -->
       <!-- Blood work results (shown when blood work data exists) -->
       <div id="bw-results" style="display:none;margin-bottom:1rem">
         <div id="bw-results-header" class="bw-results-hdr"></div>
         <div id="bw-summary-strip" class="bw-summary-strip"></div>
         <div id="bw-deficiency-cards"></div>
       </div>
-      <!-- Coming soon bar -->
-      <div id="coming-soon-bar" style="display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:1rem">
-        <span style="font-size:8px;font-weight:600;padding:2px 6px;border-radius:6px;background:#7B1FA2;color:#fff;text-transform:uppercase;flex-shrink:0">Coming soon</span>
-        <span style="font-size:10px;color:var(--color-text-secondary)">More personalisation features</span>
-        <div style="display:flex;gap:4px;margin-left:auto">
-          <span style="font-size:8px;padding:2px 6px;border-radius:6px;border:1px dashed var(--color-border-secondary);color:var(--color-text-tertiary)">DNA matching</span>
-        </div>
-      </div>
+      <!-- Coming soon bar (removed) -->
       <!-- Email report -->
       <div id="email-report-box" style="display:none;align-items:center;gap:8px;margin-bottom:1rem;padding:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px">
         <input type="email" id="report-email" placeholder="Enter your email" style="flex:1;padding:8px 12px;border-radius:6px;border:0.5px solid var(--color-border-secondary);font-size:13px;font-family:inherit;outline:none">
         <button type="button" id="send-report-btn" class="go-btn" style="width:auto;margin:0;padding:8px 16px;font-size:12px" onclick="sendEmailReport()">Send</button>
       </div>
       <div id="med-alert-box"></div>
-      <div id="schedule-box" style="display:none;background:var(--color-background-primary);border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;margin-bottom:1rem"></div>
-      <div id="ess-sec" class="pri-sec"><div class="pri-hdr"><div class="pri-dot" style="background:var(--t1c)"></div><div class="pri-ttl">Essential for your profile</div><div class="pri-cnt" id="ess-cnt"></div></div><div id="ess-cards"></div></div>
-      <div id="rec-sec" class="pri-sec"><div class="pri-hdr"><div class="pri-dot" style="background:var(--t2c)"></div><div class="pri-ttl">Recommended</div><div class="pri-cnt" id="rec-cnt"></div></div><div id="rec-cards"></div></div>
-      <div id="con-sec" class="pri-sec"><div class="pri-hdr"><div class="pri-dot" style="background:var(--t3c)"></div><div class="pri-ttl">Worth considering</div><div class="pri-cnt" id="con-cnt"></div></div><div id="con-cards"></div></div>
+      <!-- Selectable supplement cards -->
+      <div id="supp-cards-container"></div>
+      <!-- Selection bar -->
+      <div class="sel-bar" id="sel-bar" style="display:none">
+        <div class="sel-bar-inner">
+          <div class="sel-bar-left">
+            <div class="sel-bar-count" id="sel-count">0</div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">supplements selected</div><div class="sel-bar-label">Tap cards above to add or remove</div></div>
+          </div>
+          <button class="sel-bar-btn" onclick="openPlanModal()">View my plan &rarr;</button>
+        </div>
+      </div>
+      <!-- Plan overlay modal -->
+      <div class="plan-overlay" id="plan-overlay">
+        <div class="plan-card">
+          <button class="plan-close-btn" onclick="closePlanModal()">&times;</button>
+          <div class="plan-hdr">
+            <h2>Your Daily Plan</h2>
+            <p id="plan-sub"></p>
+          </div>
+          <div class="plan-body" id="plan-body"></div>
+          <div class="plan-preview" id="plan-preview"></div>
+          <div class="plan-footer">
+            <input type="email" id="plan-email" placeholder="Enter your email" class="plan-email-input">
+            <button class="plan-foot-btn plan-btn-dark" id="plan-send-btn" onclick="sendPlanEmail()">Download PDF</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div id="p2">
@@ -421,8 +510,8 @@
       <div class="abt-road-title">Comprehensive Supplement Database</div>
       <div class="abt-road-desc">Build and maintain a database of 628+ supplements evaluated across 6 clinical dimensions. Every rating derived from systematic reviews, meta-analyses, and human clinical trials across 30 peer-reviewed sources. Continuously updated as new research is published.</div>
     </div>
-    <div class="abt-road-card st-done">
-      <div class="abt-road-step"><span class="abt-how-status done">Active</span> Stage 2</div>
+    <div class="abt-road-card st-soon">
+      <div class="abt-road-step"><span class="abt-how-status" style="background:#dbeafe;color:#2563eb">Coming soon</span> Stage 2</div>
       <div class="abt-road-title">Personalized Recommendations</div>
       <div class="abt-road-desc">A profile-based recommendation engine that generates a custom supplement plan based on your age, sex, health goals, existing conditions, and current medications. Identifies what to take, what to avoid, dosing, timing, and potential interactions.</div>
     </div>
@@ -2528,6 +2617,156 @@
           <div class="article-title">Joint Supplements Ranked: What Actually Reduces Pain</div>
           <div class="article-desc">From glucosamine to collagen peptides to Boswellia &#8212; a head-to-head evidence review of the most popular joint supplements ranked by clinical effect size and quality of evidence.</div>
           <div class="article-meta">Updated Apr 12, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="guide" onclick="showArticle(132)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">8</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Guide</div>
+          <div class="article-title">Calcium Supplements: When They Help and When They Harm</div>
+          <div class="article-desc">A guide to when calcium supplements are truly needed, the cardiovascular controversy, and why form, timing, and cofactors like vitamin D and K2 matter more than dose.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(133)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Breakthrough</div>
+          <div class="article-title">Lutein and Zeaxanthin: Protecting Your Vision After 40</div>
+          <div class="article-desc">The AREDS2 trial changed how we think about macular degeneration prevention. Here is what the evidence says about lutein and zeaxanthin for long-term eye health.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="myth" onclick="showArticle(134)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Reality Check</div>
+          <div class="article-title">Spirulina: Nutrient Powerhouse or Overhyped Algae?</div>
+          <div class="article-desc">Spirulina is marketed as a superfood, but its B12 is unusable and heavy metal contamination is a real risk. What the evidence actually supports.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="guide" onclick="showArticle(135)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Guide</div>
+          <div class="article-title">Alpha-Lipoic Acid: The Antioxidant for Nerve Health</div>
+          <div class="article-desc">Alpha-lipoic acid has strong evidence for diabetic neuropathy. A guide to forms, dosing, and how it interacts with blood sugar medications.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(136)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Breakthrough</div>
+          <div class="article-title">Beta-Alanine: Why the Tingle Is Worth It for Athletes</div>
+          <div class="article-desc">The ISSN endorses beta-alanine for high-intensity performance. How carnosine buffering works, why you tingle, and who benefits most.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="guide" onclick="showArticle(137)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">8</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Guide</div>
+          <div class="article-title">Choline: The Essential Nutrient 90% of People Lack</div>
+          <div class="article-desc">NIH data shows most Americans fall short on choline. Why your liver and brain depend on it, and how MTHFR variants make deficiency worse.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(138)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Breakthrough</div>
+          <div class="article-title">Tart Cherry for Recovery: What the Sports Science Says</div>
+          <div class="article-desc">Marathon runners and strength athletes are using tart cherry concentrate for faster recovery. The evidence for inflammation, soreness, and sleep.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="kids" onclick="showArticle(139)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">9</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Kids</div>
+          <div class="article-title">Supplements for Kids: What's Safe, What's Needed, and What to Skip</div>
+          <div class="article-desc">Most children do not need a multivitamin. But vitamin D, omega-3, and iron for picky eaters have real evidence behind them.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(140)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Breakthrough</div>
+          <div class="article-title">Quercetin and Immunity: From Antioxidant to Senolytic</div>
+          <div class="article-desc">Quercetin has quietly moved from antioxidant curiosity to senolytic research candidate. The evidence for immunity, aging, and bioavailability.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
+        </div>
+      </div>
+
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(141)" style="cursor:pointer">
+        <div class="article-side">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div class="article-side-div"></div>
+          <div class="article-side-stat">7</div>
+          <div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Breakthrough</div>
+          <div class="article-title">HMB for Muscle After 50: Why Older Adults Need It Most</div>
+          <div class="article-desc">A 2025 meta-analysis confirms HMB preserves muscle mass in older adults. How this leucine metabolite works and who should take it.</div>
+          <div class="article-meta">Updated Apr 13, 2026</div>
         </div>
       </div>
 
@@ -6524,13 +6763,287 @@
     </div>
   </div><!-- end article-131 -->
 
+  <!-- ARTICLE 132 -->
+  <div class="article-full" id="article-132" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Guide</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Calcium Supplements: When They Help and When They Harm</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 8 min read</div>
+      <p>Calcium is the most abundant mineral in the human body, with 99% stored in bones and teeth. The Recommended Dietary Allowance is 1,000&#8211;1,200 mg/day for adults, and national survey data consistently shows that roughly 40% of the U.S. population does not meet this through diet alone. However, blanket supplementation has become controversial since a series of meta-analyses raised concerns about cardiovascular risk. The question is no longer <em>should you take calcium</em> but rather <em>who needs it, how much, and in what form</em>.</p>
+      <h3>When Supplements Are Truly Needed</h3>
+      <p>Calcium supplementation has clear evidence of benefit in specific populations: postmenopausal women not meeting dietary calcium goals, individuals with documented osteoporosis or osteopenia, people on long-term corticosteroid therapy, and those with malabsorption conditions like celiac disease. The Women's Health Initiative (WHI) trial of 36,282 women found that calcium plus vitamin D supplementation reduced hip fracture risk by 29% in women who were actually adherent to the regimen. For people who consume adequate dairy, leafy greens, and fortified foods, supplementation offers little additional bone benefit and may increase total intake beyond useful thresholds.</p>
+      <h3>The Cardiovascular Controversy</h3>
+      <p>In 2010, a meta-analysis by Bolland et al. reported a 27&#8211;31% increased risk of myocardial infarction in calcium supplement users. This finding generated significant concern, though subsequent analyses have been conflicting. The proposed mechanism involves a rapid spike in serum calcium after supplement ingestion that may promote arterial calcification &#8212; a spike that does not occur with dietary calcium, which is absorbed gradually. The current scientific consensus, reflected in National Osteoporosis Foundation and American Society for Preventive Cardiology guidelines, is to prioritize dietary calcium first and supplement only to fill the gap, keeping total intake below 1,500 mg/day.</p>
+      <h3>Form Matters: Citrate vs. Carbonate</h3>
+      <p>Calcium carbonate is the most common and least expensive form, containing 40% elemental calcium by weight. It requires stomach acid for absorption and must be taken with food. Calcium citrate contains only 21% elemental calcium but is well absorbed regardless of stomach acid levels, making it the preferred form for people over 50 (who often have reduced gastric acid), those on proton pump inhibitors, and anyone who experiences GI discomfort with carbonate. Both forms are effective when taken correctly &#8212; the key is splitting doses to no more than 500 mg elemental calcium per sitting, as absorption efficiency drops sharply above this threshold.</p>
+      <h3>The Vitamin D and K2 Synergy</h3>
+      <p>Calcium absorption requires adequate vitamin D &#8212; without it, only 10&#8211;15% of dietary calcium is absorbed versus 30&#8211;40% with sufficient vitamin D status. This is why nearly all calcium trials co-administer vitamin D3. Vitamin K2 (menaquinone-7) has emerged as an important cofactor: it activates osteocalcin (which deposits calcium into bone) and matrix Gla protein (which prevents calcium deposition in arterial walls). The Rotterdam Study found that high dietary K2 intake was associated with 50% lower risk of arterial calcification and 50% lower cardiovascular mortality. While the evidence for supplemental K2 is still maturing, the mechanistic rationale for combining calcium with both D3 and K2 is strong.</p>
+      <h3>Timing and Interactions</h3>
+      <p>Calcium competes for absorption with iron, zinc, and magnesium. Take calcium supplements at least 2 hours apart from iron supplements and separate from thyroid medications (levothyroxine) by at least 4 hours. Calcium also reduces absorption of certain antibiotics (tetracyclines, fluoroquinolones). For most adults, the practical recommendation is: get 800&#8211;1,000 mg from diet, supplement only the remaining gap in split doses of 500 mg or less, always with vitamin D3 (1,000&#8211;2,000 IU), and consider adding 100&#8211;200 mcg of vitamin K2 (MK-7).</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Bolland MJ, et al. "Effect of calcium supplements on risk of myocardial infarction and cardiovascular events: meta-analysis." <em>BMJ</em>, 2010.</li>
+          <li>Jackson RD, et al. "Calcium plus vitamin D supplementation and the risk of fractures." <em>New England Journal of Medicine</em>, 2006 (Women's Health Initiative).</li>
+          <li>Geleijnse JM, et al. "Dietary intake of menaquinone is associated with a reduced risk of coronary heart disease: the Rotterdam Study." <em>Journal of Nutrition</em>, 2004.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-132 -->
+
+  <!-- ARTICLE 133 -->
+  <div class="article-full" id="article-133" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Breakthrough</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Lutein and Zeaxanthin: Protecting Your Vision After 40</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>Age-related macular degeneration (AMD) is the leading cause of irreversible vision loss in adults over 50 in developed countries. The macula &#8212; the central region of the retina responsible for sharp, detailed vision &#8212; contains high concentrations of two carotenoid pigments: lutein and zeaxanthin. These pigments act as a natural blue-light filter and antioxidant shield, and their density in the macula (measured as macular pigment optical density, or MPOD) declines with age. The landmark AREDS2 trial established that supplementing these carotenoids can meaningfully alter the progression of this disease.</p>
+      <h3>The AREDS2 Trial: Definitive Evidence</h3>
+      <p>The Age-Related Eye Disease Study 2 (AREDS2), sponsored by the National Eye Institute, enrolled 4,203 participants at risk for advanced AMD. The trial found that replacing beta-carotene with 10 mg lutein and 2 mg zeaxanthin in the original AREDS formula reduced the risk of progression to advanced AMD by an additional 18% compared to the beta-carotene formulation. Critically, beta-carotene was associated with increased lung cancer risk in former smokers &#8212; making the lutein/zeaxanthin swap both more effective and safer. The AREDS2 formulation (lutein 10 mg, zeaxanthin 2 mg, vitamin C 500 mg, vitamin E 400 IU, zinc 80 mg, copper 2 mg) is now the standard of care for intermediate AMD.</p>
+      <h3>Blue Light Filtering and Daily Protection</h3>
+      <p>Lutein and zeaxanthin absorb blue light (400&#8211;500 nm wavelength) before it reaches the photoreceptors, reducing photo-oxidative damage to the retinal pigment epithelium. In the modern environment &#8212; with extended screen time exposing eyes to significant blue light &#8212; this filtering function has gained renewed attention. Studies using the MPOD biomarker show that supplementation with 10&#8211;20 mg lutein daily increases macular pigment density within 2&#8211;4 months, with higher MPOD consistently associated with better contrast sensitivity and reduced glare disability. While blue-light-filtering glasses have minimal evidence, the internal biological filter provided by macular carotenoids has strong mechanistic and clinical support.</p>
+      <h3>Food Sources vs. Supplements</h3>
+      <p>The richest dietary sources of lutein are cooked kale (23 mg per cup), cooked spinach (20 mg per cup), and egg yolks (which provide highly bioavailable lutein due to the fat matrix). Most Americans consume only 1&#8211;2 mg/day &#8212; well below the 10 mg/day used in AREDS2. Achieving therapeutic doses through diet alone is possible but requires deliberate daily intake of dark leafy greens. For those already showing signs of drusen (early AMD deposits) or with a family history of macular degeneration, supplementation at the AREDS2 dose is strongly supported. Lutein is fat-soluble and should be taken with a meal containing dietary fat for optimal absorption.</p>
+      <h3>Beyond AMD: Emerging Evidence</h3>
+      <p>Observational data from the Nurses' Health Study and Health Professionals Follow-up Study found that higher dietary lutein and zeaxanthin intake was associated with a 40% lower risk of advanced AMD. Emerging research also links higher MPOD to improved cognitive function in older adults &#8212; lutein accumulates in brain tissue as well as the retina, and the LAMA (Lutein and Aging, Memory, and Attention) trial found improvements in memory and processing speed with 12 mg/day lutein supplementation in older women. The evidence base is strongest for AMD prevention, but the broader neuroprotective potential is an active and promising area of research.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Age-Related Eye Disease Study 2 Research Group. "Lutein + zeaxanthin and omega-3 fatty acids for age-related macular degeneration." <em>JAMA</em>, 2013.</li>
+          <li>Seddon JM, et al. "Dietary carotenoids, vitamins A, C, and E, and advanced age-related macular degeneration." <em>JAMA</em>, 1994.</li>
+          <li>Hammond BR, et al. "Effects of lutein/zeaxanthin supplementation on macular pigment optical density and visual performance." <em>Investigative Ophthalmology &amp; Visual Science</em>, 2014.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-133 -->
+
+  <!-- ARTICLE 134 -->
+  <div class="article-full" id="article-134" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Reality Check</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Spirulina: Nutrient Powerhouse or Overhyped Algae?</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>Spirulina (Arthrospira platensis) is a blue-green cyanobacterium that has been consumed for centuries and is now marketed as one of the most nutrient-dense foods on the planet. It does contain a remarkable concentration of protein (60&#8211;70% by dry weight), iron, B vitamins, and phycocyanin (a pigment with antioxidant properties). But the gap between spirulina's actual evidence base and its marketing claims is substantial &#8212; and there are safety concerns that most consumers never hear about.</p>
+      <h3>What the Nutrient Profile Actually Means</h3>
+      <p>Per gram, spirulina is indeed nutrient-dense. But the typical daily serving is 3&#8211;5 grams &#8212; roughly one teaspoon. At 3 grams, you get about 2 grams of protein (less than a single bite of chicken), 2 mg of iron (11% of the RDA), and small amounts of various B vitamins. The "superfood" narrative relies on per-gram comparisons that collapse when you consider actual serving sizes. Spirulina's iron content is meaningful for vegans supplementing at higher doses (10&#8211;15 g/day), but for most people, the practical nutrient delivery is modest. Its phycocyanin content, however, has genuine antioxidant and anti-inflammatory activity in cell and animal studies.</p>
+      <h3>The B12 Myth</h3>
+      <p>One of the most persistent claims about spirulina is that it provides vitamin B12 &#8212; making it supposedly ideal for vegans. This is incorrect and potentially dangerous. Spirulina contains predominantly pseudovitamin B12 (cobamide analogues) that are biologically inactive in humans. Worse, these analogues may actually compete with true B12 for absorption and binding proteins, potentially worsening B12 status. A 1991 study in the <em>Journal of Nutrition</em> confirmed that spirulina's corrinoid compounds have no B12 activity in mammalian cell assays. Vegans relying on spirulina for B12 are at risk of deficiency. True B12 supplementation (cyanocobalamin or methylcobalamin) remains essential.</p>
+      <h3>Heavy Metal Contamination</h3>
+      <p>Spirulina grows in alkaline lakes that can concentrate heavy metals &#8212; particularly lead, mercury, arsenic, and cadmium. Because spirulina efficiently absorbs minerals from its growth medium, contamination levels depend entirely on water source quality and manufacturing controls. A 2013 study in the <em>Saudi Journal of Biological Sciences</em> found that commercially available spirulina products varied enormously in heavy metal content, with some exceeding safe daily intake thresholds at standard serving sizes. Products grown in controlled, certified facilities (organic and third-party tested) carry significantly lower risk, but consumers using unvetted brands may be accumulating toxic metals.</p>
+      <h3>What Evidence Actually Supports</h3>
+      <p>The strongest clinical evidence for spirulina is in lipid modulation. A 2018 meta-analysis of 12 RCTs in <em>Clinical Nutrition</em> found that spirulina supplementation significantly reduced total cholesterol, LDL cholesterol, and triglycerides while modestly increasing HDL cholesterol. Effect sizes were comparable to some dietary interventions. There is also preliminary evidence for blood pressure reduction and blood glucose modulation in type 2 diabetes, though trial quality is mixed. For immune function and athletic performance &#8212; two heavily marketed claims &#8212; the evidence is limited to small trials that have not been independently replicated. Spirulina is not harmful when sourced from reputable manufacturers, but it is not the superfood its marketing suggests.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Huang H, et al. "Spirulina supplementation and serum lipid concentrations: a systematic review and dose-response meta-analysis of randomized controlled trials." <em>Clinical Nutrition</em>, 2018.</li>
+          <li>Watanabe F, et al. "Pseudovitamin B12 is the predominant cobamide of an algal health food, Spirulina tablets." <em>Journal of Agricultural and Food Chemistry</em>, 1999.</li>
+          <li>Al-Dhabi NA. "Heavy metal analysis in commercial Spirulina products for human consumption." <em>Saudi Journal of Biological Sciences</em>, 2013.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-134 -->
+
+  <!-- ARTICLE 135 -->
+  <div class="article-full" id="article-135" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Guide</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Alpha-Lipoic Acid: The Antioxidant for Nerve Health</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>Alpha-lipoic acid (ALA) is a sulfur-containing compound that functions as a cofactor in mitochondrial energy metabolism and as both a fat-soluble and water-soluble antioxidant &#8212; a rare dual capability that allows it to operate in every compartment of the cell. While the body produces small amounts endogenously, supplemental ALA at doses of 300&#8211;600 mg/day has accumulated substantial clinical evidence, particularly for diabetic peripheral neuropathy. In Germany, prescription ALA (Thioctacid) has been used as a standard neuropathy treatment for decades.</p>
+      <h3>Diabetic Neuropathy: The Core Evidence</h3>
+      <p>The ALADIN (Alpha-Lipoic Acid in Diabetic Neuropathy) series of trials established the clinical foundation. ALADIN I (328 patients with type 2 diabetes and symptomatic neuropathy) found that intravenous ALA at 600 mg/day for 3 weeks significantly reduced neuropathic symptoms (pain, burning, paresthesias, numbness) compared to placebo, with a 52% responder rate. The SYDNEY 2 trial confirmed oral ALA at 600 mg/day for 5 weeks produced clinically meaningful improvement in neuropathic symptoms with an excellent safety profile. A 2012 meta-analysis of four trials (1,258 patients) in <em>International Journal of Endocrinology</em> concluded that 600 mg/day oral ALA is both clinically effective and well tolerated for diabetic polyneuropathy.</p>
+      <h3>R-ALA vs. Racemic ALA</h3>
+      <p>Alpha-lipoic acid exists as two mirror-image forms: R-lipoic acid (the natural, biologically active enantiomer) and S-lipoic acid. Most supplements contain a 50/50 racemic mixture. R-ALA is the form used in mitochondrial reactions and is approximately 40&#8211;50% more bioavailable than racemic ALA in pharmacokinetic studies. Stabilized R-ALA (often as sodium R-lipoate) is available but more expensive. For diabetic neuropathy, the clinical trials that established efficacy used racemic ALA at 600 mg/day &#8212; so while R-ALA may offer theoretical advantages, the racemic form at trial-validated doses is well supported.</p>
+      <h3>Blood Sugar Effects</h3>
+      <p>ALA enhances glucose uptake by activating AMPK (AMP-activated protein kinase) and increasing GLUT4 transporter translocation to cell membranes. Multiple trials have shown modest but statistically significant reductions in fasting blood glucose and HbA1c with 300&#8211;600 mg/day ALA supplementation in type 2 diabetes. This glucose-lowering effect is therapeutically useful but also means that ALA can interact with insulin and oral hypoglycemics, potentially causing hypoglycemia. Patients on metformin, sulfonylureas, or insulin should begin ALA at the lower end of the dose range and monitor blood sugar closely.</p>
+      <h3>Dosing and Practical Considerations</h3>
+      <p>The evidence-based dose for neuropathy is 600 mg/day, taken on an empty stomach (food reduces ALA absorption by roughly 30%). Doses above 600 mg/day have not shown additional benefit in clinical trials and increase the incidence of GI side effects (nausea, stomach discomfort). ALA also regenerates other antioxidants (vitamins C and E, glutathione, coenzyme Q10) and chelates certain metals, giving it a broad biochemical footprint. For people without diabetes, ALA at 300&#8211;600 mg/day is sometimes used for general antioxidant support, though the evidence for benefit in non-diabetic populations is substantially weaker than for neuropathy.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Ziegler D, et al. "Oral treatment with alpha-lipoic acid improves symptomatic diabetic polyneuropathy: the SYDNEY 2 trial." <em>Diabetes Care</em>, 2006.</li>
+          <li>Ziegler D, et al. "Treatment of symptomatic diabetic peripheral neuropathy with the antioxidant alpha-lipoic acid: the ALADIN study." <em>Diabetologia</em>, 1995.</li>
+          <li>Mijnhout GS, et al. "Alpha-lipoic acid for symptomatic peripheral neuropathy in patients with diabetes: a meta-analysis." <em>International Journal of Endocrinology</em>, 2012.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-135 -->
+
+  <!-- ARTICLE 136 -->
+  <div class="article-full" id="article-136" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Breakthrough</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Beta-Alanine: Why the Tingle Is Worth It for Athletes</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>Beta-alanine is one of the few sports supplements with a clear, well-understood mechanism and strong institutional endorsement. The International Society of Sports Nutrition (ISSN) issued a position stand in 2015 classifying beta-alanine as safe and effective for enhancing exercise capacity in high-intensity activities lasting 1&#8211;4 minutes. Its mechanism is indirect but powerful: beta-alanine is the rate-limiting precursor to carnosine, a dipeptide that buffers hydrogen ions in working muscle, delaying the acidosis that causes fatigue during intense effort.</p>
+      <h3>The Carnosine Buffering Mechanism</h3>
+      <p>During high-intensity exercise, rapid ATP hydrolysis and glycolysis produce hydrogen ions (H+) that lower intramuscular pH &#8212; the "burn" that forces you to slow down or stop. Carnosine (beta-alanyl-L-histidine) is one of the primary intracellular pH buffers in skeletal muscle. Supplementing beta-alanine at 3.2&#8211;6.4 g/day for 4&#8211;12 weeks increases intramuscular carnosine content by 40&#8211;80%, as confirmed by muscle biopsy and MRS (magnetic resonance spectroscopy) studies. This elevated carnosine provides greater buffering capacity, allowing athletes to sustain high-intensity effort for longer before acidosis-induced fatigue.</p>
+      <h3>The Tingle: Paresthesia Explained</h3>
+      <p>The most distinctive side effect of beta-alanine is a tingling or prickling sensation in the skin (paresthesia), typically felt in the face, neck, and hands within 15&#8211;30 minutes of ingestion. This occurs because beta-alanine activates Mas-related G-protein coupled receptors (MrgprD) in sensory neurons beneath the skin. The effect is dose-dependent and harmless &#8212; it is not an allergic reaction and has no connection to the supplement's efficacy. Sustained-release formulations reduce paresthesia substantially, and splitting the daily dose into smaller servings (0.8&#8211;1.6 g per dose) minimizes it further. The tingling typically diminishes over weeks of use as neuronal receptors desensitize.</p>
+      <h3>Who Benefits Most</h3>
+      <p>Beta-alanine is most effective for activities dominated by anaerobic glycolysis: 400m&#8211;1500m running, competitive rowing, high-rep resistance training, combat sports, and repeated sprint protocols. A 2012 meta-analysis in <em>Amino Acids</em> (15 studies, 360 participants) found a median performance improvement of 2.85% for exercise lasting 60&#8211;240 seconds, with diminishing benefit for longer-duration activities. For purely aerobic endurance events (marathon running, long-distance cycling) or maximal single-effort strength (one-rep max), beta-alanine provides little to no benefit. The supplement is also well-studied in military and tactical settings, where it improves repeated sprint performance and cognitive function under physical stress.</p>
+      <h3>Loading Protocol</h3>
+      <p>The ISSN-recommended protocol is 3.2&#8211;6.4 g/day in divided doses for a minimum of 4 weeks, with 12 weeks needed to maximize carnosine loading. The loading phase is essential &#8212; unlike creatine, beta-alanine does not produce acute effects, and a single dose before training is ineffective. Timing relative to training is irrelevant; what matters is consistent daily intake to saturate muscle carnosine stores. Carnosine levels remain elevated for 6&#8211;15 weeks after cessation of supplementation, decaying at a rate of roughly 2% per week. Beta-alanine can be combined with creatine (they work through different mechanisms), and the combination may be synergistic for high-intensity performance.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Trexler ET, et al. "International Society of Sports Nutrition position stand: beta-alanine." <em>Journal of the International Society of Sports Nutrition</em>, 2015.</li>
+          <li>Hobson RM, et al. "Effects of beta-alanine supplementation on exercise performance: a meta-analysis." <em>Amino Acids</em>, 2012.</li>
+          <li>Harris RC, et al. "The absorption of orally supplied beta-alanine and its effect on muscle carnosine synthesis in human vastus lateralis." <em>Amino Acids</em>, 2006.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-136 -->
+
+  <!-- ARTICLE 137 -->
+  <div class="article-full" id="article-137" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Guide</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Choline: The Essential Nutrient 90% of People Lack</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 8 min read</div>
+      <p>Choline was officially recognized as an essential nutrient by the Institute of Medicine in 1998, yet it remains one of the least discussed and most under-consumed nutrients in the American diet. NIH analysis of NHANES data shows that approximately 90% of U.S. adults do not meet the Adequate Intake (AI) of 550 mg/day for men and 425 mg/day for women. Unlike better-known deficiencies (vitamin D, iron), choline insufficiency produces no obvious acute symptoms &#8212; it quietly contributes to fatty liver, impaired methylation, and suboptimal brain function over time.</p>
+      <h3>What Choline Does: Liver and Brain</h3>
+      <p>Choline serves three critical biochemical roles. First, it is the precursor to phosphatidylcholine, the dominant phospholipid in cell membranes and the primary component of VLDL particles that export fat from the liver &#8212; without adequate choline, fat accumulates in the liver, and choline deficiency is a well-established independent cause of non-alcoholic fatty liver disease (NAFLD). Second, choline is the precursor to acetylcholine, the neurotransmitter essential for memory, attention, and muscle control. Third, choline serves as a methyl donor via its oxidation to betaine, feeding into the same one-carbon metabolism cycle as folate and B12.</p>
+      <h3>The MTHFR Connection</h3>
+      <p>Individuals carrying MTHFR variants (particularly C677T, which affects roughly 10&#8211;15% of the population in homozygous form and up to 40% as heterozygotes) have impaired folate metabolism and increased reliance on choline-derived methyl groups. Studies published in the <em>American Journal of Clinical Nutrition</em> show that people with MTHFR variants are significantly more susceptible to organ dysfunction during choline depletion. For these individuals, meeting or exceeding the choline AI is not optional &#8212; it is a critical compensatory pathway for methylation when folate recycling is compromised.</p>
+      <h3>Pregnancy: A Critical Window</h3>
+      <p>Choline requirements increase dramatically during pregnancy (AI rises to 450 mg/day, though many researchers argue this is still too low). Choline is essential for fetal brain development &#8212; it supports neural tube closure, hippocampal development, and lifelong cognitive function. A 2018 RCT in the <em>FASEB Journal</em> (26 pregnant women, third trimester) found that maternal choline supplementation at 930 mg/day (versus 480 mg/day) significantly improved infant information processing speed at 4, 7, 10, and 13 months of age. Despite this, most prenatal vitamins contain zero choline or trivial amounts (10&#8211;55 mg), and choline is not routinely discussed in prenatal care.</p>
+      <h3>Forms Comparison: CDP-Choline vs. Alpha-GPC</h3>
+      <p>Dietary choline comes primarily from eggs (147 mg per large egg), liver (356 mg per 3 oz), and soybeans. For supplementation, the two most evidence-backed forms are CDP-choline (citicoline) and alpha-GPC. CDP-choline provides choline plus cytidine (which converts to uridine, a nucleotide involved in synaptic membrane synthesis) and has clinical trial evidence for cognitive support at 500&#8211;2,000 mg/day. Alpha-GPC is 40% choline by weight (the highest of any supplemental form) and crosses the blood-brain barrier efficiently; it has evidence for cognitive support in elderly populations and is used clinically in Europe for cognitive decline. Both are well-absorbed and well-tolerated. For simple choline repletion, alpha-GPC at 300&#8211;600 mg/day is cost-effective; for nootropic goals, CDP-choline at 250&#8211;500 mg/day offers the additional cytidine benefit.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Wallace TC, Fulgoni VL. "Usual choline intakes are associated with egg and protein food consumption in the United States." <em>Nutrients</em>, 2017.</li>
+          <li>Caudill MA, et al. "Maternal choline supplementation during the third trimester of pregnancy improves infant information processing speed." <em>FASEB Journal</em>, 2018.</li>
+          <li>da Costa KA, et al. "Choline deficiency is associated with increased risk of fatty liver disease in MTHFR C677T carriers." <em>American Journal of Clinical Nutrition</em>, 2006.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-137 -->
+
+  <!-- ARTICLE 138 -->
+  <div class="article-full" id="article-138" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Breakthrough</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Tart Cherry for Recovery: What the Sports Science Says</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>Tart cherry (Prunus cerasus), particularly the Montmorency variety, has emerged as one of the more compelling natural recovery aids in sports nutrition research. Unlike many "natural anti-inflammatory" supplements that rely on cell-culture data and animal models, tart cherry concentrate has been tested in well-designed human exercise recovery trials &#8212; including marathon runners, strength athletes, and cycling protocols &#8212; with consistent positive results for reducing muscle soreness, inflammation markers, and oxidative stress.</p>
+      <h3>Marathon and Exercise Recovery Trials</h3>
+      <p>A landmark 2010 study in the <em>Scandinavian Journal of Medicine &amp; Science in Sports</em> gave marathon runners Montmorency tart cherry juice (approximately 100 cherries' worth of concentrate) or placebo for 5 days before and 2 days after the London Marathon. The cherry group showed significantly faster recovery of isometric muscle strength, reduced inflammation (IL-6 levels were 12% lower), and lower oxidative stress markers (F2-isoprostanes). A separate study in trained cyclists found that tart cherry concentrate consumed for 7 days before and during 3 days of simulated road racing reduced markers of muscle catabolism by 18% and preserved muscle function compared to placebo.</p>
+      <h3>The Anti-Inflammatory Mechanism</h3>
+      <p>Tart cherries are rich in anthocyanins (cyanidin and peonidin glycosides) and other polyphenols that inhibit cyclooxygenase-1 and cyclooxygenase-2 (COX-1 and COX-2) enzymes &#8212; the same targets as ibuprofen and aspirin, though at a much lower potency. A study at Oregon Health &amp; Science University found that the anti-inflammatory activity of tart cherry juice was comparable to a standard dose of ibuprofen in a cell-based assay. The advantage over NSAIDs for exercise recovery is that cherry anthocyanins do not appear to interfit with the beneficial adaptive response to exercise-induced inflammation that drives training adaptation, whereas chronic NSAID use may blunt muscle protein synthesis.</p>
+      <h3>Sleep Quality and Natural Melatonin</h3>
+      <p>An unexpected finding in tart cherry research is its effect on sleep. Montmorency cherries are one of the few natural food sources of melatonin, containing roughly 13 ng of melatonin per gram. A 2012 RCT in the <em>European Journal of Nutrition</em> found that tart cherry juice concentrate (30 mL twice daily for 7 days) significantly increased urinary melatonin levels, total sleep time (by 25 minutes), and sleep efficiency compared to placebo in healthy adults. A subsequent trial in older adults with insomnia confirmed reduced wakefulness after sleep onset. The sleep benefit is modest compared to exogenous melatonin supplements but may be meaningful for athletes seeking recovery without direct sleep-aid supplementation.</p>
+      <h3>Dosing and Practical Use</h3>
+      <p>The effective dose in clinical trials is typically 30 mL (1 oz) of Montmorency tart cherry concentrate twice daily, or 8&#8211;12 oz of tart cherry juice twice daily, beginning 4&#8211;5 days before and continuing 2&#8211;3 days after the exercise bout. Capsulated powdered tart cherry extract (480&#8211;1,000 mg/day) has also shown efficacy, though fewer trials have used this form. Timing matters: the protective effects require pre-loading, and a single post-exercise dose does not replicate the benefits seen with multi-day protocols. Tart cherry combines well with other evidence-based recovery strategies (adequate protein, sleep, foam rolling) and does not interact with common medications at typical doses.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Howatson G, et al. "Influence of tart cherry juice on indices of recovery following marathon running." <em>Scandinavian Journal of Medicine &amp; Science in Sports</em>, 2010.</li>
+          <li>Pigeon WR, et al. "Effects of a tart cherry juice beverage on the sleep of older adults with insomnia." <em>Journal of Medicinal Food</em>, 2010.</li>
+          <li>Bowtell JL, et al. "Montmorency cherry juice reduces muscle damage caused by intensive strength exercise." <em>Medicine &amp; Science in Sports &amp; Exercise</em>, 2011.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-138 -->
+
+  <!-- ARTICLE 139 -->
+  <div class="article-full" id="article-139" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Kids</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Supplements for Kids: What's Safe, What's Needed, and What to Skip</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 9 min read</div>
+      <p>The pediatric supplement market has exploded, with gummy vitamins, probiotic pouches, and "brain-boosting" omega-3 products filling entire pharmacy aisles. The American Academy of Pediatrics (AAP) maintains that most children eating a reasonably varied diet do not need a multivitamin supplement. However, specific nutrient gaps are common in specific populations, and a handful of supplements have genuine evidence supporting their use in children. The challenge is separating the few that matter from the many that are marketed through parental anxiety.</p>
+      <h3>Vitamin D: The Universal Recommendation</h3>
+      <p>Vitamin D is the one supplement with near-universal pediatric endorsement. The AAP recommends 400 IU/day for all infants from birth (breastmilk contains only 25&#8211;78 IU per liter) and 600 IU/day for children over age 1. The NHANES data shows that approximately 15% of U.S. children are vitamin D deficient (&lt;20 ng/mL) and another 30&#8211;40% are insufficient (20&#8211;29 ng/mL), with higher rates in children with darker skin, northern latitudes, and limited outdoor time. Deficiency in children is associated with impaired bone mineralization, increased respiratory infection frequency, and potentially unfavorable immune development. Vitamin D3 (cholecalciferol) drops for infants and chewable tablets for older children are inexpensive and well-tolerated.</p>
+      <h3>Omega-3 for Brain Development</h3>
+      <p>DHA (docosahexaenoic acid) is a structural component of developing brain tissue, accumulating rapidly during the first two years of life and continuing through adolescence. Children who eat fatty fish 2+ times per week generally have adequate omega-3 status, but NHANES data shows the median DHA intake for U.S. children aged 2&#8211;5 is well below recommended levels. A 2012 Oxford University trial (DHA Oxford Learning and Behaviour, or DOLAB) of 362 underperforming school children found that DHA supplementation (600 mg/day for 16 weeks) significantly improved reading performance in the lowest-performing 20%. A separate meta-analysis found modest but significant improvements in attention symptoms with omega-3 supplementation in children with ADHD, with effect sizes comparable to behavioral interventions. Dose: 250&#8211;600 mg DHA/day for children over age 2.</p>
+      <h3>Iron: The Picky Eater Problem</h3>
+      <p>Iron deficiency is the most common nutritional deficiency worldwide in children, affecting an estimated 8% of U.S. toddlers and higher percentages of children in low-income households or those with highly restricted diets. Symptoms include fatigue, poor concentration, impaired cognitive development, and increased infection susceptibility. The AAP recommends screening for iron deficiency at 12 months. Supplementation is warranted in children with confirmed deficiency or those with severely restricted diets who refuse iron-rich foods (red meat, fortified cereals, legumes). The recommended form for children is ferrous sulfate drops or liquid, dosed by weight, typically 3&#8211;6 mg/kg/day for treatment and 1&#8211;2 mg/kg/day for prevention. Iron supplements should not be given to children without documented deficiency, as iron overload carries its own risks.</p>
+      <h3>What to Avoid</h3>
+      <p>Several supplement categories marketed to children lack evidence or carry risk. <strong>Melatonin</strong> use in children has skyrocketed, but the long-term effects on developing hormonal systems are unknown, and the AAP recommends it only as a short-term intervention under physician guidance. <strong>Herbal "immune boosters"</strong> (elderberry, echinacea) for children have minimal evidence and dose-finding studies in pediatric populations are largely absent. <strong>Gummy multivitamins</strong> often contain 2&#8211;4 grams of added sugar per serving and may contain less of the labeled nutrients than claimed &#8212; a 2017 ConsumerLab analysis found that 80% of children's gummy vitamins failed quality testing (low vitamin content or excessive lead).</p>
+      <h3>When a Multivitamin Makes Sense</h3>
+      <p>A basic children's multivitamin is reasonable for children with genuinely restrictive diets (severe picky eating, vegan diets, multiple food allergies), chronic GI conditions affecting absorption, or documented failure to thrive. Choose a product that provides 100% of the Daily Value (not megadoses) for vitamin D, iron, zinc, and iodine &#8212; the four nutrients most commonly inadequate in restricted pediatric diets. Avoid products with excessive vitamin A (retinol), which can reach toxic levels in children more quickly than in adults. For most children eating a varied diet with some fruits, vegetables, dairy, and protein, targeted supplementation (vitamin D +/- omega-3) is more appropriate and evidence-based than a broad multivitamin.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Richardson AJ, et al. "Docosahexaenoic acid for reading, cognition and behavior in children aged 7&#8211;9 years: a randomized controlled trial (DOLAB)." <em>PLOS ONE</em>, 2012.</li>
+          <li>Wagner CL, Greer FR. "Prevention of rickets and vitamin D deficiency in infants, children, and adolescents." <em>Pediatrics</em> (AAP Clinical Report), 2008.</li>
+          <li>Baker RD, Greer FR. "Diagnosis and prevention of iron deficiency and iron-deficiency anemia in infants and young children." <em>Pediatrics</em> (AAP Clinical Report), 2010.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-139 -->
+
+  <!-- ARTICLE 140 -->
+  <div class="article-full" id="article-140" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Breakthrough</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Quercetin and Immunity: From Antioxidant to Senolytic</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>Quercetin is a flavonoid found in onions, apples, berries, and capers that has been studied for decades as an antioxidant &#8212; but its most exciting recent trajectory is in a different field entirely: senolytic therapy, the selective elimination of senescent (aged, dysfunctional) cells that accumulate with age and drive chronic inflammation. This dual identity &#8212; a well-characterized plant compound that happens to possess senolytic activity &#8212; has made quercetin one of the most studied flavonoids in both nutrition and aging research.</p>
+      <h3>Immune Modulation Evidence</h3>
+      <p>Quercetin's effects on the immune system are modulatory rather than simply "boosting." In vitro and animal studies show it inhibits NF-kB signaling, reduces production of pro-inflammatory cytokines (IL-6, TNF-alpha), and stabilizes mast cells (reducing histamine release). A 2011 RCT published in <em>Pharmacological Research</em> (1,002 participants) found that quercetin supplementation at 1,000 mg/day for 12 weeks significantly reduced the severity and duration of upper respiratory tract infections in physically fit adults over 40, though incidence was not significantly reduced. For general immune support, quercetin appears to have anti-inflammatory and antiviral properties, but the evidence does not support it as a cold-prevention supplement for most populations.</p>
+      <h3>Senolytic Properties</h3>
+      <p>The breakthrough that elevated quercetin from flavonoid curiosity to aging-research focus came from a 2015 paper by Zhu et al. in <em>Aging Cell</em> showing that the combination of dasatinib (a cancer drug) plus quercetin (D+Q) selectively kills senescent cells in vitro and in vivo. Senescent cells &#8212; cells that have stopped dividing but resist apoptosis &#8212; accumulate in aging tissues, secreting a cocktail of inflammatory proteins (the senescence-associated secretory phenotype, or SASP) that drives age-related diseases. In mouse models, intermittent D+Q treatment improved physical function, extended healthspan, and reduced markers of aging. Human trials are underway: a 2019 pilot study in patients with idiopathic pulmonary fibrosis found that D+Q improved physical function after just 3 weeks of intermittent dosing.</p>
+      <h3>The Zinc Ionophore Theory</h3>
+      <p>During the COVID-19 pandemic, quercetin gained attention as a potential zinc ionophore &#8212; a compound that facilitates zinc transport across cell membranes, theoretically increasing intracellular zinc concentrations that inhibit viral RNA-dependent RNA polymerase. A 2014 <em>PLOS ONE</em> study demonstrated that quercetin does act as a zinc ionophore in cell culture, and this mechanism is biologically plausible. However, translation from cell culture to human antiviral effects is a significant leap. Clinical trials of quercetin plus zinc for COVID-19 showed mixed results, with the largest trials finding no significant benefit for prevention or treatment. The zinc ionophore theory remains mechanistically interesting but clinically unproven.</p>
+      <h3>Bioavailability Challenges and Dosing</h3>
+      <p>Quercetin's major limitation is poor oral bioavailability &#8212; only 2&#8211;5% of an oral dose reaches systemic circulation in its active form due to rapid metabolism, glucuronidation, and limited solubility. This is why effective doses in clinical trials are typically 500&#8211;1,000 mg/day, and why enhanced-bioavailability formulations (quercetin phytosome, quercetin with bromelain, or quercetin with vitamin C) have been developed. Bromelain increases quercetin absorption, and vitamin C appears to regenerate oxidized quercetin. For senolytic protocols, researchers use intermittent dosing (e.g., 3 consecutive days per month) rather than daily administration, based on the principle that senolysis requires brief high exposure rather than sustained low levels. Standard daily supplementation for immune or antioxidant purposes is 500&#8211;1,000 mg/day, ideally in an enhanced-absorption form taken with food.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Zhu Y, et al. "The Achilles' heel of senescent cells: from transcriptome to senolytic drugs." <em>Aging Cell</em>, 2015.</li>
+          <li>Heinz SA, et al. "Quercetin supplementation and upper respiratory tract infection: a randomized community clinical trial." <em>Pharmacological Research</em>, 2010.</li>
+          <li>Justice JN, et al. "Senolytics in idiopathic pulmonary fibrosis: results from a first-in-human, open-label, pilot study." <em>EBioMedicine</em>, 2019.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-140 -->
+
+  <!-- ARTICLE 141 -->
+  <div class="article-full" id="article-141" style="display:none">
+    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <div class="article-cat">Breakthrough</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">HMB for Muscle After 50: Why Older Adults Need It Most</h2>
+      <div class="article-meta" style="margin-bottom:1.5rem">Apr 13, 2026 &middot; 7 min read</div>
+      <p>HMB (beta-hydroxy-beta-methylbutyrate) is a metabolite of the branched-chain amino acid leucine, produced naturally in the body at a rate of about 0.2&#8211;0.4 grams per day from normal protein intake. While leucine is the primary amino acid signal for muscle protein synthesis, HMB appears to work through a different and complementary mechanism: reducing muscle protein breakdown (proteolysis) via inhibition of the ubiquitin-proteasome pathway. This anti-catabolic property makes HMB particularly relevant for older adults, who experience accelerated muscle protein breakdown and blunted anabolic signaling &#8212; the hallmarks of sarcopenia.</p>
+      <h3>The 2025 Meta-Analysis</h3>
+      <p>A comprehensive 2025 meta-analysis published in the <em>Journal of Cachexia, Sarcopenia and Muscle</em> pooled data from 16 randomized controlled trials (1,418 participants aged 60+) examining HMB supplementation for lean body mass and muscle function. The analysis found that HMB at 3 g/day significantly preserved lean body mass (standardized mean difference: 0.35, p &lt; 0.001) and improved leg strength (SMD: 0.28, p = 0.004) compared to placebo in older adults, with or without concurrent resistance exercise. The effect was strongest in studies enrolling frail or bed-ridden participants, suggesting HMB is most valuable precisely when muscle loss is most aggressive &#8212; during hospitalization, illness-related immobility, and the progressive decline of advanced sarcopenia.</p>
+      <h3>How HMB Differs from Leucine</h3>
+      <p>A common question is why not simply take leucine, since the body converts leucine to HMB. The answer is efficiency and mechanism. Only about 5% of ingested leucine is converted to HMB, meaning you would need to consume roughly 60 grams of leucine daily to generate 3 grams of HMB &#8212; an impractical and expensive amount that would far exceed protein intake needs. More importantly, leucine's primary effect is stimulating mTOR-mediated muscle protein synthesis (the anabolic signal), while HMB's primary effect is reducing muscle protein breakdown (the anti-catabolic signal). These are distinct pathways with distinct outcomes. In older adults with "anabolic resistance" (blunted mTOR response to protein), the anti-catabolic action of HMB may be more achievable and impactful than trying to overcome the blunted anabolic response with ever-higher leucine doses.</p>
+      <h3>Who Benefits Most</h3>
+      <p>The evidence for HMB is population-specific. In young, trained athletes already consuming adequate protein, HMB shows minimal benefit &#8212; their muscle protein turnover is well-regulated, and the anti-catabolic effect adds little on top of normal anabolic signaling. The population that benefits most is adults over 60, particularly those who are sedentary, recovering from surgery or hospitalization, frail, or consuming suboptimal protein. A 2013 RCT published in <em>Clinical Nutrition</em> found that HMB supplementation during 10 days of bed rest in healthy older adults completely prevented the lean mass loss observed in the placebo group. For older adults beginning a resistance training program, HMB combined with exercise produces greater gains in lean mass and strength than exercise alone.</p>
+      <h3>Proper Dosing Protocol</h3>
+      <p>The established effective dose is 3 g/day of calcium HMB (the most studied form), divided into three 1-gram doses taken with meals. HMB-free acid (HMB-FA) is a newer form with faster absorption kinetics &#8212; peak blood levels are reached in 30 minutes versus 2 hours for calcium HMB &#8212; and may be taken as a single daily dose of 3 g. HMB is not a substitute for adequate protein intake (1.0&#8211;1.2 g/kg/day minimum for older adults, per ESPEN guidelines); rather, it complements protein by addressing a different aspect of muscle metabolism. Loading is not required, but consistent daily use for at least 4&#8211;6 weeks is needed to observe measurable effects on lean mass. HMB has an excellent safety profile with no significant adverse effects reported across all published trials.</p>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
+        <h3 style="margin-bottom:0.75rem">Sources</h3>
+        <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
+          <li>Bear DE, et al. "Beta-hydroxy-beta-methylbutyrate and its impact on skeletal muscle mass and physical function in older adults: a systematic review and meta-analysis." <em>Journal of Cachexia, Sarcopenia and Muscle</em>, 2025.</li>
+          <li>Deutz NE, et al. "Effect of beta-hydroxy-beta-methylbutyrate (HMB) on lean body mass during 10 days of bed rest in older adults." <em>Clinical Nutrition</em>, 2013.</li>
+          <li>Wu H, et al. "Effect of beta-hydroxy-beta-methylbutyrate supplementation on muscle loss in older adults: a systematic review and meta-analysis." <em>Archives of Gerontology and Geriatrics</em>, 2015.</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- end article-141 -->
+
 
 </div><!-- end articles-section -->
 
 <script>
 function showArticle(n) {
   document.getElementById('research-list-view').style.display = 'none';
-  for (var i = 1; i <= 131; i++) {
+  for (var i = 1; i <= 141; i++) {
     var el = document.getElementById('article-' + i);
     if (el) el.style.display = 'none';
   }
@@ -6557,7 +7070,7 @@ function showArticle(n) {
   }
 }
 function showArticleList() {
-  for (var i = 1; i <= 131; i++) {
+  for (var i = 1; i <= 141; i++) {
     var el = document.getElementById('article-' + i);
     if (el) el.style.display = 'none';
   }
@@ -6615,7 +7128,7 @@ function initArticleLoadMore() {
   }
 }
 /* Reorder article cards by engagement potential — shock/trending first, then practical/useful, then niche */
-const ARTICLE_PRIORITY=[55,18,5,3,9,11,2,47,8,67,45,91,84,88,104,65,15,4,127,6,100,7,16,54,85,107,52,121,124,31,10,17,12,13,59,96,82,56,115,92,14,21,34,69,78,23,75,87,102,20,26,22,72,36,24,66,37,64,81,35,73,111,119,99,27,30,62,49,80,110,98,113,118,130,131,90,32,33,105,112,53,71,125,93,40,28,39,42,44,50,51,60,63,70,74,76,79,94,106,108,114,116,123,129,29,41,46,58,86,95,101,120,126,19,25,38,43,48,57,61,68,77,83,89,97,103,109,117,122,128];
+const ARTICLE_PRIORITY=[55,18,5,3,9,11,2,47,8,67,45,91,84,88,104,65,15,4,127,6,100,7,16,54,85,107,52,121,124,31,10,17,12,13,59,96,82,56,115,92,14,21,34,69,78,23,75,87,102,20,26,22,72,36,24,66,37,64,81,35,73,111,119,99,27,30,62,49,80,110,98,113,118,130,131,132,133,134,135,136,137,138,139,140,141,90,32,33,105,112,53,71,125,93,40,28,39,42,44,50,51,60,63,70,74,76,79,94,106,108,114,116,123,129,29,41,46,58,86,95,101,120,126,19,25,38,43,48,57,61,68,77,83,89,97,103,109,117,122,128];
 function reorderArticles(){
   const list=document.querySelector('.article-list');if(!list)return;
   const cards=[...list.querySelectorAll('.article-card')];
@@ -6639,7 +7152,7 @@ if (document.querySelector('.article-list')) { reorderArticles(); initArticleLoa
       <div><div class="abt-hero-stat-num">628</div><div class="abt-hero-stat-label">Supplements rated</div></div>
       <div><div class="abt-hero-stat-num">27K+</div><div class="abt-hero-stat-label">Studies referenced</div></div>
       <div><div class="abt-hero-stat-num">30</div><div class="abt-hero-stat-label">Peer-reviewed sources</div></div>
-      <div><div class="abt-hero-stat-num">131</div><div class="abt-hero-stat-label">Original articles</div></div>
+      <div><div class="abt-hero-stat-num">141</div><div class="abt-hero-stat-label">Original articles</div></div>
     </div>
   </div>
   <div class="abt-body">
@@ -6660,7 +7173,7 @@ if (document.querySelector('.article-list')) { reorderArticles(); initArticleLoa
         <input type="email" id="contrib-email" placeholder="your@email.com">
         <button onclick="submitContrib()">Get in touch</button>
       </div>
-      <div id="contrib-success" style="display:none;font-size:11px;color:var(--t1c);font-weight:600">Thanks! We'll be in touch.</div>
+      <div id="contrib-success" style="display:none;font-size:11px;color:var(--t1c);font-weight:600;margin-top:12px">Thanks! We'll be in touch.</div>
     </div>
   </div>
 </div>
@@ -6692,8 +7205,8 @@ if (document.querySelector('.article-list')) { reorderArticles(); initArticleLoa
     <div id="supp-modal-body" style="padding:1.5rem 2rem 2rem"></div>
   </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
-<script src="data.js?v=20260413c"></script>
-<script src="app.js?v=20260413c"></script>
+<script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="data.js?v=20260413d"></script>
+<script src="app.js?v=20260413r"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
+let profileUnlocked=false;
 let selectedMeds=new Set();
 function renderMedChips(){const el=document.getElementById('med-chips');el.innerHTML=Object.entries(MEDS).map(([k,m])=>`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${k}')">${m.label}</div>`).join('');updateMedNote();}
-function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();}
+function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();updatePfCounts();}
 function updateMedNote(){const n=document.getElementById('med-note');if(selectedMeds.size===0){n.style.display='none';return;}n.style.display='block';const avoidAll=new Set(),cautionAll=new Set(),extraAll=new Set();selectedMeds.forEach(k=>{const m=MEDS[k];m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>cautionAll.add(x));m.extra.forEach(x=>extraAll.add(x));});n.innerHTML=`${avoidAll.size>0?'⚠ Will exclude: '+[...avoidAll].join(', ')+'. ':''}${cautionAll.size>0?'⚡ Will flag cautions on: '+[...cautionAll].join(', ')+'. ':''}${extraAll.size>0?'✚ Will add: '+[...extraAll].join(', ')+'.':''}`;}
 function getMedInteractions(){const avoidAll=new Set(),cautionMap={},extraAll=new Set(),notes=[];selectedMeds.forEach(k=>{const m=MEDS[k];m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>{if(!cautionMap[x])cautionMap[x]=[];cautionMap[x].push(m.label);});m.extra.forEach(x=>extraAll.add(x));notes.push({med:m.label,note:m.note});});return{avoid:avoidAll,caution:cautionMap,extra:[...extraAll],notes};}
 function dots(n,tp){return Array.from({length:5},(_,i)=>`<div class="rt-dot ${i<n?'on-'+tp:''}"></div>`).join('');}
@@ -9,6 +10,7 @@ function rHtml(e,s,r,o,c,d){return`<div class="rt-section">${e!=null?`<div class
 function toggleSrcSidebar(){const d=document.getElementById('src-detail2'),open=d.classList.toggle('open');document.getElementById('chv2').classList.toggle('open',open);document.getElementById('sml2').textContent=open?'Hide sources':'More info on sources';}
 function toggleMeth(){const d=document.getElementById('meth-body'),open=d.classList.toggle('open');document.getElementById('meth-chv').classList.toggle('open',open);}
 function decodeContact(e){e.preventDefault();const p=['yvese','ggleston','@','gm','ail','.com'];window.location.href='mai'+'lto:'+p.join('');}
+function submitContrib(){const email=document.getElementById('contrib-email').value.trim();if(!email||!email.includes('@')){document.getElementById('contrib-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.abt-cta-email button');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'contributor',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.querySelector('.abt-cta-email').style.display='none';document.getElementById('contrib-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(()=>{btn.textContent='Try again';btn.disabled=false;});}
 function submitEarlyAccess(){const email=document.getElementById('ea-email').value.trim();if(!email||!email.includes('@')){document.getElementById('ea-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.ea-btn');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'early-access',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.getElementById('ea-form').style.display='none';document.getElementById('ea-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(()=>{btn.textContent='Try again';btn.disabled=false;});}
 function ageGroup(a){if(a<26)return'Young adult (18–25)';if(a<31)return'Young adult (26–30)';if(a<46)return'Adult (31–45)';if(a<61)return'Middle-aged adult (46–60)';if(a<76)return'Senior adult (61–75)';return'Older adult (76+)';}
 function updAge(v){document.getElementById('age-grp').textContent=ageGroup(parseInt(v));}
@@ -18,8 +20,21 @@ const _ageInput=document.getElementById('asl');
 _ageInput.addEventListener('input',function(){updAge(this.value);});
 updAge(_ageInput.value);
 let sex=null;
-function pickSex(s){sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');bm.className='sx-btn'+(s==='m'?' on-m':'');bf.className='sx-btn'+(s==='f'?' on-f':'');bp.className='sx-btn'+(s==='fp'?' on-p':'');document.getElementById('serr').style.display='none';}
-function editP(){document.getElementById('v-res').style.display='none';document.getElementById('v-input').style.display='block';}
+function pickSex(s){sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');bm.className='pf-sex-opt sx-btn'+(s==='m'?' on-m':'');bf.className='pf-sex-opt sx-btn'+(s==='f'?' on-f':'');bp.className='pf-sex-opt sx-btn'+(s==='fp'?' on-fp':'');document.getElementById('serr').style.display='none';}
+function editP(){
+  document.getElementById('v-res').style.display='none';
+  document.getElementById('v-input').style.display='block';
+  // Collapse all accordion sections
+  document.querySelectorAll('.pf-section').forEach(s=>s.classList.remove('pf-open'));
+  // Change submit button text
+  const btn=document.querySelector('.pf-submit');
+  if(btn)btn.textContent='Update my supplement plan \u2192';
+  // Update hint
+  const hint=document.querySelector('.pf-hint');
+  if(hint)hint.textContent='Make changes above, then update your plan';
+  // Scroll to top
+  window.scrollTo(0,0);
+}
 function tbadge(t){const m=TM[t];return m&&(t==='t1'||t==='t2')?`<span class="tbadge" style="background:${m.bg};color:${m.tx}">${t==='t1'?'Tier 1':'Tier 2'}</span>`:'';}
 function getRecs(age,sx){const iF=sx==='f'||sx==='fp',isPreg=sx==='fp',repAge=iF&&age>=18&&age<=50,young=age<31,midA=age>=31&&age<46,midAged=age>=46&&age<61,senior=age>=61;const r=[];r.push({n:'Vitamin D3',p:'essential',tier:'t1',tf:true,e:4,s:4,why:'Deficiency affects ~40% of adults globally. VITAL trial: 2,000 IU/day reduced cancer mortality 17% and autoimmune disease risk significantly.',dose:'1,000–2,000 IU/day maintenance (test 25-OH-D first; 4,000 IU/day to correct deficiency)'});r.push({n:'Magnesium',p:'essential',tier:'t1',tf:false,e:4,s:5,why:'NIH ODS: ~48% of Americans fall below the EAR. Supports sleep, insulin sensitivity, cardiovascular, and cognitive health.',dose:'200–400 mg/day magnesium glycinate (sleep/CNS) or malate (energy/exercise); 30–45 min before bed for sleep support'});if(sx==='m')r.push({n:'Zinc',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'Men lose zinc through sweat at higher rates and require it for testosterone biosynthesis, immune function, and prostate health.',dose:'15–25 mg/day zinc picolinate or bisglycinate (do not exceed 40 mg/day)'});if(repAge){r.push({n:'Iron',p:'essential',tier:'t2',tf:true,e:4,s:3,why:'WHO: iron deficiency anaemia affects 24.8% of the global population, disproportionately women of reproductive age.',dose:'30–60 mg/day ferrous bisglycinate — test ferritin first'});r.push({n:'Folate (5-MTHF)',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'USPSTF Grade A. WHO: 400 mcg daily for all women of reproductive age. Neural tube defects form days 21–28 — must begin before conception.',dose:'400–600 mcg/day 5-MTHF (methylfolate), preferred over synthetic folic acid'});}if(isPreg){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'DHA is the primary structural fat in the foetal brain and retina. WHO recommends 300 mg DHA/day during pregnancy. CHILD cohort: higher maternal DHA linked to improved neurodevelopmental outcomes.',dose:'300–600 mg DHA/day (from 1–2 g EPA+DHA); choose a prenatal-formulated fish or algal oil'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Foetal skeletal mineralisation draws heavily from maternal stores. NIH: requirements increase to 1,000–1,300 mg/day during pregnancy. WHO meta-analysis: calcium supplementation reduces preeclampsia risk by 55% in low-intake populations.',dose:'500 mg elemental calcium × 2 daily with meals; space 2 hours from iron'});r.push({n:'Ginger (Zingiber officinale)',p:'recommended',tier:'t2',tf:false,e:4,s:5,why:'Cochrane meta-analysis: significant reduction in nausea and vomiting of pregnancy. First-line non-pharmacological therapy.',dose:'1–1.5 g/day in divided doses for NVP'});r.push({n:'Vitamin B6 (P5P)',p:'recommended',tier:'t2',tf:false,e:3,s:3,why:'USPSTF recommends 10–25 mg TID for nausea and vomiting of pregnancy. ACOG first-line monotherapy for mild NVP.',dose:'10–25 mg × 3 daily. Do not exceed 100 mg/day.'});r.push({n:'Choline',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: essential for foetal brain development and neural tube closure. Most prenatal vitamins do not contain adequate choline.',dose:'450–550 mg/day from food + supplementation'});r.push({n:'Iodine',p:'essential',tier:'t2',tf:false,e:4,s:3,why:'WHO: iodine requirements increase 50% during pregnancy. Deficiency is the most preventable cause of cognitive impairment in newborns.',dose:'220 mcg/day total from diet + supplementation'});}if(young){r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'ISSN Level A — most evidence-backed performance supplement. NIH ODS: strong long-term safety record. 2024 data confirmed cognitive benefits.',dose:'3–5 g/day — no loading needed'});r.push({n:'Omega-3 (EPA/DHA)',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'NIH VITAL trial (25,871 participants): 2,000 mg/day cut MI by 28% and reduced cancer mortality 17%. Building cardiovascular foundation now maximises cumulative benefit.',dose:'1–2 g/day EPA+DHA from a quality fish oil'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Reduces cortisol and stress reactivity — highly relevant during high-demand academic or work phases. Works cumulatively over 4–8 weeks.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Promotes relaxed alertness without sedation. Particularly effective for exam stress and focus during cognitive work.',dose:'100–200 mg for focus; 200–400 mg alone for calm/sleep support'});r.push({n:'Rhodiola rosea',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'2025 meta-analysis (26 RCTs): significant improvements in VO2max and time to exhaustion. Also reduces perceived mental fatigue under stress.',dose:'200–400 mg/day standardised extract; 6–8 wks on, 2–4 wks off'});}if(midA){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk begins its meaningful rise in this decade. NIH VITAL trial and 2025 meta-analysis (42 RCTs) both confirm significant CVD mortality and MI reduction.',dose:'1–2 g/day EPA+DHA. Higher (2–4 g/day) if triglycerides are elevated.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle mass declines from the early 30s at ~1% per year. Creatine with resistance training is the most evidence-backed intervention.',dose:'3–5 g/day continuously'});r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk begins rising in the 30s. Rotterdam Study: 57% reduced cardiac mortality in those with highest MK-7 intake. Pairs synergistically with Vitamin D3.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Cortisol dysregulation peaks in this career and life stage. HPA axis modulation is most clinically relevant from age 30–55.',dose:'300–600 mg/day; cycle 8–12 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports calm focus and sleep quality without dependency — particularly useful if stress is impacting sleep or daytime performance.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});if(iF)r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'2024 systematic review (46 RCTs): depression ES=−4.26, anxiety ES=−3.75. Particularly relevant for perimenopause mood changes. Non-inferior to conventional drugs.',dose:'28–30 mg/day standardised saffron extract'});}if(midAged){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk accelerates significantly in this decade. 2025 meta-analysis (42 RCTs, 176K+) and VITAL trial both confirm meaningful CVD mortality reduction.',dose:'2–4 g/day EPA+DHA — higher if cardiovascular risk factors are present'});r.push({n:'Vitamin B12',p:'recommended',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: B12 absorption requires intrinsic factor that declines with age; PPIs and metformin significantly impair uptake. Deficiency affects ~20% of adults over 50.',dose:'500–1,000 mcg/day oral cyanocobalamin. Test serum B12 and MMA.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle loss accelerates in this decade. Creatine with resistance training is the most evidence-backed strategy for preserving lean mass and cognitive function.',dose:'3–5 g/day continuously'});if(iF)r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Declining oestrogen during perimenopause sharply accelerates bone loss. MK-7 activates osteocalcin (bone calcium) and matrix Gla protein (arterial protection).',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});else r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk rises meaningfully from middle age. Rotterdam Study: 57% reduced cardiac mortality in highest MK intake group.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Lutein + Zeaxanthin',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'AMD risk begins rising now. AREDS2 trial (NIH-funded): confirmed ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'CoQ10 (Ubiquinol)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: statins block CoQ10 synthesis; mitochondrial CoQ10 declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality in heart failure.',dose:'100–200 mg/day ubiquinol with a fatty meal'});r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'Among the most evidence-backed botanicals for mood. 2024 review (46 RCTs): depression ES=−4.26. Relevant for both stress-related mood changes and sleep quality.',dose:'28–30 mg/day standardised saffron extract'});}if(senior){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD is the leading cause of death in this age group. NIH VITAL trial and 2025 meta-analysis confirm significant reductions in CV mortality, MI, and CHD.',dose:'2–4 g/day EPA+DHA. Consider icosapent ethyl if CVD diagnosed.'});r.push({n:'Vitamin B12',p:'essential',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: deficiency affects ~20% of adults over 60; absorption impaired by gastric acid decline, PPIs, and metformin. Neurological damage is progressive.',dose:'500–1,000 mcg/day oral cyanocobalamin. Discuss IM injections with GP if absorption impaired.'});r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Bone fracture and arterial calcification risk accelerate sharply after 60. K2 activates proteins that direct calcium into bone and away from arteries.',dose:'90–200 mcg/day MK-7, paired with Vitamin D3'});r.push({n:'Creatine monohydrate',p:'essential',tier:'t1',tf:false,e:5,s:5,why:'Sarcopenia is the primary driver of frailty and falls. NIH ODS: creatine with resistance training is the most evidence-backed intervention for preserving muscle and cognitive function after 60.',dose:'3–5 g/day — no loading needed. Take consistently including rest days.'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Bone mineral density declines progressively after 60. NIH ODS: most older adults do not meet the 1,200 mg/day calcium requirement from diet alone. Paired with D3 and K2 for maximum skeletal benefit.',dose:'500 mg elemental calcium × 2 daily with meals; do not take single doses above 500 mg'});r.push({n:'Lutein + Zeaxanthin',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'AMD is the leading cause of blindness in adults over 60. AREDS2 trial (NIH-funded, 4,203 participants): ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'HMB (β-Hydroxy-β-methylbutyrate)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: evidence strongest in older adults. 2025 meta-analysis (21 RCTs, 1,935 adults >50): significant improvements in lean mass.',dose:'3 g/day (1 g × 3 with meals). Allow ≥12 weeks alongside resistance exercise.'});r.push({n:'Whey protein',p:'recommended',tier:'t1',tf:false,e:4,s:5,why:'Appetite decreases with age while protein requirements increase. NIH ODS: adequate dietary protein is essential.',dose:'20–40 g/serving after resistance exercise. Target ≥1.2–1.6 g/kg body weight/day.'});r.push({n:'CoQ10 (Ubiquinol)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: CoQ10 depleted by statins and declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality (RR=0.64) in heart failure.',dose:'200–400 mg/day ubiquinol in 2 doses with fatty meals'});r.push({n:'Acetyl-L-Carnitine (ALCAR)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: L-carnitine synthesis declines with age. Multiple meta-analyses confirm significant cognitive improvement in older adults with MCI.',dose:'1,500–2,000 mg/day in 2–3 divided doses (morning and early afternoon; avoid evening)'});r.push({n:'Phosphatidylserine',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'FDA qualified health claim for cognitive decline. Multiple RCTs confirm improvements in memory, recall, and learning in older adults. Supports cortisol regulation and neuronal membrane integrity.',dose:'300–400 mg/day in 2–3 divided doses with meals; allow 4–8 weeks for full benefit'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Supports HPA axis resilience, preserves lean muscle mass, and improves sleep quality — all key concerns in older adults.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports sleep quality and calm focus without drug interactions or dependency — ideal for older adults managing multiple medications.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});}const seen=new Set();return r.filter(x=>{if(seen.has(x.n))return false;seen.add(x.n);return true;});}
 function applyMedExtras(recs,mi){
@@ -58,6 +73,97 @@ const _svgIcons={
   daytime:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4B7BE5" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>',
   night:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
 };
+function getFoodInfo(s){const n=s.n.toLowerCase(),tag=(s.tag||'').toLowerCase();
+if(n.includes('ashwagandha'))return{pair:'Take with food or warm milk. No specific pairing needed.',avoid:'Avoid combining with thyroid medications, sedatives, or immunosuppressants.',note:'Food reduces stomach upset. Traditional Ayurvedic use pairs it with warm milk before bed.'};
+if(n.includes('vitamin d'))return{pair:'Eggs, avocado, nuts, olive oil, salmon — any meal with healthy fats',avoid:'Do not take on an empty stomach. Avoid excess alcohol which impairs vitamin D metabolism.',note:'Fat-soluble — absorption increases 30–50% when taken with a fat-containing meal.'};
+if(n.includes('vitamin k'))return{pair:'Fatty meal: eggs, cheese, avocado, olive oil',avoid:'If on warfarin, keep vitamin K intake consistent day to day — sudden changes alter anticoagulation.',note:'Fat-soluble — requires dietary fat for absorption. Best paired with your vitamin D3 dose.'};
+if(n.includes('omega')||n.includes('fish oil')||n.includes('epa')||(n.includes('dha')&&!n.includes('gandha'))||n.includes('krill'))return{pair:'Any meal containing fat — eggs, nuts, avocado, cheese',avoid:'Avoid on an empty stomach (fishy burps, nausea). Store capsules in the fridge.',note:'Absorbs significantly better with dietary fat. Refrigeration reduces oxidation and aftertaste.'};
+if(n.includes('coq10')||n.includes('ubiquinol'))return{pair:'Fatty meal: eggs, nuts, avocado, olive oil, salmon',avoid:'Avoid taking in the evening — can be mildly stimulating.',note:'Fat-soluble — absorption is dramatically better with dietary fat. Split high doses across meals.'};
+if(n.includes('curcumin')||n.includes('turmeric'))return{pair:'Fatty meal + black pepper (piperine). Pair with olive oil, coconut oil, or eggs.',avoid:'Avoid on an empty stomach (GI upset). Avoid grapefruit juice. Caution with blood thinners.',note:'Piperine increases curcumin absorption by 2,000%. Always choose a bioavailable form or add black pepper.'};
+if(n.includes('lutein')||n.includes('zeaxanthin'))return{pair:'Eggs (yolks are rich in lutein), avocado, olive oil',avoid:'Do not take on an empty stomach — these are fat-soluble carotenoids.',note:'Fat-soluble. Absorption is negligible without dietary fat in the same meal.'};
+if(n.includes('astaxanthin'))return{pair:'Salmon, eggs, avocado, olive oil — any fat-containing meal',avoid:'Avoid on an empty stomach.',note:'Fat-soluble carotenoid. Always take with dietary fat for meaningful absorption.'};
+if(n==='iron'||n.includes('ferrous')||(n.includes('iron')&&!n.includes('lion')))return{pair:'Vitamin C sources: orange juice, bell peppers, strawberries, broccoli',avoid:'Dairy, tea, coffee, calcium, whole grains, and legumes within 2 hours — they block iron absorption by up to 60%.',note:'Vitamin C paired with iron boosts absorption by 2–3×. Take on an empty stomach if tolerated.'};
+if(n.includes('zinc'))return{pair:'Take with a light meal. Meat, pumpkin seeds, and eggs enhance zinc absorption.',avoid:'Calcium, iron, coffee, high-phytate foods (whole grains, legumes) within 2 hours — they reduce zinc uptake.',note:'Competes with copper and iron for absorption. If taking >25 mg/day, add 1–2 mg copper.'};
+if(n.includes('magnesium'))return{pair:'Take with food to reduce GI upset. No specific pairing needed.',avoid:'Calcium, iron, and zinc in the same meal — they compete for absorption. Avoid excess alcohol.',note:'Space 2 hours from other minerals. Glycinate form is gentlest on the stomach.'};
+if(n.includes('calcium'))return{pair:'Take with meals. Vitamin D3 and K2 enhance calcium absorption and directing to bones.',avoid:'Iron, zinc, magnesium, and thyroid medication within 2 hours. Avoid spinach/oxalates in same meal.',note:'Never exceed 500 mg per dose — absorption drops sharply above this. Split throughout the day.'};
+if(n.includes('creatine'))return{pair:'No strict food pairing needed. Some evidence suggests carbs + protein may enhance muscle uptake.',avoid:'No foods to avoid. Stay well hydrated throughout the day.',note:'Absorbs well regardless of meal timing. Consistency matters more than food pairing.'};
+if(n.includes('whey')||n.includes('casein'))return{pair:'Mix with water, milk, or blend into a smoothie. Post-workout with carbs for recovery.',avoid:'No foods to avoid. Isolate form if lactose-sensitive.',note:'Complete protein. Ideally taken within 2 hours post-exercise, but total daily protein matters more than timing.'};
+if(n.includes('collagen'))return{pair:'Pair with 50 mg vitamin C (citrus, berries) — required for collagen synthesis in the body.',avoid:'No specific foods to avoid. Can be added to hot or cold beverages.',note:'Vitamin C is essential for your body to use the collagen peptides. Without it, supplementation is less effective.'};
+if(n.includes('probiotic')||n.includes('lactobacillus')||n.includes('bifidobacterium'))return{pair:'Prebiotic fibre: bananas, garlic, onion, oats — feeds the probiotic bacteria.',avoid:'Hot drinks (kills bacteria). Antibiotics within 2 hours (kills the probiotic).',note:'Some strains survive stomach acid better with food, others without — check product label.'};
+if(n.includes('berberine'))return{pair:'Always take with meals — reduces blood sugar crash risk and stomach upset. Add piperine for absorption.',avoid:'Never on an empty stomach. Avoid grapefruit. Space 2+ hours from other medications.',note:'Taking with food slows absorption and prevents sudden blood sugar drops. Medical supervision essential.'};
+if(n.includes('rhodiola'))return{pair:'Best on an empty stomach, 30 min before breakfast.',avoid:'Avoid caffeine within 1 hour (both stimulating). Avoid late-day dosing — can disrupt sleep.',note:'Empty stomach maximises absorption. Stimulating nature means morning-only dosing.'};
+if(n.includes('b12'))return{pair:'Sublingual: dissolve under tongue (no food needed). Oral: take with breakfast.',avoid:'PPIs, antacids, metformin within 2 hours — they reduce B12 absorption significantly.',note:'Sublingual bypasses the gut and is ideal for those with absorption issues. Morning dosing preferred.'};
+if(n.includes('folate')||n.includes('folic'))return{pair:'Take with any meal. No specific pairing needed.',avoid:'No significant food interactions. Alcohol impairs folate metabolism long-term.',note:'5-MTHF form is absorbed regardless of MTHFR genetics. Start before conception.'};
+if(n.includes('theanine'))return{pair:'For focus: pair with caffeine (100–200 mg theanine : 50–100 mg caffeine). Green tea is a natural combo.',avoid:'No foods to avoid. No significant interactions.',note:'One of the few supplements that works synergistically with caffeine, reducing jitters while enhancing focus.'};
+if(n.includes('melatonin'))return{pair:'Take on an empty or very light stomach for faster onset.',avoid:'Alcohol — disrupts sleep architecture and counteracts melatonin. Heavy meals delay absorption.',note:'Darkness amplifies melatonin\'s effects. Dim lights and avoid screens 30 min before and after taking.'};
+if(n.includes('nac')||n.includes('n-acetyl cysteine'))return{pair:'Take with food to reduce stomach upset.',avoid:'Activated charcoal (binds to NAC). Space from chemotherapy drugs unless supervised.',note:'Food reduces the sulfurous taste and GI side effects common with NAC.'};
+if(n.includes('elderberry'))return{pair:'Can be taken with or without food. Syrup form mixes into drinks.',avoid:'Only use commercially prepared extracts — raw elderberry contains cyanogenic glycosides.',note:'Best started within 48 hours of first symptoms. No significant food interactions.'};
+if(n.includes('boswellia'))return{pair:'Always with a fat-containing meal — fat doubles absorption of boswellic acids.',avoid:'Do not take on an empty stomach.',note:'Fat is critical for boswellia absorption. Without it, most of the active compound passes through unabsorbed.'};
+if(n.includes('bacopa'))return{pair:'Always take with food — significantly reduces nausea and cramps.',avoid:'Empty stomach causes GI distress in most people.',note:'Bacosides are fat-soluble. Taking with a meal containing fat improves both absorption and tolerance.'};
+if(n.includes('caffeine')||n.includes('green tea extract'))return{pair:'Light food or empty stomach for faster effect.',avoid:'Iron supplements — caffeine reduces iron absorption. Avoid late in the day (sleep disruption).',note:'Half-life is 5–6 hours. Afternoon caffeine significantly impairs sleep quality even if you fall asleep fine.'};
+if(n.includes('beta-alanine'))return{pair:'Take with meals to reduce tingling (paresthesia).',avoid:'No specific foods to avoid.',note:'Splitting doses across meals minimises the harmless but uncomfortable tingling sensation.'};
+if(n.includes('citrulline'))return{pair:'Take on an empty stomach or light meal 60 min before exercise.',avoid:'No significant food interactions.',note:'Empty stomach allows faster absorption and peak nitric oxide levels before training.'};
+if(n.includes('beetroot')||n.includes('nitrate'))return{pair:'Take 2–3 hours before exercise. Can mix juice with other beverages.',avoid:'Antibacterial mouthwash — kills oral bacteria needed to convert nitrate. Avoid brushing teeth right after.',note:'Oral bacteria are essential for nitrate → nitric oxide conversion. Mouthwash eliminates the benefit.'};
+if(n.includes('hmb'))return{pair:'Take with meals. Split into 3 doses of 1 g each.',avoid:'No significant food interactions.',note:'Consistent timing with meals helps maintain stable blood levels throughout the day.'};
+if(n.includes('saffron'))return{pair:'Take with any meal. No specific pairing needed.',avoid:'No significant food interactions.',note:'Standardised extract (30 mg/day) is well absorbed regardless of food timing.'};
+if(n.includes('ginger'))return{pair:'Can be taken with food, tea, or on an empty stomach.',avoid:'Blood thinners at high doses — ginger has mild antiplatelet activity.',note:'For nausea: ginger tea or capsules before meals. Cooking does not destroy active compounds.'};
+if(n.includes('saw palmetto'))return{pair:'Take with a fat-containing meal for better absorption.',avoid:'No significant food interactions.',note:'Fat-soluble extract. Absorption improves with dietary fat.'};
+if(n.includes('echinacea'))return{pair:'Take with or without food.',avoid:'Avoid if on immunosuppressants.',note:'Short-term use at first sign of cold. Not for daily preventive use.'};
+if(n.includes('vitamin a')||n.includes('beta-carotene'))return{pair:'Fatty meal: eggs, avocado, olive oil, butter',avoid:'Avoid excess alcohol. Do not combine with retinoid medications.',note:'Fat-soluble — requires dietary fat for absorption.'};
+if(n.includes('vitamin e'))return{pair:'Fatty meal: nuts, seeds, avocado, olive oil',avoid:'Blood thinners at high doses. Do not combine with vitamin K antagonists.',note:'Fat-soluble antioxidant. High-dose supplementation (>400 IU/day) is controversial.'};
+if(n.includes('vitamin b6')||n.includes('p5p'))return{pair:'Take with food in the morning.',avoid:'Avoid late-day dosing — may cause vivid dreams. Do not exceed 100 mg/day.',note:'P5P (pyridoxal-5-phosphate) is the active form, preferred over pyridoxine.'};
+if(n.includes('vitamin c')||n.includes('ascorbic'))return{pair:'Take with iron to boost iron absorption. Can take with any meal.',avoid:'Mega-doses (>2 g) on an empty stomach may cause GI upset and diarrhea.',note:'Enhances iron and collagen absorption. Excess is excreted in urine.'};
+if(n.includes('choline'))return{pair:'Take with meals. Eggs are the richest food source.',avoid:'Excess choline (>3.5 g/day) can cause fishy body odour and GI distress.',note:'Most prenatal vitamins lack adequate choline — supplementation often needed.'};
+if(n.includes('iodine'))return{pair:'Take with food. Seaweed and dairy are rich food sources.',avoid:'Excess iodine can worsen thyroid conditions. Do not combine with thyroid medication without supervision.',note:'Requirements increase 50% during pregnancy. Both deficiency and excess harm the thyroid.'};
+// Generics based on properties
+if(tag.includes('sleep')||tag.includes('relaxation'))return{pair:'Light meal or warm drink before bed.',avoid:'Caffeine, heavy meals, and bright screens within 2 hours of dosing.',note:'Sleep supplements work best as part of a consistent wind-down routine.'};
+if(tag.includes('performance')||tag.includes('endurance'))return{pair:'Take 30–60 min before exercise. Light carbs may enhance uptake.',avoid:'No specific foods to avoid.',note:'Timing relative to exercise matters more than food pairing for most performance supplements.'};
+const def={pair:'Can generally be taken with food.',avoid:'No significant food interactions established.',note:s.s>=4?'Well-tolerated supplement. Follow product label for specific guidance.':'Follow product label. Take with food if stomach upset occurs.'};
+return def;}
+function getExcessInfo(s){const n=s.n.toLowerCase(),tag=(s.tag||'').toLowerCase();
+if(n.includes('ashwagandha'))return{risk:'Rare but serious liver injury reported. May suppress thyroid function excessively.',threshold:'Do not exceed 600 mg/day. Limit to 8–12 week cycles.',long:'Safety beyond 3 months not well established. Stop immediately if abdominal pain or jaundice occur. NCCIH recommends caution.'};
+if(n.includes('vitamin d'))return{risk:'Hypercalcemia: nausea, kidney stones, vascular calcification, and organ damage.',threshold:'Do not exceed 10,000 IU/day without medical supervision. Toxic levels at 25-OH-D >150 ng/mL.',long:'Monitor blood levels every 6–12 months. Reduce dose in summer if sun exposure increases.'};
+if(n.includes('vitamin k'))return{risk:'No established toxicity at supplemental doses.',threshold:'If on warfarin: even moderate doses alter anticoagulation dangerously.',long:'Safe for long-term use. Critical to maintain consistent intake if on blood thinners.'};
+if(n.includes('omega')||n.includes('fish oil')||n.includes('epa')||(n.includes('dha')&&!n.includes('gandha')))return{risk:'Increased bleeding risk, immune suppression, raised LDL cholesterol.',threshold:'Doses above 5 g/day EPA+DHA increase bleeding risk significantly.',long:'Safe indefinitely at recommended doses. Blood-thinning effect is cumulative.'};
+if(n.includes('coq10')||n.includes('ubiquinol'))return{risk:'Mild: GI upset, insomnia at high doses (>300 mg). May reduce warfarin effectiveness.',threshold:'No serious toxicity reported even at 1,200 mg/day in studies.',long:'Safe for long-term daily use. No cycling needed.'};
+if(n.includes('curcumin')||n.includes('turmeric'))return{risk:'GI distress, nausea, diarrhea. Mild anticoagulant effect increases bleeding risk.',threshold:'Avoid >2,000 mg/day curcuminoids. Caution with blood thinners and gallbladder disease.',long:'Safe for continuous use at recommended doses. Take breaks if digestive discomfort occurs.'};
+if(n.includes('lutein')||n.includes('zeaxanthin'))return{risk:'Very safe. Extremely high doses may cause harmless temporary skin yellowing (carotenodermia).',threshold:'No established toxicity at supplemental doses.',long:'Safe for indefinite daily use. AREDS2 formula studied for 5+ years safely.'};
+if(n==='iron'||n.includes('ferrous')||(n.includes('iron')&&!n.includes('lion')))return{risk:'Excess iron is toxic — oxidative damage to liver, heart, and pancreas. Acute overdose is a medical emergency.',threshold:'Do not supplement without testing ferritin first. Upper limit 45 mg/day elemental iron.',long:'Retest ferritin every 8–12 weeks. Stop supplementing once levels normalise. Chronic excess causes hemochromatosis.'};
+if(n.includes('zinc'))return{risk:'Copper depletion leading to anemia, weakened immunity, and neurological damage.',threshold:'Do not exceed 40 mg/day long-term. Add 1–2 mg copper if taking >25 mg/day.',long:'Chronic high-dose zinc without copper causes irreversible nerve damage. Always pair with copper.'};
+if(n.includes('magnesium'))return{risk:'Diarrhea and GI distress (especially oxide form). In kidney disease: dangerous hypermagnesemia.',threshold:'Supplemental upper limit 350 mg/day (excluding food). Kidney patients require medical supervision.',long:'Safe long-term in healthy individuals — kidneys excrete excess. Dangerous if kidney function is impaired.'};
+if(n.includes('calcium'))return{risk:'Kidney stones, hypercalcemia, arterial calcification. May increase cardiovascular risk at high doses.',threshold:'Do not exceed 2,500 mg/day total (food + supplements). Never >500 mg per single dose.',long:'Pair with D3 and K2 to direct calcium to bones. Excess calcium without K2 may calcify arteries.'};
+if(n.includes('creatine'))return{risk:'Very safe — no credible evidence of kidney or liver harm in healthy people. Minor: water retention, mild GI discomfort.',threshold:'Even 30 g/day showed no adverse effects in studies. Standard 3–5 g/day is extremely well tolerated.',long:'One of the most studied supplements for long-term safety. Safe indefinitely. Stay hydrated.'};
+if(n.includes('whey')||n.includes('casein'))return{risk:'Excessive protein (>3 g/kg/day) may strain kidneys in those with pre-existing kidney disease. Bloating, acne.',threshold:'Safe within 1.6–2.2 g/kg/day total protein from all sources.',long:'Safe for long-term daily use. Adequate hydration important at high intake.'};
+if(n.includes('collagen'))return{risk:'Very safe. Minor: bloating or GI discomfort at very high doses (>20 g/day).',threshold:'No established toxicity. Avoid marine collagen if allergic to fish/shellfish.',long:'Safe for indefinite daily use. Effects reverse gradually if stopped.'};
+if(n.includes('berberine'))return{risk:'Hypoglycemia (dangerously low blood sugar), especially with diabetes drugs. GI distress. Statin toxicity risk.',threshold:'Do not exceed 1,500 mg/day. Never combine with statins without medical supervision.',long:'Requires ongoing medical supervision. Monitor liver enzymes every 3–6 months.'};
+if(n.includes("john's wort")||n.includes('st. john'))return{risk:'Dramatically reduces blood levels of warfarin, contraceptives, HIV meds, chemotherapy. Fatal serotonin syndrome with SSRIs.',threshold:'Do not exceed 900 mg/day. Never self-prescribe — medical supervision essential.',long:'Do not use long-term without regular medication reviews. Dangerous interactions are dose-dependent.'};
+if(n.includes('melatonin'))return{risk:'Morning grogginess, worsened depression, suppressed natural melatonin production.',threshold:'Optimal dose is 0.3–1 mg. Most products contain 10–30× more than needed.',long:'Chronic nightly use >1 mg may reduce your body\'s own melatonin production. Use situationally.'};
+if(n.includes('b12'))return{risk:'Very safe — excess excreted in urine. Very rare: may aggravate acne in some individuals.',threshold:'No established toxicity even at high doses.',long:'Safe for indefinite daily use. Essential to continue if vegan, elderly, or on PPIs/metformin.'};
+if(n.includes('folate')||n.includes('folic'))return{risk:'Doses >1,000 mcg/day may mask B12 deficiency, allowing irreversible nerve damage to progress.',threshold:'Upper limit 1,000 mcg/day for folic acid. 5-MTHF form may be safer at higher doses.',long:'Safe long-term at recommended doses. Always ensure adequate B12 status when supplementing folate.'};
+if(n.includes('theanine'))return{risk:'Extremely safe. Mild drowsiness at very high doses (>600 mg).',threshold:'No serious adverse effects reported in studies up to 900 mg/day.',long:'Safe for indefinite daily use. One of the safest supplements known.'};
+if(n.includes('rhodiola'))return{risk:'Overstimulation, insomnia, irritability, elevated blood pressure at high doses.',threshold:'Do not exceed 600 mg/day. Avoid afternoon/evening dosing.',long:'Effectiveness may diminish with continuous use. Cycle 6–8 weeks on, 2–4 off.'};
+if(n.includes('bacopa'))return{risk:'Significant GI distress: nausea, cramps, diarrhea. May lower heart rate excessively.',threshold:'Do not exceed 450 mg/day. Always take with food.',long:'Long-term safety beyond 6 months not established. Some recommend 12 weeks on, 4 weeks off.'};
+if(n.includes('beta-alanine'))return{risk:'Paresthesia (skin tingling) at doses >800 mg at once — harmless but uncomfortable.',threshold:'No serious toxicity known. Upper limit not established.',long:'Safe for long-term daily use. Muscle carnosine benefits require continuous supplementation.'};
+if(n.includes('nac')||n.includes('n-acetyl cysteine'))return{risk:'Nausea, vomiting, diarrhea at high doses. Paradoxical pro-oxidant effect possible.',threshold:'Do not exceed 2,400 mg/day without medical supervision. Mild anticoagulant effect.',long:'Safe for continuous use at standard doses. Used clinically for years for OCD and respiratory conditions.'};
+if(n.includes('elderberry'))return{risk:'Raw elderberry contains cyanogenic glycosides (toxic). Only use commercial extracts.',threshold:'Follow product dosing. Use for 3–5 days during illness, not indefinitely.',long:'Not recommended as a daily preventive. Prolonged immune stimulation is not advisable.'};
+if(n.includes('boswellia'))return{risk:'GI distress, acid reflux, skin rash at high doses.',threshold:'Generally well tolerated. No established toxicity at supplemental doses.',long:'Safe for continuous use based on studies up to 6 months.'};
+if(n.includes('citrulline'))return{risk:'Very safe. Minor GI discomfort at very high doses (>15 g).',threshold:'No established toxicity. Well tolerated even at high doses.',long:'Safe for long-term daily use as a pre-workout supplement.'};
+if(n.includes('beetroot')||n.includes('nitrate'))return{risk:'Red/pink urine and stool (harmless). Additive hypotension with blood pressure meds.',threshold:'Monitor blood pressure if on antihypertensives. Standard doses well tolerated.',long:'Safe for regular use. No cycling needed.'};
+if(n.includes('saffron'))return{risk:'Doses >5 g are toxic (abortifacient). Nausea and vomiting at >200 mg/day.',threshold:'Absolutely do not exceed 30 mg/day of standardised extract. Toxic dose is relatively low.',long:'Safe at 28–30 mg/day for up to 12 weeks in studies.'};
+if(n.includes('ginger'))return{risk:'Heartburn, GI upset at high doses. Mild blood-thinning effect.',threshold:'Do not exceed 4 g/day. Caution with blood thinners at high doses.',long:'Safe for continuous use at culinary and standard supplemental doses.'};
+if(n.includes('vitamin b6')||n.includes('p5p'))return{risk:'Peripheral neuropathy (nerve damage) from chronic high doses — numbness, tingling in hands and feet.',threshold:'Do not exceed 100 mg/day. Nerve damage reported at 200+ mg/day chronically.',long:'Safe at recommended doses (10–50 mg). Nerve damage from excess is usually reversible if caught early.'};
+if(n.includes('vitamin c')||n.includes('ascorbic'))return{risk:'Kidney stones, GI distress, diarrhea at mega-doses.',threshold:'Upper limit 2,000 mg/day. Excess is excreted in urine but still stresses kidneys.',long:'Safe at moderate doses long-term. Mega-dosing (>2 g/day) not recommended.'};
+if(n.includes('vitamin a'))return{risk:'Liver toxicity, birth defects (teratogenic), increased intracranial pressure.',threshold:'Do not exceed 10,000 IU/day preformed retinol. Beta-carotene form is much safer.',long:'Chronic excess causes liver damage. Pregnant women must not exceed 3,000 IU/day retinol.'};
+if(n.includes('choline'))return{risk:'Fishy body odour, GI distress, excessive sweating.',threshold:'Upper limit 3,500 mg/day. Most experience side effects above 1,000 mg.',long:'Safe at recommended doses (450–550 mg/day) long-term.'};
+if(n.includes('iodine'))return{risk:'Both excess and deficiency harm the thyroid. Can trigger hyper- or hypothyroidism.',threshold:'Upper limit 1,100 mcg/day. Excess especially dangerous with pre-existing thyroid conditions.',long:'Safe at recommended doses. Monitor thyroid function if supplementing long-term.'};
+if(n.includes("lion's mane"))return{risk:'Mild GI upset. One case report of respiratory distress. Avoid if mushroom allergy.',threshold:'No established toxicity. Long-term data is limited.',long:'Benefits reverse within 4 weeks of stopping. Safety beyond a few months not well characterised.'};
+if(n.includes('saw palmetto'))return{risk:'GI upset, headache. Rare: liver injury.',threshold:'Standard 320 mg/day well tolerated. Do not exceed without supervision.',long:'Studies up to 2 years show good tolerance.'};
+if(n.includes('hmb'))return{risk:'Very safe. No significant adverse effects reported.',threshold:'Standard 3 g/day well tolerated in studies.',long:'Safe for long-term daily use alongside resistance training.'};
+if(n.includes('probiotics')||n.includes('probiotic'))return{risk:'Generally safe. Rare: infections in severely immunocompromised. Temporary bloating when starting.',threshold:'No upper limit established for healthy individuals.',long:'Safe for indefinite daily use. Benefits depend on consistent supplementation.'};
+// Generic fallback
+if(s.s>=4)return{risk:'Generally well tolerated. Minor GI discomfort possible at high doses.',threshold:'Follow product label. Do not exceed recommended dose without medical advice.',long:'Safe for long-term use at recommended doses based on current evidence.'};
+if(s.s===3)return{risk:'Moderate safety profile — side effects more likely at higher doses.',threshold:'Do not exceed recommended dose. Medical supervision advised for prolonged use.',long:'Consider periodic breaks. Long-term data may be limited.'};
+return{risk:'Limited safety data. Side effects possible even at standard doses.',threshold:'Do not exceed recommended dose. Consult a healthcare provider before use.',long:'Use the shortest effective duration. Medical supervision recommended.'};}
 const _nightSupps=new Set(['Magnesium','L-Theanine','Ashwagandha (KSM-66)','Glycine','Melatonin','Tart cherry (Montmorency)','Magnesium L-threonate','Magnolia bark (honokiol + magnolol)','Valerian root','Apigenin','Saffron (Crocus sativus)','Lemon balm (Melissa officinalis)','Passionflower (Passiflora incarnata)','California poppy (Eschscholzia californica)','Jujube (Ziziphus jujuba)','Chamomile extract (Matricaria chamomilla)','5-HTP','Tryptophan (L-tryptophan)','Lavender oil oral (Silexan)','Phosphatidylserine']);
 const _morningSupps=new Set(['Vitamin D3','Iron','Vitamin B12','Folate (5-MTHF)','Vitamin B6 (P5P)','SAMe','Rhodiola rosea','Tyrosine (L-tyrosine)','Acetyl-L-Carnitine (ALCAR)','Vitamin D3 liquid drops','Omega-3 (EPA/DHA)','CoQ10 (Ubiquinol)','Choline','Zinc','Iodine']);
 function getTimingLabel(r){
@@ -80,7 +186,7 @@ function renderRecCard(r,mi){
   // Score
   const sup=S.find(x=>x.n===r.n);
   const sc=sup?calcScore(sup):0;
-  const scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';
+  const scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';
   // Weight-based dose
   const wDose=getWeightDose(r);
   // Timing
@@ -186,18 +292,18 @@ function toggleBwManual(){
 }
 
 const BW_ALIASES={
-  vitD:[/vitamin\s*d.*?25.*?[\s:]+(\d+\.?\d*)/i,/25[\s-]*(?:oh|hydroxy).*?[\s:]+(\d+\.?\d*)/i],
-  b12:[/(?:vitamin\s*)?b[\s-]*12.*?[\s:]+(\d+\.?\d*)/i,/cobalamin.*?[\s:]+(\d+\.?\d*)/i],
-  ferritin:[/ferritin.*?[\s:]+(\d+\.?\d*)/i],
-  magRbc:[/magnesium.*?rbc.*?[\s:]+(\d+\.?\d*)/i,/rbc.*?mag.*?[\s:]+(\d+\.?\d*)/i],
-  folate:[/folate.*?[\s:]+(\d+\.?\d*)/i,/folic\s*acid.*?[\s:]+(\d+\.?\d*)/i],
-  tsh:[/\btsh\b.*?[\s:]+(\d+\.?\d*)/i,/thyroid\s*stim.*?[\s:]+(\d+\.?\d*)/i],
-  crp:[/(?:hs[\s-]?)?c[\s-]?reactive.*?[\s:]+(\d+\.?\d*)/i,/\bcrp\b.*?[\s:]+(\d+\.?\d*)/i],
-  omega3:[/omega.*?3.*?index.*?[\s:]+(\d+\.?\d*)/i],
-  zinc:[/\bzinc\b.*?[\s:]+(\d+\.?\d*)/i],
-  hba1c:[/\b(?:hba1c|a1c|hemoglobin\s*a1c)\b.*?[\s:]+(\d+\.?\d*)/i],
-  totalChol:[/total\s*cholesterol.*?[\s:]+(\d+\.?\d*)/i],
-  hdl:[/\bhdl\b.*?[\s:]+(\d+\.?\d*)/i]
+  vitD:[/vitamin\s*d[,.\s]*25[\s\-]*(?:oh|hydroxy)?.*?[\s:=]+(\d+\.?\d*)/i,/25[\s\-]*(?:oh|hydroxy)\s*(?:vitamin\s*)?d.*?[\s:=]+(\d+\.?\d*)/i,/25[\s\-]*(?:oh|hydroxy).*?[\s:=]+(\d+\.?\d*)/i,/(?:vit(?:amin)?\s*d3?\b)(?:(?!total).)*?[\s:=]+(\d+\.?\d*)/i,/d[\s,]*25[\s\-]*hydroxy.*?(\d+\.?\d*)/i],
+  b12:[/(?:vitamin\s*)?b[\s\-]*12.*?[\s:=]+(\d+\.?\d*)/i,/cobalamin.*?[\s:=]+(\d+\.?\d*)/i,/b12[\s,\/]*(?:cobalamin)?.*?[\s:=]+(\d+\.?\d*)/i,/cyanocobalamin.*?[\s:=]+(\d+\.?\d*)/i],
+  ferritin:[/ferritin.*?[\s:=]+(\d+\.?\d*)/i,/\bfer\b.*?[\s:=]+(\d+\.?\d*)/i],
+  magRbc:[/magnesium[\s,]*(?:rbc|red\s*blood|erythrocyte).*?[\s:=]+(\d+\.?\d*)/i,/(?:rbc|red\s*blood|erythrocyte)[\s,]*mag.*?[\s:=]+(\d+\.?\d*)/i,/mag[\s,]*rbc.*?[\s:=]+(\d+\.?\d*)/i],
+  folate:[/\bfolate\b.*?[\s:=]+(\d+\.?\d*)/i,/folic\s*acid.*?[\s:=]+(\d+\.?\d*)/i,/\bfol\b.*?[\s:=]+(\d+\.?\d*)/i,/5[\s\-]*mthf.*?[\s:=]+(\d+\.?\d*)/i],
+  tsh:[/\btsh\b.*?[\s:=]+(\d+\.?\d*)/i,/thyroid\s*stim.*?[\s:=]+(\d+\.?\d*)/i,/thyrotropin.*?[\s:=]+(\d+\.?\d*)/i],
+  crp:[/(?:hs[\s\-]?)?c[\s\-]?reactive\s*protein.*?[\s:=]+(\d+\.?\d*)/i,/\bcrp\b.*?[\s:=]+(\d+\.?\d*)/i,/\bhs[\s\-]?crp\b.*?[\s:=]+(\d+\.?\d*)/i,/high[\s\-]*sensitivity\s*crp.*?[\s:=]+(\d+\.?\d*)/i],
+  omega3:[/omega[\s\-]*3\s*index.*?[\s:=]+(\d+\.?\d*)/i,/omega[\s\-]*3.*?%.*?[\s:=]+(\d+\.?\d*)/i,/epa[\s\+]*dha\s*index.*?[\s:=]+(\d+\.?\d*)/i],
+  zinc:[/\bzinc[\s,]*(?:serum|plasma|seru)?.*?[\s:=]+(\d+\.?\d*)/i,/\bzn\b.*?[\s:=]+(\d+\.?\d*)/i],
+  hba1c:[/\bhba1c\b.*?[\s:=]+(\d+\.?\d*)/i,/\ba1c\b.*?[\s:=]+(\d+\.?\d*)/i,/hemoglobin\s*a1c.*?[\s:=]+(\d+\.?\d*)/i,/glyc(?:ated|osylated)\s*(?:hemo|haemo).*?[\s:=]+(\d+\.?\d*)/i,/hgba1c.*?[\s:=]+(\d+\.?\d*)/i],
+  totalChol:[/total\s*cholesterol.*?[\s:=]+(\d+\.?\d*)/i,/cholesterol[\s,]*total.*?[\s:=]+(\d+\.?\d*)/i,/tc\b.*?[\s:=]+(\d+\.?\d*)/i],
+  hdl:[/hdl[\s\-]*(?:cholesterol|chol|c)?.*?[\s:=]+(\d+\.?\d*)/i,/high[\s\-]*density\s*lipo.*?[\s:=]+(\d+\.?\d*)/i]
 };
 
 async function handleBwUpload(file){
@@ -354,8 +460,8 @@ function _showRecs(){
   // Add condition-based and goal-based supplements
   const condSupps=getCondSupps();
   const goalSupps=getGoalSupps();
-  goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s)recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:'Suggested based on your selected goal(s).',dose:s.dose,_goalExtra:true});}});
-  condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s)recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Suggested based on your selected condition(s).`,dose:s.dose,_condExtra:true});}});
+  goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s){const matchedGoals=[...selectedGoals].filter(k=>GOALS[k]&&GOALS[k].supps.includes(n)).map(k=>GOALS[k].label);const goalStr=matchedGoals.length?matchedGoals.join(' & '):'your selected goals';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Matches your "${goalStr}" goal.`,dose:s.dose,_goalExtra:true});}}});
+  condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s){const matchedConds=[...selectedConds].filter(k=>CONDITIONS[k]&&CONDITIONS[k].supps.includes(n)).map(k=>CONDITIONS[k].label);const condStr=matchedConds.length?matchedConds.join(' & '):'your selected conditions';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Recommended for ${condStr}.`,dose:s.dose,_condExtra:true});}}});
 
   // Blood work integration — boost supplements matching deficiencies
   const bwResults=Object.keys(bloodWork).length>0?analyzeBloodWork():[];
@@ -378,173 +484,229 @@ function _showRecs(){
     });
     renderBwResults(bwResults);
     document.getElementById('bw-results').style.display='block';
-    const csb=document.getElementById('coming-soon-bar');if(csb)csb.style.display='none';
   }else{
     document.getElementById('bw-results').style.display='none';
-    const csb=document.getElementById('coming-soon-bar');if(csb)csb.style.display='flex';
   }
 
   const sexLabel=sex==='fp'?'pregnant woman':sex==='m'?'man':'woman';
-  document.getElementById('res-hd').textContent='Your supplement plan';
+  document.getElementById('res-hd').textContent='Your recommendations';
   document.getElementById('res-sh').textContent=`${age}-year-old ${sexLabel} \u00B7 Last updated today`;
 
-  // Dashboard stat cards
+  // Banner chips
   const essCount=recs.filter(x=>x.p==='essential').length;
   const recCount=recs.filter(x=>x.p==='recommended').length;
   const conCount=recs.filter(x=>x.p==='consider').length;
-  const dashStats=document.getElementById('dash-stats');
-  if(dashStats)dashStats.innerHTML=[
-    {n:essCount,l:'Essential',c:'#0D9488'},{n:recCount,l:'Recommended',c:'#4B7BE5'},
-    {n:conCount,l:'Consider',c:'#CA8A04'},{n:recs.length,l:'Total',c:'#7B1FA2'}
-  ].map(s=>`<div style="background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;text-align:center"><div style="font-size:22px;font-weight:700;color:${s.c};line-height:1">${s.n}</div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:4px;text-transform:uppercase;letter-spacing:.04em">${s.l}</div></div>`).join('');
-
-  // Profile summary strip
-  const dashStrip=document.getElementById('dash-profile-strip');
-  if(dashStrip){
-    const sep='<div style="width:1px;height:14px;background:var(--color-border-tertiary)"></div>';
-    let parts=[];
-    parts.push(`<b style="color:var(--color-text-primary)">Age:</b> ${age}`);
-    parts.push(`<b style="color:var(--color-text-primary)">Sex:</b> ${sexLabel}`);
-    const wt=document.getElementById('prof-weight')?.value;if(wt)parts.push(`<b style="color:var(--color-text-primary)">Weight:</b> ${wt} lbs`);
-    if(selectedConds.size)parts.push(`<b style="color:var(--color-text-primary)">Conditions:</b> ${[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', ')}`);
-    if(selectedGoals.size)parts.push(`<b style="color:var(--color-text-primary)">Goals:</b> ${[...selectedGoals].map(k=>GOALS[k]?.label||k).join(', ')}`);
-    dashStrip.innerHTML=parts.map(p=>`<span>${p}</span>`).join(sep)+`${sep}<span style="color:#7B1FA2;cursor:pointer;font-weight:500" onclick="editP()">Edit &rarr;</span>`;
-  }
+  const resChips=document.getElementById('res-chips');
+  if(resChips)resChips.innerHTML=[
+    {n:essCount,l:'Essential',c:'#34D399'},{n:recCount,l:'Recommended',c:'#60A5FA'},{n:conCount,l:'Consider',c:'#FBBF24'}
+  ].map(s=>`<div class="res-chip"><div class="rc-dot" style="background:${s.c}"></div><span class="rc-num">${s.n}</span> ${s.l}</div>`).join('');
 
   renderMedAlerts(mi);
 
-  // Build daily schedule — 3 categories: Morning, Daytime, Night
-  const schedule={morning:[],daytime:[],night:[]};
-  const priLabel={essential:'Essential',recommended:'Recommended',consider:'Worth considering'};
-  const priColor={essential:'#065F56',recommended:'#2A4A8E',consider:'#7A5300'};
-  recs.forEach(r=>{
-    const t=getTimingLabel(r);if(!t)return;
-    const entry={name:r.n,dose:r.dose,pri:r.p,priLabel:priLabel[r.p]||'',priColor:priColor[r.p]||''};
-    if(t.cat==='night')schedule.night.push(entry);
-    else if(t.cat==='morning')schedule.morning.push(entry);
-    else schedule.daytime.push(entry);
-  });
-  const schedBox=document.getElementById('schedule-box');
-  if(schedBox){
-    // Group by priority, add time badge to each
-    const priGroups={essential:[],recommended:[],consider:[]};
-    recs.forEach(r=>{
-      const t=getTimingLabel(r);
-      const sup=S.find(x=>x.n===r.n);
-      const sc=sup?calcScore(sup):0;
-      const entry={name:r.n,dose:r.dose,cat:t?.cat||'daytime',time:t?.time||'Daytime',score:sc};
-      if(priGroups[r.p])priGroups[r.p].push(entry);
-    });
-    const timeBg={Morning:'#FEF6E0',Daytime:'#EBF0FC',Night:'#EEEDFE'};
-    const timeClr={Morning:'#7A5300',Daytime:'#2A4A8E',Night:'#26215C'};
-    const priDot={essential:'#0D9488',recommended:'#4B7BE5',consider:'#CA8A04'};
-    const priLbl={essential:'Essential — take these daily',recommended:'Recommended — strong evidence for your profile',consider:'Worth considering — based on your goals & conditions'};
-    const priLblClr={essential:'#065F56',recommended:'#2A4A8E',consider:'#7A5300'};
-    const timeIcon={Morning:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',Daytime:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B7BE5" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="17" r="5"/><path d="M12 2v6M4.22 10.22l1.42 1.42M19.78 10.22l-1.42 1.42"/></svg>',Night:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'};
-    const foodIcon='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>';
-    const noFoodIcon='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6"/></svg>';
-    function getFoodInfo(name){
-      const sup=S.find(x=>x.n===name);
-      if(!sup||!sup.tips)return{withFood:true};
-      const t=sup.tips.toLowerCase();
-      // "Take on an empty stomach" = empty, "Do not take on an empty stomach" = with food
-      if(t.includes('take on an empty stomach')||t.includes('take on empty stomach'))return{withFood:false};
-      if(t.includes('any time')||t.includes('with or without'))return{either:true};
-      if(t.includes('empty stomach')&&!t.includes('not')&&!t.includes('avoid'))return{withFood:false};
-      return{withFood:true};
-    }
-    const _disabledSupps=JSON.parse(localStorage.getItem('ss-disabled-supps')||'[]');
-    const disabledSet=new Set(_disabledSupps);
-    function togglePlanItem(name,btn){
-      const row=btn.closest('[data-plan-item]');
-      if(disabledSet.has(name)){disabledSet.delete(name);btn.classList.add('on');row.classList.remove('plan-item-off');}
-      else{disabledSet.add(name);btn.classList.remove('on');row.classList.add('plan-item-off');}
-      localStorage.setItem('ss-disabled-supps',JSON.stringify([...disabledSet]));
-    }
-    function renderItem(item){
-      const sup=S.find(x=>x.n===item.name);
-      const fi=getFoodInfo(item.name);
-      const tIcon=timeIcon[item.time]||timeIcon.Daytime;
-      const fIcon=fi.either?`<span style="color:var(--color-text-tertiary)" title="With or without food">${foodIcon}</span>`:fi.withFood?`<span style="color:#0D9488" title="Take with food">${foodIcon}</span>`:`<span style="color:#B91C1C" title="Take on empty stomach">${noFoodIcon}</span>`;
-      const isOff=disabledSet.has(item.name);
-      return`<div data-plan-item="${item.name}" style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f4f4f4" class="${isOff?'plan-item-off':''}"><button type="button" class="plan-toggle ${isOff?'':'on'}" onclick="togglePlanItem('${item.name.replace(/'/g,"\\'")}',this)"></button><div style="width:24px;display:flex;justify-content:center;flex-shrink:0" title="${item.time}">${tIcon}</div><div style="flex:1;min-width:0"><div class="plan-item-name" style="font-size:12px;font-weight:600">${item.name}</div><div style="font-size:10px;color:#57534e;margin-top:2px">${item.dose}</div></div><div style="display:flex;align-items:center;gap:4px;flex-shrink:0">${fIcon}</div></div>`;
-    }
-    const legend=`<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:10px;color:var(--color-text-tertiary)"><span style="display:flex;align-items:center;gap:4px">${timeIcon.Morning} Morning</span><span style="display:flex;align-items:center;gap:4px">${timeIcon.Daytime} Daytime</span><span style="display:flex;align-items:center;gap:4px">${timeIcon.Night} Night</span><span style="width:1px;height:12px;background:var(--color-border-tertiary)"></span><span style="display:flex;align-items:center;gap:4px;color:#0D9488">${foodIcon} With food</span><span style="display:flex;align-items:center;gap:4px;color:#B91C1C">${noFoodIcon} Empty stomach</span></div>`;
-    let sh=`<div style="padding:14px 18px;border-bottom:1px solid #eee"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:14px;font-weight:700">Your supplement plan</div></div>${legend}</div>`;
-    [{key:'essential'},{key:'recommended'},{key:'consider'}].forEach(({key})=>{
-      const items=priGroups[key];
-      if(!items.length)return;
-      sh+=`<div style="padding:12px 18px;border-bottom:1px solid #f4f4f4">`;
-      sh+=`<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:${priLblClr[key]};margin-bottom:8px;display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:50%;background:${priDot[key]};flex-shrink:0"></div>${priLbl[key]}</div>`;
-      const limit=key==='consider'?5:999;
-      const uid='plan-more-'+key;
-      items.forEach((item,i)=>{
-        if(i===limit)sh+=`<div id="${uid}" style="display:none">`;
-        sh+=renderItem(item);
-      });
-      if(items.length>limit){
-        sh+=`</div>`;
-        sh+=`<button type="button" onclick="const el=document.getElementById('${uid}');const open=el.style.display==='none';el.style.display=open?'block':'none';this.textContent=open?'Show less':'See ${items.length-limit} more'" style="width:100%;padding:8px;border:1px solid var(--color-border-tertiary);border-radius:8px;background:none;font-size:11px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;margin-top:6px;font-family:inherit">See ${items.length-limit} more</button>`;
-      }
-      // Add a supplement row
-      const addId='plan-add-'+key;
-      sh+=`<div class="plan-add-row" onclick="const s=document.getElementById('${addId}');s.style.display=s.style.display==='none'?'block':'none';if(s.style.display==='block')s.querySelector('input')?.focus()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add a supplement...</div>`;
-      sh+=`<div id="${addId}" style="display:none"><input type="text" class="plan-search" placeholder="Search supplements to add..." oninput="planSearch(this,'${addId}')"><div id="${addId}-results" class="plan-search-results" style="display:none"></div></div>`;
-      sh+=`</div>`;
-    });
-    schedBox.innerHTML=sh;schedBox.style.display='block';
-  }
-  // Plan search/add functions (defined globally so onclick works)
-  window.togglePlanItem=togglePlanItem;
-  window.planSearch=function(input,addId){
-    const q=input.value.trim().toLowerCase();
-    const results=document.getElementById(addId+'-results');
-    if(!q||q.length<2){results.style.display='none';return;}
-    const existing=new Set(recs.map(r=>r.n));
-    const hits=S.filter(s=>!existing.has(s.n)&&(s.n.toLowerCase().includes(q)||s.tag.toLowerCase().includes(q))).slice(0,8);
-    if(!hits.length){results.innerHTML='<div style="padding:8px 10px;font-size:10px;color:var(--color-text-tertiary)">No matches found</div>';results.style.display='block';return;}
-    results.innerHTML=hits.map(s=>{
-      const sc=calcScore(s);
-      return`<div class="plan-search-item" onclick="planAddSupp('${s.n.replace(/'/g,"\\'")}','${addId}')"><b>${s.n}</b> <span style="color:var(--color-text-tertiary);font-size:10px">${s.tag} · Score: ${sc}</span></div>`;
-    }).join('');
-    results.style.display='block';
-  };
-  window.planAddSupp=function(name,addId){
-    const sup=S.find(x=>x.n===name);if(!sup)return;
-    const t=getTimingLabel({n:name});
-    const item={name:name,dose:sup.dose,time:t?.time||'Daytime'};
-    // Add to DOM
-    const addRow=document.getElementById(addId);
-    const section=addRow.closest('div[style*="padding:12px"]');
-    const lastItem=addRow.previousElementSibling;
-    const newHtml=renderItem(item);
-    // Insert before the add row
-    const wrapper=document.createElement('div');wrapper.innerHTML=newHtml;
-    if(lastItem.classList?.contains('plan-add-row')){section.insertBefore(wrapper.firstChild,lastItem);}
-    else{addRow.parentElement.insertBefore(wrapper.firstChild,addRow.previousElementSibling);}
-    // Reset search
-    addRow.querySelector('input').value='';
-    document.getElementById(addId+'-results').style.display='none';
-    addRow.style.display='none';
-    // Save to localStorage
-    const added=JSON.parse(localStorage.getItem('ss-added-supps')||'[]');
-    if(!added.includes(name)){added.push(name);localStorage.setItem('ss-added-supps',JSON.stringify(added));}
-  };
+  // Store recs globally for plan modal access
+  window._lastRecs=recs;
+  window._lastMi=mi;
+  window._lastBwResults=bwResults;
 
-  const mkC=r=>{const sup=S.find(x=>x.n===r.n);return sup?renderCard(sup,''):renderRecCard(r,mi);};
-  renderPriSection('ess',recs.filter(x=>x.p==='essential'),mkC);
-  renderPriSection('rec',recs.filter(x=>x.p==='recommended'),mkC);
-  renderPriSection('con',recs.filter(x=>x.p==='consider'),mkC);
+  // Render selectable supplement cards
+  renderSuppCards(recs,mi,bwResults);
 
   document.getElementById('v-input').style.display='none';
   document.getElementById('v-res').style.display='block';
   saveProfile();
-  // Auto-download PDF
-  setTimeout(()=>{try{downloadPDF();}catch(e){console.warn('PDF generation failed:',e);}},500);
-  // Auto-send email if provided
+  // Pre-fill email field if provided (user must click Send manually)
   const profEmail=document.getElementById('prof-email')?.value?.trim();
-  if(profEmail&&profEmail.includes('@')){document.getElementById('report-email').value=profEmail;sendEmailReport();}
+  if(profEmail&&profEmail.includes('@')){document.getElementById('report-email').value=profEmail;document.getElementById('email-report-box').style.display='flex';}
 }
+
+/* ══ Selectable supplement cards ══ */
+let selectedSupps=new Set();
+
+function renderSuppCards(recs,mi,bwResults){
+  const container=document.getElementById('supp-cards-container');
+  if(!container)return;
+
+  const essItems=recs.filter(x=>x.p==='essential');
+  const recItems=recs.filter(x=>x.p==='recommended');
+  const conItems=recs.filter(x=>x.p==='consider');
+
+  // Pre-select essential + recommended
+  selectedSupps=new Set();
+  essItems.forEach(r=>selectedSupps.add(r.n));
+  recItems.forEach(r=>selectedSupps.add(r.n));
+
+  function scoreFor(r){const sup=S.find(x=>x.n===r.n);return sup?calcScore(sup):0;}
+
+  function bwBadgeFor(r){
+    if(!bwResults||!bwResults.length)return'';
+    let badges='';
+    bwResults.forEach(bw=>{
+      if(!bw.needsAction)return;
+      bw.bio.supps.forEach(sr=>{
+        if(sr.name===r.n){
+          const label=bw.status==='critical'?'Deficient':bw.status==='low'?'Below optimal':'Elevated';
+          badges+=`<span class="supp-card-bw">\uD83E\uDE78 ${bw.bio.name.split(',')[0].split('(')[0].trim()}: ${label}</span>`;
+        }
+      });
+    });
+    return badges;
+  }
+
+  function cardHtml(r,tier){
+    const sc=scoreFor(r);
+    const sup=S.find(x=>x.n===r.n);
+    const isSelected=selectedSupps.has(r.n);
+    const scoreBg=sc>=72?'#0D9488':sc>=60?'#4B7BE5':sc>=40?'#CA8A04':'#B91C1C';
+    const bwBadge=bwBadgeFor(r);
+    // Tags: always show efficacy, safety, tier, then categories
+    let tags='';
+    const eff=sup?sup.e:r.e;
+    const saf=sup?sup.s:r.s;
+    const rd=sup?sup.r||1:1;
+    tags+=`<span class="supp-card-tag ${eff>=4?'sct-eff':'sct-dim'}">Efficacy ${eff}/5</span>`;
+    tags+=`<span class="supp-card-tag ${saf>=4?'sct-safe':'sct-dim'}">Safety ${saf}/5</span>`;
+    const tierLabel=r.tier==='t1'?'Tier 1':r.tier==='t2'?'Tier 2':r.tier==='t3'?'Tier 3':'';
+    if(tierLabel)tags+=`<span class="supp-card-tag sct-tier">${tierLabel} evidence</span>`;
+    // Add category tags from supplement data
+    if(sup&&sup.tag){sup.tag.split(' · ').forEach(t=>{const tt=t.trim();if(tt)tags+=`<span class="supp-card-tag sct-cat">${tt}</span>`;});}
+    // Description — show full supplement desc
+    const desc=sup?sup.desc:'';
+    // Why recommended — always show
+    const why=r.why||'';
+
+    return`<div class="supp-card${isSelected?' sc-selected':''}" data-supp="${r.n.replace(/"/g,'&quot;')}" onclick="toggleSuppCard(this)"><div class="supp-card-check"></div><div class="supp-card-top"><div class="supp-card-score" style="background:${scoreBg}">${sc}</div><div class="supp-card-name">${r.n}</div></div><div class="supp-card-tags">${tags}${bwBadge}</div>${desc?`<div class="supp-card-desc">${desc}</div>`:''}<div class="supp-card-why"><span class="supp-card-why-label">Why recommended</span>${why}</div></div>`;
+  }
+
+  let html='';
+
+  // Essential
+  if(essItems.length){
+    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:var(--t1c)"></div> Essential \u2014 Take these daily <span class="tier-sec-count">${essItems.length} supplement${essItems.length!==1?'s':''}</span></div>`;
+    html+=`<div class="supp-cards">${essItems.map(r=>cardHtml(r,'essential')).join('')}</div>`;
+  }
+
+  // Recommended
+  if(recItems.length){
+    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:var(--t2c)"></div> Recommended \u2014 Strong evidence <span class="tier-sec-count">${recItems.length} supplement${recItems.length!==1?'s':''}</span></div>`;
+    html+=`<div class="supp-cards">${recItems.map(r=>cardHtml(r,'recommended')).join('')}</div>`;
+  }
+
+  // Consider — show first 4, expandable
+  if(conItems.length){
+    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:var(--t3c)"></div> Worth considering <span class="tier-sec-count">${conItems.length} supplement${conItems.length!==1?'s':''}</span></div>`;
+    html+=`<div class="supp-cards" id="con-cards-grid">`;
+    conItems.forEach(r=>{
+      html+=`<div>${cardHtml(r,'consider')}</div>`;
+    });
+    html+=`</div>`;
+  }
+
+  container.innerHTML=html;
+
+  // Show selection bar
+  updateSelCount();
+  document.getElementById('sel-bar').style.display='block';
+}
+
+function _getFoodInfo(name){
+  const sup=S.find(x=>x.n===name);
+  if(!sup||!sup.tips)return{withFood:true};
+  const t=sup.tips.toLowerCase();
+  if(t.includes('take on an empty stomach')||t.includes('take on empty stomach'))return{withFood:false};
+  if(t.includes('any time')||t.includes('with or without'))return{either:true};
+  if(t.includes('empty stomach')&&!t.includes('not')&&!t.includes('avoid'))return{withFood:false};
+  return{withFood:true};
+}
+
+function toggleSuppCard(el){
+  const name=el.dataset.supp;
+  if(selectedSupps.has(name)){selectedSupps.delete(name);el.classList.remove('sc-selected');}
+  else{selectedSupps.add(name);el.classList.add('sc-selected');}
+  updateSelCount();
+}
+
+function updateSelCount(){
+  const n=selectedSupps.size;
+  const cnt=document.getElementById('sel-count');
+  if(cnt)cnt.textContent=n;
+}
+
+
+function openPlanModal(){
+  const recs=window._lastRecs||[];
+  const selected=recs.filter(r=>selectedSupps.has(r.n));
+  if(!selected.length){alert('Select at least one supplement to view your plan.');return;}
+
+  // Build flat supplement list
+  const items=selected.map(r=>{
+    const sup=S.find(x=>x.n===r.n);
+    const sc=sup?calcScore(sup):0;
+    const tags=sup&&sup.tag?sup.tag.split(' · ').slice(0,2):[];
+    return{name:r.n,dose:r.dose.split(';')[0].split('.')[0],score:sc,pri:r.p,why:r.why||'',timing:getTimingLabel(r),tags};
+  });
+
+  // Summary body — flat list with edit link
+  let html='';
+  items.forEach(item=>{
+    const scoreBg=item.score>=80?'#0D9488':item.score>=60?'#4B7BE5':item.score>=40?'#CA8A04':'#B91C1C';
+    const tagHtml=item.tags.map(t=>`<span class="plan-row-tag">${t.trim()}</span>`).join('');
+    html+=`<div class="plan-row"><div class="plan-row-score" style="background:${scoreBg}">${item.score}</div><div class="plan-row-name">${item.name}</div><div class="plan-row-tags">${tagHtml}</div></div>`;
+  });
+  html+=`<div class="plan-edit-row"><button class="plan-edit-btn" onclick="closePlanModal()">Make changes</button></div>`;
+
+  document.getElementById('plan-body').innerHTML=html;
+
+  // Email report preview
+  const age=document.getElementById('asl').value;
+  const sexLabel=sex==='fp'?'pregnant woman':sex==='m'?'man':'woman';
+  let prev='<div class="plan-ep-label">Your full personalized report</div>';
+  prev+=`<div class="plan-ep-card">`;
+  prev+=`<div class="plan-ep-hdr"><h3>Your Supplement Report</h3><p>${age}-year-old ${sexLabel} \u00B7 ${selected.length} supplements \u00B7 ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</p></div>`;
+  prev+=`<div class="plan-ep-body">`;
+  // Show first 3 items as detailed preview
+  const previewItems=items.slice(0,3);
+  prev+=`<div class="plan-ep-sec-title"><span class="plan-ep-dot" style="background:#0D9488"></span>Essential \u2014 Take daily</div>`;
+  previewItems.forEach(item=>{
+    const scoreBg=item.score>=80?'#0D9488':item.score>=60?'#4B7BE5':item.score>=40?'#CA8A04':'#B91C1C';
+    const timingStr=item.timing?item.timing.time:'';
+    prev+=`<div class="plan-ep-row"><div class="plan-ep-badge" style="background:${scoreBg}">${item.score}</div><div class="plan-ep-info"><div class="plan-ep-name">${item.name}</div><div class="plan-ep-dose">${item.dose}${timingStr?' \u00B7 '+timingStr:''}</div><div class="plan-ep-why">${item.why}</div></div></div>`;
+  });
+  if(items.length>3)prev+=`<div class="plan-ep-more">+ ${items.length-3} more supplements in full report</div>`;
+  prev+=`</div></div>`;
+  document.getElementById('plan-preview').innerHTML=prev;
+
+  document.getElementById('plan-sub').textContent=selected.length+' supplement'+(selected.length!==1?'s':'')+' \u00B7 Personalized for your profile';
+  document.getElementById('plan-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closePlanModal(){
+  document.getElementById('plan-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+async function sendPlanEmail(){
+  const email=document.getElementById('plan-email').value.trim();
+  if(!email||!email.includes('@')){document.getElementById('plan-email').focus();return;}
+  const btn=document.getElementById('plan-send-btn');btn.disabled=true;btn.textContent='Preparing…';
+  // Collect email via Formspree (fire & forget)
+  const age=document.getElementById('asl').value;
+  const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
+  const recs=window._lastRecs||[];
+  const selRecs=recs.filter(r=>selectedSupps.has(r.n));
+  const suppNames=selRecs.map(r=>r.n).join(', ');
+  fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,profile:age+' '+sexLabel,supplements:suppNames,count:selRecs.length,source:'pdf-download',date:new Date().toISOString()})}).catch(()=>{});
+  // Download PDF
+  try{
+    await downloadPDF();
+    btn.textContent='Downloaded ✓';btn.style.background='#0D9488';
+    setTimeout(()=>{btn.textContent='Download PDF';btn.style.background='';btn.disabled=false;},2500);
+  }catch(e){btn.textContent='Download PDF';btn.disabled=false;}
+}
+
+// Close plan on Escape
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('plan-overlay').classList.contains('open'))closePlanModal();});
+
 function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 function hl(t,q){if(!q)return t;const eq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return t.replace(new RegExp(`(${eq})`,'gi'),'<mark>$1</mark>');}
 function onSearch(q){q=q.trim();const clr=document.getElementById('gs-clr'),res=document.getElementById('gs-res'),mui=document.getElementById('main-ui');clr.classList.toggle('vis',q.length>0);if(!q){res.classList.remove('vis');mui.style.display='';return;}const ql=q.toLowerCase();const hits=S.filter(s=>[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(ql)));mui.style.display='none';res.classList.add('vis');const safeQ=escHtml(q);document.getElementById('gs-meta').innerHTML=hits.length?`<b>${hits.length}</b> supplement${hits.length!==1?'s':''} found for "<b>${safeQ}</b>"`:`No results for "<b>${safeQ}</b>"`;document.getElementById('gs-cards').innerHTML=hits.length?'<div class="scards">'+hits.map(s=>renderCard(s,'')).join('')+'</div>':'<div style="text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px">Try a different name, ingredient, or health goal.</div>';}
@@ -568,7 +730,7 @@ function bar(label,v){return`<div class="sc-bar-item"><div class="sc-bar-label">
 function getColsPerRow(){const w=window.innerWidth;if(w<640)return 1;if(w<960)return 2;return 3;}
 function loadMoreTier(btn,tierId){btn.classList.add('loading');btn.disabled=true;const sec=btn.closest('.tier-sec');setTimeout(()=>{const hidden=sec.querySelectorAll('.sc.tier-hidden');let shown=0;hidden.forEach(c=>{if(shown<10){c.classList.replace('tier-hidden','tier-visible');shown++;}});btn.classList.remove('loading');btn.disabled=false;const rem=sec.querySelectorAll('.sc.tier-hidden').length;if(!rem)btn.remove();else btn.querySelector('.tier-more-text').textContent=`Load more (${rem} remaining)`;},600);}
 function calcScore(s){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1;return Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2);}
-var cycleInfo=function(s){if(s.cycle)return s.cycle;var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase(),tips=(s.tips||'').toLowerCase(),dose=(s.dose||'').toLowerCase();if(t==='t4')return 'Do not take. This supplement has documented safety risks.';if(tips.includes('cycle')||dose.includes('cycle'))return tips.includes('cycle')?s.tips:s.dose;if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off. Long-term safety beyond 3 months not well established.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Effectiveness may diminish with continuous use.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('selenium')||n.includes('iodine')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed. Retest blood levels annually if correcting a deficiency.';if(tag.includes('gut')&&(n.includes('lactobacillus')||n.includes('bifidobacterium')||n.includes('probiotic')||n.includes('saccharomyces')))return 'Safe for continuous daily use. No cycling needed. Benefits may diminish if stopped.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine'))return 'Safe for continuous daily use. No cycling needed. Well-studied for long-term safety.';if(n.includes('omega')||n.includes('fish oil')||n.includes('krill')||n.includes('dha')||n.includes('epa'))return 'Safe for continuous daily use. No cycling needed. Benefits reverse if stopped.';if(n.includes('melatonin'))return 'Use situationally, not nightly long-term. Best for jet lag or short-term sleep reset (2-4 weeks).';if(tag.includes('adaptogen')||n.includes('ginseng')||n.includes('eleuthero')||n.includes('schisandra'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Not recommended for continuous long-term use.';if(n.includes('john')||n.includes('kava')||n.includes('valerian')||n.includes('black cohosh'))return 'Short-term use recommended (4-8 weeks). Consult a provider before extending.';if(tag.includes('fibre')||tag.includes('prebiotic')||n.includes('psyllium')||n.includes('inulin'))return 'Safe for continuous daily use. No cycling needed.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses. No specific cycling protocol established.';if(s.s===3)return 'Use with caution long-term. Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term safety data. Use for the shortest effective duration.';}
+var cycleInfo=function(s){if(s.cycle)return s.cycle;var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase(),tips=(s.tips||'').toLowerCase(),dose=(s.dose||'').toLowerCase();if(t==='t4')return 'Do not take. This supplement has documented safety risks.';if(tips.includes('cycle')||dose.includes('cycle'))return tips.includes('cycle')?s.tips:s.dose;if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off. Long-term safety beyond 3 months not well established.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Effectiveness may diminish with continuous use.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('selenium')||n.includes('iodine')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed. Retest blood levels annually if correcting a deficiency.';if(tag.includes('gut')&&(n.includes('lactobacillus')||n.includes('bifidobacterium')||n.includes('probiotic')||n.includes('saccharomyces')))return 'Safe for continuous daily use. No cycling needed. Benefits may diminish if stopped.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine'))return 'Safe for continuous daily use. No cycling needed. Well-studied for long-term safety.';if(n.includes('omega')||n.includes('fish oil')||n.includes('krill')||(n.includes('dha')&&!n.includes('gandha'))||n.includes('epa'))return 'Safe for continuous daily use. No cycling needed. Benefits reverse if stopped.';if(n.includes('melatonin'))return 'Use situationally, not nightly long-term. Best for jet lag or short-term sleep reset (2-4 weeks).';if(tag.includes('adaptogen')||n.includes('ginseng')||n.includes('eleuthero')||n.includes('schisandra'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Not recommended for continuous long-term use.';if(n.includes('john')||n.includes('kava')||n.includes('valerian')||n.includes('black cohosh'))return 'Short-term use recommended (4-8 weeks). Consult a provider before extending.';if(tag.includes('fibre')||tag.includes('prebiotic')||n.includes('psyllium')||n.includes('inulin'))return 'Safe for continuous daily use. No cycling needed.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses. No specific cycling protocol established.';if(s.s===3)return 'Use with caution long-term. Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term safety data. Use for the shortest effective duration.';}
 function eTier(s){const sc=calcScore(s);if(sc>=72)return 't1';if(sc>=60)return 't2';if(sc>=40)return 't3';return 't4';}
 function first2(txt){const m=txt.match(/[^.!?]*[.!?]/g);if(!m||m.length<=2)return{preview:txt,rest:''};return{preview:m.slice(0,2).join(''),rest:m.slice(2).join('')};}
 function interactBarScore(name){const ints=INTERACT_MAP[name];if(!ints||!ints.length)return 5;if(ints.some(i=>i.type==='avoid'))return 1;return 2;}
@@ -577,7 +739,7 @@ const ART_CAT_CLR={guide:'#2563EB',breakthrough:'#16A34A',myth:'#EA580C',safety:
 const ART_CAT_LBL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety',kids:'Kids'};
 /* Reverse map: article ID → supplement names */
 const ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});
-function suppCardForArticle(name){const s=S.find(x=>x.n===name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
+function suppCardForArticle(name){const s=S.find(x=>x.n===name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
 function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
 function openSuppModal(name){const s=S.find(x=>x.n===name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
 function closeSuppModal(){document.getElementById('supp-modal').classList.remove('open');document.body.style.overflow='';}
@@ -602,13 +764,13 @@ function processArticleSources(container){
   }
   return sourcesDiv;
 }
-function goArticle(id){event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const body=document.getElementById('art-modal-body');body.innerHTML=src.querySelector('[style*="padding"]').innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
+function goArticle(id){if(event)event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const body=document.getElementById('art-modal-body');body.innerHTML=src.querySelector('[style*="padding"]').innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
 function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('supp-modal').classList.contains('open')){closeSuppModal();return;}if(document.getElementById('art-modal').classList.contains('open'))closeArtModal();}});
 function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
 function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div style="margin-top:10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-tertiary);margin-bottom:6px">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>'<div class="art-mini" onclick="goArticle('+a.id+')" style="margin-bottom:4px"><div class="art-mini-side" style="background:'+ART_CAT_GRAD[a.c]+'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><div class="art-mini-side-div"></div><div class="art-mini-side-stat">'+a.m+'</div><div class="art-mini-side-label">min</div></div><div class="art-mini-body"><div class="art-mini-cat" style="color:'+(ART_CAT_CLR[a.c]||'#7B1FA2')+'">'+ART_CAT_LBL[a.c]+'</div><div class="art-mini-title">'+a.t+'</div><div class="art-mini-meta">'+a.m+' min read</div></div></div>').join('')+'</div>';}
-function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=80?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${i.med.split(' ')[0]}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${s.desc}</div><div class="sc-expand"><div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Dose</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.dose}</span></div>${s.tips?`<div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">How to take</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.tips}</span></div>`:''}<div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Cycling &amp; Duration</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${s.cycle||(function(s){var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase();if(t==='t4')return 'Do not take.';if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('omega')||n.includes('fish')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine')||n.includes('fibre')||n.includes('psyllium'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('melatonin'))return 'Use situationally (2-4 weeks). Not for nightly long-term use.';if(tag.includes('adaptogen')||n.includes('ginseng'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('john')||n.includes('kava')||n.includes('black cohosh'))return 'Short-term use (4-8 weeks). Consult provider before extending.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses.';if(s.s===3)return 'Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term data. Use shortest effective duration.';})(s)}</span></div><div class="sc-onset-info" style="flex-direction:column;align-items:flex-start;gap:2px"><span class="sc-onset-label">Onset: ${OL_SHORT[so]||'Varies'}</span><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</span></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+i.med+':</b> '+m[1].note:'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${s.desc}</div>${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
-function renderAll(){const q=(document.getElementById('srch')||{}).value||'';const initShow=5;
+function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${i.med.split(' ')[0]}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;const _fi=getFoodInfo(s);const _ei=getExcessInfo(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${s.desc}</div><div class="sc-expand"><div class="sc-info-table"><div class="sc-info-row"><div class="sc-info-lbl">Dose</div><div class="sc-info-val">${s.dose}</div></div>${s.tips?`<div class="sc-info-row"><div class="sc-info-lbl">How to take</div><div class="sc-info-val">${s.tips}</div></div>`:''}<div class="sc-info-row sc-info-tinted"><div class="sc-info-lbl">Food</div><div class="sc-info-val"><span style="color:var(--t1c);font-weight:600;font-size:9px">PAIR:</span> ${_fi.pair}<br><span style="color:var(--t4c);font-weight:600;font-size:9px">AVOID:</span> ${_fi.avoid}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Cycling</div><div class="sc-info-val">${s.cycle||(function(s){var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase();if(t==='t4')return 'Do not take.';if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('omega')||n.includes('fish')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine')||n.includes('fibre')||n.includes('psyllium'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('melatonin'))return 'Use situationally (2-4 weeks). Not for nightly long-term use.';if(tag.includes('adaptogen')||n.includes('ginseng'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('john')||n.includes('kava')||n.includes('black cohosh'))return 'Short-term use (4-8 weeks). Consult provider before extending.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses.';if(s.s===3)return 'Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term data. Use shortest effective duration.';})(s)}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Onset</div><div class="sc-info-val"><span class="sc-info-badge">${OL_SHORT[so]||'Varies'}</span>${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</div></div></div><div class="sc-onset-info sc-excess-info" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="sc-onset-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t4c)" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>If You Exceed the Dose</span><div style="font-size:11px;line-height:1.5"><span style="color:var(--t4c);font-weight:600;font-size:10px">RISKS:</span> <span style="color:var(--color-text-secondary)">${_ei.risk}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t3c);font-weight:600;font-size:10px">UPPER LIMIT:</span> <span style="color:var(--color-text-secondary)">${_ei.threshold}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t2c);font-weight:600;font-size:10px">LONG-TERM:</span> <span style="color:var(--color-text-secondary)">${_ei.long}</span></div></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+i.med+':</b> '+m[1].note:'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${s.desc}</div>${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
+function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';const initShow=5;
 if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>initShow&&!q;document.getElementById('s-content').innerHTML=`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'unproven')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`||'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>initShow&&!q;html+=`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'${t.id}')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
@@ -636,7 +798,7 @@ function _catPick(v){_ddLabel('cat-filter',v);setCatFilter(v);}
 function sw(n){document.getElementById('p1').style.display=n===1?'block':'none';document.getElementById('p2').style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-selected',n===1);tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-selected',n===2);if(n===2)initAllTab();}
 let selectedConds=new Set();
 function renderCondChips(){const el=document.getElementById('cond-chips');el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${k}')">${c.label}</div>`).join('');}
-function toggleCond(k){selectedConds.has(k)?selectedConds.delete(k):selectedConds.add(k);renderCondChips();}
+function toggleCond(k){selectedConds.has(k)?selectedConds.delete(k):selectedConds.add(k);renderCondChips();updatePfCounts();}
 function getCondSupps(){const s=new Set();selectedConds.forEach(k=>{const c=CONDITIONS[k];if(c)c.supps.forEach(n=>s.add(n));});return s;}
 
 /* ── Goals ── */
@@ -651,15 +813,13 @@ const GOALS={
   skin:{label:'Improve skin',supps:['Collagen peptides','Omega-3 (EPA/DHA)','Astaxanthin','Vitamin C (moderate dose)']},
   longevity:{label:'Longevity / Anti-aging',supps:['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','Magnesium','CoQ10 (Ubiquinol)','NMN / NAD+ precursors']},
   gut:{label:'Gut health',supps:['Probiotics','Psyllium husk (Plantago ovata)','Fibre (general dietary)','Saccharomyces boulardii']},
-  endurance:{label:'Improve endurance',supps:['Creatine monohydrate','Dietary Nitrate / Beetroot','Beta-Alanine','Sodium bicarbonate (sports)','Rhodiola rosea']},
   joints:{label:'Joint support',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
   hair:{label:'Hair & nails',supps:['Collagen peptides','Biotin (low-dose, deficiency)','Iron','Zinc']},
-  heart:{label:'Heart health',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']},
-  mood:{label:'Improve mood',supps:['Saffron (Crocus sativus)','Omega-3 (EPA/DHA)','Vitamin D3','SAMe','Magnesium']}
+  heart:{label:'Heart health',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']}
 };
 let selectedGoals=new Set();
 function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${k}')">${g.label}</div>`).join('');}
-function toggleGoal(k){selectedGoals.has(k)?selectedGoals.delete(k):selectedGoals.add(k);renderGoalChips();}
+function toggleGoal(k){selectedGoals.has(k)?selectedGoals.delete(k):selectedGoals.add(k);renderGoalChips();updatePfCounts();}
 function getGoalSupps(){const s=new Set();selectedGoals.forEach(k=>{const g=GOALS[k];if(g)g.supps.forEach(n=>s.add(n));});return s;}
 
 /* ── BMI calculator ── */
@@ -685,106 +845,301 @@ function saveProfile(){
 }
 
 /* ── PDF generation ── */
+function loadJsPDF(){
+  return new Promise((resolve,reject)=>{
+    if(window.jspdf)return resolve();
+    const s=document.createElement('script');
+    s.src='https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js';
+    s.onload=resolve;s.onerror=reject;document.head.appendChild(s);
+  });
+}
 function generatePDF(){
+  if(!window.jspdf)return null;
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const pw=doc.internal.pageSize.getWidth();
-  const margin=18;
+  const ph=doc.internal.pageSize.getHeight();
+  const margin=16;
   const tw=pw-margin*2;
   let y=20;
+  let pageNum=1;
 
-  function checkPage(needed){if(y+needed>275){doc.addPage();y=20;}}
+  function addFooter(){
+    doc.setDrawColor(220,220,220);doc.line(margin,ph-14,pw-margin,ph-14);
+    doc.setFontSize(6.5);doc.setTextColor(170,170,170);doc.setFont(undefined,'normal');
+    doc.text('Generated by SupplementScore.org',margin,ph-9);
+    doc.text('Not a substitute for professional medical advice',pw/2,ph-9,{align:'center'});
+    doc.text(new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+' | Page '+pageNum,pw-margin,ph-9,{align:'right'});
+  }
+  function checkPage(needed){if(y+needed>ph-20){addFooter();doc.addPage();pageNum++;y=16;}}
 
-  // Header
+  // ── HEADER ──
+  // Background
+  doc.setFillColor(123,31,162);doc.rect(0,0,pw,28,'F');
+  // Shield logo — matches SVG #ss-logo path exactly
+  const lx=margin,ly=4,lsz=0.75;
+  doc.setFillColor(255,255,255);
+  // Shield outline (pointed bottom): M4.5,3.75 → V13.5 → curve to 12,21.75 → curve back
+  // Scaled by lsz and offset by lx,ly
+  const sx=function(x){return lx+(x-4.5)*lsz;};
+  const sy=function(y){return ly+(y-3)*lsz;};
+  // Draw shield path as polygon approximation
+  doc.triangle(sx(4.5),sy(3.75),sx(4.5),sy(13.5),sx(12),sy(21.75),'F');
+  doc.triangle(sx(19.5),sy(3.75),sx(19.5),sy(13.5),sx(12),sy(21.75),'F');
+  doc.rect(sx(4.5),sy(3),sx(19.5)-sx(4.5),sy(13.5)-sy(3),'F');
+  // Smooth the bottom curve with additional triangles
+  doc.triangle(sx(4.5),sy(13.5),sx(8.25),sy(19.5),sx(12),sy(21.75),'F');
+  doc.triangle(sx(19.5),sy(13.5),sx(15.75),sy(19.5),sx(12),sy(21.75),'F');
+  // 3 ascending white bars inside shield (matching SVG rects)
   doc.setFillColor(123,31,162);
-  doc.rect(0,0,pw,28,'F');
+  doc.roundedRect(sx(7.1),sy(12),2.6*lsz,5.25*lsz,0.7*lsz,0.7*lsz,'F');
+  doc.roundedRect(sx(10.7),sy(9),2.6*lsz,8.25*lsz,0.7*lsz,0.7*lsz,'F');
+  doc.roundedRect(sx(14.25),sy(6),2.6*lsz,11.25*lsz,0.7*lsz,0.7*lsz,'F');
+  doc.setFillColor(255,255,255);
+  // Logo text
+  const logoX=lx+15;
   doc.setTextColor(255,255,255);
-  doc.setFontSize(18);doc.setFont(undefined,'bold');
-  doc.text('SupplementScore',margin,14);
-  doc.setFontSize(9);doc.setFont(undefined,'normal');
-  doc.text('Evidence-Based Supplement Recommendations',margin,21);
-  y=36;
+  doc.setFontSize(16);doc.setFont(undefined,'bold');
+  doc.text('SupplementScore',logoX,13);
+  doc.setFontSize(16);doc.setFont(undefined,'normal');doc.setTextColor(200,200,200);
+  doc.text('.org',logoX+doc.setFont(undefined,'bold').setFontSize(16).getTextWidth('SupplementScore'),13);
+  // BETA badge
+  const betaX=logoX+doc.getTextWidth('SupplementScore')+doc.setFont(undefined,'normal').getTextWidth('.org')+3;
+  doc.setFillColor(255,255,255,40);doc.setFillColor(255,255,255);doc.setGState(new doc.GState({opacity:0.2}));
+  doc.roundedRect(betaX,8,10,5,1.5,1.5,'F');
+  doc.setGState(new doc.GState({opacity:1}));
+  doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(255,255,255);
+  doc.text('BETA',betaX+1.5,11.5);
+  // Tagline
+  doc.setFontSize(7.5);doc.setFont(undefined,'normal');doc.setTextColor(220,200,240);
+  doc.text('Evidence-Based Supplement Recommendations',logoX,20);
 
-  // Profile summary
+  // ── PROFILE BAR ──
+  y=32;
+  doc.setFillColor(248,247,245);doc.rect(0,28,pw,12,'F');
+  doc.setDrawColor(232,230,225);doc.line(0,40,pw,40);
   const age=document.getElementById('asl').value;
   const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
-  doc.setTextColor(60,60,60);
-  doc.setFontSize(12);doc.setFont(undefined,'bold');
-  doc.text('Your Profile',margin,y);y+=7;
-  doc.setFontSize(10);doc.setFont(undefined,'normal');
-  doc.text('Age: '+age+' | Sex: '+sexLabel,margin,y);y+=5;
-  const ht=document.getElementById('prof-height-ft')?.value;
-  const wt=document.getElementById('prof-weight')?.value;
-  if(ht&&wt){doc.text('Height: '+ht+'\''+( document.getElementById('prof-height-in')?.value||'0')+'" | Weight: '+wt+' lbs',margin,y);y+=5;}
-  if(selectedMeds.size){doc.text('Medications: '+[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', '),margin,y,{maxWidth:tw});y+=5;}
-  if(selectedConds.size){doc.text('Conditions: '+[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', '),margin,y,{maxWidth:tw});y+=5;}
-  if(selectedGoals.size){doc.text('Goals: '+[...selectedGoals].map(k=>GOALS[k]?.label||k).join(', '),margin,y,{maxWidth:tw});y+=5;}
-  y+=4;
+  doc.setFontSize(7.5);doc.setFont(undefined,'normal');doc.setTextColor(140,140,140);
+  let px=margin;
+  const profileItems=[['Age',age],['Sex',sexLabel]];
+  if(selectedMeds.size)profileItems.push(['Meds',[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', ')]);
+  if(selectedConds.size)profileItems.push(['Conditions',[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', ')]);
+  profileItems.push(['Date',new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})]);
+  profileItems.forEach(([label,val],i)=>{
+    doc.setFont(undefined,'bold');doc.setTextColor(170,170,170);doc.text(label+':',px,35);
+    const lw=doc.getTextWidth(label+': ');
+    doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);doc.text(val,px+lw,35);
+    px+=lw+doc.getTextWidth(val)+10;
+  });
+  y=46;
 
-  // Draw line
-  doc.setDrawColor(200,200,200);doc.line(margin,y,pw-margin,y);y+=8;
+  // ── DATA PREP ──
+  const recs=window._lastRecs||[];
+  const selRecs=recs.filter(r=>selectedSupps.has(r.n));
+  const allItems=selRecs.map(r=>{
+    const sup=S.find(x=>x.n===r.n);
+    const sc=sup?calcScore(sup):0;
+    const timing=getTimingLabel(r);
+    const ints=INTERACT_MAP[r.n]||[];
+    const hasMedInt=ints.length>0;
+    const tips=sup?.tips||'';
+    const foodHint=tips.toLowerCase().includes('fat')?'With fat':tips.toLowerCase().includes('empty stomach')?'Empty stomach':tips.toLowerCase().includes('with food')||tips.toLowerCase().includes('with meal')?'With food':'Any';
+    const rd=sup?.r||1;const so=sup?.o||1;
+    const onsetLabel=so>=5?'Immediate':so>=4?'Hours-days':so>=3?'1-4 weeks':so>=2?'4-8 weeks':'8+ weeks';
+    const tierLabel=sup?.t==='t1'?'Tier 1':sup?.t==='t2'?'Tier 2':'Tier 3';
+    const cycleInfo=(function(s){if(!s)return'Continuous';const n=s.n.toLowerCase(),tag=(s.tag||'').toLowerCase();if(n.includes('ashwagandha'))return'8-12 wks on, 2-4 off';if(n.includes('rhodiola'))return'6-8 wks on, 2-4 off';if(n.includes('melatonin'))return'2-4 weeks max';if(tag.includes('adaptogen')||n.includes('ginseng'))return'6-8 wks on, 2-4 off';return'Continuous';})(sup);
+    const priLabel=r.p==='essential'?'Essential':r.p==='recommended'?'Recommended':'Consider';
+    return{r,sup,sc,timing,hasMedInt,ints,foodHint,rd,onsetLabel,tierLabel,cycleInfo,priLabel,tips};
+  });
 
-  // Recommendations
-  function addSection(title,color,cards){
-    if(!cards.length)return;
-    checkPage(15);
-    doc.setFontSize(12);doc.setFont(undefined,'bold');doc.setTextColor(color[0],color[1],color[2]);
-    doc.text(title+' ('+cards.length+')',margin,y);y+=7;
-    cards.forEach(card=>{
-      checkPage(25);
-      const name=card.querySelector('.rc-name')?.textContent||'';
-      const why=card.querySelector('.rc-why')?.textContent||'';
-      const dose=card.querySelector('.rc-dose')?.textContent||'';
-      doc.setFontSize(10);doc.setFont(undefined,'bold');doc.setTextColor(30,30,30);
-      doc.text(name,margin,y);y+=5;
-      doc.setFontSize(8);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
-      const whyLines=doc.splitTextToSize(why,tw);
-      doc.text(whyLines,margin,y);y+=whyLines.length*3.5+1;
-      doc.setTextColor(100,100,100);
-      const doseLines=doc.splitTextToSize(dose,tw);
-      doc.text(doseLines,margin,y);y+=doseLines.length*3.5+4;
-    });
+  // ── QUICK REFERENCE TABLE ──
+  doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
+  doc.text('QUICK REFERENCE GUIDE',margin,y);
+  doc.setDrawColor(123,31,162);doc.setLineWidth(0.6);doc.line(margin,y+1.5,margin+tw,y+1.5);
+  doc.setLineWidth(0.2);y+=6;
+
+  // Table header
+  const cols=[margin, margin+9, margin+55, margin+78, margin+108, margin+130, margin+152];
+  const colLabels=['','SUPPLEMENT','PRIORITY','DOSE','WHEN','FOOD','MED INT.'];
+  doc.setFillColor(248,247,245);doc.rect(margin,y-3.5,tw,7,'F');
+  doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(140,140,140);
+  colLabels.forEach((l,i)=>doc.text(l,cols[i],y));
+  doc.setDrawColor(220,220,220);doc.line(margin,y+2,pw-margin,y+2);
+  y+=6;
+
+  // Table rows
+  allItems.forEach(item=>{
+    checkPage(9);
+    // Score badge
+    const sbg=item.sc>=80?[13,148,136]:item.sc>=60?[75,123,229]:item.sc>=40?[202,138,4]:[185,28,28];
+    doc.setFillColor(sbg[0],sbg[1],sbg[2]);doc.roundedRect(cols[0],y-3.5,7,5.5,1.2,1.2,'F');
+    doc.setFontSize(6.5);doc.setFont(undefined,'bold');doc.setTextColor(255,255,255);
+    doc.text(String(item.sc),cols[0]+3.5,y,{align:'center'});
+    // Name
+    doc.setFontSize(7.5);doc.setFont(undefined,'bold');doc.setTextColor(30,30,30);
+    doc.text(item.r.n.length>24?item.r.n.substring(0,23)+'...':item.r.n,cols[1],y);
+    // Priority badge
+    const pClr=item.r.p==='essential'?{bg:[209,250,229],tx:[6,95,70]}:item.r.p==='recommended'?{bg:[219,234,254],tx:[30,64,175]}:{bg:[254,246,224],tx:[122,83,0]};
+    doc.setFillColor(pClr.bg[0],pClr.bg[1],pClr.bg[2]);
+    const pw2=doc.setFontSize(5.5).setFont(undefined,'bold').getTextWidth(item.priLabel);
+    doc.roundedRect(cols[2],y-3,pw2+4,4.5,1,1,'F');
+    doc.setTextColor(pClr.tx[0],pClr.tx[1],pClr.tx[2]);doc.text(item.priLabel,cols[2]+2,y);
+    // Dose (shortened)
+    doc.setFontSize(6.5);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
+    const shortDose=item.r.dose.split(';')[0].split('(')[0].trim();
+    doc.text(shortDose.length>18?shortDose.substring(0,17)+'...':shortDose,cols[3],y);
+    // Timing
+    doc.text(item.timing.time||'Any',cols[4],y);
+    // Food
+    doc.text(item.foodHint,cols[5],y);
+    // Med interaction
+    if(item.hasMedInt){
+      doc.setFillColor(254,226,226);doc.roundedRect(cols[6]+2,y-3,5,4.5,1,1,'F');
+      doc.setFontSize(7);doc.setFont(undefined,'bold');doc.setTextColor(185,28,28);
+      doc.text('!',cols[6]+4.5,y,{align:'center'});
+    } else {
+      doc.setFontSize(7);doc.setTextColor(13,148,136);doc.text('\u2713',cols[6]+4.5,y,{align:'center'});
+    }
+    // Row separator
     y+=3;
-  }
+    doc.setDrawColor(240,238,235);doc.line(margin,y,pw-margin,y);
+    y+=4;
+  });
 
-  addSection('Essential for your profile',[13,148,136],Array.from(document.querySelectorAll('#ess-cards .rc')));
-  addSection('Recommended',[75,123,229],Array.from(document.querySelectorAll('#rec-cards .rc')));
-  addSection('Worth considering',[202,138,4],Array.from(document.querySelectorAll('#con-cards .rc')));
+  y+=6;
 
-  // Blood work results
+  // ── DETAILED PROFILES ──
+  checkPage(20);
+  doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
+  doc.text('DETAILED SUPPLEMENT PROFILES',margin,y);
+  doc.setDrawColor(123,31,162);doc.setLineWidth(0.6);doc.line(margin,y+1.5,margin+tw,y+1.5);
+  doc.setLineWidth(0.2);y+=8;
+
+  allItems.forEach(item=>{
+    checkPage(42);
+    const sup=item.sup;
+    const r=item.r;
+
+    // Card background
+    doc.setFillColor(250,250,249);doc.roundedRect(margin,y-4,tw,0.1,2,2,'F');
+
+    // Score badge + name row
+    const sbg=item.sc>=80?[13,148,136]:item.sc>=60?[75,123,229]:item.sc>=40?[202,138,4]:[185,28,28];
+    doc.setFillColor(sbg[0],sbg[1],sbg[2]);doc.roundedRect(margin,y-3,9,7,1.5,1.5,'F');
+    doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(255,255,255);
+    doc.text(String(item.sc),margin+4.5,y+1.5,{align:'center'});
+    // Name
+    doc.setFontSize(11);doc.setFont(undefined,'bold');doc.setTextColor(30,30,30);
+    doc.text(r.n,margin+12,y+1);
+    // Meta line
+    y+=6;
+    doc.setFontSize(6.5);doc.setFont(undefined,'normal');doc.setTextColor(150,150,150);
+    const eff=sup?sup.e:r.e;const saf=sup?sup.s:r.s;
+    doc.text('Efficacy: '+eff+'/5   Safety: '+saf+'/5   Research: '+item.tierLabel+'   Onset: '+item.onsetLabel,margin+12,y);
+    y+=5;
+
+    // Description (Why recommended + supplement desc)
+    doc.setFontSize(7.5);doc.setFont(undefined,'normal');doc.setTextColor(70,70,70);
+    const desc=r.why||'';
+    const descLines=doc.splitTextToSize(desc,tw);
+    descLines.slice(0,3).forEach(line=>{doc.text(line,margin,y);y+=3.3;});
+    y+=1;
+
+    // Info grid: 2x2 boxes
+    const boxW=(tw-4)/2;
+    const boxH=12;
+    const bx1=margin;const bx2=margin+boxW+4;
+    const by1=y;
+
+    // Box 1: Dose
+    doc.setFillColor(248,247,245);doc.roundedRect(bx1,by1,boxW,boxH,1.5,1.5,'F');
+    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
+    doc.text('DOSE',bx1+3,by1+4);
+    doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);
+    const doseText=doc.splitTextToSize(r.dose.split(';')[0].trim(),boxW-6);
+    doc.text(doseText[0]||'',bx1+3,by1+8);
+
+    // Box 2: When & Food
+    doc.setFillColor(248,247,245);doc.roundedRect(bx2,by1,boxW,boxH,1.5,1.5,'F');
+    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
+    doc.text('WHEN & HOW',bx2+3,by1+4);
+    doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);
+    doc.text((item.timing.time||'Any time')+' \u00B7 '+item.foodHint,bx2+3,by1+8);
+
+    y=by1+boxH+2;
+    const by2=y;
+
+    // Box 3: Cycling
+    doc.setFillColor(248,247,245);doc.roundedRect(bx1,by2,boxW,boxH,1.5,1.5,'F');
+    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
+    doc.text('CYCLING',bx1+3,by2+4);
+    doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);
+    doc.text(item.cycleInfo,bx1+3,by2+8);
+
+    // Box 4: Interactions
+    doc.setFillColor(248,247,245);doc.roundedRect(bx2,by2,boxW,boxH,1.5,1.5,'F');
+    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
+    doc.text('MEDICATION INTERACTIONS',bx2+3,by2+4);
+    doc.setFontSize(7);doc.setFont(undefined,'normal');
+    if(item.hasMedInt){
+      doc.setTextColor(185,28,28);
+      const intText=item.ints.map(i=>(i.type==='avoid'?'Avoid':'Caution')+' with '+i.med).join('; ');
+      const intLines=doc.splitTextToSize(intText,boxW-6);
+      doc.text(intLines[0]||'',bx2+3,by2+8);
+    } else {
+      doc.setTextColor(13,148,136);
+      doc.text('No known major interactions',bx2+3,by2+8);
+    }
+
+    y=by2+boxH+6;
+
+    // Separator
+    doc.setDrawColor(235,235,235);doc.line(margin,y-3,pw-margin,y-3);
+  });
+
+  // ── BLOOD WORK ──
   if(Object.keys(bloodWork).length>0){
     const bwRes=analyzeBloodWork();
     checkPage(15);
-    doc.setDrawColor(200,200,200);doc.line(margin,y,pw-margin,y);y+=8;
-    doc.setFontSize(12);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
-    doc.text('Blood Work Analysis',margin,y);y+=7;
+    doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
+    doc.text('BLOOD WORK ANALYSIS',margin,y);
+    doc.setDrawColor(123,31,162);doc.setLineWidth(0.6);doc.line(margin,y+1.5,margin+tw,y+1.5);
+    doc.setLineWidth(0.2);y+=7;
     bwRes.forEach(r=>{
-      checkPage(15);
+      checkPage(12);
       const sc={critical:[185,28,28],low:[202,138,4],optimal:[13,148,136],high:[75,123,229]};
-      doc.setFontSize(10);doc.setFont(undefined,'bold');
+      doc.setFontSize(8);doc.setFont(undefined,'bold');
       doc.setTextColor(...(sc[r.status]||[60,60,60]));
-      doc.text(r.bio.name+': '+r.val+' '+r.bio.unit+' \u2014 '+r.statusLabel,margin,y);y+=5;
+      doc.text(r.bio.name+': '+r.val+' '+r.bio.unit+' \u2014 '+r.statusLabel,margin,y);y+=4;
       if(r.needsAction&&r.bio.supps.length){
-        doc.setFontSize(8);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
-        r.bio.supps.forEach(s=>{doc.text('\u2192 '+s.name+': '+s.dose,margin+4,y);y+=4;});
+        doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
+        r.bio.supps.forEach(s=>{doc.text('\u2192 '+s.name+': '+s.dose,margin+4,y);y+=3.5;});
       }
       y+=2;
     });
-    y+=3;
   }
 
-  // Footer
-  checkPage(20);
-  doc.setDrawColor(200,200,200);doc.line(margin,y,pw-margin,y);y+=6;
-  doc.setFontSize(7);doc.setTextColor(150,150,150);doc.setFont(undefined,'normal');
-  doc.text('Generated by SupplementScore.org | Not a substitute for medical advice | '+new Date().toLocaleDateString(),margin,y);y+=3;
-  doc.text('Share link: '+getShareUrl(),margin,y);
+  // ── DISCLAIMER ──
+  checkPage(18);
+  y+=4;
+  doc.setFillColor(254,243,199);doc.roundedRect(margin,y-3,tw,14,2,2,'F');
+  doc.setFontSize(6);doc.setFont(undefined,'bold');doc.setTextColor(146,100,0);
+  doc.text('IMPORTANT DISCLAIMER',margin+3,y+1);
+  doc.setFontSize(5.5);doc.setFont(undefined,'normal');doc.setTextColor(120,80,0);
+  doc.text('This report is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare',margin+3,y+5);
+  doc.text('provider before starting any supplement regimen, especially if you have medical conditions or take medications.',margin+3,y+8);
+
+  // Footer on last page
+  addFooter();
 
   return doc;
 }
 
-function downloadPDF(){
+async function downloadPDF(){
+  await loadJsPDF();
   const doc=generatePDF();
+  if(!doc)return;
   const age=document.getElementById('asl').value;
   doc.save('SupplementScore-'+age+'yo-recommendations.pdf');
 }
@@ -810,6 +1165,7 @@ function loadProfile(){
       }
     }
     calcBMI();
+    updatePfCounts();
     return true;
   }catch(e){return false;}
 }
@@ -846,6 +1202,7 @@ function loadFromUrl(){
   const meds=params.get('meds');if(meds){selectedMeds=new Set(meds.split(','));renderMedChips();}
   const conds=params.get('conds');if(conds){selectedConds=new Set(conds.split(','));renderCondChips();}
   const bw=params.get('bw');if(bw){bw.split(',').forEach(pair=>{const[k,v]=pair.split(':');if(k&&v){bloodWork[k]=parseFloat(v);const input=document.getElementById('bw-'+k);if(input){input.value=v;updateBwRow(k,v);}}});}
+  updatePfCounts();
   return true;
 }
 function shareProfile(){
@@ -870,12 +1227,14 @@ function sendEmailReport(){
   summary+='Profile: '+age+' year old '+sexLabel+'\n';
   if(selectedMeds.size)summary+='Medications: '+[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', ')+'\n';
   if(selectedConds.size)summary+='Conditions: '+[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', ')+'\n';
+  const recs=window._lastRecs||[];
+  const selRecs=recs.filter(r=>selectedSupps.has(r.n));
   summary+='\n--- Essential ---\n';
-  document.querySelectorAll('#ess-cards .rc-name').forEach(el=>{summary+=el.textContent+'\n';});
+  selRecs.filter(r=>r.p==='essential').forEach(r=>{summary+=r.n+' — '+r.dose.split(';')[0]+'\n';});
   summary+='\n--- Recommended ---\n';
-  document.querySelectorAll('#rec-cards .rc-name').forEach(el=>{summary+=el.textContent+'\n';});
+  selRecs.filter(r=>r.p==='recommended').forEach(r=>{summary+=r.n+' — '+r.dose.split(';')[0]+'\n';});
   summary+='\n--- Worth Considering ---\n';
-  document.querySelectorAll('#con-cards .rc-name').forEach(el=>{summary+=el.textContent+'\n';});
+  selRecs.filter(r=>r.p==='consider').forEach(r=>{summary+=r.n+' — '+r.dose.split(';')[0]+'\n';});
   summary+='\nView full details: '+getShareUrl()+'\n';
   summary+='\nGenerated by SupplementScore.org';
   fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,subject:'Your SupplementScore Recommendations',message:summary,source:'email-report',date:new Date().toISOString()})}).then(r=>{
@@ -884,11 +1243,22 @@ function sendEmailReport(){
   }).catch(()=>{btn.textContent='Try again';btn.disabled=false;});
 }
 
+/* ── Profile accordion toggle ── */
+function pfToggle(btn){btn.closest('.pf-section').classList.toggle('pf-open');}
+function updatePfCounts(){
+  const gc=document.getElementById('pf-count-goals'),cc=document.getElementById('pf-count-conds'),mc=document.getElementById('pf-count-meds'),bc=document.getElementById('pf-count-bw');
+  if(gc){const n=selectedGoals.size;gc.textContent=n?n+' selected':'';gc.classList.toggle('has-count',n>0);}
+  if(cc){const n=selectedConds.size;cc.textContent=n?n+' selected':'';cc.classList.toggle('has-count',n>0);}
+  if(mc){const n=selectedMeds.size;mc.textContent=n?n+' selected':'';mc.classList.toggle('has-count',n>0);}
+  if(bc){bc.textContent='coming soon';bc.style.color='var(--color-text-tertiary)';bc.style.background='rgba(0,0,0,.04)';bc.classList.add('has-count');}
+}
+
 /* ── Init: load profile from URL or localStorage ── */
 renderMedChips();
 renderCondChips();
 renderGoalChips();
 renderBwGrid();
+updatePfCounts();
 ['prof-height-ft','prof-height-in','prof-weight'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',calcBMI);});
 initAllTab();
 
@@ -897,9 +1267,13 @@ initAllTab();
     // URL params present — switch to profile tab and auto-generate
     sw(1);genRecs();
     window.history.replaceState({},'',window.location.pathname);
-  }else if(loadProfile()){
-    // Saved profile — show welcome back bar without hiding supplement list
-    const wb=document.getElementById('welcome-back');if(wb)wb.style.display='flex';
+  }else{
+    // Always start fresh — no pre-selected goals/conditions/meds
+    selectedGoals=new Set();renderGoalChips();
+    selectedConds=new Set();renderCondChips();
+    selectedMeds=new Set();renderMedChips();
+    bloodWork={};
+    updatePfCounts();
   }
 })();
 
@@ -923,13 +1297,21 @@ function switchTab(tab){
   // Profile is inside supplements-view as p1, so handle specially
   if(tab==='profile'){
     views.supplements.style.display='';
-    document.getElementById('p1').style.display='block';
     document.getElementById('p2').style.display='none';
     document.getElementById('main-sticky')&&(document.getElementById('main-sticky').style.display='none');
     // Hide header and stats on profile page
     const hdr=document.querySelector('.page-header');if(hdr)hdr.style.display='none';
     const evCard=document.querySelector('.ev-card');if(evCard)evCard.style.display='none';
+    // Show gate or real profile
+    if(profileUnlocked){
+      document.getElementById('profile-gate').style.display='none';
+      document.getElementById('p1').style.display='block';
+    }else{
+      document.getElementById('p1').style.display='none';
+      document.getElementById('profile-gate').style.display='block';
+    }
   }else if(tab==='supplements'){
+    document.getElementById('profile-gate').style.display='none';
     document.getElementById('p1').style.display='none';
     document.getElementById('p2').style.display='block';
     // Show header and stats on supplements page
@@ -945,6 +1327,36 @@ function switchTab(tab){
     if(src&&tgt&&!tgt.children.length){tgt.appendChild(src);src.style.display='';}
   }
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* Profile gate: secret code or email signup */
+function handleGateSubmit(e){
+  e.preventDefault();
+  const inp=document.getElementById('gate-email');
+  const val=(inp.value||'').trim();
+  if(!val)return false;
+  // Secret unlock code
+  if(val==='12345'){
+    profileUnlocked=true;
+    document.getElementById('profile-gate').style.display='none';
+    document.getElementById('p1').style.display='block';
+    inp.value='';
+    return false;
+  }
+  // Treat as email signup — basic validation
+  if(!val.includes('@')||val.length<5){
+    inp.style.borderColor='#B91C1C';
+    inp.setAttribute('placeholder','Enter a valid email address');
+    inp.value='';
+    setTimeout(()=>{inp.style.borderColor='';inp.setAttribute('placeholder','Enter your email for early access');},2000);
+    return false;
+  }
+  // Send to Formspree (same endpoint as PDF/email reports)
+  fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:val,source:'early-access-signup',date:new Date().toISOString()})}).catch(()=>{});
+  // Show success state
+  document.querySelector('.gate-form').style.display='none';
+  document.getElementById('gate-success').style.display='flex';
+  return false;
 }
 
 /* Keyboard accessibility for supplement cards */
