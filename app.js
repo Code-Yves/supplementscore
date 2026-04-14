@@ -1,5 +1,7 @@
 let profileUnlocked=false;
 let selectedMeds=new Set();
+// O(1) supplement lookup — avoids repeated S.find() O(n) scans in hot paths
+const _suppByName=new Map(S.map(s=>[s.n,s]));
 function renderMedChips(){const el=document.getElementById('med-chips');el.innerHTML=Object.entries(MEDS).map(([k,m])=>`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${k}')">${m.label}</div>`).join('');updateMedNote();}
 function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();updatePfCounts();}
 function updateMedNote(){const n=document.getElementById('med-note');if(selectedMeds.size===0){n.style.display='none';return;}n.style.display='block';const avoidAll=new Set(),cautionAll=new Set(),extraAll=new Set();selectedMeds.forEach(k=>{const m=MEDS[k];m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>cautionAll.add(x));m.extra.forEach(x=>extraAll.add(x));});n.innerHTML=`${avoidAll.size>0?'⚠ Will exclude: '+[...avoidAll].join(', ')+'. ':''}${cautionAll.size>0?'⚡ Will flag cautions on: '+[...cautionAll].join(', ')+'. ':''}${extraAll.size>0?'✚ Will add: '+[...extraAll].join(', ')+'.':''}`;}
@@ -40,7 +42,7 @@ function getRecs(age,sx){const iF=sx==='f'||sx==='fp',isPreg=sx==='fp',repAge=iF
 function applyMedExtras(recs,mi){
   mi.extra.forEach(n=>{
     if(!recs.find(r=>r.n===n)){
-      const s=S.find(x=>x.n===n);
+      const s=_suppByName.get(n);
       if(s)recs.push({n:s.n,p:'recommended',tier:s.t,tf:false,e:s.e,s:s.s,
         why:`Recommended because of your selected medication(s) — ${Object.entries(MEDS).filter(([,m])=>m.extra.includes(n)).map(([,m])=>m.label).join(', ')}.`,
         dose:s.dose,_medExtra:true});
@@ -169,7 +171,7 @@ const _morningSupps=new Set(['Vitamin D3','Iron','Vitamin B12','Folate (5-MTHF)'
 function getTimingLabel(r){
   if(_nightSupps.has(r.n))return{time:'Night',icon:_svgIcons.night,cat:'night'};
   if(_morningSupps.has(r.n))return{time:'Morning',icon:_svgIcons.morning,cat:'morning'};
-  const s=S.find(x=>x.n===r.n);
+  const s=_suppByName.get(r.n);
   if(!s||!s.tips)return{time:'Daytime',icon:_svgIcons.daytime,cat:'daytime'};
   const t=s.tips.toLowerCase();
   if(t.includes('before bed')||t.includes('evening')||t.includes('before sleep')||t.includes('at night'))return{time:'Night',icon:_svgIcons.night,cat:'night'};
@@ -184,7 +186,7 @@ function renderRecCard(r,mi){
   const goalExtraNote=r._goalExtra?'<span class="warn-badge" style="background:var(--t2bg);color:var(--t2tx)">+ from your goals</span>':'';
   const condExtraNote=r._condExtra?'<span class="warn-badge" style="background:var(--t1bg);color:var(--t1tx)">+ from your conditions</span>':'';
   // Score
-  const sup=S.find(x=>x.n===r.n);
+  const sup=_suppByName.get(r.n);
   const sc=sup?calcScore(sup):0;
   const scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';
   // Weight-based dose
@@ -429,7 +431,7 @@ function renderBwResults(results){
     let suppHtml='';
     if(r.needsAction&&r.bio.supps){
       r.bio.supps.forEach(sr=>{
-        const sup=S.find(x=>x.n===sr.name);
+        const sup=_suppByName.get(sr.name);
         const sc=sup?calcScore(sup):0;
         suppHtml+=`<div class="bw-supp-rec"><div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(180deg,var(--t1c),#0F766E);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${sc}</div><div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600">${sr.name} \u2014 ${sr.dose}</div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:1px">${sr.note}</div></div></div>`;
       });
@@ -472,8 +474,8 @@ function _showRecs(){
   // Add condition-based and goal-based supplements
   const condSupps=getCondSupps();
   const goalSupps=getGoalSupps();
-  goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s){const matchedGoals=[...selectedGoals].filter(k=>GOALS[k]&&GOALS[k].supps.includes(n)).map(k=>GOALS[k].label);const goalStr=matchedGoals.length?matchedGoals.join(' & '):'your selected goals';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Matches your "${goalStr}" goal.`,dose:s.dose,_goalExtra:true});}}});
-  condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=S.find(x=>x.n===n);if(s){const matchedConds=[...selectedConds].filter(k=>CONDITIONS[k]&&CONDITIONS[k].supps.includes(n)).map(k=>CONDITIONS[k].label);const condStr=matchedConds.length?matchedConds.join(' & '):'your selected conditions';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Recommended for ${condStr}.`,dose:s.dose,_condExtra:true});}}});
+  goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=_suppByName.get(n);if(s){const matchedGoals=[...selectedGoals].filter(k=>GOALS[k]&&GOALS[k].supps.includes(n)).map(k=>GOALS[k].label);const goalStr=matchedGoals.length?matchedGoals.join(' & '):'your selected goals';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Matches your "${goalStr}" goal.`,dose:s.dose,_goalExtra:true});}}});
+  condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!recs.find(r=>r.n===n)){const s=_suppByName.get(n);if(s){const matchedConds=[...selectedConds].filter(k=>CONDITIONS[k]&&CONDITIONS[k].supps.includes(n)).map(k=>CONDITIONS[k].label);const condStr=matchedConds.length?matchedConds.join(' & '):'your selected conditions';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Recommended for ${condStr}.`,dose:s.dose,_condExtra:true});}}});
 
   // Blood work integration — boost supplements matching deficiencies
   const bwResults=Object.keys(bloodWork).length>0?analyzeBloodWork():[];
@@ -484,7 +486,7 @@ function _showRecs(){
         // Add supplement if not already in recs
         const existing=recs.find(x=>x.n===sr.name);
         if(!existing&&!mi.avoid.has(sr.name)){
-          const s=S.find(x=>x.n===sr.name);
+          const s=_suppByName.get(sr.name);
           if(s)recs.push({n:s.n,p:r.status==='critical'?'essential':'recommended',tier:s.t,tf:false,e:s.e,s:s.s,why:'Based on your blood work results.',dose:s.dose,_bwExtra:true});
         }else if(existing){
           if(existing.p==='consider')existing.p='recommended';
@@ -547,7 +549,7 @@ function renderSuppCards(recs,mi,bwResults){
   essItems.forEach(r=>selectedSupps.add(r.n));
   recItems.forEach(r=>selectedSupps.add(r.n));
 
-  function scoreFor(r){const sup=S.find(x=>x.n===r.n);return sup?calcScore(sup):0;}
+  function scoreFor(r){const sup=_suppByName.get(r.n);return sup?calcScore(sup):0;}
 
   function bwBadgeFor(r){
     if(!bwResults||!bwResults.length)return'';
@@ -566,7 +568,7 @@ function renderSuppCards(recs,mi,bwResults){
 
   function cardHtml(r,tier){
     const sc=scoreFor(r);
-    const sup=S.find(x=>x.n===r.n);
+    const sup=_suppByName.get(r.n);
     const isSelected=selectedSupps.has(r.n);
     const scoreBg=sc>=72?'#0D9488':sc>=60?'#4B7BE5':sc>=40?'#CA8A04':'#B91C1C';
     const bwBadge=bwBadgeFor(r);
@@ -617,11 +619,11 @@ function renderSuppCards(recs,mi,bwResults){
 
   // Show selection bar
   updateSelCount();
-  document.getElementById('sel-bar').style.display='block';
+  const _selBar=document.getElementById('sel-bar');if(_selBar)_selBar.style.display='block';
 }
 
 function _getFoodInfo(name){
-  const sup=S.find(x=>x.n===name);
+  const sup=_suppByName.get(name);
   if(!sup||!sup.tips)return{withFood:true};
   const t=sup.tips.toLowerCase();
   if(t.includes('take on an empty stomach')||t.includes('take on empty stomach'))return{withFood:false};
@@ -651,7 +653,7 @@ function openPlanModal(){
 
   // Build flat supplement list
   const items=selected.map(r=>{
-    const sup=S.find(x=>x.n===r.n);
+    const sup=_suppByName.get(r.n);
     const sc=sup?calcScore(sup):0;
     const tags=sup&&sup.tag?sup.tag.split(' · ').slice(0,2):[];
     return{name:r.n,dose:r.dose.split(';')[0].split('.')[0],score:sc,pri:r.p,why:r.why||'',timing:getTimingLabel(r),tags};
@@ -751,9 +753,9 @@ const ART_CAT_CLR={guide:'#2563EB',breakthrough:'#16A34A',myth:'#EA580C',safety:
 const ART_CAT_LBL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety',kids:'Kids'};
 /* Reverse map: article ID → supplement names */
 const ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});
-function suppCardForArticle(name){const s=S.find(x=>x.n===name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
+function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
 function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
-function openSuppModal(name){const s=S.find(x=>x.n===name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
+function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
 function closeSuppModal(){document.getElementById('supp-modal').classList.remove('open');document.body.style.overflow='';}
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
 function processArticleSources(container){
@@ -952,7 +954,7 @@ function generatePDF(){
   const recs=window._lastRecs||[];
   const selRecs=recs.filter(r=>selectedSupps.has(r.n));
   const allItems=selRecs.map(r=>{
-    const sup=S.find(x=>x.n===r.n);
+    const sup=_suppByName.get(r.n);
     const sc=sup?calcScore(sup):0;
     const timing=getTimingLabel(r);
     const ints=INTERACT_MAP[r.n]||[];
@@ -1151,7 +1153,7 @@ function generatePDF(){
 }
 
 async function downloadPDF(){
-  await loadJsPDF();
+  try{await loadJsPDF();}catch(e){console.error('PDF library failed to load:',e);alert('Could not generate PDF — please check your internet connection and try again.');return;}
   const doc=generatePDF();
   if(!doc)return;
   const age=document.getElementById('asl').value;

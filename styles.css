@@ -897,3 +897,54 @@ body.reader-mode .articles-section{padding:0;max-width:none;margin:0}
 body.reader-mode .article-full{background:#fff;max-width:760px;margin:24px auto 60px;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.06);overflow:hidden}
 body.reader-mode .article-full > div{padding:44px 52px !important;max-width:none !important}
 @media(max-width:760px){body.reader-mode .article-full{margin:12px 10px 40px;border-radius:10px}body.reader-mode .article-full > div{padding:28px 22px !important}body.reader-mode .reader-header{padding:12px 16px}body.reader-mode .reader-brand{font-size:13px}body.reader-mode .reader-close{padding:6px 11px;font-size:11px}}
+
+/* ── Performance: replace transition:all with targeted props ── */
+.src-item{transition:background-color .15s,border-color .15s}
+.sc,.sr-card{transition:border-color .15s,box-shadow .15s,transform .15s}
+.sfbtn{transition:background-color .15s,border-color .15s,color .15s}
+.tab-btn{transition:color .15s,border-bottom-color .15s}
+.tier-more{transition:background-color .15s,border-color .15s,color .15s}
+.article-card{transition:border-color .15s,box-shadow .15s,transform .15s}
+.supp-card{transition:border-color .15s,box-shadow .15s}
+.bw-upload-zone{transition:border-color .15s,background-color .15s}
+.bw-row{transition:border-color .15s,background-color .15s}
+.med-chip{transition:background-color .15s,border-color .15s,color .15s}
+.art-mini{transition:border-color .15s,box-shadow .15s}
+.abt-src{transition:background-color .12s,border-color .12s}
+
+/* ── Accessibility: keyboard focus-visible states ── */
+.src-item:focus-visible{outline:2px solid var(--color-border-primary);outline-offset:2px}
+.sc:focus-visible{outline:2px solid var(--color-border-primary);outline-offset:2px}
+.sfbtn:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.tab-btn:focus-visible,.site-nav-tab:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.tier-more:focus-visible{outline:2px solid var(--color-border-primary);outline-offset:2px}
+.article-card:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.supp-card:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.bw-upload-zone:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.abt-src:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.smb:focus-visible{outline:2px solid var(--color-border-primary);outline-offset:2px}
+.gs-clr:focus-visible{outline:2px solid var(--color-border-primary);outline-offset:2px}
+button:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+
+/* ── Visual: source grid alignment fix ── */
+.src-grid{align-items:start}
+.src-item{height:100%;box-sizing:border-box}
+
+/* ── Visual: supplement card score-side min-height for short cards ── */
+.sc-score-side{min-height:80px}
+
+/* ── Visual polish: typography & spacing refinements ── */
+/* Logo strip: slightly more opaque icons (0.4→0.45) for better brand legibility */
+.logo-icon{opacity:.45}
+/* Stat sub-labels: 10px→11px for improved readability */
+.stat-sub{font-size:11px}
+/* Source item descriptions: 10px→10.5px, small but legible */
+.src-is{font-size:10.5px;line-height:1.35}
+/* Source grid: 7px→8px gap, consistent with 8-unit spacing rhythm */
+.src-grid{gap:8px}
+/* Filter chip bar: 5px→6px gap for better button separation */
+.sfbar{gap:6px}
+/* Logo strip icons: 5px→6px gap, more breathing room with 30+ icons */
+.logo-strip{gap:6px}
+/* Nav logo SVG: slightly tighter visual weight */
+.site-nav-logo svg{opacity:.9}
