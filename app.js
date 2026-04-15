@@ -433,7 +433,8 @@ function renderBwResults(results){
       r.bio.supps.forEach(sr=>{
         const sup=_suppByName.get(sr.name);
         const sc=sup?calcScore(sup):0;
-        suppHtml+=`<div class="bw-supp-rec"><div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(180deg,var(--t1c),#0F766E);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${sc}</div><div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600">${sr.name} \u2014 ${sr.dose}</div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:1px">${sr.note}</div></div></div>`;
+        const scGrad=sc>=72?'linear-gradient(180deg,var(--t1c),#0F766E)':sc>=60?'linear-gradient(180deg,var(--t2c),#3B5FC0)':sc>=40?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)';
+        suppHtml+=`<div class="bw-supp-rec"><div style="width:28px;height:28px;border-radius:7px;background:${scGrad};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${sc}</div><div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600">${sr.name} \u2014 ${sr.dose}</div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:1px">${sr.note}</div></div></div>`;
       });
     }
 
@@ -444,7 +445,7 @@ function renderBwResults(results){
 }
 
 const LOAD_STEPS=[
-  {at:0,text:'Analyzing your profile…',sub:'Matching against 628 supplements'},
+  {at:0,text:'Analyzing your profile…',sub:'Matching against 653 supplements'},
   {at:20,text:'Checking medication interactions…',sub:'Cross-referencing drug-supplement data'},
   {at:45,text:'Evaluating clinical evidence…',sub:'Reviewing RCTs and meta-analyses'},
   {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
@@ -755,6 +756,11 @@ const ART_CAT_LBL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check
 const ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});
 function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
 function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
+function articleKeyPointsHtml(body){const firstP=body.querySelector('p');if(!firstP)return'';const text=firstP.textContent.trim();const parts=text.replace(/([.!?])\s+([A-Z\u201c\u2018\u0022])/g,'$1\n$2').split('\n').map(s=>s.trim()).filter(s=>s.length>25);if(!parts.length)return'';const items=parts.slice(0,3).map((s,i)=>`<li class="art-kp-item"><span class="art-kp-num">${i+1}</span><span>${s}</span></li>`).join('');return`<div class="art-kp-card"><div class="art-kp-label">Key Points</div><ul class="art-kp-list">${items}</ul></div>`;}
+function articleSuppsTopHtml(id){const names=ARTICLE_SUPPS[id];if(!names||!names.length)return'';const icon=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m4-4h6l6 6v12a2 2 0 01-2 2H9a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>`;return`<div class="art-supps-top"><div class="art-supps-top-label">${icon}Supplement${names.length>1?'s':''} in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
+function _buildAllArts(){const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));return m;}
+function getRelatedArticles(articleId,max){max=max||4;const allArts=_buildAllArts();const thisArt=allArts[articleId];const thisSupps=ARTICLE_SUPPS[articleId]||[];const scores={};thisSupps.forEach(name=>{(ARTICLE_MAP[name]||[]).forEach(a=>{if(a.id!==articleId)scores[a.id]=(scores[a.id]||0)+2;});});if(thisArt)Object.values(allArts).forEach(a=>{if(a.id!==articleId&&a.c===thisArt.c)scores[a.id]=(scores[a.id]||0)+1;});return Object.entries(scores).filter(([,s])=>s>0).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([id])=>allArts[parseInt(id)]).filter(Boolean);}
+function articleRelatedHtml(articleId){const arts=getRelatedArticles(articleId);if(!arts.length)return'';const svgDoc=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const svgMini=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const cards=arts.map(a=>`<div class="art-mini" onclick="goArticle(${a.id})" style="margin-bottom:6px"><div class="art-mini-side" style="background:${ART_CAT_GRAD[a.c]}">${svgMini}<div class="art-mini-side-div"></div><div class="art-mini-side-stat">${a.m}</div><div class="art-mini-side-label">min</div></div><div class="art-mini-body"><div class="art-mini-cat" style="color:${ART_CAT_CLR[a.c]||'#7B1FA2'}">${ART_CAT_LBL[a.c]||''}</div><div class="art-mini-title">${a.t}</div></div></div>`).join('');return`<div class="art-related-section"><div class="art-related-label">${svgDoc}Related Articles</div>${cards}</div>`;}
 function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
 function closeSuppModal(){document.getElementById('supp-modal').classList.remove('open');document.body.style.overflow='';}
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
@@ -778,9 +784,14 @@ function processArticleSources(container){
   }
   return sourcesDiv;
 }
-function goArticle(id){if(event)event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const body=document.getElementById('art-modal-body');body.innerHTML=src.querySelector('[style*="padding"]').innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
-function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('supp-modal').classList.contains('open')){closeSuppModal();return;}if(document.getElementById('art-modal').classList.contains('open'))closeArtModal();}});
+let _artReturnScrollY=0,_currentArticleId=null,_artNavList=[];
+function _buildArtNavList(){const ids=[];for(let i=1;i<=200;i++){if(document.getElementById('article-'+i))ids.push(i);}return ids;}
+function goArticle(id){if(event)event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;}
+function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;}
+function _updateArtNav(){const idx=_artNavList.indexOf(_currentArticleId);const p=document.getElementById('art-prev-btn');const n=document.getElementById('art-next-btn');if(p)p.disabled=idx<=0;if(n)n.disabled=idx<0||idx>=_artNavList.length-1;}
+function artNavPrev(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>0)goArticle(_artNavList[idx-1]);}
+function artNavNext(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>=0&&idx<_artNavList.length-1)goArticle(_artNavList[idx+1]);}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('supp-modal').classList.contains('open')){closeSuppModal();return;}if(document.getElementById('art-modal').classList.contains('open')){closeArtModal();return;}}if(document.getElementById('art-modal').classList.contains('open')&&!e.target.matches('input,textarea,select')){if(e.key==='ArrowLeft'){e.preventDefault();artNavPrev();}else if(e.key==='ArrowRight'){e.preventDefault();artNavNext();}}});
 function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
 function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div style="margin-top:10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-tertiary);margin-bottom:6px">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>'<div class="art-mini" onclick="goArticle('+a.id+')" style="margin-bottom:4px"><div class="art-mini-side" style="background:'+ART_CAT_GRAD[a.c]+'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><div class="art-mini-side-div"></div><div class="art-mini-side-stat">'+a.m+'</div><div class="art-mini-side-label">min</div></div><div class="art-mini-body"><div class="art-mini-cat" style="color:'+(ART_CAT_CLR[a.c]||'#7B1FA2')+'">'+ART_CAT_LBL[a.c]+'</div><div class="art-mini-title">'+a.t+'</div><div class="art-mini-meta">'+a.m+' min read</div></div></div>').join('')+'</div>';}
 function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${i.med.split(' ')[0]}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;const _fi=getFoodInfo(s);const _ei=getExcessInfo(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${s.desc}</div><div class="sc-expand"><div class="sc-info-table"><div class="sc-info-row"><div class="sc-info-lbl">Dose</div><div class="sc-info-val">${s.dose}</div></div>${s.tips?`<div class="sc-info-row"><div class="sc-info-lbl">How to take</div><div class="sc-info-val">${s.tips}</div></div>`:''}<div class="sc-info-row sc-info-tinted"><div class="sc-info-lbl">Food</div><div class="sc-info-val"><span style="color:var(--t1c);font-weight:600;font-size:9px">PAIR:</span> ${_fi.pair}<br><span style="color:var(--t4c);font-weight:600;font-size:9px">AVOID:</span> ${_fi.avoid}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Cycling</div><div class="sc-info-val">${s.cycle||(function(s){var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase();if(t==='t4')return 'Do not take.';if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('omega')||n.includes('fish')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine')||n.includes('fibre')||n.includes('psyllium'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('melatonin'))return 'Use situationally (2-4 weeks). Not for nightly long-term use.';if(tag.includes('adaptogen')||n.includes('ginseng'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('john')||n.includes('kava')||n.includes('black cohosh'))return 'Short-term use (4-8 weeks). Consult provider before extending.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses.';if(s.s===3)return 'Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term data. Use shortest effective duration.';})(s)}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Onset</div><div class="sc-info-val"><span class="sc-info-badge">${OL_SHORT[so]||'Varies'}</span>${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</div></div></div><div class="sc-onset-info sc-excess-info" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="sc-onset-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t4c)" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>If You Exceed the Dose</span><div style="font-size:11px;line-height:1.5"><span style="color:var(--t4c);font-weight:600;font-size:10px">RISKS:</span> <span style="color:var(--color-text-secondary)">${_ei.risk}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t3c);font-weight:600;font-size:10px">UPPER LIMIT:</span> <span style="color:var(--color-text-secondary)">${_ei.threshold}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t2c);font-weight:600;font-size:10px">LONG-TERM:</span> <span style="color:var(--color-text-secondary)">${_ei.long}</span></div></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+i.med+':</b> '+m[1].note:'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${s.desc}</div>${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
@@ -873,282 +884,355 @@ function generatePDF(){
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const pw=doc.internal.pageSize.getWidth();
   const ph=doc.internal.pageSize.getHeight();
-  const margin=16;
-  const tw=pw-margin*2;
-  let y=20;
+  const M=18;const TW=pw-M*2;
+  // Magazine palette
+  const DARK=[26,26,26];const GOLD=[201,150,58];const PUR=[61,26,91];
+  const CREAM=[250,248,244];const WARM=[240,235,227];const RULE=[212,201,187];
+  const ALT=[245,240,234];const TBRD=[232,224,216];const GRY=[153,153,153];
   let pageNum=1;
-
-  function addFooter(){
-    doc.setDrawColor(220,220,220);doc.line(margin,ph-14,pw-margin,ph-14);
-    doc.setFontSize(6.5);doc.setTextColor(170,170,170);doc.setFont(undefined,'normal');
-    doc.text('Generated by SupplementScore.org',margin,ph-9);
-    doc.text('Not a substitute for professional medical advice',pw/2,ph-9,{align:'center'});
-    doc.text(new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+' | Page '+pageNum,pw-margin,ph-9,{align:'right'});
-  }
-  function checkPage(needed){if(y+needed>ph-20){addFooter();doc.addPage();pageNum++;y=16;}}
-
-  // ── HEADER ──
-  // Background
-  doc.setFillColor(123,31,162);doc.rect(0,0,pw,28,'F');
-  // Shield logo — matches SVG #ss-logo path exactly
-  const lx=margin,ly=4,lsz=0.75;
-  doc.setFillColor(255,255,255);
-  // Shield outline (pointed bottom): M4.5,3.75 → V13.5 → curve to 12,21.75 → curve back
-  // Scaled by lsz and offset by lx,ly
-  const sx=function(x){return lx+(x-4.5)*lsz;};
-  const sy=function(y){return ly+(y-3)*lsz;};
-  // Draw shield path as polygon approximation
-  doc.triangle(sx(4.5),sy(3.75),sx(4.5),sy(13.5),sx(12),sy(21.75),'F');
-  doc.triangle(sx(19.5),sy(3.75),sx(19.5),sy(13.5),sx(12),sy(21.75),'F');
-  doc.rect(sx(4.5),sy(3),sx(19.5)-sx(4.5),sy(13.5)-sy(3),'F');
-  // Smooth the bottom curve with additional triangles
-  doc.triangle(sx(4.5),sy(13.5),sx(8.25),sy(19.5),sx(12),sy(21.75),'F');
-  doc.triangle(sx(19.5),sy(13.5),sx(15.75),sy(19.5),sx(12),sy(21.75),'F');
-  // 3 ascending white bars inside shield (matching SVG rects)
-  doc.setFillColor(123,31,162);
-  doc.roundedRect(sx(7.1),sy(12),2.6*lsz,5.25*lsz,0.7*lsz,0.7*lsz,'F');
-  doc.roundedRect(sx(10.7),sy(9),2.6*lsz,8.25*lsz,0.7*lsz,0.7*lsz,'F');
-  doc.roundedRect(sx(14.25),sy(6),2.6*lsz,11.25*lsz,0.7*lsz,0.7*lsz,'F');
-  doc.setFillColor(255,255,255);
-  // Logo text
-  const logoX=lx+15;
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(16);doc.setFont(undefined,'bold');
-  doc.text('SupplementScore',logoX,13);
-  const _suppWidth=doc.getTextWidth('SupplementScore');
-  doc.setFont(undefined,'normal');doc.setTextColor(200,200,200);
-  doc.text('.org',logoX+_suppWidth,13);
-  // BETA badge
-  const _orgWidth=doc.getTextWidth('.org');
-  const betaX=logoX+_suppWidth+_orgWidth+3;
-  doc.setFillColor(255,255,255,40);doc.setFillColor(255,255,255);doc.setGState(new doc.GState({opacity:0.2}));
-  doc.roundedRect(betaX,8,10,5,1.5,1.5,'F');
-  doc.setGState(new doc.GState({opacity:1}));
-  doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(255,255,255);
-  doc.text('BETA',betaX+1.5,11.5);
-  // Tagline
-  doc.setFontSize(7.5);doc.setFont(undefined,'normal');doc.setTextColor(220,200,240);
-  doc.text('Evidence-Based Supplement Recommendations',logoX,20);
-
-  // ── PROFILE BAR ──
-  y=32;
-  doc.setFillColor(248,247,245);doc.rect(0,28,pw,12,'F');
-  doc.setDrawColor(232,230,225);doc.line(0,40,pw,40);
-  const age=document.getElementById('asl').value;
-  const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
-  doc.setFontSize(7.5);doc.setFont(undefined,'normal');doc.setTextColor(140,140,140);
-  let px=margin;
-  const profileItems=[['Age',age],['Sex',sexLabel]];
-  if(selectedMeds.size)profileItems.push(['Meds',[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', ')]);
-  if(selectedConds.size)profileItems.push(['Conditions',[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', ')]);
-  profileItems.push(['Date',new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})]);
-  profileItems.forEach(([label,val],i)=>{
-    doc.setFont(undefined,'bold');doc.setTextColor(170,170,170);doc.text(label+':',px,35);
-    const lw=doc.getTextWidth(label+': ');
-    doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);doc.text(val,px+lw,35);
-    px+=lw+doc.getTextWidth(val)+10;
-  });
-  y=46;
-
-  // ── DATA PREP ──
+  // Data
   const recs=window._lastRecs||[];
   const selRecs=recs.filter(r=>selectedSupps.has(r.n));
+  const age=document.getElementById('asl').value;
+  const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
+  const monthYear=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const condLabel=selectedConds.size?[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', '):'General Wellbeing';
+  const medsLabel=selectedMeds.size?[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', '):'None';
   const allItems=selRecs.map(r=>{
-    const sup=_suppByName.get(r.n);
-    const sc=sup?calcScore(sup):0;
-    const timing=getTimingLabel(r);
-    const ints=INTERACT_MAP[r.n]||[];
-    const hasMedInt=ints.length>0;
+    const sup=_suppByName.get(r.n);const sc=sup?calcScore(sup):0;
+    const timing=getTimingLabel(r);const ints=INTERACT_MAP[r.n]||[];const hasMedInt=ints.length>0;
     const tips=sup?.tips||'';
-    const foodHint=tips.toLowerCase().includes('fat')?'With fat':tips.toLowerCase().includes('empty stomach')?'Empty stomach':tips.toLowerCase().includes('with food')||tips.toLowerCase().includes('with meal')?'With food':'Any';
-    const rd=sup?.r||1;const so=sup?.o||1;
-    const onsetLabel=so>=5?'Immediate':so>=4?'Hours-days':so>=3?'1-4 weeks':so>=2?'4-8 weeks':'8+ weeks';
-    const tierLabel=sup?.t==='t1'?'Tier 1':sup?.t==='t2'?'Tier 2':'Tier 3';
-    const cycleInfo=(function(s){if(!s)return'Continuous';const n=s.n.toLowerCase(),tag=(s.tag||'').toLowerCase();if(n.includes('ashwagandha'))return'8-12 wks on, 2-4 off';if(n.includes('rhodiola'))return'6-8 wks on, 2-4 off';if(n.includes('melatonin'))return'2-4 weeks max';if(tag.includes('adaptogen')||n.includes('ginseng'))return'6-8 wks on, 2-4 off';return'Continuous';})(sup);
+    const foodHint=tips.toLowerCase().includes('fat')?'With fat':tips.toLowerCase().includes('empty stomach')?'Empty stomach':(tips.toLowerCase().includes('with food')||tips.toLowerCase().includes('with meal'))?'With food':'Any';
+    const effi=sup?.e||1;const safe=sup?.s||1;const rd=sup?.r||1;const so=sup?.o||1;
+    const onsetLabel=so>=5?'Immediate':so>=4?'Hours\u2013days':so>=3?'1\u20134 wks':so>=2?'4\u20138 wks':'8+ wks';
+    const tierLabel=sup?.t==='t1'?'Tier 1 \u2014 Highest Evidence':sup?.t==='t2'?'Tier 2 \u2014 Good Evidence':'Tier 3 \u2014 Emerging Evidence';
+    const cycleInfo=(function(s){if(!s)return'Continuous';const n=s.n.toLowerCase(),tag=(s.tag||'').toLowerCase();if(n.includes('ashwagandha'))return'8\u201312 wks on, 2\u20134 off';if(n.includes('rhodiola'))return'6\u20138 wks on, 2\u20134 off';if(n.includes('melatonin'))return'2\u20134 wks, reassess';if(tag.includes('adaptogen')||n.includes('ginseng'))return'6\u20138 wks on, 2\u20134 off';return'Continuous';})(sup);
     const priLabel=r.p==='essential'?'Essential':r.p==='recommended'?'Recommended':'Consider';
-    return{r,sup,sc,timing,hasMedInt,ints,foodHint,rd,onsetLabel,tierLabel,cycleInfo,priLabel,tips};
+    const desc=sup?.desc||r.why||'';const dose=r.dose||'';
+    const intText=ints.map(i=>(i.type==='avoid'?'Avoid':'Caution')+' with '+(i.med||'')).join('; ');
+    return{r,sup,sc,timing,hasMedInt,ints,intText,foodHint,effi,safe,rd,so,onsetLabel,tierLabel,cycleInfo,priLabel,desc,dose,tips};
   });
-
-  // ── QUICK REFERENCE TABLE ──
-  doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
-  doc.text('QUICK REFERENCE GUIDE',margin,y);
-  doc.setDrawColor(123,31,162);doc.setLineWidth(0.6);doc.line(margin,y+1.5,margin+tw,y+1.5);
-  doc.setLineWidth(0.2);y+=6;
-
-  // Table header
-  const cols=[margin, margin+9, margin+55, margin+78, margin+108, margin+130, margin+152];
-  const colLabels=['','SUPPLEMENT','PRIORITY','DOSE','WHEN','FOOD','MED INT.'];
-  doc.setFillColor(248,247,245);doc.rect(margin,y-3.5,tw,7,'F');
-  doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(140,140,140);
-  colLabels.forEach((l,i)=>doc.text(l,cols[i],y));
-  doc.setDrawColor(220,220,220);doc.line(margin,y+2,pw-margin,y+2);
-  y+=6;
-
-  // Table rows
-  allItems.forEach(item=>{
-    checkPage(9);
-    // Score badge
-    const sbg=item.sc>=80?[13,148,136]:item.sc>=60?[75,123,229]:item.sc>=40?[202,138,4]:[185,28,28];
-    doc.setFillColor(sbg[0],sbg[1],sbg[2]);doc.roundedRect(cols[0],y-3.5,7,5.5,1.2,1.2,'F');
-    doc.setFontSize(6.5);doc.setFont(undefined,'bold');doc.setTextColor(255,255,255);
-    doc.text(String(item.sc),cols[0]+3.5,y,{align:'center'});
-    // Name
-    doc.setFontSize(7.5);doc.setFont(undefined,'bold');doc.setTextColor(30,30,30);
-    doc.text(item.r.n.length>24?item.r.n.substring(0,23)+'...':item.r.n,cols[1],y);
-    // Priority badge
-    const pClr=item.r.p==='essential'?{bg:[209,250,229],tx:[6,95,70]}:item.r.p==='recommended'?{bg:[219,234,254],tx:[30,64,175]}:{bg:[254,246,224],tx:[122,83,0]};
-    doc.setFillColor(pClr.bg[0],pClr.bg[1],pClr.bg[2]);
-    const pw2=doc.setFontSize(5.5).setFont(undefined,'bold').getTextWidth(item.priLabel);
-    doc.roundedRect(cols[2],y-3,pw2+4,4.5,1,1,'F');
-    doc.setTextColor(pClr.tx[0],pClr.tx[1],pClr.tx[2]);doc.text(item.priLabel,cols[2]+2,y);
-    // Dose (shortened)
-    doc.setFontSize(6.5);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
-    const shortDose=item.r.dose.split(';')[0].split('(')[0].trim();
-    doc.text(shortDose.length>18?shortDose.substring(0,17)+'...':shortDose,cols[3],y);
-    // Timing
-    doc.text(item.timing.time||'Any',cols[4],y);
-    // Food
-    doc.text(item.foodHint,cols[5],y);
-    // Med interaction
-    if(item.hasMedInt){
-      doc.setFillColor(254,226,226);doc.roundedRect(cols[6]+2,y-3,5,4.5,1,1,'F');
-      doc.setFontSize(7);doc.setFont(undefined,'bold');doc.setTextColor(185,28,28);
-      doc.text('!',cols[6]+4.5,y,{align:'center'});
-    } else {
-      doc.setFontSize(7);doc.setTextColor(13,148,136);doc.text('\u2713',cols[6]+4.5,y,{align:'center'});
-    }
-    // Row separator
-    y+=3;
-    doc.setDrawColor(240,238,235);doc.line(margin,y,pw-margin,y);
-    y+=4;
-  });
-
-  y+=6;
-
-  // ── DETAILED PROFILES ──
-  checkPage(20);
-  doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
-  doc.text('DETAILED SUPPLEMENT PROFILES',margin,y);
-  doc.setDrawColor(123,31,162);doc.setLineWidth(0.6);doc.line(margin,y+1.5,margin+tw,y+1.5);
-  doc.setLineWidth(0.2);y+=8;
-
-  allItems.forEach(item=>{
-    checkPage(42);
-    const sup=item.sup;
-    const r=item.r;
-
-    // Card background
-    doc.setFillColor(250,250,249);doc.roundedRect(margin,y-4,tw,0.1,2,2,'F');
-
-    // Score badge + name row
-    const sbg=item.sc>=80?[13,148,136]:item.sc>=60?[75,123,229]:item.sc>=40?[202,138,4]:[185,28,28];
-    doc.setFillColor(sbg[0],sbg[1],sbg[2]);doc.roundedRect(margin,y-3,9,7,1.5,1.5,'F');
-    doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(255,255,255);
-    doc.text(String(item.sc),margin+4.5,y+1.5,{align:'center'});
-    // Name
-    doc.setFontSize(11);doc.setFont(undefined,'bold');doc.setTextColor(30,30,30);
-    doc.text(r.n,margin+12,y+1);
-    // Meta line
-    y+=6;
-    doc.setFontSize(6.5);doc.setFont(undefined,'normal');doc.setTextColor(150,150,150);
-    const eff=sup?sup.e:r.e;const saf=sup?sup.s:r.s;
-    doc.text('Efficacy: '+eff+'/5   Safety: '+saf+'/5   Research: '+item.tierLabel+'   Onset: '+item.onsetLabel,margin+12,y);
-    y+=5;
-
-    // Description (Why recommended + supplement desc)
-    doc.setFontSize(7.5);doc.setFont(undefined,'normal');doc.setTextColor(70,70,70);
-    const desc=r.why||'';
-    const descLines=doc.splitTextToSize(desc,tw);
-    descLines.slice(0,3).forEach(line=>{doc.text(line,margin,y);y+=3.3;});
-    y+=1;
-
-    // Info grid: 2x2 boxes
-    const boxW=(tw-4)/2;
-    const boxH=12;
-    const bx1=margin;const bx2=margin+boxW+4;
-    const by1=y;
-
-    // Box 1: Dose
-    doc.setFillColor(248,247,245);doc.roundedRect(bx1,by1,boxW,boxH,1.5,1.5,'F');
-    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
-    doc.text('DOSE',bx1+3,by1+4);
-    doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);
-    const doseText=doc.splitTextToSize(r.dose.split(';')[0].trim(),boxW-6);
-    doc.text(doseText[0]||'',bx1+3,by1+8);
-
-    // Box 2: When & Food
-    doc.setFillColor(248,247,245);doc.roundedRect(bx2,by1,boxW,boxH,1.5,1.5,'F');
-    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
-    doc.text('WHEN & HOW',bx2+3,by1+4);
-    doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);
-    doc.text((item.timing.time||'Any time')+' \u00B7 '+item.foodHint,bx2+3,by1+8);
-
-    y=by1+boxH+2;
-    const by2=y;
-
-    // Box 3: Cycling
-    doc.setFillColor(248,247,245);doc.roundedRect(bx1,by2,boxW,boxH,1.5,1.5,'F');
-    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
-    doc.text('CYCLING',bx1+3,by2+4);
-    doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(50,50,50);
-    doc.text(item.cycleInfo,bx1+3,by2+8);
-
-    // Box 4: Interactions
-    doc.setFillColor(248,247,245);doc.roundedRect(bx2,by2,boxW,boxH,1.5,1.5,'F');
-    doc.setFontSize(5.5);doc.setFont(undefined,'bold');doc.setTextColor(150,150,150);
-    doc.text('MEDICATION INTERACTIONS',bx2+3,by2+4);
-    doc.setFontSize(7);doc.setFont(undefined,'normal');
-    if(item.hasMedInt){
-      doc.setTextColor(185,28,28);
-      const intText=item.ints.map(i=>(i.type==='avoid'?'Avoid':'Caution')+' with '+i.med).join('; ');
-      const intLines=doc.splitTextToSize(intText,boxW-6);
-      doc.text(intLines[0]||'',bx2+3,by2+8);
-    } else {
-      doc.setTextColor(13,148,136);
-      doc.text('No known major interactions',bx2+3,by2+8);
-    }
-
-    y=by2+boxH+6;
-
-    // Separator
-    doc.setDrawColor(235,235,235);doc.line(margin,y-3,pw-margin,y-3);
-  });
-
-  // ── BLOOD WORK ──
-  if(Object.keys(bloodWork).length>0){
-    const bwRes=analyzeBloodWork();
-    checkPage(15);
-    doc.setFontSize(9);doc.setFont(undefined,'bold');doc.setTextColor(123,31,162);
-    doc.text('BLOOD WORK ANALYSIS',margin,y);
-    doc.setDrawColor(123,31,162);doc.setLineWidth(0.6);doc.line(margin,y+1.5,margin+tw,y+1.5);
-    doc.setLineWidth(0.2);y+=7;
-    bwRes.forEach(r=>{
-      checkPage(12);
-      const sc={critical:[185,28,28],low:[202,138,4],optimal:[13,148,136],high:[75,123,229]};
-      doc.setFontSize(8);doc.setFont(undefined,'bold');
-      doc.setTextColor(...(sc[r.status]||[60,60,60]));
-      doc.text(r.bio.name+': '+r.val+' '+r.bio.unit+' \u2014 '+r.statusLabel,margin,y);y+=4;
-      if(r.needsAction&&r.bio.supps.length){
-        doc.setFontSize(7);doc.setFont(undefined,'normal');doc.setTextColor(80,80,80);
-        r.bio.supps.forEach(s=>{doc.text('\u2192 '+s.name+': '+s.dose,margin+4,y);y+=3.5;});
-      }
-      y+=2;
-    });
+  // Helpers
+  function sCol(sc){return sc>=80?PUR:sc>=60?[90,40,130]:sc>=40?[130,70,180]:[170,110,210];}
+  function drawCircle(cx,cy,r,sc){
+    const c=sCol(sc);doc.setFillColor(c[0],c[1],c[2]);doc.circle(cx,cy,r,'F');
+    doc.setFont('times','normal');doc.setFontSize(r*2.9);doc.setTextColor(250,248,244);
+    doc.text(String(sc),cx,cy+r*0.4,{align:'center'});
+    doc.setFont('helvetica','normal');doc.setFontSize(5.5);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('SCORE',cx,cy+r*0.88,{align:'center'});
   }
-
-  // ── DISCLAIMER ──
-  checkPage(18);
-  y+=4;
-  doc.setFillColor(254,243,199);doc.roundedRect(margin,y-3,tw,14,2,2,'F');
-  doc.setFontSize(6);doc.setFont(undefined,'bold');doc.setTextColor(146,100,0);
-  doc.text('IMPORTANT DISCLAIMER',margin+3,y+1);
-  doc.setFontSize(5.5);doc.setFont(undefined,'normal');doc.setTextColor(120,80,0);
-  doc.text('This report is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare',margin+3,y+5);
-  doc.text('provider before starting any supplement regimen, especially if you have medical conditions or take medications.',margin+3,y+8);
-
-  // Footer on last page
-  addFooter();
-
+  function drawPips(x,y,n,total,pW=8,gap=1.5){
+    const pH=2.5;
+    for(let i=0;i<total;i++){
+      i<n?doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]):doc.setFillColor(TBRD[0],TBRD[1],TBRD[2]);
+      doc.roundedRect(x+i*(pW+gap),y,pW,pH,1,1,'F');
+    }
+  }
+  function footer(){
+    doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,ph-12,pw-M,ph-12);
+    doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+    doc.text('SUPPLEMENTSCORE.ORG',M,ph-7);
+    doc.setFont('times','italic');doc.setFontSize(7.5);doc.text('Page '+pageNum+' / '+totalPages,pw/2,ph-7,{align:'center'});
+    doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.text(monthYear.toUpperCase(),pw-M,ph-7,{align:'right'});
+  }
+  const totalPages=allItems.length+3;
+  const essN=allItems.filter(x=>x.r.p==='essential').length;
+  const recN=allItems.filter(x=>x.r.p==='recommended').length;
+  const conN=allItems.filter(x=>x.r.p==='consider').length;
+  const intItems=allItems.filter(x=>x.hasMedInt);
+  // ═══════════════════════════════════════
+  // PAGE 1 — COVER
+  // ═══════════════════════════════════════
+  // Masthead
+  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,15,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('SUPPLEMENTSCORE  \u00B7  YOUR SUPPLEMENT PLAN',M,9);
+  doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(200,195,190);
+  doc.text('PERSONALISED  \u00B7  EVIDENCE-BASED  \u00B7  '+monthYear.toUpperCase(),pw-M,9,{align:'right'});
+  // Hero — extends to y=131 so meta values (at y=117) sit on dark background before gold band
+  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,15,pw,116,'F');
+  doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('PERSONALISED SUPPLEMENT REPORT',M,30);
+  doc.setFont('times','normal');doc.setFontSize(46);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+  doc.text('Your',M,52);doc.text('Optimal',M,68);doc.text('Protocol',M,84);
+  doc.setFont('times','italic');doc.setFontSize(14);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  const goalStr=condLabel.length>40?condLabel.substring(0,39)+'\u2026':condLabel;
+  doc.text('A curated plan for '+goalStr.toLowerCase(),M,97);
+  doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]);doc.setLineWidth(1);doc.line(M,103,M+20,103);doc.setLineWidth(0.2);
+  // Meta items
+  const mItms=[['PREPARED FOR',sexLabel+', '+age+' yrs'],['PRIMARY GOAL',condLabel.length>22?condLabel.substring(0,21)+'\u2026':condLabel],['MEDICATION',medsLabel.length>22?medsLabel.substring(0,21)+'\u2026':medsLabel],['SUPPLEMENTS',allItems.length+' in plan']];
+  mItms.forEach(([lbl,val],i)=>{
+    const mx=M+i*(TW/4);
+    doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);doc.text(lbl,mx,110);
+    doc.setFont('times','italic');doc.setFontSize(10);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);doc.text(val,mx,117);
+  });
+  // Gold band — starts after hero area (y=131), meta values safely on dark bg above
+  doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(0,131,pw,14,'F');
+  doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+  doc.text(allItems.length+' SUPPLEMENTS  \u00B7  EVIDENCE-RANKED  \u00B7  INTERACTION-CHECKED',M,140);
+  doc.setFont('times','italic');doc.setFontSize(8);doc.text('SupplementScore.org',pw-M,140,{align:'right'});
+  // Intro
+  let cy=153;
+  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  doc.text('EDITORIAL NOTE',M,cy);cy+=8;
+  doc.setFont('times','normal');doc.setFontSize(10);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+  const introTxt='This report presents your personalised supplement protocol, ranked by scientific evidence and tailored to your '+goalStr.toLowerCase()+' goals. Each recommendation has been cross-referenced against your medications to flag any clinically relevant interactions.';
+  doc.splitTextToSize(introTxt,TW).forEach(l=>{doc.text(l,M,cy);cy+=5.2;});cy+=4;
+  // Pull quote
+  const qTxt='\u201CThe ideal protocol is not the most complex one \u2014 it is the one built on the clearest evidence and aligned most precisely with who you are.\u201D';
+  const qLines=doc.setFont('times','italic').setFontSize(11).splitTextToSize(qTxt,TW-8);
+  const qH=qLines.length*5.5;
+  doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]);doc.setLineWidth(1.2);doc.line(M,cy,M,cy+qH+2);doc.setLineWidth(0.2);
+  doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  qLines.forEach(l=>{doc.text(l,M+6,cy+4.5);cy+=5.5;});cy+=5;
+  // Second para
+  doc.setFont('times','normal');doc.setFontSize(10);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+  doc.splitTextToSize('Your supplements have been scored across three dimensions: clinical efficacy, safety profile, and depth of research. Scores above 80 represent strong evidence. Recommendations are tiered as Essential, Recommended, or Consider.',TW).forEach(l=>{doc.text(l,M,cy);cy+=5.2;});cy+=3;
+  // Contents box
+  const boxY=Math.min(Math.max(cy,240),ph-53);const boxH=38;
+  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(M,boxY,TW,boxH,'F');
+  const ccW=TW/3;
+  doc.setFont('helvetica','bold');doc.setFontSize(6);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('IN THIS REPORT',M+4,boxY+8);
+  doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+  doc.text('P.2  Summary Overview',M+4,boxY+16);
+  if(allItems[0])doc.text('P.3  '+allItems[0].r.n.substring(0,22),M+4,boxY+23);
+  if(allItems[1])doc.text('P.4  '+allItems[1].r.n.substring(0,22),M+4,boxY+30);
+  doc.setDrawColor(51,51,51);doc.setLineWidth(0.3);
+  doc.line(M+ccW,boxY+4,M+ccW,boxY+boxH-4);doc.line(M+ccW*2,boxY+4,M+ccW*2,boxY+boxH-4);
+  doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+  if(allItems[2])doc.text('P.5  '+allItems[2].r.n.substring(0,22),M+ccW+4,boxY+16);
+  if(allItems[3])doc.text('P.6  '+allItems[3].r.n.substring(0,22),M+ccW+4,boxY+23);
+  if(allItems[4])doc.text('P.7  '+allItems[4].r.n.substring(0,22),M+ccW+4,boxY+30);
+  doc.setFont('helvetica','bold');doc.setFontSize(6);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('KEY NOTES',M+ccW*2+4,boxY+8);
+  doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+  if(intItems.length===0){doc.text('No interactions noted',M+ccW*2+4,boxY+16);}
+  else{intItems.slice(0,2).forEach((it,i)=>doc.text(it.r.n.substring(0,20)+' \u2014 interact.',M+ccW*2+4,boxY+16+i*7));}
+  doc.text('All doses: daily maintenance',M+ccW*2+4,boxY+30);
+  footer();
+  // ═══════════════════════════════════════
+  // PAGE 2 — SUMMARY TABLE
+  // ═══════════════════════════════════════
+  doc.addPage();pageNum++;
+  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,20,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('SECTION 01  \u00B7  SUMMARY OVERVIEW',M,12);
+  doc.setFont('times','italic');doc.setFontSize(9);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+  doc.text('Your complete supplement plan at a glance',pw-M,12,{align:'right'});
+  let y=32;
+  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  doc.text('SUPPLEMENT SUMMARY',M,y);y+=7;
+  doc.setFont('times','normal');doc.setFontSize(22);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+  doc.text(allItems.length+' Supplements,',M,y);y+=8;
+  doc.setFont('times','italic');doc.setFontSize(22);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('One Coherent Protocol',M,y);y+=8;
+  doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=7;
+  doc.setFont('times','italic');doc.setFontSize(10);doc.setTextColor(80,80,80);
+  doc.splitTextToSize('The following table presents your complete supplement plan ranked by score. Each score reflects a composite of clinical efficacy, safety data, and research volume, weighted for your specific health profile and medication context.',TW).forEach(l=>{doc.text(l,M,y);y+=5;});y+=7;
+  // Table header
+  const tc=[M,M+52,M+82,M+100,M+126,M+148,M+162];
+  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(M,y-4,TW,10,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  ['SUPPLEMENT','PRIORITY','SCORE','DAILY DOSE','TIMING','FOOD','INT'].forEach((h,i)=>{doc.text(h,i===2?tc[2]+9:tc[i]+2,y+2,i===2?{align:'center'}:{});});
+  y+=8;
+  // Table rows
+  allItems.forEach((item,idx)=>{
+    const rH=13;
+    if(idx%2===1){doc.setFillColor(ALT[0],ALT[1],ALT[2]);doc.rect(M,y-3,TW,rH,'F');}
+    const sd=item.dose.split(';')[0].split('(')[0].trim();
+    doc.setFont('times','normal');doc.setFontSize(9.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.text(item.r.n.length>28?item.r.n.substring(0,27)+'\u2026':item.r.n,tc[0]+2,y+2);
+    doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+    doc.text(sd.length>28?sd.substring(0,27)+'\u2026':sd,tc[0]+2,y+7);
+    const pc=item.r.p==='essential'?GOLD:item.r.p==='recommended'?PUR:GRY;
+    doc.setFont('helvetica','bold');doc.setFontSize(6);doc.setTextColor(pc[0],pc[1],pc[2]);
+    doc.setDrawColor(pc[0],pc[1],pc[2]);doc.setLineWidth(0.4);
+    const pl=item.priLabel.toUpperCase();const pW2=Math.min(doc.getTextWidth(pl)+5,26);
+    doc.rect(tc[1]+2,y-1,pW2,6,'S');doc.text(pl,tc[1]+4.5,y+3.8);
+    const sc2=sCol(item.sc);
+    doc.setFillColor(sc2[0],sc2[1],sc2[2]);doc.circle(tc[2]+9,y+3,5.5,'F');
+    doc.setFont('times','normal');doc.setFontSize(8);doc.setTextColor(250,248,244);
+    doc.text(String(item.sc),tc[2]+9,y+5.6,{align:'center'});
+    doc.setFont('times','normal');doc.setFontSize(8.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.text(sd.length>16?sd.substring(0,15)+'\u2026':sd,tc[3]+2,y+3);
+    doc.text(item.timing.time||'Any',tc[4]+2,y+3);
+    doc.setFontSize(8);doc.text(item.foodHint,tc[5]+2,y+3);
+    if(item.hasMedInt){
+      doc.setFillColor(254,226,226);doc.roundedRect(tc[6]+2,y-1,8,6,1.5,1.5,'F');
+      doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(185,28,28);
+      doc.text('!',tc[6]+6,y+3.8,{align:'center'});
+    } else {
+      doc.setFont('times','normal');doc.setFontSize(9);doc.setTextColor(13,148,136);doc.text('\u2713',tc[6]+6,y+4);
+    }
+    doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.2);doc.line(M,y+rH-3,pw-M,y+rH-3);
+    y+=rH;
+  });
+  y+=10;
+  // Overall plan strength bar
+  const avg=Math.round(allItems.reduce((s,x)=>s+x.sc,0)/Math.max(allItems.length,1));
+  const strength=avg>=85?'Exceptional':avg>=75?'Excellent':avg>=65?'Good':'Fair';
+  doc.setFillColor(PUR[0],PUR[1],PUR[2]);doc.rect(M,y,TW,20,'F');
+  doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('OVERALL PLAN STRENGTH',M+5,y+6);
+  doc.setFont('times','italic');doc.setFontSize(16);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+  doc.text(strength,M+5,y+16);
+  doc.setFont('times','normal');doc.setFontSize(8);doc.setTextColor(200,190,210);
+  doc.text(essN+' Essential  \u00B7  '+recN+' Recommended  \u00B7  '+conN+' Consider',pw-M-5,y+16,{align:'right'});
+  // ── Scoring methodology section ─────────────────────────────────────────────
+  let ky=y+28;
+  doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,ky,pw-M,ky);ky+=9;
+  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  doc.text('HOW YOUR SUPPLEMENTS ARE SCORED',M,ky);ky+=7;
+  doc.setFont('times','italic');doc.setFontSize(9.5);doc.setTextColor(80,80,80);
+  doc.splitTextToSize('Each supplement receives a composite score from 0\u2013100 weighted across clinical efficacy, safety profile, and research depth. Scores reflect the current published evidence and are adjusted for your specific health profile.',TW).forEach(l=>{doc.text(l,M,ky);ky+=5;});ky+=8;
+  const guide=[
+    {range:'80\u2013100',label:'Exceptional Evidence',col:PUR,desc:'Multiple large RCTs, consistent meta-analyses, and validated mechanisms of action'},
+    {range:'60\u201379',label:'Good Evidence',col:[90,40,130],desc:'Several controlled trials and positive systematic reviews with reliable safety data'},
+    {range:'40\u201359',label:'Moderate Evidence',col:[130,70,180],desc:'Small trials, observational studies, and promising mechanistic or in-vivo research'},
+    {range:'0\u201339',label:'Limited / Emerging',col:[170,110,210],desc:'Anecdotal reports, in-vitro studies, or theoretical mechanisms requiring more research'},
+  ];
+  guide.forEach(g=>{
+    doc.setFillColor(g.col[0],g.col[1],g.col[2]);doc.roundedRect(M,ky,22,8,2,2,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+    doc.text(g.range,M+11,ky+5.5,{align:'center'});
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.text(g.label,M+27,ky+5.5);
+    doc.setFont('times','normal');doc.setFontSize(8);doc.setTextColor(80,80,80);
+    doc.splitTextToSize(g.desc,TW-29).forEach((l,li)=>{doc.text(l,M+27,ky+11+li*4.2);});ky+=17;
+  });
+  ky+=4;
+  doc.setFont('times','italic');doc.setFontSize(8);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+  doc.splitTextToSize('Scores are generated at report time and reflect published research available to that date. Consult your healthcare provider before starting any protocol.',TW).forEach(l=>{doc.text(l,M,ky);ky+=4.5;});
+  footer();
+  // ═══════════════════════════════════════
+  // DETAIL PAGES
+  // ═══════════════════════════════════════
+  allItems.forEach((item,idx)=>{
+    doc.addPage();pageNum++;
+    const r=item.r;
+    doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(0,0,pw,4,'F');
+    doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,4,pw,44,'F');
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('SECTION 02  \u00B7  SUPPLEMENT DETAIL  \u00B7  '+(idx+1).toString().padStart(2,'0')+' OF '+allItems.length.toString().padStart(2,'0'),M,18);
+    const tSz=r.n.length>32?22:r.n.length>24?28:34;
+    doc.setFont('times','normal');doc.setFontSize(tSz);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
+    doc.text(r.n,M,38);
+    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(180,170,160);
+    doc.text('SCORE '+item.sc+'  \u00B7  '+item.priLabel.toUpperCase()+'  \u00B7  '+(item.timing.time||'ANY TIME').toUpperCase(),M,46);
+    // Layout
+    const lW=46;const rx=M+lW+10;const rW=TW-lW-10;
+    const by=58;
+    // Left col: score circle
+    drawCircle(M+lW/2,by+16,14,item.sc);
+    let sy=by+36;
+    [['EFFICACY',null,item.effi,5],['SAFETY',null,item.safe,5],['TIMING',item.timing.time||'Any',null,null],['FOOD',item.foodHint,null,null],['CYCLING',item.cycleInfo,null,null],['ONSET',item.onsetLabel,null,null]].forEach(([lbl,val,rat,tot])=>{
+      doc.setFont('helvetica','normal');doc.setFontSize(5.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);doc.text(lbl,M,sy);sy+=3.5;
+      if(rat!==null){drawPips(M,sy,rat,tot);sy+=5.5;}
+      else{doc.setFont('times','normal');doc.setFontSize(8.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);doc.splitTextToSize(val||'\u2014',lW).slice(0,2).forEach(l=>{doc.text(l,M,sy);sy+=4.5;});}
+      sy+=1.5;
+    });
+    // Right col
+    let ry=by;
+    const ptC=item.r.p==='essential'?GOLD:item.r.p==='recommended'?PUR:GRY;
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(ptC[0],ptC[1],ptC[2]);
+    doc.setDrawColor(ptC[0],ptC[1],ptC[2]);doc.setLineWidth(0.5);
+    const ptL=item.priLabel.toUpperCase();const ptW=doc.getTextWidth(ptL)+8;
+    doc.rect(rx,ry,ptW,8,'S');doc.text(ptL,rx+4,ry+5.7);ry+=15;
+    const descFull=item.desc||'';const dotIdx=descFull.indexOf('.');
+    const headline=dotIdx>0?descFull.substring(0,dotIdx+1):descFull.substring(0,80);
+    const bodyTxt=dotIdx>0?descFull.substring(dotIdx+1).trim():'';
+    doc.setFont('times','normal');doc.setFontSize(13);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.splitTextToSize(headline,rW).slice(0,3).forEach(l=>{doc.text(l,rx,ry);ry+=6.5;});ry+=2;
+    if(bodyTxt){
+      doc.setFont('times','normal');doc.setFontSize(9.5);doc.setTextColor(60,60,60);
+      doc.splitTextToSize(bodyTxt,rW).slice(0,7).forEach(l=>{doc.text(l,rx,ry);ry+=4.8;});ry+=3;
+    }
+    const stripH=20;
+    doc.setFillColor(WARM[0],WARM[1],WARM[2]);doc.rect(rx,ry,rW,stripH,'F');
+    doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(rx,ry,2,stripH,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+    doc.text('DOSING PROTOCOL',rx+6,ry+6);
+    doc.setFont('times','italic');doc.setFontSize(9.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.splitTextToSize(item.dose.split(';')[0].trim(),rW-12).slice(0,2).forEach((l,i)=>{doc.text(l,rx+6,ry+12+(i*5));});ry+=stripH+8;
+    if(item.hasMedInt){
+      const iH=18;
+      doc.setFillColor(244,240,250);doc.rect(rx,ry,rW,iH,'F');
+      doc.setDrawColor(PUR[0],PUR[1],PUR[2]);doc.setLineWidth(0.4);doc.rect(rx,ry,rW,iH,'S');
+      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+      doc.text('MEDICATION INTERACTION NOTED',rx+5,ry+6);
+      doc.setFont('times','normal');doc.setFontSize(9);doc.setTextColor(60,60,60);
+      doc.splitTextToSize(item.intText,rW-10).slice(0,2).forEach((l,i)=>{doc.text(l,rx+5,ry+12+(i*5));});
+      ry+=iH; // track right-col end past the interaction box
+    }
+    // Practitioner notes (tips) — fills the gap between body and metrics
+    let noteEndY=Math.max(sy,ry);
+    if(item.tips&&item.tips.trim().length>15){
+      noteEndY+=8;
+      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.2);doc.line(M,noteEndY,pw-M,noteEndY);
+      noteEndY+=7;
+      doc.setFont('helvetica','normal');doc.setFontSize(5.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+      doc.text('PRACTITIONER NOTES',M,noteEndY);noteEndY+=5;
+      doc.setFont('times','italic');doc.setFontSize(9.5);doc.setTextColor(60,60,60);
+      doc.splitTextToSize(item.tips,TW).forEach(l=>{doc.text(l,M,noteEndY);noteEndY+=5.2;});
+      noteEndY+=4;
+    }
+    // Metrics row — positioned right below content, not hard-coded to bottom
+    const mY=Math.min(Math.max(noteEndY+10,by+115),ph-52);
+    const mCW=TW/4;
+    doc.setFillColor(WARM[0],WARM[1],WARM[2]);doc.rect(M,mY,TW,26,'F');
+    doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.3);doc.rect(M,mY,TW,26,'S');
+    const effLabels=['Exceptional','Excellent','Good','Fair','Limited'];
+    const safLabels=['Excellent','Excellent','Good','Fair','Caution'];
+    const mData=[
+      {lbl:'EFFICACY',val:effLabels[5-Math.min(item.effi,5)],rat:item.effi},
+      {lbl:'SAFETY',val:safLabels[5-Math.min(item.safe,5)],rat:item.safe},
+      {lbl:'RESEARCH DEPTH',val:item.tierLabel.includes('\u2014')?item.tierLabel.split('\u2014 ')[1]:item.tierLabel,rat:item.rd},
+      {lbl:'MED. INTERACTION',val:item.hasMedInt?'Interaction noted':'None identified',rat:null},
+    ];
+    mData.forEach((m,i)=>{
+      const mx=M+i*mCW;
+      if(i>0){doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.3);doc.line(mx,mY,mx,mY+26);}
+      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);doc.text(m.lbl,mx+4,mY+8);
+      if(m.rat){drawPips(mx+4,mY+11,m.rat,5,5.5,0.8);}
+      const mvc=(m.lbl==='MED. INTERACTION'&&item.hasMedInt)?[185,28,28]:(m.lbl==='MED. INTERACTION')?[13,148,136]:DARK;
+      doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(mvc[0],mvc[1],mvc[2]);doc.text(m.val,mx+4,mY+22);
+    });
+    footer();
+  });
+  // ═══════════════════════════════════════
+  // FINAL PAGE — BLOOD WORK + DISCLAIMER
+  // ═══════════════════════════════════════
+  doc.addPage();pageNum++;
+  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,20,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+  doc.text('SUPPLEMENTSCORE  \u00B7  CLINICAL NOTES',M,12);
+  let fy=30;
+  const hasBW=typeof bloodWork!=='undefined'&&Object.keys(bloodWork).length>0;
+  if(hasBW){
+    const bwRes=analyzeBloodWork();
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+    doc.text('BLOOD WORK ANALYSIS',M,fy);fy+=8;
+    doc.setFont('times','normal');doc.setFontSize(18);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.text('Your Biomarker Results',M,fy);fy+=6;
+    doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,fy,pw-M,fy);fy+=8;
+    bwRes.forEach(bwr=>{
+      const sc3={critical:[185,28,28],low:[202,138,4],optimal:[13,148,136],high:[75,123,229]};
+      doc.setFont('times','bold');doc.setFontSize(9);doc.setTextColor(...(sc3[bwr.status]||[60,60,60]));
+      doc.text(bwr.bio.name+': '+bwr.val+' '+bwr.bio.unit+'  \u2014  '+bwr.statusLabel,M,fy);fy+=5;
+      if(bwr.needsAction&&bwr.bio.supps.length){
+        doc.setFont('times','italic');doc.setFontSize(8);doc.setTextColor(80,80,80);
+        bwr.bio.supps.forEach(s=>{doc.text('\u2192 '+s.name+': '+s.dose,M+4,fy);fy+=4;});
+      }fy+=3;
+    });fy+=8;
+  }
+  doc.setFillColor(WARM[0],WARM[1],WARM[2]);doc.rect(M,fy,TW,30,'F');
+  doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(M,fy,2,30,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  doc.text('IMPORTANT DISCLAIMER',M+6,fy+8);
+  doc.setFont('times','normal');doc.setFontSize(9);doc.setTextColor(60,60,60);
+  doc.splitTextToSize('This report is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare provider before starting any supplement regimen, especially if you have medical conditions or take prescription medications. Individual results may vary. Supplement interactions listed are not exhaustive.',TW-12).forEach((l,i)=>{doc.text(l,M+6,fy+15+(i*5));});
+  footer();
   return doc;
 }
 
@@ -1206,6 +1290,7 @@ function getShareUrl(){
   if(sex)params.set('sex',sex);
   if(selectedMeds.size)params.set('meds',[...selectedMeds].join(','));
   if(selectedConds.size)params.set('conds',[...selectedConds].join(','));
+  if(selectedGoals.size)params.set('goals',[...selectedGoals].join(','));
   if(Object.keys(bloodWork).length>0)params.set('bw',Object.entries(bloodWork).map(([k,v])=>k+':'+v).join(','));
   return window.location.origin+window.location.pathname+'?'+params.toString();
 }
@@ -1217,6 +1302,7 @@ function loadFromUrl(){
   const s=params.get('sex');if(s)pickSex(s);
   const meds=params.get('meds');if(meds){selectedMeds=new Set(meds.split(','));renderMedChips();}
   const conds=params.get('conds');if(conds){selectedConds=new Set(conds.split(','));renderCondChips();}
+  const goals=params.get('goals');if(goals){selectedGoals=new Set(goals.split(','));renderGoalChips();}
   const bw=params.get('bw');if(bw){bw.split(',').forEach(pair=>{const[k,v]=pair.split(':');if(k&&v){bloodWork[k]=parseFloat(v);const input=document.getElementById('bw-'+k);if(input){input.value=v;updateBwRow(k,v);}}});}
   updatePfCounts();
   return true;
@@ -1290,11 +1376,13 @@ initAllTab();
     if(rv) rv.style.display = '';
     var sv = document.getElementById('supplements-view');
     if(sv) sv.style.display = 'none';
-    // Inject reader header
-    var readerHdr = document.createElement('div');
-    readerHdr.className = 'reader-header';
-    readerHdr.innerHTML = '<div class="reader-brand" onclick="readerClose()"><svg width="22" height="22" viewBox="0 0 24 24" style="color:#7B1FA2"><use href="#ss-logo"/></svg><span>SupplementScore<b>.org</b></span></div><button class="reader-close" onclick="readerClose()" aria-label="Close window"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Close</button>';
-    document.body.insertBefore(readerHdr, document.body.firstChild);
+    // Inject floating close button (no sticky nav = no content clip)
+    var readerFab = document.createElement('button');
+    readerFab.className = 'reader-close-fab';
+    readerFab.setAttribute('onclick', 'readerClose()');
+    readerFab.setAttribute('aria-label', 'Close article');
+    readerFab.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    document.body.appendChild(readerFab);
     // Render the article
     if(typeof _renderArticleInline === 'function'){
       _renderArticleInline(artId);
@@ -1305,8 +1393,11 @@ initAllTab();
     // URL params present — switch to profile tab and auto-generate
     sw(1);genRecs();
     window.history.replaceState({},'',window.location.pathname);
+  }else if(loadProfile()){
+    // Restored from localStorage — stay on profile tab, profile fields pre-filled
+    const wb=document.getElementById('welcome-back');if(wb)wb.style.display='flex';
   }else{
-    // Always start fresh — no pre-selected goals/conditions/meds
+    // First visit — start fresh
     selectedGoals=new Set();renderGoalChips();
     selectedConds=new Set();renderCondChips();
     selectedMeds=new Set();renderMedChips();
