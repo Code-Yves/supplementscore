@@ -2,7 +2,9 @@ let profileUnlocked=false;
 let selectedMeds=new Set();
 // O(1) supplement lookup — avoids repeated S.find() O(n) scans in hot paths
 const _suppByName=new Map(S.map(s=>[s.n,s]));
-function renderMedChips(){const el=document.getElementById('med-chips');el.innerHTML=Object.entries(MEDS).map(([k,m])=>`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${k}')">${m.label}</div>`).join('');updateMedNote();}
+// Escape a value for safe use inside an HTML attribute (single or double quoted)
+function escAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderMedChips(){const el=document.getElementById('med-chips');el.innerHTML=Object.entries(MEDS).map(([k,m])=>`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${escAttr(k)}')">${escHtml(m.label)}</div>`).join('');updateMedNote();}
 function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();updatePfCounts();}
 function updateMedNote(){const n=document.getElementById('med-note');if(selectedMeds.size===0){n.style.display='none';return;}n.style.display='block';const avoidAll=new Set(),cautionAll=new Set(),extraAll=new Set();selectedMeds.forEach(k=>{const m=MEDS[k];m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>cautionAll.add(x));m.extra.forEach(x=>extraAll.add(x));});n.innerHTML=`${avoidAll.size>0?'⚠ Will exclude: '+[...avoidAll].join(', ')+'. ':''}${cautionAll.size>0?'⚡ Will flag cautions on: '+[...cautionAll].join(', ')+'. ':''}${extraAll.size>0?'✚ Will add: '+[...extraAll].join(', ')+'.':''}`;}
 function getMedInteractions(){const avoidAll=new Set(),cautionMap={},extraAll=new Set(),notes=[];selectedMeds.forEach(k=>{const m=MEDS[k];m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>{if(!cautionMap[x])cautionMap[x]=[];cautionMap[x].push(m.label);});m.extra.forEach(x=>extraAll.add(x));notes.push({med:m.label,note:m.note});});return{avoid:avoidAll,caution:cautionMap,extra:[...extraAll],notes};}
@@ -61,7 +63,7 @@ function renderMedAlerts(mi){
 function getWeightDose(r){
   const wt=parseFloat(document.getElementById('prof-weight')?.value)||0;
   if(!wt)return null;
-  const wtKg=wt*0.4536;
+  const wtKg=wt*0.453592;
   // Weight-based supplements
   const wbDoses={'Creatine monohydrate':{perKg:0.07,unit:'g',min:3,max:5,note:'daily'},'Whey protein':{perKg:0.4,unit:'g',min:20,max:50,note:'per serving'},'Sodium bicarbonate (sports)':{perKg:0.25,unit:'g',min:15,max:25,note:'pre-exercise'}};
   const wb=wbDoses[r.n];
@@ -167,7 +169,7 @@ if(s.s>=4)return{risk:'Generally well tolerated. Minor GI discomfort possible at
 if(s.s===3)return{risk:'Moderate safety profile — side effects more likely at higher doses.',threshold:'Do not exceed recommended dose. Medical supervision advised for prolonged use.',long:'Consider periodic breaks. Long-term data may be limited.'};
 return{risk:'Limited safety data. Side effects possible even at standard doses.',threshold:'Do not exceed recommended dose. Consult a healthcare provider before use.',long:'Use the shortest effective duration. Medical supervision recommended.'};}
 const _nightSupps=new Set(['Magnesium','L-Theanine','Ashwagandha (KSM-66)','Glycine','Melatonin','Tart cherry (Montmorency)','Magnesium L-threonate','Magnolia bark (honokiol + magnolol)','Valerian root','Apigenin','Saffron (Crocus sativus)','Lemon balm (Melissa officinalis)','Passionflower (Passiflora incarnata)','California poppy (Eschscholzia californica)','Jujube (Ziziphus jujuba)','Chamomile extract (Matricaria chamomilla)','5-HTP','Tryptophan (L-tryptophan)','Lavender oil oral (Silexan)','Phosphatidylserine']);
-const _morningSupps=new Set(['Vitamin D3','Iron','Vitamin B12','Folate (5-MTHF)','Vitamin B6 (P5P)','SAMe','Rhodiola rosea','Tyrosine (L-tyrosine)','Acetyl-L-Carnitine (ALCAR)','Vitamin D3 liquid drops','Omega-3 (EPA/DHA)','CoQ10 (Ubiquinol)','Choline','Zinc','Iodine']);
+const _morningSupps=new Set(['Vitamin D3','Iron','Vitamin B12','Folate (5-MTHF)','Vitamin B6 (P5P)','S-Adenosylmethionine (SAMe)','Rhodiola rosea','Tyrosine (L-tyrosine)','Acetyl-L-Carnitine (ALCAR)','Vitamin D3 liquid drops','Omega-3 (EPA/DHA)','CoQ10 (Ubiquinol)','Choline','Zinc','Iodine']);
 function getTimingLabel(r){
   if(_nightSupps.has(r.n))return{time:'Night',icon:_svgIcons.night,cat:'night'};
   if(_morningSupps.has(r.n))return{time:'Morning',icon:_svgIcons.morning,cat:'morning'};
@@ -251,6 +253,11 @@ function updateBwRow(key,val){
     let color;
     if(bio.highOnly){
       color=num<=bio.optHigh?'var(--t1c)':num<=bio.high?'var(--t3c)':'var(--t4c)';
+    }else if(bio.higherBetter){
+      if(num<bio.low)color='var(--t4c)';
+      else if(num<bio.optLow)color='var(--t3c)';
+      else if(num<=bio.high)color='var(--t1c)';
+      else color='var(--t2c)';
     }else{
       if(num<bio.low)color='var(--t4c)';
       else if(num<bio.optLow)color='var(--t3c)';
@@ -277,6 +284,10 @@ function updateBwCount(){
     if(b.highOnly){
       if(v>b.high)critical++;
       else if(v>b.optHigh)elevated++;
+    }else if(b.higherBetter){
+      if(v<b.low)critical++;
+      else if(v<b.optLow)low++;
+      else if(v>b.high)elevated++;
     }else{
       if(v<b.low||v>b.high)critical++;
       else if(v<b.optLow)low++;
@@ -381,6 +392,11 @@ function analyzeBloodWork(){
       if(val<=bio.optHigh){status='optimal';statusLabel='Optimal';color='t1';}
       else if(val<=bio.high){status='high';statusLabel='Elevated';color='t3';}
       else{status='critical';statusLabel='High';color='t4';}
+    }else if(bio.higherBetter){
+      if(val<bio.low){status='critical';statusLabel='Low';color='t4';}
+      else if(val<bio.optLow){status='low';statusLabel='Below optimal';color='t3';}
+      else if(val<=bio.high){status='optimal';statusLabel='Optimal';color='t1';}
+      else{status='high';statusLabel='Very high';color='t2';}
     }else{
       if(val<bio.low){status='critical';statusLabel='Deficient';color='t4';}
       else if(val<bio.optLow){status='low';statusLabel='Below optimal';color='t3';}
@@ -445,7 +461,7 @@ function renderBwResults(results){
 }
 
 const LOAD_STEPS=[
-  {at:0,text:'Analyzing your profile…',sub:'Matching against 653 supplements'},
+  {at:0,text:'Analyzing your profile…',sub:'Matching against 733 supplements'},
   {at:20,text:'Checking medication interactions…',sub:'Cross-referencing drug-supplement data'},
   {at:45,text:'Evaluating clinical evidence…',sub:'Reviewing RCTs and meta-analyses'},
   {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
@@ -519,9 +535,9 @@ function _showRecs(){
   renderMedAlerts(mi);
 
   // Store recs globally for plan modal access
-  window._lastRecs=recs;
-  window._lastMi=mi;
-  window._lastBwResults=bwResults;
+  _lastRecs=recs;
+  _lastMi=mi;
+  _lastBwResults=bwResults;
 
   // Render selectable supplement cards
   renderSuppCards(recs,mi,bwResults);
@@ -536,6 +552,8 @@ function _showRecs(){
 
 /* ══ Selectable supplement cards ══ */
 let selectedSupps=new Set();
+// Module-level state shared between _showRecs, openPlanModal, sendPlanEmail etc.
+let _lastRecs=[],_lastMi={avoid:new Set(),caution:{},extra:[],notes:[]},_lastBwResults=[];
 
 function renderSuppCards(recs,mi,bwResults){
   const container=document.getElementById('supp-cards-container');
@@ -589,7 +607,7 @@ function renderSuppCards(recs,mi,bwResults){
     // Why recommended — always show
     const why=r.why||'';
 
-    return`<div class="supp-card${isSelected?' sc-selected':''}" data-supp="${r.n.replace(/"/g,'&quot;')}" onclick="toggleSuppCard(this)"><div class="supp-card-check"></div><div class="supp-card-top"><div class="supp-card-score" style="background:${scoreBg}">${sc}</div><div class="supp-card-name">${r.n}</div></div><div class="supp-card-tags">${tags}${bwBadge}</div>${desc?`<div class="supp-card-desc">${desc}</div>`:''}<div class="supp-card-why"><span class="supp-card-why-label">Why recommended</span>${why}</div></div>`;
+    return`<div class="supp-card${isSelected?' sc-selected':''}" data-supp="${escAttr(r.n)}" onclick="toggleSuppCard(this)"><div class="supp-card-check"></div><div class="supp-card-top"><div class="supp-card-score" style="background:${scoreBg}">${sc}</div><div class="supp-card-name">${escHtml(r.n)}</div></div><div class="supp-card-tags">${tags}${bwBadge}</div>${desc?`<div class="supp-card-desc">${escHtml(desc)}</div>`:''}<div class="supp-card-why"><span class="supp-card-why-label">Why recommended</span>${escHtml(why)}</div></div>`;
   }
 
   let html='';
@@ -648,7 +666,7 @@ function updateSelCount(){
 
 
 function openPlanModal(){
-  const recs=window._lastRecs||[];
+  const recs=_lastRecs;
   const selected=recs.filter(r=>selectedSupps.has(r.n));
   if(!selected.length){alert('Select at least one supplement to view your plan.');return;}
 
@@ -707,7 +725,7 @@ async function sendPlanEmail(){
   // Collect email via Formspree (fire & forget)
   const age=document.getElementById('asl').value;
   const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
-  const recs=window._lastRecs||[];
+  const recs=_lastRecs;
   const selRecs=recs.filter(r=>selectedSupps.has(r.n));
   const suppNames=selRecs.map(r=>r.n).join(', ');
   fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,profile:age+' '+sexLabel,supplements:suppNames,count:selRecs.length,source:'pdf-download',date:new Date().toISOString()})}).catch(()=>{});
@@ -727,7 +745,7 @@ function hl(t,q){if(!q)return t;const eq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')
 function onSearch(q){q=q.trim();const clr=document.getElementById('gs-clr'),res=document.getElementById('gs-res'),mui=document.getElementById('main-ui');clr.classList.toggle('vis',q.length>0);if(!q){res.classList.remove('vis');mui.style.display='';return;}const ql=q.toLowerCase();const hits=S.filter(s=>[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(ql)));mui.style.display='none';res.classList.add('vis');const safeQ=escHtml(q);document.getElementById('gs-meta').innerHTML=hits.length?`<b>${hits.length}</b> supplement${hits.length!==1?'s':''} found for "<b>${safeQ}</b>"`:`No results for "<b>${safeQ}</b>"`;document.getElementById('gs-cards').innerHTML=hits.length?'<div class="scards">'+hits.map(s=>renderCard(s,'')).join('')+'</div>':'<div style="text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px">Try a different name, ingredient, or health goal.</div>';}
 function clearSearch(){const i=document.getElementById('gs-inp');i.value='';onSearch('');}
 let acIdx=-1;
-function showAc(q){const ac=document.getElementById('gs-ac');if(!q||q.length<2){ac.classList.remove('vis');acIdx=-1;return;}const ql=q.toLowerCase();const hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}ac.innerHTML=hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${s.n.replace(/'/g,"\\'")}')"><span>${s.n}</span><span class="gs-ac-tag">${s.tag.split(' · ')[0]}</span></div>`).join('');ac.classList.add('vis');}
+function showAc(q){const ac=document.getElementById('gs-ac');if(!q||q.length<2){ac.classList.remove('vis');acIdx=-1;return;}const ql=q.toLowerCase();const hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}ac.innerHTML=hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${escAttr(s.n)}')"><span>${escHtml(s.n)}</span><span class="gs-ac-tag">${escHtml(s.tag.split(' · ')[0])}</span></div>`).join('');ac.classList.add('vis');}
 function pickAc(name){const inp=document.getElementById('gs-inp');inp.value=name;document.getElementById('gs-ac').classList.remove('vis');acIdx=-1;onSearch(name);}
 function hideAc(){setTimeout(()=>document.getElementById('gs-ac').classList.remove('vis'),150);}
 const _gsInp=document.getElementById('gs-inp');
@@ -753,12 +771,17 @@ const ART_CAT_GRAD={guide:'linear-gradient(180deg,#2563EB,#1D4ED8)',breakthrough
 const ART_CAT_CLR={guide:'#2563EB',breakthrough:'#16A34A',myth:'#EA580C',safety:'#DC2626',kids:'#0D9488'};
 const ART_CAT_LBL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety',kids:'Kids'};
 /* Reverse map: article ID → supplement names */
-const ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});
-function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${name.replace(/'/g,"\\'")}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${s.n}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${s.tag.split(' · ').slice(0,2).join(' · ')}</div></div></div>`;}
+let ARTICLE_SUPPS={};
+function _rebuildArticleSupps(){ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});}
+_rebuildArticleSupps();
+// Prune ARTICLE_MAP entries whose article divs do not exist in the DOM — prevents dead goArticle() clicks
+(function _pruneArticleMap(){if(typeof document==='undefined')return;const prune=()=>{const valid=new Set();document.querySelectorAll('[id^="article-"]').forEach(el=>{const id=parseInt(el.id.replace('article-',''));if(!isNaN(id))valid.add(id);});let pruned=0;Object.keys(ARTICLE_MAP).forEach(name=>{const before=ARTICLE_MAP[name].length;ARTICLE_MAP[name]=ARTICLE_MAP[name].filter(a=>valid.has(a.id));pruned+=(before-ARTICLE_MAP[name].length);if(!ARTICLE_MAP[name].length)delete ARTICLE_MAP[name];});if(pruned)_rebuildArticleSupps();if(typeof _allArtsCache!=='undefined')_allArtsCache=null;};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',prune);else prune();})();
+function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${escAttr(name)}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></div>`;}
 function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
 function articleKeyPointsHtml(body){const firstP=body.querySelector('p');if(!firstP)return'';const text=firstP.textContent.trim();const parts=text.replace(/([.!?])\s+([A-Z\u201c\u2018\u0022])/g,'$1\n$2').split('\n').map(s=>s.trim()).filter(s=>s.length>25);if(!parts.length)return'';const items=parts.slice(0,3).map((s,i)=>`<li class="art-kp-item"><span class="art-kp-num">${i+1}</span><span>${s}</span></li>`).join('');return`<div class="art-kp-card"><div class="art-kp-label">Key Points</div><ul class="art-kp-list">${items}</ul></div>`;}
 function articleSuppsTopHtml(id){const names=ARTICLE_SUPPS[id];if(!names||!names.length)return'';const icon=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m4-4h6l6 6v12a2 2 0 01-2 2H9a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>`;return`<div class="art-supps-top"><div class="art-supps-top-label">${icon}Supplement${names.length>1?'s':''} in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
-function _buildAllArts(){const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));return m;}
+let _allArtsCache=null;
+function _buildAllArts(){if(_allArtsCache)return _allArtsCache;const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));_allArtsCache=m;return m;}
 function getRelatedArticles(articleId,max){max=max||4;const allArts=_buildAllArts();const thisArt=allArts[articleId];const thisSupps=ARTICLE_SUPPS[articleId]||[];const scores={};thisSupps.forEach(name=>{(ARTICLE_MAP[name]||[]).forEach(a=>{if(a.id!==articleId)scores[a.id]=(scores[a.id]||0)+2;});});if(thisArt)Object.values(allArts).forEach(a=>{if(a.id!==articleId&&a.c===thisArt.c)scores[a.id]=(scores[a.id]||0)+1;});return Object.entries(scores).filter(([,s])=>s>0).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([id])=>allArts[parseInt(id)]).filter(Boolean);}
 function articleRelatedHtml(articleId){const arts=getRelatedArticles(articleId);if(!arts.length)return'';const svgDoc=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const svgMini=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const cards=arts.map(a=>`<div class="art-mini" onclick="goArticle(${a.id})" style="margin-bottom:6px"><div class="art-mini-side" style="background:${ART_CAT_GRAD[a.c]}">${svgMini}<div class="art-mini-side-div"></div><div class="art-mini-side-stat">${a.m}</div><div class="art-mini-side-label">min</div></div><div class="art-mini-body"><div class="art-mini-cat" style="color:${ART_CAT_CLR[a.c]||'#7B1FA2'}">${ART_CAT_LBL[a.c]||''}</div><div class="art-mini-title">${a.t}</div></div></div>`).join('');return`<div class="art-related-section"><div class="art-related-label">${svgDoc}Related Articles</div>${cards}</div>`;}
 function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
@@ -786,15 +809,21 @@ function processArticleSources(container){
 }
 let _artReturnScrollY=0,_currentArticleId=null,_artNavList=[];
 function _buildArtNavList(){const ids=[];for(let i=1;i<=200;i++){if(document.getElementById('article-'+i))ids.push(i);}return ids;}
-function goArticle(id){if(event)event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;}
-function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;}
+function goArticle(id){if(event)event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;_setArticleHash(id);}
+function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;try{if(location.hash&&/^#article-\d+$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
+function _setArticleHash(id){try{history.replaceState(null,'','#article-'+id);}catch(e){}}
+function _showShareToast(msg){const t=document.getElementById('art-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+msg;t.classList.add('show');clearTimeout(_showShareToast._t);_showShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
+function shareArticle(){const id=_currentArticleId;if(!id)return;const body=document.getElementById('art-modal-body');const titleEl=body?body.querySelector('h2'):null;const title=titleEl?titleEl.textContent.trim():'Supplement Score';const url=location.origin+location.pathname+'#article-'+id;const shareData={title:title,text:title+' — via Supplement Score',url:url};const btn=document.getElementById('art-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
+function _legacyCopy(txt){try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}catch(e){}}
+window.addEventListener('DOMContentLoaded',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);setTimeout(()=>{if(document.getElementById('article-'+id))goArticle(id);},120);}});
+window.addEventListener('hashchange',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);if(id!==_currentArticleId&&document.getElementById('article-'+id))goArticle(id);}else if(_currentArticleId&&!location.hash){closeArtModal();}});
 function _updateArtNav(){const idx=_artNavList.indexOf(_currentArticleId);const p=document.getElementById('art-prev-btn');const n=document.getElementById('art-next-btn');if(p)p.disabled=idx<=0;if(n)n.disabled=idx<0||idx>=_artNavList.length-1;}
 function artNavPrev(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>0)goArticle(_artNavList[idx-1]);}
 function artNavNext(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>=0&&idx<_artNavList.length-1)goArticle(_artNavList[idx+1]);}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('supp-modal').classList.contains('open')){closeSuppModal();return;}if(document.getElementById('art-modal').classList.contains('open')){closeArtModal();return;}}if(document.getElementById('art-modal').classList.contains('open')&&!e.target.matches('input,textarea,select')){if(e.key==='ArrowLeft'){e.preventDefault();artNavPrev();}else if(e.key==='ArrowRight'){e.preventDefault();artNavNext();}}});
 function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
 function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div style="margin-top:10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-tertiary);margin-bottom:6px">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>'<div class="art-mini" onclick="goArticle('+a.id+')" style="margin-bottom:4px"><div class="art-mini-side" style="background:'+ART_CAT_GRAD[a.c]+'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><div class="art-mini-side-div"></div><div class="art-mini-side-stat">'+a.m+'</div><div class="art-mini-side-label">min</div></div><div class="art-mini-body"><div class="art-mini-cat" style="color:'+(ART_CAT_CLR[a.c]||'#7B1FA2')+'">'+ART_CAT_LBL[a.c]+'</div><div class="art-mini-title">'+a.t+'</div><div class="art-mini-meta">'+a.m+' min read</div></div></div>').join('')+'</div>';}
-function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${i.med.split(' ')[0]}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;const _fi=getFoodInfo(s);const _ei=getExcessInfo(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${s.desc}</div><div class="sc-expand"><div class="sc-info-table"><div class="sc-info-row"><div class="sc-info-lbl">Dose</div><div class="sc-info-val">${s.dose}</div></div>${s.tips?`<div class="sc-info-row"><div class="sc-info-lbl">How to take</div><div class="sc-info-val">${s.tips}</div></div>`:''}<div class="sc-info-row sc-info-tinted"><div class="sc-info-lbl">Food</div><div class="sc-info-val"><span style="color:var(--t1c);font-weight:600;font-size:9px">PAIR:</span> ${_fi.pair}<br><span style="color:var(--t4c);font-weight:600;font-size:9px">AVOID:</span> ${_fi.avoid}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Cycling</div><div class="sc-info-val">${s.cycle||(function(s){var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase();if(t==='t4')return 'Do not take.';if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('omega')||n.includes('fish')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine')||n.includes('fibre')||n.includes('psyllium'))return 'Safe for continuous daily use. No cycling needed.';if(n.includes('melatonin'))return 'Use situationally (2-4 weeks). Not for nightly long-term use.';if(tag.includes('adaptogen')||n.includes('ginseng'))return 'Cycle 6-8 weeks on, 2-4 weeks off.';if(n.includes('john')||n.includes('kava')||n.includes('black cohosh'))return 'Short-term use (4-8 weeks). Consult provider before extending.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses.';if(s.s===3)return 'Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term data. Use shortest effective duration.';})(s)}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Onset</div><div class="sc-info-val"><span class="sc-info-badge">${OL_SHORT[so]||'Varies'}</span>${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</div></div></div><div class="sc-onset-info sc-excess-info" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="sc-onset-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t4c)" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>If You Exceed the Dose</span><div style="font-size:11px;line-height:1.5"><span style="color:var(--t4c);font-weight:600;font-size:10px">RISKS:</span> <span style="color:var(--color-text-secondary)">${_ei.risk}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t3c);font-weight:600;font-size:10px">UPPER LIMIT:</span> <span style="color:var(--color-text-secondary)">${_ei.threshold}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t2c);font-weight:600;font-size:10px">LONG-TERM:</span> <span style="color:var(--color-text-secondary)">${_ei.long}</span></div></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+i.med+':</b> '+m[1].note:'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${s.desc}</div>${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
+function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${escHtml(i.med.split(' ')[0])}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;const _fi=getFoodInfo(s);const _ei=getExcessInfo(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:14px;font-weight:600;color:var(--color-text-primary)">${escHtml(s.n)}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:9px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+escHtml(t.trim())+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:10px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:10px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${escHtml(s.desc)}</div><div class="sc-expand"><div class="sc-info-table"><div class="sc-info-row"><div class="sc-info-lbl">Dose</div><div class="sc-info-val">${escHtml(s.dose)}</div></div>${s.tips?`<div class="sc-info-row"><div class="sc-info-lbl">How to take</div><div class="sc-info-val">${escHtml(s.tips)}</div></div>`:''}<div class="sc-info-row sc-info-tinted"><div class="sc-info-lbl">Food</div><div class="sc-info-val"><span style="color:var(--t1c);font-weight:600;font-size:9px">PAIR:</span> ${escHtml(_fi.pair)}<br><span style="color:var(--t4c);font-weight:600;font-size:9px">AVOID:</span> ${escHtml(_fi.avoid)}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Cycling</div><div class="sc-info-val">${escHtml(cycleInfo(s))}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Onset</div><div class="sc-info-val"><span class="sc-info-badge">${OL_SHORT[so]||'Varies'}</span>${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</div></div></div><div class="sc-onset-info sc-excess-info" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="sc-onset-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t4c)" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>If You Exceed the Dose</span><div style="font-size:11px;line-height:1.5"><span style="color:var(--t4c);font-weight:600;font-size:10px">RISKS:</span> <span style="color:var(--color-text-secondary)">${escHtml(_ei.risk)}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t3c);font-weight:600;font-size:10px">UPPER LIMIT:</span> <span style="color:var(--color-text-secondary)">${escHtml(_ei.threshold)}</span></div><div style="font-size:11px;line-height:1.5"><span style="color:var(--t2c);font-weight:600;font-size:10px">LONG-TERM:</span> <span style="color:var(--color-text-secondary)">${escHtml(_ei.long)}</span></div></div>${hasInts?`<div class="sc-interact"><div class="sc-interact-title">Medication Interactions</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${ints.map(i=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);return m?'<b>'+escHtml(i.med)+':</b> '+escHtml(m[1].note):'';}).filter(Boolean).join('<br>')}</div></div>`:''}<div class="sc-desc">${escHtml(s.desc)}</div>${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
 function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';const initShow=5;
 if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>initShow&&!q;document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec"><div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'unproven')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
@@ -822,7 +851,7 @@ function _azPick(v){_ddLabel('az-filter',v==='all'?'All A\u2013Z':v.charAt(0)+' 
 function _catPick(v){_ddLabel('cat-filter',v);setCatFilter(v);}
 function sw(n){document.getElementById('p1').style.display=n===1?'block':'none';document.getElementById('p2').style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-selected',n===1);tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-selected',n===2);if(n===2)initAllTab();}
 let selectedConds=new Set();
-function renderCondChips(){const el=document.getElementById('cond-chips');el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${k}')">${c.label}</div>`).join('');}
+function renderCondChips(){const el=document.getElementById('cond-chips');el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${escAttr(k)}')">${escHtml(c.label)}</div>`).join('');}
 function toggleCond(k){selectedConds.has(k)?selectedConds.delete(k):selectedConds.add(k);renderCondChips();updatePfCounts();}
 function getCondSupps(){const s=new Set();selectedConds.forEach(k=>{const c=CONDITIONS[k];if(c)c.supps.forEach(n=>s.add(n));});return s;}
 
@@ -843,7 +872,7 @@ const GOALS={
   heart:{label:'Heart health',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']}
 };
 let selectedGoals=new Set();
-function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${k}')">${g.label}</div>`).join('');}
+function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${escAttr(k)}')">${escHtml(g.label)}</div>`).join('');}
 function toggleGoal(k){selectedGoals.has(k)?selectedGoals.delete(k):selectedGoals.add(k);renderGoalChips();updatePfCounts();}
 function getGoalSupps(){const s=new Set();selectedGoals.forEach(k=>{const g=GOALS[k];if(g)g.supps.forEach(n=>s.add(n));});return s;}
 
@@ -891,7 +920,7 @@ function generatePDF(){
   const ALT=[245,240,234];const TBRD=[232,224,216];const GRY=[153,153,153];
   let pageNum=1;
   // Data
-  const recs=window._lastRecs||[];
+  const recs=_lastRecs;
   const selRecs=recs.filter(r=>selectedSupps.has(r.n));
   const age=document.getElementById('asl').value;
   const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
@@ -1258,16 +1287,23 @@ function loadProfile(){
     if(p.heightIn){const el=document.getElementById('prof-height-in');if(el)el.value=p.heightIn;}
     if(p.weight){const el=document.getElementById('prof-weight');if(el)el.value=p.weight;}
     if(p.bloodWork&&typeof p.bloodWork==='object'){
-      bloodWork=p.bloodWork;
-      for(const[key,val]of Object.entries(bloodWork)){
-        const input=document.getElementById('bw-'+key);
-        if(input){input.value=val;updateBwRow(key,val+'');}
+      bloodWork={};
+      for(const[key,val]of Object.entries(p.bloodWork)){
+        // Only restore numeric values for known biomarkers; discard anything unexpected
+        if(BIOMARKERS[key]){
+          const num=parseFloat(val);
+          if(!isNaN(num)){
+            bloodWork[key]=num;
+            const input=document.getElementById('bw-'+key);
+            if(input){input.value=num;updateBwRow(key,String(num));}
+          }
+        }
       }
     }
     calcBMI();
     updatePfCounts();
     return true;
-  }catch(e){return false;}
+  }catch(e){console.warn('loadProfile: failed to restore saved profile',e);return false;}
 }
 function clearProfile(){
   localStorage.removeItem('ss-profile');
@@ -1329,7 +1365,7 @@ function sendEmailReport(){
   summary+='Profile: '+age+' year old '+sexLabel+'\n';
   if(selectedMeds.size)summary+='Medications: '+[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', ')+'\n';
   if(selectedConds.size)summary+='Conditions: '+[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', ')+'\n';
-  const recs=window._lastRecs||[];
+  const recs=_lastRecs;
   const selRecs=recs.filter(r=>selectedSupps.has(r.n));
   summary+='\n--- Essential ---\n';
   selRecs.filter(r=>r.p==='essential').forEach(r=>{summary+=r.n+' — '+r.dose.split(';')[0]+'\n';});
