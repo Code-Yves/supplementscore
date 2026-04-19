@@ -1085,3 +1085,410 @@ button:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
 /* Accessibility — skip-to-content link (visually hidden until focused) */
 .skip-link{position:absolute;left:0;top:-40px;background:#7B1FA2;color:#fff;padding:8px 16px;z-index:10000;text-decoration:none;border-radius:0 0 6px 0;font-weight:600}
 .skip-link:focus{top:0;outline:2px solid #fff;outline-offset:-4px}
+
+/* ============================================================
+   DARK MODE — Warm Stone Palette
+   Activated by [data-theme="dark"] on <html>. Tokens cascade
+   so most components pick it up automatically; specific
+   overrides handle elements that hardcode colors or logos.
+   ============================================================ */
+[data-theme="dark"]{
+  --color-background-primary: #292524;   /* card surface (stone-800) */
+  --color-background-secondary: #1c1917; /* page background (stone-900) */
+  --color-text-primary: #fafaf9;
+  --color-text-secondary: #d6d3d1;
+  --color-text-tertiary: #a8a29e;
+  --color-border-primary: #a8a29e;
+  --color-border-secondary: #44403c;
+  --color-border-tertiary: #3a3633;
+
+  /* Tier tokens: lift hue, soften background to translucent, brighten text */
+  --t1c:#2DD4BF; --t1bg:rgba(45,212,191,.12);  --t1tx:#5EEAD4;
+  --t2c:#60A5FA; --t2bg:rgba(96,165,250,.12);  --t2tx:#93C5FD;
+  --t3c:#FBBF24; --t3bg:rgba(251,191,36,.12);  --t3tx:#FDE68A;
+  --t4c:#F87171; --t4bg:rgba(248,113,113,.12); --t4tx:#FCA5A5;
+  --slp:#A78BFA;  --slpbg:rgba(167,139,250,.12); --slptx:#C4B5FD;
+}
+
+/* Smooth color transitions on theme swap */
+[data-theme] body,
+[data-theme] .ev-card,
+[data-theme] .sc,[data-theme] .sr-card,
+[data-theme] .article-card,
+[data-theme] .site-nav,
+[data-theme] .sticky-bar,
+[data-theme] .gs-inp,
+[data-theme] .gs-ac{
+  transition:background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+
+/* Logos were inverted to render dark-on-light; in dark mode they already read as light */
+[data-theme="dark"] .logo-icon,
+[data-theme="dark"] .src-il,
+[data-theme="dark"] .abt-src-logo{filter:none;opacity:.6}
+[data-theme="dark"] .logo-icon:hover{opacity:.9}
+
+/* Brand purple accents — lighten text uses for AA contrast on dark surfaces */
+[data-theme="dark"] .ev-number,
+[data-theme="dark"] .page-logo-label,
+[data-theme="dark"] .site-nav-logo,
+[data-theme="dark"] .site-nav-tab.active,
+[data-theme="dark"] .articles-dd-item.active,
+[data-theme="dark"] .articles-dd-icon.all,
+[data-theme="dark"] .articles-dd-item.active .articles-dd-item-count,
+[data-theme="dark"] .article-card[data-category="kids"] .article-cat,
+[data-theme="dark"] .pop-head-lbl,
+[data-theme="dark"] .pop-head-t b,
+[data-theme="dark"] .plan-add-row{color:#C084FC}
+[data-theme="dark"] .site-nav-tab.active{border-bottom-color:#C084FC}
+
+/* Shadows — deepen so elevation still reads on dark surfaces */
+[data-theme="dark"] .sc:hover,
+[data-theme="dark"] .sr-card:hover,
+[data-theme="dark"] .article-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.45)}
+[data-theme="dark"] .sticky-bar{box-shadow:0 1px 4px rgba(0,0,0,.35)}
+[data-theme="dark"] .articles-dd-menu{box-shadow:0 10px 30px rgba(0,0,0,.55),0 4px 10px rgba(0,0,0,.35)}
+[data-theme="dark"] .articles-dd-btn:hover,
+[data-theme="dark"] .articles-dd.open .articles-dd-btn,
+[data-theme="dark"] .articles-search-input:focus{
+  border-color:#C084FC;
+  box-shadow:0 0 0 3px rgba(192,132,252,.18);
+}
+[data-theme="dark"] .articles-dd.open .articles-dd-btn{box-shadow:0 0 0 3px rgba(192,132,252,.18)}
+[data-theme="dark"] .cdd-open .cdd-btn{box-shadow:0 0 0 1px rgba(192,132,252,.25)}
+
+/* Dashed-line info rows were drawn in stone-300; lift to stone-700 so they read */
+[data-theme="dark"] .sc-info-table,
+[data-theme="dark"] .sc-info-row{border-color:#44403c}
+
+/* Input autofill override (Chrome yellow) */
+[data-theme="dark"] input:-webkit-autofill{
+  -webkit-text-fill-color:var(--color-text-primary);
+  -webkit-box-shadow:0 0 0 30px var(--color-background-primary) inset;
+}
+
+/* Subtle tinted-info blocks (.sc-food-info / .sc-excess-info) — rebalance borders for dark */
+[data-theme="dark"] .sc-food-info{border-color:rgba(45,212,191,.25)}
+[data-theme="dark"] .sc-excess-info{border-color:rgba(248,113,113,.25)}
+
+/* Beta bar + beta badge — keep brand purple but deepen for dark */
+[data-theme="dark"] .beta-bar,
+[data-theme="dark"] .beta-badge,
+[data-theme="dark"] .ea-badge,
+[data-theme="dark"] .articles-dd-count,
+[data-theme="dark"] .med-chip.on{background:#7B1FA2;color:#fff}
+
+/* ── Theme toggle button (sits in .site-nav-inner, top-right) ── */
+.theme-toggle{
+  width:30px;height:30px;
+  border-radius:50%;
+  border:0.5px solid var(--color-border-tertiary);
+  background:var(--color-background-primary);
+  color:var(--color-text-secondary);
+  cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:0;flex-shrink:0;margin-left:8px;
+  transition:color .15s, border-color .15s, background .25s, transform .15s;
+}
+.theme-toggle:hover{color:var(--color-text-primary);border-color:var(--color-border-secondary);transform:scale(1.05)}
+.theme-toggle:focus-visible{outline:2px solid #7B1FA2;outline-offset:2px}
+.theme-toggle svg{width:15px;height:15px;display:block}
+[data-theme="dark"] .theme-toggle:focus-visible{outline-color:#C084FC}
+/* Show sun in dark, moon in light */
+.theme-toggle .icon-sun{display:none}
+.theme-toggle .icon-moon{display:block}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+/* ============================================================
+   DARK MODE — About page overrides
+   The About page has inline <style> blocks with hardcoded
+   light-mode colors (#fff, #e5e7eb, #374151, etc). These
+   rules have higher specificity than the inline single-class
+   selectors, so they win in dark mode only.
+   ============================================================ */
+
+/* Hero banner — swap purple-on-white radial for purple-on-stone */
+[data-theme="dark"] .abt-m1-hero{
+  background:radial-gradient(ellipse at top left, rgba(192,132,252,.12) 0%, var(--color-background-primary) 60%), var(--color-background-primary);
+  border-color:var(--color-border-secondary);
+}
+[data-theme="dark"] .abt-m1-kicker{color:#C084FC}
+[data-theme="dark"] .abt-m1-hero .lede{color:var(--color-text-secondary)}
+[data-theme="dark"] .abt-m1-stats{border-top-color:var(--color-border-secondary)}
+[data-theme="dark"] .abt-m1-stat .lbl{color:var(--color-text-tertiary)}
+
+/* Gradient text — keep the gradient; it renders well on dark */
+
+/* How-it-works steps */
+[data-theme="dark"] .abt-m1-step{
+  background:var(--color-background-secondary);
+  border-color:var(--color-border-secondary);
+}
+[data-theme="dark"] .abt-m1-step .sn{color:#C084FC}
+[data-theme="dark"] .abt-m1-step .sd{color:var(--color-text-secondary)}
+[data-theme="dark"] .abt-m1-step .sstatus.done{
+  background:rgba(45,212,191,.15);
+  color:#5EEAD4;
+}
+[data-theme="dark"] .abt-m1-step .sstatus.plan{
+  background:rgba(251,191,36,.15);
+  color:#FDE68A;
+}
+
+/* Section sub-headings */
+[data-theme="dark"] .abt-m1-sec .abt-m1-sub{color:var(--color-text-tertiary)}
+
+/* Roadmap */
+[data-theme="dark"] .abt-m1-road::before{
+  background:linear-gradient(90deg,#2DD4BF 0%,#2DD4BF 25%,#60A5FA 25%,#60A5FA 50%,#C084FC 50%,#C084FC 75%,var(--color-border-secondary) 75%,var(--color-border-secondary) 100%);
+}
+[data-theme="dark"] .abt-m1-road-card{
+  background:var(--color-background-primary);
+  border-color:var(--color-border-secondary);
+}
+[data-theme="dark"] .abt-m1-road-card .sn{background:var(--color-background-primary)}
+[data-theme="dark"] .abt-m1-road-card.s1 .sn{border-color:#2DD4BF;color:#2DD4BF}
+[data-theme="dark"] .abt-m1-road-card.s2 .sn{border-color:#60A5FA;color:#60A5FA}
+[data-theme="dark"] .abt-m1-road-card.s3 .sn{border-color:#C084FC;color:#C084FC}
+[data-theme="dark"] .abt-m1-road-card.s4 .sn{
+  border-color:var(--color-text-tertiary);
+  color:var(--color-text-tertiary);
+  background:var(--color-background-secondary);
+}
+[data-theme="dark"] .abt-m1-road-card.s1 .sbadge{background:rgba(45,212,191,.15);color:#5EEAD4}
+[data-theme="dark"] .abt-m1-road-card.s1 .sbadge::before{background:#2DD4BF}
+[data-theme="dark"] .abt-m1-road-card.s2 .sbadge{background:rgba(96,165,250,.15);color:#93C5FD}
+[data-theme="dark"] .abt-m1-road-card.s2 .sbadge::before{background:#60A5FA}
+[data-theme="dark"] .abt-m1-road-card.s3 .sbadge{background:rgba(192,132,252,.15);color:#DDBBFF}
+[data-theme="dark"] .abt-m1-road-card.s3 .sbadge::before{background:#C084FC}
+[data-theme="dark"] .abt-m1-road-card.s4 .sbadge{background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+[data-theme="dark"] .abt-m1-road-card.s4 .sbadge::before{background:var(--color-text-tertiary)}
+[data-theme="dark"] .abt-m1-road-card .srd{color:var(--color-text-secondary)}
+
+/* Source section */
+[data-theme="dark"] .abt-m1-src-head .sub{color:var(--color-text-tertiary)}
+[data-theme="dark"] .abt-m1-src-chip{
+  background:var(--color-background-primary);
+  border-color:var(--color-border-secondary);
+  color:var(--color-text-secondary);
+}
+[data-theme="dark"] .abt-m1-src-chip b{color:var(--color-text-primary)}
+[data-theme="dark"] .abt-m1-src-chip.c4::before{background:#C084FC}
+[data-theme="dark"] .abt-m1-src-chip.c5::before{background:#60A5FA}
+
+[data-theme="dark"] .abt-m1-sec .src-cat-h-title{color:var(--color-text-primary)}
+[data-theme="dark"] .abt-m1-sec .src-cat-h-count{color:var(--color-text-tertiary)}
+[data-theme="dark"] .abt-m1-sec .src-cat-h-line{background:var(--color-border-secondary)}
+[data-theme="dark"] .abt-m1-sec .src-cat-grid .src-item{color:var(--color-text-secondary)}
+[data-theme="dark"] .abt-m1-sec .src-cat-grid .src-il{filter:none;opacity:.6}
+[data-theme="dark"] .abt-m1-sec .src-cat-grid .src-item:hover .src-il{opacity:.9}
+[data-theme="dark"] .abt-m1-sec .src-cat-grid .src-in{color:var(--color-text-primary)}
+[data-theme="dark"] .abt-m1-sec .src-cat-grid .src-is{color:var(--color-text-tertiary)}
+
+/* Disclaimer / warning banner */
+[data-theme="dark"] .abt-m1-disc{
+  background:linear-gradient(135deg,rgba(251,191,36,.08) 0%,rgba(248,113,113,.08) 100%);
+  border-color:rgba(248,113,113,.3);
+}
+[data-theme="dark"] .abt-m1-disc::before{
+  background:linear-gradient(180deg,#FBBF24,#F87171);
+}
+[data-theme="dark"] .abt-m1-disc-head{border-bottom-color:rgba(248,113,113,.25)}
+[data-theme="dark"] .abt-m1-disc-icon{
+  background:#F87171;
+  box-shadow:0 2px 8px rgba(248,113,113,.25);
+}
+[data-theme="dark"] .abt-m1-disc-kicker{color:#FCA5A5}
+[data-theme="dark"] .abt-m1-disc h3{color:var(--color-text-primary)}
+[data-theme="dark"] .abt-m1-disc-item{color:var(--color-text-secondary)}
+[data-theme="dark"] .abt-m1-disc-item::before{background:#F87171}
+[data-theme="dark"] .abt-m1-disc-item b{color:var(--color-text-primary)}
+[data-theme="dark"] .abt-m1-disc-item.full{
+  background:rgba(248,113,113,.08);
+  border-left-color:#F87171;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   HEADER · CONCEPT 1 — Unified peer-chip filter + docked title card
+   All .sfbtn and .cdd-btn in .sfbar render identically: same shape,
+   same border, same typography. Active state uses a neutral solid
+   ink chip (no tier-specific gradients) so Tier has no elevated
+   visibility over Category / A–Z / For. The context title card
+   (.pop-head) gets a tier-aware left accent bar and docks into the
+   scards below for one continuous surface.
+═════════════════════════════════════════════════════════════════ */
+
+/* — Peer chip row — */
+.sfbar{gap:8px;padding:10px 0;align-items:center}
+.sfbar .sfbtn,
+.sfbar .cdd-btn{
+  padding:7px 13px;
+  border-radius:10px;
+  border:1px solid var(--color-border-secondary);
+  background:var(--color-background-primary);
+  color:var(--color-text-secondary);
+  font-size:12.5px;
+  font-weight:500;
+  font-family:inherit;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  box-shadow:none;
+  transition:border-color .15s, color .15s, background .15s;
+}
+.sfbar .sfbtn:hover:not([class*="on-"]),
+.sfbar .cdd-btn:hover:not(.on){
+  border-color:var(--color-border-primary);
+  color:var(--color-text-primary);
+  background:var(--color-background-primary);
+}
+/* All active / selected chips look identical — solid ink, white text. No tier-specific colors. */
+.sfbar .sfbtn[class*="on-"],
+.sfbar .cdd-btn.on{
+  background:var(--color-text-primary);
+  color:var(--color-background-primary);
+  border-color:transparent;
+  box-shadow:none;
+  filter:none;
+}
+.sfbar .sfbtn[class*="on-"]:hover,
+.sfbar .cdd-btn.on:hover{
+  background:var(--color-text-primary);
+  filter:brightness(1.08);
+}
+/* Dropdown-open ring — neutral, matches active chip */
+.sfbar .cdd-open .cdd-btn{
+  border-color:var(--color-text-primary);
+  box-shadow:0 0 0 1px rgba(12,10,9,.08);
+}
+.sfbar .cdd-open .cdd-btn.on{
+  box-shadow:0 0 0 2px rgba(12,10,9,.18);
+}
+.sfbar .sfbtn:focus-visible,
+.sfbar .cdd-btn:focus-visible{
+  outline:2px solid var(--color-text-primary);
+  outline-offset:2px;
+}
+
+/* — Context title card — tier-aware, docks into cards below — */
+.pop-head{
+  --pop-accent:#7B1FA2;
+  --pop-accent-bg:var(--brand-soft, #EEEDFE);
+  --pop-accent-ink:#26215C;
+  display:flex;
+  gap:16px;
+  align-items:stretch;
+  background:var(--color-background-primary);
+  border:1px solid var(--color-border-tertiary);
+  border-radius:12px 12px 0 0;
+  padding:18px 20px 18px 24px;
+  margin:0 0 0;
+  position:relative;
+  overflow:hidden;
+}
+.pop-head::before{
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:4px;
+  background:var(--pop-accent);
+}
+.pop-head-ic{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--pop-accent-bg);
+  color:var(--pop-accent-ink);
+  box-shadow:none;
+  align-self:flex-start;
+  margin-top:2px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.pop-head-mid{flex:1;min-width:0;align-self:center}
+.pop-head-lbl{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--pop-accent-ink);
+  margin-bottom:5px;
+  opacity:.9;
+}
+.pop-head-lbl::before{
+  content:'';
+  width:6px;height:6px;border-radius:50%;
+  background:var(--pop-accent);
+  flex-shrink:0;
+}
+.pop-head-t{
+  font-size:18px;font-weight:700;
+  color:var(--color-text-primary);
+  margin-bottom:4px;
+  line-height:1.25;
+  letter-spacing:-.01em;
+}
+.pop-head-t b{color:var(--pop-accent-ink);font-weight:700}
+.pop-head-m{
+  font-size:12.5px;
+  color:var(--color-text-secondary);
+  line-height:1.55;
+  max-width:680px;
+}
+
+/* Tier-specific accent — applied via class on .pop-head */
+.pop-head.head-t1{--pop-accent:var(--t1c);--pop-accent-bg:var(--t1bg);--pop-accent-ink:var(--t1tx)}
+.pop-head.head-t2{--pop-accent:var(--t2c);--pop-accent-bg:var(--t2bg);--pop-accent-ink:var(--t2tx)}
+.pop-head.head-t3{--pop-accent:var(--t3c);--pop-accent-bg:var(--t3bg);--pop-accent-ink:var(--t3tx)}
+.pop-head.head-t4{--pop-accent:var(--t4c);--pop-accent-bg:var(--t4bg);--pop-accent-ink:var(--t4tx)}
+
+/* Dock the pop-head to the cards below: pop-head has rounded top only,
+   cards form a shared container with rounded bottom. */
+.pop-head + .scards{
+  border:1px solid var(--color-border-tertiary);
+  border-top:0;
+  border-radius:0 0 12px 12px;
+  overflow:hidden;
+  background:var(--color-background-primary);
+  padding:10px;
+  margin-top:0;
+}
+/* When docked, tighten card spacing and make each feel part of the group */
+.pop-head + .scards .sc,
+.pop-head + .scards .sr-card{
+  margin-bottom:8px;
+  box-shadow:none;
+}
+.pop-head + .scards .sc:last-child,
+.pop-head + .scards .sr-card:last-child{margin-bottom:0}
+
+/* When no title card (e.g. search results), scards stays standalone */
+.tier-sec > .scards:first-child{
+  border:0;background:transparent;padding:0;border-radius:0;
+}
+
+@media(max-width:600px){
+  .pop-head{padding:16px 16px 16px 22px;gap:12px}
+  .pop-head-ic{width:38px;height:38px;border-radius:9px}
+  .pop-head-t{font-size:15.5px}
+  .pop-head-m{font-size:12px}
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .sfbar .sfbtn,
+[data-theme="dark"] .sfbar .cdd-btn{
+  background:var(--color-background-primary);
+  border-color:var(--color-border-secondary);
+}
+[data-theme="dark"] .sfbar .sfbtn[class*="on-"],
+[data-theme="dark"] .sfbar .cdd-btn.on{
+  background:var(--color-text-primary);
+  color:var(--color-background-primary);
+}
+[data-theme="dark"] .pop-head{
+  background:var(--color-background-primary);
+  border-color:var(--color-border-tertiary);
+}
+[data-theme="dark"] .pop-head + .scards{
+  background:var(--color-background-primary);
+  border-color:var(--color-border-tertiary);
+}
