@@ -1,0 +1,164 @@
+/* =============================================================
+ * SupplementScore.org — global.css
+ * Tailwind + design tokens for the 2026 redesign.
+ * Pair with the tailwind.config.js block at the bottom of this file.
+ * ============================================================= */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens ---------- */
+:root {
+  /* Core palette */
+  --color-space:       #001E3C;
+  --color-space-deep:  #000F22;
+  --color-space-mid:   #012449;
+  --color-cyan:        #00D4FF;
+  --color-cyan-glow:   #33E0FF;
+  --color-emerald:     #10B981;
+  --color-amber:       #F59E0B;
+
+  /* Type scale tokens */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans:  "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Elevation */
+  --shadow-cyan-glow:   0 0 0 1px rgba(0,212,255,0.35), 0 0 24px rgba(0,212,255,0.25), 0 0 60px rgba(0,212,255,0.15);
+  --shadow-cyan-strong: 0 0 0 1px rgba(0,212,255,0.6),  0 0 32px rgba(0,212,255,0.45), 0 0 90px rgba(0,212,255,0.25);
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html, body {
+    background: var(--color-space-deep);
+    color: #E6F0FA;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection { background: rgba(0,212,255,0.3); color: white; }
+}
+
+/* ---------- Reusable component classes ---------- */
+@layer components {
+  /* Headline serif helper */
+  .font-serif { font-family: var(--font-serif); }
+
+  /* Neural network gradient backdrop */
+  .bg-neural {
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(0,212,255,0.18), transparent 60%),
+      radial-gradient(900px 500px at 90% 10%, rgba(16,185,129,0.10), transparent 60%),
+      radial-gradient(800px 600px at 10% 30%, rgba(0,212,255,0.08), transparent 60%),
+      linear-gradient(180deg, #001127 0%, #001E3C 40%, #000B1B 100%);
+  }
+
+  /* Glassmorphism cards (Personalization Engine, magazine cards) */
+  .glass {
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+  .glass-strong {
+    background: linear-gradient(135deg, rgba(0,212,255,0.10), rgba(255,255,255,0.02));
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid rgba(0,212,255,0.25);
+  }
+
+  /* Subtle grid lines used over hero/featured sections */
+  .grid-lines {
+    background-image:
+      linear-gradient(rgba(0,212,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Hero search animated glow border */
+  .search-glow { animation: pulseGlow 3.6s ease-in-out infinite; }
+
+  /* Trending pills shimmer-on-hover */
+  .pill-shimmer { position: relative; overflow: hidden; }
+  .pill-shimmer::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(110deg,
+      transparent 30%,
+      rgba(0,212,255,0.35) 50%,
+      transparent 70%);
+    background-size: 200% 100%;
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  .pill-shimmer:hover::before {
+    animation: shimmer 1.2s ease forwards;
+    transform: none;
+  }
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: var(--shadow-cyan-glow); }
+  50%      { box-shadow: var(--shadow-cyan-strong); }
+}
+@keyframes shimmer {
+  0%   { background-position: -150% 0; }
+  100% { background-position:  250% 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ---------- Custom scrollbar ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-space-deep); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #04305E, #001E3C);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-cyan); }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================
+ * tailwind.config.js — paste into your project root.
+ *
+ * /** @type {import('tailwindcss').Config} *\/
+ * module.exports = {
+ *   content: ["./src/**\/*.{ts,tsx,jsx,js,html}"],
+ *   theme: {
+ *     extend: {
+ *       colors: {
+ *         space:   { DEFAULT: "#001E3C", deep: "#000F22", mid: "#012449", soft: "#04305E" },
+ *         cyan:    { DEFAULT: "#00D4FF", electric: "#00D4FF", glow: "#33E0FF" },
+ *         emerald: { DEFAULT: "#10B981", safety: "#10B981" },
+ *         amber:   { DEFAULT: "#F59E0B", warning: "#F59E0B" },
+ *       },
+ *       fontFamily: {
+ *         serif: ['"Playfair Display"', "Georgia", "serif"],
+ *         sans:  ["Inter", "system-ui", "sans-serif"],
+ *       },
+ *       boxShadow: {
+ *         "cyan-glow":   "0 0 0 1px rgba(0,212,255,0.35), 0 0 24px rgba(0,212,255,0.25), 0 0 60px rgba(0,212,255,0.15)",
+ *         "cyan-strong": "0 0 0 1px rgba(0,212,255,0.6),  0 0 32px rgba(0,212,255,0.45), 0 0 90px rgba(0,212,255,0.25)",
+ *         glass:         "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)",
+ *       },
+ *     },
+ *   },
+ *   plugins: [],
+ * };
+ *
+ * Required NPM packages:
+ *   npm i react framer-motion lucide-react
+ *   npm i -D tailwindcss postcss autoprefixer @types/react
+ * ============================================================= */

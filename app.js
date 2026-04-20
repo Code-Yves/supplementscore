@@ -1,5 +1,12 @@
 let profileUnlocked=false;
 let selectedMeds=new Set();
+// Safe localStorage wrappers — Safari ITP, private browsing, and quota-exceeded all throw.
+// Wrap reads + writes so a thrown exception never breaks the app flow.
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
+function lsRemove(k){try{localStorage.removeItem(k);}catch(e){}}
+// Guard: if data.js failed to load, fail gracefully instead of white-screening.
+if(typeof S==='undefined'){console.error('[SupplementScore] data.js failed to load');window.S=[];}
 // O(1) supplement lookup — avoids repeated S.find() O(n) scans in hot paths
 const _suppByName=new Map(S.map(s=>[s.n,s]));
 // Escape a value for safe use inside an HTML attribute (single or double quoted)
@@ -14,15 +21,19 @@ function rHtml(e,s,r,o,c,d){return`<div class="rt-section">${e!=null?`<div class
 function toggleSrcSidebar(){const d=document.getElementById('src-detail2'),open=d.classList.toggle('open');document.getElementById('chv2').classList.toggle('open',open);document.getElementById('sml2').textContent=open?'Hide sources':'More info on sources';}
 function toggleMeth(){const d=document.getElementById('meth-body'),open=d.classList.toggle('open');document.getElementById('meth-chv').classList.toggle('open',open);}
 function decodeContact(e){e.preventDefault();const p=['yvese','ggleston','@','gm','ail','.com'];window.location.href='mai'+'lto:'+p.join('');}
-function submitContrib(){const email=document.getElementById('contrib-email').value.trim();if(!email||!email.includes('@')){document.getElementById('contrib-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.abt-cta-email button');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'contributor',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.querySelector('.abt-cta-email').style.display='none';document.getElementById('contrib-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(()=>{btn.textContent='Try again';btn.disabled=false;});}
-function submitEarlyAccess(){const email=document.getElementById('ea-email').value.trim();if(!email||!email.includes('@')){document.getElementById('ea-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.ea-btn');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'early-access',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.getElementById('ea-form').style.display='none';document.getElementById('ea-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(()=>{btn.textContent='Try again';btn.disabled=false;});}
+// Minimal email format validator — accepts nearly anything with a local@domain.tld shape.
+function isValidEmail(s){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);}
+function submitContrib(){const email=document.getElementById('contrib-email').value.trim();if(!isValidEmail(email)){document.getElementById('contrib-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.abt-cta-email button');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'contributor',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.querySelector('.abt-cta-email').style.display='none';document.getElementById('contrib-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(err=>{console.warn('[SupplementScore] contrib submission failed',err);btn.textContent='Try again';btn.disabled=false;});}
+function submitEarlyAccess(){const email=document.getElementById('ea-email').value.trim();if(!isValidEmail(email)){document.getElementById('ea-email').style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.ea-btn');btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'early-access',date:new Date().toISOString()})}).then(r=>{if(r.ok){document.getElementById('ea-form').style.display='none';document.getElementById('ea-success').style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(err=>{console.warn('[SupplementScore] early-access submission failed',err);btn.textContent='Try again';btn.disabled=false;});}
 function ageGroup(a){if(a<26)return'Young adult (18–25)';if(a<31)return'Young adult (26–30)';if(a<46)return'Adult (31–45)';if(a<61)return'Middle-aged adult (46–60)';if(a<76)return'Senior adult (61–75)';return'Older adult (76+)';}
 function updAge(v){document.getElementById('age-grp').textContent=ageGroup(parseInt(v));}
 function stepAge(d){const el=document.getElementById('asl');let v=parseInt(el.value||35)+d;v=Math.max(18,Math.min(90,v));el.value=v;updAge(v);}
 function clampAge(el){let v=parseInt(el.value);if(isNaN(v))v=35;v=Math.max(18,Math.min(90,v));el.value=v;updAge(v);}
 const _ageInput=document.getElementById('asl');
-_ageInput.addEventListener('input',function(){updAge(this.value);});
-updAge(_ageInput.value);
+if(_ageInput){
+  _ageInput.addEventListener('input',function(){updAge(this.value);});
+  updAge(_ageInput.value);
+}
 let sex=null;
 function pickSex(s){sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');bm.className='pf-sex-opt sx-btn'+(s==='m'?' on-m':'');bf.className='pf-sex-opt sx-btn'+(s==='f'?' on-f':'');bp.className='pf-sex-opt sx-btn'+(s==='fp'?' on-fp':'');document.getElementById('serr').style.display='none';}
 function editP(){
@@ -691,22 +702,32 @@ const LOAD_STEPS=[
   {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
   {at:90,text:'Finalising recommendations…',sub:'Almost ready'}
 ];
+let _genRecsRaf=null;
 function genRecs(){
   if(!sex){document.getElementById('serr').style.display='block';return;}
   // Show loading
-  const btn=document.querySelector('.go-btn');btn.disabled=true;
-  document.getElementById('v-input').style.display='none';
-  const lo=document.getElementById('v-loading');lo.classList.add('vis');
+  const btn=document.querySelector('.go-btn');if(btn)btn.disabled=true;
+  const vin=document.getElementById('v-input');if(vin)vin.style.display='none';
+  const lo=document.getElementById('v-loading');if(lo)lo.classList.add('vis');
   const bar=document.getElementById('load-bar');
   const lt=document.getElementById('load-text'),ls=document.getElementById('load-sub');
-  bar.style.width='0%';
-  let elapsed=0;const total=5000;const interval=50;
-  const tick=setInterval(()=>{
-    elapsed+=interval;const pct=Math.min((elapsed/total)*100,100);
+  if(bar)bar.style.width='0%';
+  const total=5000;
+  const start=performance.now();
+  // Cancel any in-flight loader before starting a new one
+  if(_genRecsRaf){cancelAnimationFrame(_genRecsRaf);_genRecsRaf=null;}
+  function step(now){
+    // Bail if the loader UI was torn down (modal closed / view swapped)
+    if(!bar||!lo||!lo.classList.contains('vis')){_genRecsRaf=null;return;}
+    const elapsed=now-start;
+    const pct=Math.min((elapsed/total)*100,100);
     bar.style.width=pct+'%';
-    for(let i=LOAD_STEPS.length-1;i>=0;i--){if(pct>=LOAD_STEPS[i].at){lt.textContent=LOAD_STEPS[i].text;ls.textContent=LOAD_STEPS[i].sub;break;}}
-    if(elapsed>=total){clearInterval(tick);lo.classList.remove('vis');btn.disabled=false;_showRecs();}
-  },interval);}
+    for(let i=LOAD_STEPS.length-1;i>=0;i--){if(pct>=LOAD_STEPS[i].at){if(lt)lt.textContent=LOAD_STEPS[i].text;if(ls)ls.textContent=LOAD_STEPS[i].sub;break;}}
+    if(elapsed>=total){_genRecsRaf=null;lo.classList.remove('vis');if(btn)btn.disabled=false;_showRecs();return;}
+    _genRecsRaf=requestAnimationFrame(step);
+  }
+  _genRecsRaf=requestAnimationFrame(step);
+}
 function _showRecs(){
   const age=parseInt(document.getElementById('asl').value);
   const mi=getMedInteractions();
@@ -962,7 +983,7 @@ async function sendPlanEmail(){
 }
 
 // Close plan on Escape
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('plan-overlay').classList.contains('open'))closePlanModal();});
+/* NOTE: global keydown handlers are consolidated at the bottom of this file. */
 
 function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 function hl(t,q){if(!q)return t;const eq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return t.replace(new RegExp(`(${eq})`,'gi'),'<mark>$1</mark>');}
@@ -972,10 +993,14 @@ let acIdx=-1;
 function showAc(q){const ac=document.getElementById('gs-ac');if(!q||q.length<2){ac.classList.remove('vis');acIdx=-1;return;}const ql=q.toLowerCase();const hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}ac.innerHTML=hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${escAttr(s.n)}')"><span>${escHtml(s.n)}</span><span class="gs-ac-tag">${escHtml(s.tag.split(' · ')[0])}</span></div>`).join('');ac.classList.add('vis');}
 function pickAc(name){const inp=document.getElementById('gs-inp');inp.value=name;document.getElementById('gs-ac').classList.remove('vis');acIdx=-1;onSearch(name);}
 function hideAc(){setTimeout(()=>document.getElementById('gs-ac').classList.remove('vis'),150);}
+function debounce(fn,ms){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn.apply(this,args),ms);};}
 const _gsInp=document.getElementById('gs-inp');
-_gsInp.addEventListener('input',e=>{const v=e.target.value;showAc(v.trim());});
-_gsInp.addEventListener('blur',hideAc);
-_gsInp.addEventListener('keydown',e=>{const ac=document.getElementById('gs-ac');const items=ac.classList.contains('vis')?ac.querySelectorAll('.gs-ac-item'):[];if(e.key==='ArrowDown'&&items.length){e.preventDefault();acIdx=Math.min(acIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='ArrowUp'&&items.length){e.preventDefault();acIdx=Math.max(acIdx-1,0);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='Enter'){e.preventDefault();if(acIdx>=0&&items[acIdx]){pickAc(items[acIdx].querySelector('span').textContent);}else{ac.classList.remove('vis');onSearch(e.target.value);}}else if(e.key==='Escape'){ac.classList.remove('vis');acIdx=-1;}});
+if(_gsInp){
+  const _debouncedShowAc=debounce(v=>showAc(v),160);
+  _gsInp.addEventListener('input',e=>{_debouncedShowAc(e.target.value.trim());});
+  _gsInp.addEventListener('blur',hideAc);
+  _gsInp.addEventListener('keydown',e=>{const ac=document.getElementById('gs-ac');const items=ac.classList.contains('vis')?ac.querySelectorAll('.gs-ac-item'):[];if(e.key==='ArrowDown'&&items.length){e.preventDefault();acIdx=Math.min(acIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='ArrowUp'&&items.length){e.preventDefault();acIdx=Math.max(acIdx-1,0);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='Enter'){e.preventDefault();if(acIdx>=0&&items[acIdx]){pickAc(items[acIdx].querySelector('span').textContent);}else{ac.classList.remove('vis');onSearch(e.target.value);}}else if(e.key==='Escape'){ac.classList.remove('vis');acIdx=-1;}});
+}else{console.warn('[SupplementScore] search input #gs-inp not found');}
 let af='az';
 function match(s,q){if(!q)return true;const l=q.toLowerCase();return[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(l));}
 function toggleCard(btn){const inner=btn.closest('.sc-inner');const wrap=inner.querySelector('.sc-expand');const chv=btn.querySelector('.sc-toggle-chv');const isOpen=wrap.classList.toggle('open');chv.classList.toggle('open');btn.querySelector('span:first-child').textContent=isOpen?'Less':'More';const preview=inner.querySelector('.sc-desc-preview');if(preview)preview.style.display=isOpen?'none':'';const chip=inner.querySelector('.art-chip');if(chip)chip.style.display=isOpen?'none':'';}
@@ -1007,7 +1032,7 @@ function articleSuppsTopHtml(id){const names=ARTICLE_SUPPS[id];if(!names||!names
 let _allArtsCache=null;
 function _buildAllArts(){if(_allArtsCache)return _allArtsCache;const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));_allArtsCache=m;return m;}
 function getRelatedArticles(articleId,max){max=max||4;const allArts=_buildAllArts();const thisArt=allArts[articleId];const thisSupps=ARTICLE_SUPPS[articleId]||[];const scores={};thisSupps.forEach(name=>{(ARTICLE_MAP[name]||[]).forEach(a=>{if(a.id!==articleId)scores[a.id]=(scores[a.id]||0)+2;});});if(thisArt)Object.values(allArts).forEach(a=>{if(a.id!==articleId&&a.c===thisArt.c)scores[a.id]=(scores[a.id]||0)+1;});return Object.entries(scores).filter(([,s])=>s>0).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([id])=>allArts[parseInt(id)]).filter(Boolean);}
-function articleRelatedHtml(articleId){const arts=getRelatedArticles(articleId);if(!arts.length)return'';const svgDoc=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const cards=arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#7B1FA2';return`<div class="art-mini" onclick="goArticle(${a.id})"><div class="art-mini-ic" style="background:${clr}1a;color:${clr}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">${a.t}</div><div class="art-mini-m" style="color:${clr}">${ART_CAT_LBL[a.c]||''}<span class="art-mini-dot">·</span>${a.m} min</div></div><div class="art-mini-arr">›</div></div>`;}).join('');return`<div class="art-related-section"><div class="art-related-label">${svgDoc}Related Articles</div><div class="art-list">${cards}</div></div>`;}
+function articleRelatedHtml(articleId){const arts=getRelatedArticles(articleId);if(!arts.length)return'';const svgDoc=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const cards=arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#7B1FA2';return`<div class="art-mini" role="link" tabindex="0" onclick="goArticle(${a.id},event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goArticle(${a.id},event);}"><div class="art-mini-ic" style="background:${clr}1a;color:${clr}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">${a.t}</div><div class="art-mini-m" style="color:${clr}">${ART_CAT_LBL[a.c]||''}<span class="art-mini-dot">·</span>${a.m} min</div></div><div class="art-mini-arr">›</div></div>`;}).join('');return`<div class="art-related-section"><div class="art-related-label">${svgDoc}Related Articles</div><div class="art-list">${cards}</div></div>`;}
 function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
 function closeSuppModal(){document.getElementById('supp-modal').classList.remove('open');document.body.style.overflow='';}
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
@@ -1032,8 +1057,8 @@ function processArticleSources(container){
   return sourcesDiv;
 }
 let _artReturnScrollY=0,_currentArticleId=null,_artNavList=[];
-function _buildArtNavList(){const ids=[];for(let i=1;i<=300;i++){if(document.getElementById('article-'+i))ids.push(i);}return ids;}
-function goArticle(id){if(event)event.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);if(sourcesDiv)body.appendChild(sourcesDiv);_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;_setArticleHash(id);}
+function _buildArtNavList(){const out=[];document.querySelectorAll('[id^="article-"]').forEach(el=>{const m=el.id.match(/^article-(\d+)$/);if(m)out.push(parseInt(m[1],10));});return out.sort((a,b)=>a-b);}
+function goArticle(id,ev){const _ev=ev||(typeof window!=='undefined'?window.event:null);if(_ev&&_ev.stopPropagation)_ev.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);if(sourcesDiv)body.appendChild(sourcesDiv);_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;_setArticleHash(id);}
 function closeArtModal(){document.getElementById('art-modal').classList.remove('open');document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;try{if(location.hash&&/^#article-\d+$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
 function _setArticleHash(id){try{history.replaceState(null,'','#article-'+id);}catch(e){}}
 function _showShareToast(msg){const t=document.getElementById('art-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+escHtml(String(msg||''));t.classList.add('show');clearTimeout(_showShareToast._t);_showShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
@@ -1044,12 +1069,12 @@ window.addEventListener('hashchange',function(){const m=location.hash.match(/^#a
 function _updateArtNav(){const idx=_artNavList.indexOf(_currentArticleId);const p=document.getElementById('art-prev-btn');const n=document.getElementById('art-next-btn');if(p)p.disabled=idx<=0;if(n)n.disabled=idx<0||idx>=_artNavList.length-1;}
 function artNavPrev(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>0)goArticle(_artNavList[idx-1]);}
 function artNavNext(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>=0&&idx<_artNavList.length-1)goArticle(_artNavList[idx+1]);}
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('supp-modal').classList.contains('open')){closeSuppModal();return;}if(document.getElementById('art-modal').classList.contains('open')){closeArtModal();return;}}if(document.getElementById('art-modal').classList.contains('open')&&!e.target.matches('input,textarea,select')){if(e.key==='ArrowLeft'){e.preventDefault();artNavPrev();}else if(e.key==='ArrowRight'){e.preventDefault();artNavNext();}}});
+/* NOTE: modal/arrow keydown logic is now part of the consolidated handler at the bottom of this file. */
 function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
-function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div class="art-list"><div class="art-list-h">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#7B1FA2';return'<div class="art-mini" onclick="goArticle('+a.id+')"><div class="art-mini-ic" style="background:'+clr+'1a;color:'+clr+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">'+a.t+'</div><div class="art-mini-m" style="color:'+clr+'">'+ART_CAT_LBL[a.c]+'<span class="art-mini-dot">·</span>'+a.m+' min</div></div><div class="art-mini-arr">›</div></div>';}).join('')+'</div>';}
+function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div class="art-list"><div class="art-list-h">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#7B1FA2';return'<div class="art-mini" role="link" tabindex="0" onclick="goArticle('+a.id+',event)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goArticle('+a.id+',event);}"><div class="art-mini-ic" style="background:'+clr+'1a;color:'+clr+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">'+a.t+'</div><div class="art-mini-m" style="color:'+clr+'">'+ART_CAT_LBL[a.c]+'<span class="art-mini-dot">·</span>'+a.m+' min</div></div><div class="art-mini-arr">›</div></div>';}).join('')+'</div>';}
 function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${escHtml(i.med.split(' ')[0])}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;const _fi=getFoodInfo(s);const _ei=getExcessInfo(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:15px;font-weight:600;color:var(--color-text-primary)">${escHtml(s.n)}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+escHtml(t.trim())+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:11px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy <b style="color:${barClr(s.e)}">${s.e}★</b></span><span>Safety <b style="color:${barClr(s.s)}">${s.s}★</b></span><span>Research <b style="color:${barClr(rd)}">${rd}★</b></span><span>Onset <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:11px;margin-bottom:6px">'+intPills+'</div>':''}<div class="sc-desc-preview" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${escHtml(s.desc)}</div><div class="sc-expand"><div class="sc-desc sc-desc-top">${escHtml(s.desc)}</div><div class="sc-info-table"><div class="sc-info-row"><div class="sc-info-lbl">Dose</div><div class="sc-info-val">${escHtml(s.dose)}</div></div>${s.tips?`<div class="sc-info-row"><div class="sc-info-lbl">How to take</div><div class="sc-info-val">${escHtml(s.tips)}</div></div>`:''}<div class="sc-info-row sc-info-tinted"><div class="sc-info-lbl">Food</div><div class="sc-info-val"><span style="color:var(--t1c);font-weight:600;font-size:10px">PAIR:</span> ${escHtml(_fi.pair)}<br><span style="color:var(--t4c);font-weight:600;font-size:10px">AVOID:</span> ${escHtml(_fi.avoid)}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Cycling</div><div class="sc-info-val">${escHtml(cycleInfo(s))}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Onset</div><div class="sc-info-val"><span class="sc-info-badge">${OL_SHORT[so]||'Varies'}</span>${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</div></div></div><div class="sc-dose-warn-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t4c)" stroke-width="2.2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>If you exceed the dose</div><div class="sc-dose-steps"><div class="sc-ds-row sc-ds-risk"><div class="sc-ds-num">1</div><div class="sc-ds-body"><div class="sc-ds-k">Risks</div><div class="sc-ds-v">${escHtml(_ei.risk)}</div></div></div><div class="sc-ds-row sc-ds-upper"><div class="sc-ds-num">2</div><div class="sc-ds-body"><div class="sc-ds-k">Upper limit</div><div class="sc-ds-v">${escHtml(_ei.threshold)}</div></div></div><div class="sc-ds-row sc-ds-long"><div class="sc-ds-num">3</div><div class="sc-ds-body"><div class="sc-ds-k">Long-term</div><div class="sc-ds-v">${escHtml(_ei.long)}</div></div></div></div>${hasInts?`<div class="sc-mi-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14l-7 7-7-7M5 10l7-7 7 7"/></svg>Medication interactions</div><div class="sc-mi-wrap${ints.length>1?' sc-mi-rail':''}">${ints.map((i,idx)=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);const note=m?m[1].note:'';const sev=i.type==='avoid'?'avoid':'caution';const sevLbl=i.type==='avoid'?'Avoid':'Caution';return`<div class="sc-mi-row sc-mi-${sev}"><div class="sc-mi-num">${idx+1}</div><div class="sc-mi-body"><div class="sc-mi-k">${sevLbl} <span class="sc-mi-dot">·</span> <span class="sc-mi-med">${escHtml(i.med)}</span></div><div class="sc-mi-v">${escHtml(note)}</div></div></div>`;}).join('')}</div>`:''}${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
-function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';const initShow=5;
-if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Trending \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Trending',m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','t3'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'unproven')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`:'<div class="empty">No supplements found.</div>';return;}
+function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';const initShow=10;
+if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Evidence still unclear',m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'unproven')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label)+' \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||t.badge||'Tier',m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'${t.id}')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
 function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z\u2026');_ddLabel('pop-filter','For\u2026');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols*2;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(cat)+' \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Category overview',m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'cat')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
@@ -1108,11 +1133,11 @@ const CAT_META={
   'Pregnancy':{lead:'Maternal and fetal support',desc:'Supplements with evidence for supporting a healthy pregnancy, fetal development, and reducing complications.',icon:'<circle cx="12" cy="5" r="3"/><path d="M8 22v-7c0-3 2-5 4-5s4 2 4 5v7"/><circle cx="15" cy="15" r="3"/>'}
 };
 const TIER_META={
-  t1:{lead:'Highest evidence \u00b7 proven benefits',desc:'Backed by consistent, high-quality randomised clinical trials and meta-analyses. Benefits are well-established in healthy populations.',icon:'<path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>'},
-  t2:{lead:'Strong evidence \u00b7 consistent effects',desc:'Good evidence from multiple studies for specific, well-defined benefits. Less conclusive than Tier 1 but still reliable.',icon:'<path d="M20 6L9 17l-5-5"/>'},
-  t3:{lead:'Trending but evidence still limited',desc:'Popular, widely-discussed supplements where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>'},
+  t1:{lead:'Highest evidence \u00b7 proven benefits',desc:'Backed by consistent, high-quality randomised clinical trials and meta-analyses. Benefits are well-established in healthy populations.',icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>'},
+  t2:{lead:'Strong evidence \u00b7 consistent effects',desc:'Good evidence from multiple studies for specific, well-defined benefits. Less conclusive than Tier 1 but still reliable.',icon:'<circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>'},
+  t3:{lead:'Trending but evidence still limited',desc:'Popular, widely-discussed supplements where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'},
   t4:{lead:'Ineffective or risky',desc:'Supplements where evidence does not support common claims, or where documented risks outweigh benefits.',icon:'<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/>'},
-  unproven:{lead:'Trending but evidence still limited',desc:'Popular, widely-discussed supplements where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>'}
+  unproven:{lead:'Evidence still unclear',desc:'Popular, widely-discussed supplements where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'}
 };
 function _filterBanner(title,lead,desc,icon,accentKey){const cls=accentKey?' head-'+accentKey:'';return`<div class="pop-head${cls}"><div class="pop-head-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icon}</svg></div><div class="pop-head-mid"><div class="pop-head-lbl">${escHtml(lead)}</div><div class="pop-head-t">${title}</div><div class="pop-head-m">${escHtml(desc)}</div></div></div>`;}
 function _dd(id,label,opts,onSelect){
@@ -1126,13 +1151,13 @@ function closeDD(id){document.getElementById(id+'-menu').classList.remove('open'
 function _ddLabel(id,txt){const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.firstChild.textContent=txt+' ';}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}
 document.addEventListener('click',function(e){if(!e.target.closest('.cdd'))document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');m.parentElement.classList.remove('cdd-open');});});
-function initAllTab(){if(_allTabInit)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const catOpts=CATS.map(c=>({val:c,label:c}));const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tierOpts=['t1','t2','t4'].map(id=>{const t=tierCounts.find(x=>x.id===id);return{val:t.id,label:t.badge+' ('+t.count+')'};});tierOpts.splice(2,0,{val:'unproven',label:'Unproven ('+unpCount+')'});const tr=tierCounts.find(x=>x.id==='t3');document.getElementById('sfbar-main').innerHTML=`<button type="button" class="sfbtn" title="${tr.desc}" onclick="setFilter('t3',this)">${tr.badge} <span style="font-size:9px;opacity:.7;margin-left:2px">${tr.count}</span></button>`+_dd('cat-filter','Category\u2026',catOpts,'_catPick')+_dd('tier-filter','Tier\u2026',tierOpts,'_tierPick')+_dd('az-filter','A\u2013Z\u2026',azOpts,'_azPick')+_dd('pop-filter','For\u2026',popOpts,'_popPick');setFilter('t3',document.querySelector('.sfbtn'));}
-function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Category\u2026');_ddLabel('az-filter','A\u2013Z\u2026');_ddLabel('pop-filter','For\u2026');_ddActive('tier-filter');af=v;renderAll();const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function initAllTab(){if(_allTabInit)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const catOpts=CATS.map(c=>({val:c,label:c}));const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+tr.count+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});document.getElementById('sfbar-main').innerHTML=_dd('tier-filter','Tier\u2026',tierOpts,'_tierPick')+_dd('cat-filter','Category\u2026',catOpts,'_catPick')+_dd('pop-filter','For\u2026',popOpts,'_popPick')+_dd('az-filter','A\u2013Z\u2026',azOpts,'_azPick');_tierPick('t3');}
+function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Category\u2026');_ddLabel('az-filter','A\u2013Z\u2026');_ddLabel('pop-filter','For\u2026');_ddActive('tier-filter');af=v;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function _azPick(v){_ddLabel('az-filter',v==='all'?'All A\u2013Z':v.charAt(0)+' & '+v.charAt(1));_ddActive(v==='all'?null:'az-filter');setAzFilter(v);}
 function _catPick(v){_ddLabel('cat-filter',v);_ddActive('cat-filter');setCatFilter(v);}
 function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
 function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Category\u2026');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z\u2026');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols*2;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=POP_META[key]||{};const banner=_filterBanner('Recommended for <b>'+escHtml(p.label)+'</b> \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Targeted supplement recommendations',m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'pop')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
-function sw(n){document.getElementById('p1').style.display=n===1?'block':'none';document.getElementById('p2').style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-selected',n===1);tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-selected',n===2);if(n===2)initAllTab();}
+function sw(n){const p1=document.getElementById('p1'),p2=document.getElementById('p2');if(p1)p1.style.display=n===1?'block':'none';if(p2)p2.style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');if(tb1){tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-pressed',n===1);}if(tb2){tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-pressed',n===2);}if(n===2&&typeof initAllTab==='function')initAllTab();}
 let selectedConds=new Set();
 function renderCondChips(){const el=document.getElementById('cond-chips');el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${escAttr(k)}')">${escHtml(c.label)}</div>`).join('');}
 function toggleCond(k){selectedConds.has(k)?selectedConds.delete(k):selectedConds.add(k);renderCondChips();updatePfCounts();}
@@ -1178,7 +1203,7 @@ function saveProfile(){
   const profile={age:document.getElementById('asl').value,sex:sex,meds:[...selectedMeds],conds:[...selectedConds],goals:[...selectedGoals],
     heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined};
-  localStorage.setItem('ss-profile',JSON.stringify(profile));
+  lsSet('ss-profile',JSON.stringify(profile));
 }
 
 /* ── PDF generation ── */
@@ -1558,7 +1583,7 @@ async function downloadPDF(){
 
 function loadProfile(){
   try{
-    const saved=localStorage.getItem('ss-profile');
+    const saved=lsGet('ss-profile');
     if(!saved)return false;
     const p=JSON.parse(saved);
     if(p.age){document.getElementById('asl').value=p.age;updAge(p.age);}
@@ -1589,7 +1614,7 @@ function loadProfile(){
   }catch(e){console.warn('loadProfile: failed to restore saved profile',e);return false;}
 }
 function clearProfile(){
-  localStorage.removeItem('ss-profile');
+  lsRemove('ss-profile');
   document.getElementById('asl').value=35;updAge(35);
   sex=null;document.getElementById('bm').className='sx-btn';document.getElementById('bf').className='sx-btn';document.getElementById('bp').className='sx-btn';
   selectedMeds=new Set();renderMedChips();
@@ -1807,11 +1832,82 @@ function handleGateSubmit(e){
   return false;
 }
 
-/* Keyboard accessibility for supplement cards */
+/* Keyboard handling for supplement cards is merged into the consolidated handler below. */
+
+/* Logo strip: show only what fits in a single row based on viewport */
+function fitLogoStrip(){
+  var strips=document.querySelectorAll('.logo-strip');
+  strips.forEach(function(strip){
+    var icons=strip.querySelectorAll('.logo-icon');
+    if(!icons.length)return;
+    // Reset: reveal all first so we can measure widths
+    icons.forEach(function(i){i.classList.remove('logo-hidden');});
+    // Measure available width and cumulative widths
+    var available=strip.clientWidth;
+    if(!available)return;
+    var gapPx=parseFloat(getComputedStyle(strip).gap)||6;
+    var used=0,kept=0;
+    icons.forEach(function(ic,idx){
+      var w=ic.getBoundingClientRect().width;
+      var next=used+w+(idx>0?gapPx:0);
+      if(next<=available){used=next;kept++;}
+      else{ic.classList.add('logo-hidden');}
+    });
+  });
+}
+window.addEventListener('load',fitLogoStrip);
+window.addEventListener('resize',function(){clearTimeout(window.__fitLST);window.__fitLST=setTimeout(fitLogoStrip,80);});
+document.addEventListener('DOMContentLoaded',fitLogoStrip);
+
+/* A11y: make hero slides (clickable divs) keyboard-navigable via a single delegated handler.
+   Adds role="link" + tabindex=0 once on load, and routes Enter/Space to their native click. */
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.hero-slide').forEach(function(el){
+    if(!el.hasAttribute('role'))el.setAttribute('role','link');
+    if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0');
+    if(!el.hasAttribute('aria-label')){
+      var t=el.querySelector('.hero-slide-title,.hero-title,h2,h3');
+      if(t)el.setAttribute('aria-label',t.textContent.trim());
+    }
+  });
+});
+/* Consolidated global keydown handler — merges prior plan-modal, article-modal,
+   supplement-card, and hero-slide listeners. */
 document.addEventListener('keydown',function(e){
-  if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('sc')){
-    e.preventDefault();
-    const btn=e.target.querySelector('.sc-toggle');
-    if(btn)toggleCard(btn);
+  var target=e.target;
+  var isFormElement=target&&target.matches&&target.matches('input,textarea,select');
+
+  if(e.key==='Escape'){
+    // Close modals in priority order, bailing after the first match.
+    var planOverlay=document.getElementById('plan-overlay');
+    if(planOverlay&&planOverlay.classList.contains('open')&&typeof closePlanModal==='function'){closePlanModal();return;}
+    var suppModal=document.getElementById('supp-modal');
+    if(suppModal&&suppModal.classList.contains('open')){closeSuppModal();return;}
+    var artModal=document.getElementById('art-modal');
+    if(artModal&&artModal.classList.contains('open')){closeArtModal();return;}
+  }
+
+  // Article modal: left/right arrow navigation (ignored while typing).
+  var artModal2=document.getElementById('art-modal');
+  if(artModal2&&artModal2.classList.contains('open')&&!isFormElement){
+    if(e.key==='ArrowLeft'){e.preventDefault();artNavPrev();return;}
+    if(e.key==='ArrowRight'){e.preventDefault();artNavNext();return;}
+  }
+
+  // Enter/Space activation for keyboard-accessible click surfaces.
+  if(e.key==='Enter'||e.key===' '){
+    if(target&&target.classList){
+      if(target.classList.contains('sc')){
+        e.preventDefault();
+        var btn=target.querySelector('.sc-toggle');
+        if(btn)toggleCard(btn);
+        return;
+      }
+      if(target.classList.contains('hero-slide')){
+        e.preventDefault();
+        target.click();
+        return;
+      }
+    }
   }
 });
