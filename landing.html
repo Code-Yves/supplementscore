@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupplementScore — Evidence-based supplement information you can trust</title>
+<meta name="description" content="Non-profit, evidence-based supplement reference. 733 supplements scored across 6 dimensions using 27,000+ peer-reviewed studies. No endorsements, no sponsors.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://supplementscore.org/landing.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260427a">
+
+<style>
+/* ============================================================
+   Landing page — quietened version of the trust hero.
+   Built on existing tokens from styles.css.
+   ============================================================ */
+body{ padding: 0 0 4rem; }
+
+.lp{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.lp-brand{
+  display: flex;
+  justify-content: center;
+  padding: 36px 24px 0;
+}
+.lp-brand .mark{
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  color: var(--color-brand);
+  text-decoration: none;
+}
+.lp-brand .mark .tld{ color: var(--color-text-tertiary); }
+
+.lp-hero{
+  padding: 32px 24px 48px;
+  text-align: center;
+}
+.lp-hero h1{
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 700;
+  letter-spacing: -1.8px;
+  line-height: 1.04;
+  color: var(--color-text-primary);
+  max-width: 18ch;
+  margin: 0 auto 22px;
+}
+.lp-hero p.lede{
+  font-size: 17px;
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+  margin: 0 auto 36px;
+  line-height: 1.55;
+}
+.lp-hero .cta-row{
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.lp-hero .cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 7px;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-text-primary);
+  transition: color .15s, border-bottom-color .15s;
+}
+.lp-hero .cta:hover{
+  color: var(--color-brand);
+  border-bottom-color: var(--color-brand);
+}
+.lp-hero .cta.secondary{
+  color: var(--color-text-secondary);
+  border-bottom-color: var(--color-text-tertiary);
+}
+.lp-hero .cta.secondary:hover{
+  color: var(--color-brand);
+  border-bottom-color: var(--color-brand);
+}
+
+/* Stat row — hairline-bracketed, three columns */
+.lp-stats{
+  border-top: 0.5px solid var(--color-border-tertiary);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 32px 0;
+}
+.lp-stats .stat{
+  text-align: center;
+  border-left: 0.5px solid var(--color-border-tertiary);
+  padding: 0 16px;
+}
+.lp-stats .stat:first-child{ border-left: 0; }
+.lp-stats .n{
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -1px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-bottom: 8px;
+}
+.lp-stats .lbl{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 3px;
+}
+.lp-stats .sub{
+  font-size: 11.5px;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+}
+
+/* Logo strip — uses the same .logo-strip / .lk pattern as the rest of the site */
+.lp-logos-wrap{
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding: 28px 0 18px;
+}
+.lp-logos{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 28px;
+  row-gap: 16px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.lp-logos .lk{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 110px;
+  height: 28px;
+  flex: 0 0 110px;
+}
+.lp-logos .lk .mk{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) saturate(0);
+  opacity: .38;
+  transition: opacity .2s;
+}
+.lp-logos .lk:hover .mk{ opacity: .75; }
+
+.lp-sources-link{
+  text-align: center;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding: 16px 0;
+}
+.lp-sources-link a{
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  transition: color .15s;
+}
+.lp-sources-link a:hover{ color: var(--color-text-primary); }
+
+.lp-foot{
+  margin-top: 48px;
+  padding: 18px 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  border-top: 0.5px solid var(--color-border-tertiary);
+  line-height: 1.6;
+}
+
+@media (max-width: 720px){
+  .lp-stats{ grid-template-columns: 1fr; gap: 24px; }
+  .lp-stats .stat{ border-left: 0; border-top: 0.5px solid var(--color-border-tertiary); padding: 18px 0 0; }
+  .lp-stats .stat:first-child{ border-top: 0; padding-top: 0; }
+  .lp-hero{ padding: 24px 18px 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Site nav (search hidden via styles.css override) -->
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-inner">
+    <div class="site-nav-tabs">
+      <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
+      <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">My Profile</a>
+    </div>
+  </div>
+</nav>
+
+<main class="lp">
+
+  <div class="lp-brand">
+    <a class="mark" href="/">SUPPLEMENTSCORE<span class="tld">.ORG</span></a>
+  </div>
+
+  <section class="lp-hero">
+    <h1>Supplement information you can trust.</h1>
+    <p class="lede">Unbiased and conflict-free. Every score derived exclusively from peer-reviewed clinical trials and credible research institutions.</p>
+    <div class="cta-row">
+      <a href="index.html" class="cta">Browse the full index →</a>
+      <a href="methodology.html" class="cta secondary">How scores are built</a>
+    </div>
+  </section>
+
+  <div class="lp-stats">
+    <div class="stat">
+      <span class="n">27,142</span>
+      <div class="lbl">Peer-reviewed studies referenced</div>
+      <div class="sub">From clinical trials &amp; meta-analyses only</div>
+    </div>
+    <div class="stat">
+      <span class="n">733</span>
+      <div class="lbl">Supplements reviewed &amp; scored</div>
+      <div class="sub">Updated weekly with new evidence</div>
+    </div>
+    <div class="stat">
+      <span class="n">0</span>
+      <div class="lbl">Endorsements or sponsorships</div>
+      <div class="sub">100% independent &amp; non-profit</div>
+    </div>
+  </div>
+
+  <div class="lp-logos-wrap">
+    <div class="lp-logos">
+      <a class="lk" href="https://www.nih.gov" target="_blank" rel="noopener" aria-label="NIH"><img class="mk" src="source-logos/nih.svg" alt=""></a>
+      <a class="lk" href="https://www.cochranelibrary.com" target="_blank" rel="noopener" aria-label="Cochrane"><img class="mk" src="source-logos/cochrane.svg" alt=""></a>
+      <a class="lk" href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener" aria-label="PubMed"><img class="mk" src="source-logos/pubmed.svg" alt=""></a>
+      <a class="lk" href="https://www.who.int" target="_blank" rel="noopener" aria-label="WHO"><img class="mk" src="source-logos/who.svg" alt=""></a>
+      <a class="lk" href="https://www.fda.gov" target="_blank" rel="noopener" aria-label="FDA"><img class="mk" src="source-logos/fda.svg" alt=""></a>
+      <a class="lk" href="https://www.efsa.europa.eu" target="_blank" rel="noopener" aria-label="EFSA"><img class="mk" src="source-logos/efsa.svg" alt=""></a>
+      <a class="lk" href="https://www.cdc.gov" target="_blank" rel="noopener" aria-label="CDC"><img class="mk" src="source-logos/cdc.svg" alt=""></a>
+      <a class="lk" href="https://www.harvard.edu" target="_blank" rel="noopener" aria-label="Harvard"><img class="mk" src="source-logos/harvard.svg" alt=""></a>
+      <a class="lk" href="https://www.jhu.edu" target="_blank" rel="noopener" aria-label="Johns Hopkins"><img class="mk" src="source-logos/jhu.svg" alt=""></a>
+      <a class="lk" href="https://www.thelancet.com" target="_blank" rel="noopener" aria-label="The Lancet"><img class="mk" src="source-logos/lancet.svg" alt=""></a>
+      <a class="lk" href="https://www.nejm.org" target="_blank" rel="noopener" aria-label="NEJM"><img class="mk" src="source-logos/nejm.svg" alt=""></a>
+      <a class="lk" href="https://www.stanford.edu" target="_blank" rel="noopener" aria-label="Stanford"><img class="mk" src="source-logos/stanford.svg" alt=""></a>
+    </div>
+  </div>
+
+  <div class="lp-sources-link">
+    <a href="methodology.html#sources">More info on sources <span aria-hidden="true">→</span></a>
+  </div>
+
+</main>
+
+<footer class="lp-foot">
+  Educational reference, not medical advice. Discuss any supplement changes with a qualified clinician.
+  <br>
+  &copy; 2026 SupplementScore · A non-profit reference · <a href="methodology.html" style="color:inherit;text-decoration:underline">Methodology</a>
+</footer>
+
+</body>
+</html>

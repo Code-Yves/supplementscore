@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
+<title>Medication detail — SupplementScore</title>
+<meta name="description" content="Supplement interactions for a given medication class.">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260427a">
+<style>
+.dt-wrap{max-width:880px;margin:0 auto;padding:24px}
+.dt-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:18px 0 14px}
+.dt-back:hover{background:rgba(123,31,162,.06);border-color:var(--color-brand);color:var(--color-brand)}
+.dt-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:#B91C1C;margin-bottom:6px}
+.dt-h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
+.dt-note{padding:14px 18px;background:var(--t4bg);color:var(--t4tx);border:1px solid var(--t4c);border-radius:10px;font-size:13.5px;line-height:1.55;margin:14px 0 22px}
+.dt-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-top:14px}
+.dt-card h2{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:700;color:var(--color-text-primary);margin:0 0 12px}
+.dt-card h2 .pill{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:5px}
+.bucket-avoid h2 .pill{background:var(--t4bg);color:var(--t4tx)}
+.bucket-caution h2 .pill{background:var(--t3bg);color:var(--t3tx)}
+.bucket-extra h2 .pill{background:var(--t1bg);color:var(--t1tx)}
+.sup-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.sup-list a{padding:10px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:10px;font-size:13px;color:var(--color-text-primary);text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all .15s}
+.sup-list a:hover{border-color:var(--color-brand);color:var(--color-brand)}
+.dt-tier{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;flex-shrink:0}
+.dt-tier-t1{background:var(--t1bg);color:var(--t1tx)}
+.dt-tier-t2{background:var(--t2bg);color:var(--t2tx)}
+.dt-tier-t3{background:var(--t3bg);color:var(--t3tx)}
+.dt-tier-t4{background:var(--t4bg);color:var(--t4tx)}
+.dt-empty{font-size:13px;color:var(--color-text-tertiary);font-style:italic}
+.dt-disclaim{margin:32px 0 24px;font-size:12px;color:var(--color-text-tertiary);text-align:center;line-height:1.55}
+</style>
+</head>
+<body>
+<div class="beta-bar" role="status" aria-live="polite">
+  <span class="beta-bar-pulse" aria-hidden="true"></span>
+  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-sep" aria-hidden="true">·</span>
+  <span class="beta-bar-tag">Actively refining for accuracy</span>
+</div>
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-inner">
+    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
+    </a>
+    <div class="site-nav-tabs">
+      <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
+      <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">My Profile</a>
+    </div>
+  </div>
+</nav>
+<main class="dt-wrap" id="dt-root"></main>
+<script src="data.js?v=20260418m"></script>
+<script src="search-index.js?v=20260429a"></script>
+<script src="nav-search.js?v=20260429a"></script>
+<script src="supplement-modal.js?v=20260429a" defer></script>
+<script>
+(function(){
+  function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]});}
+  var p = new URLSearchParams(location.search);
+  var slug = (p.get('slug') || '').trim();
+  var root = document.getElementById('dt-root');
+  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No medication specified</h1>'; return; }
+  var m = window.SS.getMedication(slug);
+  if (!m){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Medication not found</h1><p>No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
+  document.title = m.label + ' — SupplementScore';
+
+  function suppLink(name){
+    var s = window.SS.getSupplement(window.SS.slugify(name));
+    var tier = s ? '<span class="dt-tier dt-tier-' + s.t + '">' + window.SS.tierMeta(s.t).badge + '</span>' : '';
+    var url = s ? window.SS.urlFor('supplement', window.SS.slugify(s.n)) : 'search.html?q=' + encodeURIComponent(name);
+    return '<a href="' + url + '"><span>' + escapeHtml(name) + '</span>' + tier + '</a>';
+  }
+  function bucket(label, pill, items, klass){
+    if (!items || !items.length) return '';
+    return '<section class="dt-card ' + klass + '">'
+      + '<h2>' + escapeHtml(label) + '<span class="pill">' + pill + '</span></h2>'
+      + '<div class="sup-list">' + items.map(suppLink).join('') + '</div>'
+      + '</section>';
+  }
+
+  root.innerHTML =
+    '<a class="dt-back" href="search.html?q=' + encodeURIComponent(m.label) + '">‹ Back to search</a>'
+    + '<div class="dt-eyebrow">Medication class</div>'
+    + '<h1 class="dt-h1">' + escapeHtml(m.label) + '</h1>'
+    + (m.note ? '<div class="dt-note">' + escapeHtml(m.note) + '</div>' : '')
+    + bucket('Avoid combining',         (m.avoid   ||[]).length, m.avoid,   'bucket-avoid')
+    + bucket('Caution / monitor',       (m.caution ||[]).length, m.caution, 'bucket-caution')
+    + bucket('Often supportive',        (m.extra   ||[]).length, m.extra,   'bucket-extra')
+    + ((m.avoid||[]).length===0 && (m.caution||[]).length===0 && (m.extra||[]).length===0
+        ? '<div class="dt-card"><div class="dt-empty">No supplement interactions on file for this class.</div></div>' : '')
+    + '<p class="dt-disclaim">Educational reference, not medical advice. Confirm any supplement change with your prescriber.</p>';
+})();
+</script>
+</body>
+</html>
