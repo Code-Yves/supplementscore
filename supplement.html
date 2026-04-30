@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
+<title>Supplement detail — SupplementScore</title>
+<meta name="description" content="Supplement detail: tier, sub-scores, dose, related conditions, drug interactions, and articles.">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260429b">
+<style>
+/* ============================================================ */
+/*  Detail page — V5 hero + Body B (consolidated 2026-04-29)    */
+/* ============================================================ */
+.det-wrap{max-width:880px;margin:0 auto;padding:0 22px}
+.det-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:14px 0 18px;text-decoration:none}
+.det-back:hover{border-color:var(--color-brand);color:var(--color-brand)}
+
+/* tier-aware accent (score, bar fills, prose dashes, jump-nav hover, trending tag) */
+.det-page{--accent:var(--color-brand);--accent-glow:rgba(123,31,162,.13)}
+.det-page.t1{--accent:var(--t1c);--accent-glow:rgba(13,148,136,.12)}
+.det-page.t2{--accent:var(--t2c);--accent-glow:rgba(75,123,229,.12)}
+.det-page.t3{--accent:var(--t3c);--accent-glow:rgba(202,138,4,.12)}
+.det-page.t4{--accent:var(--t4c);--accent-glow:rgba(185,28,28,.10)}
+
+.det-tier{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+.det-tier.t1{background:var(--t1bg);color:var(--t1tx)}
+.det-tier.t2{background:var(--t2bg);color:var(--t2tx)}
+.det-tier.t3{background:var(--t3bg);color:var(--t3tx)}
+.det-tier.t4{background:var(--t4bg);color:var(--t4tx)}
+.det-cat-pill{display:inline-block;font-size:11.5px;font-weight:500;padding:3px 10px;border-radius:999px;margin-right:4px;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+
+/* ── HERO V5 ── */
+.det-hero{
+  border:1px solid var(--color-border-tertiary);
+  border-radius:24px;
+  padding:32px 38px 26px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 92% -10%, var(--accent-glow), transparent 55%),
+    var(--color-background-primary);
+  margin-bottom:22px;
+}
+@media(max-width:680px){.det-hero{padding:24px 22px 22px;border-radius:18px}}
+.det-hero-l{position:relative;z-index:1;padding-right:140px;min-width:0}
+@media(max-width:680px){.det-hero-l{padding-right:0}}
+.det-hero-tier-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.det-h1{font-size:clamp(30px,5vw,52px);font-weight:800;letter-spacing:-1.6px;line-height:1.05;margin:0 0 12px;color:var(--color-text-primary);word-wrap:break-word;overflow-wrap:break-word}
+.det-cats{margin-bottom:18px;display:flex;flex-wrap:wrap;gap:4px}
+.det-tldr{font-size:15.5px;line-height:1.55;color:var(--color-text-primary);max-width:620px;font-weight:500;margin-bottom:18px}
+
+.det-stats{display:flex;gap:0;border-top:1px solid var(--color-border-tertiary);padding-top:14px}
+.det-stat{flex:1;padding-right:14px;min-width:0}
+.det-stat + .det-stat{padding-left:14px;border-left:1px solid var(--color-border-tertiary)}
+.det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+
+.det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+@media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:14px}}
+.det-score-lbl{font-size:9.5px;font-weight:700;letter-spacing:.14em;color:var(--color-text-tertiary);text-transform:uppercase}
+.det-score-num{font-weight:800;letter-spacing:-2.5px;color:var(--accent);font-variant-numeric:tabular-nums;line-height:.9;font-size:62px}
+.det-score-suffix{font-weight:700;color:var(--accent);opacity:.5;font-size:18px;vertical-align:top}
+
+.det-bars{margin-top:14px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;border-top:1px solid var(--color-border-tertiary);padding-top:14px;position:relative;z-index:1}
+@media(max-width:680px){.det-bars{grid-template-columns:repeat(3,1fr)}}
+.det-bar{display:flex;flex-direction:column;gap:4px}
+.det-bar-lbl{font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--color-text-tertiary);text-transform:uppercase}
+.det-bar-track{height:4px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:2px;overflow:hidden}
+.det-bar-fill{height:100%;background:var(--accent);border-radius:2px}
+.det-bar-val{font-size:11px;font-weight:700;color:var(--color-text-primary);font-variant-numeric:tabular-nums}
+
+/* ── Jump nav ── */
+.det-jump{position:sticky;top:0;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;z-index:20;padding:10px 16px;margin-bottom:18px}
+.det-jump-inner{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.det-jump-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--color-text-tertiary);text-transform:uppercase;margin-right:6px}
+.det-jump a{font-size:12px;font-weight:500;color:var(--color-text-secondary);background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);padding:5px 11px;border-radius:999px;text-decoration:none;transition:all .15s}
+.det-jump a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── BODY ── */
+.det-body{display:flex;flex-direction:column;gap:18px}
+
+.det-alert{border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.45;border:1px solid}
+.det-alert.low{background:var(--color-warn-bg);border-color:var(--color-warn-border);color:var(--color-warn-text)}
+.det-alert.med{background:var(--t3bg);border-color:rgba(202,138,4,.18);color:var(--t3tx)}
+.det-alert.high{background:var(--t4bg);border-color:rgba(185,28,28,.18);color:var(--t4tx)}
+.det-alert-icon{font-size:15px;line-height:1;flex-shrink:0}
+.det-alert b{font-weight:700}
+.det-alert a{color:inherit;text-decoration:underline}
+
+/* Protocol card */
+.det-ref{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden}
+.det-ref-head{padding:13px 22px;border-bottom:1px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;background:var(--color-background-secondary)}
+.det-ref-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-secondary)}
+.det-ref-meta{font-size:11px;color:var(--color-text-tertiary)}
+.det-ref-row{padding:14px 22px;border-top:1px solid var(--color-border-tertiary);display:flex;align-items:baseline;gap:14px;font-size:13.5px;color:var(--color-text-secondary)}
+.det-ref-row:first-of-type{border-top:none}
+.det-ref-row-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;flex-shrink:0;min-width:96px}
+.det-ref-row-val{flex:1;line-height:1.55;color:var(--color-text-primary)}
+@media(max-width:560px){.det-ref-row{flex-direction:column;gap:4px}.det-ref-row-lbl{min-width:0}}
+
+/* Prose */
+.det-prose{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:16px;padding:24px 28px}
+.det-prose-h{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.det-prose-h::before{content:"";width:18px;height:1.5px;background:var(--accent);display:inline-block}
+.det-prose p{font-size:15px;line-height:1.7;color:var(--color-text-primary);margin-bottom:10px}
+.det-prose p:last-child{margin-bottom:0}
+
+/* Linked entities panel */
+.det-rel{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden}
+.det-rel-head{padding:13px 22px;border-bottom:1px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.det-rel-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-secondary)}
+.det-rel-grid{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:680px){.det-rel-grid{grid-template-columns:1fr}}
+.det-rel-cell{padding:18px 22px;border-right:1px solid var(--color-border-tertiary);border-bottom:1px solid var(--color-border-tertiary)}
+.det-rel-cell:nth-child(2n){border-right:none}
+.det-rel-cell:nth-last-child(-n+2){border-bottom:none}
+@media(max-width:680px){.det-rel-cell{border-right:none}.det-rel-cell:nth-last-child(-n+2){border-bottom:1px solid var(--color-border-tertiary)}.det-rel-cell:last-child{border-bottom:none}}
+.det-rel-h{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.det-rel-h .cnt{font-size:10px;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:1px 7px;border-radius:999px;font-weight:600}
+.det-rel-list{list-style:none;display:flex;flex-direction:column;gap:5px;margin:0;padding:0}
+.det-rel-list a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;font-size:13px;color:var(--color-text-primary);border-bottom:1px dashed var(--color-border-tertiary);text-decoration:none}
+.det-rel-list a:last-child{border-bottom:none}
+.det-rel-list a:hover{color:var(--accent)}
+.det-rel-empty{font-size:12px;color:var(--color-text-tertiary);font-style:italic;padding:6px 0}
+.det-ltag{font-size:9.5px;color:var(--color-text-tertiary);padding:1.5px 7px;border-radius:999px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);font-weight:500;flex-shrink:0;white-space:nowrap}
+.det-ltag.avoid{background:var(--t4bg);color:var(--t4tx);border-color:transparent}
+.det-ltag.caution{background:var(--t3bg);color:var(--t3tx);border-color:transparent}
+.det-ltag.support{background:var(--t1bg);color:var(--t1tx);border-color:transparent}
+
+/* Sources */
+.det-sources{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:16px;padding:20px 22px}
+.det-sources-h{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:14px}
+.det-sources-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+@media(max-width:680px){.det-sources-grid{grid-template-columns:1fr}}
+.det-sources-grid a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;font-size:13px;color:var(--color-text-primary);border-bottom:1px dashed var(--color-border-tertiary);text-decoration:none}
+.det-sources-grid a:hover{color:var(--accent)}
+.det-art-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.det-art-icon{flex-shrink:0;opacity:.5;color:var(--color-text-secondary)}
+.det-sources-grid a:hover .det-art-icon{opacity:.85;color:var(--accent)}
+.det-art-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+.det-art-meta{font-size:11px;color:var(--color-text-tertiary);font-variant-numeric:tabular-nums;flex-shrink:0;white-space:nowrap}
+
+/* Trending callout */
+.det-trending{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;padding:11px 16px;font-size:12.5px;color:var(--color-text-secondary);line-height:1.55;display:flex;align-items:flex-start;gap:10px}
+.det-trending-tag{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-glow);padding:3px 8px;border-radius:5px;flex-shrink:0;margin-top:1px}
+
+.det-disclaim{margin:30px auto 0;font-size:12px;color:var(--color-text-tertiary);text-align:center;line-height:1.55;max-width:680px}
+.det-disclaim a{color:var(--color-text-secondary)}
+
+/* When rendered inside the modal iframe — strip the page chrome */
+body.is-modal{padding:0}
+body.is-modal .beta-bar,
+body.is-modal .site-nav{display:none}
+body.is-modal .det-back{display:none}
+body.is-modal .det-wrap{padding-top:18px}
+body.is-modal .det-jump{top:0}
+</style>
+</head>
+<body>
+<div class="beta-bar" role="status" aria-live="polite">
+  <span class="beta-bar-pulse" aria-hidden="true"></span>
+  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-sep" aria-hidden="true">·</span>
+  <span class="beta-bar-tag">Actively refining for accuracy</span>
+</div>
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-inner">
+    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
+    </a>
+    <div class="site-nav-tabs">
+      <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
+      <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">My Profile</a>
+    </div>
+  </div>
+</nav>
+
+<main class="det-wrap" id="det-root"></main>
+
+<script src="data.js?v=20260418m"></script>
+<script src="search-index.js?v=20260429a"></script>
+<script src="nav-search.js?v=20260429a"></script>
+<script>
+(function(){
+  function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+  function escAttr(s){return escHtml(s);}
+
+  // Onset / Cost / Drug labels are global (from data.js): OL_SHORT, CL, DL
+  function onsetLabel(v){return (typeof OL_SHORT!=='undefined' && OL_SHORT[v]) || '—';}
+  function costLabel(v){return (typeof CL!=='undefined' && CL[v]) || '—';}
+  function drugLabel(v){return (typeof DL!=='undefined' && DL[v]) || '—';}
+
+  // First 1–2 sentences of desc (TL;DR for hero) — no lookbehind for older browsers
+  function tldrFromDesc(desc){
+    if(!desc) return '';
+    var parts = desc.match(/[^.!?]+[.!?]+\s*/g) || [desc];
+    var out = parts.slice(0, 2).join('').trim();
+    if (out.length < 80 && parts.length > 2) out = parts.slice(0, 3).join('').trim();
+    return out;
+  }
+
+  // Compact dose for hero stat cell — handles ranges ("3-5 g") and singles ("400 mg")
+  function compactDose(dose){
+    if(!dose) return '—';
+    var first = dose.split(/[;,]/)[0].trim();
+    // Try X-Y unit first (e.g. "3-5 g/day")
+    var m = first.match(/([\d.,]+\s*[–\-]\s*[\d.,]+\s*[a-zA-Zµ]+(?:\/\w+)?)/);
+    if(m) return m[1];
+    // Then X unit (e.g. "400 mg")
+    m = first.match(/([\d.,]+\s*[a-zA-Zµ]+(?:\/\w+)?)/);
+    if(m) return m[1];
+    // Last resort: first 3 words
+    var w = first.split(/\s+/);
+    return w.slice(0, Math.min(3, w.length)).join(' ');
+  }
+
+  // "Continuous" / "Cycled" derived from cycle prose
+  function cycleSummary(cycle){
+    if(!cycle) return 'Continuous';
+    var c = cycle.toLowerCase();
+    if(/cycle\s+\d|wk(?:s)?\s+on|weeks?\s+on|cycle\s+8|cycle\s+6/.test(c)) return 'Cycled';
+    if(/continuous|indefinite|no cycling needed/.test(c)) return 'Continuous';
+    return 'Continuous';
+  }
+
+  function categoriesFromTag(tag){
+    if(!tag) return [];
+    return tag.split(' · ').map(function(t){return t.trim();}).filter(Boolean);
+  }
+
+  // Sub-score bar (5/5 scale)
+  function bar(label, val){
+    var pct = Math.max(0, Math.min(100, (val||0) * 20));
+    return '<div class="det-bar"><div class="det-bar-lbl">'+escHtml(label)+'</div><div class="det-bar-track"><div class="det-bar-fill" style="width:'+pct+'%"></div></div><div class="det-bar-val">'+(val||'-')+'/5</div></div>';
+  }
+
+  // Linked entity list cell
+  function relCell(title, items, renderItem, count){
+    var body;
+    if(!items || !items.length){
+      body = '<div class="det-rel-empty">None on file.</div>';
+    } else {
+      body = '<ul class="det-rel-list">' + items.map(renderItem).join('') + '</ul>';
+    }
+    var cnt = (count != null) ? '<span class="cnt">'+count+'</span>' : '';
+    return '<div class="det-rel-cell"><div class="det-rel-h"><span>'+escHtml(title)+'</span>'+cnt+'</div>'+body+'</div>';
+  }
+
+  function bucketLabel(b){
+    return b === 'avoid' ? 'Avoid' : b === 'caution' ? 'Caution' : b === 'extra' ? 'Synergy' : '';
+  }
+  function bucketClass(b){
+    return b === 'avoid' ? 'avoid' : b === 'caution' ? 'caution' : b === 'extra' ? 'support' : '';
+  }
+
+  var p = new URLSearchParams(location.search);
+  var slug = (p.get('slug') || '').trim();
+  var root = document.getElementById('det-root');
+  if (p.get('modal') === '1') document.body.classList.add('is-modal');
+
+  if (!slug){
+    var sampleSlugs = [
+      ['Creatine monohydrate',         'creatine-monohydrate',         't1'],
+      ['Omega-3 (EPA/DHA)',            'omega-3-epa-dha',              't1'],
+      ['Magnesium',                    'magnesium',                    't1'],
+      ['Ashwagandha (KSM-66)',         'ashwagandha-ksm-66',           't2'],
+      ['Berberine',                    'berberine',                    't2'],
+      ["St. John's Wort",              'st-johns-wort',                't2'],
+      ["Lion's mane mushroom",         'lions-mane-mushroom',          't3'],
+      ['Garcinia cambogia (HCA)',      'garcinia-cambogia-hca',        't4']
+    ];
+    var sampleHtml = sampleSlugs.map(function(row){
+      return '<a href="?slug='+encodeURIComponent(row[1])+'" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:10px;text-decoration:none;color:var(--color-text-primary);font-size:13.5px"><span>'+escHtml(row[0])+'</span><span class="det-tier '+row[2]+'" style="font-size:9.5px;padding:2px 8px">'+row[2].toUpperCase()+'</span></a>';
+    }).join('');
+    root.innerHTML =
+      '<a class="det-back" href="index.html">‹ Back to Index</a>'
+      + '<h1 class="det-h1" style="font-size:32px;margin-bottom:10px">Pick a supplement</h1>'
+      + '<p style="color:var(--color-text-secondary);margin-bottom:18px;font-size:14px">No slug in URL. Click any supplement below to render the detail page, or browse the full <a href="index.html">Index</a>.</p>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:680px">'+sampleHtml+'</div>';
+    return;
+  }
+
+  var s = window.SS.getSupplement(slug);
+  if (!s){
+    root.innerHTML = '<a class="det-back" href="search.html?q=' + encodeURIComponent(slug.replace(/-/g,' ')) + '">‹ Back to search</a><h1 class="det-h1">Supplement not found</h1><p style="color:var(--color-text-secondary)">No record for slug "'+escHtml(slug)+'". Try the <a href="search.html">search</a>.</p>';
+    return;
+  }
+  document.title = s.n + ' — SupplementScore';
+
+  var meta = window.SS.tierMeta(s.t);
+  var compScore = window.SS.compositeScore(s);
+  var conds   = window.SS.conditionsForSupplement(s.n) || [];
+  var meds    = window.SS.medsForSupplement(s.n) || [];
+  var artiles = window.SS.articlesForSupplement(s.n) || [];
+  var bioms   = window.SS.biomarkersForSupplement(s.n) || [];
+
+  var tldr = tldrFromDesc(s.desc);
+  var dose = compactDose(s.dose);
+  var cycle = cycleSummary(s.cycle);
+  var cats = categoriesFromTag(s.tag);
+
+  // Alert banner — derive from data
+  var avoidMeds = meds.filter(function(m){return m.bucket==='avoid';});
+  var alertHtml = '';
+  if (s.t === 't4'){
+    var a4 = avoidMeds.length
+      ? 'Avoid combining with ' + avoidMeds.slice(0, 2).map(function(m){return m.name;}).join(', ') + (avoidMeds.length > 2 ? ', and others.' : '.')
+      : 'Significant safety concerns documented. Review the safety section before use.';
+    alertHtml = '<div class="det-alert high"><span class="det-alert-icon">⚠︎</span><div><b>Tier 4 — risky / avoid.</b> '+escHtml(a4)+' <a href="#det-related">See related ↓</a></div></div>';
+  } else if (avoidMeds.length){
+    alertHtml = '<div class="det-alert med"><span class="det-alert-icon">⚠︎</span><div><b>Do not stack</b> with '+avoidMeds.slice(0, 2).map(function(m){return escHtml(m.name);}).join(', ')+(avoidMeds.length > 2 ? ', and others.' : '.')+' <a href="#det-related">See related ↓</a></div></div>';
+  }
+
+  // Categories
+  var catsHtml = cats.length
+    ? cats.map(function(c){return '<span class="det-cat-pill">'+escHtml(c)+'</span>';}).join('')
+    : '';
+
+  // Hero stats — Onset / Daily dose / Cost rating
+  var statsHtml =
+      '<div class="det-stat"><div class="det-stat-lbl">Onset</div><div class="det-stat-val">'+escHtml(onsetLabel(s.o))+'</div><div class="det-stat-sub">to see effects</div></div>'
+    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div><div class="det-stat-sub">see protocol</div></div>'
+    + '<div class="det-stat"><div class="det-stat-lbl">Cost</div><div class="det-stat-val">'+escHtml(costLabel(s.c))+'</div><div class="det-stat-sub">value rating</div></div>';
+
+  // Hero sub-score bars
+  var barsHtml =
+      bar('Efficacy', s.e)
+    + bar('Safety',   s.s)
+    + bar('Research', s.r)
+    + bar('Onset',    s.o)
+    + bar('Cost',     s.c)
+    + bar('Drug-int', s.d);
+
+  // Protocol card rows
+  var protocolRows = '';
+  if (s.dose) protocolRows += '<div class="det-ref-row"><span class="det-ref-row-lbl">Dose</span><span class="det-ref-row-val">'+escHtml(s.dose)+'</span></div>';
+  if (s.tips) protocolRows += '<div class="det-ref-row"><span class="det-ref-row-lbl">How to take</span><span class="det-ref-row-val">'+escHtml(s.tips)+'</span></div>';
+  if (s.cycle) protocolRows += '<div class="det-ref-row"><span class="det-ref-row-lbl">Cycling</span><span class="det-ref-row-val">'+escHtml(s.cycle)+'</span></div>';
+
+  // Linked entities cells
+  var medsCellHtml = relCell('Drug interactions', meds, function(m){
+    return '<li><a href="'+escAttr(window.SS.urlFor('medication', m.slug))+'"><span>'+escHtml(m.name)+'</span><span class="det-ltag '+bucketClass(m.bucket)+'">'+escHtml(bucketLabel(m.bucket))+'</span></a></li>';
+  }, meds.length);
+
+  var condsLabel = (s.t === 't4') ? 'Marketed for' : 'Recommended for';
+  var condsCellHtml = relCell(condsLabel, conds, function(c){
+    return '<li><a href="'+escAttr(window.SS.urlFor('condition', c.slug))+'"><span>'+escHtml(c.name)+'</span><span class="det-ltag">Condition</span></a></li>';
+  }, conds.length);
+
+  var biomsCellHtml = relCell('Lab markers', bioms, function(b){
+    return '<li><a href="'+escAttr(window.SS.urlFor('biomarker', b.slug))+'"><span>'+escHtml(b.name)+'</span><span class="det-ltag">Biomarker</span></a></li>';
+  }, bioms.length);
+
+  // 4th cell — Trending if flagged, else Articles count or skip
+  var fourthCellHtml = '';
+  if (s.tr){
+    fourthCellHtml = '<div class="det-rel-cell"><div class="det-rel-h"><span>Trending</span></div><div style="font-size:12px;line-height:1.55;color:var(--color-text-secondary)">Currently popular in wellness culture. Trending ≠ proven — see the score for actual evidence weight.</div></div>';
+  } else {
+    fourthCellHtml = '<div class="det-rel-cell"><div class="det-rel-h"><span>Articles</span><span class="cnt">'+artiles.length+'</span></div><div style="font-size:12px;line-height:1.55;color:var(--color-text-secondary)">'+(artiles.length ? 'Curated reading available — see Sources below.' : 'No articles yet on file.')+'</div></div>';
+  }
+
+  // Sources — subtle article icon + read time
+  var ART_ICON = '<svg class="det-art-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>';
+
+  var sourcesHtml = '';
+  if (artiles.length){
+    sourcesHtml = '<div class="det-sources" id="det-sources"><div class="det-sources-h">Sources &amp; further reading</div><div class="det-sources-grid">'
+      + artiles.map(function(a){
+          var readTime = a.m ? (a.m + ' min') : '';
+          return '<a href="'+escAttr(window.SS.urlFor('article', a.id))+'">'
+            + '<span class="det-art-left">'
+            +   ART_ICON
+            +   '<span class="det-art-title">'+escHtml(a.t)+'</span>'
+            + '</span>'
+            + (readTime ? '<span class="det-art-meta">'+escHtml(readTime)+'</span>' : '')
+            + '</a>';
+        }).join('')
+      + '</div></div>';
+  }
+
+  // Jump-nav links — only show sections that exist
+  var jumpLinks = ['<a href="#det-protocol">Protocol</a>','<a href="#det-evidence">Evidence</a>','<a href="#det-related">Related</a>'];
+  if (artiles.length) jumpLinks.push('<a href="#det-sources">Sources</a>');
+
+  root.innerHTML =
+    '<a class="det-back" href="search.html?q='+encodeURIComponent(s.n)+'">‹ Back to search</a>'
+    + '<div class="det-page '+escAttr(s.t)+'">'
+
+      // HERO V5
+      + '<div class="det-hero">'
+      +   '<div class="det-score-corner">'
+      +     '<div class="det-score-lbl">Score</div>'
+      +     '<div style="margin-top:2px"><span class="det-score-num">'+compScore+'</span><span class="det-score-suffix">/100</span></div>'
+      +   '</div>'
+      +   '<div class="det-hero-l">'
+      +     '<div class="det-hero-tier-row"><span class="det-tier '+escAttr(s.t)+'">'+escHtml(meta.label)+'</span></div>'
+      +     '<h1 class="det-h1">'+escHtml(s.n)+'</h1>'
+      +     (catsHtml ? '<div class="det-cats">'+catsHtml+'</div>' : '')
+      +     (tldr ? '<p class="det-tldr">'+escHtml(tldr)+'</p>' : '')
+      +     '<div class="det-stats">'+statsHtml+'</div>'
+      +     '<div class="det-bars">'+barsHtml+'</div>'
+      +   '</div>'
+      + '</div>'
+
+      // Jump nav
+      + '<div class="det-jump"><div class="det-jump-inner"><span class="det-jump-lbl">Jump to</span>'+jumpLinks.join('')+'</div></div>'
+
+      // Body
+      + '<div class="det-body">'
+
+      +   alertHtml
+
+      // Protocol
+      +   (protocolRows
+            ? '<div class="det-ref" id="det-protocol">'
+              + '<div class="det-ref-head"><span class="det-ref-tag">Protocol</span><span class="det-ref-meta">'+escHtml(cycle)+'</span></div>'
+              + protocolRows
+              + '</div>'
+            : '')
+
+      // Evidence prose (full s.desc)
+      +   (s.desc
+            ? '<section class="det-prose" id="det-evidence"><h2 class="det-prose-h">What it is &amp; what the evidence says</h2><p>'+escHtml(s.desc)+'</p></section>'
+            : '')
+
+      // Linked entities panel — only render if we have any
+      +   ((meds.length || conds.length || bioms.length || s.tr || artiles.length)
+            ? '<div class="det-rel" id="det-related">'
+              + '<div class="det-rel-head"><span class="det-rel-tag">Interactions, stacking &amp; related entities</span></div>'
+              + '<div class="det-rel-grid">'
+              +   medsCellHtml
+              +   condsCellHtml
+              +   biomsCellHtml
+              +   fourthCellHtml
+              + '</div>'
+              + '</div>'
+            : '')
+
+      +   sourcesHtml
+
+      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="methodology.html">methodology</a> for how scores are derived.</p>'
+      + '</div>'
+    + '</div>';
+})();
+</script>
+</body>
+</html>

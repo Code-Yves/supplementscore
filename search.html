@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
+<title>Search — SupplementScore</title>
+<meta name="description" content="Search across 733 supplements, 19 conditions, 21 medication classes, 17 lab biomarkers, and 241 articles.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260427a">
+<style>
+.sr-wrap{max-width:1100px;margin:0 auto;padding:24px}
+.sr-header{padding:24px 0 16px}
+.sr-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin-bottom:14px}
+.sr-back:hover{background:rgba(123,31,162,.06);border-color:var(--color-brand);color:var(--color-brand)}
+.sr-title{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
+.sr-title em{font-style:normal;color:var(--color-brand)}
+.sr-meta{font-size:13.5px;color:var(--color-text-secondary)}
+.sr-meta b{color:var(--color-text-primary);font-weight:600}
+.sr-empty{padding:48px 24px;text-align:center;background:var(--color-background-primary);border:1px dashed var(--color-border-secondary);border-radius:14px;margin-top:18px}
+.sr-empty h3{margin:0 0 8px;font-size:18px;color:var(--color-text-primary)}
+.sr-empty p{margin:0;font-size:13.5px;color:var(--color-text-secondary)}
+.sr-section{margin-top:28px}
+.sr-sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:14px}
+.sr-sec-h h2{font-size:18px;font-weight:700;letter-spacing:-.4px;color:var(--color-text-primary);margin:0;display:flex;align-items:center;gap:10px}
+.sr-sec-h .sr-count{font-size:11.5px;color:var(--color-text-tertiary);font-weight:500}
+.sr-sec-h .ico{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.sr-sec-h .ico svg{width:16px;height:16px;stroke-width:1.75;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.sr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.sr-card{position:relative;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--color-text-primary);transition:transform .15s,box-shadow .15s,border-color .15s;display:flex;flex-direction:column;gap:8px;min-height:78px}
+.sr-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(15,23,42,.08);border-color:var(--color-border-secondary)}
+.sr-card-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sr-card-name{font-size:14px;font-weight:600;letter-spacing:-.1px;flex:1;min-width:0}
+.sr-card-meta{font-size:11.5px;color:var(--color-text-tertiary);line-height:1.5}
+.sr-card-meta b{color:var(--color-text-secondary)}
+.sr-tier{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;flex-shrink:0}
+.sr-tier-t1{background:var(--t1bg);color:var(--t1tx)}
+.sr-tier-t2{background:var(--t2bg);color:var(--t2tx)}
+.sr-tier-t3{background:var(--t3bg);color:var(--t3tx)}
+.sr-tier-t4{background:var(--t4bg);color:var(--t4tx)}
+.sr-pill{font-size:10.5px;color:var(--color-text-tertiary);padding:1px 7px;border-radius:999px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);white-space:nowrap}
+.sr-art-cat{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.sr-art-cat-guide{background:var(--t2bg);color:var(--t2tx)}
+.sr-art-cat-breakthrough{background:var(--t1bg);color:var(--t1tx)}
+.sr-art-cat-myth{background:var(--t3bg);color:var(--t3tx)}
+.sr-art-cat-safety{background:var(--t4bg);color:var(--t4tx)}
+.sr-art-cat-kids{background:rgba(190,24,93,.10);color:#9D174D}
+.sr-bucket{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.sr-bucket-avoid{background:var(--t4bg);color:var(--t4tx)}
+.sr-bucket-caution{background:var(--t3bg);color:var(--t3tx)}
+.sr-bucket-extra{background:var(--t1bg);color:var(--t1tx)}
+.sec-supplement .ico{background:var(--t1bg);color:var(--t1tx)}
+.sec-condition  .ico{background:var(--t2bg);color:var(--t2tx)}
+.sec-medication .ico{background:var(--t4bg);color:var(--t4tx)}
+.sec-biomarker  .ico{background:var(--t2bg);color:var(--t2tx)}
+.sec-article    .ico{background:rgba(123,31,162,.10);color:#7B1FA2}
+.sr-note{margin-top:10px;font-size:12px;color:var(--color-text-tertiary)}
+</style>
+</head>
+<body>
+<noscript><div class="noscript-msg" role="alert">This page requires JavaScript.</div></noscript>
+
+<div class="beta-bar" role="status" aria-live="polite">
+  <span class="beta-bar-pulse" aria-hidden="true"></span>
+  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-sep" aria-hidden="true">·</span>
+  <span class="beta-bar-tag">Actively refining for accuracy</span>
+</div>
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-inner">
+    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
+    </a>
+    <div class="site-nav-tabs">
+      <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
+      <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">My Profile</a>
+    </div>
+  </div>
+</nav>
+
+<main class="sr-wrap">
+  <header class="sr-header">
+    <a href="index.html" class="sr-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Back to Index
+    </a>
+    <h1 class="sr-title" id="sr-title">Search</h1>
+    <div class="sr-meta" id="sr-meta">Loading…</div>
+  </header>
+  <div id="sr-body"></div>
+</main>
+
+<script src="data.js?v=20260418m"></script>
+<script src="search-index.js?v=20260429a"></script>
+<script src="nav-search.js?v=20260429a"></script>
+<script src="supplement-modal.js?v=20260429a" defer></script>
+<script>
+(function(){
+  function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]});}
+  function el(html){var d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+
+  var p = new URLSearchParams(location.search);
+  var q = (p.get('q') || '').trim();
+  var titleEl = document.getElementById('sr-title');
+  var metaEl  = document.getElementById('sr-meta');
+  var bodyEl  = document.getElementById('sr-body');
+  var navInp  = document.getElementById('nav-search-inp');
+  if (navInp) navInp.value = q;
+
+  document.title = q ? ('"' + q + '" — SupplementScore search') : 'Search — SupplementScore';
+
+  if (!q) {
+    titleEl.innerHTML = 'Search the SupplementScore database';
+    metaEl.textContent = 'Type a supplement, condition, medication, lab marker, or article topic into the search bar above.';
+    return;
+  }
+
+  titleEl.innerHTML = 'Results for &ldquo;<em>' + escapeHtml(q) + '</em>&rdquo;';
+
+  // Run search with generous limits.
+  var r = window.SS.search(q, { limit: 50 });
+  var totals = {
+    supplement: r.supplements.length,
+    condition:  r.conditions.length,
+    medication: r.medications.length,
+    biomarker:  r.biomarkers.length,
+    article:    r.articles.length
+  };
+  var grand = totals.supplement + totals.condition + totals.medication + totals.biomarker + totals.article;
+
+  var bits = [];
+  if (totals.supplement) bits.push('<b>' + totals.supplement + '</b> supplement' + (totals.supplement===1?'':'s'));
+  if (totals.condition)  bits.push('<b>' + totals.condition  + '</b> condition' + (totals.condition===1?'':'s'));
+  if (totals.medication) bits.push('<b>' + totals.medication + '</b> medication' + (totals.medication===1?'':'s'));
+  if (totals.biomarker)  bits.push('<b>' + totals.biomarker  + '</b> biomarker' + (totals.biomarker===1?'':'s'));
+  if (totals.article)    bits.push('<b>' + totals.article    + '</b> article' + (totals.article===1?'':'s'));
+  metaEl.innerHTML = grand === 0 ? 'No matches found.' : 'Found ' + bits.join(' · ');
+
+  if (grand === 0) {
+    bodyEl.innerHTML = '<div class="sr-empty"><h3>No matches.</h3><p>Try a shorter or differently-spelled term — for example, "magnesium", "anxiety", "warfarin", or "vitamin D".</p></div>';
+    return;
+  }
+
+  // Section icon SVGs
+  var ICONS = {
+    supplement: '<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg>',
+    condition:  '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 7 3.5C19 15.5 12 20 12 20z"/></svg>',
+    medication: '<svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M12 9v6"/></svg>',
+    biomarker:  '<svg viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>',
+    article:    '<svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M16 4v3h3"/><path d="M8 12h8"/><path d="M8 16h6"/></svg>'
+  };
+
+  function suppCard(item){
+    var s = item.ref;
+    var url = window.SS.urlFor('supplement', item.slug);
+    var firstTag = (s.tag || '').split(' · ')[0] || '';
+    var score = window.SS.compositeScore(s);
+    return '<a class="sr-card" href="' + url + '">'
+      + '<div class="sr-card-row"><div class="sr-card-name">' + escapeHtml(s.n) + '</div>'
+      +   '<span class="sr-tier sr-tier-' + s.t + '">' + escapeHtml(window.SS.tierMeta(s.t).badge) + '</span>'
+      + '</div>'
+      + '<div class="sr-card-meta">' + escapeHtml(s.tag || '—') + '</div>'
+      + '<div class="sr-card-row"><span class="sr-pill">Score ' + score + '/100</span><span class="sr-pill">E ' + (s.e||'-') + ' · S ' + (s.s||'-') + ' · R ' + (s.r||'-') + '</span></div>'
+    + '</a>';
+  }
+  function condCard(item){
+    var c = item.ref;
+    var url = window.SS.urlFor('condition', item.slug);
+    var sup = (c.supps || []).slice(0,3).join(' · ');
+    return '<a class="sr-card" href="' + url + '">'
+      + '<div class="sr-card-name">' + escapeHtml(c.label) + '</div>'
+      + '<div class="sr-card-meta"><b>Top picks:</b> ' + escapeHtml(sup || '—') + '</div>'
+      + '<div class="sr-card-row"><span class="sr-pill">' + (c.supps ? c.supps.length : 0) + ' recommended</span></div>'
+    + '</a>';
+  }
+  function medCard(item){
+    var m = item.ref;
+    var url = window.SS.urlFor('medication', item.slug);
+    var counts = (m.avoid||[]).length + (m.caution||[]).length + (m.extra||[]).length;
+    return '<a class="sr-card" href="' + url + '">'
+      + '<div class="sr-card-name">' + escapeHtml(m.label) + '</div>'
+      + '<div class="sr-card-meta">' + escapeHtml((m.note||'').slice(0,150) + ((m.note||'').length>150?'…':'')) + '</div>'
+      + '<div class="sr-card-row">'
+      +   ((m.avoid   && m.avoid.length)   ? '<span class="sr-bucket sr-bucket-avoid">' + m.avoid.length + ' avoid</span>'   : '')
+      +   ((m.caution && m.caution.length) ? '<span class="sr-bucket sr-bucket-caution">' + m.caution.length + ' caution</span>' : '')
+      +   ((m.extra   && m.extra.length)   ? '<span class="sr-bucket sr-bucket-extra">' + m.extra.length + ' supportive</span>' : '')
+      + '</div>'
+    + '</a>';
+  }
+  function biomCard(item){
+    var b = item.ref;
+    var url = window.SS.urlFor('biomarker', item.slug);
+    return '<a class="sr-card" href="' + url + '">'
+      + '<div class="sr-card-name">' + escapeHtml(b.name) + '</div>'
+      + '<div class="sr-card-meta">' + escapeHtml(b.desc || '—') + '</div>'
+      + '<div class="sr-card-row"><span class="sr-pill">Optimal ' + escapeHtml(String(b.optLow)) + '–' + escapeHtml(String(b.optHigh)) + ' ' + escapeHtml(b.unit||'') + '</span></div>'
+    + '</a>';
+  }
+  function artCard(item){
+    var a = item.ref;
+    var url = window.SS.urlFor('article', item.id);
+    var cat = (a.c || 'article').toLowerCase();
+    return '<a class="sr-card" href="' + url + '">'
+      + '<div class="sr-card-row"><div class="sr-card-name">' + escapeHtml(a.t) + '</div>'
+      +   '<span class="sr-art-cat sr-art-cat-' + cat + '">' + escapeHtml(cat) + '</span>'
+      + '</div>'
+      + '<div class="sr-card-meta">Article #' + escapeHtml(String(item.id)) + '</div>'
+    + '</a>';
+  }
+
+  function section(type, label, items, render){
+    if (!items || !items.length) return '';
+    return ''
+      + '<section class="sr-section sec-' + type + '">'
+      +   '<div class="sr-sec-h"><h2><span class="ico" aria-hidden="true">' + ICONS[type] + '</span>' + escapeHtml(label) + '</h2><span class="sr-count">' + items.length + ' result' + (items.length===1?'':'s') + '</span></div>'
+      +   '<div class="sr-grid">' + items.map(render).join('') + '</div>'
+      + '</section>';
+  }
+
+  bodyEl.innerHTML =
+      section('supplement', 'Supplements', r.supplements, suppCard)
+    + section('condition',  'Conditions',  r.conditions,  condCard)
+    + section('medication', 'Medications', r.medications, medCard)
+    + section('biomarker',  'Biomarkers',  r.biomarkers,  biomCard)
+    + section('article',    'Articles',    r.articles,    artCard);
+})();
+</script>
+</body>
+</html>

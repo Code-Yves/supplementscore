@@ -1,0 +1,17 @@
+{
+  "openfda_drugs/1,3-DMBA (dimethylbutylamine)": {
+    "source_key": "openfda_drugs",
+    "supplement": "1,3-DMBA (dimethylbutylamine)",
+    "records": []
+  },
+  "openfda_drugs/2'-Fucosyllactose (2'-FL HMO)": {
+    "source_key": "openfda_drugs",
+    "supplement": "2'-Fucosyllactose (2'-FL HMO)",
+    "records": []
+  },
+  "openfda_drugs/2,4-Dinitrophenol (DNP)": {
+    "source_key": "openfda_drugs",
+    "supplement": "2,4-Dinitrophenol (DNP)",
+    "records": []
+  }
+}
