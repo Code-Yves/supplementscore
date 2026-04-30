@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disclaimer — Mockup Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary:    #f6f2ea;
+  --bg-secondary:  #ebe5d9;
+  --bg-white:      #fff;
+  --text-primary:  #1a1714;
+  --text-secondary:#5c5449;
+  --text-tertiary: #9a9088;
+  --border-t:      #ddd7cc;
+  --border-s:      #c9c2b7;
+  --red:           #B91C1C;
+  --red-bg:        #fde8e8;
+  --red-mid:       rgba(185,28,28,.08);
+  --amber:         #CA8A04;
+  --brand:         #7B1FA2;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: #e8e2d8;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  padding: 40px 24px 80px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #9a9088;
+}
+
+.option-block {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 40px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+}
+
+.option-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-t);
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin-bottom: 20px;
+}
+.option-label .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+
+.option-note {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.option-note strong { color: var(--text-primary); }
+
+
+/* ============================================================
+   OPTION A — "Quiet Authority"
+   Matches the card vocabulary of Roadmap/Sources exactly.
+   Low-key background, structured labeled rows, top accent bar.
+   ============================================================ */
+
+.disc-a {
+  background: var(--bg-white);
+  border: 1px solid var(--border-t);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.disc-a-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-t);
+  background: var(--bg-primary);
+}
+
+.disc-a-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--red-bg);
+  border: 1px solid rgba(185,28,28,.18);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.disc-a-icon svg { color: var(--red); }
+
+.disc-a-kicker {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 2px;
+}
+
+.disc-a-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.disc-a-body {
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media(max-width:640px){ .disc-a-body{ grid-template-columns:1fr; } }
+
+.disc-a-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border-t);
+}
+
+.disc-a-tag {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--red-bg);
+  color: var(--red);
+  flex-shrink: 0;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+.disc-a-text {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.disc-a-text b { color: var(--text-primary); font-weight: 700; }
+
+.disc-a-footer {
+  margin: 0 20px 16px;
+  padding: 12px 14px;
+  background: var(--red-mid);
+  border-radius: 8px;
+  border-left: 3px solid var(--red);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.disc-a-footer b { color: var(--text-primary); }
+
+
+/* ============================================================
+   OPTION B — "Slim Banner"
+   Compact horizontal band. No heavy card. Clean rule-based
+   layout: icon + headline left, collapsed key points right.
+   Feels like a professional legal notice, not a warning siren.
+   ============================================================ */
+
+.disc-b {
+  border: 1px solid rgba(185,28,28,.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-white);
+}
+
+.disc-b-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(185,28,28,.12);
+  background: rgba(185,28,28,.04);
+}
+
+.disc-b-icon-wrap {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(185,28,28,.25);
+}
+.disc-b-icon-wrap svg { color: #fff; }
+
+.disc-b-headline-group { flex: 1; min-width: 0; }
+.disc-b-eyebrow {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 3px;
+}
+.disc-b-headline {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.disc-b-body {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.disc-b-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid var(--border-t);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.disc-b-item:last-child { border-bottom: none; }
+
+.disc-b-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  width: 72px;
+  padding-top: 1px;
+}
+
+.disc-b-item b { color: var(--text-primary); font-weight: 700; }
+
+.disc-b-emergency {
+  margin: 0 20px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--red-bg);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--red);
+  line-height: 1.55;
+}
+.disc-b-emergency svg { flex-shrink: 0; margin-top: 1px; }
+.disc-b-emergency b { font-weight: 700; }
+
+
+/* ============================================================
+   OPTION C — "Icon Grid"
+   Each disclaimer point is its own mini-card with an icon.
+   Matches the visual language of the Roadmap cards above.
+   Communicates seriousness through structure rather than color.
+   ============================================================ */
+
+.disc-c {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.disc-c-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.disc-c-icon-box {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(185,28,28,.25);
+}
+.disc-c-icon-box svg { color: #fff; }
+
+.disc-c-eyebrow {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 3px;
+}
+.disc-c-headline {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.disc-c-divider {
+  height: 1px;
+  background: rgba(185,28,28,.15);
+  margin-bottom: 14px;
+}
+
+.disc-c-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+@media(max-width:640px){ .disc-c-grid{ grid-template-columns:1fr 1fr; } }
+
+.disc-c-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-t);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.disc-c-card-icon {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: var(--red-bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.disc-c-card-icon svg { color: var(--red); }
+
+.disc-c-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.disc-c-card-text {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.disc-c-card-text b { color: var(--text-primary); font-weight: 700; }
+
+.disc-c-footer {
+  background: rgba(185,28,28,.05);
+  border: 1px solid rgba(185,28,28,.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.disc-c-footer-icon {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.disc-c-footer-icon svg { color: #fff; }
+.disc-c-footer b { color: var(--text-primary); }
+
+</style>
+</head>
+<body>
+
+<p class="page-title">Disclaimer Section — 3 Layout Mockups</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     OPTION A — Quiet Authority
+     ═══════════════════════════════════════════════════════ -->
+<div class="option-block">
+  <div class="option-label"><span class="dot"></span>Option A — Quiet Authority</div>
+  <div class="option-note">
+    <strong>Concept:</strong> Matches the Roadmap/Sources card grammar exactly — white card on parchment, light header strip, labeled mini-cards per point. Uses a tag pill ("Not Medical") rather than heavy red backgrounds to identify each item. Authoritative without alarming.
+  </div>
+
+  <div class="disc-a">
+    <div class="disc-a-header">
+      <div class="disc-a-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="disc-a-kicker">Important Disclaimer</div>
+        <div class="disc-a-title">Read this before acting on any score.</div>
+      </div>
+    </div>
+
+    <div class="disc-a-body">
+      <div class="disc-a-row">
+        <span class="disc-a-tag">Not medical</span>
+        <p class="disc-a-text">SupplementScore is an <b>educational tool, not a medical device</b>. It has not been reviewed or approved by the FDA, Health Canada, or any regulatory body.</p>
+      </div>
+      <div class="disc-a-row">
+        <span class="disc-a-tag">Individual</span>
+        <p class="disc-a-text">Scores reflect <b>population-level evidence</b>. Individual responses vary based on genetics, diet, health status, medications, and pre-existing conditions.</p>
+      </div>
+      <div class="disc-a-row">
+        <span class="disc-a-tag">AI-assisted</span>
+        <p class="disc-a-text"><b>AI-assisted content review</b> may miss nuances that a trained clinician would catch. All data should be verified with a healthcare provider.</p>
+      </div>
+      <div class="disc-a-row">
+        <span class="disc-a-tag">Quality</span>
+        <p class="disc-a-text"><b>Supplement quality varies</b> dramatically between brands. We do not test, certify, or endorse specific products.</p>
+      </div>
+      <div class="disc-a-row">
+        <span class="disc-a-tag">No claims</span>
+        <p class="disc-a-text">Nothing on this site is intended to <b>diagnose, treat, cure, or prevent</b> any disease.</p>
+      </div>
+      <div class="disc-a-row">
+        <span class="disc-a-tag">Consult MD</span>
+        <p class="disc-a-text"><b>Always consult a qualified healthcare professional</b> before starting, stopping, or changing any supplement — especially if pregnant, nursing, or on medications.</p>
+      </div>
+    </div>
+
+    <div class="disc-a-footer">
+      <b>This is not a substitute for professional medical advice.</b> If you are experiencing a medical emergency, contact your local emergency services immediately.
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     OPTION B — Slim Banner
+     ═══════════════════════════════════════════════════════ -->
+<div class="option-block">
+  <div class="option-label"><span class="dot"></span>Option B — Slim Banner</div>
+  <div class="option-note">
+    <strong>Concept:</strong> Compact single-column list with a labeled left gutter per row (like a table). Red accent is contained to the header strip and emergency footer. Reads like a professional legal notice — no visual alarm, just clarity.
+  </div>
+
+  <div class="disc-b">
+    <div class="disc-b-top">
+      <div class="disc-b-icon-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="disc-b-headline-group">
+        <div class="disc-b-eyebrow">Important Disclaimer</div>
+        <div class="disc-b-headline">Read this before acting on any score.</div>
+      </div>
+    </div>
+
+    <div class="disc-b-body">
+      <div class="disc-b-item">
+        <span class="disc-b-label">Not medical</span>
+        <span>SupplementScore is an <b>educational tool, not a medical device</b>. It has not been reviewed or approved by the FDA, Health Canada, or any regulatory body.</span>
+      </div>
+      <div class="disc-b-item">
+        <span class="disc-b-label">Individual</span>
+        <span>Scores reflect <b>population-level evidence</b>. Individual responses vary based on genetics, diet, health status, medications, and pre-existing conditions.</span>
+      </div>
+      <div class="disc-b-item">
+        <span class="disc-b-label">AI-assisted</span>
+        <span><b>AI-assisted content review</b> may miss nuances that a trained clinician would catch. All data should be verified with a healthcare provider.</span>
+      </div>
+      <div class="disc-b-item">
+        <span class="disc-b-label">Quality</span>
+        <span><b>Supplement quality varies</b> dramatically between brands and manufacturers. We do not test, certify, or endorse specific products.</span>
+      </div>
+      <div class="disc-b-item">
+        <span class="disc-b-label">No claims</span>
+        <span>Nothing on this site is intended to <b>diagnose, treat, cure, or prevent</b> any disease.</span>
+      </div>
+      <div class="disc-b-item">
+        <span class="disc-b-label">Consult MD</span>
+        <span><b>Always consult a qualified healthcare professional</b> before starting, stopping, or changing any supplement — especially if pregnant, nursing, or on medications.</span>
+      </div>
+    </div>
+
+    <div class="disc-b-emergency">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span><b>This is not a substitute for professional medical advice.</b> If you are experiencing a medical emergency, contact your local emergency services immediately.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     OPTION C — Icon Grid
+     ═══════════════════════════════════════════════════════ -->
+<div class="option-block">
+  <div class="option-label"><span class="dot"></span>Option C — Icon Grid</div>
+  <div class="option-note">
+    <strong>Concept:</strong> Each disclaimer point gets its own card with a unique icon — mirrors the Roadmap's card-per-item structure. Conveys seriousness through organization and visual care rather than red alarm colors. The grid format signals "we've thought about each of these individually."
+  </div>
+
+  <div class="disc-c">
+    <div class="disc-c-header">
+      <div class="disc-c-icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="disc-c-eyebrow">Important Disclaimer</div>
+        <div class="disc-c-headline">Read this before acting on any score.</div>
+      </div>
+    </div>
+    <div class="disc-c-divider"></div>
+
+    <div class="disc-c-grid">
+
+      <div class="disc-c-card">
+        <div class="disc-c-card-icon">
+          <!-- book-open -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="disc-c-card-title">Educational Tool Only</div>
+        <div class="disc-c-card-text">SupplementScore is an <b>educational reference, not a medical device</b>. Not reviewed or approved by the FDA, Health Canada, or any regulatory body.</div>
+      </div>
+
+      <div class="disc-c-card">
+        <div class="disc-c-card-icon">
+          <!-- users -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="disc-c-card-title">Population-Level Evidence</div>
+        <div class="disc-c-card-text">Scores reflect <b>group-level clinical data</b>. Individual responses vary by genetics, diet, health status, medications, and pre-existing conditions.</div>
+      </div>
+
+      <div class="disc-c-card">
+        <div class="disc-c-card-icon">
+          <!-- cpu / AI -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <div class="disc-c-card-title">AI-Assisted Review</div>
+        <div class="disc-c-card-text"><b>AI content review may miss nuances</b> a trained clinician would catch. All data should be independently verified with a healthcare provider.</div>
+      </div>
+
+      <div class="disc-c-card">
+        <div class="disc-c-card-icon">
+          <!-- package / quality -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <div class="disc-c-card-title">Product Quality Not Tested</div>
+        <div class="disc-c-card-text"><b>Supplement quality varies</b> dramatically between brands. We do not test, certify, or endorse any specific products or manufacturers.</div>
+      </div>
+
+      <div class="disc-c-card">
+        <div class="disc-c-card-icon">
+          <!-- x-circle / no claims -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
+        <div class="disc-c-card-title">No Disease Claims</div>
+        <div class="disc-c-card-text">Nothing on this site is intended to <b>diagnose, treat, cure, or prevent</b> any disease or medical condition.</div>
+      </div>
+
+      <div class="disc-c-card">
+        <div class="disc-c-card-icon">
+          <!-- user-check / consult -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+        </div>
+        <div class="disc-c-card-title">Consult Your Doctor</div>
+        <div class="disc-c-card-text"><b>Always consult a qualified healthcare professional</b> before starting, stopping, or changing supplements — especially if pregnant, nursing, or on medications.</div>
+      </div>
+
+    </div>
+
+    <div class="disc-c-footer">
+      <div class="disc-c-footer-icon">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <span><b>This is not a substitute for professional medical advice.</b> If you are experiencing a medical emergency, contact your local emergency services immediately.</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

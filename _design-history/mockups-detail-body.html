@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Page body refinement — SupplementScore</title>
+<style>html{color-scheme:light}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ebe5d9;
+  --paper:#f6f2ea;
+  --paper2:#efeae0;
+  --text:#0c0a09;
+  --text2:#57534e;
+  --text3:#a8a29e;
+  --bd:#dcdad7;
+  --bd2:#d6d3d1;
+  --brand:#7B1FA2;
+  --brand-soft:#C084FC;
+  --t1c:#0D9488;--t1bg:#E6F7F5;--t1tx:#065F56;
+  --t3c:#CA8A04;--t3bg:#FEF6E0;--t3tx:#7A5300;
+  --t4c:#B91C1C;--t4bg:#FDE8E8;--t4tx:#5C0E0E;
+  --warn-bg:#FFF8E1;--warn-bd:#F5D66B;--warn-tx:#7A4A00;
+  --accent:var(--brand);
+  --accent-glow:rgba(123,31,162,.13);
+}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  font-size:14px;line-height:1.5;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:80px;
+}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── Mockup switcher toolbar ── */
+.mt{position:sticky;top:0;z-index:50;background:rgba(246,242,234,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);padding:10px 22px}
+.mt-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.mt-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.mt-tab{font-family:inherit;font-size:13px;font-weight:600;color:var(--text2);background:transparent;border:1px solid var(--bd);border-radius:999px;padding:6px 14px;cursor:pointer;transition:all .15s}
+.mt-tab:hover{border-color:var(--text2);color:var(--text)}
+.mt-tab.active{background:var(--text);color:var(--paper);border-color:var(--text)}
+.mt-note{margin-left:auto;font-size:11.5px;color:var(--text3)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+
+/* ── Atoms ── */
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);padding:6px 12px;border:1px solid var(--bd);border-radius:999px;background:var(--paper);transition:all .15s;margin:14px 0 18px}
+.back:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+.tier{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:var(--t1bg);color:var(--t1tx)}
+.cat-pill{display:inline-block;font-size:11.5px;font-weight:500;padding:3px 10px;border-radius:999px;margin-right:4px;background:var(--paper);border:1px solid var(--bd);color:var(--text2)}
+
+.callout{background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--warn-tx);line-height:1.55}
+.callout-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+
+/* ── HERO (locked from v2) ── */
+.hero{
+  border:1px solid var(--bd);
+  border-radius:24px;
+  padding:38px 42px 30px;
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:36px;
+  align-items:center;
+  margin-bottom:22px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 92% -10%, var(--accent-glow), transparent 55%),
+    linear-gradient(140deg,#f6f2ea 0%,#f1eadc 70%,#ece2d0 100%);
+}
+@media(max-width:880px){.hero{grid-template-columns:1fr;padding:28px;gap:24px}}
+.hero-l{position:relative;z-index:1;min-width:0}
+.hero-tier-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.hero-h1{font-size:clamp(38px,5.4vw,64px);font-weight:800;letter-spacing:-2px;line-height:1;margin:0 0 12px}
+.hero-cats{margin-bottom:18px;display:flex;flex-wrap:wrap;gap:4px}
+.hero-tldr{font-size:16px;line-height:1.55;color:var(--text);max-width:540px;font-weight:500;margin-bottom:22px}
+.hero-tldr b{color:var(--accent);font-weight:700}
+.hero-stats{display:flex;gap:0;border-top:1px solid var(--bd);padding-top:16px;margin-top:4px}
+.hero-stat{flex:1;padding-right:18px}
+.hero-stat + .hero-stat{padding-left:18px;border-left:1px solid var(--bd)}
+.hero-stat-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:4px}
+.hero-stat-val{font-size:17px;font-weight:700;color:var(--text);line-height:1.15;font-variant-numeric:tabular-nums}
+.hero-stat-sub{font-size:11.5px;color:var(--text3);margin-top:2px;line-height:1.3}
+.hero-r{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.hero-score-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;margin-bottom:4px}
+.hero-score{display:flex;align-items:baseline;gap:4px;justify-content:center;line-height:1}
+.hero-score-num{font-size:88px;font-weight:800;letter-spacing:-3.5px;color:var(--accent);font-variant-numeric:tabular-nums;line-height:.9}
+.hero-score-suffix{font-size:22px;font-weight:700;color:var(--accent);opacity:.5}
+.hero-radar{margin-top:6px;width:100%;max-width:340px}
+.hero-radar text{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+
+/* ── Jump nav ── */
+.jump{position:sticky;top:60px;background:rgba(246,242,234,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd);z-index:20;padding:10px 0;margin-bottom:18px}
+.jump-inner{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.jump-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-right:6px}
+.jump a{font-size:12px;font-weight:500;color:var(--text2);background:var(--paper);border:1px solid var(--bd);padding:5px 11px;border-radius:999px;transition:all .15s}
+.jump a:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+
+/* ── Body variants visibility ── */
+.body-variant{display:none}
+.body-variant.on{display:block}
+
+/* ───────────────────────────────────────────────── */
+/*  BODY A · BASELINE (current pattern, all cards)  */
+/* ───────────────────────────────────────────────── */
+.bA-grid{display:grid;grid-template-columns:1fr 280px;gap:28px;align-items:flex-start}
+@media(max-width:880px){.bA-grid{grid-template-columns:1fr}}
+.bA-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.bA-side{display:flex;flex-direction:column;gap:14px}
+@media(min-width:881px){.bA-side{position:sticky;top:130px}}
+.bA-sec{background:var(--paper);border:1px solid var(--bd);border-radius:16px;padding:24px 26px}
+.bA-sec h2{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.bA-sec h2 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
+.bA-sec p{font-size:15px;line-height:1.65;color:var(--text);margin-bottom:8px}
+.bA-sec p:last-child{margin-bottom:0}
+.bA-side .bA-sec{padding:16px 18px}
+.bA-side .bA-sec h2{font-size:11px;margin-bottom:10px}
+.bA-side .bA-sec p{font-size:12.5px;line-height:1.55;color:var(--text2)}
+.bA-list{display:flex;flex-direction:column;gap:6px;list-style:none}
+.bA-list a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:var(--paper2);border:1px solid var(--bd);border-radius:8px;font-size:13px;color:var(--text);transition:all .15s}
+.bA-list a:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+.bA-list .ltag{font-size:10px;color:var(--text3);padding:2px 8px;border-radius:999px;background:var(--paper);border:1px solid var(--bd)}
+.bA-list .ltag.avoid{background:var(--t4bg);color:var(--t4tx);border-color:transparent}
+.bA-list .ltag.caution{background:var(--t3bg);color:var(--t3tx);border-color:transparent}
+.bA-list .ltag.support{background:var(--t1bg);color:var(--t1tx);border-color:transparent}
+.bA-side .bA-list a{padding:8px 10px;font-size:12.5px}
+
+.alert-conflict{border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.55;border:1px solid;background:var(--t3bg);border-color:rgba(202,138,4,.18);color:var(--t3tx)}
+.alert-conflict-title{font-weight:700;margin-bottom:2px}
+.alert-conflict-icon{font-size:18px;line-height:1;flex-shrink:0}
+
+/* ───────────────────────────────────────────────── */
+/*  BODY B · REFINED (three content treatments)     */
+/* ───────────────────────────────────────────────── */
+.bB-stack{display:flex;flex-direction:column;gap:18px;max-width:880px;margin:0 auto}
+
+/* B alert — same pattern, slimmer */
+.bB-alert{border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.45;border:1px solid;background:var(--t3bg);border-color:rgba(202,138,4,.18);color:var(--t3tx)}
+.bB-alert-icon{font-size:15px;line-height:1;flex-shrink:0}
+.bB-alert b{font-weight:700}
+
+/* B reference card (At-a-glance protocol) */
+.bB-ref{background:var(--paper);border:1px solid var(--bd);border-radius:18px;overflow:hidden}
+.bB-ref-head{padding:13px 22px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(180deg,var(--paper2),var(--paper))}
+.bB-ref-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)}
+.bB-ref-meta{font-size:11px;color:var(--text3)}
+.bB-ref-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.bB-ref-cell{padding:18px 22px;border-right:1px solid var(--bd)}
+.bB-ref-cell:last-child{border-right:none}
+@media(max-width:780px){.bB-ref-grid{grid-template-columns:repeat(2,1fr)}.bB-ref-cell:nth-child(2){border-right:none}.bB-ref-cell:nth-child(1),.bB-ref-cell:nth-child(2){border-bottom:1px solid var(--bd)}}
+.bB-ref-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
+.bB-ref-val{font-size:18px;font-weight:700;color:var(--text);line-height:1.15;font-variant-numeric:tabular-nums}
+.bB-ref-sub{font-size:11.5px;color:var(--text3);margin-top:3px;line-height:1.4}
+.bB-ref-row{padding:14px 22px;border-top:1px solid var(--bd);background:var(--paper2);display:flex;align-items:baseline;gap:14px;font-size:13px;color:var(--text2)}
+.bB-ref-row-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;flex-shrink:0;min-width:80px}
+.bB-ref-row-val{flex:1;line-height:1.55;color:var(--text)}
+
+/* B prose — full cards but with cleaner header */
+.bB-prose{background:var(--paper);border:1px solid var(--bd);border-radius:16px;padding:26px 30px}
+.bB-prose-h{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.bB-prose-h::before{content:"";width:18px;height:1.5px;background:var(--accent);display:inline-block}
+.bB-prose p{font-size:15px;line-height:1.7;color:var(--text);margin-bottom:10px}
+.bB-prose p:last-child{margin-bottom:0}
+
+/* B linked-entities panel — single card with internal sections */
+.bB-rel{background:var(--paper);border:1px solid var(--bd);border-radius:18px;overflow:hidden}
+.bB-rel-head{padding:13px 22px;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,var(--paper2),var(--paper))}
+.bB-rel-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)}
+.bB-rel-grid{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:680px){.bB-rel-grid{grid-template-columns:1fr}}
+.bB-rel-cell{padding:18px 22px;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.bB-rel-cell:nth-child(2n){border-right:none}
+.bB-rel-cell:nth-last-child(-n+2){border-bottom:none}
+@media(max-width:680px){.bB-rel-cell{border-right:none}.bB-rel-cell:nth-last-child(-n+2){border-bottom:1px solid var(--bd)}.bB-rel-cell:last-child{border-bottom:none}}
+.bB-rel-h{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.bB-rel-h .cnt{font-size:10px;color:var(--text3);background:var(--paper2);padding:1px 7px;border-radius:999px;font-weight:600}
+.bB-rel-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.bB-rel-list a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;font-size:13px;color:var(--text);border-bottom:1px dashed var(--bd)}
+.bB-rel-list a:last-child{border-bottom:none}
+.bB-rel-list a:hover{color:var(--brand);text-decoration:none}
+.bB-rel-list .ltag{font-size:9.5px;color:var(--text3);padding:1.5px 7px;border-radius:999px;background:var(--paper2);border:1px solid var(--bd);font-weight:500;flex-shrink:0}
+.bB-rel-list .ltag.avoid{background:var(--t4bg);color:var(--t4tx);border-color:transparent}
+.bB-rel-list .ltag.caution{background:var(--t3bg);color:var(--t3tx);border-color:transparent}
+.bB-rel-list .ltag.support{background:var(--t1bg);color:var(--t1tx);border-color:transparent}
+.bB-rel-empty{font-size:12px;color:var(--text3);font-style:italic}
+
+/* B sources — compact 2-col */
+.bB-sources{background:var(--paper);border:1px solid var(--bd);border-radius:16px;padding:20px 22px}
+.bB-sources-h{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.bB-sources-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+@media(max-width:680px){.bB-sources-grid{grid-template-columns:1fr}}
+.bB-sources-grid a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;font-size:13px;color:var(--text);border-bottom:1px dashed var(--bd)}
+.bB-sources-grid a:hover{color:var(--brand);text-decoration:none}
+.bB-sources-grid .ltag{font-size:9.5px;color:var(--text3);padding:1.5px 7px;border-radius:999px;background:var(--paper2);border:1px solid var(--bd);font-weight:500;flex-shrink:0}
+
+/* B trending callout — inline, slim */
+.bB-trending{background:var(--paper);border:1px solid var(--bd);border-radius:12px;padding:11px 16px;font-size:12.5px;color:var(--text2);line-height:1.55;display:flex;align-items:flex-start;gap:10px}
+.bB-trending-tag{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(123,31,162,.08);padding:3px 8px;border-radius:5px;flex-shrink:0;margin-top:1px}
+
+.disclaim{margin:30px auto 0;font-size:12px;color:var(--text3);text-align:center;line-height:1.55;max-width:680px}
+</style>
+</head>
+<body>
+
+<div class="mt">
+  <div class="mt-inner">
+    <span class="mt-label">Detail · Body refinement</span>
+    <button class="mt-tab" data-target="body-A">A · Baseline (cards stack)</button>
+    <button class="mt-tab active" data-target="body-B">B · Refined (three treatments)</button>
+    <span class="mt-note">Same hero, two body layouts</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <a class="back" href="#">‹ Back to search</a>
+
+  <!-- HERO (locked) -->
+  <div class="hero">
+    <div class="hero-l">
+      <div class="hero-tier-row"><span class="tier">Tier 1 — Strong evidence</span></div>
+      <h1 class="hero-h1">Creatine monohydrate</h1>
+      <div class="hero-cats">
+        <span class="cat-pill">Performance</span>
+        <span class="cat-pill">Cognition</span>
+      </div>
+      <p class="hero-tldr">One of the most extensively studied dietary supplements. Evidence supports <b>increased strength, power output, and lean muscle mass</b>, with recent meta-analyses also indicating improved working memory in healthy adults. Long-term safety established across age groups.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-lbl">Onset</div>
+          <div class="hero-stat-val">1–4 wk</div>
+          <div class="hero-stat-sub">to full saturation</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-lbl">Daily dose</div>
+          <div class="hero-stat-val">3–5 g</div>
+          <div class="hero-stat-sub">w/ optional load</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-lbl">Cost</div>
+          <div class="hero-stat-val">~$8/mo</div>
+          <div class="hero-stat-sub">monohydrate, generic</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-r">
+      <div class="hero-score-lbl">Composite score</div>
+      <div class="hero-score">
+        <span class="hero-score-num">96</span>
+        <span class="hero-score-suffix">/100</span>
+      </div>
+      <svg class="hero-radar" viewBox="0 0 320 250" aria-label="Sub-scores">
+        <g fill="none" stroke="#dcdad7">
+          <polygon points="160,80 220,115 220,185 160,220 100,185 100,115" stroke-width="1"/>
+          <polygon points="160,108 196.4,129 196.4,171 160,192 123.6,171 123.6,129" stroke-width="0.5" stroke-dasharray="2,3" opacity=".7"/>
+        </g>
+        <g stroke="#dcdad7" stroke-width="0.5">
+          <line x1="160" y1="150" x2="160" y2="80"/><line x1="160" y1="150" x2="220" y2="115"/><line x1="160" y1="150" x2="220" y2="185"/><line x1="160" y1="150" x2="160" y2="220"/><line x1="160" y1="150" x2="100" y2="185"/><line x1="160" y1="150" x2="100" y2="115"/>
+        </g>
+        <polygon points="160,80 220,115 220,185 160,192 100,185 100,115" fill="#7B1FA2" fill-opacity="0.16" stroke="#7B1FA2" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="160" cy="80" r="3.5" fill="#7B1FA2"/><circle cx="220" cy="115" r="3.5" fill="#7B1FA2"/><circle cx="220" cy="185" r="3.5" fill="#7B1FA2"/><circle cx="160" cy="192" r="3.5" fill="#7B1FA2"/><circle cx="100" cy="185" r="3.5" fill="#7B1FA2"/><circle cx="100" cy="115" r="3.5" fill="#7B1FA2"/>
+        <text x="160" y="68" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0c0a09">EFFICACY <tspan fill="#7B1FA2">5</tspan></text>
+        <text x="228" y="113" text-anchor="start" font-size="10.5" font-weight="700" fill="#0c0a09">SAFETY <tspan fill="#7B1FA2">5</tspan></text>
+        <text x="228" y="190" text-anchor="start" font-size="10.5" font-weight="700" fill="#0c0a09">RESEARCH <tspan fill="#7B1FA2">5</tspan></text>
+        <text x="160" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0c0a09">ONSET <tspan fill="#7B1FA2">3</tspan></text>
+        <text x="92" y="190" text-anchor="end" font-size="10.5" font-weight="700" fill="#0c0a09">COST <tspan fill="#7B1FA2">5</tspan></text>
+        <text x="92" y="113" text-anchor="end" font-size="10.5" font-weight="700" fill="#0c0a09">DRUG·INT <tspan fill="#7B1FA2">5</tspan></text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Jump nav -->
+  <div class="jump">
+    <div class="jump-inner">
+      <span class="jump-lbl">Jump to</span>
+      <a href="#">Protocol</a><a href="#">Evidence</a><a href="#">Mechanism</a><a href="#">Safety</a><a href="#">Related</a><a href="#">Sources</a>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--   BODY A · BASELINE                                          -->
+  <!-- ============================================================ -->
+  <div class="body-variant" id="body-A">
+    <div class="bA-grid">
+      <div class="bA-main">
+        <div class="alert-conflict">
+          <span class="alert-conflict-icon">⚠︎</span>
+          <div>
+            <div class="alert-conflict-title">Do not stack with 2 supplements</div>
+            <div style="font-size:12.5px;opacity:.85">Caffeine (&gt; 400 mg/day), Ephedrine — full list in Stacking ↓</div>
+          </div>
+        </div>
+        <section class="bA-sec"><h2><span class="dot"></span>What it is &amp; what the evidence says</h2><p>One of the most researched supplements in existence. Over <b>500 studies</b> confirm it increases strength, power output, and lean muscle mass by saturating phosphocreatine stores in muscle.</p><p>A 2024 meta-analysis also confirmed it improves working memory in healthy adults. Safe for long-term use across all age groups with no serious side effects reported in decades of research.</p></section>
+        <section class="bA-sec"><h2><span class="dot"></span>How it works</h2><p>Supplemental creatine increases the muscle's pool of phosphocreatine — the rapid-recharge fuel for ATP during short, high-intensity efforts. More phosphocreatine means a few extra reps before fatigue, which compounds into measurable strength and hypertrophy gains over weeks.</p></section>
+        <section class="bA-sec"><h2><span class="dot"></span>Dose</h2><p><b>3–5 g/day continuously.</b> Optional loading: 20 g/day for 5–7 days, then 3–5 g/day. Monohydrate is as effective as more expensive forms.</p></section>
+        <section class="bA-sec"><h2><span class="dot"></span>How to take</h2><p>With water, any time of day. No food timing needed. Stay well hydrated.</p></section>
+        <section class="bA-sec"><h2><span class="dot"></span>Cycling &amp; long-term use</h2><p>Safe indefinitely. No cycling needed — one of the most studied for long-term safety.</p></section>
+        <section class="bA-sec"><h2><span class="dot"></span>Side effects &amp; safety</h2><p>Generally well-tolerated. ~5% of users experience mild GI discomfort during the loading phase. Minor water-weight gain (1–2 lb) in the first 2 weeks is normal. No documented effect on kidney function in healthy adults.</p></section>
+        <section class="bA-sec"><h2><span class="dot"></span>Stacking conflicts &amp; drug interactions</h2><ul class="bA-list"><li><a href="#"><span>Ephedrine</span><span class="ltag avoid">Avoid</span></a></li><li><a href="#"><span>Caffeine &gt; 400 mg/day</span><span class="ltag avoid">Avoid</span></a></li><li><a href="#"><span>NSAIDs (chronic use)</span><span class="ltag caution">Caution</span></a></li><li><a href="#"><span>Beta-alanine</span><span class="ltag support">Synergy</span></a></li></ul></section>
+        <section class="bA-sec"><h2><span class="dot"></span>Recommended for</h2><ul class="bA-list"><li><a href="#"><span>Strength &amp; hypertrophy training</span><span class="ltag">Goal</span></a></li><li><a href="#"><span>Aging-related muscle loss (sarcopenia)</span><span class="ltag">Condition</span></a></li><li><a href="#"><span>Working memory in healthy adults</span><span class="ltag">Cognition</span></a></li></ul></section>
+        <section class="bA-sec"><h2><span class="dot"></span>Sources &amp; further reading</h2><ul class="bA-list"><li><a href="#"><span>2024 meta-analysis: creatine and working memory</span><span class="ltag">Study</span></a></li><li><a href="#"><span>Why monohydrate beats every other form</span><span class="ltag">Article</span></a></li><li><a href="#"><span>Creatine for women: the evidence</span><span class="ltag">Article</span></a></li></ul></section>
+      </div>
+      <aside class="bA-side">
+        <div class="callout"><div class="callout-title">Trending</div>Currently flagged as trending in popular wellness culture. Trending ≠ proven — see the score for the actual evidence weight.</div>
+        <section class="bA-sec"><h2>Best forms</h2><p>Creatine monohydrate (Creapure®). Skip HCl, ethyl ester, buffered — they cost more without measurable benefit.</p></section>
+        <section class="bA-sec"><h2>Lab markers</h2><ul class="bA-list"><li><a href="#"><span>Serum creatinine</span><span class="ltag">Biomarker</span></a></li></ul></section>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--   BODY B · REFINED                                           -->
+  <!-- ============================================================ -->
+  <div class="body-variant on" id="body-B">
+    <div class="bB-stack">
+
+      <!-- Alert -->
+      <div class="bB-alert">
+        <span class="bB-alert-icon">⚠︎</span>
+        <div><b>Do not stack</b> with caffeine (&gt; 400 mg/day) or ephedrine. <a href="#" style="color:inherit;text-decoration:underline">See related ↓</a></div>
+      </div>
+
+      <!-- Reference card: At-a-glance protocol -->
+      <div class="bB-ref" id="protocol">
+        <div class="bB-ref-head">
+          <span class="bB-ref-tag">Protocol — at a glance</span>
+          <span class="bB-ref-meta">Cycling not required</span>
+        </div>
+        <div class="bB-ref-grid">
+          <div class="bB-ref-cell">
+            <div class="bB-ref-lbl">Daily dose</div>
+            <div class="bB-ref-val">3–5 g</div>
+            <div class="bB-ref-sub">+ optional 20 g/d load × 5–7 d</div>
+          </div>
+          <div class="bB-ref-cell">
+            <div class="bB-ref-lbl">Onset</div>
+            <div class="bB-ref-val">1–4 wk</div>
+            <div class="bB-ref-sub">to full saturation</div>
+          </div>
+          <div class="bB-ref-cell">
+            <div class="bB-ref-lbl">Cycle</div>
+            <div class="bB-ref-val">Continuous</div>
+            <div class="bB-ref-sub">indefinite, no breaks</div>
+          </div>
+          <div class="bB-ref-cell">
+            <div class="bB-ref-lbl">Best form</div>
+            <div class="bB-ref-val">Monohydrate</div>
+            <div class="bB-ref-sub">Creapure® preferred</div>
+          </div>
+        </div>
+        <div class="bB-ref-row">
+          <span class="bB-ref-row-lbl">How to take</span>
+          <span class="bB-ref-row-val">Mix into water at any time of day. No food timing needed. Stay well hydrated — phosphocreatine pulls water into muscle cells.</span>
+        </div>
+        <div class="bB-ref-row">
+          <span class="bB-ref-row-lbl">Mechanism</span>
+          <span class="bB-ref-row-val">Saturates phosphocreatine stores in muscle, improving ATP recharge during short, high-intensity efforts. <a href="#mechanism">More on how it works ↓</a></span>
+        </div>
+        <div class="bB-ref-row">
+          <span class="bB-ref-row-lbl">Key evidence</span>
+          <span class="bB-ref-row-val">Kreider et al. 2024 — JISSN meta-analysis of 503 trials. <a href="#sources">All sources ↓</a></span>
+        </div>
+      </div>
+
+      <!-- Prose: Evidence -->
+      <section class="bB-prose" id="evidence">
+        <h2 class="bB-prose-h">What it is &amp; what the evidence says</h2>
+        <p>One of the most researched supplements in existence. Over <b>500 studies</b> confirm it increases strength, power output, and lean muscle mass by saturating phosphocreatine stores in muscle.</p>
+        <p>A 2024 meta-analysis also confirmed it improves working memory in healthy adults. Safe for long-term use across all age groups with no serious side effects reported in decades of research.</p>
+      </section>
+
+      <!-- Prose: Mechanism -->
+      <section class="bB-prose" id="mechanism">
+        <h2 class="bB-prose-h">How it works</h2>
+        <p>Supplemental creatine increases the muscle's pool of phosphocreatine — the rapid-recharge fuel for ATP during short, high-intensity efforts. More phosphocreatine means a few extra reps before fatigue, which compounds into measurable strength and hypertrophy gains over weeks.</p>
+      </section>
+
+      <!-- Prose: Safety (neutral, alert banner above handles real signals) -->
+      <section class="bB-prose" id="safety">
+        <h2 class="bB-prose-h">Safety &amp; side effects</h2>
+        <p>Generally well-tolerated. ~5% of users experience mild GI discomfort during the loading phase — splitting doses or skipping the load resolves it.</p>
+        <p>Minor water-weight gain (1–2 lb) in the first 2 weeks is normal and not fat. <b>No documented effect on kidney function</b> in healthy adults across decades of research.</p>
+      </section>
+
+      <!-- Linked entities — single panel, four mini-lists -->
+      <div class="bB-rel" id="related">
+        <div class="bB-rel-head">
+          <span class="bB-rel-tag">Interactions, stacking &amp; related entities</span>
+        </div>
+        <div class="bB-rel-grid">
+          <div class="bB-rel-cell">
+            <div class="bB-rel-h">Do not stack <span class="cnt">2</span></div>
+            <ul class="bB-rel-list">
+              <li><a href="#"><span>Ephedrine</span><span class="ltag avoid">Avoid</span></a></li>
+              <li><a href="#"><span>Caffeine &gt; 400 mg/day</span><span class="ltag avoid">Avoid</span></a></li>
+            </ul>
+          </div>
+          <div class="bB-rel-cell">
+            <div class="bB-rel-h">Drug interactions <span class="cnt">2</span></div>
+            <ul class="bB-rel-list">
+              <li><a href="#"><span>NSAIDs (chronic use)</span><span class="ltag caution">Caution</span></a></li>
+              <li><a href="#"><span>Beta-alanine</span><span class="ltag support">Synergy</span></a></li>
+            </ul>
+          </div>
+          <div class="bB-rel-cell">
+            <div class="bB-rel-h">Recommended for <span class="cnt">3</span></div>
+            <ul class="bB-rel-list">
+              <li><a href="#"><span>Strength &amp; hypertrophy</span><span class="ltag">Goal</span></a></li>
+              <li><a href="#"><span>Sarcopenia (aging muscle loss)</span><span class="ltag">Condition</span></a></li>
+              <li><a href="#"><span>Working memory</span><span class="ltag">Cognition</span></a></li>
+            </ul>
+          </div>
+          <div class="bB-rel-cell">
+            <div class="bB-rel-h">Lab markers <span class="cnt">1</span></div>
+            <ul class="bB-rel-list">
+              <li><a href="#"><span>Serum creatinine</span><span class="ltag">Biomarker</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sources -->
+      <div class="bB-sources" id="sources">
+        <div class="bB-sources-h">Sources &amp; further reading</div>
+        <div class="bB-sources-grid">
+          <a href="#"><span>2024 meta-analysis: creatine and working memory</span><span class="ltag">Study</span></a>
+          <a href="#"><span>Why monohydrate beats every other form</span><span class="ltag">Article</span></a>
+          <a href="#"><span>Creatine for women: the evidence</span><span class="ltag">Article</span></a>
+          <a href="#"><span>Long-term safety: 30 years of data</span><span class="ltag">Review</span></a>
+        </div>
+      </div>
+
+      <!-- Slim trending callout -->
+      <div class="bB-trending">
+        <span class="bB-trending-tag">Trending</span>
+        <span>Currently popular in wellness culture. Trending ≠ proven — the score above reflects the actual evidence weight.</span>
+      </div>
+
+      <p class="disclaim">Educational reference, not medical advice. See the <a href="#">methodology</a> for how scores are derived.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.mt-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mt-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.body-variant').forEach(m=>m.classList.remove('on'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

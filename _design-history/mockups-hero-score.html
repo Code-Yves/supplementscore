@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero score layouts — SupplementScore</title>
+<style>html{color-scheme:light}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ebe5d9;
+  --paper:#f6f2ea;
+  --paper2:#efeae0;
+  --text:#0c0a09;
+  --text2:#57534e;
+  --text3:#a8a29e;
+  --bd:#dcdad7;
+  --bd2:#d6d3d1;
+  --brand:#7B1FA2;
+  --brand-soft:#C084FC;
+  --t1c:#0D9488;--t1bg:#E6F7F5;--t1tx:#065F56;
+  --accent:var(--brand);
+  --accent-glow:rgba(123,31,162,.13);
+}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  font-size:14px;line-height:1.5;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:80px;
+}
+
+.mt{position:sticky;top:0;z-index:50;background:rgba(246,242,234,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);padding:10px 22px}
+.mt-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.mt-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.mt-tab{font-family:inherit;font-size:13px;font-weight:600;color:var(--text2);background:transparent;border:1px solid var(--bd);border-radius:999px;padding:6px 14px;cursor:pointer;transition:all .15s}
+.mt-tab:hover{border-color:var(--text2);color:var(--text)}
+.mt-tab.active{background:var(--text);color:var(--paper);border-color:var(--text)}
+.mt-note{margin-left:auto;font-size:11.5px;color:var(--text3)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);padding:6px 12px;border:1px solid var(--bd);border-radius:999px;background:var(--paper);transition:all .15s;margin:14px 0 18px}
+.back:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+.tier{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:var(--t1bg);color:var(--t1tx)}
+.cat-pill{display:inline-block;font-size:11.5px;font-weight:500;padding:3px 10px;border-radius:999px;margin-right:4px;background:var(--paper);border:1px solid var(--bd);color:var(--text2)}
+
+.page{display:none}
+.page.on{display:block}
+
+/* ── Shared hero shell ── */
+.hero{
+  border:1px solid var(--bd);
+  border-radius:24px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 92% -10%, var(--accent-glow), transparent 55%),
+    linear-gradient(140deg,#f6f2ea 0%,#f1eadc 70%,#ece2d0 100%);
+}
+
+/* Hero-l shared */
+.hero-l-tier-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.hero-l-h1{font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-1.8px;line-height:1.02;margin:0 0 12px}
+.hero-l-cats{margin-bottom:18px;display:flex;flex-wrap:wrap;gap:4px}
+.hero-l-tldr{font-size:15.5px;line-height:1.55;color:var(--text);max-width:540px;font-weight:500;margin-bottom:18px}
+.hero-l-tldr b{color:var(--accent);font-weight:700}
+.hero-l-stats{display:flex;gap:0;border-top:1px solid var(--bd);padding-top:14px}
+.hero-stat{flex:1;padding-right:14px}
+.hero-stat + .hero-stat{padding-left:14px;border-left:1px solid var(--bd)}
+.hero-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:3px}
+.hero-stat-val{font-size:16px;font-weight:700;color:var(--text);line-height:1.15;font-variant-numeric:tabular-nums}
+.hero-stat-sub{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.3}
+
+.score-lbl{font-size:9.5px;font-weight:700;letter-spacing:.14em;color:var(--text3);text-transform:uppercase}
+.score-num{font-weight:800;letter-spacing:-2.5px;color:var(--accent);font-variant-numeric:tabular-nums;line-height:.9}
+.score-suffix{font-weight:700;color:var(--accent);opacity:.5}
+
+/* ╔═══════════════════════════════════════════════════════╗ */
+/*   V1 · STACKED (current baseline)                        */
+/* ╚═══════════════════════════════════════════════════════╝ */
+.v1 .hero{padding:34px 38px 28px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+@media(max-width:880px){.v1 .hero{grid-template-columns:1fr;gap:22px}}
+.v1 .hero-l{position:relative;z-index:1;min-width:0}
+.v1 .hero-r{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.v1 .score-num{font-size:84px}
+.v1 .score-suffix{font-size:22px;vertical-align:top}
+.v1 .v1-radar{width:100%;max-width:320px;margin-top:6px}
+.v1 .v1-radar text{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+
+/* ╔═══════════════════════════════════════════════════════╗ */
+/*   V2 · SIDE-BY-SIDE (score + smaller radar inline)       */
+/* ╚═══════════════════════════════════════════════════════╝ */
+.v2 .hero{padding:32px 38px 26px;display:grid;grid-template-columns:1.4fr 1fr;gap:30px;align-items:center}
+@media(max-width:880px){.v2 .hero{grid-template-columns:1fr;gap:20px}}
+.v2 .hero-r{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+@media(max-width:880px){.v2 .hero-r{grid-template-columns:auto auto;justify-content:center}}
+.v2 .v2-score{display:flex;flex-direction:column;align-items:flex-start}
+.v2 .score-num{font-size:72px}
+.v2 .score-suffix{font-size:18px;vertical-align:top}
+.v2 .v2-score .score-lbl{margin-bottom:2px}
+.v2 .v2-radar{width:200px;height:auto}
+.v2 .v2-radar text{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9.5px}
+
+/* ╔═══════════════════════════════════════════════════════╗ */
+/*   V3 · BARS (score + horizontal sub-score bars)          */
+/* ╚═══════════════════════════════════════════════════════╝ */
+.v3 .hero{padding:34px 38px 28px;display:grid;grid-template-columns:1.4fr 1fr;gap:30px;align-items:center}
+@media(max-width:880px){.v3 .hero{grid-template-columns:1fr;gap:22px}}
+.v3 .hero-r{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px}
+.v3 .v3-top{display:flex;align-items:baseline;gap:10px;justify-content:flex-start}
+.v3 .score-num{font-size:64px}
+.v3 .score-suffix{font-size:18px;vertical-align:top}
+.v3 .v3-bars{display:flex;flex-direction:column;gap:7px;background:var(--paper);border:1px solid var(--bd);border-radius:14px;padding:14px 16px}
+.v3 .v3-bar{display:grid;grid-template-columns:80px 1fr 22px;gap:10px;align-items:center;font-size:12px}
+.v3 .v3-bar-name{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.04em;text-transform:uppercase}
+.v3 .v3-bar-track{height:6px;background:var(--paper2);border:1px solid var(--bd);border-radius:3px;overflow:hidden;position:relative}
+.v3 .v3-bar-fill{height:100%;background:var(--accent);border-radius:3px}
+.v3 .v3-bar-val{font-size:12px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;text-align:right}
+
+/* ╔═══════════════════════════════════════════════════════╗ */
+/*   V4 · HORIZONTAL BAND (single-col hero, score below)    */
+/* ╚═══════════════════════════════════════════════════════╝ */
+.v4 .hero{padding:30px 36px 0}
+.v4 .hero-l{padding-bottom:24px;position:relative;z-index:1}
+.v4 .v4-band{
+  margin:0 -36px;
+  background:rgba(123,31,162,.05);
+  border-top:1px solid var(--bd);
+  padding:18px 36px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:28px;
+  align-items:center;
+  position:relative;
+  z-index:1;
+}
+@media(max-width:780px){.v4 .v4-band{grid-template-columns:1fr;gap:14px}}
+.v4 .v4-score{display:flex;align-items:baseline;gap:6px}
+.v4 .score-num{font-size:54px}
+.v4 .score-suffix{font-size:16px;vertical-align:top}
+.v4 .v4-score-side{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.v4 .v4-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:780px){.v4 .v4-chips{justify-content:flex-start}}
+.v4 .v4-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--paper);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;min-width:74px;line-height:1.1}
+.v4 .v4-chip-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:3px}
+.v4 .v4-chip-val{font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.v4 .v4-chip-val small{font-size:10px;font-weight:700;opacity:.45;color:var(--accent)}
+
+/* ╔═══════════════════════════════════════════════════════╗ */
+/*   V5 · MICRO (score top-right of title, no radar)        */
+/* ╚═══════════════════════════════════════════════════════╝ */
+.v5 .hero{padding:32px 38px 26px;position:relative}
+.v5 .hero-l{position:relative;z-index:1;padding-right:140px;min-width:0}
+@media(max-width:680px){.v5 .hero-l{padding-right:0}}
+.v5 .v5-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+@media(max-width:680px){.v5 .v5-score-corner{position:static;align-items:flex-start;margin-bottom:14px}}
+.v5 .score-num{font-size:62px}
+.v5 .score-suffix{font-size:18px;vertical-align:top}
+.v5 .v5-bars{margin-top:14px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;border-top:1px solid var(--bd);padding-top:14px;position:relative;z-index:1}
+@media(max-width:680px){.v5 .v5-bars{grid-template-columns:repeat(3,1fr)}}
+.v5 .v5-bar{display:flex;flex-direction:column;gap:4px}
+.v5 .v5-bar-lbl{font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--text3);text-transform:uppercase}
+.v5 .v5-bar-track{height:4px;background:var(--paper2);border:1px solid var(--bd);border-radius:2px;overflow:hidden}
+.v5 .v5-bar-fill{height:100%;background:var(--accent);border-radius:2px}
+.v5 .v5-bar-val{font-size:11px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+
+</style>
+</head>
+<body>
+
+<div class="mt">
+  <div class="mt-inner">
+    <span class="mt-label">Hero · Score layout options</span>
+    <button class="mt-tab active" data-target="p-v1">V1 · Stacked</button>
+    <button class="mt-tab" data-target="p-v2">V2 · Side-by-side</button>
+    <button class="mt-tab" data-target="p-v3">V3 · Bars</button>
+    <button class="mt-tab" data-target="p-v4">V4 · Horizontal band</button>
+    <button class="mt-tab" data-target="p-v5">V5 · Micro corner</button>
+    <span class="mt-note">Same data, five layouts</span>
+  </div>
+</div>
+
+<!-- ===========  V1 · STACKED (BASELINE)  =========== -->
+<section class="page on v1" id="p-v1">
+  <div class="wrap">
+    <a class="back" href="#">‹ Back to search</a>
+    <div class="hero">
+      <div class="hero-l">
+        <div class="hero-l-tier-row"><span class="tier">Tier 1 — Strong evidence</span></div>
+        <h1 class="hero-l-h1">Creatine monohydrate</h1>
+        <div class="hero-l-cats"><span class="cat-pill">Performance</span><span class="cat-pill">Cognition</span></div>
+        <p class="hero-l-tldr">One of the most extensively studied dietary supplements. Evidence supports <b>increased strength, power output, and lean muscle mass</b>, with recent meta-analyses also indicating improved working memory in healthy adults.</p>
+        <div class="hero-l-stats">
+          <div class="hero-stat"><div class="hero-stat-lbl">Onset</div><div class="hero-stat-val">1–4 wk</div><div class="hero-stat-sub">to full saturation</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Daily dose</div><div class="hero-stat-val">3–5 g</div><div class="hero-stat-sub">w/ optional load</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Cost</div><div class="hero-stat-val">~$8/mo</div><div class="hero-stat-sub">monohydrate, generic</div></div>
+        </div>
+      </div>
+      <div class="hero-r">
+        <div class="score-lbl">Composite score</div>
+        <div><span class="score-num">96</span><span class="score-suffix">/100</span></div>
+        <svg class="v1-radar" viewBox="0 0 320 250" aria-label="Sub-scores">
+          <g fill="none" stroke="#dcdad7"><polygon points="160,80 220,115 220,185 160,220 100,185 100,115" stroke-width="1"/><polygon points="160,108 196.4,129 196.4,171 160,192 123.6,171 123.6,129" stroke-width="0.5" stroke-dasharray="2,3" opacity=".7"/></g>
+          <g stroke="#dcdad7" stroke-width="0.5"><line x1="160" y1="150" x2="160" y2="80"/><line x1="160" y1="150" x2="220" y2="115"/><line x1="160" y1="150" x2="220" y2="185"/><line x1="160" y1="150" x2="160" y2="220"/><line x1="160" y1="150" x2="100" y2="185"/><line x1="160" y1="150" x2="100" y2="115"/></g>
+          <polygon points="160,80 220,115 220,185 160,192 100,185 100,115" fill="#7B1FA2" fill-opacity="0.16" stroke="#7B1FA2" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="160" cy="80" r="3.5" fill="#7B1FA2"/><circle cx="220" cy="115" r="3.5" fill="#7B1FA2"/><circle cx="220" cy="185" r="3.5" fill="#7B1FA2"/><circle cx="160" cy="192" r="3.5" fill="#7B1FA2"/><circle cx="100" cy="185" r="3.5" fill="#7B1FA2"/><circle cx="100" cy="115" r="3.5" fill="#7B1FA2"/>
+          <text x="160" y="68" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0c0a09">EFFICACY <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="228" y="113" text-anchor="start" font-size="10.5" font-weight="700" fill="#0c0a09">SAFETY <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="228" y="190" text-anchor="start" font-size="10.5" font-weight="700" fill="#0c0a09">RESEARCH <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="160" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0c0a09">ONSET <tspan fill="#7B1FA2">3</tspan></text>
+          <text x="92" y="190" text-anchor="end" font-size="10.5" font-weight="700" fill="#0c0a09">COST <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="92" y="113" text-anchor="end" font-size="10.5" font-weight="700" fill="#0c0a09">DRUG·INT <tspan fill="#7B1FA2">5</tspan></text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========  V2 · SIDE-BY-SIDE  =========== -->
+<section class="page v2" id="p-v2">
+  <div class="wrap">
+    <a class="back" href="#">‹ Back to search</a>
+    <div class="hero">
+      <div class="hero-l">
+        <div class="hero-l-tier-row"><span class="tier">Tier 1 — Strong evidence</span></div>
+        <h1 class="hero-l-h1">Creatine monohydrate</h1>
+        <div class="hero-l-cats"><span class="cat-pill">Performance</span><span class="cat-pill">Cognition</span></div>
+        <p class="hero-l-tldr">One of the most extensively studied dietary supplements. Evidence supports <b>increased strength, power output, and lean muscle mass</b>, with recent meta-analyses also indicating improved working memory in healthy adults.</p>
+        <div class="hero-l-stats">
+          <div class="hero-stat"><div class="hero-stat-lbl">Onset</div><div class="hero-stat-val">1–4 wk</div><div class="hero-stat-sub">to full saturation</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Daily dose</div><div class="hero-stat-val">3–5 g</div><div class="hero-stat-sub">w/ optional load</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Cost</div><div class="hero-stat-val">~$8/mo</div><div class="hero-stat-sub">monohydrate, generic</div></div>
+        </div>
+      </div>
+      <div class="hero-r">
+        <div class="v2-score">
+          <div class="score-lbl">Score</div>
+          <div><span class="score-num">96</span><span class="score-suffix">/100</span></div>
+        </div>
+        <svg class="v2-radar" viewBox="0 0 320 250" aria-label="Sub-scores">
+          <g fill="none" stroke="#dcdad7"><polygon points="160,80 220,115 220,185 160,220 100,185 100,115" stroke-width="1"/></g>
+          <g stroke="#dcdad7" stroke-width="0.5"><line x1="160" y1="150" x2="160" y2="80"/><line x1="160" y1="150" x2="220" y2="115"/><line x1="160" y1="150" x2="220" y2="185"/><line x1="160" y1="150" x2="160" y2="220"/><line x1="160" y1="150" x2="100" y2="185"/><line x1="160" y1="150" x2="100" y2="115"/></g>
+          <polygon points="160,80 220,115 220,185 160,192 100,185 100,115" fill="#7B1FA2" fill-opacity="0.16" stroke="#7B1FA2" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="160" cy="80" r="3" fill="#7B1FA2"/><circle cx="220" cy="115" r="3" fill="#7B1FA2"/><circle cx="220" cy="185" r="3" fill="#7B1FA2"/><circle cx="160" cy="192" r="3" fill="#7B1FA2"/><circle cx="100" cy="185" r="3" fill="#7B1FA2"/><circle cx="100" cy="115" r="3" fill="#7B1FA2"/>
+          <text x="160" y="70" text-anchor="middle" font-weight="700" fill="#0c0a09">EFF <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="228" y="115" text-anchor="start" font-weight="700" fill="#0c0a09">SAF <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="228" y="190" text-anchor="start" font-weight="700" fill="#0c0a09">RES <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="160" y="240" text-anchor="middle" font-weight="700" fill="#0c0a09">ONS <tspan fill="#7B1FA2">3</tspan></text>
+          <text x="92" y="190" text-anchor="end" font-weight="700" fill="#0c0a09">COST <tspan fill="#7B1FA2">5</tspan></text>
+          <text x="92" y="115" text-anchor="end" font-weight="700" fill="#0c0a09">DRUG <tspan fill="#7B1FA2">5</tspan></text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========  V3 · BARS  =========== -->
+<section class="page v3" id="p-v3">
+  <div class="wrap">
+    <a class="back" href="#">‹ Back to search</a>
+    <div class="hero">
+      <div class="hero-l">
+        <div class="hero-l-tier-row"><span class="tier">Tier 1 — Strong evidence</span></div>
+        <h1 class="hero-l-h1">Creatine monohydrate</h1>
+        <div class="hero-l-cats"><span class="cat-pill">Performance</span><span class="cat-pill">Cognition</span></div>
+        <p class="hero-l-tldr">One of the most extensively studied dietary supplements. Evidence supports <b>increased strength, power output, and lean muscle mass</b>, with recent meta-analyses also indicating improved working memory in healthy adults.</p>
+        <div class="hero-l-stats">
+          <div class="hero-stat"><div class="hero-stat-lbl">Onset</div><div class="hero-stat-val">1–4 wk</div><div class="hero-stat-sub">to full saturation</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Daily dose</div><div class="hero-stat-val">3–5 g</div><div class="hero-stat-sub">w/ optional load</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Cost</div><div class="hero-stat-val">~$8/mo</div><div class="hero-stat-sub">monohydrate, generic</div></div>
+        </div>
+      </div>
+      <div class="hero-r">
+        <div class="v3-top">
+          <div>
+            <div class="score-lbl">Composite score</div>
+            <div style="margin-top:2px"><span class="score-num">96</span><span class="score-suffix">/100</span></div>
+          </div>
+        </div>
+        <div class="v3-bars">
+          <div class="v3-bar"><div class="v3-bar-name">Efficacy</div><div class="v3-bar-track"><div class="v3-bar-fill" style="width:100%"></div></div><div class="v3-bar-val">5</div></div>
+          <div class="v3-bar"><div class="v3-bar-name">Safety</div><div class="v3-bar-track"><div class="v3-bar-fill" style="width:100%"></div></div><div class="v3-bar-val">5</div></div>
+          <div class="v3-bar"><div class="v3-bar-name">Research</div><div class="v3-bar-track"><div class="v3-bar-fill" style="width:100%"></div></div><div class="v3-bar-val">5</div></div>
+          <div class="v3-bar"><div class="v3-bar-name">Onset</div><div class="v3-bar-track"><div class="v3-bar-fill" style="width:60%"></div></div><div class="v3-bar-val">3</div></div>
+          <div class="v3-bar"><div class="v3-bar-name">Cost</div><div class="v3-bar-track"><div class="v3-bar-fill" style="width:100%"></div></div><div class="v3-bar-val">5</div></div>
+          <div class="v3-bar"><div class="v3-bar-name">Drug-int</div><div class="v3-bar-track"><div class="v3-bar-fill" style="width:100%"></div></div><div class="v3-bar-val">5</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========  V4 · HORIZONTAL BAND  =========== -->
+<section class="page v4" id="p-v4">
+  <div class="wrap">
+    <a class="back" href="#">‹ Back to search</a>
+    <div class="hero">
+      <div class="hero-l">
+        <div class="hero-l-tier-row"><span class="tier">Tier 1 — Strong evidence</span></div>
+        <h1 class="hero-l-h1">Creatine monohydrate</h1>
+        <div class="hero-l-cats"><span class="cat-pill">Performance</span><span class="cat-pill">Cognition</span></div>
+        <p class="hero-l-tldr">One of the most extensively studied dietary supplements. Evidence supports <b>increased strength, power output, and lean muscle mass</b>, with recent meta-analyses also indicating improved working memory in healthy adults.</p>
+        <div class="hero-l-stats">
+          <div class="hero-stat"><div class="hero-stat-lbl">Onset</div><div class="hero-stat-val">1–4 wk</div><div class="hero-stat-sub">to full saturation</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Daily dose</div><div class="hero-stat-val">3–5 g</div><div class="hero-stat-sub">w/ optional load</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Cost</div><div class="hero-stat-val">~$8/mo</div><div class="hero-stat-sub">monohydrate, generic</div></div>
+        </div>
+      </div>
+      <div class="v4-band">
+        <div class="v4-score-side">
+          <div class="score-lbl">Composite score</div>
+          <div class="v4-score" style="margin-top:2px"><span class="score-num">96</span><span class="score-suffix">/100</span></div>
+        </div>
+        <div class="v4-chips">
+          <div class="v4-chip"><div class="v4-chip-lbl">Efficacy</div><div class="v4-chip-val">5<small>/5</small></div></div>
+          <div class="v4-chip"><div class="v4-chip-lbl">Safety</div><div class="v4-chip-val">5<small>/5</small></div></div>
+          <div class="v4-chip"><div class="v4-chip-lbl">Research</div><div class="v4-chip-val">5<small>/5</small></div></div>
+          <div class="v4-chip"><div class="v4-chip-lbl">Onset</div><div class="v4-chip-val">3<small>/5</small></div></div>
+          <div class="v4-chip"><div class="v4-chip-lbl">Cost</div><div class="v4-chip-val">5<small>/5</small></div></div>
+          <div class="v4-chip"><div class="v4-chip-lbl">Drug-int</div><div class="v4-chip-val">5<small>/5</small></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========  V5 · MICRO CORNER  =========== -->
+<section class="page v5" id="p-v5">
+  <div class="wrap">
+    <a class="back" href="#">‹ Back to search</a>
+    <div class="hero">
+      <div class="v5-score-corner">
+        <div class="score-lbl">Score</div>
+        <div style="margin-top:2px"><span class="score-num">96</span><span class="score-suffix">/100</span></div>
+      </div>
+      <div class="hero-l">
+        <div class="hero-l-tier-row"><span class="tier">Tier 1 — Strong evidence</span></div>
+        <h1 class="hero-l-h1">Creatine monohydrate</h1>
+        <div class="hero-l-cats"><span class="cat-pill">Performance</span><span class="cat-pill">Cognition</span></div>
+        <p class="hero-l-tldr">One of the most extensively studied dietary supplements. Evidence supports <b>increased strength, power output, and lean muscle mass</b>, with recent meta-analyses also indicating improved working memory in healthy adults.</p>
+        <div class="hero-l-stats">
+          <div class="hero-stat"><div class="hero-stat-lbl">Onset</div><div class="hero-stat-val">1–4 wk</div><div class="hero-stat-sub">to full saturation</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Daily dose</div><div class="hero-stat-val">3–5 g</div><div class="hero-stat-sub">w/ optional load</div></div>
+          <div class="hero-stat"><div class="hero-stat-lbl">Cost</div><div class="hero-stat-val">~$8/mo</div><div class="hero-stat-sub">monohydrate, generic</div></div>
+        </div>
+        <div class="v5-bars">
+          <div class="v5-bar"><div class="v5-bar-lbl">Efficacy</div><div class="v5-bar-track"><div class="v5-bar-fill" style="width:100%"></div></div><div class="v5-bar-val">5/5</div></div>
+          <div class="v5-bar"><div class="v5-bar-lbl">Safety</div><div class="v5-bar-track"><div class="v5-bar-fill" style="width:100%"></div></div><div class="v5-bar-val">5/5</div></div>
+          <div class="v5-bar"><div class="v5-bar-lbl">Research</div><div class="v5-bar-track"><div class="v5-bar-fill" style="width:100%"></div></div><div class="v5-bar-val">5/5</div></div>
+          <div class="v5-bar"><div class="v5-bar-lbl">Onset</div><div class="v5-bar-track"><div class="v5-bar-fill" style="width:60%"></div></div><div class="v5-bar-val">3/5</div></div>
+          <div class="v5-bar"><div class="v5-bar-lbl">Cost</div><div class="v5-bar-track"><div class="v5-bar-fill" style="width:100%"></div></div><div class="v5-bar-val">5/5</div></div>
+          <div class="v5-bar"><div class="v5-bar-lbl">Drug-int</div><div class="v5-bar-track"><div class="v5-bar-fill" style="width:100%"></div></div><div class="v5-bar-val">5/5</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.mt-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mt-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(m=>m.classList.remove('on'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('on');
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+});
+</script>
+</body>
+</html>
