@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
+<title>Biomarker detail — SupplementScore</title>
+<meta name="description" content="Lab biomarker reference ranges and supportive supplements.">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260427a">
+<style>
+.dt-wrap{max-width:880px;margin:0 auto;padding:24px}
+.dt-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:18px 0 14px}
+.dt-back:hover{background:rgba(123,31,162,.06);border-color:var(--color-brand);color:var(--color-brand)}
+.dt-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:#2A4A8E;margin-bottom:6px}
+.dt-h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
+.dt-tag{font-size:14.5px;color:var(--color-text-secondary);margin-bottom:18px;line-height:1.55}
+.dt-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-top:14px}
+.dt-card h2{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 12px}
+
+.range-bar{height:42px;border-radius:10px;background:linear-gradient(90deg,#FCA5A5 0%,#FCA5A5 18%,#FDE68A 18%,#FDE68A 32%,#86EFAC 32%,#86EFAC 60%,#FDE68A 60%,#FDE68A 78%,#FCA5A5 78%);position:relative;overflow:hidden;border:1px solid var(--color-border-tertiary)}
+.range-bar::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(0,0,0,.03) 100%);border-radius:inherit}
+.range-ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-top:6px;font-variant-numeric:tabular-nums}
+.range-ticks b{color:var(--color-text-primary);font-weight:600}
+.range-zones{display:flex;justify-content:space-between;font-size:10.5px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+
+.sup-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.sup-list li{padding:12px 14px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:10px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.sup-list a.name{font-size:14px;font-weight:600;color:var(--color-text-primary);text-decoration:none}
+.sup-list a.name:hover{color:var(--color-brand)}
+.sup-list .dose{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.sup-list .note{font-size:12px;color:var(--color-text-tertiary);margin-top:3px}
+
+.dt-disclaim{margin:32px 0 24px;font-size:12px;color:var(--color-text-tertiary);text-align:center;line-height:1.55}
+</style>
+</head>
+<body>
+<div class="beta-bar" role="status" aria-live="polite">
+  <span class="beta-bar-pulse" aria-hidden="true"></span>
+  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-sep" aria-hidden="true">·</span>
+  <span class="beta-bar-tag">Actively refining for accuracy</span>
+</div>
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-inner">
+    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
+    </a>
+    <div class="site-nav-tabs">
+      <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
+      <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">My Profile</a>
+    </div>
+  </div>
+</nav>
+<main class="dt-wrap" id="dt-root"></main>
+<script src="data.js?v=20260418m"></script>
+<script src="search-index.js?v=20260429a"></script>
+<script src="nav-search.js?v=20260429a"></script>
+<script src="supplement-modal.js?v=20260429a" defer></script>
+<script>
+(function(){
+  function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]});}
+  var p = new URLSearchParams(location.search);
+  var slug = (p.get('slug') || '').trim();
+  var root = document.getElementById('dt-root');
+  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No biomarker specified</h1>'; return; }
+  var b = window.SS.getBiomarker(slug);
+  if (!b){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Biomarker not found</h1><p>No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
+  document.title = b.name + ' — SupplementScore';
+
+  // Reference range visualization: 5-zone mapping low/optLow/optHigh/high.
+  function rangeHtml(b){
+    return ''
+      + '<div class="range-bar" aria-label="Reference range"></div>'
+      + '<div class="range-ticks"><span>0</span><span><b>' + escapeHtml(String(b.low)) + '</b></span><span><b>' + escapeHtml(String(b.optLow)) + '</b></span><span><b>' + escapeHtml(String(b.optHigh)) + '</b></span><span><b>' + escapeHtml(String(b.high)) + '</b></span><span>' + escapeHtml(b.unit||'') + '</span></div>'
+      + '<div class="range-zones"><span>Low</span><span>Sub-optimal</span><span>Optimal</span><span>Sub-optimal</span><span>High</span></div>';
+  }
+
+  function suppItem(x){
+    var s = window.SS.getSupplement(window.SS.slugify(x.name));
+    var url = s ? window.SS.urlFor('supplement', window.SS.slugify(s.n)) : 'search.html?q=' + encodeURIComponent(x.name);
+    return '<li><div><a class="name" href="' + url + '">' + escapeHtml(x.name) + '</a>'
+      + (x.dose ? '<div class="dose">' + escapeHtml(x.dose) + '</div>' : '')
+      + (x.note ? '<div class="note">' + escapeHtml(x.note) + '</div>' : '')
+      + '</div></li>';
+  }
+
+  root.innerHTML =
+    '<a class="dt-back" href="search.html?q=' + encodeURIComponent(b.name) + '">‹ Back to search</a>'
+    + '<div class="dt-eyebrow">Lab biomarker</div>'
+    + '<h1 class="dt-h1">' + escapeHtml(b.name) + '</h1>'
+    + '<p class="dt-tag">' + escapeHtml(b.desc || '') + '</p>'
+    + '<section class="dt-card"><h2>Reference range</h2>' + rangeHtml(b) + '</section>'
+    + '<section class="dt-card"><h2>Supportive supplements</h2>'
+    +   ((b.supps && b.supps.length) ? '<ul class="sup-list">' + b.supps.map(suppItem).join('') + '</ul>' : '<div style="font-size:13px;color:var(--color-text-tertiary)">None on file.</div>')
+    + '</section>'
+    + '<p class="dt-disclaim">Reference ranges shown are general adult guidance; lab assays vary. Always interpret with your clinician.</p>';
+})();
+</script>
+</body>
+</html>
