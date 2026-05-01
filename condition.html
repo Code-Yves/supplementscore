@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>document.documentElement.setAttribute('data-theme','light');</script>
 <style>html{color-scheme:light}</style>
-<title>Medication detail — SupplementScore</title>
-<meta name="description" content="Supplement interactions for a given medication class.">
+<title>Condition detail — SupplementScore</title>
+<meta name="description" content="Evidence-based supplement picks for a given condition.">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,18 +17,17 @@
 .dt-wrap{max-width:880px;margin:0 auto;padding:24px}
 .dt-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:18px 0 14px}
 .dt-back:hover{background:rgba(123,31,162,.06);border-color:var(--color-brand);color:var(--color-brand)}
-.dt-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:#B91C1C;margin-bottom:6px}
+.dt-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--color-brand);margin-bottom:6px}
 .dt-h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
-.dt-note{padding:14px 18px;background:var(--t4bg);color:var(--t4tx);border:1px solid var(--t4c);border-radius:10px;font-size:13.5px;line-height:1.55;margin:14px 0 22px}
-.dt-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-top:14px}
-.dt-card h2{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:700;color:var(--color-text-primary);margin:0 0 12px}
-.dt-card h2 .pill{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:5px}
-.bucket-avoid h2 .pill{background:var(--t4bg);color:var(--t4tx)}
-.bucket-caution h2 .pill{background:var(--t3bg);color:var(--t3tx)}
-.bucket-extra h2 .pill{background:var(--t1bg);color:var(--t1tx)}
-.sup-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
-.sup-list a{padding:10px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:10px;font-size:13px;color:var(--color-text-primary);text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all .15s}
-.sup-list a:hover{border-color:var(--color-brand);color:var(--color-brand)}
+.dt-tag{font-size:14px;color:var(--color-text-secondary);margin-bottom:18px}
+.dt-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;box-shadow:0 1px 2px rgba(15,23,42,.04);margin-top:14px}
+.dt-card h2{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 12px}
+.sup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.sup-card{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:10px;text-decoration:none;color:var(--color-text-primary);transition:all .15s}
+.sup-card:hover{border-color:var(--color-brand);transform:translateY(-1px)}
+.sup-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sup-name{font-size:13.5px;font-weight:600}
+.sup-meta{font-size:11.5px;color:var(--color-text-tertiary)}
 .dt-tier{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;flex-shrink:0}
 .dt-tier-t1{background:var(--t1bg);color:var(--t1tx)}
 .dt-tier-t2{background:var(--t2bg);color:var(--t2tx)}
@@ -71,36 +70,38 @@
   var p = new URLSearchParams(location.search);
   var slug = (p.get('slug') || '').trim();
   var root = document.getElementById('dt-root');
-  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No medication specified</h1>'; return; }
-  var m = window.SS.getMedication(slug);
-  if (!m){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Medication not found</h1><p>No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
-  document.title = m.label + ' — SupplementScore';
+  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No condition specified</h1>'; return; }
+  var c = window.SS.getCondition(slug);
+  if (!c){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Condition not found</h1><p class="dt-tag">No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
+  document.title = c.label + ' — SupplementScore';
 
-  function suppLink(name){
+  var picks = (c.supps || []).map(function(name){
     var s = window.SS.getSupplement(window.SS.slugify(name));
-    var tier = s ? '<span class="dt-tier dt-tier-' + s.t + '">' + window.SS.tierMeta(s.t).badge + '</span>' : '';
-    var url = s ? window.SS.urlFor('supplement', window.SS.slugify(s.n)) : 'search.html?q=' + encodeURIComponent(name);
-    return '<a href="' + url + '"><span>' + escapeHtml(name) + '</span>' + tier + '</a>';
-  }
-  function bucket(label, pill, items, klass){
-    if (!items || !items.length) return '';
-    return '<section class="dt-card ' + klass + '">'
-      + '<h2>' + escapeHtml(label) + '<span class="pill">' + pill + '</span></h2>'
-      + '<div class="sup-list">' + items.map(suppLink).join('') + '</div>'
-      + '</section>';
+    return { name: name, ref: s };
+  });
+
+  function suppCard(p){
+    var s = p.ref;
+    if (!s){
+      return '<div class="sup-card" style="cursor:default;opacity:.6"><div class="sup-row"><span class="sup-name">' + escapeHtml(p.name) + '</span></div><div class="sup-meta">No record</div></div>';
+    }
+    var tier = window.SS.tierMeta(s.t);
+    var sc = window.SS.compositeScore(s);
+    return '<a class="sup-card" href="' + window.SS.urlFor('supplement', window.SS.slugify(s.n)) + '">'
+      + '<div class="sup-row"><span class="sup-name">' + escapeHtml(s.n) + '</span><span class="dt-tier dt-tier-' + s.t + '">' + escapeHtml(tier.badge) + '</span></div>'
+      + '<div class="sup-meta">' + escapeHtml(s.tag || '') + ' · Score ' + sc + '</div>'
+    + '</a>';
   }
 
   root.innerHTML =
-    '<a class="dt-back" href="search.html?q=' + encodeURIComponent(m.label) + '">‹ Back to search</a>'
-    + '<div class="dt-eyebrow">Medication class</div>'
-    + '<h1 class="dt-h1">' + escapeHtml(m.label) + '</h1>'
-    + (m.note ? '<div class="dt-note">' + escapeHtml(m.note) + '</div>' : '')
-    + bucket('Avoid combining',         (m.avoid   ||[]).length, m.avoid,   'bucket-avoid')
-    + bucket('Caution / monitor',       (m.caution ||[]).length, m.caution, 'bucket-caution')
-    + bucket('Often supportive',        (m.extra   ||[]).length, m.extra,   'bucket-extra')
-    + ((m.avoid||[]).length===0 && (m.caution||[]).length===0 && (m.extra||[]).length===0
-        ? '<div class="dt-card"><div class="dt-empty">No supplement interactions on file for this class.</div></div>' : '')
-    + '<p class="dt-disclaim">Educational reference, not medical advice. Confirm any supplement change with your prescriber.</p>';
+    '<a class="dt-back" href="search.html?q=' + encodeURIComponent(c.label) + '">‹ Back to search</a>'
+    + '<div class="dt-eyebrow">Condition</div>'
+    + '<h1 class="dt-h1">' + escapeHtml(c.label) + '</h1>'
+    + '<div class="dt-tag">Evidence-based supplement picks for ' + escapeHtml(c.label.toLowerCase()) + '. All picks are reviewed at the supplement level — click any card for the full record.</div>'
+    + '<section class="dt-card"><h2>Recommended supplements</h2>'
+    +   (picks.length ? '<div class="sup-grid">' + picks.map(suppCard).join('') + '</div>' : '<div class="dt-empty">No supplements on file.</div>')
+    + '</section>'
+    + '<p class="dt-disclaim">Educational reference, not medical advice. Always discuss new supplements with a qualified clinician.</p>';
 })();
 </script>
 </body>

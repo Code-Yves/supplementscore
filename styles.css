@@ -681,7 +681,24 @@ a.site-nav-tab{
 .site-nav-tab.active{background:var(--color-brand);color:#fff;box-shadow:0 2px 6px rgba(123,31,162,.20)}
 .site-nav-tab.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab:focus-visible{outline:2px solid var(--color-brand-soft);outline-offset:2px}
-@media(max-width:600px){.beta-bar{position:relative}.site-nav{top:0}.sticky-bar{top:36px}}
+@media(max-width:600px){.beta-bar{position:relative}.site-nav{top:0}.sticky-bar{top:36px}.az-letter-bar{top:54px}}
+/* Mobile flicker mitigations:
+   - Reduce backdrop-filter blur (very expensive on iOS Safari and re-rasterises every scroll frame).
+   - Suppress sticky :hover transforms after touch.
+   - Promote sticky bars to their own compositor layer so they don't repaint with every frame. */
+@media(max-width:600px){
+  .hero-counter,.hero-slide-badge,.hero-arrow,.cat-hero-kicker,.cat-hero-counter,.cat-hero-icon{
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  }
+  .site-nav,.sticky-bar,.az-letter-bar,.articles-filter-row,.beta-bar{
+    will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(0);
+  }
+}
+@media (hover: none){
+  .articles-card:hover,.cat-card:hover{transform:none!important;box-shadow:none!important;}
+  .site-nav-tab:hover{background:transparent!important;color:var(--color-text-secondary)!important;}
+  .site-nav-tab.active:hover{background:var(--color-brand)!important;color:#fff!important;}
+}
 @media(max-width:420px){.site-nav-tab{height:14px;padding:0 10px;font-size:10.5px}.pf-sex-opt{font-size:11px}}
 
 /* ── Articles section ── */

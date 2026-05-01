@@ -9,9 +9,66 @@ function lsRemove(k){try{localStorage.removeItem(k);}catch(e){}}
 if(typeof S==='undefined'){console.error('[SupplementScore] data.js failed to load');window.S=[];}
 // O(1) supplement lookup — avoids repeated S.find() O(n) scans in hot paths
 const _suppByName=new Map(S.map(s=>[s.n,s]));
+// Phase 0 / Item #9: last-reviewed date per supplement. Falls back to LAST_REVIEW_DEFAULT.
+function lastReviewedFor(name){try{return (typeof LAST_REVIEW!=='undefined'&&LAST_REVIEW[name])||(typeof LAST_REVIEW_DEFAULT!=='undefined'&&LAST_REVIEW_DEFAULT)||'';}catch(e){return '';}}
+// Format a YYYY-MM-DD date as "Apr 27, 2026" for display. Returns '' on bad input.
+function fmtReviewDate(d){if(!d||!/^\d{4}-\d{2}-\d{2}$/.test(d))return '';const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const[y,m,day]=d.split('-').map(n=>parseInt(n,10));return months[m-1]+' '+day+', '+y;}
+// Extract the "<!-- last-reviewed: YYYY-MM-DD -->" comment from an article source div.
+function articleReviewedDate(srcEl){if(!srcEl)return '';const html=srcEl.innerHTML||'';const m=html.match(/<!--\s*last-reviewed:\s*(\d{4}-\d{2}-\d{2})\s*-->/);return m?m[1]:'';}
+/* Phase 1 / Item #5: review cadence in days, derived from tier + category. Higher-stakes
+   content (safety, Tier 4, kids) gets a faster cadence. Per-entry override possible via
+   `lr_cadence` field on a supplement or `cadence` in an ARTICLES_BY_ID record. See
+   docs/cadence-policy.md for the policy and the SKILL.md update needed for the daily run. */
+const CADENCE_POLICY={t1:30,t2:60,t3:60,t4:14,safety:14,kids:30,breakthrough:30,guide:90,myth:90};
+function cadenceForSupp(supp){if(!supp)return 60;if(supp.lr_cadence)return Number(supp.lr_cadence)||60;const t=supp.t||'t2';return CADENCE_POLICY[t]||60;}
+function cadenceForArticle(articleId){const rec=(typeof ARTICLES_BY_ID!=='undefined')?ARTICLES_BY_ID[articleId]:null;if(!rec)return 90;if(rec.cadence)return Number(rec.cadence)||90;const c=rec.c||'guide';return CADENCE_POLICY[c]||90;}
+/* Days since YYYY-MM-DD relative to today's UTC date — handy for "is this stale?" checks. */
+function daysSinceReviewed(d){if(!d||!/^\d{4}-\d{2}-\d{2}$/.test(d))return null;const t=new Date(d+'T00:00:00Z').getTime();const now=new Date(new Date().toISOString().slice(0,10)+'T00:00:00Z').getTime();return Math.max(0,Math.round((now-t)/86400000));}
+/* True when an entry is overdue for review per the cadence policy. */
+function isOverdueSupp(supp){const lr=lastReviewedFor(supp.n);const d=daysSinceReviewed(lr);return d!==null&&d>=cadenceForSupp(supp);}
+function isOverdueArticle(articleId,reviewedDate){const d=daysSinceReviewed(reviewedDate);return d!==null&&d>=cadenceForArticle(articleId);}
+/* Phase 1 / Item #1: source-key -> {logo, label, tip} mapping for the citation renderer.
+   Logo files live in /source-logos/. Stub adapters use a "regulator" fallback when no
+   specific logo exists for a source. See sources/registry.json for the canonical source list. */
+const SOURCE_LOGOS={
+  ods:{logo:'nih.svg',label:'NIH ODS',tip:'NIH Office of Dietary Supplements — health-professional fact sheet'},
+  efsa:{logo:'efsa.svg',label:'EFSA',tip:'European Food Safety Authority scientific opinion'},
+  ema:{logo:'efsa.svg',label:'EMA',tip:'European Medicines Agency — herbal monograph'},
+  cochrane:{logo:'cochrane.svg',label:'Cochrane',tip:'Cochrane systematic review'},
+  openfda:{logo:'fda.svg',label:'openFDA',tip:'openFDA Drug Adverse Events (FAERS)'},
+  health_canada:{logo:'who.svg',label:'Health Canada',tip:'Health Canada NNHPD monograph'},
+  who:{logo:'who.svg',label:'WHO',tip:'WHO monograph on selected medicinal plants'},
+  medlineplus:{logo:'nih.svg',label:'MedlinePlus',tip:'NIH MedlinePlus / NCCIH consumer summary'},
+  pubmed:{logo:'pubmed.svg',label:'PubMed',tip:'PubMed indexed primary study'},
+  nih:{logo:'nih.svg',label:'NIH',tip:'National Institutes of Health'},
+  fda:{logo:'fda.svg',label:'FDA',tip:'U.S. Food and Drug Administration'},
+  cdc:{logo:'cdc.svg',label:'CDC',tip:'U.S. Centers for Disease Control and Prevention'},
+  nejm:{logo:'nejm.svg',label:'NEJM',tip:'New England Journal of Medicine'},
+  lancet:{logo:'lancet.svg',label:'Lancet',tip:'The Lancet journal family'},
+  harvard:{logo:'harvard.svg',label:'Harvard',tip:'Harvard health publication'},
+  jhu:{logo:'jhu.svg',label:'Johns Hopkins',tip:'Johns Hopkins Medicine publication'},
+  stanford:{logo:'stanford.svg',label:'Stanford',tip:'Stanford Medicine publication'}
+};
+/* Phase 0 / Item #10: reader feedback modal — citation-required inaccuracy reports.
+   Posts to the existing Formspree endpoint with a 'feedback' source tag. */
+let _fbCtx={kind:'',ref:''};
+function openFeedback(kind,ref){_fbCtx={kind:kind||'',ref:ref||''};const m=document.getElementById('fb-modal');if(!m)return;const ctxEl=document.getElementById('fb-context');if(ctxEl){if(kind==='article'&&ref)ctxEl.textContent='Reporting on: article #'+ref;else if(kind==='supplement'&&ref)ctxEl.textContent='Reporting on: '+ref;else ctxEl.textContent='';}const f=document.getElementById('fb-form');if(f)f.reset();const ok=document.getElementById('fb-success');if(ok)ok.style.display='none';const err=document.getElementById('fb-err');if(err){err.style.display='none';err.textContent='';}const submit=document.getElementById('fb-submit');if(submit){submit.disabled=false;submit.textContent='Send';}m.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>{const c=document.getElementById('fb-claim');if(c)c.focus();},80);}
+function closeFeedback(){const m=document.getElementById('fb-modal');if(m)m.classList.remove('open');document.body.style.overflow='';}
+function submitFeedback(ev){if(ev&&ev.preventDefault)ev.preventDefault();const claim=(document.getElementById('fb-claim')||{}).value||'';const correction=(document.getElementById('fb-correction')||{}).value||'';const citation=((document.getElementById('fb-citation')||{}).value||'').trim();const email=((document.getElementById('fb-email')||{}).value||'').trim();const err=document.getElementById('fb-err');function showErr(msg){if(err){err.textContent=msg;err.style.display='block';}}if(!claim.trim()){showErr('Please describe the inaccurate claim.');return;}if(!correction.trim()){showErr('Please suggest a correction.');return;}if(!citation||!/^https?:\/\//i.test(citation)){showErr('A citation URL (PubMed, DOI, or regulator dossier) is required.');return;}if(email&&!isValidEmail(email)){showErr('Email looks invalid — leave blank if you don\'t want a reply.');return;}const submit=document.getElementById('fb-submit');if(submit){submit.disabled=true;submit.textContent='Sending...';}const payload={source:'feedback-inaccuracy',context_kind:_fbCtx.kind,context_ref:_fbCtx.ref,page_url:location.href,claim:claim,correction:correction,citation_url:citation,email:email||'(none provided)',submitted_at:new Date().toISOString()};fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)}).then(r=>{if(r.ok){const f=document.getElementById('fb-form');const ok=document.getElementById('fb-success');if(ok)ok.style.display='block';if(f){['fb-claim','fb-correction','fb-citation','fb-email'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const submit=document.getElementById('fb-submit');if(submit){submit.style.display='none';}}setTimeout(closeFeedback,2200);}else{if(submit){submit.disabled=false;submit.textContent='Try again';}showErr('Submission failed — please try again or email yves@blueprintbuilds.com.');}}).catch(e=>{console.warn('[SupplementScore] feedback submit failed',e);if(submit){submit.disabled=false;submit.textContent='Try again';}showErr('Network error — please try again.');});}
 // Escape a value for safe use inside an HTML attribute (single or double quoted)
 function escAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function renderMedChips(){const el=document.getElementById('med-chips');if(!el)return;el.innerHTML=Object.entries(MEDS).map(([k,m])=>`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${escAttr(k)}')">${escHtml(m.label)}</div>`).join('');updateMedNote();}
+/* Escape a value for use inside a JavaScript string literal that lives in an HTML
+   attribute, e.g. onclick="fn('<value>')". The HTML attribute parser would decode
+   `&#39;` (escAttr's apostrophe escape) back to `'` and break the JS string for any
+   value containing an apostrophe like "Lion's mane". This helper backslash-escapes
+   apostrophes and backslashes (JS-string-safe) before HTML-escaping the rest. */
+function escAttrJs(s){return escAttr(String(s).replace(/\\/g,'\\\\')).replace(/&#39;/g,"\\'");}
+/* 2026-04-28 UX simplification: surface only the 4 most-prevalent medication classes
+   as chips (statin, BP med, thyroid, SSRI). Anything else the user reaches via the
+   "Specific medications" typeahead below the chips. Selected items NOT in TOP_4
+   still render as chips so the user can see what they picked previously. */
+const TOP_MED_CLASSES=['statin','bp','thyroid','ssri'];
+function renderMedChips(){const el=document.getElementById('med-chips');if(!el)return;const keys=[...new Set([...TOP_MED_CLASSES,...Array.from(selectedMeds||[])])].filter(k=>MEDS[k]);el.innerHTML=keys.map(k=>{const m=MEDS[k];return`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${escAttrJs(k)}')">${escHtml(m.label)}</div>`;}).join('');updateMedNote();}
 function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();updatePfCounts();}
 function updateMedNote(){const n=document.getElementById('med-note');if(!n)return;if(selectedMeds.size===0){n.style.display='none';return;}n.style.display='block';const avoidAll=new Set(),cautionAll=new Set(),extraAll=new Set();selectedMeds.forEach(k=>{const m=MEDS[k];if(!m)return;m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>cautionAll.add(x));m.extra.forEach(x=>extraAll.add(x));});n.innerHTML=`${avoidAll.size>0?'⚠ Will exclude: '+[...avoidAll].join(', ')+'. ':''}${cautionAll.size>0?'⚡ Will flag cautions on: '+[...cautionAll].join(', ')+'. ':''}${extraAll.size>0?'✚ Will add: '+[...extraAll].join(', ')+'.':''}`;}
 function getMedInteractions(){const avoidAll=new Set(),cautionMap={},extraAll=new Set(),notes=[];selectedMeds.forEach(k=>{const m=MEDS[k];if(!m)return;m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>{if(!cautionMap[x])cautionMap[x]=[];cautionMap[x].push(m.label);});m.extra.forEach(x=>extraAll.add(x));notes.push({med:m.label,note:m.note});});return{avoid:avoidAll,caution:cautionMap,extra:[...extraAll],notes};}
@@ -39,8 +96,10 @@ function pickSex(s){if(s!=='m'&&s!=='f'&&s!=='fp')return;sex=s;const bm=document
 function editP(){
   const vres=document.getElementById('v-res');if(vres)vres.style.display='none';
   const vin=document.getElementById('v-input');if(vin)vin.style.display='block';
-  // Collapse all accordion sections
-  document.querySelectorAll('.pf-section').forEach(s=>s.classList.remove('pf-open'));
+  // Sections are always-expanded in the current design (see styles.css comment at .pf-sec-header).
+  // The legacy collapse-all here was leaving every section locked shut with no toggle to reopen them.
+  // Force every section back to .pf-open in case any stale state lingers.
+  document.querySelectorAll('.pf-section').forEach(s=>s.classList.add('pf-open'));
   // Change submit button text
   const btn=document.querySelector('.pf-submit');
   if(btn)btn.textContent='Update my supplement plan \u2192';
@@ -83,48 +142,13 @@ function renderMedAlerts(mi){
 // Render the "My Profile" supplement-stack interaction alert.
 // Input: the recommended/essential/consider rec list. Flags any cross-conflicts across the stack.
 function renderSuppStackAlerts(recs){
-  let box=document.getElementById('supp-alert-box');
-  // If the container doesn't exist yet (older markup), create it just after the med-alert-box.
-  if(!box){
-    const anchor=document.getElementById('med-alert-box');
-    if(!anchor)return;
-    box=document.createElement('div');
-    box.id='supp-alert-box';
-    anchor.parentNode.insertBefore(box,anchor.nextSibling);
-  }
-  // Scope: every supplement the user is actually planning to take — essential + recommended
-  // recommendations PLUS anything the user manually added. We exclude "consider" tier (aspirational
-  // suggestions, not part of the active plan), but conflicts with user-added items absolutely need
-  // to be surfaced because the user has chosen to take them.
-  const planned=(recs||[]).filter(r=>r.p==='essential'||r.p==='recommended').map(r=>r.n);
-  const userAdded=(typeof userAddedSupps!=='undefined'&&Array.isArray(userAddedSupps))?userAddedSupps.slice():[];
-  const stackNames=[...new Set([...planned,...userAdded])];
-  const conflicts=computeStackConflicts(stackNames);
-  // Synergistic pairings and the "no interactions" clean banner are no longer surfaced in this
-  // top-of-plan area — pairings are already shown on each supplement card (the chain icon +
-  // "w/ partner" label), and the clean-state banner adds noise when there's nothing to warn about.
-  if(!conflicts.length){
-    box.innerHTML='';
-    return;
-  }
-  const avoidCount=conflicts.filter(c=>c.severity==='avoid').length;
-  const cautionCount=conflicts.length-avoidCount;
-  const headline=avoidCount>0
-    ?`\u26A0 ${avoidCount} do-not-stack conflict${avoidCount!==1?'s':''}${cautionCount?' and '+cautionCount+' caution'+(cautionCount!==1?'s':'')+' in your stack':' in your stack'}`
-    :`\u26A0 ${cautionCount} supplement interaction${cautionCount!==1?'s':''} flagged in your stack`;
-  let html=`<div class="supp-alert"><div class="supp-alert-hdr">${headline}</div>`;
-  // Show up to 8 conflicts (avoid first), rest collapsed behind a toggle.
-  const primary=conflicts.slice(0,8);
-  const overflow=conflicts.length-primary.length;
-  primary.forEach(c=>{
-    const sev=c.severity==='avoid'?'avoid':'caution';
-    const sevLbl=c.severity==='avoid'?'DO NOT STACK':'CAUTION';
-    html+=`<div class="supp-alert-item supp-alert-${sev}"><span class="supp-alert-sev">${sevLbl}</span><b>${escHtml(c.a)}</b> + <b>${escHtml(c.b)}</b><span class="supp-alert-reason"> — ${escHtml(c.reason)}</span></div>`;
-  });
-  if(overflow>0)html+=`<div class="supp-alert-more">+ ${overflow} additional interaction${overflow!==1?'s':''}. Expand each card for full detail.</div>`;
-  const libCount=(_suppCautionMap&&_suppCautionMap.size)?_suppCautionMap.size:733;
-  html+=`<div class="supp-alert-foot">Cross-checked against our ${libCount}-supplement interaction library. Always consult your clinician before changing any regimen.</div>`;
-  box.innerHTML=html+'</div>';
+  // Banner disabled per user request — the in-stack supplement-interaction summary is
+  // no longer shown on the My Profile page. The same warnings are still surfaced inline
+  // on each supplement card (the "Stack caution" chip and the "INTERACTS WITH OTHER
+  // SUPPLEMENTS IN YOUR PLAN" panel inside the card), so the information is still where
+  // a user would act on it. To re-enable, restore the previous body from git history.
+  const box=document.getElementById('supp-alert-box');
+  if(box)box.innerHTML='';
 }
 function getWeightDose(r){
   const wt=parseFloat(document.getElementById('prof-weight')?.value)||0;
@@ -296,7 +320,7 @@ function renderBwGrid(){
   if(!grid)return;
   grid.innerHTML=Object.entries(BIOMARKERS).map(([key,bio])=>{
     const rangeText=bio.highOnly?'Optimal: <'+bio.optHigh+' '+bio.unit:'Optimal: '+bio.optLow+'-'+bio.optHigh+' '+bio.unit;
-    return`<div class="bw-row" id="bw-row-${key}"><div class="bw-row-icon" style="background:linear-gradient(135deg,${bio.gradient[0]},${bio.gradient[1]})">${BW_ICONS[bio.icon]||''}</div><div class="bw-row-info"><div class="bw-row-name">${bio.name}</div><div class="bw-row-range">${rangeText}</div></div><input type="text" id="bw-${key}" placeholder="\u2014" oninput="updateBwRow('${key}',this.value)"><div class="bw-row-unit">${bio.unit}</div><div class="bw-row-dot"></div></div>`;
+    return`<div class="bw-row" id="bw-row-${key}"><div class="bw-row-icon" style="background:linear-gradient(135deg,${bio.gradient[0]},${bio.gradient[1]})">${BW_ICONS[bio.icon]||''}</div><div class="bw-row-info"><div class="bw-list-name">${bio.name}</div><div class="bw-row-range">${rangeText}</div></div><input type="text" id="bw-${key}" placeholder="\u2014" oninput="updateBwRow('${key}',this.value)"><div class="bw-list-unit">${bio.unit}</div><div class="bw-list-dot"></div></div>`;
   }).join('');
 }
 
@@ -383,19 +407,26 @@ function toggleBwManual(){
 // unit used by BIOMARKERS). "exclude" patterns disqualify a line for this biomarker
 // (used so that e.g. "HDL CHOLESTEROL" doesn't get claimed as total cholesterol).
 const BW_ALIASES={
-  hdl:{names:[/\bhdl[\s\-]*(?:cholesterol|chol|c)?\b/i,/high[\s\-]*density\s*lipo/i],
-    exclude:[/non[\s\-]*hdl/i],
+  hdl:{names:[/\bhdl[\s\-]*(?:cholesterol|chol|c|ceolester[oa]l|cho?les?ter[oa]l)?\b/i,/high[\s\-]*density\s*lipo/i],
+    exclude:[/non[\s\-]*hdl/i,/non[\s\-]*hd1/i,/\bratio\b/i,/tc\s*\/[\s\-]*hdl/i,/hdl[\s\-]*\/[\s\-]*ldl/i],
     units:{'mg/dl':1,'mg/dL':1,'mmol/l':38.67,'mmol/L':38.67}},
-  ldl:{names:[/\bldl[\s\-]*(?:cholesterol|chol|c)?(?:[\s\-]*calc\.?)?\b/i,/low[\s\-]*density\s*lipo/i],
+  ldl:{names:[/\bldl[\s\-]*(?:cholesterol|chol|c|ceolester[oa]l|cho?les?ter[oa]l)?(?:[\s\-]*calc\.?)?\b/i,/low[\s\-]*density\s*lipo/i],
+    exclude:[/\bratio\b/i,/hdl[\s\-]*\/[\s\-]*ldl/i,/ldl[\s\-]*\/[\s\-]*hdl/i],
     units:{'mg/dl':1,'mg/dL':1,'mmol/l':38.67,'mmol/L':38.67}},
   triglycerides:{names:[/triglycerides?/i,/\btrig\b/i,/\btg\b/i],
     units:{'mg/dl':1,'mg/dL':1,'mmol/l':88.57,'mmol/L':88.57}},
-  totalChol:{names:[/total\s*cholesterol/i,/cholesterol[\s,]*total/i,/^\s*cholesterol\b/i,/\bcholesterol\b/i],
-    exclude:[/\bhdl\b/i,/\bldl\b/i,/non[\s\-]*hdl/i,/vldl/i,/tc\s*\//i,/ratio/i],
+  totalChol:{names:[/total\s*cholesterol/i,/cholesterol[\s,]*total/i,/^\s*cholesterol\b/i,/\bcholesterol\b/i,
+    // OCR-resilient variants — tesseract.js commonly mangles CHOLESTEROL → CEOLESTEROL
+    // (H↔E confusion at index 1) and a few other letter-substitutions seen in the wild.
+    /total\s*ce?olester[oa]l/i,/\bce?olester[oa]l\b/i,/\bcholestrol\b/i,/\bcholestoral\b/i,
+    /\bcho?les?ter[oa]l\b/i],
+    exclude:[/\bhdl\b/i,/\bldl\b/i,/non[\s\-]*hdl/i,/non[\s\-]*hd1/i,/vldl/i,/tc\s*\//i,/ratio/i],
     units:{'mg/dl':1,'mg/dL':1,'mmol/l':38.67,'mmol/L':38.67}},
   vitD:{names:[/25[\s\-]*hydroxy\s*vitamin\s*d\b/i,/vitamin\s*d[,.\s]*25[\s\-]*(?:oh|hydroxy)/i,/25[\s\-]*\(?\s*oh\s*\)?[\s\-]*d\b/i,/25[\s\-]*(?:oh|hydroxy)/i,/\bvit(?:amin)?\s*d[23]?\b/i],
     units:{'ng/ml':1,'ng/mL':1,'nmol/l':0.4,'nmol/L':0.4}},
-  b12:{names:[/\bvitamin\s*b[\s\-]*12\b/i,/\bb[\s\-]*12\b/i,/\bcobalamin\b/i,/methylcobalamin/i,/cyanocobalamin/i],
+  b12:{names:[/\bvitamin\s*b[\s\-]*12\b/i,/\bb[\s\-]*12\b/i,/\bcobalamin\b/i,/methylcobalamin/i,/cyanocobalamin/i,
+    // OCR variants — B↔8 confusion ("VITAMIN 812", "8-12")
+    /\bvitamin\s*8[\s\-]*?12\b/i,/\b8[\s\-]*?12\s*(?:vitamin|level)?\b/i],
     units:{'pg/ml':1,'pg/mL':1,'pmol/l':1.355,'pmol/L':1.355}},
   folateRbc:{names:[/folate[\s,]*rbc/i,/rbc\s*folate/i,/red\s*(?:blood\s*)?cell\s*folate/i,/erythrocyte\s*folate/i],
     units:{'ng/ml':1,'ng/mL':1,'nmol/l':0.441,'nmol/L':0.441}},
@@ -424,12 +455,60 @@ const BW_ALIASES={
     units:{'pg/ml':1,'pg/mL':1,'pmol/l':0.288,'pmol/L':0.288,'ng/dl':10,'ng/dL':10}},
   fastingGlucose:{names:[/fasting\s*glucose/i,/glucose[\s,]*fasting/i,/\bglucose\b/i],
     exclude:[/urine/i,/tolerance/i,/2[\s\-]*h(?:our|r)/i,/post[\s\-]*prandial/i],
-    units:{'mg/dl':1,'mg/dL':1,'mmol/l':18.02,'mmol/L':18.02}}
+    units:{'mg/dl':1,'mg/dL':1,'mmol/l':18.02,'mmol/L':18.02}},
+  // ── Cardiometabolic ────────────────────────────────────────────────────
+  apoB:{names:[/apolipo[\s\-]*protein\s*b(?:[\s\-]*100)?/i,/\bapo[\s\-]*b(?:100)?\b/i],
+    units:{'mg/dl':1,'mg/dL':1,'g/l':100,'g/L':100}},
+  lpA:{names:[/lipoprotein[\s\-]*\(?\s*a\s*\)?/i,/\blp\s*\(?\s*a\s*\)?\b/i],
+    units:{'nmol/l':1,'nmol/L':1,'mg/dl':2.5,'mg/dL':2.5}},
+  fastingInsulin:{names:[/fasting\s*insulin/i,/insulin[\s,]*fasting/i,/\binsulin\b/i],
+    exclude:[/urine/i,/c[\s\-]*peptide/i,/glucose/i,/igf/i,/like\s*growth/i],
+    units:{'uiu/ml':1,'µiu/ml':1,'miu/l':1,'mU/L':1,'pmol/l':0.144,'pmol/L':0.144}},
+  homaIR:{names:[/\bhoma[\s\-]*ir\b/i,/homeostatic\s*model.*?insulin/i,/insulin\s*resistance\s*index/i],
+    units:{'':1,'index':1}},
+  // ── Liver enzymes ──────────────────────────────────────────────────────
+  alt:{names:[/\balt\b/i,/alanine\s*amino[\s\-]*transferase/i,/\bsgpt\b/i,/serum\s*glutamic[\s\-]*pyruvic/i],
+    exclude:[/\bsalt\b/i,/altitude/i,/\balternati/i],
+    units:{'u/l':1,'U/L':1,'iu/l':1,'IU/L':1,'units/l':1}},
+  ast:{names:[/\bast\b/i,/aspartate\s*amino[\s\-]*transferase/i,/\bsgot\b/i,/serum\s*glutamic[\s\-]*oxaloacetic/i],
+    exclude:[/\bfast\b/i,/asthma/i,/\bastra/i,/\bpast\b/i],
+    units:{'u/l':1,'U/L':1,'iu/l':1,'IU/L':1,'units/l':1}},
+  ggt:{names:[/\bggt\b/i,/gamma[\s\-]*glutamyl[\s\-]*transferase/i,/gamma[\s\-]*gt/i,/\bggtp\b/i],
+    units:{'u/l':1,'U/L':1,'iu/l':1,'IU/L':1,'units/l':1}},
+  // ── Kidney ─────────────────────────────────────────────────────────────
+  eGFR:{names:[/\begfr\b/i,/estimated\s*gfr/i,/glomerular\s*filtration/i,/e[\s\-]*gfr/i],
+    units:{'ml/min/1.73m2':1,'mL/min/1.73m²':1,'ml/min':1,'mL/min':1}},
+  // ── Thyroid panel (beyond TSH) ─────────────────────────────────────────
+  freeT3:{names:[/free\s*t[\s\-]*3/i,/\bft3\b/i,/triiodothyronine[\s,]*free/i,/free[\s,]*triiodothyronine/i],
+    exclude:[/total/i,/reverse/i,/\brt3\b/i],
+    units:{'pg/ml':1,'pg/mL':1,'pmol/l':0.651,'pmol/L':0.651}},
+  freeT4:{names:[/free\s*t[\s\-]*4/i,/\bft4\b/i,/thyroxine[\s,]*free/i,/free[\s,]*thyroxine/i],
+    exclude:[/total/i],
+    units:{'ng/dl':1,'ng/dL':1,'pmol/l':0.0777,'pmol/L':0.0777}},
+  // ── Hormonal ───────────────────────────────────────────────────────────
+  dheaS:{names:[/\bdhea[\s\-]*s\b/i,/dhea[\s\-]*sulfate/i,/dehydroepiandrosterone[\s\-]*sulfate/i,/dehydroepiandrosterone\s*s/i],
+    units:{'ug/dl':1,'mcg/dl':1,'µg/dl':1,'umol/l':36.84,'µmol/l':36.84}},
+  shbg:{names:[/\bshbg\b/i,/sex[\s\-]*hormone[\s\-]*binding\s*globulin/i],
+    units:{'nmol/l':1,'nmol/L':1}},
+  // ── Methylation / Cardio risk ──────────────────────────────────────────
+  homocysteine:{names:[/homocyste(?:ine)?/i,/\bhcy\b/i],
+    units:{'umol/l':1,'µmol/l':1,'mg/l':7.397,'mg/L':7.397}},
+  // ── Other ──────────────────────────────────────────────────────────────
+  uricAcid:{names:[/uric\s*acid/i,/\burate\b/i],
+    units:{'mg/dl':1,'mg/dL':1,'umol/l':0.0168,'µmol/l':0.0168}},
+  selenium:{names:[/\bselenium\b/i,/\bse\s*serum\b/i],
+    exclude:[/\bsemen\b/i,/\bsensitiv/i],
+    units:{'ug/l':1,'µg/l':1,'mcg/l':1,'umol/l':78.96,'µmol/l':78.96,'ng/ml':1,'ng/mL':1}},
+  nonHdl:{names:[/non[\s\-]*hdl[\s\-]*(?:cholesterol|chol|c|ceolester[oa]l|cho?les?ter[oa]l)?/i,/non[\s\-]*hd1[\s\-]*(?:cholesterol|chol|c)?/i],
+    units:{'mg/dl':1,'mg/dL':1,'mmol/l':38.67,'mmol/L':38.67}},
+  vitA:{names:[/vitamin\s*a\b/i,/\bretinol\b/i],
+    exclude:[/vitamin\s*a\s*(?:and|&|\+)/i,/vitamin\s*a[a-z]/i],
+    units:{'umol/l':1,'µmol/l':1,'ug/dl':0.0349,'mcg/dl':0.0349,'µg/dl':0.0349,'iu/dl':0.00105,'iu/l':0.0000105}}
 };
 
 // Order matters: specific patterns first so "HDL CHOLESTEROL" doesn't get
 // claimed by totalChol. Total cholesterol is deliberately placed after lipids.
-const BW_PARSE_ORDER=['hdl','ldl','triglycerides','freeTesto','testosterone','folateRbc','folate','magRbc','totalChol','vitD','b12','ferritin','tsh','crp','omega3','zinc','hba1c','fastingGlucose'];
+const BW_PARSE_ORDER=['apoB','lpA','homaIR','homocysteine','dheaS','shbg','freeT3','freeT4','eGFR','nonHdl','hdl','ldl','triglycerides','freeTesto','testosterone','folateRbc','folate','magRbc','totalChol','vitD','vitA','b12','ferritin','tsh','crp','omega3','selenium','zinc','hba1c','fastingInsulin','fastingGlucose','alt','ast','ggt','uricAcid'];
 
 // Update the upload zone's text to show progress. msg=null resets to default.
 function setBwUploadStatus(msg){
@@ -571,11 +650,14 @@ function _detectUnitFactor(line,unitsMap,valuePos){
   return bestFactor;
 }
 
-// Per-biomarker line parser. Returns {extracted:{key:canonicalValue}, found:count}.
+// Per-biomarker line parser. Returns {extracted, found, sources} where sources[key]
+// records the original line, matched name span, raw value, and canonical value — used
+// by the review modal so the user can verify each extraction against the source PDF text.
 function parseBiomarkers(text){
   const lines=text.split(/\r?\n/).map(l=>l.replace(/\s+/g,' ').trim()).filter(Boolean);
   const claimed=new Set();
   const extracted={};
+  const sources={};
   for(const key of BW_PARSE_ORDER){
     const def=BW_ALIASES[key];
     const bio=BIOMARKERS[key];
@@ -583,10 +665,7 @@ function parseBiomarkers(text){
     for(let li=0;li<lines.length;li++){
       if(claimed.has(li))continue;
       const line=lines[li];
-      // Exclude lines the user has said don't count for this biomarker
       if(def.exclude&&def.exclude.some(rx=>rx.test(line)))continue;
-      // Find the earliest name match. If multiple patterns match at the same
-      // start, take the longest (skips past compound-name tokens like "25-HYDROXY").
       let bestStart=-1,bestEnd=-1;
       for(const rx of def.names){
         const m=line.match(rx);
@@ -599,16 +678,121 @@ function parseBiomarkers(text){
       if(num==null)continue;
       const factor=_detectUnitFactor(line,def.units,num.endIdx);
       const canonical=factor!=null?num.value*factor:num.value;
-      // Sanity-check: reject values wildly outside plausible range (catches OCR blips
-      // and cases where we guessed the wrong unit). Allow up to 5x the "high" bound.
       const ceiling=bio.high*5;
       if(!isFinite(canonical)||canonical<0||canonical>ceiling)continue;
-      extracted[key]=Math.round(canonical*100)/100;
+      const rounded=Math.round(canonical*100)/100;
+      extracted[key]=rounded;
+      sources[key]={
+        line:line,
+        matchStart:bestStart,
+        matchEnd:bestEnd,
+        rawValue:num.value,
+        rawValueEnd:num.endIdx,
+        unitFactor:factor,
+        canonical:rounded,
+        lineIndex:li
+      };
       claimed.add(li);
       break;
     }
   }
-  return {extracted,found:Object.keys(extracted).length};
+  return {extracted,found:Object.keys(extracted).length,sources};
+}
+
+// Review modal between PDF parse and bloodWork[] commit. Shows each extracted value
+// with the original line of text it came from (matched name span highlighted), an
+// editable numeric input, and an accept/skip checkbox. "Confirm" commits accepted
+// values; "Cancel" discards everything; "Skip review" commits all original values.
+function _showBwReviewModal(opts){
+  const {extracted,sources,fileName,onCommit,onCancel}=opts;
+  const keys=Object.keys(extracted);
+  // Build modal scaffold
+  const overlay=document.createElement('div');
+  overlay.className='bw-review-overlay';
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
+  overlay.setAttribute('aria-label','Review extracted biomarker values');
+  const modal=document.createElement('div');
+  modal.className='bw-review-modal';
+  // Header
+  const fileHtml=fileName?`<div class="bw-review-file" title="${escAttr(fileName)}">${escHtml(fileName)}</div>`:'';
+  modal.innerHTML=`<div class="bw-review-hdr">
+    <div>
+      <div class="bw-review-title">Review extracted values</div>
+      <div class="bw-review-sub">Confirm or correct each value before it commits to your profile.</div>
+      ${fileHtml}
+    </div>
+    <button type="button" class="bw-review-x" aria-label="Close review">\u00D7</button>
+  </div>
+  <div class="bw-review-body" id="bw-review-body"></div>
+  <div class="bw-review-foot">
+    <button type="button" class="bw-review-skip" id="bw-review-skip">Skip review &middot; commit all</button>
+    <div style="flex:1"></div>
+    <button type="button" class="bw-review-cancel" id="bw-review-cancel">Cancel</button>
+    <button type="button" class="bw-review-confirm" id="bw-review-confirm">Confirm</button>
+  </div>`;
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.style.overflow='hidden';
+  // Build one row per extracted value
+  const body=modal.querySelector('#bw-review-body');
+  body.innerHTML=keys.map(k=>{
+    const bio=BIOMARKERS[k];const src=sources[k];
+    if(!bio||!src)return '';
+    // Highlight the matched substring in the source line
+    const before=escHtml(src.line.substring(0,src.matchStart));
+    const match=escHtml(src.line.substring(src.matchStart,src.matchEnd));
+    const after=escHtml(src.line.substring(src.matchEnd));
+    const lineHtml=`${before}<mark>${match}</mark>${after}`;
+    return `<div class="bw-review-row" data-key="${escAttr(k)}">
+      <label class="bw-review-check">
+        <input type="checkbox" class="bw-review-accept" data-key="${escAttr(k)}" checked>
+        <span></span>
+      </label>
+      <div class="bw-review-info">
+        <div class="bw-review-name">${escHtml(bio.name)}</div>
+        <div class="bw-review-source">From PDF: <span class="bw-review-line">${lineHtml}</span></div>
+      </div>
+      <div class="bw-review-val">
+        <input type="number" step="0.01" inputmode="decimal" class="bw-review-input" data-key="${escAttr(k)}" value="${src.canonical}">
+        <span class="bw-review-unit">${escHtml(bio.unit||'')}</span>
+      </div>
+    </div>`;
+  }).join('');
+  // Wire interactions — toggling the accept checkbox dims/restores the row
+  body.querySelectorAll('.bw-review-accept').forEach(chk=>{
+    chk.addEventListener('change',()=>{
+      const row=chk.closest('.bw-review-row');
+      if(row)row.classList.toggle('bw-review-row-skipped',!chk.checked);
+    });
+  });
+  // Close handlers
+  const _close=()=>{
+    document.body.style.overflow='';
+    if(overlay.parentNode)overlay.parentNode.removeChild(overlay);
+  };
+  modal.querySelector('.bw-review-x').addEventListener('click',()=>{_close();onCancel&&onCancel();});
+  modal.querySelector('#bw-review-cancel').addEventListener('click',()=>{_close();onCancel&&onCancel();});
+  modal.querySelector('#bw-review-skip').addEventListener('click',()=>{
+    _close();
+    onCommit&&onCommit(Object.assign({},extracted));
+  });
+  modal.querySelector('#bw-review-confirm').addEventListener('click',()=>{
+    const accepted={};
+    body.querySelectorAll('.bw-review-row').forEach(row=>{
+      const key=row.getAttribute('data-key');
+      const chk=row.querySelector('.bw-review-accept');
+      if(!chk||!chk.checked)return;
+      const inp=row.querySelector('.bw-review-input');
+      const val=parseFloat(inp&&inp.value);
+      if(isFinite(val))accepted[key]=val;
+    });
+    _close();
+    onCommit&&onCommit(accepted);
+  });
+  // Escape closes (treats as cancel)
+  const _esc=e=>{if(e.key==='Escape'){document.removeEventListener('keydown',_esc);_close();onCancel&&onCancel();}};
+  document.addEventListener('keydown',_esc);
 }
 
 async function handleBwUpload(file){
@@ -633,30 +817,43 @@ async function handleBwUpload(file){
         return;
       }
     }
-    const {extracted,found}=parseBiomarkers(text);
-    // Apply extracted values into bloodWork + manual grid
-    for(const[k,v]of Object.entries(extracted)){
-      bloodWork[k]=v;
-      const input=document.getElementById('bw-'+k);
-      if(input){input.value=v;updateBwRow(k,String(v));}
-    }
-    // Swap upload zone for "uploaded" bar
+    const {extracted,found,sources}=parseBiomarkers(text);
     setBwUploadStatus(null);
-    uploadEl.style.display='none';
-    uploadedEl.style.display='flex';
-    // Guard each DOM write — reader-mode and future refactors may strip any of these.
-    // Without guards, a single missing node would throw and abort the rest of the
-    // success-state UI (manual grid auto-expand, count-update banner, etc.).
-    const _fn=document.getElementById('bw-file-name');if(_fn)_fn.textContent=file.name;
-    const _ec=document.getElementById('bw-extracted-count');if(_ec)_ec.textContent=found+' biomarker'+(found!==1?'s':'')+' extracted';
-    // Auto-expand the manual grid so user can verify / correct
-    const _bm=document.getElementById('bw-manual');if(_bm)_bm.style.display='block';
-    const _bmt=document.getElementById('bw-manual-toggle');if(_bmt)_bmt.innerHTML='Hide manual entry &#9652;';
-    updateBwCount();
-    if(typeof updatePfCounts==='function')updatePfCounts();
     if(!found){
+      // Nothing recognized — let the user fall back to manual entry without a modal.
+      uploadEl.style.display='none';
+      uploadedEl.style.display='flex';
+      const _fn=document.getElementById('bw-file-name');if(_fn)_fn.textContent=file.name;
+      const _ec=document.getElementById('bw-extracted-count');if(_ec)_ec.textContent='0 biomarkers extracted';
+      const _bm=document.getElementById('bw-manual');if(_bm)_bm.style.display='block';
+      const _bmt=document.getElementById('bw-manual-toggle');if(_bmt)_bmt.innerHTML='Hide manual entry &#9652;';
       setTimeout(()=>{alert('We could not identify any recognized biomarkers in this report. Please enter values manually below.');},50);
+      return;
     }
+    // Show the review modal — the user can accept, edit, or skip each extracted value
+    // before anything is committed to bloodWork[]. Prevents OCR blips from silently
+    // driving recommendations.
+    _showBwReviewModal({extracted,sources,fileName:file.name,
+      onCommit:(accepted)=>{
+        const acceptedCount=Object.keys(accepted).length;
+        for(const[k,v]of Object.entries(accepted)){
+          bloodWork[k]=v;
+          const input=document.getElementById('bw-'+k);
+          if(input){input.value=v;updateBwRow(k,String(v));}
+        }
+        uploadEl.style.display='none';
+        uploadedEl.style.display='flex';
+        const _fn=document.getElementById('bw-file-name');if(_fn)_fn.textContent=file.name;
+        const _ec=document.getElementById('bw-extracted-count');if(_ec)_ec.textContent=acceptedCount+' biomarker'+(acceptedCount!==1?'s':'')+' extracted';
+        const _bm=document.getElementById('bw-manual');if(_bm)_bm.style.display='block';
+        const _bmt=document.getElementById('bw-manual-toggle');if(_bmt)_bmt.innerHTML='Hide manual entry &#9652;';
+        updateBwCount();
+        if(typeof updatePfCounts==='function')updatePfCounts();
+      },
+      onCancel:()=>{
+        // User backed out — leave upload zone untouched and the manual grid empty.
+      }
+    });
   }catch(e){
     console.warn('PDF parse error:',e);
     setBwUploadStatus(null);
@@ -733,27 +930,84 @@ function renderBwResults(results){
   const txMap={t1:'var(--t1tx)',t2:'var(--t2tx)',t3:'var(--t3tx)',t4:'var(--t4tx)'};
   const statusClass={critical:'bw-critical',low:'bw-low',optimal:'bw-optimal',high:'bw-high'};
 
+  // Mockup-1 compact list — one row per biomarker, click to expand for description + supps.
+  // Optimal markers collapse into a single summary row at the bottom (kept tappable so
+  // they can still be expanded into a small list).
+  const _scGrad=(sc)=>sc>=72?'linear-gradient(180deg,var(--t1c),#0F766E)':sc>=60?'linear-gradient(180deg,var(--t2c),#3B5FC0)':sc>=40?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)';
+  const _markPct=(r)=>{
+    if(r.bio.highOnly)return Math.max(2,Math.min(98,(r.val/r.bio.high)*100));
+    const range=r.bio.high-(r.bio.low||0);
+    const base=r.bio.low||0;
+    return Math.max(2,Math.min(98,((r.val-base)/range)*100));
+  };
+  const _statusClass=(s)=>s==='critical'?'bw-list-crit':s==='high'?'bw-list-elev':s==='low'?'bw-list-low':'bw-list-opt';
+  const _rangeBar=(r)=>{
+    const pct=_markPct(r);
+    const fillClass=r.bio.highOnly?'bw-list-fill bw-list-fill-highonly':'bw-list-fill';
+    const labels=r.bio.highOnly
+      ?`<span>0</span><span>Optimal &lt; ${r.bio.optHigh}</span><span>${r.bio.high}</span>`
+      :`<span>${r.bio.low||0}</span><span>${r.bio.optLow}-${r.bio.optHigh} Optimal</span><span>${r.bio.high}</span>`;
+    return `<div class="bw-list-bar"><div class="${fillClass}"></div><div class="bw-list-mark" style="left:${pct}%;background:${colorMap[r.color]}"></div></div><div class="bw-list-labels">${labels}</div>`;
+  };
+  const _suppChips=(r)=>{
+    if(!r.needsAction||!r.bio.supps||!r.bio.supps.length)return '';
+    let chips='';
+    r.bio.supps.forEach(sr=>{
+      const sup=_suppByName.get(sr.name);
+      const sc=sup?calcScore(sup):0;
+      chips+=`<div class="bw-supp-rec"><div class="bw-supp-rec-sc" style="background:${_scGrad(sc)}">${sc}</div><div class="bw-supp-rec-body"><div class="bw-supp-rec-name">${escHtml(sr.name)} \u2014 ${escHtml(sr.dose)}</div><div class="bw-supp-rec-note">${escHtml(sr.note||'')}</div></div></div>`;
+    });
+    return chips;
+  };
+
+  // Split into attention-needing + optimal
+  const attention=results.filter(r=>r.needsAction);
+  const optimal=results.filter(r=>!r.needsAction);
+
   let html='';
-  results.forEach(r=>{
-    // Range bar position
-    const range=r.bio.high-((r.bio.highOnly)?0:(r.bio.low||0));
-    const base=r.bio.highOnly?0:(r.bio.low||0);
-    const pct=Math.max(2,Math.min(98,((r.val-base)/range)*100));
-
-    let suppHtml='';
-    if(r.needsAction&&r.bio.supps){
-      r.bio.supps.forEach(sr=>{
-        const sup=_suppByName.get(sr.name);
-        const sc=sup?calcScore(sup):0;
-        const scGrad=sc>=72?'linear-gradient(180deg,var(--t1c),#0F766E)':sc>=60?'linear-gradient(180deg,var(--t2c),#3B5FC0)':sc>=40?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)';
-        suppHtml+=`<div class="bw-supp-rec"><div style="width:28px;height:28px;border-radius:7px;background:${scGrad};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${sc}</div><div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600">${sr.name} \u2014 ${sr.dose}</div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:1px">${sr.note}</div></div></div>`;
-      });
-    }
-
-    html+=`<div class="bw-def-card ${statusClass[r.status]||''}"><div style="width:36px;text-align:center;flex-shrink:0"><div style="font-size:16px;font-weight:700;color:${colorMap[r.color]};line-height:1">${r.val}</div><div style="font-size:7px;color:var(--color-text-tertiary);margin-top:2px">${r.bio.unit}</div></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:5px;margin-bottom:2px"><div style="font-size:12px;font-weight:600">${r.bio.name}</div><div style="font-size:8px;font-weight:600;padding:1px 6px;border-radius:8px;background:${bgMap[r.color]};color:${txMap[r.color]}">${r.statusLabel}</div></div><div style="font-size:10px;color:var(--color-text-secondary);line-height:1.4">${r.bio.desc}</div>${!r.bio.highOnly?`<div style="display:flex;align-items:center;gap:6px;margin-top:5px"><div style="flex:1;height:5px;border-radius:3px;background:#eee;position:relative;overflow:visible"><div style="height:100%;border-radius:3px;width:100%;background:linear-gradient(90deg,var(--t4c),var(--t3c) 35%,var(--t1c) 55%,var(--t2c));position:absolute;left:0;top:0"></div><div style="width:8px;height:8px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);position:absolute;top:-1.5px;left:${pct}%;background:${colorMap[r.color]};z-index:1"></div></div></div><div style="display:flex;justify-content:space-between;font-size:7px;color:var(--color-text-tertiary);margin-top:2px"><span>${r.bio.low||0}</span><span>${r.bio.optLow}-${r.bio.optHigh} Optimal</span><span>${r.bio.high}</span></div>`:''}`+suppHtml+`</div></div>`;
+  attention.forEach((r,i)=>{
+    const id=`bw-row-${escAttr(r.key)}-${i}`;
+    const miniPct=_markPct(r);
+    html+=`<div class="bw-list-row ${_statusClass(r.status)}" data-bw-row="${id}" onclick="_toggleBwRow(this)">
+      <span class="bw-list-dot"></span>
+      <div class="bw-list-name">${escHtml(r.bio.name)} <span class="bw-list-pill" style="background:${bgMap[r.color]};color:${txMap[r.color]}">${escHtml(r.statusLabel)}</span></div>
+      <div class="bw-list-mini"><div class="bw-list-mini-fill"></div><div class="bw-list-mini-mark" style="left:${miniPct}%;background:${colorMap[r.color]}"></div></div>
+      <div class="bw-list-val" style="color:${colorMap[r.color]}">${r.val}<span class="bw-list-unit">${escHtml(r.bio.unit||'')}</span></div>
+    </div>
+    <div class="bw-list-detail" data-bw-detail="${id}">
+      <div class="bw-list-desc">${escHtml(r.bio.desc||'')}</div>
+      ${_rangeBar(r)}
+      ${_suppChips(r)?'<div class="bw-list-supps">'+_suppChips(r)+'</div>':''}
+    </div>`;
   });
+  if(optimal.length){
+    const id='bw-row-optimal-summary';
+    const names=optimal.map(o=>escHtml(o.bio.name)).join(' · ');
+    html+=`<div class="bw-list-row bw-list-opt bw-list-summary" data-bw-row="${id}" onclick="_toggleBwRow(this)">
+      <span class="bw-list-dot"></span>
+      <div class="bw-list-name" style="font-weight:500;color:var(--color-text-secondary)">${escHtml(optimal.length+' optimal')} <span class="bw-list-pill bw-list-pill-opt">In range</span></div>
+      <div class="bw-list-mini"><div class="bw-list-mini-fill"></div><div class="bw-list-mini-mark" style="left:50%;background:var(--t1c)"></div></div>
+      <div class="bw-list-val" style="color:var(--t1c);font-size:11px">${optimal.length} markers</div>
+    </div>
+    <div class="bw-list-detail" data-bw-detail="${id}">
+      <div class="bw-list-optimal-list">`+
+        optimal.map(o=>`<div class="bw-list-optimal-item"><span>${escHtml(o.bio.name)}</span><span class="bw-list-optimal-val">${o.val} <span class="bw-list-optimal-unit">${escHtml(o.bio.unit||'')}</span></span></div>`).join('')
+      +`</div>
+    </div>`;
+  }
 
   cards.innerHTML=html;
+}
+
+// Toggle the inline detail beneath a clicked biomarker row.
+function _toggleBwRow(rowEl){
+  if(!rowEl)return;
+  const id=rowEl.getAttribute('data-bw-row');
+  if(!id)return;
+  const detail=document.querySelector('[data-bw-detail="'+id+'"]');
+  if(!detail)return;
+  const expanded=rowEl.classList.toggle('bw-list-open');
+  detail.classList.toggle('bw-list-detail-open',expanded);
 }
 
 const LOAD_STEPS=[
@@ -792,7 +1046,7 @@ function genRecs(){
 function _showRecs(){
   const age=parseInt(document.getElementById('asl').value);
   const mi=getMedInteractions();
-  const recs=getRecs(age,sex).filter(r=>!mi.avoid.has(r.n)&&!hiddenSupps.has(r.n));
+  let recs=getRecs(age,sex).filter(r=>!mi.avoid.has(r.n)&&!hiddenSupps.has(r.n));
   applyMedExtras(recs,mi);
   // Add condition-based and goal-based supplements
   const condSupps=getCondSupps();
@@ -800,25 +1054,104 @@ function _showRecs(){
   goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!hiddenSupps.has(n)&&!recs.find(r=>r.n===n)){const s=_suppByName.get(n);if(s){const matchedGoals=[...selectedGoals].filter(k=>GOALS[k]&&GOALS[k].supps.includes(n)).map(k=>GOALS[k].label);const goalStr=matchedGoals.length?matchedGoals.join(' & '):'your selected goals';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Matches your "${goalStr}" goal.`,dose:s.dose,_goalExtra:true});}}});
   condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!hiddenSupps.has(n)&&!recs.find(r=>r.n===n)){const s=_suppByName.get(n);if(s){const matchedConds=[...selectedConds].filter(k=>CONDITIONS[k]&&CONDITIONS[k].supps.includes(n)).map(k=>CONDITIONS[k].label);const condStr=matchedConds.length?matchedConds.join(' & '):'your selected conditions';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Recommended for ${condStr}.`,dose:s.dose,_condExtra:true});}}});
 
-  // Blood work integration — boost supplements matching deficiencies
+  // Blood work integration — boost supplements matching deficiencies, and credit each
+  // recommendation back to the specific biomarker(s) that triggered it.
+  // Direction-aware: each biomarker's supps move the marker in one direction (raise or
+  // lower). We only push raisers when the value is BELOW optimal, and lowerers when the
+  // value is ABOVE optimal — so an elevated B12 doesn't pull in more methylcobalamin and
+  // a high-normal testosterone doesn't pull in more D3/Zinc/Ashwagandha.
   const bwResults=Object.keys(bloodWork).length>0?analyzeBloodWork():[];
   if(bwResults.length>0){
+    const _bwCause=(r,sr)=>{
+      const bm=r.bio.name||r.key;
+      const v=r.val;
+      const u=r.bio.unit||'';
+      const status=r.statusLabel||r.status;
+      const tail=sr&&sr.note?' '+sr.note+'.':'';
+      return `${bm} = ${v} ${u} (${status}).${tail}`.replace(/\s+/g,' ').trim();
+    };
+    // Direction defaults: highOnly markers (CRP, HbA1c, ApoB, LDL, TG, etc.) → 'lower';
+    // higherBetter markers (HDL, eGFR) → 'raise'; everything else → 'raise' (deficiency
+    // pattern). Explicit `direction` on the biomarker overrides this default.
+    const _bwDirection=(bio)=>{
+      if(bio.direction)return bio.direction;
+      if(bio.highOnly)return 'lower';
+      if(bio.higherBetter)return 'raise';
+      return 'raise';
+    };
     bwResults.forEach(r=>{
       if(!r.needsAction)return;
+      const dir=_bwDirection(r.bio);
+      const optLow=r.bio.optLow!=null?r.bio.optLow:0;
+      const optHigh=r.bio.optHigh!=null?r.bio.optHigh:Infinity;
+      // Raisers only fire when the value is BELOW the optimal floor.
+      // Lowerers only fire when the value is ABOVE the optimal ceiling.
+      // Elevated raisers / deficient lowerers are silently skipped (still surfaced on
+      // the deficiency card so the user sees them, just no supplement is pushed).
+      if(dir==='raise' && r.val>=optLow)return;
+      if(dir==='lower' && r.val<=optHigh)return;
       r.bio.supps.forEach(sr=>{
-        // Add supplement if not already in recs
         const existing=recs.find(x=>x.n===sr.name);
         if(!existing&&!mi.avoid.has(sr.name)&&!hiddenSupps.has(sr.name)){
           const s=_suppByName.get(sr.name);
-          if(s)recs.push({n:s.n,p:r.status==='critical'?'essential':'recommended',tier:s.t,tf:false,e:s.e,s:s.s,why:'Based on your blood work results.',dose:s.dose,_bwExtra:true});
+          if(s){
+            const why='Triggered by '+_bwCause(r,sr);
+            recs.push({n:s.n,p:r.status==='critical'?'essential':'recommended',tier:s.t,tf:false,e:s.e,s:s.s,why,dose:s.dose,_bwExtra:true,_bwTriggers:[{key:r.key,name:r.bio.name,val:r.val,unit:r.bio.unit,status:r.statusLabel}]});
+          }
         }else if(existing){
           if(existing.p==='consider')existing.p='recommended';
           if(r.status==='critical'&&existing.p==='recommended')existing.p='essential';
-          if(!existing._bwExtra)existing.why=(existing.why||'')+' Also supported by your blood work.';
+          // Build/extend the trigger list and the why-line so multiple biomarkers driving
+          // the same supplement are all surfaced (e.g. low B12 + high homocysteine both
+          // recommending Vitamin B12).
+          existing._bwTriggers=existing._bwTriggers||[];
+          if(!existing._bwTriggers.some(t=>t.key===r.key)){
+            existing._bwTriggers.push({key:r.key,name:r.bio.name,val:r.val,unit:r.bio.unit,status:r.statusLabel});
+          }
+          const cause=_bwCause(r,sr);
+          if(!existing._bwExtra){
+            // First bw evidence: append to whatever non-bw why already existed.
+            existing.why=(existing.why||'').trim();
+            existing.why=(existing.why?existing.why+' Also supported by '+cause:'Triggered by '+cause);
+          }else{
+            // Subsequent bw evidence: append the new biomarker.
+            existing.why=(existing.why||'')+' Also supported by '+cause;
+          }
           existing._bwExtra=true;
         }
       });
     });
+    // Final-pass bw suppression — strip any rec whose supplement would push a marker
+    // that's already out of range further OUT. Catches cross-path conflicts: e.g.
+    // metformin (in selectedMeds) auto-adds Vitamin B12 to recs.extra, but the user's
+    // actual B12 = 1006 pg/mL is already above the optimal ceiling. No matter which
+    // path added it, a raiser-on-already-high (or lowerer-on-already-low) is wrong.
+    const _suppressNames=new Set();
+    bwResults.forEach(r=>{
+      if(!r.bio||!r.bio.supps)return;
+      const dir=_bwDirection(r.bio);
+      const optLow=r.bio.optLow!=null?r.bio.optLow:0;
+      const optHigh=r.bio.optHigh!=null?r.bio.optHigh:Infinity;
+      // Raisers must not be recommended when the marker is at or above the optimal ceiling.
+      if(dir==='raise' && r.val>optHigh){
+        r.bio.supps.forEach(sr=>_suppressNames.add(sr.name));
+      }
+      // Lowerers must not be recommended when the marker is at or below the optimal floor.
+      if(dir==='lower' && r.val<optLow){
+        r.bio.supps.forEach(sr=>_suppressNames.add(sr.name));
+      }
+    });
+    if(_suppressNames.size){
+      const before=recs.length;
+      recs=recs.filter(rec=>{
+        if(!_suppressNames.has(rec.n))return true;
+        // Annotate so the deficiency card UI can explain the absence if needed.
+        return false;
+      });
+      if(recs.length!==before){
+        console.log('[bw] suppressed '+(before-recs.length)+' rec(s) that conflicted with elevated/deficient markers:',[..._suppressNames]);
+      }
+    }
     renderBwResults(bwResults);
     const bwResEl=document.getElementById('bw-results');if(bwResEl)bwResEl.style.display='block';
   }else{
@@ -835,7 +1168,7 @@ function _showRecs(){
   const conCount=recs.filter(x=>x.p==='consider').length;
   const resChips=document.getElementById('res-chips');
   if(resChips)resChips.innerHTML=[
-    {n:essCount,l:'Essential',c:'#34D399'},{n:recCount,l:'Recommended',c:'#60A5FA'},{n:conCount,l:'Consider',c:'#FBBF24'}
+    {n:essCount,l:'Essential',c:'#16A34A'},{n:recCount,l:'Recommended',c:'#2563EB'},{n:conCount,l:'Consider',c:'#D97706'}
   ].map(s=>`<div class="res-chip"><div class="rc-dot" style="background:${s.c}"></div><span class="rc-num">${s.n}</span> ${s.l}</div>`).join('');
 
   renderMedAlerts(mi);
@@ -902,7 +1235,22 @@ function filterSuppSearch(q){
   const dd=document.getElementById('add-supp-dropdown');
   if(!dd)return;
   q=(q||'').trim().toLowerCase();
-  if(!q){dd.style.display='none';dd.innerHTML='';return;}
+  // Empty query (focus with no text) → show 8 highest-scoring supplements as "popular".
+  if(!q){
+    const popular=S.slice().sort((a,b)=>calcScore(b)-calcScore(a)).slice(0,8);
+    const recNames=new Set((_lastRecs||[]).map(r=>r.n));
+    const addedNames=new Set(userAddedSupps||[]);
+    dd.innerHTML='<div class="ac-hdr">Popular supplements</div>'+popular.map((s,i)=>{
+      const sc=calcScore(s);
+      const scBg=sc>=72?'#0D9488':sc>=60?'#4B7BE5':sc>=40?'#CA8A04':'#B91C1C';
+      const tierLabel=s.t==='t1'?'Tier 1':s.t==='t2'?'Tier 2':s.t==='t3'?'Tier 3':'Tier 4';
+      const already=recNames.has(s.n)||addedNames.has(s.n);
+      const catHtml=s.tag?'<span style="color:#888">'+escHtml(s.tag)+'</span>':'';
+      return`<div class="ac-row${i===0?' on':''}" data-supp="${escAttr(s.n)}" onmousedown="event.preventDefault();addSuppFromSearch(this.getAttribute('data-supp'))"><div class="ac-score" style="background:${scBg}">${sc}</div><div class="ac-info"><div class="ac-name">${escHtml(s.n)}</div><div class="ac-meta"><span class="ac-tag eff">Efficacy ${s.e}/5</span><span class="ac-tag safe">Safety ${s.s}/5</span><span class="ac-tag tier">${tierLabel}</span>${catHtml}</div></div>${already?'<span class="ac-tag already">Already on list</span>':''}</div>`;
+    }).join('');
+    dd.style.display='block';
+    return;
+  }
   // Fuzzy-ish match on name or tag (category). Prefer name matches first.
   const scored=[];
   for(const s of S){
@@ -918,7 +1266,7 @@ function filterSuppSearch(q){
   if(!matches.length){dd.innerHTML='<div class="ac-empty">No supplements match \u201C'+escHtml(q)+'\u201D</div>';dd.style.display='block';return;}
   const recNames=new Set(_lastRecs.map(r=>r.n));
   const addedNames=new Set(userAddedSupps);
-  dd.innerHTML=matches.map((s,i)=>{
+  dd.innerHTML=header+matches.map((s,i)=>{
     const sc=calcScore(s);
     const scBg=sc>=72?'#0D9488':sc>=60?'#4B7BE5':sc>=40?'#CA8A04':'#B91C1C';
     const tierLabel=s.t==='t1'?'Tier 1':s.t==='t2'?'Tier 2':s.t==='t3'?'Tier 3':'Tier 4';
@@ -1095,10 +1443,12 @@ function renderSuppCards(recs,mi,bwResults){
     const eff=sup?sup.e:r.e;
     const saf=sup?sup.s:r.s;
     const rd=sup?sup.r||1:1;
-    tags+=`<span class="supp-card-tag ${eff>=4?'sct-eff':'sct-dim'}">Efficacy ${eff}/5</span>`;
-    tags+=`<span class="supp-card-tag ${saf>=4?'sct-safe':'sct-dim'}">Safety ${saf}/5</span>`;
-    const tierLabel=r.tier==='t1'?'Tier 1':r.tier==='t2'?'Tier 2':r.tier==='t3'?'Tier 3':'';
-    if(tierLabel)tags+=`<span class="supp-card-tag sct-tier">${tierLabel} evidence</span>`;
+    // Inline rating row — matches the detail-page treatment (Efficacy 4\u2605 Safety 4\u2605 Research 4\u2605).
+    // No pill backgrounds; small label + bold number + teal star. Drops the old "Tier N evidence" pill
+    // in favour of a numeric Research rating drawn from the same `rd` field the detail page uses.
+    tags+=`<span class="sct-rating"><span class="sct-rating-lbl">Efficacy</span><span class="sct-rating-num">${eff}</span><span class="sct-rating-star">\u2605</span></span>`;
+    tags+=`<span class="sct-rating"><span class="sct-rating-lbl">Safety</span><span class="sct-rating-num">${saf}</span><span class="sct-rating-star">\u2605</span></span>`;
+    tags+=`<span class="sct-rating"><span class="sct-rating-lbl">Research</span><span class="sct-rating-num">${rd}</span><span class="sct-rating-star">\u2605</span></span>`;
     // Add category tags from supplement data
     if(sup&&sup.tag){sup.tag.split(' · ').forEach(t=>{const tt=t.trim();if(tt)tags+=`<span class="supp-card-tag sct-cat">${tt}</span>`;});}
     if(r._userAdded)tags+=`<span class="supp-card-tag sct-added">Added by you</span>`;
@@ -1113,16 +1463,45 @@ function renderSuppCards(recs,mi,bwResults){
     let conflictBlock='';
     if(stackConflicts.length){
       const hasAvoid=stackConflicts.some(c=>c.severity==='avoid');
-      const uniqPartners=[...new Set(stackConflicts.map(c=>c.with))];
-      tags+=`<span class="supp-card-tag ${hasAvoid?'sct-danger':'sct-warn'}">\u26A0 ${hasAvoid?'Do-not-stack':'Stack caution'} \u00b7 ${uniqPartners.length} supp${uniqPartners.length!==1?'s':''}</span>`;
-      // Group by reason to avoid noise when several members of a mechanism group co-occur
+      // Removed the top-row "Stack caution · N supps" pill — the same information is
+      // surfaced more clearly by the inline-chip "Caution with [chip] [chip]" line below.
+      // Inline-chip layout: one line per reason, with conflicting partners as chips.
+      // Drops the nested header + outer panel of the previous treatment in favour of a
+      // single tight row that reads "Caution with [Omega-3] [Curcumin] [NAC] — reason".
       const byR={};
       stackConflicts.forEach(c=>{if(!byR[c.reason])byR[c.reason]={severity:c.severity,partners:[]};if(!byR[c.reason].partners.includes(c.with))byR[c.reason].partners.push(c.with);});
-      const rows=Object.entries(byR).map(([reason,v])=>`<div class="supp-card-conflict-row supp-card-conflict-${v.severity==='avoid'?'avoid':'caution'}"><span class="supp-card-conflict-sev">${v.severity==='avoid'?'Do not stack':'Caution'}</span><span class="supp-card-conflict-reason">${escHtml(reason)}</span><span class="supp-card-conflict-with">with ${v.partners.map(p=>escHtml(p)).join(', ')}</span></div>`).join('');
-      const header=hasAvoid
-        ?'Interacts with other supplements in your plan \u2014 do not stack'
-        :'Interacts with other supplements in your plan';
-      conflictBlock=`<div class="supp-card-conflicts"><div class="supp-card-conflicts-hdr">${header}</div>${rows}</div>`;
+      const lines=Object.entries(byR).map(([reason,v])=>{
+        const sev=v.severity==='avoid'?'avoid':'caution';
+        const lead=v.severity==='avoid'?'\u26A0 Do not stack with':'\u26A0 Caution with';
+        const chips=v.partners.map(p=>`<span class="sc-conflict-chip sc-conflict-chip-${sev}">${escHtml(p)}</span>`).join('');
+        return `<div class="sc-conflict-line"><span class="sc-conflict-lead sc-conflict-lead-${sev}">${lead}</span>${chips}<span class="sc-conflict-why">\u2014 ${escHtml(reason)}</span></div>`;
+      }).join('');
+      conflictBlock=`<div class="sc-conflicts">${lines}</div>`;
+    }
+    // ── Phase 2 / Item #2: drug-supplement conflicts ──
+    // Pulls from selectedMeds (class chips) + selectedDrugs (specific drugs the user typed).
+    const drugConflicts=(typeof getAllDrugConflicts==='function')?getAllDrugConflicts(r.n,selectedMeds,Array.from(selectedDrugs||[])):[];
+    let drugConflictBlock='';
+    if(drugConflicts.length){
+      const hasAvoidDr=drugConflicts.some(c=>c.severity==='avoid');
+      const allExtra=drugConflicts.every(c=>c.severity==='extra');
+      const dTagCls=hasAvoidDr?'sct-danger':(allExtra?'sct-pair':'sct-warn');
+      const dTagLbl=hasAvoidDr?'Do not combine with':(allExtra?'\u{1F48A} Recommended with':'Drug caution');
+      const uniqDrugs=[...new Set(drugConflicts.map(c=>c.drug_label||c.drug))];
+      tags+=`<span class="supp-card-tag ${dTagCls}">⚠ ${dTagLbl} · ${uniqDrugs.length} med${uniqDrugs.length!==1?'s':''}</span>`;
+      const byM={};
+      drugConflicts.forEach(c=>{const k=c.mechanism||c.drug_label;if(!byM[k])byM[k]={severity:c.severity,drugs:[]};if(!byM[k].drugs.includes(c.drug_label||c.drug))byM[k].drugs.push(c.drug_label||c.drug);});
+      const dRows=Object.entries(byM).map(([mech,v])=>{
+        const sev=v.severity==='avoid'?'avoid':(v.severity==='extra'?'extra':'caution');
+        const sevLbl=v.severity==='avoid'?'Do not combine':v.severity==='extra'?'Often recommended':'Caution';
+        return `<div class="supp-card-conflict-row supp-card-drug-${sev}"><span class="supp-card-conflict-sev">${sevLbl}</span><span class="supp-card-conflict-reason">${escHtml(mech)}</span><span class="supp-card-conflict-with">with ${v.drugs.map(d=>escHtml(d)).join(', ')}</span></div>`;
+      }).join('');
+      const header=hasAvoidDr
+        ?'Interacts with medication(s) you take — talk to your pharmacist before combining'
+        :(allExtra
+          ?'Often clinically recommended alongside this medication — confirm with your prescriber'
+          :'Interacts with medication(s) you take');
+      drugConflictBlock=`<div class="supp-card-conflicts supp-card-drug-conflicts"><div class="supp-card-conflicts-hdr">${header}</div>${dRows}<div class="supp-card-drug-disclaimer">Not medical advice. Talk to your pharmacist or prescriber before any change.</div></div>`;
     }
     // Description — show full supplement desc
     const desc=sup?sup.desc:'';
@@ -1135,7 +1514,10 @@ function renderSuppCards(recs,mi,bwResults){
     // the exported plan while keeping the card on screen.
     const removeBtn=`<button class="sc-remove" title="${r._userAdded?'Remove from your list':'Hide this recommendation'}" aria-label="${r._userAdded?'Remove':'Hide'} ${escAttr(r.n)}" onclick="${r._userAdded?'removeUserSupp':'hideSupp'}(this.closest('.supp-card').getAttribute('data-supp'),event)">\u00D7</button>`;
 
-    return`<div class="supp-card${isSelected?' sc-selected':''}${stackConflicts.length?' supp-card-has-conflict':''}" data-supp="${escAttr(r.n)}" onclick="toggleSuppCard(this)"><div class="supp-card-check"></div>${removeBtn}<div class="supp-card-top"><div class="supp-card-score" style="background:${scoreBg}">${sc}</div><div class="supp-card-name">${escHtml(r.n)}</div></div><div class="supp-card-tags">${tags}${bwBadge}</div>${desc?`<div class="supp-card-desc">${escHtml(desc)}</div>`:''}${conflictBlock}<div class="supp-card-why"><span class="supp-card-why-label">${whyLabel}</span>${escHtml(why)}</div></div>`;
+    // Phase 0 / Item #9: last-reviewed date footer — small, subtle, with tooltip.
+    const lr=lastReviewedFor(r.n);
+    const lrLine=lr?`<div class="supp-card-reviewed" title="Reviewed against PubMed and listed sources every 22 days. Tier-4 safety entries are reviewed more often.">Last reviewed: ${fmtReviewDate(lr)}</div>`:'';
+    return`<div class="supp-card${isSelected?' sc-selected':''}${stackConflicts.length||drugConflicts.length?' supp-card-has-conflict':''}" data-supp="${escAttr(r.n)}" onclick="toggleSuppCard(this)"><div class="supp-card-check"></div>${removeBtn}<div class="supp-card-top"><div class="supp-card-score" style="background:${scoreBg}">${sc}</div><div class="supp-card-name">${escHtml(r.n)}</div></div><div class="supp-card-tags">${tags}${bwBadge}</div>${desc?`<div class="supp-card-desc">${escHtml(desc)}</div>`:''}${conflictBlock}${drugConflictBlock}<div class="supp-card-why"><span class="supp-card-why-label">${whyLabel}</span>${escHtml(why)}</div>${lrLine}</div>`;
   }
 
   let html='';
@@ -1223,24 +1605,8 @@ function openPlanModal(){
 
   const _pb=document.getElementById('plan-body');if(_pb)_pb.innerHTML=html;
 
-  // Email report preview
-  const _aslEl=document.getElementById('asl');const age=_aslEl?_aslEl.value:'';
-  const sexLabel=sex==='fp'?'pregnant woman':sex==='m'?'man':'woman';
-  let prev='<div class="plan-ep-label">Your full personalized report</div>';
-  prev+=`<div class="plan-ep-card">`;
-  prev+=`<div class="plan-ep-hdr"><h3>Your Supplement Report</h3><p>${age}-year-old ${sexLabel} \u00B7 ${selected.length} supplements \u00B7 ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</p></div>`;
-  prev+=`<div class="plan-ep-body">`;
-  // Show first 3 items as detailed preview
-  const previewItems=items.slice(0,3);
-  prev+=`<div class="plan-ep-sec-title"><span class="plan-ep-dot" style="background:#0D9488"></span>Essential \u2014 Take daily</div>`;
-  previewItems.forEach(item=>{
-    const scoreBg=item.score>=80?'#0D9488':item.score>=60?'#4B7BE5':item.score>=40?'#CA8A04':'#B91C1C';
-    const timingStr=item.timing?item.timing.time:'';
-    prev+=`<div class="plan-ep-row"><div class="plan-ep-badge" style="background:${scoreBg}">${item.score}</div><div class="plan-ep-info"><div class="plan-ep-name">${item.name}</div><div class="plan-ep-dose">${item.dose}${timingStr?' \u00B7 '+timingStr:''}</div><div class="plan-ep-why">${item.why}</div></div></div>`;
-  });
-  if(items.length>3)prev+=`<div class="plan-ep-more">+ ${items.length-3} more supplements in full report</div>`;
-  prev+=`</div></div>`;
-  const _pp=document.getElementById('plan-preview');if(_pp)_pp.innerHTML=prev;
+  // Note: in-modal "Your full personalized report" preview was removed 2026-04-28 per UX feedback.
+  // The PDF still contains the full report — see downloadPDF() / sendPlanEmail() for the export path.
 
   const _ps=document.getElementById('plan-sub');if(_ps)_ps.textContent=selected.length+' supplement'+(selected.length!==1?'s':'')+' \u00B7 Personalized for your profile';
   const _po=document.getElementById('plan-overlay');if(_po)_po.classList.add('open');
@@ -1283,7 +1649,22 @@ function hl(t,q){if(!q)return t;const eq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')
 function onSearch(q){q=q.trim();const clr=document.getElementById('gs-clr'),res=document.getElementById('gs-res'),mui=document.getElementById('main-ui');if(clr)clr.classList.toggle('vis',q.length>0);if(!q){if(res)res.classList.remove('vis');if(mui)mui.style.display='';return;}const ql=q.toLowerCase();const hits=S.filter(s=>[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(ql)));if(mui)mui.style.display='none';if(res)res.classList.add('vis');const safeQ=escHtml(q);const _gm=document.getElementById('gs-meta');if(_gm)_gm.innerHTML=hits.length?`<b>${hits.length}</b> supplement${hits.length!==1?'s':''} found for "<b>${safeQ}</b>"`:`No results for "<b>${safeQ}</b>"`;const _gc=document.getElementById('gs-cards');if(_gc)_gc.innerHTML=hits.length?'<div class="scards">'+hits.map(s=>renderCard(s,'')).join('')+'</div>':'<div style="text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px">Try a different name, ingredient, or health goal.</div>';}
 function clearSearch(){const i=document.getElementById('gs-inp');if(!i)return;i.value='';onSearch('');}
 let acIdx=-1;
-function showAc(q){const ac=document.getElementById('gs-ac');if(!ac)return;if(!q||q.length<2){ac.classList.remove('vis');acIdx=-1;return;}const ql=q.toLowerCase();const hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}ac.innerHTML=hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${escAttr(s.n)}')"><span>${escHtml(s.n)}</span><span class="gs-ac-tag">${escHtml((s.tag||'').split(' · ')[0])}</span></div>`).join('');ac.classList.add('vis');}
+function showAc(q){
+  const ac=document.getElementById('gs-ac');if(!ac)return;
+  q=String(q||'').trim();
+  let hits;let header='';
+  if(q.length===0){
+    // No query — show the 8 highest-scoring supplements as a "popular" suggestion list.
+    hits=S.slice().sort((a,b)=>calcScore(b)-calcScore(a)).slice(0,8);
+    header='<div class="gs-ac-hdr">Popular supplements</div>';
+  } else {
+    const ql=q.toLowerCase();
+    hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);
+  }
+  if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}
+  ac.innerHTML=header+hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${escAttrJs(s.n)}')"><span>${escHtml(s.n)}</span><span class="gs-ac-tag">${escHtml((s.tag||'').split(' \u00b7 ')[0])}</span></div>`).join('');
+  ac.classList.add('vis');
+}
 function pickAc(name){const inp=document.getElementById('gs-inp');if(inp)inp.value=name;const _ac=document.getElementById('gs-ac');if(_ac)_ac.classList.remove('vis');acIdx=-1;onSearch(name);}
 function hideAc(){setTimeout(()=>{const _ac=document.getElementById('gs-ac');if(_ac)_ac.classList.remove('vis');},150);}
 function debounce(fn,ms){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn.apply(this,args),ms);};}
@@ -1291,6 +1672,7 @@ const _gsInp=document.getElementById('gs-inp');
 if(_gsInp){
   const _debouncedShowAc=debounce(v=>showAc(v),160);
   _gsInp.addEventListener('input',e=>{_debouncedShowAc(e.target.value.trim());});
+  _gsInp.addEventListener('focus',e=>{showAc(e.target.value.trim());});
   _gsInp.addEventListener('blur',hideAc);
   _gsInp.addEventListener('keydown',e=>{const ac=document.getElementById('gs-ac');if(!ac){if(e.key==='Enter'){e.preventDefault();onSearch(e.target.value);}return;}const items=ac.classList.contains('vis')?ac.querySelectorAll('.gs-ac-item'):[];if(e.key==='ArrowDown'&&items.length){e.preventDefault();acIdx=Math.min(acIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='ArrowUp'&&items.length){e.preventDefault();acIdx=Math.max(acIdx-1,0);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='Enter'){e.preventDefault();if(acIdx>=0&&items[acIdx]){pickAc(items[acIdx].querySelector('span').textContent);}else{ac.classList.remove('vis');onSearch(e.target.value);}}else if(e.key==='Escape'){ac.classList.remove('vis');acIdx=-1;}});
 }else{console.warn('[SupplementScore] search input #gs-inp not found');}
@@ -1785,9 +2167,329 @@ const SUPP_INTERACTIONS={
     ]}
   }
 };
+/* ──────────────────────────────────────────────────────────────────────────
+   Phase 2 / Item #2 — DRUG_INTERACTIONS
+   Drug↔supplement interactions parallel to SUPP_INTERACTIONS. Three layers:
+
+   1. drug_groups: drug-class definitions (SSRIs, statins, anticoagulants…). Each
+      class maps to a supp_group key from SUPP_INTERACTIONS.groups, so adding any
+      member of a supp_group automatically flags it against every member of the
+      drug class. This keeps coverage scaling without explicit per-pair rows.
+
+   2. drugs: ~50 of the most-prescribed drugs in the US, each mapped to a class.
+      Generic + common brand names. Lets users enter "atorvastatin" or "Lipitor"
+      and have it resolve to the statin class.
+
+   3. pairs: drug-specific overrides where the class-level rule isn't sharp enough.
+      e.g. warfarin × vitamin K2 needs an explicit "avoid" severity even though
+      the broader anticoagulant×bleed interaction is just "caution".
+
+   Backward compat: the existing MEDS constant in data.js is preserved for the
+   chip-style class picker in My Profile. DRUG_INTERACTIONS adds drug-level
+   granularity on top.
+   See docs/drug-interactions-policy.md for the policy and rationale. */
+const DRUG_INTERACTIONS={
+  drug_groups:{
+    anticoagulant:{label:'Anticoagulants / blood thinners',severity:'avoid',supp_group:'bleed',mechanism:'additive bleeding / clotting interference',disclaimer:'Consult your anticoagulation clinic before any supplement change.'},
+    antiplatelet:{label:'Antiplatelets (aspirin, clopidogrel)',severity:'caution',supp_group:'bleed',mechanism:'additive antiplatelet effect — bruising / bleeding risk'},
+    ssri:{label:'SSRIs / SNRIs (antidepressants)',severity:'avoid',supp_group:'serotonin',mechanism:'serotonin syndrome risk — combined serotonergic load'},
+    maoi:{label:'MAOIs',severity:'avoid',supp_group:'serotonin',mechanism:'severe serotonergic / hypertensive crisis risk'},
+    tricyclic:{label:'Tricyclic antidepressants',severity:'caution',supp_group:'serotonin',mechanism:'additive serotonergic and anticholinergic effects'},
+    statin:{label:'Statins (cholesterol)',severity:'caution',supp_group:'hepatotoxic',mechanism:'additive hepatic load — monitor liver enzymes'},
+    metformin:{label:'Metformin',severity:'caution',supp_group:'hypoglycemic',mechanism:'additive glucose-lowering — hypoglycemia risk'},
+    sulfonylurea:{label:'Sulfonylureas (glipizide, glyburide)',severity:'caution',supp_group:'hypoglycemic',mechanism:'additive hypoglycemia risk — narrower therapeutic window'},
+    insulin:{label:'Insulin',severity:'caution',supp_group:'hypoglycemic',mechanism:'additive glucose-lowering — risk of severe hypoglycemia'},
+    sglt2:{label:'SGLT2 inhibitors (empagliflozin, dapagliflozin)',severity:'caution',supp_group:'hypoglycemic',mechanism:'additive glucose-lowering plus dehydration risk'},
+    glp1:{label:'GLP-1 agonists (semaglutide, liraglutide)',severity:'caution',supp_group:'hypoglycemic',mechanism:'additive glucose-lowering and gastric emptying delays — affects supplement absorption'},
+    levothyroxine:{label:'Levothyroxine',severity:'caution',supp_group:'thyroid_modulator',mechanism:'absorption interference with minerals and altered thyroid load with iodine/adaptogens',disclaimer:'Take levothyroxine ≥4 hours apart from any mineral supplement.'},
+    ppi:{label:'PPIs (omeprazole, esomeprazole)',severity:'caution',supp_group:null,mechanism:'long-term PPIs deplete magnesium and B12 — supplementation often indicated'},
+    h2_blocker:{label:'H2 blockers (famotidine, ranitidine)',severity:'caution',supp_group:null,mechanism:'reduce gastric acid — affects mineral and B12 absorption'},
+    bp_med:{label:'Blood-pressure medication',severity:'caution',supp_group:'hypotensive',mechanism:'additive hypotension risk'},
+    ace_arb:{label:'ACE inhibitors / ARBs',severity:'caution',supp_group:'potassium_loss',mechanism:'potassium handling — risk of hyperkalemia with supplemental potassium'},
+    diuretic:{label:'Diuretics (furosemide, HCTZ)',severity:'caution',supp_group:'potassium_loss',mechanism:'electrolyte loss — potassium and magnesium often depleted'},
+    nsaid:{label:'NSAIDs (ibuprofen, naproxen)',severity:'caution',supp_group:'bleed',mechanism:'additive bleeding risk; long-term NSAIDs deplete gut lining'},
+    benzo:{label:'Benzodiazepines (alprazolam, lorazepam)',severity:'caution',supp_group:'sedation',mechanism:'additive CNS depression'},
+    z_drug:{label:'Non-benzo sleep aids (zolpidem, eszopiclone)',severity:'caution',supp_group:'sedation',mechanism:'additive CNS depression'},
+    opioid:{label:'Opioids',severity:'avoid',supp_group:'sedation',mechanism:'severe additive CNS and respiratory depression'},
+    antibiotic:{label:'Antibiotics',severity:'caution',supp_group:null,mechanism:'mineral chelation interferes with antibiotic absorption — space ≥2 h; probiotics often beneficial during/after course'},
+    chemo:{label:'Chemotherapy',severity:'avoid',supp_group:null,mechanism:'antioxidants may interfere with chemo efficacy — clear all supplements with oncology team',disclaimer:'No supplement changes without oncology approval.'},
+    immuno:{label:'Immunosuppressants',severity:'avoid',supp_group:'immune_stimulant',mechanism:'immune-stimulant supplements counteract immunosuppressive therapy'},
+    cortico:{label:'Corticosteroids (prednisone)',severity:'caution',supp_group:null,mechanism:'long-term steroids deplete calcium, vitamin D, and zinc — supplementation indicated'},
+    seizure:{label:'Anti-seizure medications',severity:'caution',supp_group:'seizure_lowering',mechanism:'lowered seizure threshold; some anti-epileptics deplete folate and vitamin D'},
+    lithium:{label:'Lithium',severity:'caution',supp_group:'thyroid_modulator',mechanism:'iodine, NSAIDs and certain herbs alter lithium levels and thyroid function'},
+    ocp:{label:'Oral contraceptive pill',severity:'caution',supp_group:null,mechanism:"St. John's Wort and CYP3A4 inducers reduce OCP efficacy — contraception failure risk"},
+    antifungal:{label:'Azole antifungals',severity:'caution',supp_group:'hepatotoxic',mechanism:'CYP-mediated drug interactions and additive hepatic load'},
+    antiretroviral:{label:'HIV antiretrovirals',severity:'avoid',supp_group:null,mechanism:"St. John's Wort and CYP inducers can drop antiretroviral levels — virologic failure risk"},
+    digoxin:{label:'Digoxin',severity:'avoid',supp_group:null,mechanism:'narrow therapeutic window — many supplements (St John\'s Wort, calcium, magnesium, fiber) shift levels'}
+  },
+  drugs:{
+    // Cardiovascular — statins
+    'atorvastatin':{label:'Atorvastatin',class:'statin',brand:['Lipitor']},
+    'simvastatin':{label:'Simvastatin',class:'statin',brand:['Zocor']},
+    'rosuvastatin':{label:'Rosuvastatin',class:'statin',brand:['Crestor']},
+    'pravastatin':{label:'Pravastatin',class:'statin',brand:['Pravachol']},
+    'lovastatin':{label:'Lovastatin',class:'statin',brand:['Mevacor']},
+    // Cardiovascular — BP
+    'lisinopril':{label:'Lisinopril',class:'ace_arb',brand:['Prinivil','Zestril']},
+    'enalapril':{label:'Enalapril',class:'ace_arb',brand:['Vasotec']},
+    'losartan':{label:'Losartan',class:'ace_arb',brand:['Cozaar']},
+    'valsartan':{label:'Valsartan',class:'ace_arb',brand:['Diovan']},
+    'amlodipine':{label:'Amlodipine',class:'bp_med',brand:['Norvasc']},
+    'metoprolol':{label:'Metoprolol',class:'bp_med',brand:['Lopressor','Toprol XL']},
+    'carvedilol':{label:'Carvedilol',class:'bp_med',brand:['Coreg']},
+    'hydrochlorothiazide':{label:'Hydrochlorothiazide (HCTZ)',class:'diuretic',brand:['Microzide']},
+    'furosemide':{label:'Furosemide',class:'diuretic',brand:['Lasix']},
+    // Anticoagulants
+    'warfarin':{label:'Warfarin',class:'anticoagulant',brand:['Coumadin','Jantoven']},
+    'apixaban':{label:'Apixaban',class:'anticoagulant',brand:['Eliquis']},
+    'rivaroxaban':{label:'Rivaroxaban',class:'anticoagulant',brand:['Xarelto']},
+    'dabigatran':{label:'Dabigatran',class:'anticoagulant',brand:['Pradaxa']},
+    'aspirin':{label:'Aspirin (low-dose, cardiac)',class:'antiplatelet'},
+    'clopidogrel':{label:'Clopidogrel',class:'antiplatelet',brand:['Plavix']},
+    // Diabetes
+    'metformin':{label:'Metformin',class:'metformin',brand:['Glucophage']},
+    'glipizide':{label:'Glipizide',class:'sulfonylurea',brand:['Glucotrol']},
+    'glyburide':{label:'Glyburide',class:'sulfonylurea',brand:['DiaBeta','Glynase']},
+    'insulin':{label:'Insulin (any form)',class:'insulin'},
+    'empagliflozin':{label:'Empagliflozin',class:'sglt2',brand:['Jardiance']},
+    'dapagliflozin':{label:'Dapagliflozin',class:'sglt2',brand:['Farxiga']},
+    'semaglutide':{label:'Semaglutide',class:'glp1',brand:['Ozempic','Wegovy','Rybelsus']},
+    'liraglutide':{label:'Liraglutide',class:'glp1',brand:['Victoza','Saxenda']},
+    'tirzepatide':{label:'Tirzepatide',class:'glp1',brand:['Mounjaro','Zepbound']},
+    // Thyroid
+    'levothyroxine':{label:'Levothyroxine',class:'levothyroxine',brand:['Synthroid','Levoxyl','Tirosint']},
+    // GI
+    'omeprazole':{label:'Omeprazole',class:'ppi',brand:['Prilosec']},
+    'esomeprazole':{label:'Esomeprazole',class:'ppi',brand:['Nexium']},
+    'pantoprazole':{label:'Pantoprazole',class:'ppi',brand:['Protonix']},
+    'lansoprazole':{label:'Lansoprazole',class:'ppi',brand:['Prevacid']},
+    'famotidine':{label:'Famotidine',class:'h2_blocker',brand:['Pepcid']},
+    // Mental health
+    'sertraline':{label:'Sertraline',class:'ssri',brand:['Zoloft']},
+    'fluoxetine':{label:'Fluoxetine',class:'ssri',brand:['Prozac']},
+    'citalopram':{label:'Citalopram',class:'ssri',brand:['Celexa']},
+    'escitalopram':{label:'Escitalopram',class:'ssri',brand:['Lexapro']},
+    'paroxetine':{label:'Paroxetine',class:'ssri',brand:['Paxil']},
+    'venlafaxine':{label:'Venlafaxine',class:'ssri',brand:['Effexor']},
+    'duloxetine':{label:'Duloxetine',class:'ssri',brand:['Cymbalta']},
+    'bupropion':{label:'Bupropion',class:'tricyclic',brand:['Wellbutrin']},
+    'amitriptyline':{label:'Amitriptyline',class:'tricyclic',brand:['Elavil']},
+    'trazodone':{label:'Trazodone',class:'tricyclic'},
+    // Sleep / anxiety
+    'alprazolam':{label:'Alprazolam',class:'benzo',brand:['Xanax']},
+    'lorazepam':{label:'Lorazepam',class:'benzo',brand:['Ativan']},
+    'clonazepam':{label:'Clonazepam',class:'benzo',brand:['Klonopin']},
+    'zolpidem':{label:'Zolpidem',class:'z_drug',brand:['Ambien']},
+    'eszopiclone':{label:'Eszopiclone',class:'z_drug',brand:['Lunesta']},
+    // Pain
+    'ibuprofen':{label:'Ibuprofen',class:'nsaid',brand:['Advil','Motrin']},
+    'naproxen':{label:'Naproxen',class:'nsaid',brand:['Aleve','Naprosyn']},
+    'tramadol':{label:'Tramadol',class:'opioid',brand:['Ultram']},
+    'oxycodone':{label:'Oxycodone',class:'opioid',brand:['OxyContin']},
+    'gabapentin':{label:'Gabapentin',class:'seizure',brand:['Neurontin']},
+    // Antibiotics / antifungals
+    'amoxicillin':{label:'Amoxicillin',class:'antibiotic'},
+    'azithromycin':{label:'Azithromycin',class:'antibiotic',brand:['Zithromax','Z-Pak']},
+    'ciprofloxacin':{label:'Ciprofloxacin',class:'antibiotic',brand:['Cipro']},
+    'doxycycline':{label:'Doxycycline',class:'antibiotic'},
+    'fluconazole':{label:'Fluconazole',class:'antifungal',brand:['Diflucan']},
+    'ketoconazole':{label:'Ketoconazole',class:'antifungal'},
+    // Hormonal / steroids
+    'prednisone':{label:'Prednisone',class:'cortico'},
+    'levonorgestrel':{label:'Oral contraceptive (combined)',class:'ocp'},
+    // Other
+    'lithium':{label:'Lithium',class:'lithium'},
+    'digoxin':{label:'Digoxin',class:'digoxin'},
+    'phenytoin':{label:'Phenytoin',class:'seizure',brand:['Dilantin']},
+    'valproate':{label:'Valproate',class:'seizure',brand:['Depakote']},
+    'cyclosporine':{label:'Cyclosporine',class:'immuno'},
+    'tacrolimus':{label:'Tacrolimus',class:'immuno',brand:['Prograf']}
+  },
+  // Drug-specific overrides — the class-level rule isn't sharp enough.
+  pairs:[
+    {drug:'warfarin',supp:'Vitamin K2 (MK-7)',severity:'avoid',mechanism:'direct antagonism — K2 reduces warfarin efficacy and destabilizes INR',evidence:'A',source:'FDA label (Coumadin) + DrugBank DB00682'},
+    {drug:'warfarin',supp:'Vitamin K1 (Phylloquinone)',severity:'avoid',mechanism:'direct antagonism — used as warfarin reversal agent',evidence:'A',source:'FDA label (Coumadin)'},
+    {drug:'warfarin',supp:"St. John's Wort",severity:'avoid',mechanism:'CYP3A4 induction lowers warfarin levels — unstable INR',evidence:'A',source:'FDA label (Coumadin)'},
+    {drug:'levothyroxine',supp:'Calcium',severity:'caution',mechanism:'reduces levothyroxine absorption ~30% — space by ≥4 h',evidence:'A',source:'FDA label (Synthroid)'},
+    {drug:'levothyroxine',supp:'Iron',severity:'caution',mechanism:'reduces levothyroxine absorption — space by ≥4 h',evidence:'A',source:'FDA label (Synthroid)'},
+    {drug:'levothyroxine',supp:'Magnesium',severity:'caution',mechanism:'forms insoluble complexes with levothyroxine — space by ≥4 h',evidence:'B',source:'FDA label (Synthroid)'},
+    {drug:'metformin',supp:'Vitamin B12',severity:'extra',mechanism:'metformin depletes B12 — supplementation often indicated; monitor levels every 1-2 years',evidence:'A',source:'NIH ODS B12 fact sheet'},
+    {drug:'omeprazole',supp:'Magnesium',severity:'extra',mechanism:'long-term PPIs deplete magnesium — supplementation may be indicated; monitor levels',evidence:'A',source:'FDA safety communication 2011'},
+    {drug:'omeprazole',supp:'Vitamin B12',severity:'extra',mechanism:'PPIs reduce gastric acid needed for B12 absorption — supplementation often indicated',evidence:'A',source:'NIH ODS B12 fact sheet'},
+    {drug:'simvastatin',supp:'CoQ10 (Ubiquinol)',severity:'extra',mechanism:'statins deplete CoQ10 — ubiquinol supplementation clinically supported for muscle symptoms',evidence:'B',source:'NCCIH + multiple RCTs'},
+    {drug:'atorvastatin',supp:'CoQ10 (Ubiquinol)',severity:'extra',mechanism:'statins deplete CoQ10 — ubiquinol supplementation clinically supported',evidence:'B',source:'NCCIH'},
+    {drug:'rosuvastatin',supp:'CoQ10 (Ubiquinol)',severity:'extra',mechanism:'statins deplete CoQ10 — ubiquinol supplementation clinically supported',evidence:'B',source:'NCCIH'},
+    {drug:'sertraline',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — direct precursor stacking on SSRI activity',evidence:'A',source:'FDA label (Zoloft)'},
+    {drug:'sertraline',supp:'Tryptophan',severity:'avoid',mechanism:'serotonin syndrome — precursor stacking on SSRI activity',evidence:'A',source:'FDA label'},
+    {drug:'sertraline',supp:"St. John's Wort",severity:'avoid',mechanism:'serotonin syndrome — additive serotonergic plus CYP3A4 induction',evidence:'A',source:'FDA label'},
+    {drug:'fluoxetine',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — direct precursor stacking',evidence:'A',source:'FDA label (Prozac)'},
+    {drug:'levonorgestrel',supp:"St. John's Wort",severity:'avoid',mechanism:'CYP3A4 induction reduces oral contraceptive efficacy — contraception failure risk',evidence:'A',source:'FDA boxed warning'},
+    {drug:'cyclosporine',supp:"St. John's Wort",severity:'avoid',mechanism:'CYP3A4 + P-gp induction lowers cyclosporine levels — transplant rejection risk documented',evidence:'A',source:'FDA boxed warning + multiple case reports'},
+    {drug:'tacrolimus',supp:"St. John's Wort",severity:'avoid',mechanism:'CYP3A4 induction lowers tacrolimus levels — transplant rejection risk',evidence:'A',source:'FDA boxed warning'},
+    {drug:'digoxin',supp:"St. John's Wort",severity:'avoid',mechanism:'P-glycoprotein induction lowers digoxin levels — therapeutic failure',evidence:'A',source:'FDA label'},
+    {drug:'lithium',supp:'Iodine',severity:'caution',mechanism:'iodine + lithium combine to suppress thyroid — monitor TSH',evidence:'B',source:'NIH ODS iodine fact sheet'},
+    {drug:'prednisone',supp:'Calcium',severity:'extra',mechanism:'corticosteroids deplete calcium — supplementation indicated for bone protection',evidence:'A',source:'ACR osteoporosis guidance'},
+    {drug:'prednisone',supp:'Vitamin D3',severity:'extra',mechanism:'corticosteroids reduce vitamin D activity — supplementation indicated',evidence:'A',source:'ACR osteoporosis guidance'},
+    {drug:'phenytoin',supp:'Folate (5-MTHF)',severity:'extra',mechanism:'phenytoin depletes folate — supplementation indicated; coordinate with prescriber for dose',evidence:'A',source:'NIH ODS folate fact sheet'},
+    {drug:'phenytoin',supp:'Vitamin D3',severity:'extra',mechanism:'phenytoin accelerates vitamin D metabolism — supplementation indicated',evidence:'A',source:'NIH ODS vitamin D fact sheet'},
+    {drug:'valproate',supp:'L-Carnitine',severity:'extra',mechanism:'valproate depletes carnitine — supplementation indicated, particularly in pediatric or hepatic patients',evidence:'A',source:'AAN guideline'},
+    {drug:'ciprofloxacin',supp:'Calcium',severity:'caution',mechanism:'mineral chelation reduces fluoroquinolone absorption — space by ≥2 h',evidence:'A',source:'FDA label'},
+    {drug:'ciprofloxacin',supp:'Iron',severity:'caution',mechanism:'mineral chelation — space by ≥2 h',evidence:'A',source:'FDA label'},
+    {drug:'doxycycline',supp:'Calcium',severity:'caution',mechanism:'tetracycline-mineral chelation — space by ≥2 h',evidence:'A',source:'FDA label'},
+    {drug:'ibuprofen',supp:'Probiotics',severity:'extra',mechanism:'long-term NSAID use depletes gut lining — probiotics may help',evidence:'B',source:'multiple RCTs'},
+    {drug:'furosemide',supp:'Potassium citrate',severity:'extra',mechanism:'loop diuretics waste potassium — supplementation often clinically indicated',evidence:'A',source:'standard of care'},
+    {drug:'furosemide',supp:'Magnesium',severity:'extra',mechanism:'loop diuretics waste magnesium — supplementation often indicated',evidence:'A',source:'standard of care'}
+  ]
+};
 // ── Build lookup structures ──
 const _pairPartner=new Map();SUPP_INTERACTIONS.pairs.forEach(([a,b])=>{if(!_pairPartner.has(a))_pairPartner.set(a,new Set());_pairPartner.get(a).add(b);if(!_pairPartner.has(b))_pairPartner.set(b,new Set());_pairPartner.get(b).add(a);});
 function getPairPartners(name){return _pairPartner.has(name)?[..._pairPartner.get(name)]:[];}
+/* Phase 2 helpers — drug↔supplement interaction lookups.
+   drugClassFor: resolves "atorvastatin" or "Lipitor" → "statin" class key.
+   getDrugSuppCautions(suppName, drugList): returns conflict records {drug,severity,mechanism,source}. */
+const _brandToDrug=new Map();
+Object.entries(DRUG_INTERACTIONS.drugs).forEach(([k,v])=>{(v.brand||[]).forEach(b=>_brandToDrug.set(b.toLowerCase(),k));});
+function drugClassFor(drug){if(!drug)return null;const k=String(drug).toLowerCase().trim();if(DRUG_INTERACTIONS.drugs[k])return DRUG_INTERACTIONS.drugs[k].class;if(_brandToDrug.has(k)){const generic=_brandToDrug.get(k);return DRUG_INTERACTIONS.drugs[generic]&&DRUG_INTERACTIONS.drugs[generic].class;}return null;}
+function resolveDrugKey(drug){if(!drug)return null;const k=String(drug).toLowerCase().trim();if(DRUG_INTERACTIONS.drugs[k])return k;if(_brandToDrug.has(k))return _brandToDrug.get(k);return null;}
+/* Lookup: for a given supplement and a list of drugs the user takes, return all conflicts.
+   Resolves through three layers — explicit pair → drug-class supp_group → MEDS class fallback. */
+function getDrugSuppCautions(suppName,drugs){if(!suppName||!drugs||!drugs.length)return[];const out=[];const seen=new Set();
+  const drugKeys=drugs.map(resolveDrugKey).filter(Boolean);
+  // Layer 1: explicit pairs
+  for(const p of DRUG_INTERACTIONS.pairs){if(drugKeys.includes(p.drug)&&p.supp===suppName){const sig=p.drug+'|'+p.severity+'|'+p.mechanism;if(!seen.has(sig)){seen.add(sig);out.push({drug:p.drug,drug_label:(DRUG_INTERACTIONS.drugs[p.drug]||{}).label||p.drug,severity:p.severity,mechanism:p.mechanism,source:p.source||''});}}}
+  // Layer 2: drug-class via supp_group
+  const suppGroups=new Set();for(const[gk,g]of Object.entries(SUPP_INTERACTIONS.groups)){if((g.members||[]).includes(suppName))suppGroups.add(gk);}
+  for(const k of drugKeys){const cls=drugClassFor(k);if(!cls)continue;const gd=DRUG_INTERACTIONS.drug_groups[cls];if(!gd||!gd.supp_group)continue;if(suppGroups.has(gd.supp_group)){const sig=k+'|'+gd.severity+'|'+gd.mechanism;if(!seen.has(sig)){seen.add(sig);out.push({drug:k,drug_label:(DRUG_INTERACTIONS.drugs[k]||{}).label||k,severity:gd.severity,mechanism:gd.mechanism,source:'class:'+cls});}}}
+  return out;}
+/* Convenience: for an ARRAY of supplement names (a stack), return all drug-conflicts grouped by supplement. */
+function computeDrugStackConflicts(suppNames,drugs){const out={};(suppNames||[]).forEach(n=>{const c=getDrugSuppCautions(n,drugs||[]);if(c.length)out[n]=c;});return out;}
+/* Bridge to the existing MEDS class-level data (the chip picker in My Profile). For each
+   class the user has selected (e.g. 'ssri', 'statin'), check if the supplement is in any
+   of avoid/caution/extra. Returns conflicts in the same shape as getDrugSuppCautions for
+   uniform rendering. */
+function getMedClassConflicts(suppName,medClassKeys){
+  if(!suppName||!medClassKeys||!medClassKeys.size&&!medClassKeys.length)return[];
+  const keys=medClassKeys.size?Array.from(medClassKeys):medClassKeys;
+  const out=[];
+  for(const k of keys){
+    const m=(typeof MEDS!=='undefined')?MEDS[k]:null;
+    if(!m)continue;
+    if(m.avoid&&m.avoid.includes(suppName))out.push({drug:k,drug_label:m.label,severity:'avoid',mechanism:m.note,source:'class'});
+    else if(m.caution&&m.caution.includes(suppName))out.push({drug:k,drug_label:m.label,severity:'caution',mechanism:m.note,source:'class'});
+    else if(m.extra&&m.extra.includes(suppName))out.push({drug:k,drug_label:m.label,severity:'extra',mechanism:m.note,source:'class'});
+  }
+  return out;
+}
+/* Combined: drug-class conflicts + specific-drug conflicts, deduped by severity+mechanism. */
+function getAllDrugConflicts(suppName,medClassKeys,specificDrugs){
+  const a=getMedClassConflicts(suppName,medClassKeys||new Set());
+  const b=getDrugSuppCautions(suppName,specificDrugs||[]);
+  const seen=new Set();const out=[];
+  for(const c of[...a,...b]){const sig=c.drug+'|'+c.severity+'|'+(c.mechanism||'').slice(0,80);if(!seen.has(sig)){seen.add(sig);out.push(c);}}
+  return out;
+}
+// User's specific-drug selections (alongside the existing class-level selectedMeds Set).
+let selectedDrugs=new Set();
+/* Phase 2 / Item #2 — typeahead UI for specific drug entry. Searches DRUG_INTERACTIONS.drugs
+   by generic + brand names, lets user pick chips that go into selectedDrugs. */
+let _drugTaIdx=-1;  // currently highlighted suggestion in dropdown
+function _drugSuggestions(q){
+  q=String(q||'').trim().toLowerCase();
+  if(q.length<1)return[];
+  const out=[];const seen=new Set();
+  for(const[k,v]of Object.entries(DRUG_INTERACTIONS.drugs)){
+    if(seen.has(k))continue;
+    if(selectedDrugs.has(k))continue;
+    let match=false;let displayLabel=v.label;
+    if(k.includes(q)){match=true;}
+    else if(v.label.toLowerCase().includes(q)){match=true;}
+    else if((v.brand||[]).some(b=>b.toLowerCase().includes(q))){match=true;
+      const matchedBrand=(v.brand||[]).find(b=>b.toLowerCase().includes(q));
+      if(matchedBrand)displayLabel=v.label+' ('+matchedBrand+')';}
+    if(match){seen.add(k);out.push({key:k,label:displayLabel,class:v.class});}
+    if(out.length>=8)break;
+  }
+  return out;
+}
+function onDrugTypeaheadInput(ev){
+  const input=ev&&ev.target?ev.target:document.getElementById('drug-typeahead-input');
+  if(!input)return;
+  const q=input.value;
+  const qTrim=q.trim();
+  const list=document.getElementById('drug-typeahead-list');
+  if(!list)return;
+  _drugTaIdx=-1;
+  // Empty input on focus → show first 8 popular medications as suggestions.
+  if(qTrim.length<1){
+    const all=Object.entries(DRUG_INTERACTIONS.drugs).filter(([k])=>!selectedDrugs.has(k)).slice(0,8);
+    if(!all.length){list.style.display='none';list.innerHTML='';return;}
+    list.style.display='block';
+    list.innerHTML='<div class="drug-typeahead-hdr">Popular medications</div>'+all.map(([k,v],i)=>{
+      const cls=DRUG_INTERACTIONS.drug_groups[v.class];
+      const groupLabel=cls?cls.label:'';
+      return '<div class="drug-typeahead-item" role="option" data-key="'+escAttr(k)+'" data-idx="'+i+'" onclick="addSelectedDrug(\''+escAttrJs(k)+'\')"><span class="drug-ta-name">'+escHtml(v.label)+'</span>'+(groupLabel?'<span class="drug-ta-class">'+escHtml(groupLabel)+'</span>':'')+'</div>';
+    }).join('');
+    return;
+  }
+  // Drop malformed entries (missing label) defensively so the dropdown never renders empty rows.
+  const sugs=_drugSuggestions(q).filter(s=>s&&s.label);
+  // No matches → show a single "No matches" empty-state row instead of an empty white box.
+  if(!sugs.length){
+    list.style.display='block';
+    list.innerHTML='<div class="drug-typeahead-empty">No matches for \u201C'+escHtml(qTrim)+'\u201D. Try a generic name.</div>';
+    return;
+  }
+  list.style.display='block';
+  list.innerHTML=header+sugs.map((s,i)=>{
+    const cls=DRUG_INTERACTIONS.drug_groups[s.class];
+    const groupLabel=cls?cls.label:'';
+    return '<div class="drug-typeahead-item" role="option" data-key="'+escAttr(s.key)+'" data-idx="'+i+'" onclick="addSelectedDrug(\''+escAttrJs(s.key)+'\')"><span class="drug-ta-name">'+escHtml(s.label)+'</span>'+(groupLabel?'<span class="drug-ta-class">'+escHtml(groupLabel)+'</span>':'')+'</div>';
+  }).join('');
+}
+function onDrugTypeaheadKey(ev){
+  const list=document.getElementById('drug-typeahead-list');
+  if(!list||list.style.display==='none')return;
+  const items=list.querySelectorAll('.drug-typeahead-item');
+  if(!items.length)return;
+  if(ev.key==='ArrowDown'){ev.preventDefault();_drugTaIdx=Math.min(items.length-1,_drugTaIdx+1);_drugTaHighlight(items);}
+  else if(ev.key==='ArrowUp'){ev.preventDefault();_drugTaIdx=Math.max(0,_drugTaIdx-1);_drugTaHighlight(items);}
+  else if(ev.key==='Enter'){ev.preventDefault();const idx=_drugTaIdx>=0?_drugTaIdx:0;const k=items[idx].getAttribute('data-key');if(k)addSelectedDrug(k);}
+  else if(ev.key==='Escape'){list.style.display='none';list.innerHTML='';_drugTaIdx=-1;}
+}
+function _drugTaHighlight(items){items.forEach((el,i)=>el.classList.toggle('drug-ta-active',i===_drugTaIdx));}
+function addSelectedDrug(key){
+  if(!key)return;
+  selectedDrugs.add(key);
+  const input=document.getElementById('drug-typeahead-input');if(input)input.value='';
+  const list=document.getElementById('drug-typeahead-list');if(list){list.style.display='none';list.innerHTML='';}
+  renderDrugChips();
+  /* Re-render the recommendation cards so drug-conflict blocks update. */
+  if(typeof _lastRecs!=='undefined'&&_lastRecs)renderSuppCards(_lastRecs,_lastMi,_lastBwResults);
+  updatePfCounts&&updatePfCounts();
+}
+function removeSelectedDrug(key){
+  selectedDrugs.delete(key);
+  renderDrugChips();
+  if(typeof _lastRecs!=='undefined'&&_lastRecs)renderSuppCards(_lastRecs,_lastMi,_lastBwResults);
+  updatePfCounts&&updatePfCounts();
+}
+function renderDrugChips(){
+  const wrap=document.getElementById('drug-chips');if(!wrap)return;
+  const list=Array.from(selectedDrugs);
+  if(!list.length){wrap.innerHTML='';wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  wrap.innerHTML=list.map(k=>{
+    const d=DRUG_INTERACTIONS.drugs[k];
+    const label=d?d.label:k;
+    return '<span class="drug-chip" title="Click to remove"><span class="drug-chip-name">'+escHtml(label)+'</span><button type="button" class="drug-chip-remove" aria-label="Remove '+escAttr(label)+'" onclick="removeSelectedDrug(\''+escAttrJs(k)+'\')">×</button></span>';
+  }).join('');
+}
+/* Close the typeahead suggestion list when the user clicks anywhere outside it. */
+document.addEventListener('click',function(ev){
+  if(!ev.target.closest('.drug-typeahead-input-wrap')){
+    const list=document.getElementById('drug-typeahead-list');if(list){list.style.display='none';list.innerHTML='';_drugTaIdx=-1;}
+  }
+});
 // _suppCautionMap: name -> [{with, reason, severity, source}]
 const _suppCautionMap=new Map();
 function _addCaution(a,b,reason,severity,source){
@@ -1804,8 +2506,15 @@ function _addCaution(a,b,reason,severity,source){
 Object.entries(SUPP_INTERACTIONS.groups||{}).forEach(([gKey,g])=>{
   const mem=g.members||[];
   for(let i=0;i<mem.length;i++){for(let j=i+1;j<mem.length;j++){
-    _addCaution(mem[i],mem[j],g.reason,g.severity,gKey);
-    _addCaution(mem[j],mem[i],g.reason,g.severity,gKey);
+    const a=mem[i],b=mem[j];
+    // Documented complementary pairs (SUPP_INTERACTIONS.pairs) override mechanism-group cautions.
+    // Example: Boswellia + Curcumin both share the `bleed` group at the molecular level, but they
+    // are an explicitly endorsed 5-LOX/COX-2 anti-inflammatory pair at standard doses. Showing
+    // "Pairs with" and "Caution with" on the same card is contradictory; the curated pair wins.
+    const aPartners=_pairPartner.get(a);
+    if(aPartners&&aPartners.has(b))continue;
+    _addCaution(a,b,g.reason,g.severity,gKey);
+    _addCaution(b,a,g.reason,g.severity,gKey);
   }}
 });
 function getAllSuppCautions(name){return _suppCautionMap.get(name)||[];}
@@ -1827,41 +2536,115 @@ function computeStackConflicts(names){
 }
 function interactHtml(name){const ints=INTERACT_MAP[name];if(!ints||!ints.length)return'<div class="sc-interact"><div class="sc-interact-title">Medication interactions</div><div class="sc-interact-safe">No known major interactions identified.</div></div>';return'<div class="sc-interact"><div class="sc-interact-title">Medication interactions</div><div class="sc-interact-list">'+ints.map(i=>`<span class="sc-interact-pill${i.type==='avoid'?' danger':''}">${i.type==='avoid'?'Avoid with':'Caution with'}: ${i.med}</span>`).join('')+'</div></div>';}
 // Render the "Supplement interactions" expanded section for a single supplement card.
+/* Collapse supplement-name variations (different doses, formulations, gummies/ER, etc.)
+   to a canonical base so 5+ Melatonin variants don't render as 5+ separate pills. Keeps
+   chemical-form distinctions intact (Magnesium glycinate stays distinct from Magnesium
+   citrate — those are pharmacologically different). Only strips dose/format qualifiers. */
+function _canonicalSuppName(name){
+  if(!name)return'';
+  return String(name)
+    .replace(/\s*\([^)]*\)\s*/g,' ')
+    .replace(/\s*,.*$/,'')
+    .replace(/\s+(extended[\s-]release|sustained[\s-]release|controlled[\s-]release|delayed[\s-]release|slow[\s-]release|immediate[\s-]release|gummies|gummy|tablets|tablet|capsules|capsule|powder|drops|liquid|spray|syrup|lozenges?|softgels?|chewable|sublingual|topical|oral|nightly|daily|low[\s-]dose|high[\s-]dose|mega[\s-]dose|physiological[\s-]dose)\s*$/gi,'')
+    .replace(/\s+/g,' ')
+    .trim()||String(name).trim();
+}
+/* Toggle the hidden remainder of partner pills inside an interaction row. Triggered by the
+   "+N more" button. Phase-0-follow-up fix: previously the +N pill was a static span. */
+function toggleInteractMore(btn,ev){
+  if(ev){if(ev.stopPropagation)ev.stopPropagation();if(ev.preventDefault)ev.preventDefault();}
+  const row=btn.parentElement;if(!row)return;
+  const expanded=btn.getAttribute('aria-expanded')==='true';
+  const hidden=row.querySelectorAll('.sc-si-pill-hidden');
+  hidden.forEach(h=>{h.style.display=expanded?'none':'inline-flex';});
+  btn.setAttribute('aria-expanded',expanded?'false':'true');
+  const n=btn.getAttribute('data-more-count')||hidden.length;
+  btn.textContent=expanded?('+'+n+' more'):'Show fewer';
+}
 function suppInteractSectionHtml(name){
   const cautions=getAllSuppCautions(name);
   if(!cautions||!cautions.length)return'';
-  // Group by reason so the same mechanism doesn't render 30 separate rows.
+  // Group by reason, then within each group dedupe partners by canonical base name so
+  // the user sees one "Melatonin" pill instead of five form-specific entries.
   const byReason={};
   cautions.forEach(c=>{
     const k=c.severity+'||'+c.reason;
-    if(!byReason[k])byReason[k]={severity:c.severity,reason:c.reason,partners:[]};
-    if(!byReason[k].partners.includes(c.with))byReason[k].partners.push(c.with);
+    if(!byReason[k])byReason[k]={severity:c.severity,reason:c.reason,baseMap:{}};
+    const base=_canonicalSuppName(c.with);
+    if(!byReason[k].baseMap[base])byReason[k].baseMap[base]=[];
+    if(!byReason[k].baseMap[base].includes(c.with))byReason[k].baseMap[base].push(c.with);
   });
   const groups=Object.values(byReason).sort((a,b)=>(a.severity==='avoid'?0:1)-(b.severity==='avoid'?0:1));
-  const total=cautions.length;
+  // Total = sum of unique base partners across groups (matches what the user actually sees rendered)
+  const total=groups.reduce((acc,g)=>acc+Object.keys(g.baseMap).length,0);
   const rows=groups.map((g,i)=>{
     const sev=g.severity==='avoid'?'avoid':'caution';
     const sevLbl=g.severity==='avoid'?'Avoid':'Caution';
-    const partnersShown=g.partners.slice(0,6);
-    const extra=g.partners.length-partnersShown.length;
-    const partnersHtml=partnersShown.map(p=>`<span class="sc-si-pill">${escHtml(p)}</span>`).join('')+(extra>0?`<span class="sc-si-pill sc-si-pill-more">+${extra} more</span>`:'');
-    return`<div class="sc-mi-row sc-mi-${sev}"><div class="sc-mi-num">${i+1}</div><div class="sc-mi-body"><div class="sc-mi-k">${sevLbl} <span class="sc-mi-dot">·</span> <span class="sc-mi-med">${escHtml(g.reason)}</span></div><div class="sc-si-partners">${partnersHtml}</div></div></div>`;
+    const bases=Object.keys(g.baseMap);
+    const SHOW=6;
+    const renderPill=(b,hidden)=>{
+      const variants=g.baseMap[b];
+      const cls='sc-si-pill'+(hidden?' sc-si-pill-hidden':'');
+      const style=hidden?' style="display:none"':'';
+      if(variants.length>1){
+        const tip=variants.length+' forms grouped: '+variants.join(' · ');
+        return '<span class="'+cls+'"'+style+' title="'+escAttr(tip)+'">'+escHtml(b)+' <span class="sc-si-pill-count">('+variants.length+')</span></span>';
+      }
+      return '<span class="'+cls+'"'+style+'>'+escHtml(b)+'</span>';
+    };
+    const visible=bases.slice(0,SHOW).map(b=>renderPill(b,false)).join('');
+    const hidden=bases.slice(SHOW).map(b=>renderPill(b,true)).join('');
+    const extra=bases.length-SHOW;
+    const moreBtn=extra>0?'<button type="button" class="sc-si-pill sc-si-pill-more" onclick="toggleInteractMore(this,event)" aria-expanded="false" data-more-count="'+extra+'">+'+extra+' more</button>':'';
+    return'<div class="sc-mi-row sc-mi-'+sev+'"><div class="sc-mi-num">'+(i+1)+'</div><div class="sc-mi-body"><div class="sc-mi-k">'+sevLbl+' <span class="sc-mi-dot">·</span> <span class="sc-mi-med">'+escHtml(g.reason)+'</span></div><div class="sc-si-partners">'+visible+hidden+moreBtn+'</div></div></div>';
   }).join('');
-  return`<div class="sc-mi-h sc-si-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4M16 3v4M4 7h16M4 11h16M4 15h16M4 19h16"/></svg>Supplement interactions <span class="sc-si-count">${total}</span></div><div class="sc-mi-wrap${groups.length>1?' sc-mi-rail':''}">${rows}</div>`;
+  return'<div class="sc-mi-h sc-si-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4M16 3v4M4 7h16M4 11h16M4 15h16M4 19h16"/></svg>Supplement interactions <span class="sc-si-count">'+total+'</span></div><div class="sc-mi-wrap'+(groups.length>1?' sc-mi-rail':'')+'">'+rows+'</div>';
 }
 // Compact pill shown in the always-visible card area so a user scanning cards sees conflict hints without expanding.
 function suppInteractPills(name){
   const cautions=getAllSuppCautions(name);
   if(!cautions||!cautions.length)return'';
+  // Use the deduped base-name count to match what the expanded section shows.
+  const baseSet=new Set();cautions.forEach(c=>baseSet.add(c.severity+'||'+c.reason+'||'+_canonicalSuppName(c.with)));
+  const cnt=baseSet.size;
   const hasAvoid=cautions.some(c=>c.severity==='avoid');
   const cls=hasAvoid?'danger':'';
   const label=hasAvoid?'Supp conflicts (do-not-stack)':'Supplement cautions';
-  return`<span class="sc-si-chip ${cls}" title="${cautions.length} supplement${cautions.length!==1?'s':''} interact with this one">⚠ ${label} · ${cautions.length}</span>`;
+  return`<span class="sc-si-chip ${cls}" title="${cnt} supplement${cnt!==1?'s':''} interact with this one">⚠ ${label} · ${cnt}</span>`;
 }
 function barClr(v){return v>=4?'var(--t1c)':v>=3?'var(--t2c)':v>=2?'var(--t3c)':'var(--t4c)';}
 function bar(label,v){return`<div class="sc-bar-item"><div class="sc-bar-label">${label}</div><div class="sc-bar-track"><div class="sc-bar-fill" style="width:${v*20}%;background:${barClr(v)}"></div></div></div>`;}
 function getColsPerRow(){const w=window.innerWidth;if(w<640)return 1;if(w<960)return 2;return 3;}
-function loadMoreTier(btn,tierId){btn.classList.add('loading');btn.disabled=true;const sec=btn.closest('.tier-sec');setTimeout(()=>{const hidden=sec.querySelectorAll('.sc.tier-hidden');let shown=0;hidden.forEach(c=>{if(shown<10){c.classList.replace('tier-hidden','tier-visible');shown++;}});btn.classList.remove('loading');btn.disabled=false;const rem=sec.querySelectorAll('.sc.tier-hidden').length;if(!rem)btn.remove();else btn.querySelector('.tier-more-text').textContent=`Load more (${rem} remaining)`;},600);}
+function _loadMoreBtn(tierId, total, shown){
+  var pct = Math.max(0, Math.min(100, (shown/total)*100));
+  return '<button type="button" class="tier-more" onclick="loadMoreTier(this,\''+tierId+'\')" data-total="'+total+'">'
+    +   '<span class="tier-more-l">'
+    +     '<span class="tier-more-cta"><span class="tier-more-spin"></span><span class="tier-more-text">Load more</span></span>'
+    +     '<span class="tier-more-progress">Showing <b class="tier-more-shown">'+shown+'</b> of <b>'+total+'</b><span class="tier-more-bar"><span class="tier-more-fill" style="width:'+pct.toFixed(1)+'%"></span></span></span>'
+    +   '</span>'
+    +   '<span class="tier-more-arr">›</span>'
+    + '</button>';
+}
+function loadMoreTier(btn,tierId){
+  btn.classList.add('loading');
+  btn.disabled=true;
+  var sec=btn.closest('.tier-sec');
+  setTimeout(function(){
+    var hidden=sec.querySelectorAll('.sc.tier-hidden');
+    var shown=0;
+    hidden.forEach(function(c){if(shown<10){c.classList.replace('tier-hidden','tier-visible');shown++;}});
+    btn.classList.remove('loading');
+    btn.disabled=false;
+    var rem=sec.querySelectorAll('.sc.tier-hidden').length;
+    if(!rem){btn.remove();return;}
+    var total=parseInt(btn.dataset.total,10)||0;
+    var visible=total-rem;
+    var shownEl=btn.querySelector('.tier-more-shown');
+    var fillEl=btn.querySelector('.tier-more-fill');
+    if(shownEl) shownEl.textContent=visible;
+    if(fillEl) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
+  },600);
+}
 function calcScore(s){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1;return Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2);}
 var cycleInfo=function(s){if(s.cycle)return s.cycle;var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase(),tips=(s.tips||'').toLowerCase(),dose=(s.dose||'').toLowerCase();if(t==='t4')return 'Do not take. This supplement has documented safety risks.';if(tips.includes('cycle')||dose.includes('cycle'))return tips.includes('cycle')?s.tips:s.dose;if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off. Long-term safety beyond 3 months not well established.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Effectiveness may diminish with continuous use.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('selenium')||n.includes('iodine')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed. Retest blood levels annually if correcting a deficiency.';if(tag.includes('gut')&&(n.includes('lactobacillus')||n.includes('bifidobacterium')||n.includes('probiotic')||n.includes('saccharomyces')))return 'Safe for continuous daily use. No cycling needed. Benefits may diminish if stopped.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine'))return 'Safe for continuous daily use. No cycling needed. Well-studied for long-term safety.';if(n.includes('omega')||n.includes('fish oil')||n.includes('krill')||(n.includes('dha')&&!n.includes('gandha'))||n.includes('epa'))return 'Safe for continuous daily use. No cycling needed. Benefits reverse if stopped.';if(n.includes('melatonin'))return 'Use situationally, not nightly long-term. Best for jet lag or short-term sleep reset (2-4 weeks).';if(tag.includes('adaptogen')||n.includes('ginseng')||n.includes('eleuthero')||n.includes('schisandra'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Not recommended for continuous long-term use.';if(n.includes('john')||n.includes('kava')||n.includes('valerian')||n.includes('black cohosh'))return 'Short-term use recommended (4-8 weeks). Consult a provider before extending.';if(tag.includes('fibre')||tag.includes('prebiotic')||n.includes('psyllium')||n.includes('inulin'))return 'Safe for continuous daily use. No cycling needed.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses. No specific cycling protocol established.';if(s.s===3)return 'Use with caution long-term. Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term safety data. Use for the shortest effective duration.';}
 function eTier(s){const sc=calcScore(s);if(sc>=72)return 't1';if(sc>=60)return 't2';if(sc>=40)return 't3';return 't4';}
@@ -1876,7 +2659,7 @@ function _rebuildArticleSupps(){ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).for
 _rebuildArticleSupps();
 // Prune ARTICLE_MAP entries whose article divs do not exist in the DOM — prevents dead goArticle() clicks
 (function _pruneArticleMap(){if(typeof document==='undefined')return;const prune=()=>{const valid=new Set();document.querySelectorAll('[id^="article-"]').forEach(el=>{const id=parseInt(el.id.replace('article-',''));if(!isNaN(id))valid.add(id);});let pruned=0;Object.keys(ARTICLE_MAP).forEach(name=>{const before=ARTICLE_MAP[name].length;ARTICLE_MAP[name]=ARTICLE_MAP[name].filter(a=>valid.has(a.id));pruned+=(before-ARTICLE_MAP[name].length);if(!ARTICLE_MAP[name].length)delete ARTICLE_MAP[name];});if(pruned)_rebuildArticleSupps();if(typeof _allArtsCache!=='undefined')_allArtsCache=null;};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',prune);else prune();})();
-function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${escAttr(name)}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></div>`;}
+function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';return`<div class="art-supp-card" onclick="event.stopPropagation();openSuppModal('${escAttrJs(name)}')"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></div>`;}
 function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
 function articleKeyPointsHtml(body){const firstP=body.querySelector('p');if(!firstP)return'';const text=firstP.textContent.trim();const parts=text.replace(/([.!?])\s+([A-Z\u201c\u2018\u0022])/g,'$1\n$2').split('\n').map(s=>s.trim()).filter(s=>s.length>25);if(!parts.length)return'';const items=parts.slice(0,3).map((s,i)=>`<li class="art-kp-item"><span class="art-kp-num">${i+1}</span><span>${s}</span></li>`).join('');return`<div class="art-kp-card"><div class="art-kp-label">Key Points</div><ul class="art-kp-list">${items}</ul></div>`;}
 function articleSuppsTopHtml(id){const names=ARTICLE_SUPPS[id];if(!names||!names.length)return'';const icon=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m4-4h6l6 6v12a2 2 0 01-2 2H9a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>`;return`<div class="art-supps-top"><div class="art-supps-top-label">${icon}Supplement${names.length>1?'s':''} in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
@@ -1884,7 +2667,15 @@ let _allArtsCache=null;
 function _buildAllArts(){if(_allArtsCache)return _allArtsCache;const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));_allArtsCache=m;return m;}
 function getRelatedArticles(articleId,max){max=max||4;const allArts=_buildAllArts();const thisArt=allArts[articleId];const thisSupps=ARTICLE_SUPPS[articleId]||[];const scores={};thisSupps.forEach(name=>{(ARTICLE_MAP[name]||[]).forEach(a=>{if(a.id!==articleId)scores[a.id]=(scores[a.id]||0)+2;});});if(thisArt)Object.values(allArts).forEach(a=>{if(a.id!==articleId&&a.c===thisArt.c)scores[a.id]=(scores[a.id]||0)+1;});return Object.entries(scores).filter(([,s])=>s>0).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([id])=>allArts[parseInt(id)]).filter(Boolean);}
 function articleRelatedHtml(articleId){const arts=getRelatedArticles(articleId);if(!arts.length)return'';const svgDoc=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const cards=arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#7B1FA2';return`<div class="art-mini" role="link" tabindex="0" onclick="goArticle(${a.id},event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goArticle(${a.id},event);}"><div class="art-mini-ic" style="background:${clr}1a;color:${clr}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">${a.t}</div><div class="art-mini-m" style="color:${clr}">${ART_CAT_LBL[a.c]||''}<span class="art-mini-dot">·</span>${a.m} min</div></div><div class="art-mini-arr">›</div></div>`;}).join('');return`<div class="art-related-section"><div class="art-related-label">${svgDoc}Related Articles</div><div class="art-list">${cards}</div></div>`;}
-function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
+function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');/* Phase 0 / Item #9 + #10: last-reviewed badge and feedback trigger in supp modal. */
+const _lrSupp=lastReviewedFor(s.n);
+const _lrSuppHtml=_lrSupp?'<span class="article-reviewed" title="Reviewed against PubMed and listed sources. Tier-4 safety entries are reviewed more often.">Last reviewed: '+fmtReviewDate(_lrSupp)+'</span>':'';
+const _flagSuppBtn='<button type="button" class="article-flag-btn" onclick="openFeedback(\'supplement\',\''+escAttr(s.n)+'\')">Flag inaccuracy</button>';
+/* Phase 3 / Item #6 — form-specific evidence callout when the supplement is one of
+   several forms sharing an article. */
+const _formNote=(typeof FORM_EVIDENCE_NOTES!=='undefined'&&FORM_EVIDENCE_NOTES[s.n])?FORM_EVIDENCE_NOTES[s.n]:null;
+const _formNoteHtml=_formNote?'<div class="supp-modal-section supp-form-note"><div class="supp-modal-label supp-form-note-label">Form-specific evidence</div><div class="supp-modal-val">'+escHtml(_formNote.note)+'</div></div>':'';
+body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>${_formNoteHtml}<div class="article-meta-row" style="margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb">${_lrSuppHtml}${_flagSuppBtn}</div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
 function closeSuppModal(){const m=document.getElementById('supp-modal');if(m)m.classList.remove('open');document.body.style.overflow='';}
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
 function processArticleSources(container){
@@ -1903,13 +2694,41 @@ function processArticleSources(container){
         li.innerHTML=li.innerHTML.replace(m[0],
           m[0].charAt(0)+'<a href="'+url+'" target="_blank" rel="noopener noreferrer" class="src-link">'+title+'</a>'+m[0].charAt(m[0].length-1));
       }
+      /* Phase 1 / Item #1: source-logo rendering \u2014 when a <li> declares data-source-key,
+         prepend the matching logo + label so readers see WHICH source (NIH ODS / EFSA /
+         Cochrane / openFDA / etc.) backs the citation. See sources/_schema.md. */
+      const skey=(li.getAttribute('data-source-key')||'').toLowerCase();
+      if(skey&&typeof SOURCE_LOGOS!=='undefined'&&SOURCE_LOGOS[skey]){
+        const sm=SOURCE_LOGOS[skey];
+        const tag='<span class="cite-src-tag" title="'+escAttr(sm.tip||sm.label)+'"><img src="source-logos/'+sm.logo+'" alt="" class="cite-src-logo">'+escHtml(sm.label)+'</span> ';
+        li.insertAdjacentHTML('afterbegin',tag);
+        li.classList.add('cite-has-src');
+      }
+      /* Phase 0 / Item #3: funding/COI flag rendering \u2014 see docs/citation-schema.md */
+      const ftype=(li.getAttribute('data-funder-type')||'').toLowerCase();
+      const funder=li.getAttribute('data-funder')||'';
+      const coi=(li.getAttribute('data-coi')||'').toLowerCase();
+      if(ftype){
+        li.classList.add('cite-fund-'+ftype);
+        if(ftype==='industry'){
+          const tip='Industry-funded'+(funder?' \u2014 '+funder:'')+'. Effect estimates from industry-funded supplement trials run ~20\u201330% larger on average than independent ones; weighted accordingly in our tier calls.';
+          li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-fund-industry-badge" title="'+escAttr(tip)+'">industry-funded</span>');
+        }else if(ftype==='mixed'){
+          const tip='Mixed funding'+(funder?' \u2014 '+funder:'')+'. Some industry support disclosed.';
+          li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-fund-mixed-badge" title="'+escAttr(tip)+'">mixed funding</span>');
+        }
+      }
+      if(coi==='true'||coi==='yes'){
+        li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-coi-badge" title="One or more authors disclosed a competing interest related to the supplement.">COI disclosed</span>');
+      }
     });
   }
   return sourcesDiv;
 }
 let _artReturnScrollY=0,_currentArticleId=null,_artNavList=[];
 function _buildArtNavList(){const out=[];document.querySelectorAll('[id^="article-"]').forEach(el=>{const m=el.id.match(/^article-(\d+)$/);if(m)out.push(parseInt(m[1],10));});return out.sort((a,b)=>a-b);}
-function goArticle(id,ev){const _ev=ev||(typeof window!=='undefined'?window.event:null);if(_ev&&_ev.stopPropagation)_ev.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');if(!modal)return;const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');if(!body)return;const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);if(sourcesDiv)body.appendChild(sourcesDiv);_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;_setArticleHash(id);}
+function goArticle(id,ev){const _ev=ev||(typeof window!=='undefined'?window.event:null);if(_ev&&_ev.stopPropagation)_ev.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');if(!modal)return;const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();}_currentArticleId=id;const body=document.getElementById('art-modal-body');if(!body)return;const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);if(sourcesDiv)body.appendChild(sourcesDiv);/* Phase 0 / Item #9: surface last-reviewed date from the source article comment.
+   Phase 0 / Item #10: also render an inline "Flag inaccuracy" trigger next to the date. */const _lr=articleReviewedDate(src);const _flagLink='<button type="button" class="article-flag-btn" onclick="openFeedback(\'article\',\''+id+'\')">Flag inaccuracy</button>';if(_lr){const _meta=body.querySelector('.article-meta');const _badge='<div class="article-meta-row"><span class="article-reviewed" title="Reviewed against PubMed and the listed sources every 22 days. Tier-4 safety entries are reviewed more often.">Last reviewed: '+fmtReviewDate(_lr)+'</span>'+_flagLink+'</div>';if(_meta){_meta.insertAdjacentHTML('afterend',_badge);}else{body.insertAdjacentHTML('afterbegin',_badge);}}else{const _meta=body.querySelector('.article-meta');const _row='<div class="article-meta-row">'+_flagLink+'</div>';if(_meta){_meta.insertAdjacentHTML('afterend',_row);}else{body.insertAdjacentHTML('afterbegin',_row);}}_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;_setArticleHash(id);}
 function closeArtModal(){const m=document.getElementById('art-modal');if(m)m.classList.remove('open');document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;try{if(location.hash&&/^#article-\d+$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
 function _setArticleHash(id){try{history.replaceState(null,'','#article-'+id);}catch(e){}}
 function _showShareToast(msg){const t=document.getElementById('art-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+escHtml(String(msg||''));t.classList.add('show');clearTimeout(_showShareToast._t);_showShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
@@ -1923,15 +2742,47 @@ function artNavNext(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>=0
 /* NOTE: modal/arrow keydown logic is now part of the consolidated handler at the bottom of this file. */
 function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
 function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div class="art-list"><div class="art-list-h">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#7B1FA2';return'<div class="art-mini" role="link" tabindex="0" onclick="goArticle('+a.id+',event)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goArticle('+a.id+',event);}"><div class="art-mini-ic" style="background:'+clr+'1a;color:'+clr+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">'+a.t+'</div><div class="art-mini-m" style="color:'+clr+'">'+ART_CAT_LBL[a.c]+'<span class="art-mini-dot">·</span>'+a.m+' min</div></div><div class="art-mini-arr">›</div></div>';}).join('')+'</div>';}
-function renderCard(s,hidden){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=interactBarScore(s.n),sc=calcScore(s),scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const ints=INTERACT_MAP[s.n];const hasInts=ints&&ints.length;const intPills=hasInts?ints.map(i=>`<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:${i.type==='avoid'?'var(--t4bg)':'var(--t3bg)'};color:${i.type==='avoid'?'var(--t4tx)':'var(--t3tx)'}">${i.type==='avoid'?'Avoid':'Caution'}: ${escHtml(i.med.split(' ')[0])}</span>`).join(''):'';const et=eTier(s);const arts=ARTICLE_MAP[s.n]||null;const _fi=getFoodInfo(s);const _ei=getExcessInfo(s);return`<div class="sc${hidden}" data-tier="${et}" onclick="const b=this.querySelector('.sc-toggle');if(b)toggleCard(b);"><div class="sc-score-side ${scCls}"><div class="sc-score-num">${sc}</div><div class="sc-score-label">Score</div></div><div class="sc-inner"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-size:15px;font-weight:600;color:var(--color-text-primary)">${escHtml(s.n)}</div><div style="display:flex;gap:4px;flex-shrink:0">${s.tag.split(' · ').slice(0,3).map(t=>'<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+escHtml(t.trim())+'</span>').join('')}</div></div><div style="display:flex;gap:8px;margin:4px 0 6px;font-size:11px;color:var(--color-text-tertiary);flex-wrap:wrap"><span>Efficacy <b style="color:${barClr(s.e)}">${s.e}★</b></span><span>Safety <b style="color:${barClr(s.s)}">${s.s}★</b></span><span>Research <b style="color:${barClr(rd)}">${rd}★</b></span><span>Onset <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div>${hasInts||getAllSuppCautions(s.n).length?'<div style="display:flex;gap:5px;flex-wrap:wrap;font-size:11px;margin-bottom:6px">'+intPills+suppInteractPills(s.n)+'</div>':''}<div class="sc-desc-preview" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${escHtml(s.desc)}</div><div class="sc-expand"><div class="sc-desc sc-desc-top">${escHtml(s.desc)}</div><div class="sc-info-table"><div class="sc-info-row"><div class="sc-info-lbl">Dose</div><div class="sc-info-val">${escHtml(s.dose)}</div></div>${s.tips?`<div class="sc-info-row"><div class="sc-info-lbl">How to take</div><div class="sc-info-val">${escHtml(s.tips)}</div></div>`:''}<div class="sc-info-row sc-info-tinted"><div class="sc-info-lbl">Food</div><div class="sc-info-val"><span style="color:var(--t1c);font-weight:600;font-size:10px">PAIR:</span> ${escHtml(_fi.pair)}<br><span style="color:var(--t4c);font-weight:600;font-size:10px">AVOID:</span> ${escHtml(_fi.avoid)}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Cycling</div><div class="sc-info-val">${escHtml(cycleInfo(s))}</div></div><div class="sc-info-row"><div class="sc-info-lbl">Onset</div><div class="sc-info-val"><span class="sc-info-badge">${OL_SHORT[so]||'Varies'}</span>${so>=5?'Effects felt almost immediately after taking. Ideal for acute, time-sensitive use.':so>=4?'Noticeable effects within hours to a few days. Works relatively quickly compared to most supplements.':so>=3?'Typically takes 1 to 4 weeks of consistent daily use before benefits become noticeable. Be patient and stay consistent.':so>=2?'Requires 4 to 8 weeks of regular use to build up in your system. Do not expect immediate results.':'Very slow acting. May take 8 weeks or longer before any measurable benefit. Long-term commitment required.'}</div></div></div><div class="sc-dose-warn-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t4c)" stroke-width="2.2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>If you exceed the dose</div><div class="sc-dose-steps"><div class="sc-ds-row sc-ds-risk"><div class="sc-ds-num">1</div><div class="sc-ds-body"><div class="sc-ds-k">Risks</div><div class="sc-ds-v">${escHtml(_ei.risk)}</div></div></div><div class="sc-ds-row sc-ds-upper"><div class="sc-ds-num">2</div><div class="sc-ds-body"><div class="sc-ds-k">Upper limit</div><div class="sc-ds-v">${escHtml(_ei.threshold)}</div></div></div><div class="sc-ds-row sc-ds-long"><div class="sc-ds-num">3</div><div class="sc-ds-body"><div class="sc-ds-k">Long-term</div><div class="sc-ds-v">${escHtml(_ei.long)}</div></div></div></div>${hasInts?`<div class="sc-mi-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14l-7 7-7-7M5 10l7-7 7 7"/></svg>Medication interactions</div><div class="sc-mi-wrap${ints.length>1?' sc-mi-rail':''}">${ints.map((i,idx)=>{const m=Object.entries(MEDS).find(([k,v])=>v.label===i.med);const note=m?m[1].note:'';const sev=i.type==='avoid'?'avoid':'caution';const sevLbl=i.type==='avoid'?'Avoid':'Caution';return`<div class="sc-mi-row sc-mi-${sev}"><div class="sc-mi-num">${idx+1}</div><div class="sc-mi-body"><div class="sc-mi-k">${sevLbl} <span class="sc-mi-dot">·</span> <span class="sc-mi-med">${escHtml(i.med)}</span></div><div class="sc-mi-v">${escHtml(note)}</div></div></div>`;}).join('')}</div>`:''}${suppInteractSectionHtml(s.n)}${artMiniHtml(arts)}</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" class="sc-toggle" onclick="event.stopPropagation();toggleCard(this)" style="padding:6px 0 2px;flex:none"><span>More</span><svg class="sc-toggle-chv" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>${artChipHtml(arts)}</div></div></div>`;}
+/* Card v2 (2026-04-29): minimal click-through. The detail modal handles depth.
+   Renders an <a> so supplement-modal.js' click interception opens the modal. */
+function _slcSlug(name){
+  if (window.SS && typeof window.SS.slugify === 'function') return window.SS.slugify(name);
+  return String(name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function _slcCaution(s, et, ints){
+  if (et === 't4') return 'Tier 4 risk profile';
+  if (!ints || !ints.length) return '';
+  if (ints.length === 1) return ints[0].med;
+  var avoid = ints.filter(function(i){ return i.type === 'avoid'; }).length;
+  if (avoid && avoid === ints.length) return ints.length + ' avoid';
+  return ints.length + ' drug interactions';
+}
+function renderCard(s, hidden){
+  var sc   = calcScore(s);
+  var et   = eTier(s);
+  var slug = _slcSlug(s.n);
+  var ints = INTERACT_MAP[s.n] || [];
+  var cau  = _slcCaution(s, et, ints);
+  var cauHtml = cau ? '<span class="lc-cau">' + escHtml(cau) + '</span>' : '';
+  return '<a class="sc ' + et + (hidden || '') + '" href="supplement.html?slug=' + encodeURIComponent(slug) + '" data-tier="' + et + '">'
+    +   '<div class="lc-score"><div class="lc-score-num">' + sc + '</div></div>'
+    +   '<div class="lc-mid">'
+    +     '<div class="lc-row1"><span class="lc-name">' + escHtml(s.n) + '</span><span class="lc-cats">' + escHtml(s.tag || '') + '</span></div>'
+    +     '<div class="lc-row2">'
+    +       '<span class="lc-desc">' + escHtml(s.desc || '') + '</span>'
+    +       cauHtml
+    +     '</div>'
+    +   '</div>'
+    +   '<div class="lc-arr">›</div>'
+    + '</a>';
+}
 function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';const initShow=10;
-if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Evidence still unclear',m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'unproven')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`:'<div class="empty">No supplements found.</div>';return;}
+if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Evidence still unclear',m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('unproven',items.length,initShow):''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
-const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label)+' \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||t.badge||'Tier',m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'${t.id}')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-initShow} remaining)</span></button>`:''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
-function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','For');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols*2;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(cat)+' \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Category overview',m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'cat')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label)+' \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||t.badge||'Tier',m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn(t.id,items.length,initShow):''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
+function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(cat)+' \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Category overview',m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 var _initialLoad=true;
-function setFilter(id,el){_ddLabel('cat-filter','Category');_ddLabel('az-filter','A\u2013Z');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','For');_ddActive(null);af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
-function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Category');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','For');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setFilter(id,el){_ddLabel('cat-filter','Helps With');_ddLabel('az-filter','A\u2013Z');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddActive(null);af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Helps With');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 let _allTabInit=false;
 const CATS=['Performance','Cognition','Sleep','Immunity','Cardiovascular','Joint','Mood','Gut','Metabolic','Inflammation','Skin','Bone','Energy','Hormonal','Neuropathy','Antioxidant','Weight','UTI','Migraine','Liver','Eye health','Pregnancy'];
 const AZ_PAIRS=[['A','B'],['C','D'],['E','F'],['G','H'],['I','J'],['K','L'],['M','N'],['O','P'],['Q','R'],['S','T'],['U','V'],['W','X'],['Y','Z']];
@@ -2002,36 +2853,136 @@ function closeDD(id){document.getElementById(id+'-menu').classList.remove('open'
 function _ddLabel(id,txt){const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.firstChild.textContent=txt+' ';}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}
 document.addEventListener('click',function(e){if(!e.target.closest('.cdd'))document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');m.parentElement.classList.remove('cdd-open');});});
-function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const catOpts=CATS.map(c=>({val:c,label:c}));const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+(tr?tr.count:0)+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);if(t)tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});sfbar.innerHTML=_dd('tier-filter','Tier\u2026',tierOpts,'_tierPick')+_dd('cat-filter','Category',catOpts,'_catPick')+_dd('pop-filter','For',popOpts,'_popPick')+_dd('az-filter','A\u2013Z',azOpts,'_azPick');_tierPick('t3');}
-function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Category');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','For');_ddActive('tier-filter');af=v;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const trCount=S.filter(s=>s.tr).length;const catOpts=CATS.map(c=>({val:c,label:c}));const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+(tr?tr.count:0)+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);if(t)tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});sfbar.innerHTML=_dd('cat-filter','Helps With',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick');_catPick(CATS[0]);_initialLoad=false;}
+function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Helps With');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddActive('tier-filter');af=v;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function _azPick(v){_ddLabel('az-filter',v==='all'?'All A\u2013Z':v.charAt(0)+' & '+v.charAt(1));_ddActive(v==='all'?null:'az-filter');setAzFilter(v);}
-function _catPick(v){_ddLabel('cat-filter',v);_ddActive('cat-filter');setCatFilter(v);}
+function _catPick(v){
+  if(v==='__trending__'){
+    _ddLabel('cat-filter','\u{1F4C8} Trending');_ddActive('cat-filter');
+    _ddLabel('pop-filter','Age & Sex');
+    document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');
+    af='t3';
+    const items=S.filter(s=>s.tr).sort((a,b)=>calcScore(b)-calcScore(a));
+    const rowLimit=20;const hasMore=items.length>20;
+    const m={lead:'Popular, widely-discussed supplements',desc:'Supplements trending in health communities where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
+    const banner=_filterBanner('Trending · '+items.length+' supplements',m.lead,m.desc,m.icon,'t3');
+    document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('t3',items.length,rowLimit):''}</div>`:'<div class="empty">No trending supplements found.</div>';
+    return;
+  }
+  _ddLabel('cat-filter',v);_ddActive('cat-filter');setCatFilter(v);
+}
 function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
-function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Category');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const cols=getColsPerRow();const rowLimit=cols*2;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=POP_META[key]||{};const banner=_filterBanner('Recommended for <b>'+escHtml(p.label)+'</b> \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Targeted supplement recommendations',m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?`<button type="button" class="tier-more" onclick="loadMoreTier(this,'pop')"><span class="tier-more-spin"></span><span class="tier-more-text">Load more (${items.length-rowLimit} remaining)</span></button>`:''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Helps With');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=POP_META[key]||{};const banner=_filterBanner('Recommended for <b>'+escHtml(p.label)+'</b> \u00b7 '+items.length+' supplement'+(items.length>1?'s':''),m.lead||'Targeted supplement recommendations',m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('pop',items.length,rowLimit):''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function sw(n){const p1=document.getElementById('p1'),p2=document.getElementById('p2');if(p1)p1.style.display=n===1?'block':'none';if(p2)p2.style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');if(tb1){tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-pressed',n===1);}if(tb2){tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-pressed',n===2);}if(n===2&&typeof initAllTab==='function')initAllTab();}
 let selectedConds=new Set();
-function renderCondChips(){const el=document.getElementById('cond-chips');if(!el)return;el.innerHTML=Object.entries(CONDITIONS).map(([k,c])=>`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${escAttr(k)}')">${escHtml(c.label)}</div>`).join('');}
+/* 2026-04-28 UX simplification (v2): surface ALL supplement-relevant conditions as
+   selectable pills — typeahead removed. Order is roughly by population prevalence so
+   the most common chips render first. Anything in CONDITIONS but missing from this
+   list still gets appended below by renderCondChips so we never silently drop a key. */
+const TOP_CONDS=['bp','cholesterol','anxiety','gut','inflammation','diabetes','thyroid','depression','allergy','bone','migraine','iron_def','eye','hair','liver','menopause','prostate','pcos','uti'];
+function renderCondChips(){
+  const el=document.getElementById('cond-chips');if(!el)return;
+  // Render every CONDITIONS key as a pill — TOP_CONDS controls the order (most-prevalent first),
+  // any new keys added to CONDITIONS later get appended automatically so we never silently drop one.
+  const seen=new Set();
+  const ordered=[...TOP_CONDS.filter(k=>CONDITIONS[k]&&!seen.has(k)&&seen.add(k)),
+                 ...Object.keys(CONDITIONS).filter(k=>!seen.has(k))];
+  el.innerHTML=ordered.map(k=>{const c=CONDITIONS[k];return`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${escAttrJs(k)}')">${escHtml(c.label)}</div>`;}).join('');
+  renderCondExtras();
+}
+/* Show selected conditions that AREN'T in TOP_CONDS as removable chips below the typeahead. */
+function renderCondExtras(){
+  const wrap=document.getElementById('cond-chips-extra');if(!wrap)return;
+  const extras=Array.from(selectedConds||[]).filter(k=>!TOP_CONDS.includes(k)&&CONDITIONS[k]);
+  if(!extras.length){wrap.innerHTML='';wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  wrap.innerHTML=extras.map(k=>{
+    const c=CONDITIONS[k];
+    return '<span class="drug-chip" title="Click to remove"><span class="drug-chip-name">'+escHtml(c.label)+'</span><button type="button" class="drug-chip-remove" aria-label="Remove '+escAttr(c.label)+'" onclick="toggleCond(\''+escAttrJs(k)+'\')">×</button></span>';
+  }).join('');
+}
 function toggleCond(k){selectedConds.has(k)?selectedConds.delete(k):selectedConds.add(k);renderCondChips();updatePfCounts();}
+/* Phase 4 — typeahead for searching the full CONDITIONS list (19+ conditions) so
+   users can find any condition not in the TOP_CONDS chips. Mirrors the drug typeahead. */
+let _condTaIdx=-1;
+function _condSuggestions(q){
+  q=String(q||'').trim().toLowerCase();
+  if(q.length<1)return[];
+  const out=[];
+  for(const[k,c]of Object.entries(CONDITIONS)){
+    if(selectedConds.has(k))continue;
+    if(TOP_CONDS.includes(k))continue;
+    if(c.label.toLowerCase().includes(q)||k.toLowerCase().includes(q)){
+      out.push({key:k,label:c.label});
+    }
+    if(out.length>=8)break;
+  }
+  return out;
+}
+function onCondTypeaheadInput(ev){
+  const input=ev&&ev.target?ev.target:document.getElementById('cond-typeahead-input');
+  if(!input)return;
+  const q=String(input.value||'').trim();
+  const list=document.getElementById('cond-typeahead-list');if(!list)return;
+  _condTaIdx=-1;
+  // Empty input on focus → show 8 popular non-top-tier conditions as suggestions.
+  if(q.length<1){
+    const popular=Object.entries(CONDITIONS||{}).filter(([k])=>!(selectedConds.has(k)||TOP_CONDS.includes(k))).slice(0,8);
+    if(!popular.length){list.style.display='none';list.innerHTML='';return;}
+    list.style.display='block';
+    list.innerHTML='<div class="drug-typeahead-hdr">More conditions</div>'+popular.map(([k,c],i)=>'<div class="drug-typeahead-item" role="option" data-key="'+escAttr(k)+'" data-idx="'+i+'" onclick="addSelectedCondition(\''+escAttrJs(k)+'\')"><span class="drug-ta-name">'+escHtml(c.label)+'</span></div>').join('');
+    return;
+  }
+  const sugs=_condSuggestions(q);
+  if(!sugs.length){list.style.display='none';list.innerHTML='';return;}
+  list.style.display='block';
+  list.innerHTML=sugs.map((s,i)=>'<div class="drug-typeahead-item" role="option" data-key="'+escAttr(s.key)+'" data-idx="'+i+'" onclick="addSelectedCondition(\''+escAttrJs(s.key)+'\')"><span class="drug-ta-name">'+escHtml(s.label)+'</span></div>').join('');
+}
+function onCondTypeaheadKey(ev){
+  const list=document.getElementById('cond-typeahead-list');
+  if(!list||list.style.display==='none')return;
+  const items=list.querySelectorAll('.drug-typeahead-item');
+  if(!items.length)return;
+  if(ev.key==='ArrowDown'){ev.preventDefault();_condTaIdx=Math.min(items.length-1,_condTaIdx+1);items.forEach((el,i)=>el.classList.toggle('drug-ta-active',i===_condTaIdx));}
+  else if(ev.key==='ArrowUp'){ev.preventDefault();_condTaIdx=Math.max(0,_condTaIdx-1);items.forEach((el,i)=>el.classList.toggle('drug-ta-active',i===_condTaIdx));}
+  else if(ev.key==='Enter'){ev.preventDefault();const idx=_condTaIdx>=0?_condTaIdx:0;const k=items[idx].getAttribute('data-key');if(k)addSelectedCondition(k);}
+  else if(ev.key==='Escape'){list.style.display='none';list.innerHTML='';_condTaIdx=-1;}
+}
+function addSelectedCondition(key){
+  if(!key||!CONDITIONS[key])return;
+  selectedConds.add(key);
+  const input=document.getElementById('cond-typeahead-input');if(input)input.value='';
+  const list=document.getElementById('cond-typeahead-list');if(list){list.style.display='none';list.innerHTML='';}
+  renderCondChips();
+  updatePfCounts&&updatePfCounts();
+}
+/* Close the condition typeahead suggestion list when the user clicks outside it. */
+document.addEventListener('click',function(ev){
+  if(!ev.target.closest('#cond-typeahead-input')&&!ev.target.closest('#cond-typeahead-list')){
+    const list=document.getElementById('cond-typeahead-list');if(list){list.style.display='none';list.innerHTML='';_condTaIdx=-1;}
+  }
+});
 function getCondSupps(){const s=new Set();selectedConds.forEach(k=>{const c=CONDITIONS[k];if(c&&Array.isArray(c.supps))c.supps.forEach(n=>s.add(n));});return s;}
 
 /* ── Goals ── */
 const GOALS={
-  muscle:{label:'Build muscle',supps:['Creatine monohydrate','Whey protein','EAAs (Essential amino acids)','HMB (β-Hydroxy-β-methylbutyrate)','Citrulline malate','Beta-Alanine']},
-  weight_loss:{label:'Lose weight',supps:['Glucomannan (konjac root)','Berberine','Psyllium husk (Plantago ovata)','Green tea extract (EGCG)']},
-  cognition:{label:'Improve cognition',supps:['Creatine monohydrate','Citicoline (CDP-Choline)','Bacopa monnieri','Alpha-GPC','Phosphatidylserine',"Lion's mane mushroom"]},
-  energy:{label:'Boost energy',supps:['Creatine monohydrate','Rhodiola rosea','CoQ10 (Ubiquinol)','Acetyl-L-Carnitine (ALCAR)']},
-  sleep:{label:'Better sleep',supps:['Magnesium','L-Theanine','Glycine','Melatonin','Tart cherry (Montmorency)','Ashwagandha (KSM-66)']},
-  stress:{label:'Reduce stress',supps:['Ashwagandha (KSM-66)','L-Theanine','Rhodiola rosea','Saffron (Crocus sativus)','Magnesium']},
-  immunity:{label:'Strengthen immunity',supps:['Vitamin D3','Zinc','Vitamin C (moderate dose)','Elderberry (Sambucus nigra)','Probiotics']},
-  skin:{label:'Improve skin',supps:['Collagen peptides','Omega-3 (EPA/DHA)','Astaxanthin','Vitamin C (moderate dose)']},
-  longevity:{label:'Longevity / Anti-aging',supps:['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','Magnesium','CoQ10 (Ubiquinol)','NMN / NAD+ precursors']},
-  gut:{label:'Gut health',supps:['Probiotics','Psyllium husk (Plantago ovata)','Fibre (general dietary)','Saccharomyces boulardii']},
-  joints:{label:'Joint support',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
-  hair:{label:'Hair & nails',supps:['Collagen peptides','Biotin (low-dose, deficiency)','Iron','Zinc']},
-  heart:{label:'Heart health',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']}
+  muscle:{label:'Muscle',supps:['Creatine monohydrate','Whey protein','EAAs (Essential amino acids)','HMB (β-Hydroxy-β-methylbutyrate)','Citrulline malate','Beta-Alanine']},
+  weight_loss:{label:'Weight',supps:['Glucomannan (konjac root)','Berberine','Psyllium husk (Plantago ovata)','Green tea extract (EGCG)']},
+  cognition:{label:'Cognition',supps:['Creatine monohydrate','Citicoline (CDP-Choline)','Bacopa monnieri','Alpha-GPC','Phosphatidylserine',"Lion's mane mushroom"]},
+  energy:{label:'Energy',supps:['Creatine monohydrate','Rhodiola rosea','CoQ10 (Ubiquinol)','Acetyl-L-Carnitine (ALCAR)']},
+  sleep:{label:'Sleep',supps:['Magnesium','L-Theanine','Glycine','Melatonin','Tart cherry (Montmorency)','Ashwagandha (KSM-66)']},
+  mood:{label:'Mood',supps:['Saffron (Crocus sativus)','Omega-3 (EPA/DHA)','S-Adenosylmethionine (SAMe)','Vitamin D3','Folate (5-MTHF)']},
+  immunity:{label:'Immunity',supps:['Vitamin D3','Zinc','Vitamin C (moderate dose)','Elderberry (Sambucus nigra)','Probiotics']},
+  skin:{label:'Skin',supps:['Collagen peptides','Omega-3 (EPA/DHA)','Astaxanthin','Vitamin C (moderate dose)']},
+  longevity:{label:'Anti-Aging',supps:['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','Magnesium','CoQ10 (Ubiquinol)','NMN / NAD+ precursors']},
+  gut:{label:'Gut Health',supps:['Probiotics','Psyllium husk (Plantago ovata)','Fibre (general dietary)','Saccharomyces boulardii']},
+  joints:{label:'Joints',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
+  recovery:{label:'Recovery',supps:['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium','Omega-3 (EPA/DHA)','Collagen peptides','Glycine']},
+  libido:{label:'Libido',supps:['Maca (Lepidium meyenii)','Tongkat ali (Eurycoma longifolia)','Ashwagandha (KSM-66)','Zinc','Citrulline (L-citrulline, pure form)']},
+  heart:{label:'Heart',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']}
 };
 let selectedGoals=new Set();
-function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${escAttr(k)}')">${escHtml(g.label)}</div>`).join('');}
+function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${escAttrJs(k)}')">${escHtml(g.label)}</div>`).join('');}
 function toggleGoal(k){selectedGoals.has(k)?selectedGoals.delete(k):selectedGoals.add(k);renderGoalChips();updatePfCounts();}
 function getGoalSupps(){const s=new Set();selectedGoals.forEach(k=>{const g=GOALS[k];if(g&&Array.isArray(g.supps))g.supps.forEach(n=>s.add(n));});return s;}
 
@@ -2074,10 +3025,13 @@ function generatePDF(mode){
   const pw=doc.internal.pageSize.getWidth();
   const ph=doc.internal.pageSize.getHeight();
   const M=18;const TW=pw-M*2;
-  // Magazine palette
-  const DARK=[26,26,26];const GOLD=[201,150,58];const PUR=[61,26,91];
-  const CREAM=[250,248,244];const WARM=[240,235,227];const RULE=[212,201,187];
-  const ALT=[245,240,234];const TBRD=[232,224,216];const GRY=[153,153,153];
+  // Brand palette — Supplement Score (navy + green on white).
+  // Kept the original constant names so the rest of the renderer is untouched;
+  // semantics: DARK=navy ink, GOLD=brand green accent, PUR=dark green kicker,
+  // CREAM/WARM=white surfaces, RULE/TBRD=light gray hairlines, GRY=muted text.
+  const DARK=[31,42,61];const GOLD=[139,195,74];const PUR=[107,143,42];
+  const CREAM=[255,255,255];const WARM=[255,255,255];const RULE=[229,231,235];
+  const ALT=[249,250,247];const TBRD=[229,231,235];const GRY=[107,114,128];
   let pageNum=1;
   // Data
   const recs=_allRecs();
@@ -2102,7 +3056,7 @@ function generatePDF(mode){
     return{r,sup,sc,timing,hasMedInt,ints,intText,foodHint,effi,safe,rd,so,onsetLabel,tierLabel,cycleInfo,priLabel,desc,dose,tips};
   });
   // Helpers
-  function sCol(sc){return sc>=80?PUR:sc>=60?[90,40,130]:sc>=40?[130,70,180]:[170,110,210];}
+  function sCol(sc){return sc>=80?GOLD:sc>=60?PUR:sc>=40?[140,150,150]:[180,185,185];}
   function drawCircle(cx,cy,r,sc){
     const c=sCol(sc);doc.setFillColor(c[0],c[1],c[2]);doc.circle(cx,cy,r,'F');
     doc.setFont('times','normal');doc.setFontSize(r*2.9);doc.setTextColor(250,248,244);
@@ -2117,6 +3071,96 @@ function generatePDF(mode){
       doc.roundedRect(x+i*(pW+gap),y,pW,pH,1,1,'F');
     }
   }
+  // Brand logo lockup — leaf badge (navy outline, green ascending bar chart, green growth
+  // curve emerging from a gap in the lower-left of the leaf) + "Supplement Score" wordmark.
+  // Traced from the source artwork: asymmetric elongated leaf with a pointed top-right tip,
+  // soft right and left bulges, and a deliberate break in the outline where the stem exits.
+  function drawBrandLogo(x,y,opts){
+    opts=opts||{};
+    const s=opts.scale||1;
+    const layout=opts.layout||'stacked';
+    const iconOnly=!!opts.iconOnly;
+    const darkBg=!!opts.darkBg;
+    const showTagline=opts.tagline!==false;
+    const ink=darkBg?[255,255,255]:[31,42,61];
+    const grn=[139,195,74];
+    const W=14*s, H=18*s;
+    // Helper: stroke a multi-segment cubic bezier from absolute coordinates.
+    // segs is an array of [c1x,c1y, c2x,c2y, endX,endY] — all absolute mm.
+    function bezPath(startX,startY,segs){
+      const rels=[];let px=startX, py=startY;
+      for(let i=0;i<segs.length;i++){
+        const sg=segs[i];
+        rels.push([sg[0]-px,sg[1]-py, sg[2]-px,sg[3]-py, sg[4]-px,sg[5]-py]);
+        px=sg[4];py=sg[5];
+      }
+      doc.lines(rels,startX,startY,[1,1],'S',false);
+    }
+    doc.setDrawColor(ink[0],ink[1],ink[2]);
+    doc.setLineWidth(Math.max(0.55,0.95*s));
+    doc.setLineJoin('round');doc.setLineCap('round');
+    // Path A — right side: top-tip → right shoulder → right peak → bottom-right close
+    bezPath(x+W*0.58, y+H*0.03, [
+      [x+W*0.94,y+H*0.07, x+W*1.02,y+H*0.34, x+W*0.94,y+H*0.50],
+      [x+W*0.88,y+H*0.74, x+W*0.74,y+H*0.95, x+W*0.55,y+H*0.97]
+    ]);
+    // Path B — left side: a hair below the bottom-right close (this gap is where the stem exits) up to top-tip
+    bezPath(x+W*0.22, y+H*0.86, [
+      [x+W*0.06,y+H*0.78, x+W*-0.02,y+H*0.58, x+W*0.05,y+H*0.42],
+      [x+W*0.10,y+H*0.20, x+W*0.30,y+H*0.05, x+W*0.58,y+H*0.03]
+    ]);
+    // === BARS — three vertical green rectangles, ascending right ===
+    doc.setFillColor(grn[0],grn[1],grn[2]);
+    const barBase=y+H*0.78;
+    const barW=1.65*s, barGap=1.0*s;
+    const heights=[4.5*s, 6.7*s, 8.7*s];
+    const totalW=barW*3+barGap*2;
+    const clusterCx=x+W*0.56;
+    const firstX=clusterCx-totalW/2;
+    for(let i=0;i<3;i++){
+      const bx=firstX+i*(barW+barGap);
+      doc.rect(bx, barBase-heights[i], barW, heights[i], 'F');
+    }
+    // === GROWTH CURVE — emerges from below-left of the leaf, sweeps up to base of the first bar ===
+    doc.setDrawColor(grn[0],grn[1],grn[2]);
+    doc.setLineWidth(Math.max(0.7,1.15*s));
+    bezPath(x+W*0.02, y+H*1.03, [
+      [x+W*0.10,y+H*0.99, x+W*0.20,y+H*0.92, firstX+barW*0.5, barBase]
+    ]);
+    // === WORDMARK ===
+    if(!iconOnly){
+      if(layout==='horizontal'){
+        const wmX=x+W+3*s;
+        const wmY=y+H*0.58+1.5*s;
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(Math.max(8,12*s));
+        doc.setTextColor(ink[0],ink[1],ink[2]);
+        doc.text('Supplement ',wmX,wmY);
+        const wSupp=doc.getTextWidth('Supplement ');
+        doc.setTextColor(grn[0],grn[1],grn[2]);
+        doc.text('Score',wmX+wSupp,wmY);
+      } else {
+        const wmY=y+H+6*s;
+        const wmCx=x+W/2;
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(11*s);
+        const wSupp=doc.getTextWidth('Supplement ');
+        const wScore=doc.getTextWidth('Score');
+        const wTot=wSupp+wScore;
+        doc.setTextColor(ink[0],ink[1],ink[2]);
+        doc.text('Supplement ',wmCx-wTot/2,wmY);
+        doc.setTextColor(grn[0],grn[1],grn[2]);
+        doc.text('Score',wmCx-wTot/2+wSupp,wmY);
+        if(showTagline){
+          doc.setFont('helvetica','normal');
+          doc.setFontSize(Math.max(5,5.5*s));
+          doc.setTextColor(ink[0],ink[1],ink[2]);
+          doc.text('KNOW WHAT WORKS.',wmCx,wmY+5*s,{align:'center'});
+        }
+      }
+    }
+    doc.setLineCap('butt');doc.setLineJoin('miter');
+  }
   function footer(){
     doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,ph-12,pw-M,ph-12);
     doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
@@ -2124,7 +3168,7 @@ function generatePDF(mode){
     doc.setFont('times','italic');doc.setFontSize(7.5);doc.text('Page '+pageNum+' / '+totalPages,pw/2,ph-7,{align:'center'});
     doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.text(monthYear.toUpperCase(),pw-M,ph-7,{align:'right'});
   }
-  const totalPages=isSummaryOnly?1:(allItems.length+3);
+  const totalPages=isSummaryOnly?1:(allItems.length+2+((typeof bloodWork!=='undefined'&&Object.keys(bloodWork).length>0)?1:0));
   const essN=allItems.filter(x=>x.r.p==='essential').length;
   const recN=allItems.filter(x=>x.r.p==='recommended').length;
   const conN=allItems.filter(x=>x.r.p==='consider').length;
@@ -2135,16 +3179,15 @@ function generatePDF(mode){
   // ═══════════════════════════════════════
   // Masthead
   doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,15,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-  doc.text('SUPPLEMENTSCORE  \u00B7  YOUR SUPPLEMENT PLAN',M,9);
-  doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(200,195,190);
+  drawBrandLogo(M,3,{layout:'horizontal',scale:0.45,darkBg:true});
+  doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
   doc.text('PERSONALISED  \u00B7  EVIDENCE-BASED  \u00B7  '+monthYear.toUpperCase(),pw-M,9,{align:'right'});
   // Hero — extends to y=131 so meta values (at y=117) sit on dark background before gold band
   doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,15,pw,116,'F');
   doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-  doc.text('PERSONALISED SUPPLEMENT REPORT',M,30);
+  doc.text('PERSONALISED SUPPLEMENT REPORT',M,34);
   doc.setFont('times','normal');doc.setFontSize(46);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
-  doc.text('Your',M,52);doc.text('Optimal',M,68);doc.text('Protocol',M,84);
+  doc.text('Your',M,56);doc.text('Optimal',M,72);doc.text('Protocol',M,88);
   doc.setFont('times','italic');doc.setFontSize(14);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
   const goalStr=condLabel.length>40?condLabel.substring(0,39)+'\u2026':condLabel;
   doc.text('A curated plan for '+goalStr.toLowerCase(),M,97);
@@ -2168,38 +3211,17 @@ function generatePDF(mode){
   doc.setFont('times','normal');doc.setFontSize(10);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
   const introTxt='This report presents your personalised supplement protocol, ranked by scientific evidence and tailored to your '+goalStr.toLowerCase()+' goals. Each recommendation has been cross-referenced against your medications to flag any clinically relevant interactions.';
   doc.splitTextToSize(introTxt,TW).forEach(l=>{doc.text(l,M,cy);cy+=5.2;});cy+=4;
-  // Pull quote
-  const qTxt='\u201CThe ideal protocol is not the most complex one \u2014 it is the one built on the clearest evidence and aligned most precisely with who you are.\u201D';
-  const qLines=doc.setFont('times','italic').setFontSize(11).splitTextToSize(qTxt,TW-8);
-  const qH=qLines.length*5.5;
-  doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]);doc.setLineWidth(1.2);doc.line(M,cy,M,cy+qH+2);doc.setLineWidth(0.2);
-  doc.setTextColor(PUR[0],PUR[1],PUR[2]);
-  qLines.forEach(l=>{doc.text(l,M+6,cy+4.5);cy+=5.5;});cy+=5;
-  // Second para
-  doc.setFont('times','normal');doc.setFontSize(10);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
-  doc.splitTextToSize('Your supplements have been scored across three dimensions: clinical efficacy, safety profile, and depth of research. Scores above 80 represent strong evidence. Recommendations are tiered as Essential, Recommended, or Consider.',TW).forEach(l=>{doc.text(l,M,cy);cy+=5.2;});cy+=3;
-  // Contents box
-  const boxY=Math.min(Math.max(cy,240),ph-53);const boxH=38;
-  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(M,boxY,TW,boxH,'F');
-  const ccW=TW/3;
-  doc.setFont('helvetica','bold');doc.setFontSize(6);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-  doc.text('IN THIS REPORT',M+4,boxY+8);
-  doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
-  doc.text('P.2  Summary Overview',M+4,boxY+16);
-  if(allItems[0])doc.text('P.3  '+allItems[0].r.n.substring(0,22),M+4,boxY+23);
-  if(allItems[1])doc.text('P.4  '+allItems[1].r.n.substring(0,22),M+4,boxY+30);
-  doc.setDrawColor(51,51,51);doc.setLineWidth(0.3);
-  doc.line(M+ccW,boxY+4,M+ccW,boxY+boxH-4);doc.line(M+ccW*2,boxY+4,M+ccW*2,boxY+boxH-4);
-  doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
-  if(allItems[2])doc.text('P.5  '+allItems[2].r.n.substring(0,22),M+ccW+4,boxY+16);
-  if(allItems[3])doc.text('P.6  '+allItems[3].r.n.substring(0,22),M+ccW+4,boxY+23);
-  if(allItems[4])doc.text('P.7  '+allItems[4].r.n.substring(0,22),M+ccW+4,boxY+30);
-  doc.setFont('helvetica','bold');doc.setFontSize(6);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-  doc.text('KEY NOTES',M+ccW*2+4,boxY+8);
-  doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
-  if(intItems.length===0){doc.text('No interactions noted',M+ccW*2+4,boxY+16);}
-  else{intItems.slice(0,2).forEach((it,i)=>doc.text(it.r.n.substring(0,20)+' \u2014 interact.',M+ccW*2+4,boxY+16+i*7));}
-  doc.text('All doses: daily maintenance',M+ccW*2+4,boxY+30);
+  // Next-up cue (single line, no faux contents box)
+  cy+=2;
+  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  doc.text('NEXT  \u00B7  PROTOCOL OVERVIEW, THEN '+allItems.length+' SUPPLEMENT DETAIL PAGES',M,cy+4);
+  // Disclaimer band at the foot of the cover (replaces the standalone disclaimer page when there's no blood work)
+  const dy=ph-30;
+  doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,dy,pw-M,dy);
+  doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+  doc.text('IMPORTANT',M,dy+6);
+  doc.setFont('times','italic');doc.setFontSize(8);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+  doc.splitTextToSize('Informational only. Not medical advice. Consult a qualified healthcare provider before starting any supplement regimen, especially if you have medical conditions or take prescription medications.',TW).forEach((l,i)=>{doc.text(l,M,dy+11+i*4.2);});
   footer();
   } // end !isSummaryOnly (cover)
   // ═══════════════════════════════════════
@@ -2210,11 +3232,13 @@ function generatePDF(mode){
   if(!isSummaryOnly){
     doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,20,'F');
     doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-    doc.text('SECTION 01  \u00B7  SUMMARY OVERVIEW',M,12);
-    doc.setFont('times','italic');doc.setFontSize(9);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
-    doc.text('Your complete supplement plan at a glance',pw-M,12,{align:'right'});
+    drawBrandLogo(M,4.5,{layout:'horizontal',scale:0.5,darkBg:true});
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('SECTION 01  \u00B7  SUMMARY OVERVIEW',pw-M,12,{align:'right'});
+  } else {
+    drawBrandLogo(M,5,{layout:'horizontal',scale:0.55});
   }
-  let y=isSummaryOnly?20:28;
+  let y=isSummaryOnly?23:28;
   // ── Display helpers (defined early so top-right interaction card can use them) ──
   // WinAnsi-safe text normalizer — jsPDF's built-in Helvetica/Times use WinAnsi
   // encoding. Most common unicode glyphs (ellipsis, en/em dash, smart quotes,
@@ -2257,9 +3281,12 @@ function generatePDF(mode){
     if(s.length>14)s=s.substring(0,13).trim()+'\u2026';
     return s;
   };
-  // ── Top-right INTERACTION NOTES card ─────────────────────────────────────
+  // ── INTERACTION NOTES data + render ──────────────────────────────────────
   // Surfaces the "why" behind every red ⚠ on the rows below — which supp × which med
-  // and the clinical reason. Only renders when there is something to warn about.
+  // and the clinical reason. The full guide draws this as a top-right floating card.
+  // The summary card stashes the data here and renders a full-width panel below the
+  // supplement list (so it never overlaps the title).
+  let _summaryNotesData=null;
   {
     const _selMedLabels=new Set([...selectedMeds].map(k=>MEDS[k]?.label).filter(Boolean));
     const _hasSelMeds=selectedMeds.size>0;
@@ -2345,7 +3372,12 @@ function generatePDF(mode){
     // Sort: avoid before caution within each section
     const _sortBySev=(a,b)=>(a.type==='avoid'?0:1)-(b.type==='avoid'?0:1);
     _medRows.sort(_sortBySev);_suppRows.sort(_sortBySev);
-    if(_medRows.length||_suppRows.length){
+    // Summary card: stash data and render the panel later (full-width, below the list).
+    if(isSummaryOnly && (_medRows.length||_suppRows.length)){
+      _summaryNotesData={medRows:_medRows.slice(),suppRows:_suppRows.slice(),medReasonFor:_medReasonFor};
+    }
+    // Full guide: keep the existing top-right floating card behaviour.
+    if(!isSummaryOnly && (_medRows.length||_suppRows.length)){
       const boxW=78;
       const boxX=pw-M-boxW;
       const boxY=isSummaryOnly?14:22;
@@ -2449,7 +3481,7 @@ function generatePDF(mode){
   doc.text('One Coherent Protocol',M,y);y+=5;
   doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=6;
   // Food-icon + warning drawing helpers
-  const FOOD_COL={with:[13,148,136],away:[61,26,91]};
+  const FOOD_COL={with:[139,195,74],away:[31,42,61]}; // brand: green for "with food", navy for "away"
   // Explicit, evidence-based overrides where the tips-keyword sniff is unreliable.
   // Keys are supplement names (must match r.n); value is the canonical foodCat.
   const _foodCatOverride={
@@ -2509,7 +3541,7 @@ function generatePDF(mode){
   };
   // Small chain-link glyph to indicate "this row is paired with another supplement"
   const drawPairIcon=(cx,cy)=>{
-    doc.setDrawColor(180,140,50);doc.setLineWidth(0.55);
+    doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]);doc.setLineWidth(0.55);
     // two interlocked ellipses — reads as a chain link at small size
     doc.ellipse(cx-1.1,cy,1.4,0.85,'S');
     doc.ellipse(cx+1.1,cy,1.4,0.85,'S');
@@ -2529,13 +3561,13 @@ function generatePDF(mode){
     lx+=5+doc.getTextWidth(lbl)+4.5;
   });
   // Separator between FOOD and INTERACTION sections
-  doc.setDrawColor(200,190,175);doc.setLineWidth(0.3);
+  doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.3);
   doc.line(lx-1.5,y+1.8,lx-1.5,y+legH-1.8);lx+=1.5;
   drawPairIcon(lx+2.2,y+4.2);
   doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
   doc.text('Pair w/ \u2026',lx+5.5,y+5.5);
   lx+=5.5+doc.getTextWidth('Pair w/ \u2026')+4.5;
-  doc.setDrawColor(200,190,175);doc.setLineWidth(0.3);
+  doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.3);
   doc.line(lx-1.5,y+1.8,lx-1.5,y+legH-1.8);lx+=1.5;
   drawWarnIcon(lx+2,y+4.2);
   doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
@@ -2556,8 +3588,9 @@ function generatePDF(mode){
     ['Vitamin D3','Magnesium glycinate','Night','With dinner (fatty meal)'],
     ['Vitamin D3','Magnesium L-threonate','Night','With dinner (fatty meal)'],
     ['Vitamin D3','Magnesium','Night','With dinner (fatty meal)'],
-    // NAC has no strong diurnal anchor; pair with Glycine at night (GlyNAC glutathione stack).
-    ['NAC (N-Acetyl Cysteine)','Glycine','Night',null],
+    // NAC: do NOT auto-relocate to Night. The Glycine pairing is a glutathione-synthesis
+    // pairing (both contribute to the GSH pool over the day), not a co-timing requirement.
+    // Keeping NAC in its natural slot also balances stack density when night is heavy.
     // Collagen is flexible; Vit C anchors morning (iron absorption). Move Collagen to morning.
     ['Collagen peptides','Vitamin C (moderate dose)','Morning',null],
     // Vit E piggybacks on Omega-3's morning fatty-meal window (same absorption requirement).
@@ -2647,14 +3680,18 @@ function generatePDF(mode){
   const doseOffsetPad=2;           // px padding between name end and dose start
   const intRightX=pw-M-2;          // right edge for interaction text
   // Helper: does name pair bar need to extend top/bottom? computed as adjacent pairing
-  const drawGroupBand=(label)=>{
+  const drawGroupBand=(label,count)=>{
     if(isSummaryOnly){
-      // Print-friendly: small label above a thin hairline — no heavy ink
+      // Print-friendly: small label + supplement count + thin hairline
       y+=3;
-      doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(110,100,85);
+      doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
       doc.text(label.toUpperCase(),M,y);
+      if(typeof count==='number'){
+        doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+        doc.text(count+' supplement'+(count===1?'':'s'),pw-M,y,{align:'right'});
+      }
       y+=1.6;
-      doc.setDrawColor(180,170,155);doc.setLineWidth(0.3);
+      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.3);
       doc.line(M,y,pw-M,y);
       y+=2.8;
     } else {
@@ -2665,11 +3702,28 @@ function generatePDF(mode){
       y+=bH+1;
     }
   };
+  // Pair-group bracket — draws a "[" with rounded-feel corners and a midline tick
+  // along the left margin spanning the rows of an adjacent-pair block. Summary card only.
+  const drawPairBracket=(y1,y2)=>{
+    const bx=M-3.0;       // bracket vertical x — sits in the left margin
+    const arm=1.6;         // length of the top/bottom horizontal arms
+    const inset=1.8;       // top/bottom inset so tips align with icon centers
+    const top=y1+inset;
+    const bot=y2-inset;
+    if(bot<=top)return;
+    doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]);doc.setLineWidth(0.5);
+    doc.line(bx+arm,top,bx,top);
+    doc.line(bx,top,bx,bot);
+    doc.line(bx,bot,bx+arm,bot);
+    // small inward tick at the midline (curly-brace cue)
+    const my=(top+bot)/2;
+    doc.line(bx-0.7,my,bx,my);
+  };
   // Draw rows per group
   groupOrder.forEach(gName=>{
     const items=orderedByGroup[gName];
     if(!items||!items.length)return;
-    drawGroupBand(gName);
+    drawGroupBand(gName,items.length);
     // Pre-compute which rows are part of a pair block (item i pairs with item i-1 or i+1)
     const isPairBlock=items.map((it,i)=>{
       const prev=items[i-1];const next=items[i+1];
@@ -2679,15 +3733,22 @@ function generatePDF(mode){
       return prevPaired||nextPaired;
     });
     let rowIdx=0;
+    let pairStartY=null; // tracks the top of the current adjacent-pair run (summary card only)
     items.forEach((item,i)=>{
       const inPair=isPairBlock[i];
-      // Row background: pair rows get warm cream highlight; zebra striping only in full guide
-      if(inPair){
-        doc.setFillColor(255,251,232);doc.rect(M,y,TW,rH,'F');
-        // Gold left bar (3px wide) — only across paired rows
-        doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(M,y,1.2,rH,'F');
-      } else if(!isSummaryOnly && rowIdx%2===1){
-        doc.setFillColor(ALT[0],ALT[1],ALT[2]);doc.rect(M,y,TW,rH,'F');
+      // Row background:
+      //   • full guide → cream highlight + gold left bar across pair rows, zebra elsewhere
+      //   • summary card → no fill on pair rows; we draw a green left bracket once the run ends
+      if(!isSummaryOnly){
+        if(inPair){
+          doc.setFillColor(255,251,232);doc.rect(M,y,TW,rH,'F');
+          // Gold left bar (3px wide) — only across paired rows
+          doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(M,y,1.2,rH,'F');
+        } else if(rowIdx%2===1){
+          doc.setFillColor(ALT[0],ALT[1],ALT[2]);doc.rect(M,y,TW,rH,'F');
+        }
+      } else if(inPair && pairStartY===null){
+        pairStartY=y;
       }
       // Food icon
       drawFoodIcon(iconX,y+rH/2,item.foodCat);
@@ -2770,9 +3831,73 @@ function generatePDF(mode){
       // Bottom border
       doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.15);doc.line(M,y+rH,pw-M,y+rH);
       y+=rH;rowIdx++;
+      // Summary card: when a paired run ends, draw the bracket spanning the run.
+      if(isSummaryOnly){
+        const nextInPair=(i+1<items.length)&&isPairBlock[i+1];
+        if(inPair && !nextInPair && pairStartY!==null){
+          drawPairBracket(pairStartY,y);
+          pairStartY=null;
+        }
+      }
     });
   });
   y+=8;
+  // ── Bottom INTERACTION NOTES panel (summary card only) ───────────────────
+  // Replaces the old top-right floating box that overlapped the title. Renders
+  // a full-width tinted panel with a 2-column grid of caution/avoid items.
+  if(isSummaryOnly && _summaryNotesData){
+    const ntData=_summaryNotesData;
+    const allItms=[
+      ...ntData.medRows.map(r=>({...r,_kind:'med'})),
+      ...ntData.suppRows.map(r=>({...r,_kind:'supp'}))
+    ];
+    if(allItms.length){
+      const padX=4,padY=4,headerH=5,rowGap=4.4;
+      const cols=2;
+      const rowsCt=Math.ceil(allItms.length/cols);
+      const boxH=headerH+padY+rowsCt*rowGap+padY*0.5;
+      const boxX=M,boxY=y,boxW=TW;
+      // Background — very light green tint with subtle green border
+      doc.setFillColor(249,250,247);
+      doc.setDrawColor(215,228,189);doc.setLineWidth(0.3);
+      doc.roundedRect(boxX,boxY,boxW,boxH,1.8,1.8,'FD');
+      // Header
+      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+      doc.text('INTERACTION NOTES — WITHIN YOUR STACK',boxX+padX,boxY+4.2);
+      // 2-column grid of items
+      const colW=(boxW-padX*2-3)/cols;
+      const colX=[boxX+padX,boxX+padX+colW+3];
+      allItms.forEach((rec,i)=>{
+        const c=i%2;
+        const r=Math.floor(i/2);
+        const ix=colX[c];
+        const iy=boxY+headerH+padY+(r*rowGap);
+        // Tag pill (red — caution/avoid both critical)
+        const tagLbl=rec.type==='avoid'?'AVOID':'CAUTION';
+        doc.setFont('helvetica','bold');doc.setFontSize(5.2);
+        const tw=doc.getTextWidth(tagLbl)+2.6;
+        doc.setFillColor(185,28,28);
+        doc.roundedRect(ix,iy-2.6,tw,3.5,0.5,0.5,'F');
+        doc.setTextColor(255,255,255);
+        doc.text(tagLbl,ix+1.3,iy);
+        // Pair label
+        const lab1=_winAnsiSafe(_shortSuppName(rec.a));
+        const lab2=rec._kind==='med'
+          ?_winAnsiSafe(rec.b).replace(/\s*\([^)]*\)\s*/g,' ').trim()
+          :_winAnsiSafe(_shortSuppName(rec.b));
+        doc.setFont('helvetica','normal');doc.setFontSize(6.2);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+        const pairTxt=lab1+' + '+lab2;
+        const pairMaxW=colW-tw-2;
+        let pTxt=pairTxt;
+        while(doc.getTextWidth(pTxt)>pairMaxW&&pTxt.length>3){
+          pTxt=pTxt.substring(0,pTxt.length-1);
+        }
+        if(pTxt!==pairTxt)pTxt=pTxt.substring(0,pTxt.length-1)+'…';
+        doc.text(pTxt,ix+tw+1.5,iy);
+      });
+      y=boxY+boxH+4;
+    }
+  }
   // Summary card stops here — nothing below the table, print-friendly
   if(isSummaryOnly){footer();return doc;}
   // Overall plan strength bar
@@ -2783,7 +3908,7 @@ function generatePDF(mode){
   doc.text('OVERALL PLAN STRENGTH',M+5,y+6);
   doc.setFont('times','italic');doc.setFontSize(16);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
   doc.text(strength,M+5,y+16);
-  doc.setFont('times','normal');doc.setFontSize(8);doc.setTextColor(200,190,210);
+  doc.setFont('times','normal');doc.setFontSize(8);doc.setTextColor(220,235,210);
   doc.text(essN+' Essential  \u00B7  '+recN+' Recommended  \u00B7  '+conN+' Consider',pw-M-5,y+16,{align:'right'});
   // ── Scoring methodology section ─────────────────────────────────────────────
   let ky=y+28;
@@ -2793,10 +3918,11 @@ function generatePDF(mode){
   doc.setFont('times','italic');doc.setFontSize(9.5);doc.setTextColor(80,80,80);
   doc.splitTextToSize('Each supplement receives a composite score from 0\u2013100 weighted across clinical efficacy, safety profile, and research depth. Scores reflect the current published evidence and are adjusted for your specific health profile.',TW).forEach(l=>{doc.text(l,M,ky);ky+=5;});ky+=8;
   const guide=[
-    {range:'80\u2013100',label:'Exceptional Evidence',col:PUR,desc:'Multiple large RCTs, consistent meta-analyses, and validated mechanisms of action'},
-    {range:'60\u201379',label:'Good Evidence',col:[90,40,130],desc:'Several controlled trials and positive systematic reviews with reliable safety data'},
-    {range:'40\u201359',label:'Moderate Evidence',col:[130,70,180],desc:'Small trials, observational studies, and promising mechanistic or in-vivo research'},
-    {range:'0\u201339',label:'Limited / Emerging',col:[170,110,210],desc:'Anecdotal reports, in-vitro studies, or theoretical mechanisms requiring more research'},
+    // Brand-aligned ramp: brand green for the strongest tier, then darker green, muted gray, light gray.
+    {range:'80\u2013100',label:'Exceptional Evidence',col:GOLD,desc:'Multiple large RCTs, consistent meta-analyses, and validated mechanisms of action'},
+    {range:'60\u201379',label:'Good Evidence',col:PUR,desc:'Several controlled trials and positive systematic reviews with reliable safety data'},
+    {range:'40\u201359',label:'Moderate Evidence',col:[140,150,150],desc:'Small trials, observational studies, and promising mechanistic or in-vivo research'},
+    {range:'0\u201339',label:'Limited / Emerging',col:[180,185,185],desc:'Anecdotal reports, in-vitro studies, or theoretical mechanisms requiring more research'},
   ];
   guide.forEach(g=>{
     doc.setFillColor(g.col[0],g.col[1],g.col[2]);doc.roundedRect(M,ky,22,8,2,2,'F');
@@ -2818,14 +3944,14 @@ function generatePDF(mode){
     doc.addPage();pageNum++;
     const r=item.r;
     doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(0,0,pw,4,'F');
-    doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,4,pw,44,'F');
-    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-    doc.text('SECTION 02  \u00B7  SUPPLEMENT DETAIL  \u00B7  '+(idx+1).toString().padStart(2,'0')+' OF '+allItems.length.toString().padStart(2,'0'),M,18);
-    const tSz=r.n.length>32?22:r.n.length>24?28:34;
+    doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,4,pw,40,'F');
+    drawBrandLogo(M,7,{layout:'horizontal',scale:0.4,darkBg:true});
+    doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('SUPPLEMENT  \u00B7  '+(idx+1).toString().padStart(2,'0')+' / '+allItems.length.toString().padStart(2,'0'),pw-M,12,{align:'right'});
+    const tSz=r.n.length>32?22:r.n.length>24?28:32;
     doc.setFont('times','normal');doc.setFontSize(tSz);doc.setTextColor(CREAM[0],CREAM[1],CREAM[2]);
-    doc.text(r.n,M,38);
-    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(180,170,160);
-    doc.text('SCORE '+item.sc+'  \u00B7  '+item.priLabel.toUpperCase()+'  \u00B7  '+(item.timing.time||'ANY TIME').toUpperCase(),M,46);
+    doc.text(r.n,M,36);
+    // (Removed the SCORE/TIER/TIME subtitle — it duplicated the score circle, tier badge, and side-rail timing.)
     // Layout
     const lW=46;const rx=M+lW+10;const rW=TW-lW-10;
     const by=58;
@@ -2840,11 +3966,24 @@ function generatePDF(mode){
     });
     // Right col
     let ry=by;
-    const ptC=item.r.p==='essential'?GOLD:item.r.p==='recommended'?PUR:GRY;
-    doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(ptC[0],ptC[1],ptC[2]);
-    doc.setDrawColor(ptC[0],ptC[1],ptC[2]);doc.setLineWidth(0.5);
+    // Tier badge — Essential = filled green, Recommended = green outline, Consider = gray outline
+    const tierKind=item.r.p; // 'essential' | 'recommended' | 'consider'
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);
     const ptL=item.priLabel.toUpperCase();const ptW=doc.getTextWidth(ptL)+8;
-    doc.rect(rx,ry,ptW,8,'S');doc.text(ptL,rx+4,ry+5.7);ry+=15;
+    if(tierKind==='essential'){
+      doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);
+      doc.rect(rx,ry,ptW,8,'F');
+      doc.setTextColor(255,255,255);
+    } else if(tierKind==='recommended'){
+      doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]);doc.setLineWidth(0.6);
+      doc.rect(rx,ry,ptW,8,'S');
+      doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    } else {
+      doc.setDrawColor(GRY[0],GRY[1],GRY[2]);doc.setLineWidth(0.5);
+      doc.rect(rx,ry,ptW,8,'S');
+      doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+    }
+    doc.text(ptL,rx+4,ry+5.7);ry+=15;
     const descFull=item.desc||'';const dotIdx=descFull.indexOf('.');
     const headline=dotIdx>0?descFull.substring(0,dotIdx+1):descFull.substring(0,80);
     const bodyTxt=dotIdx>0?descFull.substring(dotIdx+1).trim():'';
@@ -2863,9 +4002,9 @@ function generatePDF(mode){
     doc.splitTextToSize(item.dose.split(';')[0].trim(),rW-12).slice(0,2).forEach((l,i)=>{doc.text(l,rx+6,ry+12+(i*5));});ry+=stripH+8;
     if(item.hasMedInt){
       const iH=18;
-      doc.setFillColor(244,240,250);doc.rect(rx,ry,rW,iH,'F');
-      doc.setDrawColor(PUR[0],PUR[1],PUR[2]);doc.setLineWidth(0.4);doc.rect(rx,ry,rW,iH,'S');
-      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+      doc.setFillColor(252,235,235);doc.rect(rx,ry,rW,iH,'F');
+      doc.setDrawColor(185,28,28);doc.setLineWidth(0.4);doc.rect(rx,ry,rW,iH,'S');
+      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(185,28,28);
       doc.text('MEDICATION INTERACTION NOTED',rx+5,ry+6);
       doc.setFont('times','normal');doc.setFontSize(9);doc.setTextColor(60,60,60);
       doc.splitTextToSize(item.intText,rW-10).slice(0,2).forEach((l,i)=>{doc.text(l,rx+5,ry+12+(i*5));});
@@ -2883,39 +4022,24 @@ function generatePDF(mode){
       doc.splitTextToSize(item.tips,TW).forEach(l=>{doc.text(l,M,noteEndY);noteEndY+=5.2;});
       noteEndY+=4;
     }
-    // Metrics row — positioned right below content, not hard-coded to bottom
-    const mY=Math.min(Math.max(noteEndY+10,by+115),ph-52);
-    const mCW=TW/4;
-    doc.setFillColor(WARM[0],WARM[1],WARM[2]);doc.rect(M,mY,TW,26,'F');
-    doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.3);doc.rect(M,mY,TW,26,'S');
-    const effLabels=['Exceptional','Excellent','Good','Fair','Limited'];
-    const safLabels=['Excellent','Excellent','Good','Fair','Caution'];
-    const mData=[
-      {lbl:'EFFICACY',val:effLabels[5-Math.min(item.effi,5)],rat:item.effi},
-      {lbl:'SAFETY',val:safLabels[5-Math.min(item.safe,5)],rat:item.safe},
-      {lbl:'RESEARCH DEPTH',val:item.tierLabel.includes('\u2014')?item.tierLabel.split('\u2014 ')[1]:item.tierLabel,rat:item.rd},
-      {lbl:'MED. INTERACTION',val:item.hasMedInt?'Interaction noted':'None identified',rat:null},
-    ];
-    mData.forEach((m,i)=>{
-      const mx=M+i*mCW;
-      if(i>0){doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.3);doc.line(mx,mY,mx,mY+26);}
-      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);doc.text(m.lbl,mx+4,mY+8);
-      if(m.rat){drawPips(mx+4,mY+11,m.rat,5,5.5,0.8);}
-      const mvc=(m.lbl==='MED. INTERACTION'&&item.hasMedInt)?[185,28,28]:(m.lbl==='MED. INTERACTION')?[13,148,136]:DARK;
-      doc.setFont('times','italic');doc.setFontSize(8.5);doc.setTextColor(mvc[0],mvc[1],mvc[2]);doc.text(m.val,mx+4,mY+22);
-    });
+    // (Removed the bottom 4-pill metrics row — Efficacy / Safety / Research Depth / Med. Interaction
+    //  were all already shown in the score circle, side rail, tier badge, and med-interaction box above.)
     footer();
   });
   // ═══════════════════════════════════════
-  // FINAL PAGE — BLOOD WORK + DISCLAIMER
+  // FINAL PAGE — BLOOD WORK (conditional)
   // ═══════════════════════════════════════
-  doc.addPage();pageNum++;
-  doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,20,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-  doc.text('SUPPLEMENTSCORE  \u00B7  CLINICAL NOTES',M,12);
-  let fy=30;
+  // Only emit a clinical-notes page when there's actual biomarker data to show.
+  // The disclaimer itself already lives on the cover, so we don't need a near-empty
+  // standalone page just to repeat it.
   const hasBW=typeof bloodWork!=='undefined'&&Object.keys(bloodWork).length>0;
   if(hasBW){
+    doc.addPage();pageNum++;
+    doc.setFillColor(DARK[0],DARK[1],DARK[2]);doc.rect(0,0,pw,20,'F');
+    drawBrandLogo(M,5,{layout:'horizontal',scale:0.45,darkBg:true});
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('CLINICAL NOTES',pw-M,12,{align:'right'});
+    let fy=32;
     const bwRes=analyzeBloodWork();
     doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
     doc.text('BLOOD WORK ANALYSIS',M,fy);fy+=8;
@@ -2930,15 +4054,9 @@ function generatePDF(mode){
         doc.setFont('times','italic');doc.setFontSize(8);doc.setTextColor(80,80,80);
         bwr.bio.supps.forEach(s=>{doc.text('\u2192 '+s.name+': '+s.dose,M+4,fy);fy+=4;});
       }fy+=3;
-    });fy+=8;
+    });
+    footer();
   }
-  doc.setFillColor(WARM[0],WARM[1],WARM[2]);doc.rect(M,fy,TW,30,'F');
-  doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(M,fy,2,30,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
-  doc.text('IMPORTANT DISCLAIMER',M+6,fy+8);
-  doc.setFont('times','normal');doc.setFontSize(9);doc.setTextColor(60,60,60);
-  doc.splitTextToSize('This report is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare provider before starting any supplement regimen, especially if you have medical conditions or take prescription medications. Individual results may vary. Supplement interactions listed are not exhaustive.',TW-12).forEach((l,i)=>{doc.text(l,M+6,fy+15+(i*5));});
-  footer();
   return doc;
 }
 
@@ -3169,10 +4287,12 @@ function switchTab(tab){
   if(tab==='research'&&typeof showArticleList==='function')showArticleList();
   // Profile is inside supplements-view as p1, so handle specially
   const setDisp=(id,v)=>{const el=document.getElementById(id);if(el)el.style.display=v;};
+  const ixHero=document.querySelector('.ix-hero');
   if(tab==='profile'){
     if(views.supplements)views.supplements.style.display='';
     setDisp('p2','none');
     setDisp('main-sticky','none');
+    if(ixHero)ixHero.style.display='none';
     // Hide header and stats on profile page
     const hdr=document.querySelector('.page-header');if(hdr)hdr.style.display='none';
     const evCard=document.querySelector('.ev-card');if(evCard)evCard.style.display='none';
@@ -3188,6 +4308,7 @@ function switchTab(tab){
     setDisp('profile-gate','none');
     setDisp('p1','none');
     setDisp('p2','block');
+    if(ixHero)ixHero.style.display='';
     // Show header and stats on supplements page
     const hdr=document.querySelector('.page-header');if(hdr)hdr.style.display='';
     const evCard=document.querySelector('.ev-card');if(evCard)evCard.style.display='';

@@ -1,11 +1,12 @@
 {
   "_meta": {
     "generated": "2026-04-23",
-    "last_reviewed": "2026-04-25 (scheduled ss-pairing run; data.js modified 2026-04-24)",
+    "last_reviewed": "2026-05-01 (full audit pass — added med-interaction & pairing coverage)",
     "source": "data.js (733 supplements; mod date 2026-04-24, no net add/remove vs prior 733 count)",
-    "schema_version": "1.2",
+    "schema_version": "1.3",
     "notes": "Each pairing references supplement `n` (name) strings as they appear in `data.js`. `kind` describes WHY the pair belongs together; `strength` is 1-5 (5 = mandatory for the effect, 1 = speculative). `apart_from` lists things the supplement competes with for absorption.",
     "changelog": [
+      "v1.3 (2026-05-01): Full-database audit. Renamed 30 orphan member references to canonical supplement names; added 25 new pairings covering methylation, mineral interactions, sleep stack, BP/glucose synergies, depression adjuncts, and absorption boosters.",
       "v1.1 (2026-04-23 PM): Added 25 additional pairings (p31-p55) surfaced from a complete re-read of data.js prose. All existing pairings (p1-p30) remain unchanged.",
       "v1.2 (2026-04-25): Added 7 additional pairings (p56-p62) surfaced from data.js entries modified 2026-04-24 — chiefly explicit stack entries (Adaptogen stack, HA+Chondroitin stack), prose synergies (Casein vs Whey timing, Theacrine+Caffeine, Beta-alanine+Creatine, Proline+C+Glycine), and the Dan Shen/Sanqi TCM pair. Existing p1-p55 unchanged."
     ]
@@ -13,37 +14,61 @@
   "pairings": [
     {
       "id": "p1",
-      "members": ["Vitamin D3", "Vitamin K2 (MK-7)"],
+      "members": [
+        "Vitamin D3",
+        "Vitamin K2 (MK-7)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 5,
       "goal": "Bone density + vascular calcification protection",
       "rationale": "D3 increases intestinal Ca absorption. K2 activates osteocalcin/MGP, directing Ca into bone rather than arteries.",
       "dose": "D3 1,000-2,000 IU + MK-7 90-200 mcg, with fat.",
-      "contraindications": ["warfarin"]
+      "contraindications": [
+        "warfarin"
+      ]
     },
     {
       "id": "p2",
-      "members": ["Vitamin D3", "Calcium", "Vitamin K2 (MK-7)"],
+      "members": [
+        "Vitamin D3",
+        "Calcium",
+        "Vitamin K2 (MK-7)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 5,
       "goal": "Post-menopausal bone health (WHI-validated)",
       "rationale": "Calcium + D3 reduces hip fracture risk; K2 ensures deposition into bone.",
       "dose": "Calcium 500-600 mg/dose + D3 1,000-2,000 IU + MK-7 90-200 mcg.",
-      "contraindications": ["warfarin (for K2)", "hypercalcemia"]
+      "contraindications": [
+        "warfarin (for K2)",
+        "hypercalcemia"
+      ]
     },
     {
       "id": "p3",
-      "members": ["Iron", "Vitamin C (moderate dose)"],
+      "members": [
+        "Iron",
+        "Vitamin C (moderate dose)"
+      ],
       "kind": "absorption-enhancer",
       "strength": 5,
       "goal": "Maximal non-heme iron absorption",
       "rationale": "Ascorbate reduces Fe3+ to Fe2+ and chelates it for uptake. Increases absorption 2-3x.",
       "dose": "25-50 mg elemental Fe (bisglycinate) + 100-250 mg C on empty stomach.",
-      "apart_from": ["Calcium", "Zinc", "tea", "coffee", "dairy"]
+      "apart_from": [
+        "Calcium",
+        "Zinc",
+        "tea",
+        "coffee",
+        "dairy"
+      ]
     },
     {
       "id": "p4",
-      "members": ["Collagen peptides", "Vitamin C (moderate dose)"],
+      "members": [
+        "Collagen peptides",
+        "Vitamin C (moderate dose)"
+      ],
       "kind": "cofactor",
       "strength": 5,
       "goal": "Tendon / skin / joint collagen synthesis",
@@ -52,7 +77,10 @@
     },
     {
       "id": "p5",
-      "members": ["L-Theanine", "Caffeine (standardised)"],
+      "members": [
+        "L-Theanine",
+        "Caffeine (standardised)"
+      ],
       "kind": "synergy",
       "strength": 5,
       "goal": "Sustained attention without jitters",
@@ -62,7 +90,10 @@
     },
     {
       "id": "p6",
-      "members": ["Zinc", "Copper"],
+      "members": [
+        "Zinc",
+        "Copper (as glycinate)"
+      ],
       "kind": "depletion-offset",
       "strength": 4,
       "goal": "Prevent copper deficiency from long-term zinc use",
@@ -72,7 +103,10 @@
     },
     {
       "id": "p7",
-      "members": ["Curcumin (bioavailable form)", "Piperine"],
+      "members": [
+        "Curcumin (bioavailable form)",
+        "Black pepper extract (piperine)"
+      ],
       "kind": "absorption-enhancer",
       "strength": 4,
       "goal": "Curcumin bioavailability",
@@ -81,7 +115,10 @@
     },
     {
       "id": "p8",
-      "members": ["Probiotics", "Fibre (general dietary)"],
+      "members": [
+        "Probiotics",
+        "Fibre (general dietary)"
+      ],
       "kind": "synergy",
       "strength": 4,
       "goal": "Gut colonisation and short-chain fatty acid production",
@@ -90,7 +127,10 @@
     },
     {
       "id": "p9",
-      "members": ["Folate (5-MTHF)", "Vitamin B12"],
+      "members": [
+        "Folate (5-MTHF)",
+        "Vitamin B12"
+      ],
       "kind": "cofactor",
       "strength": 5,
       "goal": "Methylation cycle / homocysteine / pregnancy",
@@ -99,7 +139,10 @@
     },
     {
       "id": "p10",
-      "members": ["Myo-inositol", "D-Chiro Inositol"],
+      "members": [
+        "Myo-inositol",
+        "D-Chiro Inositol"
+      ],
       "kind": "physiological-ratio",
       "strength": 5,
       "goal": "PCOS: ovulation, insulin sensitivity, androgen reduction",
@@ -109,7 +152,9 @@
     },
     {
       "id": "p11",
-      "members": ["Lutein + Zeaxanthin"],
+      "members": [
+        "Lutein + Zeaxanthin"
+      ],
       "kind": "mechanism-complementary",
       "strength": 5,
       "goal": "Macular pigment density / AMD prevention",
@@ -119,17 +164,26 @@
     },
     {
       "id": "p12",
-      "members": ["Alpha-GPC", "Aniracetam"],
+      "members": [
+        "Alpha-GPC",
+        "Aniracetam"
+      ],
       "kind": "side-effect-offset",
       "strength": 4,
       "goal": "Prevent racetam-induced headaches",
       "rationale": "Racetams upregulate ACh turnover; added choline prevents the choline-depletion headache.",
       "dose": "Racetam as prescribed + 300-600 mg alpha-GPC or 250 mg CDP-choline.",
-      "also_applies_to": ["Oxiracetam", "Piracetam"]
+      "also_applies_to": [
+        "Oxiracetam",
+        "Piracetam"
+      ]
     },
     {
       "id": "p13",
-      "members": ["Magnesium glycinate", "Vitamin D3"],
+      "members": [
+        "Magnesium glycinate",
+        "Vitamin D3"
+      ],
       "kind": "cofactor",
       "strength": 4,
       "goal": "Active vitamin D (calcitriol) production",
@@ -138,7 +192,10 @@
     },
     {
       "id": "p14",
-      "members": ["Pea protein", "Rice protein"],
+      "members": [
+        "Pea protein",
+        "Rice protein"
+      ],
       "kind": "complementary-amino-acids",
       "strength": 4,
       "goal": "Complete plant-protein amino-acid profile",
@@ -147,7 +204,10 @@
     },
     {
       "id": "p15",
-      "members": ["Whey protein", "L-Leucine (standalone)"],
+      "members": [
+        "Whey protein",
+        "L-Leucine (standalone)"
+      ],
       "kind": "threshold-amplifier",
       "strength": 3,
       "goal": "Maximal muscle protein synthesis in older adults",
@@ -156,7 +216,10 @@
     },
     {
       "id": "p16",
-      "members": ["Omega-3 (EPA/DHA)", "Vitamin E (mixed tocopherols)"],
+      "members": [
+        "Omega-3 (EPA/DHA)",
+        "Vitamin E (mixed tocopherols)"
+      ],
       "kind": "protective",
       "strength": 2,
       "goal": "Reduce oxidation of PUFAs",
@@ -165,7 +228,10 @@
     },
     {
       "id": "p17",
-      "members": ["CoQ10 (Ubiquinol)", "PQQ (Pyrroloquinoline quinone)"],
+      "members": [
+        "CoQ10 (Ubiquinol)",
+        "PQQ (Pyrroloquinoline quinone)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Mitochondrial biogenesis + electron-transport support",
@@ -174,7 +240,10 @@
     },
     {
       "id": "p18",
-      "members": ["Elderberry (Sambucus nigra)", "Zinc"],
+      "members": [
+        "Elderberry (Sambucus nigra)",
+        "Zinc"
+      ],
       "kind": "independent-complementary",
       "strength": 3,
       "goal": "Shorten cold duration (acute)",
@@ -184,7 +253,9 @@
     },
     {
       "id": "p19",
-      "members": ["Glucosamine / Chondroitin"],
+      "members": [
+        "Glucosamine / Chondroitin"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Modest cartilage and joint-pain protection in moderate osteoarthritis",
@@ -193,7 +264,10 @@
     },
     {
       "id": "p20",
-      "members": ["Boswellia serrata", "Curcumin (bioavailable form)"],
+      "members": [
+        "Boswellia serrata",
+        "Curcumin (bioavailable form)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Joint inflammation (osteoarthritis)",
@@ -202,7 +276,10 @@
     },
     {
       "id": "p21",
-      "members": ["Aged garlic extract (Kyolic)", "Omega-3 (EPA/DHA)"],
+      "members": [
+        "Aged garlic extract (Kyolic)",
+        "Omega-3 (EPA/DHA)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Cardiovascular risk reduction",
@@ -211,7 +288,11 @@
     },
     {
       "id": "p22",
-      "members": ["Hesperidin", "Vitamin C (moderate dose)", "Rutin"],
+      "members": [
+        "Hesperidin",
+        "Vitamin C (moderate dose)",
+        "Rutin"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Venous tone / capillary fragility",
@@ -220,7 +301,10 @@
     },
     {
       "id": "p23",
-      "members": ["Ivy leaf extract (Hedera helix)", "Thyme extract (Thymus vulgaris)"],
+      "members": [
+        "Ivy leaf extract (Hedera helix)",
+        "Thyme extract (Thymus vulgaris)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Acute bronchitis / cough",
@@ -229,7 +313,10 @@
     },
     {
       "id": "p24",
-      "members": ["Nicotinamide riboside (NR)", "Pterostilbene"],
+      "members": [
+        "Nicotinamide riboside (NR)",
+        "Pterostilbene"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "NAD+ precursor + sirtuin activator",
@@ -239,7 +326,10 @@
     },
     {
       "id": "p25",
-      "members": ["Lactoferrin", "Iron"],
+      "members": [
+        "Lactoferrin",
+        "Iron"
+      ],
       "kind": "absorption-enhancer",
       "strength": 3,
       "goal": "Iron repletion with fewer GI side-effects",
@@ -248,7 +338,10 @@
     },
     {
       "id": "p26",
-      "members": ["NAC (N-Acetyl Cysteine)", "Glycine"],
+      "members": [
+        "NAC (N-Acetyl Cysteine)",
+        "Glycine"
+      ],
       "kind": "substrate-pair",
       "strength": 3,
       "goal": "Raise intracellular glutathione",
@@ -257,7 +350,10 @@
     },
     {
       "id": "p27",
-      "members": ["Citrulline (L-citrulline, pure form)", "Dietary Nitrate / Beetroot"],
+      "members": [
+        "Citrulline (L-citrulline, pure form)",
+        "Dietary Nitrate / Beetroot"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Nitric oxide bioavailability for endurance / blood pressure",
@@ -266,7 +362,10 @@
     },
     {
       "id": "p28",
-      "members": ["Magnesium taurate", "Taurine"],
+      "members": [
+        "Magnesium taurate",
+        "Taurine"
+      ],
       "kind": "synergy",
       "strength": 2,
       "goal": "Blood pressure and cardiac rhythm support",
@@ -274,7 +373,10 @@
     },
     {
       "id": "p29",
-      "members": ["HMB (β-Hydroxy-β-methylbutyrate)", "Creatine monohydrate"],
+      "members": [
+        "HMB (β-Hydroxy-β-methylbutyrate)",
+        "Creatine monohydrate"
+      ],
       "kind": "independent-complementary",
       "strength": 2,
       "goal": "Sarcopenia / older-adult muscle preservation",
@@ -284,7 +386,13 @@
     },
     {
       "id": "p30",
-      "members": ["Calcium", "Magnesium", "Vitamin D3", "Vitamin K2 (MK-7)", "Boron"],
+      "members": [
+        "Calcium",
+        "Magnesium",
+        "Vitamin D3",
+        "Vitamin K2 (MK-7)",
+        "Boron"
+      ],
       "kind": "goal-stack",
       "strength": 4,
       "goal": "Comprehensive bone protocol (post-menopausal / fracture risk)",
@@ -293,18 +401,29 @@
     },
     {
       "id": "p31",
-      "members": ["Calcium hydroxyapatite (MCHC)", "Vitamin D3", "Vitamin K2 (MK-7)"],
+      "members": [
+        "Calcium hydroxyapatite (MCHC)",
+        "Vitamin D3",
+        "Vitamin K2 (MK-7)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 4,
       "goal": "Bone density via food-form calcium matrix",
       "rationale": "MCHC carries calcium plus native collagen/phosphate; still requires D3 for absorption and K2 for bone-deposition routing. Variant of p2/p30 for people using whole-bone calcium sources.",
       "dose": "MCHC 1,000 mg/day + D3 1,000-2,000 IU + MK-7 90-200 mcg, with food.",
-      "contraindications": ["warfarin (for K2)", "hypercalcemia"],
+      "contraindications": [
+        "warfarin (for K2)",
+        "hypercalcemia"
+      ],
       "source_field": "desc/tips on Calcium hydroxyapatite entry"
     },
     {
       "id": "p32",
-      "members": ["Uridine monophosphate (UMP)", "DHA (Omega-3)", "Choline source"],
+      "members": [
+        "Uridine monophosphate (UMP)",
+        "Omega-3 (EPA/DHA)",
+        "Choline"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Neuronal membrane synthesis / cognition",
@@ -314,7 +433,11 @@
     },
     {
       "id": "p33",
-      "members": ["Tributyrin", "Probiotics", "Prebiotic fibre"],
+      "members": [
+        "Tributyrin / Butyrate",
+        "Probiotics",
+        "Inulin / FOS (prebiotic fibre)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Gut barrier / short-chain fatty acid support",
@@ -324,7 +447,12 @@
     },
     {
       "id": "p34",
-      "members": ["Betaine (TMG)", "Folate (5-MTHF)", "Vitamin B12", "Vitamin B6 (P5P)"],
+      "members": [
+        "Betaine TMG (trimethylglycine)",
+        "Folate (5-MTHF)",
+        "Vitamin B12",
+        "Vitamin B6 (P5P)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Homocysteine reduction / methylation backup pathway",
@@ -334,7 +462,12 @@
     },
     {
       "id": "p35",
-      "members": ["NAC (N-Acetyl Cysteine)", "Glycine", "Vitamin B6 (P5P)", "Zinc"],
+      "members": [
+        "NAC (N-Acetyl Cysteine)",
+        "Glycine",
+        "Vitamin B6 (P5P)",
+        "Zinc"
+      ],
       "kind": "substrate-pair",
       "strength": 3,
       "goal": "GlyNAC extended — glutathione synthesis + transsulfuration support",
@@ -344,7 +477,10 @@
     },
     {
       "id": "p36",
-      "members": ["Borage oil (GLA)", "Omega-3 (EPA/DHA)"],
+      "members": [
+        "Borage oil (GLA)",
+        "Omega-3 (EPA/DHA)"
+      ],
       "kind": "side-effect-offset",
       "strength": 4,
       "goal": "Prevent arachidonic-acid buildup from high-dose GLA",
@@ -354,7 +490,12 @@
     },
     {
       "id": "p37",
-      "members": ["Quercetin", "Luteolin", "Kaempferol", "Fisetin"],
+      "members": [
+        "Quercetin",
+        "Luteolin",
+        "Kaempferol",
+        "Fisetin"
+      ],
       "kind": "goal-stack",
       "strength": 2,
       "goal": "Broad flavonoid / senolytic-adjacent stack",
@@ -364,7 +505,10 @@
     },
     {
       "id": "p38",
-      "members": ["Galacto-oligosaccharides (GOS)", "Probiotics"],
+      "members": [
+        "Galacto-oligosaccharides (GOS)",
+        "Probiotics"
+      ],
       "kind": "synergy",
       "strength": 4,
       "goal": "Targeted bifidogenic synbiotic",
@@ -374,7 +518,11 @@
     },
     {
       "id": "p39",
-      "members": ["2'-Fucosyllactose (2'-FL HMO)", "Galacto-oligosaccharides (GOS)", "Probiotics"],
+      "members": [
+        "2'-Fucosyllactose (2'-FL HMO)",
+        "Galacto-oligosaccharides (GOS)",
+        "Probiotics"
+      ],
       "kind": "synergy",
       "strength": 2,
       "goal": "Broad bifidogenic coverage (infant-HMO-style prebiotic)",
@@ -384,7 +532,10 @@
     },
     {
       "id": "p40",
-      "members": ["Oat beta-glucan", "Oat avenanthramides"],
+      "members": [
+        "Oat beta-glucan (cholesterol)",
+        "Oat avenanthramides"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Complete oat matrix — cholesterol + vascular antioxidant",
@@ -394,7 +545,11 @@
     },
     {
       "id": "p41",
-      "members": ["Cluster dextrin (HBCD)", "Essential amino acids (EAAs)", "Electrolytes"],
+      "members": [
+        "Cluster dextrin (HBCD)",
+        "EAAs (Essential amino acids)",
+        "Electrolyte complex (Na/K/Mg)"
+      ],
       "kind": "goal-stack",
       "strength": 3,
       "goal": "Intra-workout fuelling for long/endurance sessions",
@@ -404,7 +559,10 @@
     },
     {
       "id": "p42",
-      "members": ["Adenosylcobalamin (dibencozide)", "Methylcobalamin"],
+      "members": [
+        "Adenosylcobalamin (dibencozide)",
+        "Methylcobalamin (high-dose neurological)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Comprehensive B12 coverage (both active coenzyme forms)",
@@ -414,7 +572,12 @@
     },
     {
       "id": "p43",
-      "members": ["Acerola cherry extract", "Rutin", "Hesperidin", "Quercetin"],
+      "members": [
+        "Acerola cherry extract",
+        "Rutin",
+        "Hesperidin",
+        "Quercetin"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Food-matrix vitamin C with capillary/vascular bioflavonoids",
@@ -424,18 +587,28 @@
     },
     {
       "id": "p44",
-      "members": ["Magnolia bark (honokiol + magnolol)", "Ashwagandha", "L-Theanine"],
+      "members": [
+        "Magnolia bark (honokiol + magnolol)",
+        "Ashwagandha (KSM-66)",
+        "L-Theanine"
+      ],
       "kind": "goal-stack",
       "strength": 2,
       "goal": "Evening wind-down / stress-reducing sleep formula",
       "rationale": "Non-sedative, non-GABAergic stack: magnolia (anxiolytic via GABA-A modulation + cortisol), ashwagandha (cortisol reduction), theanine (alpha-waves). Often combined in pre-sleep formulas.",
       "dose": "Magnolia 200-400 mg + KSM-66 ashwagandha 300-600 mg + theanine 100-200 mg, 60 min pre-bed.",
-      "contraindications": ["thyroid hormone (for ashwagandha)", "sedatives / benzodiazepines"],
+      "contraindications": [
+        "thyroid hormone (for ashwagandha)",
+        "sedatives / benzodiazepines"
+      ],
       "source_field": "Magnolia bark entry: 'Commonly combined with ashwagandha or L-theanine in sleep formulas'"
     },
     {
       "id": "p45",
-      "members": ["Cistanche tubulosa", "Epimedium (horny goat weed, icariin)"],
+      "members": [
+        "Cistanche tubulosa (Rou Cong Rong)",
+        "Horny goat weed (Epimedium)"
+      ],
       "kind": "goal-stack",
       "strength": 1,
       "goal": "Traditional TCM vitality / libido / cognition formula",
@@ -445,7 +618,11 @@
     },
     {
       "id": "p46",
-      "members": ["Protocatechuic acid", "Quercetin", "Other polyphenols"],
+      "members": [
+        "Protocatechuic acid",
+        "Quercetin",
+        "Other polyphenols"
+      ],
       "kind": "goal-stack",
       "strength": 1,
       "goal": "Broad polyphenol antioxidant coverage",
@@ -455,7 +632,11 @@
     },
     {
       "id": "p47",
-      "members": ["Ferulic acid", "Vitamin C", "Vitamin E (alpha-tocopherol)"],
+      "members": [
+        "Ferulic acid",
+        "Vitamin C (moderate dose)",
+        "Vitamin E (mixed tocopherols)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Topical (and oral-adjacent) UV / oxidative-stress protection",
@@ -465,7 +646,10 @@
     },
     {
       "id": "p48",
-      "members": ["Phytosterols (beta-sitosterol complex)", "Oat beta-glucan"],
+      "members": [
+        "Phytosterols (beta-sitosterol complex)",
+        "Oat beta-glucan (cholesterol)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Additive LDL-C reduction",
@@ -475,7 +659,10 @@
     },
     {
       "id": "p49",
-      "members": ["L-Arginine", "L-Ornithine"],
+      "members": [
+        "L-Arginine",
+        "L-Ornithine"
+      ],
       "kind": "synergy",
       "strength": 2,
       "goal": "Growth-hormone support / ammonia clearance",
@@ -485,7 +672,11 @@
     },
     {
       "id": "p50",
-      "members": ["Pantethine", "Omega-3 (EPA/DHA)", "Phytosterols"],
+      "members": [
+        "Pantethine",
+        "Omega-3 (EPA/DHA)",
+        "Phytosterols (beta-sitosterol complex)"
+      ],
       "kind": "goal-stack",
       "strength": 2,
       "goal": "Non-statin lipid management",
@@ -495,18 +686,27 @@
     },
     {
       "id": "p51",
-      "members": ["Calcium D-glucarate", "DIM (diindolylmethane)"],
+      "members": [
+        "Calcium D-glucarate",
+        "DIM (Diindolylmethane)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Estrogen metabolism / Phase II conjugation support",
       "rationale": "Ca-D-glucarate inhibits beta-glucuronidase (reducing estrogen reabsorption); DIM shifts hydroxylation toward less-active 2-OH estrogens. Popular combo in functional-medicine estrogen-clearance protocols; direct combo RCTs are limited.",
       "dose": "Ca-D-glucarate 500-1,000 mg + DIM 100-200 mg.",
-      "contraindications": ["pregnancy", "hormone-modulating drugs (consult clinician)"],
+      "contraindications": [
+        "pregnancy",
+        "hormone-modulating drugs (consult clinician)"
+      ],
       "source_field": "Calcium D-glucarate entry: 'Sometimes combined with DIM for estrogen metabolism support'"
     },
     {
       "id": "p52",
-      "members": ["D-Mannose", "Cranberry (PACs)"],
+      "members": [
+        "D-Mannose",
+        "Cranberry PAC (A-type proanthocyanidins)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 3,
       "goal": "Recurrent UTI prophylaxis",
@@ -515,7 +715,10 @@
     },
     {
       "id": "p53",
-      "members": ["L-Lysine", "Vitamin C"],
+      "members": [
+        "L-Lysine",
+        "Vitamin C (moderate dose)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Collagen / connective-tissue support (Pauling concept)",
@@ -524,7 +727,10 @@
     },
     {
       "id": "p54",
-      "members": ["Maqui berry", "Lutein + Zeaxanthin"],
+      "members": [
+        "Maqui berry (Aristotelia chilensis)",
+        "Lutein + Zeaxanthin"
+      ],
       "kind": "independent-complementary",
       "strength": 1,
       "goal": "Dry-eye / macular support",
@@ -533,7 +739,11 @@
     },
     {
       "id": "p55",
-      "members": ["Creatine monohydrate", "Whey protein", "Carbohydrate"],
+      "members": [
+        "Creatine monohydrate",
+        "Whey protein",
+        "Carbohydrate"
+      ],
       "kind": "absorption-enhancer",
       "strength": 3,
       "goal": "Maximise creatine uptake into muscle",
@@ -543,7 +753,10 @@
     },
     {
       "id": "p56",
-      "members": ["Casein protein (pre-bed)", "Whey protein (post-workout)"],
+      "members": [
+        "Casein protein",
+        "Whey protein"
+      ],
       "kind": "temporal-complementary",
       "strength": 3,
       "goal": "24-hour muscle protein synthesis coverage",
@@ -553,19 +766,30 @@
     },
     {
       "id": "p57",
-      "members": ["Ashwagandha (KSM-66)", "Rhodiola rosea"],
+      "members": [
+        "Ashwagandha (KSM-66)",
+        "Rhodiola rosea"
+      ],
       "kind": "goal-stack",
       "strength": 3,
       "goal": "Adaptogen stack — calming + activating",
       "rationale": "KSM-66 ashwagandha lowers cortisol and supports recovery from chronic stress; Rhodiola rosea is a stimulating adaptogen that supports energy and mental endurance. Complementary mechanisms (GABAergic/HPA-axis dampening + monoaminergic/fatigue resistance). No head-to-head RCT of the combination, but both have independent evidence and the combination is in clinical use.",
       "dose": "KSM-66 ashwagandha 300-600 mg/day (food, AM or PM) + Rhodiola rosea 200-400 mg/day (empty stomach, AM only). Cycle 8-12 weeks on, 2-4 weeks off.",
-      "contraindications": ["thyroid hormone (ashwagandha)", "benzodiazepines / sedatives", "immunosuppressants (ashwagandha)", "bipolar disorder (Rhodiola)"],
+      "contraindications": [
+        "thyroid hormone (ashwagandha)",
+        "benzodiazepines / sedatives",
+        "immunosuppressants (ashwagandha)",
+        "bipolar disorder (Rhodiola)"
+      ],
       "existing_entry": "Adaptogen stack (Ashwagandha + Rhodiola)",
       "source_field": "Explicit 'Adaptogen stack' entry in data.js"
     },
     {
       "id": "p58",
-      "members": ["Hyaluronic acid (low-MW oral)", "Chondroitin sulfate"],
+      "members": [
+        "Hyaluronic acid (oral)",
+        "Chondroitin sulfate (standalone)"
+      ],
       "kind": "mechanism-complementary",
       "strength": 2,
       "goal": "Joint lubrication + cartilage matrix support",
@@ -576,18 +800,28 @@
     },
     {
       "id": "p59",
-      "members": ["Theacrine (TeaCrine)", "Caffeine (standardised)"],
+      "members": [
+        "Theacrine (TeaCrine)",
+        "Caffeine (standardised)"
+      ],
       "kind": "synergy",
       "strength": 3,
       "goal": "Energy and focus without tolerance buildup or cardiovascular stimulation",
       "rationale": "Distinct from p5 (L-theanine + caffeine). Theacrine acts on adenosine and dopaminergic pathways with minimal HR/BP effect and shows no tolerance even after 8 weeks of daily use. Combining with caffeine extends effective duration and broadens the neurochemical hit without the jitter or tolerance penalty. Useful when L-theanine has been tried and the user wants a longer-duration option.",
       "dose": "Theacrine 100-200 mg + caffeine 50-150 mg, morning or early afternoon. Avoid PM dosing.",
-      "contraindications": ["anxiety disorders", "uncontrolled hypertension (caffeine portion)"],
+      "contraindications": [
+        "anxiety disorders",
+        "uncontrolled hypertension (caffeine portion)"
+      ],
       "source_field": "Theacrine entry: 'Can be combined with caffeine for synergistic effect without jitters'"
     },
     {
       "id": "p60",
-      "members": ["L-Proline", "Vitamin C", "Glycine"],
+      "members": [
+        "Proline (L-Proline)",
+        "Vitamin C (moderate dose)",
+        "Glycine"
+      ],
       "kind": "substrate-cofactor-stack",
       "strength": 2,
       "goal": "Comprehensive collagen-synthesis substrate triad",
@@ -597,7 +831,10 @@
     },
     {
       "id": "p61",
-      "members": ["Beta-alanine (Carnosyn or sustained-release)", "Creatine monohydrate"],
+      "members": [
+        "Carnosyn beta-alanine (sustained release)",
+        "Creatine monohydrate"
+      ],
       "kind": "independent-complementary",
       "strength": 3,
       "goal": "High-intensity / sprint / strength-endurance performance",
@@ -607,48 +844,568 @@
     },
     {
       "id": "p62",
-      "members": ["Dan Shen (Salvia miltiorrhiza)", "Sanqi (Panax notoginseng)"],
+      "members": [
+        "Red sage / Danshen (Salvia miltiorrhiza)",
+        "Sanqi (Panax notoginseng)"
+      ],
       "kind": "traditional-formula",
       "strength": 1,
       "goal": "TCM cardiovascular / circulation support",
       "rationale": "Classical TCM cardiovascular pairing (often as 'Compound Danshen Dripping Pill'). Both have anti-platelet and vasodilatory activity in lab and Chinese clinical studies; independent replication outside China is limited. Listed for completeness — additive bleeding risk is the dominant practical consideration.",
       "dose": "Dan Shen 1,500-3,000 mg/day + Sanqi 500-1,500 mg/day standardised extract.",
-      "contraindications": ["warfarin / DOAC / aspirin / NSAID (additive bleeding)", "pre-surgical period (stop ≥2 weeks prior)"],
+      "contraindications": [
+        "warfarin / DOAC / aspirin / NSAID (additive bleeding)",
+        "pre-surgical period (stop ≥2 weeks prior)"
+      ],
       "source_field": "Dan Shen compound entry: 'traditionally combined with Sanqi (Panax notoginseng)'"
+    },
+    {
+      "members": [
+        "Beta-Alanine",
+        "Creatine monohydrate"
+      ],
+      "goal": "Anaerobic performance + endurance buffering",
+      "kind": "synergy",
+      "strength": 4,
+      "rationale": "Creatine increases short-burst phosphocreatine; beta-alanine raises muscle carnosine to buffer H+ in 1-4 min efforts. Loaded together cover overlapping intensity zones.",
+      "dose": "Creatine 3-5 g/day + Beta-alanine 3.2-6.4 g/day in divided 800 mg doses to minimise paresthesia.",
+      "id": "p63"
+    },
+    {
+      "members": [
+        "Calcium",
+        "Magnesium",
+        "Zinc"
+      ],
+      "goal": "Mineral absorption competition warning",
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "rationale": "Divalent cations (Ca2+, Mg2+, Zn2+) compete for the same divalent metal transporters (DMT-1) in the intestine. Doses >800 mg of any one significantly reduce uptake of the others.",
+      "dose": "Take large mineral doses (>500 mg) at least 2 hours apart. Smaller everyday doses can usually be co-ingested without major loss.",
+      "id": "p64"
+    },
+    {
+      "members": [
+        "Lactobacillus rhamnosus GG",
+        "Acacia fiber (prebiotic)"
+      ],
+      "goal": "Synbiotic gut support",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Selective fermentation of acacia by Lactobacillus enhances strain persistence and short-chain-fatty-acid production.",
+      "dose": "1-10 billion CFU LGG + 5-15 g acacia, separately or in same dose with cool water (heat kills probiotics).",
+      "id": "p65"
+    },
+    {
+      "members": [
+        "Quercetin",
+        "Bromelain"
+      ],
+      "goal": "Quercetin absorption + anti-inflammatory synergy",
+      "kind": "absorption-enhancer",
+      "strength": 3,
+      "rationale": "Bromelain enzymes increase intestinal absorption of quercetin; both have additive mast-cell stabilizing effects in allergy/inflammation.",
+      "dose": "Quercetin 500 mg + Bromelain 100-250 mg, on empty stomach.",
+      "id": "p66"
+    },
+    {
+      "members": [
+        "Vitamin C (moderate dose)",
+        "Zinc"
+      ],
+      "goal": "Common-cold severity reduction",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Independent meta-analyses show modest cold-symptom reduction; combining at first symptom is the most-studied protocol.",
+      "dose": "Vitamin C 1000 mg + Zinc lozenge 13-23 mg every 2 hours within 24 h of symptom onset (max 5 days).",
+      "id": "p67"
+    },
+    {
+      "members": [
+        "Magnesium",
+        "Pyridoxal 5-phosphate (P5P)"
+      ],
+      "goal": "PMS symptom reduction",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Two RCTs (Fathizadeh 2010; De Souza 2000) show greater PMS symptom reduction with Mg + B6 vs Mg alone.",
+      "dose": "Magnesium 200-360 mg + P5P 40-80 mg from luteal phase through menstruation.",
+      "id": "p68"
+    },
+    {
+      "members": [
+        "Choline",
+        "Omega-3 (EPA/DHA)"
+      ],
+      "goal": "Brain phospholipid synthesis (especially pregnancy/infancy)",
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "rationale": "Phosphatidylcholine + DHA together build neuronal membranes; large prenatal cohorts find compounded cognitive benefits in offspring.",
+      "dose": "Choline 450-550 mg + DHA 200-300 mg/day during pregnancy and lactation.",
+      "id": "p69"
+    },
+    {
+      "members": [
+        "Iron"
+      ],
+      "apart_from": [
+        "Calcium",
+        "Zinc",
+        "tea",
+        "coffee",
+        "dairy",
+        "Magnesium"
+      ],
+      "goal": "Iron absorption protection",
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "rationale": "Tannins (tea/coffee), divalent cations, and casein phosphopeptides each significantly reduce non-heme iron uptake.",
+      "dose": "Take iron on empty stomach with vitamin C; separate from calcium, zinc, magnesium, dairy, tea, coffee by 2 hours.",
+      "id": "p70"
+    },
+    {
+      "members": [
+        "Vitamin D3",
+        "Magnesium"
+      ],
+      "goal": "Vitamin D activation",
+      "kind": "cofactor",
+      "strength": 4,
+      "rationale": "Magnesium is a cofactor for the enzymes converting vitamin D to its active form. Vitamin D supplementation increases magnesium needs.",
+      "dose": "Vitamin D3 1000-2000 IU + Magnesium 200-400 mg/day with food.",
+      "id": "p71"
+    },
+    {
+      "members": [
+        "Berberine",
+        "Bergamot citrus polyphenol extract"
+      ],
+      "goal": "Lipid + glucose support without statin",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Berberine activates AMPK; bergamot inhibits HMG-CoA reductase via brutieridin/melitidin. Italian RCTs combine for additive LDL reduction.",
+      "dose": "Berberine 500 mg 2-3×/day + Bergamot 500-1000 mg/day with meals.",
+      "id": "p72"
+    },
+    {
+      "members": [
+        "Citrulline malate",
+        "Beta-Alanine"
+      ],
+      "goal": "Resistance + endurance pre-workout stack",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Citrulline boosts NO/blood flow during reps; beta-alanine buffers H+ for the 1-4 min ATP-PC + glycolytic crossover.",
+      "dose": "Citrulline malate 6-8 g + Beta-alanine 3.2 g, 30-45 min pre-workout.",
+      "id": "p73"
+    },
+    {
+      "members": [
+        "Lutein + Zeaxanthin",
+        "Omega-3 (EPA/DHA)"
+      ],
+      "goal": "Macular pigment density",
+      "kind": "synergy",
+      "strength": 4,
+      "rationale": "AREDS2 + LUTEGA trials: omega-3 enhances retinal carotenoid uptake. Effect on macular pigment optical density is greater than either alone.",
+      "dose": "Lutein 10 mg + Zeaxanthin 2 mg + DHA 350 mg/day with a fatty meal.",
+      "id": "p74"
+    },
+    {
+      "members": [
+        "Selenium",
+        "Iodine"
+      ],
+      "goal": "Thyroid hormone production support",
+      "kind": "cofactor",
+      "strength": 4,
+      "rationale": "Iodine is the substrate; selenium-dependent iodothyronine deiodinases convert T4 to T3 and protect the gland from peroxide damage.",
+      "dose": "Selenium 100-200 mcg + Iodine 150 mcg/day. Higher iodine without selenium can worsen autoimmune thyroiditis.",
+      "id": "p75"
+    },
+    {
+      "members": [
+        "Glycine",
+        "Magnesium glycinate"
+      ],
+      "goal": "Sleep onset + maintenance",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Glycine lowers core body temperature; magnesium activates GABA receptors. Bambico/Inagawa trials show subjective sleep improvement.",
+      "dose": "Glycine 3 g + Magnesium glycinate 300-400 mg, 30-60 min before bed.",
+      "id": "p76"
+    },
+    {
+      "members": [
+        "L-Theanine",
+        "Magnesium"
+      ],
+      "goal": "Anxiety + stress reduction",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Both raise GABA tone via different routes (theanine ionotropic; magnesium NMDA antagonism + GABA-A modulation).",
+      "dose": "L-Theanine 200 mg + Magnesium 200-300 mg, evening or under acute stress.",
+      "id": "p77"
+    },
+    {
+      "members": [
+        "Saffron (Crocus sativus)",
+        "Curcumin (bioavailable form)"
+      ],
+      "goal": "Adjunct depression support",
+      "kind": "synergy",
+      "strength": 3,
+      "rationale": "Both modulate inflammation + monoamine signalling; combined saffron-curcumin has equivalent efficacy to fluoxetine 20 mg in mild-moderate depression (Akhondzadeh trial).",
+      "dose": "Saffron 30 mg + Curcumin 500-1000 mg/day; 8-12 week trial.",
+      "contraindications": [
+        "SSRI/SNRI",
+        "MAOI",
+        "lithium"
+      ],
+      "id": "p78"
+    },
+    {
+      "members": [
+        "Magnesium glycinate",
+        "Vitamin B6 (P5P)"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Magnesium uptake + cofactor activation for ~300 enzymes",
+      "rationale": "B6 (pyridoxal-5-phosphate) is required for many magnesium-dependent enzymes; trials show greater PMS, anxiety, and migraine benefit when paired vs. magnesium alone.",
+      "dose": "Magnesium glycinate 200-400 mg + P5P 25-50 mg/day, evening with food.",
+      "id": "p79"
+    },
+    {
+      "members": [
+        "Vitamin D3",
+        "Vitamin K2 (MK-7)",
+        "Magnesium glycinate"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 5,
+      "goal": "Bone deposition triad — calcium absorbed (D3), directed to bone (K2), enzymes activated (Mg)",
+      "rationale": "Magnesium is the cofactor that activates vitamin D and converts inactive osteocalcin; K2 then directs the calcium D3 absorbs into bone instead of arteries.",
+      "dose": "D3 1000-2000 IU + MK-7 100-200 mcg + Mg glycinate 200-400 mg, with the largest meal.",
+      "contraindications": [
+        "warfarin (for K2)"
+      ],
+      "id": "p80"
+    },
+    {
+      "members": [
+        "Iron",
+        "Calcium"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Avoid mineral absorption conflict",
+      "rationale": "Calcium reduces non-heme iron absorption by up to 60% via DMT-1 competition. Even ~165 mg calcium with iron blocks half the iron uptake.",
+      "dose": "Separate iron and calcium doses by ≥2 hours (and avoid dairy with iron).",
+      "apart_from": [
+        "Calcium",
+        "dairy"
+      ],
+      "id": "p81"
+    },
+    {
+      "members": [
+        "Berberine",
+        "Milk thistle (Silymarin)"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Metabolic + hepatoprotection support",
+      "rationale": "Berberine improves insulin sensitivity but is hepatically processed; silymarin protects hepatocytes during chronic use. Italian RCTs (Berberol K) combine for NAFLD and metabolic syndrome.",
+      "dose": "Berberine 500 mg 2-3×/day + Silymarin 200-400 mg/day with meals.",
+      "id": "p82"
+    },
+    {
+      "members": [
+        "Whey protein",
+        "Creatine monohydrate"
+      ],
+      "kind": "synergy",
+      "strength": 5,
+      "goal": "Hypertrophy + strength gains",
+      "rationale": "Largest meta-analysis (Morton 2018) shows protein + creatine adds ~30% more LBM gain than protein alone in trained subjects.",
+      "dose": "Whey 0.4 g/kg per meal + Creatine 3-5 g/day, post-workout convenient but timing not critical.",
+      "id": "p83"
+    },
+    {
+      "members": [
+        "Probiotics",
+        "Inulin / FOS (prebiotic fibre)"
+      ],
+      "kind": "synergy",
+      "strength": 4,
+      "goal": "Synbiotic gut colonisation",
+      "rationale": "Prebiotic fibre selectively feeds the live bacteria; combined synbiotics outperform probiotics alone for IBS, immune, and metabolic outcomes in several meta-analyses.",
+      "dose": "Multi-strain probiotic 5-30 billion CFU + inulin/FOS 5-10 g/day. Start low to avoid bloating.",
+      "id": "p84"
+    },
+    {
+      "members": [
+        "Folate (5-MTHF)",
+        "Methylcobalamin (high-dose neurological)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 5,
+      "goal": "Homocysteine reduction + nervous system maintenance",
+      "rationale": "Both required for the methionine cycle; deficiency in either causes hyperhomocysteinemia and demyelination. The methylated forms bypass MTHFR and MTRR polymorphisms.",
+      "dose": "5-MTHF 400-800 mcg + Methylcobalamin 1000 mcg sublingual daily, AM.",
+      "id": "p85"
+    },
+    {
+      "members": [
+        "Iron",
+        "Vitamin C (moderate dose)",
+        "Lactoferrin"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Gentler iron repletion in deficiency",
+      "rationale": "Lactoferrin enhances iron uptake while reducing GI side effects; vitamin C still aids reduction of Fe3+ → Fe2+. Useful in pregnancy and IBD trials.",
+      "dose": "Ferrous bisglycinate 25-50 mg + Vitamin C 100-250 mg + Lactoferrin 100-200 mg, on empty stomach.",
+      "apart_from": [
+        "Calcium",
+        "Zinc",
+        "tea",
+        "coffee",
+        "dairy"
+      ],
+      "id": "p86"
+    },
+    {
+      "members": [
+        "Magnesium glycinate",
+        "Glycine",
+        "L-Theanine"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Sleep onset + anxiety reduction",
+      "rationale": "Three different GABAergic / cooling routes converge: glycine lowers core body temp, magnesium activates GABA-A, theanine modulates inhibitory tone via alpha-waves.",
+      "dose": "Mg glycinate 300-400 mg + Glycine 3 g + L-Theanine 200 mg, 30-60 min before bed.",
+      "id": "p87"
     }
   ],
   "medication_depletion_pairings": [
-    { "med": "Statin", "add": ["CoQ10 (Ubiquinol)"], "reason": "Statins inhibit HMG-CoA reductase (shared with CoQ10 synthesis)" },
-    { "med": "Metformin", "add": ["Vitamin B12"], "reason": "Chronic metformin reduces B12 absorption" },
-    { "med": "PPI (omeprazole / lansoprazole)", "add": ["Vitamin B12", "Magnesium"], "reason": "Long-term acid suppression impairs both" },
-    { "med": "Oral contraceptive pill", "add": ["Folate (5-MTHF)", "Vitamin B6 (P5P)"], "reason": "OCPs deplete folate and B6" },
-    { "med": "Corticosteroids (long-term)", "add": ["Calcium", "Vitamin D3", "Zinc"], "reason": "Bone density loss and Zn depletion" },
-    { "med": "Antibiotics", "add": ["Probiotics"], "reason": "Restore gut flora; take 2+ h apart from the antibiotic dose" },
-    { "med": "Anti-seizure (valproate, phenytoin, carbamazepine)", "add": ["Folate (5-MTHF)", "Vitamin D3"], "reason": "Hepatic induction depletes both" }
+    {
+      "med": "Statin",
+      "add": [
+        "CoQ10 (Ubiquinol)"
+      ],
+      "reason": "Statins inhibit HMG-CoA reductase (shared with CoQ10 synthesis)"
+    },
+    {
+      "med": "Metformin",
+      "add": [
+        "Vitamin B12"
+      ],
+      "reason": "Chronic metformin reduces B12 absorption"
+    },
+    {
+      "med": "PPI (omeprazole / lansoprazole)",
+      "add": [
+        "Vitamin B12",
+        "Magnesium"
+      ],
+      "reason": "Long-term acid suppression impairs both"
+    },
+    {
+      "med": "Oral contraceptive pill",
+      "add": [
+        "Folate (5-MTHF)",
+        "Vitamin B6 (P5P)"
+      ],
+      "reason": "OCPs deplete folate and B6"
+    },
+    {
+      "med": "Corticosteroids (long-term)",
+      "add": [
+        "Calcium",
+        "Vitamin D3",
+        "Zinc"
+      ],
+      "reason": "Bone density loss and Zn depletion"
+    },
+    {
+      "med": "Antibiotics",
+      "add": [
+        "Probiotics"
+      ],
+      "reason": "Restore gut flora; take 2+ h apart from the antibiotic dose"
+    },
+    {
+      "med": "Anti-seizure (valproate, phenytoin, carbamazepine)",
+      "add": [
+        "Folate (5-MTHF)",
+        "Vitamin D3"
+      ],
+      "reason": "Hepatic induction depletes both"
+    }
   ],
   "avoid_pairings_absorption": [
-    { "apart_hours": 2, "items": ["Iron", "Calcium", "Zinc", "Magnesium"], "reason": "Divalent cation competition" },
-    { "apart_hours": 2, "items": ["Iron", "tea / coffee / dairy"], "reason": "Polyphenols and calcium block Fe absorption" },
-    { "apart_hours": 4, "items": ["Levothyroxine", "Calcium", "Iron", "Magnesium", "Zinc", "Iodine"], "reason": "Thyroid-hormone absorption is blocked by minerals" },
-    { "apart_hours": 2, "items": ["Fibre / Psyllium husk", "any oral medication"], "reason": "Fibre binds drugs in the gut" },
-    { "apart_hours": 2, "items": ["Probiotics", "Antibiotics"], "reason": "Antibiotic kills the live culture" }
+    {
+      "apart_hours": 2,
+      "items": [
+        "Iron",
+        "Calcium",
+        "Zinc",
+        "Magnesium"
+      ],
+      "reason": "Divalent cation competition"
+    },
+    {
+      "apart_hours": 2,
+      "items": [
+        "Iron",
+        "tea / coffee / dairy"
+      ],
+      "reason": "Polyphenols and calcium block Fe absorption"
+    },
+    {
+      "apart_hours": 4,
+      "items": [
+        "Levothyroxine",
+        "Calcium",
+        "Iron",
+        "Magnesium",
+        "Zinc",
+        "Iodine"
+      ],
+      "reason": "Thyroid-hormone absorption is blocked by minerals"
+    },
+    {
+      "apart_hours": 2,
+      "items": [
+        "Fibre / Psyllium husk",
+        "any oral medication"
+      ],
+      "reason": "Fibre binds drugs in the gut"
+    },
+    {
+      "apart_hours": 2,
+      "items": [
+        "Probiotics",
+        "Antibiotics"
+      ],
+      "reason": "Antibiotic kills the live culture"
+    }
   ],
   "dangerous_pairings": [
-    { "members": ["5-HTP", "SSRI/SNRI/MAOI/triptan/tramadol"], "risk": "Serotonin syndrome (potentially fatal)" },
-    { "members": ["L-Tryptophan", "SSRI/SNRI/MAOI"], "risk": "Serotonin syndrome" },
-    { "members": ["St. John's Wort", "SSRI/SNRI/MAOI/oral contraceptive/warfarin/cyclosporine/many others"], "risk": "Serotonin syndrome; CYP3A4 induction (drug failure)" },
-    { "members": ["SAMe", "SSRI/MAOI"], "risk": "Serotonin syndrome" },
-    { "members": ["Methylene blue (pharmaceutical grade)", "SSRI/MAOI"], "risk": "Severe serotonin syndrome" },
-    { "members": ["Saffron (Crocus sativus) high dose", "SSRI/SNRI/MAOI"], "risk": "Serotonin syndrome at high doses" },
-    { "members": ["Vitamin K2 (MK-7)", "Warfarin"], "risk": "Direct antagonism of anticoagulation" },
-    { "members": ["Ginkgo biloba / Ginger / high-dose Omega-3 / Curcumin / Nattokinase / Lumbrokinase / Dan Shen / Dong quai / Red sage / White willow / Meadowsweet", "Warfarin / DOAC / aspirin / NSAID"], "risk": "Additive bleeding" },
-    { "members": ["Berberine", "Insulin / sulfonylurea / other glucose-lowering drugs"], "risk": "Hypoglycemia" },
-    { "members": ["Berberine", "Statin / cyclosporine"], "risk": "CYP3A4 inhibition elevates drug levels" },
-    { "members": ["Ashwagandha (KSM-66)", "Thyroid hormone / benzodiazepines / immunosuppressants"], "risk": "Thyroid disruption, excessive sedation, immune counteraction" },
-    { "members": ["Kava (high-dose/extract)", "Alcohol / acetaminophen / any hepatotoxin"], "risk": "Liver failure" },
-    { "members": ["Echinacea / Astragalus / Cat's claw / Cycloastragenol", "Immunosuppressants"], "risk": "Counteracts immunosuppressive therapy (transplant / autoimmune)" },
-    { "members": ["Caffeine", "Synephrine (bitter orange) / Ephedra analogues / Yohimbine / DMAA / DMHA"], "risk": "Cardiac events, stroke, hypertensive crisis" },
-    { "members": ["Huperzine A", "Donepezil / Rivastigmine / Galantamine"], "risk": "Additive cholinesterase inhibition" },
-    { "members": ["GHB precursors (1,4-butanediol / GBL)", "Alcohol / benzodiazepines / opioids"], "risk": "Respiratory depression, coma, death" }
+    {
+      "members": [
+        "5-HTP",
+        "SSRI/SNRI/MAOI/triptan/tramadol"
+      ],
+      "risk": "Serotonin syndrome (potentially fatal)"
+    },
+    {
+      "members": [
+        "L-Tryptophan",
+        "SSRI/SNRI/MAOI"
+      ],
+      "risk": "Serotonin syndrome"
+    },
+    {
+      "members": [
+        "St. John's Wort",
+        "SSRI/SNRI/MAOI/oral contraceptive/warfarin/cyclosporine/many others"
+      ],
+      "risk": "Serotonin syndrome; CYP3A4 induction (drug failure)"
+    },
+    {
+      "members": [
+        "SAMe",
+        "SSRI/MAOI"
+      ],
+      "risk": "Serotonin syndrome"
+    },
+    {
+      "members": [
+        "Methylene blue (pharmaceutical grade)",
+        "SSRI/MAOI"
+      ],
+      "risk": "Severe serotonin syndrome"
+    },
+    {
+      "members": [
+        "Saffron (Crocus sativus) high dose",
+        "SSRI/SNRI/MAOI"
+      ],
+      "risk": "Serotonin syndrome at high doses"
+    },
+    {
+      "members": [
+        "Vitamin K2 (MK-7)",
+        "Warfarin"
+      ],
+      "risk": "Direct antagonism of anticoagulation"
+    },
+    {
+      "members": [
+        "Ginkgo biloba / Ginger / high-dose Omega-3 / Curcumin / Nattokinase / Lumbrokinase / Dan Shen / Dong quai / Red sage / White willow / Meadowsweet",
+        "Warfarin / DOAC / aspirin / NSAID"
+      ],
+      "risk": "Additive bleeding"
+    },
+    {
+      "members": [
+        "Berberine",
+        "Insulin / sulfonylurea / other glucose-lowering drugs"
+      ],
+      "risk": "Hypoglycemia"
+    },
+    {
+      "members": [
+        "Berberine",
+        "Statin / cyclosporine"
+      ],
+      "risk": "CYP3A4 inhibition elevates drug levels"
+    },
+    {
+      "members": [
+        "Ashwagandha (KSM-66)",
+        "Thyroid hormone / benzodiazepines / immunosuppressants"
+      ],
+      "risk": "Thyroid disruption, excessive sedation, immune counteraction"
+    },
+    {
+      "members": [
+        "Kava (high-dose/extract)",
+        "Alcohol / acetaminophen / any hepatotoxin"
+      ],
+      "risk": "Liver failure"
+    },
+    {
+      "members": [
+        "Echinacea / Astragalus / Cat's claw / Cycloastragenol",
+        "Immunosuppressants"
+      ],
+      "risk": "Counteracts immunosuppressive therapy (transplant / autoimmune)"
+    },
+    {
+      "members": [
+        "Caffeine",
+        "Synephrine (bitter orange) / Ephedra analogues / Yohimbine / DMAA / DMHA"
+      ],
+      "risk": "Cardiac events, stroke, hypertensive crisis"
+    },
+    {
+      "members": [
+        "Huperzine A",
+        "Donepezil / Rivastigmine / Galantamine"
+      ],
+      "risk": "Additive cholinesterase inhibition"
+    },
+    {
+      "members": [
+        "GHB precursors (1,4-butanediol / GBL)",
+        "Alcohol / benzodiazepines / opioids"
+      ],
+      "risk": "Respiratory depression, coma, death"
+    }
   ]
 }

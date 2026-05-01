@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
+<title>Discover — Surprising Facts From 27,000+ Supplement Studies | SupplementScore</title>
+<meta name="description" content="The fun side of supplement research. Top 10 safest, most dangerous, most overhyped, most underrated, biggest surprises, recalls, and wild facts mined from 733 supplements and 27,000+ peer-reviewed studies.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://supplementscore.org/discover.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://supplementscore.org/discover.html">
+<meta property="og:title" content="Discover — Surprising Facts From 27,000+ Supplement Studies">
+<meta property="og:description" content="Top 10s, recalls, biggest surprises, and wild fun facts from the SupplementScore database.">
+<meta name="theme-color" content="#7B1FA2">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3Crect x='7.1' y='12' width='2.6' height='5.25' rx='.94' fill='white'/%3E%3Crect x='10.7' y='9' width='2.6' height='8.25' rx='.94' fill='white'/%3E%3Crect x='14.25' y='6' width='2.6' height='11.25' rx='.94' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260427a">
+<style>
+/* ============================================================
+   Discover — magazine-style page
+   Uses shared design tokens from styles.css. Self-contained CSS
+   below adds the "fun" layer on top.
+   ============================================================ */
+:root{
+  --dc-accent: #7B1FA2;
+  --dc-accent-soft: rgba(123,31,162,.08);
+  --dc-shadow: 0 1px 2px rgba(15,23,42,.04), 0 4px 14px rgba(15,23,42,.06);
+  --dc-shadow-hover: 0 2px 4px rgba(15,23,42,.06), 0 12px 28px rgba(15,23,42,.10);
+}
+body{ background: var(--color-background-secondary); color: var(--color-text-primary); font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+
+/* (Local nav removed — discover.html now uses the shared site-nav from index.html) */
+
+/* ---------- Hero ---------- */
+.dc-hero{ max-width: 1180px; margin: 0 auto 24px; padding: 18px 24px 28px; text-align: center; position: relative; }
+.dc-hero-eyebrow{ display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #7B1FA2; margin-bottom: 18px; }
+.dc-hero h1{ font-size: clamp(34px, 5.5vw, 56px); font-weight: 700; letter-spacing: -1.4px; line-height: 1.08; margin: 0 0 14px; color: var(--color-text-primary); }
+.dc-hero p{ font-size: 16px; color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 24px; line-height: 1.55; }
+.dc-search{ max-width: 560px; margin: 0 auto; position: relative; }
+.dc-search input{ width: 100%; padding: 13px 60px 13px 44px; font-family: inherit; font-size: 14.5px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); color: var(--color-text-primary); outline: 0; transition: border-color .15s, box-shadow .15s; border-radius: 0; }
+.dc-search input:focus{ border-color: var(--color-text-primary); box-shadow: inset 0 -1px 0 0 var(--color-text-primary); }
+.dc-search input::placeholder{ color: var(--color-text-tertiary); font-style: italic; }
+.dc-search .ico{ position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--color-text-tertiary); pointer-events: none; }
+.dc-search .kbd{ position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10px; color: var(--color-text-tertiary); background: var(--color-background-secondary); padding: 2px 7px; border: 0.5px solid var(--color-border-tertiary); pointer-events: none; }
+@media (max-width: 600px){ .dc-hero{ padding: 14px 18px 20px;} }
+
+/* ---------- TOC: grouped by purpose (Rankings · Cautions · Curiosities) ---------- */
+.dc-toc-wrap{ max-width: 1180px; margin: 8px auto 16px; padding: 24px; border-top: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); }
+.dc-toc{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 32px; }
+.dc-toc-col{ border-left: 0.5px solid var(--color-border-tertiary); padding-left: 18px; }
+.dc-toc-col:first-child{ border-left: 0; padding-left: 0; }
+.dc-toc-col-h{ font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 10px; }
+.dc-toc a{ display: block; font-size: 13.5px; color: var(--color-text-primary); text-decoration: none; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); transition: padding-left .12s ease, color .12s ease; }
+.dc-toc-col a:last-child{ border-bottom: 0; }
+.dc-toc a:hover{ padding-left: 6px; color: var(--dc-accent); }
+@media (max-width: 720px){
+  .dc-toc-wrap{ padding: 14px 16px; }
+  .dc-toc{ grid-template-columns: 1fr; gap: 12px 0; }
+  .dc-toc-col{
+    border-left: 0; padding-left: 0;
+    border-top: 0.5px solid var(--color-border-tertiary); padding-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start;
+  }
+  .dc-toc-col:first-child{ border-top: 0; padding-top: 0; }
+  .dc-toc-col-h{ width: 100%; margin-bottom: 2px; }
+  .dc-toc a{
+    border-bottom: 0;
+    padding: 5px 11px;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 999px;
+    font-size: 12.5px;
+    flex: 0 0 auto;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .dc-toc a:hover{ padding-left: 11px; background: var(--dc-accent-soft); border-color: var(--dc-accent); color: var(--dc-accent); }
+}
+
+/* ---------- Section block ---------- */
+.dc-section{ max-width: 1180px; margin: 0 auto; padding: 48px 24px; scroll-margin-top: 96px; }
+@media (max-width: 600px){ .dc-section{ padding: 36px 18px;} }
+.dc-sec-head{ display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.dc-sec-titlewrap{ flex: 1; min-width: 240px; }
+.dc-sec-title{ font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; margin: 0; color: var(--color-text-primary); display: flex; align-items: center; gap: 14px; flex-wrap: wrap;}
+.dc-sec-title .ico{ display: none; }  /* icons hidden — titles read cleaner solo */
+
+/* === Top-10 list — Option C: name · inline one-liner === */
+.dc-rank-grid{
+  display: flex !important;
+  flex-direction: column;
+  gap: 0 !important;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.dc-rank, .dc-rank.feat{
+  display: flex !important;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 16px !important;
+  border: 0 !important;
+  border-bottom: 0.5px solid var(--color-border-tertiary) !important;
+  border-radius: 0 !important;
+  background: var(--color-background-primary) !important;
+  box-shadow: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: background .12s !important;
+  min-height: 0;
+  text-decoration: none;
+}
+.dc-rank-grid > .dc-rank:last-child{ border-bottom: 0 !important; }
+.dc-rank:hover{ background: rgba(123,31,162,.04) !important; transform: none !important; box-shadow: none !important; }
+
+.dc-rank-num, .dc-rank-num.gold, .dc-rank-num.silver, .dc-rank-num.bronze, .dc-rank-num.plain{
+  position: static !important;
+  width: auto !important; height: auto !important;
+  background: transparent !important;
+  border: 0 !important; border-radius: 0 !important;
+  padding: 0 !important;
+  font-size: 11px; font-weight: 500;
+  color: var(--color-text-tertiary);
+  min-width: 18px; text-align: right;
+  flex-shrink: 0; line-height: 1.6;
+}
+.dc-rank-num.gold{ color: #D97706; font-size: 11px; }
+
+.dc-rank-name{
+  font-size: 13px; font-weight: 700;
+  color: var(--color-text-primary);
+  flex-shrink: 0; line-height: 1.6;
+  letter-spacing: -.1px;
+}
+.dc-rank-name::after{
+  content: " · ";
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+  font-size: 11px;
+}
+.dc-rank-fact{
+  font-size: 12px; color: var(--color-text-secondary);
+  line-height: 1.6;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.dc-rank-meta{ display: none !important; }
+.dc-rank-foot{ display: none !important; }
+
+@media(max-width:600px){
+  .dc-rank, .dc-rank.feat{ padding: 7px 12px !important; gap: 6px; }
+  .dc-rank-fact{ display: none !important; }
+  .dc-rank-name::after{ display: none; }
+}
+.dc-sec-sub{ font-size: 14.5px; color: var(--color-text-secondary); margin-top: 8px; max-width: 620px; line-height: 1.5; }
+.dc-sec-meta{ font-size: 12px; color: var(--color-text-tertiary); padding: 5px 11px; border-radius: 999px; background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); white-space: nowrap; }
+
+/* Section accents — color the icon tile only */
+.s-safe     .ico{ color: #065F56; background: var(--t1bg); }
+.s-danger   .ico{ color: #5C0E0E; background: var(--t4bg); }
+.s-research .ico{ color: #2A4A8E; background: var(--t2bg); }
+.s-overhype .ico{ color: #7A5300; background: var(--t3bg); }
+.s-hidden   .ico{ color: #065F56; background: var(--t1bg); }
+.s-recalls  .ico{ color: #5C0E0E; background: var(--t4bg); }
+.s-never    .ico{ color: #5C0E0E; background: var(--t4bg); }
+.s-surprise .ico{ color: #6B1A8E; background: var(--dc-accent-soft); }
+.s-money    .ico{ color: #7A5300; background: var(--t3bg); }
+.s-wild     .ico{ color: #6B1A8E; background: var(--dc-accent-soft); }
+.s-interact .ico{ color: #5C0E0E; background: var(--t4bg); }
+.s-cochrane .ico{ color: #2A4A8E; background: var(--t2bg); }
+.s-goal     .ico{ color: #6B1A8E; background: var(--dc-accent-soft); }
+.s-preg     .ico{ color: #9D174D; background: rgba(190,24,93,.10); }
+.s-defic    .ico{ color: #2A4A8E; background: var(--t2bg); }
+
+@media (prefers-reduced-motion: reduce){ .dc-tierbar-fill{ animation: none;} }
+.dc-tier{ font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px;}
+.dc-tier.t1{ background: var(--t1bg); color: var(--t1tx);}
+.dc-tier.t2{ background: var(--t2bg); color: var(--t2tx);}
+.dc-tier.t3{ background: var(--t3bg); color: var(--t3tx);}
+.dc-tier.t4{ background: var(--t4bg); color: var(--t4tx);}
+.dc-score-pill{ font-size: 11.5px; font-weight: 700; color: var(--color-text-primary); padding: 3px 9px; border-radius: 999px; background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); font-variant-numeric: tabular-nums;}
+
+
+/* ---------- Surprise / fun-fact tiles ---------- */
+.dc-fact-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.dc-fact{ background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: 14px; padding: 22px 20px; box-shadow: var(--dc-shadow); transition: transform .15s, box-shadow .15s, border-color .15s;}
+.dc-fact:hover{ transform: translateY(-2px); box-shadow: var(--dc-shadow-hover);}
+.dc-fact-num{ font-size: 36px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; color: var(--dc-accent); font-variant-numeric: tabular-nums; margin-bottom: 4px;}
+.dc-fact-num small{ font-size: 16px; font-weight: 700; vertical-align: top; opacity: .8;}
+.dc-fact-title{ font-size: 14px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px; letter-spacing: -.1px;}
+.dc-fact-body{ font-size: 13px; color: var(--color-text-secondary); line-height: 1.5;}
+.dc-fact-foot{ font-size: 11.5px; color: var(--color-text-tertiary); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--color-border-tertiary);}
+
+/* ---------- Recalls grid — Option A (regulator-first cards) ---------- */
+.dc-recalls-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media(max-width:720px){ .dc-recalls-grid{ grid-template-columns: repeat(2,1fr); } }
+@media(max-width:440px){ .dc-recalls-grid{ grid-template-columns: 1fr; } }
+.dc-rc{ background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; }
+.dc-rc-top{ display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.dc-rc-badge{ display: inline-block; font-size: 8.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(185,28,28,.2); color: #B91C1C; background: rgba(185,28,28,.07); white-space: nowrap; }
+.dc-rc-date{ font-size: 9.5px; font-weight: 600; color: var(--color-text-tertiary); letter-spacing: .03em; }
+.dc-rc-title{ font-size: 13px; font-weight: 800; color: var(--color-text-primary); line-height: 1.3; margin-bottom: 7px; }
+.dc-rc-body{ font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.55; flex: 1; margin-bottom: 12px; }
+.dc-rc-stat{ display: flex; align-items: baseline; gap: 6px; padding-top: 10px; border-top: 1px solid var(--color-border-tertiary); }
+.dc-rc-num{ font-size: 22px; font-weight: 800; letter-spacing: -1px; line-height: 1; color: #B91C1C; font-variant-numeric: tabular-nums; }
+.dc-rc-num small{ font-size: 11px; font-weight: 600; opacity: .7; letter-spacing: 0; }
+.dc-rc-lbl{ font-size: 10.5px; color: var(--color-text-tertiary); line-height: 1.3; }
+
+/* ---------- "vs" comparison — Tierbar Twin (matches the .dc-tierbar at top of page) ---------- */
+.dc-vs{ display: flex; flex-direction: column; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 14px; overflow: hidden; margin-top: 6px; }
+.dc-vs-head{ display: grid; grid-template-columns: 1fr 1fr; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+.dc-vs-head > div{ padding: 14px 22px; display: flex; align-items: center; gap: 10px; border-right: 0.5px solid var(--color-border-tertiary); }
+.dc-vs-head > div:last-child{ border-right: 0; }
+.dc-vs-head .tag{ font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; flex-shrink: 0; }
+.dc-vs-head .take .tag{ background: var(--t1bg); color: var(--t1tx); }
+.dc-vs-head .avoid .tag{ background: var(--t4bg); color: var(--t4tx); }
+.dc-vs-head .lab{ font-size: 13.5px; font-weight: 700; color: var(--color-text-primary); }
+.dc-vs-rows{ display: grid; grid-template-columns: 1fr 1fr; }
+.dc-vs-col{ display: flex; flex-direction: column; }
+.dc-vs-col + .dc-vs-col{ border-left: 0.5px solid var(--color-border-tertiary); }
+.dc-vs-row{ display: flex; justify-content: space-between; align-items: baseline; padding: 11px 22px; border-bottom: 0.5px dashed var(--color-border-tertiary); gap: 14px; }
+.dc-vs-row:last-child{ border-bottom: 0; }
+.dc-vs-name{ font-size: 13.5px; font-weight: 600; color: var(--color-text-primary); }
+.dc-vs-meta{ font-size: 12px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.dc-vs-foot{ padding: 14px 22px; background: var(--color-background-secondary); border-top: 0.5px solid var(--color-border-tertiary); display: flex; align-items: flex-start; gap: 14px; font-size: 12.5px; color: var(--color-text-secondary); line-height: 1.55; }
+.dc-vs-foot .lab{ font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dc-accent); flex-shrink: 0; padding-top: 2px; }
+.dc-vs-foot strong{ color: var(--color-text-primary); font-weight: 600; }
+@media (max-width: 720px){
+  .dc-vs-head{ grid-template-columns: 1fr; }
+  .dc-vs-head > div{ border-right: 0; }
+  .dc-vs-head > div:first-child{ border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .dc-vs-rows{ grid-template-columns: 1fr; }
+  .dc-vs-col + .dc-vs-col{ border-left: 0; border-top: 0.5px solid var(--color-border-tertiary); }
+  .dc-vs-row{ padding: 10px 16px; }
+  .dc-vs-head > div{ padding: 12px 16px; }
+  .dc-vs-foot{ padding: 12px 16px; flex-direction: column; gap: 6px; }
+}
+
+/* ---------- Tier-mix / deficiency bar chart ---------- */
+.dc-tierbar{ display: flex; flex-direction: column; gap: 0; padding: 0; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 14px; overflow: hidden; }
+.dc-tierbar-row{ display: grid; grid-template-columns: 130px 1fr 84px; gap: 0 16px; align-items: center; padding: 11px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.dc-tierbar-row:last-child{ border-bottom: none; }
+.dc-tierbar-label{ font-size: 13px; font-weight: 600; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 8px; }
+.dc-tierbar-label .nm{ display: inline; font-size: 11.5px; font-weight: 500; color: var(--color-text-tertiary); }
+.dc-tierbar-dose{ font-size: 11.5px; color: var(--color-text-tertiary); font-weight: 400; white-space: nowrap; }
+.dc-tierbar-track{ height: 10px; background: var(--color-background-secondary); border-radius: 999px; overflow: hidden; min-width: 0; }
+.dc-tierbar-fill{ height: 100%; border-radius: 999px; transform-origin: left center; animation: tierFill 1.4s cubic-bezier(.22,.85,.4,1) both; }
+@keyframes tierFill{ from{ transform: scaleX(0);} to{ transform: scaleX(1);} }
+.dc-tierbar-fill.t1{ background: linear-gradient(90deg, #0D9488, #14B8A6); }
+.dc-tierbar-fill.t2{ background: linear-gradient(90deg, #4B7BE5, #60A5FA); }
+.dc-tierbar-fill.t3{ background: linear-gradient(90deg, #CA8A04, #FBBF24); }
+.dc-tierbar-fill.t4{ background: linear-gradient(90deg, #B91C1C, #EF4444); }
+.dc-tierbar-stat{ display: flex; align-items: baseline; gap: 6px; justify-content: flex-end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dc-tierbar-num{ display: inline; font-size: 13.5px; font-weight: 700; color: var(--color-text-primary); letter-spacing: -.2px; }
+.dc-tierbar-pct{ display: inline; font-size: 11px; font-weight: 600; color: var(--color-text-tertiary); }
+.dc-tierbar-foot{ margin-top: 0; padding: 14px 18px; border-top: 0.5px solid var(--color-border-tertiary); display: flex; align-items: flex-start; gap: 12px; font-size: 12.5px; color: var(--color-text-secondary); line-height: 1.55; background: var(--color-background-secondary); }
+.dc-tierbar-foot strong{ color: var(--color-text-primary); font-weight: 600; }
+.dc-tierbar-foot .lab{ font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dc-accent); flex-shrink: 0; padding-top: 2px; }
+@media (max-width: 600px){
+  .dc-tierbar-row{ grid-template-columns: 92px 1fr 60px; gap: 0 10px; padding: 9px 14px; }
+  .dc-tierbar-dose{ display: none; }
+  .dc-tierbar-label{ font-size: 12px; gap: 6px; }
+  .dc-tierbar-label .nm{ display: none; }
+  .dc-tierbar-num{ font-size: 12px; }
+  .dc-tierbar-pct{ font-size: 10px; }
+  .dc-tierbar-foot{ padding: 12px 14px; font-size: 11.5px; flex-direction: column; gap: 6px; }
+}
+
+/* ---------- By-goal matrix — 3-col compact ---------- */
+.dc-goal-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;}
+@media(max-width:720px){ .dc-goal-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:480px){ .dc-goal-grid{ grid-template-columns: 1fr; } }
+.dc-goal{ background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; overflow: hidden; }
+.dc-goal-h{ font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #7B1FA2; padding: 8px 12px 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.dc-goal-h-ico{ display: none; }
+.dc-goal-h-name{ font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #7B1FA2; }
+.dc-goal-list{ list-style: none; padding: 0; margin: 0; }
+.dc-goal-list li{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: 11.5px; padding: 4px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.dc-goal-list li:last-child{ border-bottom: none; }
+.dc-goal-list li b{ color: var(--color-text-primary); font-weight: 500; }
+.dc-goal-list li span{ color: var(--color-text-tertiary); white-space: nowrap; flex-shrink: 0; font-size: 11px; }
+
+/* ---------- Never-do list — two-column table ---------- */
+.dc-never-grid{ background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 14px; overflow: hidden; }
+.dc-never{ display: grid; grid-template-columns: 2fr 3fr; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.dc-never:last-child{ border-bottom: none; }
+.dc-never:hover{ background: rgba(153,27,27,.03); }
+.dc-never-h{ font-size: 12px; font-weight: 700; color: #7F1D1D; padding: 7px 14px; border-right: 0.5px solid var(--color-border-tertiary); line-height: 1.4; }
+.dc-never-b{ font-size: 11.5px; color: var(--color-text-secondary); padding: 7px 14px; line-height: 1.45; }
+/* Kids callout — strip emoji, left-accent border only */
+.dc-kids-callout{ display: block; padding: 10px 14px; border: 0.5px solid var(--color-border-tertiary); border-left: 3px solid #9B1C1C; border-radius: 8px; background: var(--color-background-secondary); margin-bottom: 14px; }
+.dc-kids-callout .ico{ display: none; }
+.dc-kids-callout-h{ font-size: 12px; font-weight: 700; color: #7F1D1D; margin-bottom: 2px; }
+.dc-kids-callout-b{ font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.45; }
+@media(max-width:600px){
+  .dc-never{ grid-template-columns: 1fr; }
+  .dc-never-h{ border-right: none; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 4px; }
+  .dc-never-b{ padding-top: 4px; }
+}
+
+/* ---------- CTA / footer ---------- */
+.dc-cta{ max-width: 720px; margin: 64px auto 32px; padding: 40px 24px 8px; text-align: center; background: transparent; border: 0; border-top: 0.5px solid var(--color-border-tertiary); border-radius: 0;}
+.dc-cta h3{ font-size: 20px; font-weight: 700; letter-spacing: -.3px; margin: 0 0 10px; color: var(--color-text-primary);}
+.dc-cta p{ color: var(--color-text-secondary); margin: 0 auto 22px; max-width: 56ch; font-size: 14px; line-height: 1.6;}
+.dc-cta-btn{ display: inline-flex; align-items: center; gap: 8px; padding: 4px 0 5px; border-radius: 0; background: transparent; color: var(--color-text-primary); font-weight: 600; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--color-text-primary); box-shadow: none; transition: color .15s, border-bottom-color .15s;}
+.dc-cta-btn:hover{ color: var(--dc-accent); border-bottom-color: var(--dc-accent); transform: none; box-shadow: none;}
+.dc-cta-btn svg{ width: 14px; height: 14px;}
+
+.dc-disclaim{ max-width: 760px; margin: 0 auto; padding: 20px 24px 56px; font-size: 12px; color: var(--color-text-tertiary); line-height: 1.55; text-align: center;}
+.dc-disclaim a{ color: var(--color-text-secondary); text-decoration: underline;}
+
+/* utility */
+.dc-divider{ max-width: 1180px; margin: 0 auto; padding: 0 24px;}
+.dc-divider hr{ border: none; border-top: 1px dashed var(--color-border-tertiary); margin: 0;}
+
+/* Floating back-to-top */
+.dc-up{ position: fixed; right: 22px; bottom: 22px; width: 44px; height: 44px; border-radius: 50%; background: var(--dc-accent); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(123,31,162,.30); opacity: 0; transform: translateY(8px) scale(.92); pointer-events: none; transition: opacity .25s, transform .25s; z-index: 50; will-change: opacity, transform; -webkit-backface-visibility: hidden; backface-visibility: hidden;}
+.dc-up.show{ opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;}
+.dc-up:hover{ background: var(--color-brand-hover, #6B1A8E); }
+/* Disable hover transforms on touch (sticky :hover after tap on iOS causes flicker) */
+@media (hover: none) {
+  .dc-fact:hover{ transform: none; box-shadow: var(--dc-shadow); }
+  .dc-rank:hover{ background: transparent !important; }
+}
+
+/* Kids danger callout (used inside the never section header area) */
+.dc-kids-callout{ display: flex; align-items: center; gap: 18px; background: linear-gradient(135deg, var(--t4bg), var(--color-background-primary)); border: 1px solid var(--t4c); border-left-width: 4px; border-radius: 14px; padding: 18px 22px; margin-bottom: 22px;}
+.dc-kids-callout .ico{ font-size: 32px; line-height: 1; flex-shrink: 0;}
+.dc-kids-callout-h{ font-size: 14.5px; font-weight: 700; color: var(--t4tx); margin-bottom: 3px;}
+.dc-kids-callout-b{ font-size: 13px; color: var(--color-text-secondary); line-height: 1.5;}
+@media (max-width: 600px){ .dc-kids-callout{ padding: 14px 16px;} .dc-kids-callout .ico{ font-size: 26px;} }
+
+.dc-sec-meta{ display: none !important; }
+
+</style>
+</head>
+<body>
+<a href="#dc-hero" class="skip-link">Skip to main content</a>
+<noscript><div class="noscript-msg" role="alert">This page is best viewed with JavaScript enabled.</div></noscript>
+
+<!-- Site banner — mirrors index.html so navigation stays consistent -->
+<div class="beta-bar" role="status" aria-live="polite">
+  <span class="beta-bar-pulse" aria-hidden="true"></span>
+  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-sep" aria-hidden="true">·</span>
+  <span class="beta-bar-tag">Actively refining for accuracy</span>
+</div>
+
+<!-- Primary nav — same shape as index.html, Discover marked active.
+     Non-Discover tabs deep-link to index.html with a hash so the right view loads. -->
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-inner">
+    <div class="site-nav-tabs">
+      <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab active" href="discover.html" aria-current="page" style="text-decoration:none">Discover</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
+      <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">Profile</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="dc-hero" id="dc-hero">
+  <div class="dc-hero-eyebrow">The fun side of the database</div>
+  <h1>733 supplements.<br>27,000+ studies.<br>A few wild surprises.</h1>
+  <p>The dense reviews live in the Index. This page is the highlight reel — the safest, the scariest, the most overhyped, and the facts that didn't fit anywhere else.</p>
+
+</section>
+
+<!-- TOC: grouped by purpose (Rankings · Cautions · Curiosities) -->
+<div class="dc-toc-wrap"><nav class="dc-toc" aria-label="Sections">
+  <div class="dc-toc-col">
+    <div class="dc-toc-col-h">Rankings</div>
+    <a href="#tier-mix">Full tier breakdown</a>
+    <a href="#safest">Safest</a>
+    <a href="#researched">Most researched</a>
+    <a href="#by-goal">By health goal</a>
+    <a href="#money">Price vs. performance</a>
+  </div>
+  <div class="dc-toc-col">
+    <div class="dc-toc-col-h">Cautions</div>
+    <a href="#dangerous">Highest risk</a>
+    <a href="#never">Never do this</a>
+    <a href="#recalls">Recalls</a>
+    <a href="#pregnancy">Pregnancy safety</a>
+    <a href="#interact">Drug interactions</a>
+  </div>
+  <div class="dc-toc-col">
+    <div class="dc-toc-col-h">Curiosities</div>
+    <a href="#overhyped">Overhyped</a>
+    <a href="#hidden">Hidden gems</a>
+    <a href="#surprises">Counterintuitive findings</a>
+    <a href="#deficiency">Deficiency map</a>
+    <a href="#wild">Strange but true</a>
+  </div>
+</nav></div>
+
+<!-- ============================================================
+     1. Tier mix overview
+     ============================================================ -->
+<section class="dc-section s-research" id="tier-mix">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M7 21V13"/><path d="M12 21V8"/><path d="M17 21V4"/></svg></span>Only 4% hold up under strong evidence</h2>
+      <div class="dc-sec-sub">Of <b>733 supplements</b> catalogued, just <b>29</b> earn a Tier 1 rating from gold-standard trials. Another <b>12%</b> are flagged risky or avoid — leaving the remaining <b>84%</b> in the messy "promising" or "trending" middle.</div>
+    </div>
+    <span class="dc-sec-meta">n = 733</span>
+  </div>
+  <div class="dc-tierbar">
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label"><span class="dc-tier t1">Tier 1</span><span class="nm">Strong</span></div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t1" style="width:4%"></div></div>
+      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">29</div><div class="dc-tierbar-pct">4.0%</div></div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label"><span class="dc-tier t2">Tier 2</span><span class="nm">Promising</span></div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t2" style="width:40.7%"></div></div>
+      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">298</div><div class="dc-tierbar-pct">40.7%</div></div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label"><span class="dc-tier t3">Tier 3</span><span class="nm">Trending</span></div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:43.2%"></div></div>
+      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">317</div><div class="dc-tierbar-pct">43.2%</div></div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label"><span class="dc-tier t4">Tier 4</span><span class="nm">Avoid</span></div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:12.1%"></div></div>
+      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">89</div><div class="dc-tierbar-pct">12.1%</div></div>
+    </div>
+    <div class="dc-tierbar-foot">
+      <span class="lab">Takeaway</span>
+      <span>Pick 100 random supplements off any shelf and roughly <strong>4 will have strong evidence</strong>, <strong>12 will be actively risky</strong>, and the other 84 land somewhere on the spectrum from "promising in some populations" to "trending without proof."</span>
+    </div>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     2. Safest
+     ============================================================ -->
+<section class="dc-section s-safe" id="safest">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg></span>Top 10 safest supplements</h2>
+      <div class="dc-sec-sub">These are the ones you can hand a stranger without a second thought. Wide therapeutic windows, clean tox profiles, and decades of human data.</div>
+    </div>
+    <span class="dc-sec-meta">Sorted by composite score</span>
+  </div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank feat">
+      <div class="dc-rank-num gold">1</div>
+      <div class="dc-rank-name">Oral rehydration salts (WHO formula)</div>
+      <div class="dc-rank-meta">Score 100/100 · the only perfect score in the database</div>
+      <div class="dc-rank-fact">UNICEF and WHO call it the most cost-effective intervention in modern medicine. Cents per serving, decades of trial data, and no meaningful toxicity at intended doses.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">100/100</span><span class="dc-score-pill">Safety 5/5</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num silver">2</div>
+      <div class="dc-rank-name">Electrolyte replacement (clinical)</div>
+      <div class="dc-rank-fact">Hospital-grade electrolyte mix. Same evidence base as ORS, formulated for adults instead of pediatric dehydration.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">98</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num bronze">3</div>
+      <div class="dc-rank-name">Creatine monohydrate</div>
+      <div class="dc-rank-fact">500+ trials. ISSN's 2017 position stand: safe in healthy adults at 3–5 g/day. New 2024–25 reviews extend the safety record to older adults and teen athletes.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">96</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">4</div>
+      <div class="dc-rank-name">Psyllium husk (soluble fibre)</div>
+      <div class="dc-rank-fact">Cochrane review of 28 RCTs and one of only ~12 supplements with an authorized FDA health claim — for coronary heart disease at 7 g/day.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">94</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">5</div>
+      <div class="dc-rank-name">Oat beta-glucan</div>
+      <div class="dc-rank-fact">Cochrane meta-analysis: 58 RCTs, N=3,974, LDL cholesterol down 5–10% at 3 g/day. Also FDA-approved cholesterol claim.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">94</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">6</div>
+      <div class="dc-rank-name">Protein supplementation (sarcopenia)</div>
+      <div class="dc-rank-fact">PROT-AGE consensus: older adults need 1.2–1.6 g/kg/day — roughly double the dietary RDA — to preserve muscle.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">92</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">7</div>
+      <div class="dc-rank-name">Lactase enzyme</div>
+      <div class="dc-rank-fact">Cochrane-confirmed for lactose intolerance. Acts only in the gut, doesn't enter the bloodstream — virtually no downside.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">90</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">8</div>
+      <div class="dc-rank-name">Vitamin B1 (Thiamine, clinical)</div>
+      <div class="dc-rank-fact">Life-saving in alcohol-use disorder and refeeding syndrome. Therapeutic doses are 100–500 mg/day with no documented chronic toxicity.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">88</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">9</div>
+      <div class="dc-rank-name">L-Leucine (standalone)</div>
+      <div class="dc-rank-fact">2.5–3 g triggers muscle protein synthesis via mTOR. The "leucine threshold" matters more than total protein at any single meal.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">88</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">10</div>
+      <div class="dc-rank-name">Melatonin (0.1–0.5 mg, physiological)</div>
+      <div class="dc-rank-fact">Matches natural nighttime peaks (50–200 pg/mL) without next-day grogginess. Most retail products are 10–30× higher than they need to be.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div>
+    </article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     3. Most dangerous
+     ============================================================ -->
+<section class="dc-section s-danger" id="dangerous">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.86 3h8.28L21 7.86v8.28L16.14 21H7.86L3 16.14V7.86z"/><path d="M12 8v5"/><path d="M12 16.5h.01" stroke-width="2"/></svg></span>Top 10 most dangerous</h2>
+      <div class="dc-sec-sub">These have documented liver failure, kidney damage, cancer, or deaths. Several are still legally sold in the U.S.</div>
+    </div>
+    <span class="dc-sec-meta">All scored ≤ 26/100</span>
+  </div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank feat">
+      <div class="dc-rank-num gold">1</div>
+      <div class="dc-rank-name">Greater celandine (Chelidonium majus)</div>
+      <div class="dc-rank-meta">Score 22/100 — the lowest in the entire database</div>
+      <div class="dc-rank-fact">More than 50 documented hepatitis cases including transplants. Germany's BfArM withdrew authorization in 2008 after a formal benefit–risk review.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">22/100</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num silver">2</div>
+      <div class="dc-rank-name">Aristolochic acid</div>
+      <div class="dc-rank-fact">IARC Group 1 human carcinogen. Causes "Chinese herb nephropathy" — irreversible kidney failure and upper urinary-tract cancer at low cumulative doses.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num bronze">3</div>
+      <div class="dc-rank-name">Usnic acid</div>
+      <div class="dc-rank-fact">Acute liver failure, multiple transplants, at least one death traced to the LipoKinetix recall. FDA warning since 2001 — still appears in fat burners.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">4</div>
+      <div class="dc-rank-name">Calomel (mercurous chloride)</div>
+      <div class="dc-rank-fact">A mercury compound, banned from OTC drugs by the FDA. Irreversible kidney and central nervous system damage. Still surfaces in "detox" products online.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">5</div>
+      <div class="dc-rank-name">Comfrey (oral)</div>
+      <div class="dc-rank-fact">Pyrrolizidine alkaloids cause hepatic veno-occlusive disease. FDA, EMA, and the Australian TGA advise against any oral use. Topical only.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">6</div>
+      <div class="dc-rank-name">Cesium chloride</div>
+      <div class="dc-rank-fact">Marketed as an alkaline "cancer cure." Multiple deaths from torsades de pointes (fatal arrhythmia). FDA issued a formal compounding warning in 2018.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">7</div>
+      <div class="dc-rank-name">Germander</div>
+      <div class="dc-rank-fact">Banned in France since 1992 after at least 26 reported cases of liver injury, including one death linked to a popular slimming product.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">8</div>
+      <div class="dc-rank-name">Chaparral (Larrea tridentata)</div>
+      <div class="dc-rank-fact">FDA's Special Nutritional Adverse Event Monitoring System has logged hepatitis, fulminant liver failure, and at least one death tied to chaparral teas.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">9</div>
+      <div class="dc-rank-name">Pennyroyal oil</div>
+      <div class="dc-rank-fact">Pulegone is a potent hepatotoxin. Fatalities documented from as little as 10 mL ingested as a "natural abortifacient." It is neither.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">26</span></div>
+    </article>
+    <article class="dc-rank">
+      <div class="dc-rank-num plain">10</div>
+      <div class="dc-rank-name">Amanita muscaria</div>
+      <div class="dc-rank-fact">Sold as TikTok "microdose" gummies. Muscimol and ibotenic acid produce delirium, seizures, and coma at higher doses — outcomes are unpredictable batch-to-batch.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">26</span></div>
+    </article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     4. Most researched
+     ============================================================ -->
+<section class="dc-section s-research" id="researched">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 21h12"/><path d="M9 21v-3"/><path d="M9 18h6"/><circle cx="14" cy="10" r="3.5"/><path d="M11 7.5l-3-3"/><path d="M9.5 6L7 3.5"/><path d="M11 4.5L8.5 7"/></svg></span>The most-studied supplements on Earth</h2>
+      <div class="dc-sec-sub">If a supplement has hundreds of human trials, you can stop guessing. These are the ones we know the most about — for better or worse.</div>
+    </div>
+    <span class="dc-sec-meta">Top 10 by research score</span>
+  </div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank"><div class="dc-rank-num gold">1</div><div class="dc-rank-name">Creatine monohydrate</div><div class="dc-rank-fact">500+ studies and counting. Safe across age groups; effective for strength, recovery, and (per new meta-analyses) cognition.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Omega-3 (EPA/DHA)</div><div class="dc-rank-fact">Meta-analyses pool 40,000+ people. REDUCE-IT showed 25% drop in cardiac events at high-dose EPA.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Vitamin D3</div><div class="dc-rank-fact">Hundreds of trials. The most-tested fat-soluble vitamin in modern medicine.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Caffeine (standardised)</div><div class="dc-rank-fact">The most-studied ergogenic aid in sports science, period.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Psyllium husk</div><div class="dc-rank-fact">Article #92 on this site is literally called "Psyllium Husk, 420 Clinical Trials, an FDA Health Claim."</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Oat beta-glucan</div><div class="dc-rank-fact">Cochrane meta-analysis of 58 RCTs (N=3,974). LDL drops 5–10%.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Zinc</div><div class="dc-rank-fact">2024 Cochrane review pooled 34 trials and 8,500+ people for cold/immune outcomes.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Melatonin</div><div class="dc-rank-fact">Hundreds of trials across sleep, jet lag, ICU delirium, even chemo-supportive care.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Oral rehydration salts</div><div class="dc-rank-fact">Decades of WHO data. Possibly the most-studied formulation in any pharmacy.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Whey protein</div><div class="dc-rank-fact">The most-trialled protein source in sports nutrition, with strong sarcopenia evidence too.</div></article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     5. Most overhyped
+     ============================================================ -->
+<section class="dc-section s-overhype" id="overhyped">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11v2l13 6V5L3 11z"/><path d="M16 8a4 4 0 0 1 0 8"/><path d="M5 13.5V17a2 2 0 0 0 4 0v-2"/></svg></span>Most overhyped of 2026</h2>
+      <div class="dc-sec-sub">Marketing-driven supplements with efficacy scores of 1 or 2 out of 5. Some have <i>zero</i> human trials. The TikTok-to-evidence ratio is wild.</div>
+    </div>
+    <span class="dc-sec-meta">Efficacy ≤ 2/5</span>
+  </div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank feat">
+      <div class="dc-rank-num gold">1</div>
+      <div class="dc-rank-name">Sea moss (Irish moss)</div>
+      <div class="dc-rank-meta">Efficacy 1/5 — the lowest possible</div>
+      <div class="dc-rank-fact">Zero clinical trials in humans for any of the wellness claims. Independent testing has found iodine content as high as 47 mg per gram — over 300× the adult RDA — plus regular heavy-metal contamination.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span><span class="dc-score-pill">Efficacy 1/5</span></div>
+    </article>
+    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Turkesterone / Ecdysteroids</div><div class="dc-rank-fact">Two RCTs in 2024–25 (Smith and Wilborn groups) found <b>no</b> effect on muscle mass, strength, or body fat at typical doses. The TikTok "natural anabolic" doesn't anabolize.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Fadogia agrestis</div><div class="dc-rank-fact">Zero human trials. Animal studies actually flagged testicular toxicity at the doses being recommended online.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Shilajit (Mumie)</div><div class="dc-rank-fact">A 2023 Indian government test of 73 retail samples found ~40% exceeded permissible limits for lead, arsenic, or mercury.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Tongkat ali</div><div class="dc-rank-fact">2024 RCT in healthy adult men (n=109): no measurable change in testosterone, libido, or strength versus placebo.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">NMN / NAD+ precursors</div><div class="dc-rank-fact">NMN reliably raises blood NAD+ 2–4×. But the 2025 Prokopidis meta-analysis (J Cachexia Sarcopenia Muscle) found <b>no</b> functional gains — strength, walking speed, body comp — in older adults.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Spermidine</div><div class="dc-rank-fact">The entire human longevity evidence base is a single 60-person pilot. Marketed as autophagy insurance anyway.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Urolithin A</div><div class="dc-rank-fact">One published 2024 trial. ~$60/month for proprietary "Mitopure." Premium pricing on preliminary evidence.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Lion's mane mushroom</div><div class="dc-rank-fact">2025 acute crossover RCT in young adults: no cognitive or mood benefit on standardised tests despite plausible animal data.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Apigenin</div><div class="dc-rank-fact">Popularised by longevity influencers at 50–100 mg/day. Most human trials use far lower flavonoid intakes — the dose-response isn't characterised.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     6. Hidden gems
+     ============================================================ -->
+<section class="dc-section s-hidden" id="hidden">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/><path d="M9 3l3 5 3-5"/><path d="M9 8l3 13 3-13"/></svg></span>Hidden gems no one markets</h2>
+      <div class="dc-sec-sub">High-evidence supplements that almost nobody Instagrams about. Most cost less than your morning coffee per month.</div>
+    </div>
+    <span class="dc-sec-meta">Strong evidence, low buzz</span>
+  </div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank feat">
+      <div class="dc-rank-num gold">1</div>
+      <div class="dc-rank-name">Oral rehydration salts</div>
+      <div class="dc-rank-meta">100/100 · cents per serving</div>
+      <div class="dc-rank-fact">If a pharma company invented this today they'd charge $40 a bottle. Nobody markets it because nobody owns it.</div>
+      <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">100/100</span></div>
+    </article>
+    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Riboflavin (Vitamin B2) — 400 mg/day</div><div class="dc-rank-fact">Cochrane: prevents about 2 migraine days per month. Costs pennies. Most migraine sufferers have never heard of it.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Melatonin (0.1–0.5 mg)</div><div class="dc-rank-fact">The micro-dose. Quietly outperforms the 5–10 mg "knockout" gummies most retailers sell.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Sodium bicarbonate (sports)</div><div class="dc-rank-fact">Possibly the cheapest legal ergogenic in existence. Lifters and rowers who use it gain real anaerobic capacity.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">84</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">L-Carnitine</div><div class="dc-rank-fact">40 years of cardiac and fertility data. Almost never advertised because it's off-patent.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">80</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Glycine (3 g pre-bed)</div><div class="dc-rank-fact">Improves measurable sleep quality. Tastes mildly sweet. Costs almost nothing.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">78</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Niacinamide (3,000 mg/day)</div><div class="dc-rank-fact">Matches NSAIDs for knee osteoarthritis pain — and beats glucosamine head-to-head.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">74</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Lactoferrin</div><div class="dc-rank-fact">Raises haemoglobin similarly to ferrous sulphate, with virtually none of the GI upset.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">70</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Boswellia serrata</div><div class="dc-rank-fact">Topped a 2025 network meta-analysis of supplements for knee OA — beating glucosamine and chondroitin.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Calcium alpha-ketoglutarate (Ca-AKG)</div><div class="dc-rank-fact">Serum AKG drops 10× from age 30 to 80. Quietly one of the most interesting longevity compounds.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">63</span></div></article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     6b. By goal — what to take for what
+     ============================================================ -->
+<section class="dc-section s-goal" id="by-goal">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></span>By goal: what to actually take</h2>
+      <div class="dc-sec-sub">Cherry-picked top picks for six common goals. Tier 1 / 2 only — no trending wishful thinking.</div>
+    </div>
+    <span class="dc-sec-meta">Evidence-led shortlists</span>
+  </div>
+  <div class="dc-goal-grid">
+    <article class="dc-goal">
+      <div class="dc-goal-h">Sleep</div>
+      <ul class="dc-goal-list">
+        <li><b>Magnesium glycinate</b><span>200–400 mg</span></li>
+        <li><b>Glycine</b><span>3 g pre-bed</span></li>
+        <li><b>Melatonin</b><span>0.1–0.5 mg</span></li>
+        <li><b>L-Theanine</b><span>200 mg</span></li>
+      </ul>
+    </article>
+    <article class="dc-goal">
+      <div class="dc-goal-h">Focus</div>
+      <ul class="dc-goal-list">
+        <li><b>Caffeine + L-Theanine</b><span>100/200 mg</span></li>
+        <li><b>Creatine monohydrate</b><span>3–5 g</span></li>
+        <li><b>Omega-3 (EPA/DHA)</b><span>1–2 g</span></li>
+        <li><b>Rhodiola rosea</b><span>200–600 mg</span></li>
+      </ul>
+    </article>
+    <article class="dc-goal">
+      <div class="dc-goal-h">Strength</div>
+      <ul class="dc-goal-list">
+        <li><b>Creatine monohydrate</b><span>3–5 g daily</span></li>
+        <li><b>Whey + L-Leucine</b><span>20–40 g + 2.5 g</span></li>
+        <li><b>Beta-Alanine</b><span>3.2–6.4 g</span></li>
+        <li><b>Sodium bicarbonate</b><span>0.3 g/kg pre-event</span></li>
+      </ul>
+    </article>
+    <article class="dc-goal">
+      <div class="dc-goal-h">Heart</div>
+      <ul class="dc-goal-list">
+        <li><b>EPA (high-dose)</b><span>2–4 g</span></li>
+        <li><b>Psyllium husk</b><span>7 g (FDA claim)</span></li>
+        <li><b>Oat beta-glucan</b><span>3 g</span></li>
+        <li><b>CoQ10 / K2 (MK-7)</b><span>100–300 mg / 90–180 µg</span></li>
+      </ul>
+    </article>
+    <article class="dc-goal">
+      <div class="dc-goal-h">Immunity</div>
+      <ul class="dc-goal-list">
+        <li><b>Zinc lozenges</b><span>13–24 mg at onset</span></li>
+        <li><b>Vitamin D3</b><span>1,000–4,000 IU</span></li>
+        <li><b>Cranberry (UTI)</b><span>500 mg PAC</span></li>
+        <li><b>L. rhamnosus GG</b><span>10 billion CFU</span></li>
+      </ul>
+    </article>
+    <article class="dc-goal">
+      <div class="dc-goal-h">Healthy aging</div>
+      <ul class="dc-goal-list">
+        <li><b>Protein (sarcopenia)</b><span>1.2–1.6 g/kg</span></li>
+        <li><b>Creatine</b><span>3–5 g</span></li>
+        <li><b>Vitamin D3</b><span>1,000–2,000 IU</span></li>
+        <li><b>Riboflavin (migraines)</b><span>400 mg</span></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     7. Recalls / FDA warnings
+     ============================================================ -->
+<section class="dc-section s-recalls" id="recalls">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 7H4c0-1 2-2 2-7z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span>Recent recalls &amp; FDA warnings</h2>
+      <div class="dc-sec-sub">A roll-call of products the FDA, EFSA, WHO, or national regulators have flagged. Several are still legally on shelves through loopholes.</div>
+    </div>
+  </div>
+  <div class="dc-recalls-grid">
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2004</span></div>
+      <div class="dc-rc-title">Ephedra deaths before the ban</div>
+      <div class="dc-rc-body">FDA pulled ephedra after documented deaths. Bitter-orange synephrine and its analogues moved into the space within months.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">155</span><span class="dc-rc-lbl">documented deaths</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">ongoing</span></div>
+      <div class="dc-rc-title">Kratom-linked deaths in FDA review</div>
+      <div class="dc-rc-body">Mitragyna speciosa still sold in head shops and gas stations. Multiple federal ban attempts have stalled. Activates opioid receptors.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">36</span><span class="dc-rc-lbl">deaths in FDA review</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">EFSA</span><span class="dc-rc-date">2018</span></div>
+      <div class="dc-rc-title">Green-tea extract hepatotoxic threshold</div>
+      <div class="dc-rc-body">EFSA flagged doses ≥ 800 mg EGCG/day as liver-toxic. Now the leading herbal cause of drug-induced liver injury in the U.S. registry.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">800 <small>mg</small></span><span class="dc-rc-lbl">EGCG/day threshold</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2020</span></div>
+      <div class="dc-rc-title">Vinpocetine — ruled a drug, not a supplement</div>
+      <div class="dc-rc-body">FDA's 2020 final guidance: vinpocetine is a drug — not safe in pregnancy. Still sold openly under "nootropic" labels.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">2020</span><span class="dc-rc-lbl">final FDA guidance</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">Case reports</span><span class="dc-rc-date">2023–24</span></div>
+      <div class="dc-rc-title">Melanoma cases linked to Melanotan II</div>
+      <div class="dc-rc-body">Rapid-growth melanomas documented in users of injected "tanning peptides." Sold through gym black markets and online.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">3</span><span class="dc-rc-lbl">published melanoma cases</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2013</span></div>
+      <div class="dc-rc-title">DMAA banned from pre-workouts</div>
+      <div class="dc-rc-body">Banned after deaths and cardiac events. Analogues like DMHA, octodrine, and 2-aminoisoheptane keep reappearing under new names.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">2013</span><span class="dc-rc-lbl">ban enacted</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">enforcement</span></div>
+      <div class="dc-rc-title">Colloidal silver — permanent disfigurement</div>
+      <div class="dc-rc-body">No safe or effective use. Argyria — permanent blue-grey skin discolouration — has no treatment. Silver granules deposited in the dermis.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">∞</span><span class="dc-rc-lbl">irreversible</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">Clinical</span><span class="dc-rc-date">ongoing</span></div>
+      <div class="dc-rc-title">Phenibut: dependence in days, not weeks</div>
+      <div class="dc-rc-body">Daily use causes physical dependence in as few as 3–5 days. Withdrawal includes anxiety, insomnia, and seizures. Not approved in the U.S. or EU.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">3–5 <small>days</small></span><span class="dc-rc-lbl">dependence window</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">State actions</span><span class="dc-rc-date">ongoing</span></div>
+      <div class="dc-rc-title">Tianeptine — "Gas station heroin"</div>
+      <div class="dc-rc-body">An atypical antidepressant sold in supplement packaging. Banned in 11 states by 2024 after overdose clusters. Opioid-like withdrawal.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">11</span><span class="dc-rc-lbl">U.S. states banned it</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">BfArM</span><span class="dc-rc-date">2008</span></div>
+      <div class="dc-rc-title">Greater celandine pulled in Germany</div>
+      <div class="dc-rc-body">Authorization withdrawn after benefit–risk review of liver-injury cases. Still legal in many other markets — including the U.S.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">2008</span><span class="dc-rc-lbl">authorization withdrawn</span></div>
+    </article>
+
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     8. Things never to do
+     ============================================================ -->
+<section class="dc-section s-never" id="never">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span>Things you should literally never do</h2>
+      <div class="dc-sec-sub">Dangerous combinations, mega-doses, and the pediatric ER's greatest hits. Print this and put it on the fridge.</div>
+    </div>
+  </div>
+  <div class="dc-kids-callout" role="note">
+    <div class="dc-kids-callout-h">Kids' supplements are not low-stakes</div>
+    <div class="dc-kids-callout-b">Pediatric melatonin ER visits rose 530% from 2012–2021 (CDC/AAP). Iron remains the #1 cause of pediatric supplement-related death — a single adult-strength tablet can kill a toddler. Lock every bottle.</div>
+  </div>
+  <div class="dc-never-grid">
+    <div class="dc-never">
+      <div class="dc-never-h">Iron + a curious toddler</div>
+      <div class="dc-never-b">A single adult-strength iron tablet can kill a child under 6. Iron is the leading cause of pediatric supplement death. Always child-proof.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Pediatric melatonin gummies, casually</div>
+      <div class="dc-never-b">Pediatric melatonin ER visits are <b>up 530%</b> (2012–21). The candy form is the problem; gummy doses vary 30–80% from label.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">St. John's Wort + an SSRI / SNRI</div>
+      <div class="dc-never-b">Risk of fatal serotonin syndrome. Same goes for 5-HTP + an MAOI.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">St. John's Wort + warfarin / OCP / chemo / HIV meds</div>
+      <div class="dc-never-b">It's a powerful CYP3A4 inducer. It can wipe drug levels low enough to fail therapy.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Kava extract + alcohol or acetaminophen</div>
+      <div class="dc-never-b">The solvent-extracted form is already hepatotoxic. Stacking is asking for a transplant.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Vitamin K2 + warfarin</div>
+      <div class="dc-never-b">Direct antagonism. Never combine without anticoagulation-clinic supervision.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Vitamin E ≥ 400 IU/day, chronically</div>
+      <div class="dc-never-b">Cochrane meta-analyses linked chronic high-dose E to <b>increased</b> all-cause mortality.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Vitamin A &gt; 10,000 IU/day</div>
+      <div class="dc-never-b">Liver damage and severe birth defects (NIH). Especially dangerous in pregnancy.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Berberine on top of metformin / insulin</div>
+      <div class="dc-never-b">Additive hypoglycemia. Berberine + statins also raises statin toxicity risk.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">DMAA / DMHA "shred" pre-workouts</div>
+      <div class="dc-never-b">Heart attacks, seizures, BP spikes. They keep getting rebranded.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Yohimbe at fat-burner doses</div>
+      <div class="dc-never-b">ER admissions for arrhythmia and panic attacks. Wide variability between products.</div>
+    </div>
+    <div class="dc-never">
+      <div class="dc-never-h">Anything labelled "research chemical"</div>
+      <div class="dc-never-b">SARMs, tianeptine, phenibut. They're unapproved drugs in supplement clothing.</div>
+    </div>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     8b. Pregnancy: take vs avoid
+     ============================================================ -->
+<section class="dc-section s-preg" id="pregnancy">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 16.5 12 21 12 21z"/><path d="M12 14v-3"/><path d="M10.5 12.5h3"/></svg></span>Pregnancy: take vs avoid</h2>
+      <div class="dc-sec-sub">An at-a-glance reference. Always confirm with your obstetrician — but these are the consistent ACOG / NIH / WHO positions on what's worth taking and what to skip.</div>
+    </div>
+    <span class="dc-sec-meta">Educational, not a prescription</span>
+  </div>
+  <div class="dc-vs">
+    <div class="dc-vs-head">
+      <div class="take"><span class="tag">Take</span><span class="lab">Essentials (with clinician sign-off)</span></div>
+      <div class="avoid"><span class="tag">Avoid</span><span class="lab">Hard nos</span></div>
+    </div>
+    <div class="dc-vs-rows">
+      <div class="dc-vs-col">
+        <div class="dc-vs-row"><span class="dc-vs-name">Folate (5-MTHF)</span><span class="dc-vs-meta">600–800 µg</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Choline</span><span class="dc-vs-meta">450 mg/day (AI)</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">DHA (algal or fish)</span><span class="dc-vs-meta">200–300 mg</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Vitamin D3</span><span class="dc-vs-meta">1,000–2,000 IU</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Iron (if deficient)</span><span class="dc-vs-meta">27 mg (RDA)</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Iodine (in prenatal)</span><span class="dc-vs-meta">150 µg</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Prenatal multi (ACOG)</span><span class="dc-vs-meta">once daily</span></div>
+      </div>
+      <div class="dc-vs-col">
+        <div class="dc-vs-row"><span class="dc-vs-name">Vitamin A retinol</span><span class="dc-vs-meta">&gt; 10,000 IU/day</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Kava (any form)</span><span class="dc-vs-meta">liver risk</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">St. John's Wort</span><span class="dc-vs-meta">CYP3A4 induction</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Green tea extract (high)</span><span class="dc-vs-meta">folate antagonist</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Ashwagandha</span><span class="dc-vs-meta">abortifacient (theoretical)</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Saw palmetto / Pygeum</span><span class="dc-vs-meta">hormonal</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Comfrey / coltsfoot</span><span class="dc-vs-meta">PA toxicity</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Kratom, phenibut, tianeptine</span><span class="dc-vs-meta">unapproved</span></div>
+      </div>
+    </div>
+    <div class="dc-vs-foot">
+      <span class="lab">Takeaway</span>
+      <span><strong>Take five, avoid eight.</strong> Folate, choline, DHA, D3 and iodine cover almost every "what should I take" question prenatally. The avoid list is mostly liver toxicity, CYP-enzyme induction, and fetal hormone interference — not a "natural ≠ safe" lecture.</span>
+    </div>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     9. Biggest surprises
+     ============================================================ -->
+<section class="dc-section s-surprise" id="surprises">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.7 1.5 2.7v.4h4v-.4c0-1 .6-2 1.5-2.7A6 6 0 0 0 12 3z"/><path d="M10 19h4"/><path d="M11 22h2"/></svg></span>The biggest surprises in 27,000 studies</h2>
+      <div class="dc-sec-sub">Findings that flip "common knowledge" on its head. The trial data didn't read the marketing copy.</div>
+    </div>
+  </div>
+  <div class="dc-fact-grid">
+    <article class="dc-fact"><div class="dc-fact-num">0.3<small> mg</small></div><div class="dc-fact-title">Often beats 10 mg melatonin</div><div class="dc-fact-body">Zhdanova's MIT studies found 0.1–0.3 mg matches natural pineal peaks (≈ 60 pg/mL). Higher retail doses overshoot and cause next-day grogginess and tolerance.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">2024</div><div class="dc-fact-title">Cochrane reviews killed saw palmetto</div><div class="dc-fact-body">Tacklind's Cochrane reviews (2002, 2009, 2012, 2024 update) all conclude: no better than placebo for BPH symptoms. The supplement aisle hasn't caught up.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">3,000<small> mg</small></div><div class="dc-fact-title">Niacinamide ≈ NSAIDs for knee OA</div><div class="dc-fact-body">Jonas 1996: 3,000 mg/day matched NSAIDs for pain and reduced joint inflammation markers. It also outperforms glucosamine head-to-head — at a fraction of the price.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">2024</div><div class="dc-fact-title">D-mannose for UTIs collapsed</div><div class="dc-fact-body">The MERIT trial (BMJ 2024, n=598) found D-mannose no better than placebo at preventing recurrent UTIs. A decade of confident recommendations, reversed.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">27%</div><div class="dc-fact-title">Cranberry actually works for UTIs</div><div class="dc-fact-body">2024 Cochrane review: 50 trials, 8,857 people, 27% relative-risk reduction in recurrent UTIs. The "myth" turned out to be true.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">~1%</div><div class="dc-fact-title">Resveratrol's oral bioavailability</div><div class="dc-fact-body">A decade of failed promises in one number: ~1% reaches the bloodstream intact. Most of an oral dose is glucuronidated by the gut wall before it ever circulates.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">2–4×</div><div class="dc-fact-title">NMN raises NAD+ — but not function</div><div class="dc-fact-body">NMN reliably raises blood NAD+ 2–4×. The 2025 Prokopidis meta-analysis (J Cachexia Sarcopenia Muscle): no functional gains — strength, walking speed, body composition — in older adults.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">0.88<small> kg</small></div><div class="dc-fact-title">Garcinia cambogia's "weight loss"</div><div class="dc-fact-body">Onakpoya 2011 meta-analysis: 0.88 kg more weight loss than placebo over 12 weeks. The authors' verdict: "clinically insignificant."</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">2020</div><div class="dc-fact-title">Echinacea Cochrane review was retired</div><div class="dc-fact-body">The 2014 Karsch-Völk review was withdrawn in 2020 due to outdated methodology, with no replacement. The evidence base quietly vanished.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">↑</div><div class="dc-fact-title">Elderberry may <i>extend</i> flu in kids</div><div class="dc-fact-body">Macknin 2020 RCT (J Gen Intern Med, n=87) found a non-significant trend toward <i>longer</i> illness in pediatric flu — the opposite of marketing claims.</div></article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     10. Expensive vs cheap
+     ============================================================ -->
+<section class="dc-section s-money" id="money">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.5 9.5a2.5 2.5 0 0 0-5 0c0 1.5 1 2 2.5 2.5s2.5 1 2.5 2.5a2.5 2.5 0 0 1-5 0"/></svg></span>Most expensive vs cheapest effective</h2>
+      <div class="dc-sec-sub">The supplements with the worst ROI in your medicine cabinet — and the dirt-cheap ones with Tier 1 evidence.</div>
+    </div>
+    <span class="dc-sec-meta">Cost score 1 vs 5</span>
+  </div>
+  <div class="dc-vs">
+    <div class="dc-vs-head">
+      <div class="take"><span class="tag">Cheap</span><span class="lab">Tier 1 evidence for ~$5 / month</span></div>
+      <div class="avoid"><span class="tag">Pricey</span><span class="lab">$60–1,500 / month, preliminary</span></div>
+    </div>
+    <div class="dc-vs-rows">
+      <div class="dc-vs-col">
+        <div class="dc-vs-row"><span class="dc-vs-name">Creatine monohydrate</span><span class="dc-vs-meta">~$5</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Psyllium husk</span><span class="dc-vs-meta">~$6</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Glycine</span><span class="dc-vs-meta">~$5</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Niacinamide</span><span class="dc-vs-meta">~$4</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Riboflavin (B2)</span><span class="dc-vs-meta">~$4</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Sodium bicarbonate</span><span class="dc-vs-meta">&lt;$2</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Oral rehydration salts</span><span class="dc-vs-meta">cents/serving</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Melatonin 0.3 mg</span><span class="dc-vs-meta">~$5</span></div>
+      </div>
+      <div class="dc-vs-col">
+        <div class="dc-vs-row"><span class="dc-vs-name">NAD+ IV (clinic)</span><span class="dc-vs-meta">$500–1,500/session</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Ketone esters</span><span class="dc-vs-meta">$200+</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">NMN</span><span class="dc-vs-meta">$80–120</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Nicotinamide riboside</span><span class="dc-vs-meta">$60–90</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Akkermansia muciniphila</span><span class="dc-vs-meta">$60+</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Urolithin A</span><span class="dc-vs-meta">$60+</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">Cycloastragenol (TA-65)</span><span class="dc-vs-meta">$200+</span></div>
+        <div class="dc-vs-row"><span class="dc-vs-name">MOTS-c peptide</span><span class="dc-vs-meta">$200+</span></div>
+      </div>
+    </div>
+    <div class="dc-vs-foot">
+      <span class="lab">Takeaway</span>
+      <span><strong>$5/month of creatine has more clinical evidence behind it than every product on the right side of this chart combined.</strong> Price ≠ evidence.</span>
+    </div>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     11. Drug interactions (bonus list)
+     ============================================================ -->
+<section class="dc-section s-interact" id="interact">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 14.5a3.5 3.5 0 0 1 0-5L13 6a3.5 3.5 0 0 1 5 5L16.5 12.5"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5L11 18a3.5 3.5 0 0 1-5-5l1.5-1.5"/></svg></span>Supplements that interact with the most prescription drugs</h2>
+      <div class="dc-sec-sub">Mined from the interactions matrix in our database. If you take any prescription, check this list first.</div>
+    </div>
+    <span class="dc-sec-meta">By drug-class count</span>
+  </div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank feat">
+      <div class="dc-rank-num gold">1</div>
+      <div class="dc-rank-name">St. John's Wort</div>
+      <div class="dc-rank-meta">Interacts with at least 5 drug categories</div>
+      <div class="dc-rank-fact">Warfarin, SSRIs, MAOIs, oral contraceptives, chemotherapy. The poster child for "natural ≠ inert."</div>
+      <div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">5+ classes</span></div>
+    </article>
+    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Berberine</div><div class="dc-rank-fact">Statins, metformin, BP meds, diabetes drugs, antifungals. "Nature's Ozempic" picks fights with a lot of pharmacy.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Magnesium</div><div class="dc-rank-fact">Thyroid hormone, PPIs, antibiotics, benzos, sleep meds. The world's most widely used mineral is also a quiet absorption-blocker.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Omega-3 (high dose)</div><div class="dc-rank-fact">Bleeding risk on top of warfarin / DOACs / antiplatelets. Generally manageable but not zero.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Ginkgo biloba</div><div class="dc-rank-fact">Antiplatelet, anticoagulant, and seizure-threshold concerns.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">5-HTP</div><div class="dc-rank-fact">SSRIs, MAOIs, triptans — serotonin syndrome risk.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Saffron</div><div class="dc-rank-fact">Antidepressants, blood thinners, blood-pressure meds.</div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Melatonin</div><div class="dc-rank-fact">Seizure meds, sedatives, benzos. Effects amplify rather than just stack.</div></article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     11b. The deficiency map (US adults below adequate intake)
+     ============================================================ -->
+<section class="dc-section s-defic" id="deficiency">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/><path d="M3 6l5 4 4-3 8-3"/><path d="M16 4h4v4"/></svg></span>The deficiency map</h2>
+      <div class="dc-sec-sub">Estimated share of U.S. adults below the EAR / AI for nutrients people most often supplement. Numbers from NHANES, IOM, and AHA position statements.</div>
+    </div>
+    <span class="dc-sec-meta">Source: NHANES &amp; IOM</span>
+  </div>
+  <div class="dc-tierbar">
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Fibre</div>
+      <div class="dc-tierbar-dose">25–38 g</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:95%"></div></div>
+      <div class="dc-tierbar-pct">~95%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Choline</div>
+      <div class="dc-tierbar-dose">≥ 425 mg</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:90%"></div></div>
+      <div class="dc-tierbar-pct">~90%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Omega-3 (EPA+DHA)</div>
+      <div class="dc-tierbar-dose">250 mg/d (AHA)</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:90%"></div></div>
+      <div class="dc-tierbar-pct">~90%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Vitamin K2</div>
+      <div class="dc-tierbar-dose">no formal RDA</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:75%"></div></div>
+      <div class="dc-tierbar-pct">~75%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Magnesium</div>
+      <div class="dc-tierbar-dose">320–420 mg</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:50%"></div></div>
+      <div class="dc-tierbar-pct">~50%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Vitamin D</div>
+      <div class="dc-tierbar-dose">25(OH)D &lt; 30 ng/mL</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:42%"></div></div>
+      <div class="dc-tierbar-pct">~42%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">Iron (women 19–50)</div>
+      <div class="dc-tierbar-dose">18 mg</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t2" style="width:25%"></div></div>
+      <div class="dc-tierbar-pct">~25%</div>
+    </div>
+    <div class="dc-tierbar-row">
+      <div class="dc-tierbar-label">B12 (adults 50+)</div>
+      <div class="dc-tierbar-dose">2.4 µg</div>
+      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t2" style="width:20%"></div></div>
+      <div class="dc-tierbar-pct">~20%</div>
+    </div>
+  </div>
+  <div class="dc-fact" style="margin-top:18px">
+    <div class="dc-fact-title">What this map means</div>
+    <div class="dc-fact-body">Most "supplements that work" are correcting an actual gap in the diet. The bigger the bar, the more likely a typical adult would benefit from food-first changes <i>or</i> a low-dose supplement — long before exotic longevity stacks come into the picture.</div>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     13. Wild fun facts
+     ============================================================ -->
+<section class="dc-section s-wild" id="wild">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 4l.8 2L22 7l-2.2.8L19 10l-.8-2.2L16 7l2.2-1z"/><path d="M5 16l.6 1.4L7 18l-1.4.6L5 20l-.6-1.4L3 18l1.4-.6z"/></svg></span>Wild fun facts</h2>
+      <div class="dc-sec-sub">The stuff that doesn't fit any other list but is too good to leave out.</div>
+    </div>
+  </div>
+  <div class="dc-fact-grid">
+    <article class="dc-fact"><div class="dc-fact-num">420</div><div class="dc-fact-title">Clinical trials on psyllium husk</div><div class="dc-fact-body">PubMed indexes over 420 human trials of psyllium for cholesterol, glycemic control, IBS, and constipation — plus its FDA-authorized coronary-heart-disease claim at 7 g/day.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">57%</div><div class="dc-fact-title">Fewer cardiac deaths with dietary K2</div><div class="dc-fact-body">The Rotterdam Study (Geleijnse 2004, n=4,807): high vs low menaquinone intake associated with a 57% lower cardiovascular mortality. Observational — but the effect size is striking.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">43%</div><div class="dc-fact-title">CoQ10 cut cardiac deaths in heart failure</div><div class="dc-fact-body">Q-SYMBIO trial (Mortensen 2014, n=420): 300 mg/day ubiquinone reduced major adverse cardiac events 43% over two years. Rare to see effects this large from any supplement.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">25%</div><div class="dc-fact-title">High-dose EPA cut major cardiac events</div><div class="dc-fact-body">REDUCE-IT (NEJM 2019, n=8,179): 4 g/day icosapent ethyl reduced major adverse cardiovascular events 25% in statin-treated, high-risk patients. The fish-oil headline that actually replicated.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">2</div><div class="dc-fact-title">Migraine days/month prevented by riboflavin</div><div class="dc-fact-body">Cochrane evidence at 400 mg/day: roughly 2 fewer migraine days per month. A B-vitamin most migraine sufferers have never been told about.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">10×</div><div class="dc-fact-title">AKG drops between age 30 and 80</div><div class="dc-fact-body">Serum alpha-ketoglutarate falls roughly 10-fold across the lifespan. That decline underwrites every "Ca-AKG" longevity product on the market.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">19</div><div class="dc-fact-title">Supplements with documented hepatotoxicity</div><div class="dc-fact-body">In our database: kava, green tea extract, usnic acid, Fo-Ti, greater celandine, comfrey, germander, chaparral, pennyroyal, coltsfoot, skullcap, ashwagandha (rare), high-dose A and E, SAMe, sea moss, CLA, black cohosh, and schisandra.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">100</div><div class="dc-fact-title">The only perfect score in the database</div><div class="dc-fact-body">Oral rehydration salts (WHO formula). The next-highest scorer is 4 points behind. By any reasonable measure, the highest-evidence "supplement" in the world.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">22</div><div class="dc-fact-title">The lowest score in the database</div><div class="dc-fact-body">Greater celandine — withdrawn by Germany's BfArM in 2008 after a benefit–risk review of liver-injury cases. 78 points below the top of the chart.</div></article>
+    <article class="dc-fact"><div class="dc-fact-num">∞</div><div class="dc-fact-title">Argyria is forever</div><div class="dc-fact-body">Colloidal silver permanently turns skin blue-grey. The colour is silver granules deposited in the dermis. There is no treatment, only avoidance.</div></article>
+  </div>
+</section>
+
+<div class="dc-disclaim">
+  Educational reference, not medical advice. Discuss any supplement changes with a qualified clinician — especially in pregnancy, with prescription medications, or in pediatric use.
+  Sources: cited within each underlying supplement record. See <a href="methodology.html">Methodology</a> for how scores are calculated.
+</div>
+
+<!-- Universal search dependencies -->
+<script src="data.js?v=20260418m"></script>
+<script src="search-index.js?v=20260429a"></script>
+<script src="nav-search.js?v=20260429a" defer></script>
+<script src="supplement-modal.js?v=20260429a" defer></script>
+
+<button class="dc-up" id="dcUp" type="button" aria-label="Back to top" title="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+  // Smooth scroll for TOC anchors
+  document.querySelectorAll('.dc-toc a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href').slice(1);
+      const t=document.getElementById(id);
+      if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); history.replaceState(null,'','#'+id);}
+    });
+  });
+
+  // (navSearch is defined globally by nav-search.js — routes to search.html?q=)
+
+  // Auto-inject composite scores into ranking cards that don't already
+  // carry one. Tries exact-slug match first, falls back to fuzzy search
+  // (so "Psyllium husk" still matches "Psyllium husk (soluble fibre)").
+  function lookupSupplement(name){
+    if (!window.SS) return null;
+    var s = window.SS.getSupplement(window.SS.slugify(name));
+    if (s) return s;
+    var r = window.SS.search(name, { limit: 1 });
+    if (r && r.supplements && r.supplements.length) return r.supplements[0].ref;
+    return null;
+  }
+  function injectRankScores(){
+    if (!window.SS || !window.SS.getSupplement) return false;
+    document.querySelectorAll('article.dc-rank').forEach(function(card){
+      if (card.querySelector('.dc-score-pill')) return;
+      var nameEl = card.querySelector('.dc-rank-name');
+      if (!nameEl) return;
+      var name = nameEl.textContent.trim();
+      var s = lookupSupplement(name);
+      if (!s) return;
+      var sc = window.SS.compositeScore(s);
+      if (!sc) return;
+      var foot = card.querySelector('.dc-rank-foot');
+      if (!foot) {
+        foot = document.createElement('div');
+        foot.className = 'dc-rank-foot';
+        card.appendChild(foot);
+      }
+      var pill = document.createElement('span');
+      pill.className = 'dc-score-pill';
+      pill.textContent = String(sc);
+      foot.appendChild(pill);
+    });
+    return true;
+  }
+  if (!injectRankScores()){
+    var tries = 0;
+    var iv = setInterval(function(){
+      if (injectRankScores() || ++tries > 40) clearInterval(iv);
+    }, 50);
+  }
+
+  // Floating back-to-top — rAF-throttled + state guard to avoid per-scroll
+  // class toggles (which caused subpixel flicker on iOS Safari during scroll).
+  (function(){
+    var btn = document.getElementById('dcUp');
+    if(!btn) return;
+    var threshold = 600;
+    var lastShown = false;
+    var rafQueued = false;
+    function check(){
+      rafQueued = false;
+      var shouldShow = window.scrollY > threshold;
+      if (shouldShow === lastShown) return;
+      lastShown = shouldShow;
+      btn.classList.toggle('show', shouldShow);
+    }
+    function onScroll(){
+      if (rafQueued) return;
+      rafQueued = true;
+      requestAnimationFrame(check);
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    btn.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+    check();
+  })();
+</script>
+
+<script>
+/* ── Discover search autocomplete ──────────────────────────────────── */
+(function(){
+  const inp = document.getElementById('dc-search-inp');
+  const ac  = document.getElementById('dc-ac');
+  if (!inp || !ac) return;
+
+  function escH(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  function escA(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+  function slugify(s){
+    return (s||'').replace(/\s*\([^)]*\)\s*/g,' ').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  let acIdx = -1;
+
+  function showAc(q){
+    q = String(q||'').trim();
+    if(!q){hideAc();return;}
+    if(typeof S==='undefined'||!S.length){hideAc();return;}
+    const ql = q.toLowerCase();
+
+    // Supplements (max 5)
+    const swS = S.filter(s=>s.n.toLowerCase().startsWith(ql));
+    const incS = S.filter(s=>!s.n.toLowerCase().startsWith(ql)&&s.n.toLowerCase().includes(ql));
+    const suppHits = [...swS,...incS].slice(0,5);
+
+    // Conditions (max 3)
+    const condHits = [];
+    if(typeof CONDITIONS!=='undefined'){
+      Object.entries(CONDITIONS).forEach(([key,cond])=>{
+        if(cond.label.toLowerCase().includes(ql)) condHits.push({key,label:cond.label});
+      });
+      condHits.sort((a,b)=>a.label.toLowerCase().startsWith(ql)?-1:b.label.toLowerCase().startsWith(ql)?1:0);
+      condHits.splice(3);
+    }
+
+    // Categories (max 2)
+    const catHits = [];
+    if(typeof CATS!=='undefined'){
+      CATS.forEach(c=>{if(c.toLowerCase().includes(ql)) catHits.push(c);});
+      catHits.sort((a,b)=>a.toLowerCase().startsWith(ql)?-1:b.toLowerCase().startsWith(ql)?1:0);
+      catHits.splice(2);
+    }
+
+    if(!suppHits.length&&!condHits.length&&!catHits.length){hideAc();return;}
+    acIdx = -1;
+
+    let html = '';
+    if(suppHits.length){
+      html += `<div class="gs-ac-hdr">Supplements</div>`;
+      html += suppHits.map(s=>`<div class="gs-ac-item" role="option" data-type="supp" data-name="${escA(s.n)}" data-slug="${escA(slugify(s.n))}" onmousedown="event.preventDefault()"><span>${escH(s.n)}</span><span class="gs-ac-tag">${escH((s.tag||'').split(' · ')[0])}</span></div>`).join('');
+    }
+    if(condHits.length){
+      html += `<div class="gs-ac-hdr">Conditions &amp; Goals</div>`;
+      html += condHits.map(c=>`<div class="gs-ac-item" role="option" data-type="cond" data-name="${escA(c.label)}" onmousedown="event.preventDefault()"><span>${escH(c.label)}</span><span class="gs-ac-tag">Condition</span></div>`).join('');
+    }
+    if(catHits.length){
+      html += `<div class="gs-ac-hdr">Categories</div>`;
+      html += catHits.map(c=>`<div class="gs-ac-item" role="option" data-type="cat" data-name="${escA(c)}" onmousedown="event.preventDefault()"><span>${escH(c)}</span><span class="gs-ac-tag">Category</span></div>`).join('');
+    }
+    ac.innerHTML = html;
+    ac.classList.add('vis');
+  }
+
+  function hideAc(){setTimeout(()=>ac.classList.remove('vis'),150);}
+
+  function pickAc(item){
+    const type = item.dataset.type||'supp';
+    ac.classList.remove('vis'); acIdx = -1;
+    if(type==='supp'){
+      // Open supplement detail page
+      const slug = item.dataset.slug;
+      if(slug) window.location.href = 'supplement.html?slug='+encodeURIComponent(slug);
+    } else {
+      // For conditions/categories, fall through to search page
+      inp.value = item.dataset.name;
+      inp.form.submit();
+    }
+  }
+
+  ac.addEventListener('click',e=>{
+    const item = e.target.closest('.gs-ac-item');
+    if(item) pickAc(item);
+  });
+
+  const deb = (fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
+  const debouncedShow = deb(showAc,120);
+
+  inp.addEventListener('input',e=>debouncedShow(e.target.value));
+  inp.addEventListener('focus',e=>{if(e.target.value.trim()) showAc(e.target.value);});
+  inp.addEventListener('blur',hideAc);
+  inp.addEventListener('keydown',e=>{
+    const items = ac.classList.contains('vis') ? ac.querySelectorAll('.gs-ac-item') : [];
+    if(e.key==='ArrowDown'&&items.length){
+      e.preventDefault(); acIdx=Math.min(acIdx+1,items.length-1);
+      items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));
+    } else if(e.key==='ArrowUp'&&items.length){
+      e.preventDefault(); acIdx=Math.max(acIdx-1,0);
+      items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));
+    } else if(e.key==='Enter'){
+      if(acIdx>=0&&items[acIdx]){e.preventDefault();pickAc(items[acIdx]);}
+      ac.classList.remove('vis');
+    } else if(e.key==='Escape'){
+      ac.classList.remove('vis'); acIdx=-1;
+    }
+  });
+})();
+</script>
+
+<script>
+/* Make Discover's rank rows clickable.
+   Slug derived from the supplement name; routes through supplement-modal.js
+   so the click opens the detail page in the same modal as the rest of the site. */
+(function(){
+  function slugify(s){
+    return (s || '')
+      .replace(/\s*\([^)]*\)\s*/g, ' ')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  function go(slug){
+    var a = document.createElement('a');
+    a.href = 'supplement.html?slug=' + encodeURIComponent(slug);
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ if (a.parentNode) a.parentNode.removeChild(a); }, 0);
+  }
+  document.querySelectorAll('.dc-rank').forEach(function(row){
+    var nameEl = row.querySelector('.dc-rank-name');
+    if (!nameEl) return;
+    var slug = slugify(nameEl.textContent);
+    if (!slug) return;
+    row.dataset.slug = slug;
+    row.setAttribute('role','link');
+    row.setAttribute('tabindex','0');
+    row.addEventListener('click', function(){ go(slug); });
+    row.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(slug); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
