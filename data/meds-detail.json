@@ -1,0 +1,637 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "updated": "2026-05-02",
+    "purpose": "Per-molecule medication interaction overrides where intra-class divergence is clinically meaningful. Layered on top of the broader MEDS category in data.js.",
+    "schema": {
+      "drug_name": {
+        "category": "Parent MEDS category in data.js",
+        "molecule": "Specific drug molecule (generic name)",
+        "metabolism": "Primary metabolic / transporter pathway driving the divergence",
+        "vs_class": "How this molecule differs from the class default",
+        "supplement_overrides": [
+          {
+            "supplement": "supplement name",
+            "interaction": "AVOID | CAUTION | MONITOR | NONE",
+            "reason": "One-line clinical explanation",
+            "evidence": "PMID or guideline source"
+          }
+        ]
+      }
+    },
+    "policy": "Per-molecule entries only exist where the divergence from the class default would change clinical practice. Where the molecule behaves like the class, no entry is added — the class default applies.",
+    "disclaimer": "Educational reference, not medical advice. Drug interaction profiles change with new evidence. Always confirm with a clinician or pharmacist before stacking supplements with prescription medications."
+  },
+
+  "rosuvastatin": {
+    "category": "Statins (HMG-CoA reductase inhibitors)",
+    "molecule": "Rosuvastatin",
+    "metabolism": "Minimal CYP3A4 metabolism (~10%); primarily renal excretion. OATP1B1 substrate.",
+    "vs_class": "Far less CYP3A4-dependent than simvastatin or atorvastatin. Grapefruit risk approximately 10x lower.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "MONITOR", "reason": "Negligible CYP3A4 contribution to clearance; class warning largely doesn't apply.", "evidence": "PMID 17192768" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "OATP1B1 induction can lower rosuvastatin AUC; monitor lipid response if starting/stopping.", "evidence": "PMID 16432268" },
+      { "supplement": "red yeast rice", "interaction": "AVOID", "reason": "Contains monacolin K (lovastatin); additive statin exposure and additive myopathy / hepatotoxicity risk.", "evidence": "PMID 19531359" },
+      { "supplement": "coq10", "interaction": "MONITOR", "reason": "Reasonable to add 100-200 mg/day if statin-related muscle symptoms occur; modest evidence of subjective benefit, mechanism well understood.", "evidence": "PMID 30431005" }
+    ]
+  },
+
+  "simvastatin": {
+    "category": "Statins (HMG-CoA reductase inhibitors)",
+    "molecule": "Simvastatin",
+    "metabolism": "Heavy CYP3A4 substrate (~80% of clearance). FDA dose limits with several CYP3A4 inhibitors.",
+    "vs_class": "Highest grapefruit interaction in the statin class. FDA-mandated dose caps with amiodarone, amlodipine, ranolazine. Pravastatin or rosuvastatin are safer alternatives if grapefruit avoidance is unrealistic.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "AVOID", "reason": "Up to 10-15x increase in simvastatin AUC; significant rhabdomyolysis risk.", "evidence": "FDA Drug Safety Communication 2012; PMID 22234739" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP3A4 induction reduces simvastatin exposure by 50-70%; loss of LDL-lowering effect.", "evidence": "PMID 11470322" },
+      { "supplement": "red yeast rice", "interaction": "AVOID", "reason": "Additive statin exposure; FDA warning.", "evidence": "FDA Consumer Update; PMID 19531359" },
+      { "supplement": "berberine", "interaction": "CAUTION", "reason": "Mild CYP3A4 inhibition; theoretically increases simvastatin exposure. Effect size small in healthy volunteers.", "evidence": "PMID 21168349" }
+    ]
+  },
+
+  "atorvastatin": {
+    "category": "Statins (HMG-CoA reductase inhibitors)",
+    "molecule": "Atorvastatin",
+    "metabolism": "Substantial CYP3A4 substrate; less affected by grapefruit than simvastatin but more than rosuvastatin.",
+    "vs_class": "Mid-range grapefruit interaction. Common-sense glass of grapefruit juice is not catastrophic the way it is with simvastatin, but daily consumption matters.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "CAUTION", "reason": "Up to 2.5x increase in atorvastatin AUC with regular consumption. Occasional small servings probably fine.", "evidence": "PMID 12891229" },
+      { "supplement": "red yeast rice", "interaction": "AVOID", "reason": "Additive statin exposure.", "evidence": "PMID 19531359" }
+    ]
+  },
+
+  "paroxetine": {
+    "category": "SSRIs (Selective serotonin reuptake inhibitors)",
+    "molecule": "Paroxetine",
+    "metabolism": "Strongest CYP2D6 inhibitor in the SSRI class.",
+    "vs_class": "Tamoxifen interaction is uniquely severe because tamoxifen requires CYP2D6 activation to its potent metabolite endoxifen. Paroxetine + tamoxifen has been associated with reduced breast-cancer survival (PMID 20142331). Sertraline, citalopram, or escitalopram are safer SSRI choices alongside tamoxifen.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Additive serotonergic effect plus pharmacokinetic interaction; serotonin syndrome risk.", "evidence": "PMID 10737287" },
+      { "supplement": "5-htp", "interaction": "AVOID", "reason": "Additive serotonergic effect; serotonin syndrome risk.", "evidence": "PMID 17030414" },
+      { "supplement": "l-tryptophan", "interaction": "AVOID", "reason": "Additive serotonergic effect.", "evidence": "PMID 17030414" },
+      { "supplement": "same", "interaction": "AVOID", "reason": "Additive serotonergic mechanism; documented serotonin syndrome cases.", "evidence": "PMID 12060836" },
+      { "supplement": "saffron", "interaction": "CAUTION", "reason": "Mild MAO-A inhibition; theoretical additive risk at high doses.", "evidence": "PMID 24299602" }
+    ]
+  },
+
+  "escitalopram": {
+    "category": "SSRIs (Selective serotonin reuptake inhibitors)",
+    "molecule": "Escitalopram",
+    "metabolism": "Mild CYP2C19 substrate; minimal CYP2D6 inhibition.",
+    "vs_class": "Cleanest CYP interaction profile among SSRIs. Preferred SSRI in elderly, polypharmacy, and tamoxifen co-prescription. QT prolongation risk warrants caution above 20 mg/day.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Additive serotonergic risk.", "evidence": "PMID 10737287" },
+      { "supplement": "5-htp", "interaction": "AVOID", "reason": "Additive serotonergic risk.", "evidence": "PMID 17030414" },
+      { "supplement": "magnesium", "interaction": "MONITOR", "reason": "Both can mildly prolong QT at extremes; usually clinically irrelevant at standard supplement doses.", "evidence": "PMID 30802414" }
+    ]
+  },
+
+  "dabigatran": {
+    "category": "DOACs (Direct oral anticoagulants)",
+    "molecule": "Dabigatran",
+    "metabolism": "P-glycoprotein substrate; not significantly metabolised by CYP enzymes.",
+    "vs_class": "Highly P-gp dependent. St John's wort (potent P-gp inducer) drops dabigatran exposure substantially, raising thromboembolic risk. The other DOACs (apixaban, rivaroxaban, edoxaban) also depend on P-gp but additionally on CYP3A4, so the relative impact differs.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Strong P-gp induction reduces dabigatran AUC by ~50%; thromboembolic risk.", "evidence": "PMID 23052787" },
+      { "supplement": "garlic (high-dose extract)", "interaction": "CAUTION", "reason": "Antiplatelet effect plus mild P-gp interaction; additive bleeding risk.", "evidence": "PMID 17298243" },
+      { "supplement": "ginkgo biloba", "interaction": "CAUTION", "reason": "Antiplatelet effect; case reports of bleeding events with anticoagulants.", "evidence": "PMID 17916582" },
+      { "supplement": "fish oil (>3g/day)", "interaction": "MONITOR", "reason": "Modest antiplatelet effect; clinically meaningful only at very high doses.", "evidence": "PMID 22115301" },
+      { "supplement": "vitamin k", "interaction": "NONE", "reason": "Unlike warfarin, DOACs do not interact with vitamin K. Patients sometimes assume the warfarin restriction carries over; it does not.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "apixaban": {
+    "category": "DOACs (Direct oral anticoagulants)",
+    "molecule": "Apixaban",
+    "metabolism": "Combined P-gp and CYP3A4 substrate (~25% CYP3A4 metabolism).",
+    "vs_class": "Affected by both P-gp inducers and CYP3A4 inducers/inhibitors. St John's wort and grapefruit both have effects, though individually smaller than the dabigatran/St-John's-wort interaction.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Combined P-gp + CYP3A4 induction reduces apixaban exposure; thromboembolic risk.", "evidence": "PMID 26515085" },
+      { "supplement": "grapefruit (high-volume daily)", "interaction": "CAUTION", "reason": "CYP3A4 inhibition increases apixaban AUC; small effect at occasional consumption.", "evidence": "PMID 26515085" },
+      { "supplement": "ginkgo biloba", "interaction": "CAUTION", "reason": "Antiplatelet effect; case reports of bleeding with anticoagulants.", "evidence": "PMID 17916582" },
+      { "supplement": "vitamin k", "interaction": "NONE", "reason": "DOACs do not interact with vitamin K. The warfarin restriction does not carry over.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "edoxaban": {
+    "category": "DOACs (Direct oral anticoagulants)",
+    "molecule": "Edoxaban",
+    "metabolism": "Primarily P-gp substrate; minimal CYP3A4 metabolism.",
+    "vs_class": "Behaves more like dabigatran than apixaban with respect to St John's wort. Grapefruit interaction is minor.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "P-gp induction reduces edoxaban exposure; thromboembolic risk.", "evidence": "PMID 27503174" },
+      { "supplement": "grapefruit", "interaction": "MONITOR", "reason": "Limited CYP3A4 dependence; minor effect.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "rivaroxaban": {
+    "category": "DOACs (Direct oral anticoagulants)",
+    "molecule": "Rivaroxaban",
+    "metabolism": "Combined P-gp and CYP3A4 substrate (~30% CYP3A4).",
+    "vs_class": "Similar interaction profile to apixaban. Must be taken with food at the 15 mg and 20 mg doses for full bioavailability — a non-supplement-related but important fact.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Combined P-gp + CYP3A4 induction reduces rivaroxaban exposure.", "evidence": "PMID 26515085" },
+      { "supplement": "grapefruit (high-volume daily)", "interaction": "CAUTION", "reason": "CYP3A4 inhibition; small effect at occasional consumption.", "evidence": "PMID 26515085" }
+    ]
+  },
+
+  "tacrolimus": {
+    "category": "Calcineurin inhibitors (immunosuppressants)",
+    "molecule": "Tacrolimus",
+    "metabolism": "Heavy CYP3A4 substrate; very narrow therapeutic window.",
+    "vs_class": "Therapeutic window is much narrower than cyclosporine. Even modest CYP3A4 perturbation can push tacrolimus levels into toxicity (nephrotoxicity, neurotoxicity) or into rejection range. Treat any new supplement as a tacrolimus-level recheck event.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP3A4 induction can reduce tacrolimus levels by 50%+, with documented organ rejection cases.", "evidence": "PMID 12759517" },
+      { "supplement": "grapefruit (any amount)", "interaction": "AVOID", "reason": "CYP3A4 inhibition; can increase tacrolimus levels into toxicity.", "evidence": "PMID 16400390" },
+      { "supplement": "berberine", "interaction": "AVOID", "reason": "P-gp + CYP3A4 inhibition; case reports of tacrolimus toxicity.", "evidence": "PMID 28139379" },
+      { "supplement": "echinacea", "interaction": "CAUTION", "reason": "Variable CYP3A4 modulation; immunostimulant effect counterproductive in transplant patients.", "evidence": "PMID 16401078" },
+      { "supplement": "schisandra", "interaction": "CAUTION", "reason": "CYP3A4 inhibition; some manufacturers' use in deliberate combination has shown PK effects.", "evidence": "PMID 22421232" }
+    ]
+  },
+
+  "cyclosporine": {
+    "category": "Calcineurin inhibitors (immunosuppressants)",
+    "molecule": "Cyclosporine",
+    "metabolism": "Heavy CYP3A4 substrate; wider therapeutic window than tacrolimus but still narrow.",
+    "vs_class": "Same fundamental interactions as tacrolimus, with slightly more headroom for accidental CYP3A4 perturbation. The same supplement avoidance list applies.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP3A4 induction reduces cyclosporine levels; documented rejection cases.", "evidence": "PMID 11061471" },
+      { "supplement": "grapefruit", "interaction": "AVOID", "reason": "CYP3A4 inhibition; toxicity risk.", "evidence": "PMID 16400390" },
+      { "supplement": "berberine", "interaction": "AVOID", "reason": "Increases cyclosporine AUC ~30%; toxicity risk.", "evidence": "PMID 16940423" }
+    ]
+  },
+
+  "warfarin": {
+    "category": "Warfarin (vitamin K antagonist)",
+    "molecule": "Warfarin",
+    "metabolism": "CYP2C9 (S-isomer, more potent), CYP3A4 (R-isomer); narrow therapeutic INR window.",
+    "vs_class": "Distinct from DOACs in three ways: requires INR monitoring, has direct vitamin K antagonism, and has interactions with CYP2C9 modulators that DOACs lack. Many supplements that DOACs ignore matter here.",
+    "supplement_overrides": [
+      { "supplement": "vitamin k (k1 or k2)", "interaction": "AVOID", "reason": "Direct antagonism; reduces INR. Consistent dietary intake is fine but supplemental vitamin K should not be added without prescriber knowledge.", "evidence": "PMID 17158147" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP2C9 + CYP3A4 induction reduces warfarin effect; thromboembolic risk.", "evidence": "PMID 11470322" },
+      { "supplement": "garlic (high-dose extract)", "interaction": "CAUTION", "reason": "Antiplatelet effect; case reports of INR elevation.", "evidence": "PMID 17298243" },
+      { "supplement": "ginkgo biloba", "interaction": "CAUTION", "reason": "Antiplatelet; case reports of bleeding.", "evidence": "PMID 17916582" },
+      { "supplement": "fish oil (>3g/day)", "interaction": "CAUTION", "reason": "Modest antiplatelet effect.", "evidence": "PMID 22115301" },
+      { "supplement": "coq10", "interaction": "CAUTION", "reason": "Structural similarity to vitamin K; can reduce warfarin effect.", "evidence": "PMID 14651346" },
+      { "supplement": "cranberry (juice / extract)", "interaction": "CAUTION", "reason": "CYP2C9 inhibition; case reports of INR elevation.", "evidence": "PMID 15495747" }
+    ]
+  },
+
+  "levothyroxine": {
+    "category": "Thyroid hormones",
+    "molecule": "Levothyroxine",
+    "metabolism": "Direct receptor agonist; absorption is the rate-limiting step and very sensitive to gut chelation.",
+    "vs_class": "Single-molecule class but the absorption interactions are uniquely fragile. Take on an empty stomach, separate from any divalent-cation supplement by 4 hours.",
+    "supplement_overrides": [
+      { "supplement": "calcium (any form)", "interaction": "CAUTION", "reason": "Chelates levothyroxine in the gut, reducing absorption ~30%. Separate by 4 hours.", "evidence": "PMID 9596013" },
+      { "supplement": "iron (any form)", "interaction": "CAUTION", "reason": "Chelates levothyroxine; separate by 4 hours.", "evidence": "PMID 1310581" },
+      { "supplement": "magnesium (any form)", "interaction": "CAUTION", "reason": "Reduces absorption when co-ingested. Separate by 4 hours.", "evidence": "PMID 27196456" },
+      { "supplement": "biotin (high-dose >5mg)", "interaction": "MONITOR", "reason": "Does not interact with the drug pharmacologically, but interferes with TSH and free-T4 lab assays — can produce falsely abnormal thyroid function tests. Pause biotin 48-72h before testing.", "evidence": "PMID 28632832" },
+      { "supplement": "soy protein (large doses)", "interaction": "MONITOR", "reason": "Reduces levothyroxine absorption; consistent timing matters more than avoidance.", "evidence": "PMID 17317991" }
+    ]
+  },
+
+  "ibuprofen": {
+    "category": "NSAIDs (non-steroidal anti-inflammatory drugs)",
+    "molecule": "Ibuprofen",
+    "metabolism": "CYP2C9 substrate; primarily renal excretion of inactive metabolites.",
+    "vs_class": "Short half-life (~2 hours) makes ibuprofen the lowest-cumulative-exposure NSAID for occasional use. Cardiovascular risk is intermediate within the class — lower than diclofenac, higher than naproxen at equivalent doses.",
+    "supplement_overrides": [
+      { "supplement": "fish oil (>3g/day)", "interaction": "CAUTION", "reason": "Additive antiplatelet activity; theoretical increase in GI bleeding risk with chronic use.", "evidence": "PMID 22115301" },
+      { "supplement": "ginkgo biloba", "interaction": "CAUTION", "reason": "Antiplatelet effect; case reports of bleeding when combined with NSAIDs.", "evidence": "PMID 17916582" },
+      { "supplement": "garlic (high-dose extract)", "interaction": "CAUTION", "reason": "Mild antiplatelet effect; additive bleeding risk with chronic NSAID use.", "evidence": "PMID 17298243" },
+      { "supplement": "willow bark", "interaction": "AVOID", "reason": "Contains salicin (salicylate precursor); additive GI and renal toxicity with NSAIDs.", "evidence": "Manufacturer guidance" },
+      { "supplement": "potassium", "interaction": "MONITOR", "reason": "NSAIDs can elevate serum potassium via renal effects; relevant in CKD or with ACE/ARB co-therapy.", "evidence": "PMID 21358917" }
+    ]
+  },
+
+  "naproxen": {
+    "category": "NSAIDs (non-steroidal anti-inflammatory drugs)",
+    "molecule": "Naproxen",
+    "metabolism": "CYP2C9 substrate; long half-life (~14 hours).",
+    "vs_class": "Lowest cardiovascular risk profile in the NSAID class per major meta-analyses, which is why it is the NSAID of choice for users who have established CVD or are at elevated CV risk. Long half-life means cumulative exposure is higher per dose.",
+    "supplement_overrides": [
+      { "supplement": "fish oil (>3g/day)", "interaction": "CAUTION", "reason": "Additive antiplatelet activity.", "evidence": "PMID 22115301" },
+      { "supplement": "ginkgo biloba", "interaction": "CAUTION", "reason": "Antiplatelet effect.", "evidence": "PMID 17916582" },
+      { "supplement": "willow bark", "interaction": "AVOID", "reason": "Salicylate-precursor; additive GI and renal toxicity.", "evidence": "Manufacturer guidance" }
+    ]
+  },
+
+  "celecoxib": {
+    "category": "NSAIDs (non-steroidal anti-inflammatory drugs)",
+    "molecule": "Celecoxib",
+    "metabolism": "Heavy CYP2C9 substrate; selective COX-2 inhibitor.",
+    "vs_class": "Selective COX-2 inhibition reduces GI bleeding risk meaningfully vs non-selective NSAIDs. Cardiovascular risk depends on dose — at standard doses, comparable to non-selective NSAIDs per PRECISION trial. Strong CYP2C9 dependence makes interactions different from ibuprofen and naproxen.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP2C9 induction can reduce celecoxib effect.", "evidence": "PMID 11470322" },
+      { "supplement": "fish oil (>3g/day)", "interaction": "MONITOR", "reason": "Antiplatelet effect smaller concern with COX-2 selective NSAIDs but still present.", "evidence": "PMID 22115301" },
+      { "supplement": "ginkgo biloba", "interaction": "MONITOR", "reason": "Antiplatelet effect; smaller additive risk than with non-selective NSAIDs.", "evidence": "PMID 17916582" }
+    ]
+  },
+
+  "metoprolol": {
+    "category": "Beta-blockers",
+    "molecule": "Metoprolol",
+    "metabolism": "CYP2D6 substrate; cardioselective (beta-1 selective).",
+    "vs_class": "Heavily CYP2D6-dependent — meaningful PK changes with CYP2D6 inhibitors. Differs from atenolol (renal clearance, no CYP) and propranolol (non-selective + lipophilic, crosses BBB).",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP2D6 modulation; can alter metoprolol exposure.", "evidence": "PMID 11470322" },
+      { "supplement": "berberine", "interaction": "CAUTION", "reason": "CYP2D6 inhibition; can increase metoprolol exposure.", "evidence": "PMID 21168349" },
+      { "supplement": "coq10", "interaction": "MONITOR", "reason": "Reasonable to add 100-200 mg/day if statin-overlap muscle symptoms or for HF protocols; no negative interaction.", "evidence": "PMID 30431005" },
+      { "supplement": "calcium (any form)", "interaction": "MONITOR", "reason": "High-dose calcium can theoretically reduce beta-blocker absorption; clinical relevance limited at standard supplement doses.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "atenolol": {
+    "category": "Beta-blockers",
+    "molecule": "Atenolol",
+    "metabolism": "Primarily renal excretion; minimal CYP metabolism.",
+    "vs_class": "Cleanest CYP profile in the class — interactions are mostly absorptive or pharmacodynamic rather than metabolic. Cardioselective. Hydrophilic so does not cross BBB — fewer central nervous system side effects than propranolol but also less effective for migraine prevention.",
+    "supplement_overrides": [
+      { "supplement": "calcium (any form)", "interaction": "CAUTION", "reason": "Reduces atenolol absorption when co-ingested; separate by 2 hours.", "evidence": "PMID 1359996" },
+      { "supplement": "magnesium (any form)", "interaction": "MONITOR", "reason": "Possible additive blood-pressure-lowering and AV-conduction effect at high doses.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "propranolol": {
+    "category": "Beta-blockers",
+    "molecule": "Propranolol",
+    "metabolism": "Heavy CYP2D6 + CYP1A2 substrate; non-selective; lipophilic — crosses BBB.",
+    "vs_class": "Most CYP-dependent beta-blocker. Used for migraine prevention, performance anxiety, essential tremor — uses where the non-selective and CNS-penetrating profile is the desired effect.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP1A2 + CYP2D6 induction can reduce propranolol exposure substantially.", "evidence": "PMID 11470322" },
+      { "supplement": "berberine", "interaction": "CAUTION", "reason": "CYP2D6 inhibition; can increase propranolol exposure.", "evidence": "PMID 21168349" },
+      { "supplement": "calcium (any form)", "interaction": "MONITOR", "reason": "Reduces propranolol absorption when co-ingested; separate by 2 hours.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "carvedilol": {
+    "category": "Beta-blockers",
+    "molecule": "Carvedilol",
+    "metabolism": "CYP2D6 + CYP2C9 substrate; non-selective beta + alpha-1 blockade.",
+    "vs_class": "The only beta-blocker with mortality data in heart failure roughly matching bisoprolol and metoprolol succinate. Combined alpha-1 blockade gives additional vasodilation and blood-pressure-lowering effect.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP2C9 + CYP2D6 induction can reduce carvedilol exposure.", "evidence": "PMID 11470322" },
+      { "supplement": "coq10", "interaction": "MONITOR", "reason": "Often co-prescribed in HF protocols; mechanistic synergy plausible, no negative interaction.", "evidence": "PMID 24049051" }
+    ]
+  },
+
+  "lisinopril": {
+    "category": "ACE inhibitors",
+    "molecule": "Lisinopril",
+    "metabolism": "Not metabolised; renal excretion unchanged.",
+    "vs_class": "Cleanest pharmacokinetic profile in the ACE inhibitor class — no CYP interactions. The shared class concerns (potassium, dry cough, ACE-mediated angioedema) apply.",
+    "supplement_overrides": [
+      { "supplement": "potassium", "interaction": "AVOID", "reason": "ACE inhibitors raise serum potassium; supplemental potassium can produce dangerous hyperkalaemia. Avoid high-dose K supplements; watch dietary salt substitutes (often KCl).", "evidence": "PMID 21358917" },
+      { "supplement": "salt substitutes (potassium chloride)", "interaction": "AVOID", "reason": "Same hyperkalaemia risk; many users do not realise their salt substitute is KCl.", "evidence": "PMID 21358917" },
+      { "supplement": "licorice (whole, with glycyrrhizin)", "interaction": "AVOID", "reason": "Glycyrrhizin causes pseudoaldosteronism — opposes the antihypertensive effect and worsens potassium handling. DGL form lacks this issue.", "evidence": "PMID 23770451" },
+      { "supplement": "yohimbine", "interaction": "CAUTION", "reason": "Adrenergic stimulation; can raise blood pressure and oppose the antihypertensive effect.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "losartan": {
+    "category": "ARBs (Angiotensin II receptor blockers)",
+    "molecule": "Losartan",
+    "metabolism": "CYP2C9 substrate; activated by CYP3A4 to active metabolite EXP3174.",
+    "vs_class": "Unusual within the ARB class for being CYP-activated — most other ARBs (valsartan, irbesartan, telmisartan, candesartan) are minimally metabolised. CYP2C9 inducers can reduce losartan effect; CYP2C9 inhibitors theoretically can too (less activation).",
+    "supplement_overrides": [
+      { "supplement": "potassium", "interaction": "AVOID", "reason": "ARBs raise serum potassium; same hyperkalaemia risk as ACE inhibitors.", "evidence": "PMID 21358917" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction may reduce losartan activation.", "evidence": "PMID 11470322" },
+      { "supplement": "licorice (whole, with glycyrrhizin)", "interaction": "AVOID", "reason": "Pseudoaldosteronism opposes antihypertensive effect.", "evidence": "PMID 23770451" }
+    ]
+  },
+
+  "valsartan": {
+    "category": "ARBs (Angiotensin II receptor blockers)",
+    "molecule": "Valsartan",
+    "metabolism": "Minimal CYP metabolism; biliary excretion unchanged.",
+    "vs_class": "Cleaner CYP profile than losartan. Heart-failure indication well-supported. Same potassium and licorice warnings apply.",
+    "supplement_overrides": [
+      { "supplement": "potassium", "interaction": "AVOID", "reason": "ARB-class hyperkalaemia risk.", "evidence": "PMID 21358917" },
+      { "supplement": "licorice (whole, with glycyrrhizin)", "interaction": "AVOID", "reason": "Pseudoaldosteronism opposes antihypertensive effect.", "evidence": "PMID 23770451" }
+    ]
+  },
+
+  "omeprazole": {
+    "category": "PPIs (Proton pump inhibitors)",
+    "molecule": "Omeprazole",
+    "metabolism": "CYP2C19 + CYP3A4 substrate; potent CYP2C19 inhibitor.",
+    "vs_class": "Strongest CYP2C19 inhibitor in the PPI class — the clopidogrel interaction concern (reduced clopidogrel activation, theoretical increased CV events) was specifically about omeprazole and esomeprazole. Pantoprazole and rabeprazole have less CYP2C19 effect and are preferred when clopidogrel co-therapy is needed.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction can reduce omeprazole exposure.", "evidence": "PMID 11470322" },
+      { "supplement": "vitamin b12", "interaction": "MONITOR", "reason": "Long-term PPI use reduces B12 absorption (acid-dependent); check B12 yearly on chronic PPI therapy.", "evidence": "PMID 24327038" },
+      { "supplement": "magnesium", "interaction": "MONITOR", "reason": "Long-term PPI use can cause hypomagnesaemia; check magnesium periodically.", "evidence": "FDA Drug Safety Communication 2011" },
+      { "supplement": "calcium carbonate", "interaction": "CAUTION", "reason": "Calcium carbonate absorption is acid-dependent; switch to calcium citrate (acid-independent) on chronic PPI therapy.", "evidence": "PMID 11302695" },
+      { "supplement": "iron", "interaction": "MONITOR", "reason": "Acid suppression reduces non-heme iron absorption; relevant in iron-deficiency anaemia.", "evidence": "PMID 22841731" }
+    ]
+  },
+
+  "pantoprazole": {
+    "category": "PPIs (Proton pump inhibitors)",
+    "molecule": "Pantoprazole",
+    "metabolism": "CYP2C19 substrate; less CYP2C19 inhibition than omeprazole or esomeprazole.",
+    "vs_class": "The PPI of choice when clopidogrel is co-prescribed because the CYP2C19 inhibition is meaningfully smaller. Same long-term concerns about B12, magnesium, calcium, iron absorption apply to all PPIs.",
+    "supplement_overrides": [
+      { "supplement": "vitamin b12", "interaction": "MONITOR", "reason": "Long-term PPI use reduces B12 absorption.", "evidence": "PMID 24327038" },
+      { "supplement": "magnesium", "interaction": "MONITOR", "reason": "Long-term PPI use can cause hypomagnesaemia.", "evidence": "FDA Drug Safety Communication 2011" },
+      { "supplement": "calcium carbonate", "interaction": "CAUTION", "reason": "Switch to calcium citrate on chronic PPI therapy.", "evidence": "PMID 11302695" }
+    ]
+  },
+
+  "alprazolam": {
+    "category": "Benzodiazepines",
+    "molecule": "Alprazolam",
+    "metabolism": "Heavy CYP3A4 substrate; short half-life (~12 hours).",
+    "vs_class": "High abuse potential and short half-life make withdrawal risk meaningful. CYP3A4 dependence makes it sensitive to inducers and inhibitors. Lorazepam and oxazepam are CYP-independent and preferred in elderly and hepatic-impairment patients.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "AVOID", "reason": "CYP3A4 inhibition substantially increases alprazolam exposure; sedation and respiratory depression risk.", "evidence": "PMID 12891229" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction reduces alprazolam exposure; loss of effect or withdrawal.", "evidence": "PMID 12010825" },
+      { "supplement": "kava", "interaction": "AVOID", "reason": "Additive sedation, additive hepatotoxicity; FDA-flagged combination.", "evidence": "FDA Consumer Advisory 2002" },
+      { "supplement": "valerian", "interaction": "AVOID", "reason": "Additive sedation; case reports of excessive CNS depression.", "evidence": "PMID 17132131" },
+      { "supplement": "melatonin (high-dose)", "interaction": "MONITOR", "reason": "Additive sedation at higher melatonin doses; usually clinically minor at standard supplement doses.", "evidence": "PMID 21199446" }
+    ]
+  },
+
+  "lorazepam": {
+    "category": "Benzodiazepines",
+    "molecule": "Lorazepam",
+    "metabolism": "Glucuronidation (no CYP involvement); intermediate half-life.",
+    "vs_class": "CYP-independent metabolism makes lorazepam (and oxazepam, temazepam) the preferred benzodiazepines in elderly, hepatic-impairment, and polypharmacy contexts. Grapefruit and St John's wort are not the issue here that they are with alprazolam.",
+    "supplement_overrides": [
+      { "supplement": "kava", "interaction": "AVOID", "reason": "Additive sedation, additive hepatotoxicity.", "evidence": "FDA Consumer Advisory 2002" },
+      { "supplement": "valerian", "interaction": "AVOID", "reason": "Additive sedation.", "evidence": "PMID 17132131" }
+    ]
+  },
+
+  "clonazepam": {
+    "category": "Benzodiazepines",
+    "molecule": "Clonazepam",
+    "metabolism": "CYP3A4 substrate; long half-life (~30-40 hours).",
+    "vs_class": "Long half-life means accumulation with daily dosing — particularly problematic in elderly. CYP3A4 dependence brings the grapefruit and St John's wort interactions back. The benzodiazepine of choice for atypical seizure disorders and some movement disorders.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit", "interaction": "CAUTION", "reason": "CYP3A4 inhibition increases clonazepam exposure.", "evidence": "PMID 12891229" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction reduces exposure; loss of seizure control or withdrawal.", "evidence": "PMID 12010825" },
+      { "supplement": "kava", "interaction": "AVOID", "reason": "Additive sedation, additive hepatotoxicity.", "evidence": "FDA Consumer Advisory 2002" }
+    ]
+  },
+
+  "clopidogrel": {
+    "category": "Antiplatelet agents (P2Y12 inhibitors)",
+    "molecule": "Clopidogrel",
+    "metabolism": "Prodrug — requires CYP2C19 activation to active metabolite. CYP2C19 polymorphism makes some patients poor responders.",
+    "vs_class": "Differs critically from ticagrelor and prasugrel: clopidogrel needs CYP2C19 activation (so omeprazole/esomeprazole reduce its effect), prasugrel uses different pathways, ticagrelor is not a prodrug.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction can increase active metabolite formation; altered antiplatelet effect.", "evidence": "PMID 16041316" },
+      { "supplement": "ginkgo biloba", "interaction": "AVOID", "reason": "Antiplatelet effect; multiple bleeding case reports with clopidogrel co-therapy.", "evidence": "PMID 17916582" },
+      { "supplement": "garlic (high-dose extract)", "interaction": "CAUTION", "reason": "Antiplatelet effect; additive bleeding risk.", "evidence": "PMID 17298243" },
+      { "supplement": "fish oil (>3g/day)", "interaction": "CAUTION", "reason": "Additive antiplatelet effect.", "evidence": "PMID 22115301" },
+      { "supplement": "vitamin e (high-dose)", "interaction": "CAUTION", "reason": "Mild antiplatelet effect at >400 IU/day; additive bleeding risk.", "evidence": "PMID 18065593" },
+      { "supplement": "turmeric / curcumin (high-dose)", "interaction": "CAUTION", "reason": "Mild antiplatelet effect at high doses.", "evidence": "PMID 22489218" }
+    ]
+  },
+
+  "ticagrelor": {
+    "category": "Antiplatelet agents (P2Y12 inhibitors)",
+    "molecule": "Ticagrelor",
+    "metabolism": "CYP3A4 substrate; not a prodrug — directly active. Reversible P2Y12 binding (vs irreversible for clopidogrel and prasugrel).",
+    "vs_class": "Not prodrug-activated, so unaffected by CYP2C19 status. Heavy CYP3A4 substrate makes grapefruit and St John's wort relevant. Reversible binding means faster offset — useful before urgent surgery.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "AVOID", "reason": "Strong CYP3A4 inhibition substantially increases ticagrelor exposure; bleeding risk.", "evidence": "PMID 24218290" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP3A4 induction reduces ticagrelor exposure; loss of antiplatelet effect.", "evidence": "PMID 24218290" },
+      { "supplement": "ginkgo biloba", "interaction": "AVOID", "reason": "Antiplatelet effect; additive bleeding.", "evidence": "PMID 17916582" },
+      { "supplement": "fish oil (>3g/day)", "interaction": "CAUTION", "reason": "Additive antiplatelet effect.", "evidence": "PMID 22115301" }
+    ]
+  },
+
+  "amiodarone": {
+    "category": "Antiarrhythmics",
+    "molecule": "Amiodarone",
+    "metabolism": "CYP3A4 substrate AND inhibitor; very long half-life (~50 days).",
+    "vs_class": "Almost a class of one. Very long half-life means interactions persist for weeks after discontinuation. Inhibits CYP3A4, CYP2C9, CYP2D6, P-gp — affects many co-prescribed drugs. Narrow therapeutic window with serious organ toxicity (thyroid, lung, liver, eye) on long-term use.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "AVOID", "reason": "CYP3A4 inhibition substantially increases amiodarone exposure; QT prolongation and torsades risk.", "evidence": "PMID 12891229" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP3A4 induction reduces amiodarone effect; arrhythmia recurrence risk.", "evidence": "PMID 11470322" },
+      { "supplement": "iodine (any form)", "interaction": "AVOID", "reason": "Amiodarone is 37% iodine by weight; supplemental iodine can precipitate amiodarone-induced thyroid dysfunction.", "evidence": "PMID 16973828" },
+      { "supplement": "fish oil (>3g/day)", "interaction": "MONITOR", "reason": "High-dose fish oil increases AFib risk in some populations; in amiodarone patients the co-existence may complicate rate/rhythm management.", "evidence": "PMID 39617283" }
+    ]
+  },
+
+  "sotalol": {
+    "category": "Antiarrhythmics",
+    "molecule": "Sotalol",
+    "metabolism": "Primarily renal excretion; non-selective beta-blockade plus class III antiarrhythmic activity.",
+    "vs_class": "QT prolongation is the dominant safety concern; cumulative QT-prolonging exposures matter. Unlike amiodarone, no significant CYP involvement.",
+    "supplement_overrides": [
+      { "supplement": "magnesium", "interaction": "MONITOR", "reason": "Useful in maintaining QT at the lower end of the affected range (low Mg increases torsades risk); usually a positive interaction.", "evidence": "PMID 18675725" },
+      { "supplement": "calcium (any form)", "interaction": "MONITOR", "reason": "Reduces sotalol absorption when co-ingested; separate by 2 hours.", "evidence": "Manufacturer label" },
+      { "supplement": "St John's wort", "interaction": "MONITOR", "reason": "Limited interaction data; no major PK effect predicted.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "alendronate": {
+    "category": "Bisphosphonates",
+    "molecule": "Alendronate",
+    "metabolism": "Oral bioavailability extremely low (~1%); chelated by divalent cations.",
+    "vs_class": "All oral bisphosphonates share the same absorption fragility. The 30-minute upright water-only window matters more than the molecule. Risedronate has slightly better tolerance; ibandronate has monthly dosing convenience but the same absorption rules.",
+    "supplement_overrides": [
+      { "supplement": "calcium (any form)", "interaction": "AVOID", "reason": "Chelates alendronate; reduces absorption to near zero. Separate by 2+ hours; ideally take alendronate first thing AM and calcium with later meal.", "evidence": "PMID 9098913" },
+      { "supplement": "iron (any form)", "interaction": "AVOID", "reason": "Same chelation issue.", "evidence": "Manufacturer label" },
+      { "supplement": "magnesium (any form)", "interaction": "AVOID", "reason": "Same chelation issue.", "evidence": "Manufacturer label" },
+      { "supplement": "zinc (any form)", "interaction": "AVOID", "reason": "Same chelation issue.", "evidence": "Manufacturer label" },
+      { "supplement": "vitamin d", "interaction": "MONITOR", "reason": "Vitamin D repletion is encouraged alongside bisphosphonate therapy; no negative interaction.", "evidence": "Endocrine Society guideline" }
+    ]
+  },
+
+  "liothyronine": {
+    "category": "Thyroid hormones",
+    "molecule": "Liothyronine (T3)",
+    "metabolism": "Direct receptor agonist; short half-life (~1 day).",
+    "vs_class": "Differs from levothyroxine in being already-active T3 rather than the T4 prohormone. Short half-life means peaks-and-troughs across the day, sometimes producing palpitations. Used in combination protocols and in hypothyroid patients with poor T4-to-T3 conversion. Same absorption-interaction concerns as levothyroxine but the chelation problem is somewhat smaller because oral T3 absorption is intrinsically higher.",
+    "supplement_overrides": [
+      { "supplement": "calcium (any form)", "interaction": "CAUTION", "reason": "Chelates T3 in the gut; separate by 4 hours.", "evidence": "PMID 9596013" },
+      { "supplement": "iron (any form)", "interaction": "CAUTION", "reason": "Chelates T3; separate by 4 hours.", "evidence": "PMID 1310581" },
+      { "supplement": "biotin (high-dose >5mg)", "interaction": "MONITOR", "reason": "Interferes with T3 lab assays; pause 48-72h before testing.", "evidence": "PMID 28632832" }
+    ]
+  },
+
+  "lithium": {
+    "category": "Mood stabilisers",
+    "molecule": "Lithium",
+    "metabolism": "Renal excretion; very narrow therapeutic index.",
+    "vs_class": "Almost a class of one. Renal handling is the bottleneck — anything that reduces renal lithium clearance pushes serum lithium toward toxicity.",
+    "supplement_overrides": [
+      { "supplement": "ibuprofen / NSAIDs (high-dose)", "interaction": "CAUTION", "reason": "Reduce renal lithium clearance; can elevate serum lithium ~25-50%. Most NSAIDs are not strictly supplements but worth flagging.", "evidence": "PMID 6504040" },
+      { "supplement": "psyllium (high-dose)", "interaction": "MONITOR", "reason": "May reduce lithium absorption; separate dosing by 1-2 hours.", "evidence": "PMID 1928478" },
+      { "supplement": "caffeine (high-dose)", "interaction": "MONITOR", "reason": "Caffeine increases lithium clearance via diuretic effect; abrupt caffeine reduction can elevate serum lithium.", "evidence": "PMID 7628012" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Additive serotonergic effect plus theoretical PK interaction.", "evidence": "PMID 11470322" },
+      { "supplement": "5-htp", "interaction": "AVOID", "reason": "Additive serotonergic risk in mood-stabiliser context.", "evidence": "PMID 17030414" },
+      { "supplement": "iodine", "interaction": "MONITOR", "reason": "Lithium reduces thyroid iodine uptake; supplemental iodine can mask hypothyroid effect of lithium.", "evidence": "PMID 19258462" }
+    ]
+  },
+
+  "venlafaxine": {
+    "category": "SNRIs (Serotonin-norepinephrine reuptake inhibitors)",
+    "molecule": "Venlafaxine",
+    "metabolism": "CYP2D6 substrate; activated to more potent O-desmethylvenlafaxine.",
+    "vs_class": "Within the SNRI class, venlafaxine has the most CYP2D6 dependence. Duloxetine is more CYP1A2-dependent. The serotonergic interactions apply to all SNRIs equivalently.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Additive serotonergic effect; serotonin syndrome risk.", "evidence": "PMID 10737287" },
+      { "supplement": "5-htp", "interaction": "AVOID", "reason": "Additive serotonergic effect.", "evidence": "PMID 17030414" },
+      { "supplement": "l-tryptophan", "interaction": "AVOID", "reason": "Additive serotonergic effect.", "evidence": "PMID 17030414" },
+      { "supplement": "same", "interaction": "AVOID", "reason": "Additive serotonergic mechanism.", "evidence": "PMID 12060836" },
+      { "supplement": "saffron", "interaction": "CAUTION", "reason": "Mild MAO-A inhibition; theoretical additive risk.", "evidence": "PMID 24299602" },
+      { "supplement": "berberine", "interaction": "CAUTION", "reason": "CYP2D6 inhibition; can elevate venlafaxine exposure.", "evidence": "PMID 21168349" }
+    ]
+  },
+
+  "metformin": {
+    "category": "Antidiabetic medications (biguanides)",
+    "molecule": "Metformin",
+    "metabolism": "Not metabolised; renal excretion unchanged.",
+    "vs_class": "First-line type-2 diabetes medication with strong CV evidence. No CYP interactions — most supplement issues are about additive glycaemic effects, vitamin B12 absorption, or shared kidney clearance.",
+    "supplement_overrides": [
+      { "supplement": "vitamin b12", "interaction": "MONITOR", "reason": "Long-term metformin use reduces B12 absorption; check serum B12 yearly.", "evidence": "PMID 16442910" },
+      { "supplement": "berberine", "interaction": "CAUTION", "reason": "Independent glucose-lowering effect; additive hypoglycaemia risk. Reasonable combination but monitor glucose.", "evidence": "PMID 18397984" },
+      { "supplement": "chromium", "interaction": "MONITOR", "reason": "Modest glucose-lowering; small additive effect.", "evidence": "PMID 17109601" },
+      { "supplement": "alpha-lipoic acid", "interaction": "MONITOR", "reason": "Mild glucose-lowering effect; theoretical additive hypoglycaemia.", "evidence": "PMID 22146145" },
+      { "supplement": "fenugreek (galactomannan-rich)", "interaction": "CAUTION", "reason": "Glucose-lowering; theoretical additive hypoglycaemia.", "evidence": "PMID 20018807" },
+      { "supplement": "gymnema sylvestre", "interaction": "CAUTION", "reason": "Glucose-lowering effect; theoretical additive hypoglycaemia.", "evidence": "PMID 17178330" }
+    ]
+  },
+
+  "phenytoin": {
+    "category": "Anti-epileptics",
+    "molecule": "Phenytoin",
+    "metabolism": "CYP2C9 + CYP2C19 substrate; potent CYP3A4 inducer; very narrow therapeutic window with non-linear PK.",
+    "vs_class": "Phenytoin behaves uniquely in the anti-epileptic class because of its non-linear (Michaelis-Menten) kinetics — small dose changes can produce large concentration changes near the therapeutic ceiling. Long-known supplement absorption issues (folate, calcium, vitamin D) plus broad CYP induction.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Additional CYP3A4 induction can compound autoinduction; unpredictable phenytoin levels.", "evidence": "PMID 11470322" },
+      { "supplement": "folic acid / 5-mthf", "interaction": "MONITOR", "reason": "Phenytoin depletes folate; supplementation is appropriate but very high doses can lower phenytoin levels and trigger seizures. Standard 400-1000 mcg is fine; megadoses are not.", "evidence": "PMID 19087246" },
+      { "supplement": "vitamin d3", "interaction": "MONITOR", "reason": "Phenytoin accelerates vitamin D catabolism; chronic phenytoin patients commonly need higher D3 doses to maintain adequate 25-OH-D.", "evidence": "PMID 22773041" },
+      { "supplement": "calcium", "interaction": "CAUTION", "reason": "Reduces phenytoin absorption; separate by 2 hours. Phenytoin patients often need calcium repletion for bone-density reasons regardless.", "evidence": "PMID 1359996" },
+      { "supplement": "ginkgo biloba", "interaction": "AVOID", "reason": "Has lowered seizure threshold in case reports of phenytoin patients; may also reduce phenytoin levels.", "evidence": "PMID 16005590" },
+      { "supplement": "evening primrose oil (high-dose GLA)", "interaction": "CAUTION", "reason": "Some seizure-threshold case reports; effect probably small but worth flagging.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "carbamazepine": {
+    "category": "Anti-epileptics",
+    "molecule": "Carbamazepine",
+    "metabolism": "Heavy CYP3A4 substrate AND potent CYP3A4 autoinducer; narrow therapeutic window.",
+    "vs_class": "Strongest CYP3A4 inducer in routine clinical use, comparable only to rifampin. Affects the metabolism of dozens of co-prescribed drugs. Grapefruit interaction (CYP3A4 inhibition) can produce dangerous level elevations.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "AVOID", "reason": "CYP3A4 inhibition can substantially raise carbamazepine concentration; toxicity risk.", "evidence": "PMID 8458089" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Compounding CYP3A4 induction; reduced exposure of co-prescribed medications and unpredictable carbamazepine kinetics.", "evidence": "PMID 11470322" },
+      { "supplement": "vitamin d3", "interaction": "MONITOR", "reason": "Accelerated vitamin D catabolism; chronic users typically need higher D3 doses.", "evidence": "PMID 22773041" },
+      { "supplement": "biotin", "interaction": "MONITOR", "reason": "Carbamazepine reduces biotin levels with chronic use; supplementation is generally safe.", "evidence": "PMID 17307579" },
+      { "supplement": "ginkgo biloba", "interaction": "AVOID", "reason": "Lower seizure-threshold case reports.", "evidence": "PMID 16005590" }
+    ]
+  },
+
+  "lamotrigine": {
+    "category": "Anti-epileptics",
+    "molecule": "Lamotrigine",
+    "metabolism": "UGT-glucuronidation (no CYP); levels strongly affected by enzyme inducers (other AEDs, oral contraceptives).",
+    "vs_class": "Cleaner CYP profile than phenytoin or carbamazepine but the UGT-mediated PK has its own complexity. Particularly important interaction with oral contraceptives — estrogen accelerates lamotrigine clearance, and starting/stopping a combined OCP can produce subtherapeutic or toxic levels.",
+    "supplement_overrides": [
+      { "supplement": "St John's wort", "interaction": "MONITOR", "reason": "Limited interaction data; theoretical UGT modulation. Worth flagging given the seriousness of lamotrigine subtherapeutic dosing.", "evidence": "PMID 11470322" },
+      { "supplement": "ginkgo biloba", "interaction": "AVOID", "reason": "Seizure-threshold concerns apply to all AEDs.", "evidence": "PMID 16005590" },
+      { "supplement": "folic acid / 5-mthf", "interaction": "MONITOR", "reason": "Reasonable to supplement; no major interaction.", "evidence": "Manufacturer label" }
+    ]
+  },
+
+  "valproate": {
+    "category": "Anti-epileptics",
+    "molecule": "Valproate (sodium valproate / valproic acid / divalproex)",
+    "metabolism": "Glucuronidation + beta-oxidation; potent inhibitor of UGT, CYP2C9, and epoxide hydrolase.",
+    "vs_class": "Inhibits clearance of many other AEDs (notably lamotrigine — dose adjustment required when combining). Significant teratogenicity makes it a cautious choice in pregnancy planning. Long-known association with carnitine depletion in chronic use.",
+    "supplement_overrides": [
+      { "supplement": "l-carnitine", "interaction": "MONITOR", "reason": "Valproate depletes carnitine via mitochondrial inhibition; supplementation at 50 mg/kg/day is recommended in symptomatic deficiency or in valproate-induced hyperammonaemia.", "evidence": "PMID 19660651" },
+      { "supplement": "folic acid / 5-mthf", "interaction": "MONITOR", "reason": "Folate supplementation reduces (but does not eliminate) valproate teratogenicity risk; women of reproductive age on valproate should be counselled and supplemented at 4-5 mg/day.", "evidence": "Multiple guidelines" },
+      { "supplement": "biotin", "interaction": "MONITOR", "reason": "Valproate may reduce biotin levels in chronic use.", "evidence": "PMID 17307579" },
+      { "supplement": "vitamin d3", "interaction": "MONITOR", "reason": "Valproate is associated with reduced bone mineral density and altered vitamin D metabolism.", "evidence": "PMID 22773041" },
+      { "supplement": "ginkgo biloba", "interaction": "AVOID", "reason": "Seizure-threshold concerns.", "evidence": "PMID 16005590" }
+    ]
+  },
+
+  "tamoxifen": {
+    "category": "Endocrine cancer therapy (selective estrogen receptor modulators)",
+    "molecule": "Tamoxifen",
+    "metabolism": "Prodrug; activated by CYP2D6 to potent metabolite endoxifen.",
+    "vs_class": "The CYP2D6-activation requirement is the single most important interaction concern. Strong CYP2D6 inhibitors substantially reduce endoxifen formation, which has been associated with worse breast-cancer outcomes in observational data. Anything that touches CYP2D6 deserves a conversation with the prescribing oncologist.",
+    "supplement_overrides": [
+      { "supplement": "berberine", "interaction": "AVOID", "reason": "Significant CYP2D6 inhibition; reduces endoxifen formation.", "evidence": "PMID 21168349" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "CYP3A4 induction reduces tamoxifen exposure plus complex effects on metabolism; worse cancer outcomes plausible.", "evidence": "PMID 16041316" },
+      { "supplement": "soy isoflavones (high-dose)", "interaction": "CAUTION", "reason": "Phytoestrogen activity may theoretically interfere with tamoxifen's anti-estrogen action; recent observational data are reassuring at dietary intake levels but the supplement-dose conversation is unsettled. Discuss with oncology.", "evidence": "PMID 22418276" },
+      { "supplement": "black cohosh", "interaction": "MONITOR", "reason": "Originally feared as estrogenic; current evidence suggests minimal estrogenic effect and probably acceptable. Discuss with oncology.", "evidence": "PMID 17324968" },
+      { "supplement": "5-htp", "interaction": "AVOID", "reason": "Serotonergic; common combination concern when tamoxifen is co-prescribed with serotonergic agents.", "evidence": "PMID 17030414" }
+    ]
+  },
+
+  "anastrozole": {
+    "category": "Endocrine cancer therapy (aromatase inhibitors)",
+    "molecule": "Anastrozole",
+    "metabolism": "CYP3A4 substrate; works by blocking aromatase (estrogen synthesis) rather than receptor antagonism.",
+    "vs_class": "Different concern profile from tamoxifen — no CYP2D6 prodrug issue. Bone density and joint symptoms are the dominant adverse-effect concerns; supplements that touch those endpoints matter most.",
+    "supplement_overrides": [
+      { "supplement": "vitamin d3", "interaction": "MONITOR", "reason": "Bone-protective; aromatase inhibitors accelerate bone loss. Replete to adequate 25-OH-D and continue indefinitely on AI therapy.", "evidence": "PMID 19880738" },
+      { "supplement": "calcium", "interaction": "MONITOR", "reason": "Bone-protective; pair with vitamin D and weight-bearing activity.", "evidence": "PMID 19880738" },
+      { "supplement": "soy isoflavones (high-dose)", "interaction": "CAUTION", "reason": "Phytoestrogen activity could theoretically counteract AI effect; discuss with oncology.", "evidence": "PMID 22418276" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction may reduce anastrozole exposure.", "evidence": "PMID 16041316" }
+    ]
+  },
+
+  "methotrexate": {
+    "category": "Disease-modifying anti-rheumatic drugs / chemotherapy",
+    "molecule": "Methotrexate",
+    "metabolism": "Renal excretion; folate antagonist by mechanism.",
+    "vs_class": "Folate-antagonism mechanism makes the folate supplementation question central — and the answer differs depending on indication. In rheumatology indications, folic acid supplementation reduces side effects without compromising efficacy. In chemotherapy use, dosing and timing of folate are far more delicate and are managed by the treating team.",
+    "supplement_overrides": [
+      { "supplement": "folic acid", "interaction": "MONITOR", "reason": "In rheumatology use (RA, psoriasis), 1-5 mg folic acid daily reduces GI and hepatic side effects without efficacy loss. Take on a different day of the week from the methotrexate dose. In oncology use, follow oncology protocol exactly.", "evidence": "PMID 23737396" },
+      { "supplement": "St John's wort", "interaction": "AVOID", "reason": "Reduces methotrexate exposure; loss of disease control or unpredictable kinetics.", "evidence": "PMID 16041316" },
+      { "supplement": "high-dose vitamin c", "interaction": "CAUTION", "reason": "Acidifies urine; can reduce renal methotrexate excretion and elevate levels.", "evidence": "PMID 18077946" },
+      { "supplement": "NSAIDs (high-dose, chronic)", "interaction": "AVOID", "reason": "Not strictly a supplement, but chronic NSAID use reduces renal methotrexate clearance and can produce toxicity. Particularly relevant given many MTX patients also take NSAIDs for joint symptoms.", "evidence": "PMID 1428462" }
+    ]
+  },
+
+  "mycophenolate": {
+    "category": "Immunosuppressants",
+    "molecule": "Mycophenolate (mofetil or sodium)",
+    "metabolism": "Hydrolysed to active mycophenolic acid; glucuronidation. Enterohepatic circulation.",
+    "vs_class": "Different profile from calcineurin inhibitors. Iron co-administration significantly reduces mycophenolate absorption; many transplant patients miss this. Magnesium/aluminium antacids similarly chelate.",
+    "supplement_overrides": [
+      { "supplement": "iron (any form)", "interaction": "AVOID", "reason": "Substantially reduces mycophenolate absorption. Separate by at least 4 hours; many sources recommend avoiding entirely.", "evidence": "PMID 12642988" },
+      { "supplement": "calcium (any form)", "interaction": "CAUTION", "reason": "Calcium-containing antacids reduce mycophenolate absorption; separate by 2 hours.", "evidence": "PMID 14999108" },
+      { "supplement": "magnesium (any form)", "interaction": "CAUTION", "reason": "Magnesium-containing antacids reduce absorption; separate by 2 hours.", "evidence": "PMID 14999108" },
+      { "supplement": "echinacea", "interaction": "AVOID", "reason": "Immunostimulant effect counterproductive in transplant recipients.", "evidence": "PMID 16401078" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "Less metabolic interaction than with calcineurin inhibitors but still reasonable to avoid.", "evidence": "PMID 11470322" }
+    ]
+  },
+
+  "sildenafil": {
+    "category": "PDE5 inhibitors",
+    "molecule": "Sildenafil",
+    "metabolism": "CYP3A4 substrate; CYP3A4 inhibitors substantially raise exposure.",
+    "vs_class": "Within the PDE5 class, half-lives differ (sildenafil ~4h, vardenafil ~4h, tadalafil ~17h). All three share the CYP3A4 metabolism and the absolute contraindication with nitrates. Avanafil has slightly cleaner CYP profile.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "CAUTION", "reason": "CYP3A4 inhibition can substantially increase sildenafil exposure; hypotension risk.", "evidence": "PMID 12891229" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction can reduce sildenafil effect.", "evidence": "PMID 11470322" },
+      { "supplement": "yohimbine", "interaction": "CAUTION", "reason": "Both have cardiovascular effects; combination should not be self-prescribed without clinician input.", "evidence": "Manufacturer label" },
+      { "supplement": "l-arginine (high-dose)", "interaction": "MONITOR", "reason": "Mild additive vasodilatory effect; usually clinically minor.", "evidence": "PMID 15531213" },
+      { "supplement": "l-citrulline (high-dose)", "interaction": "MONITOR", "reason": "L-citrulline raises systemic L-arginine more reliably than oral L-arginine; same modest additive vasodilatory caveat.", "evidence": "PMID 21195829" }
+    ]
+  },
+
+  "tadalafil": {
+    "category": "PDE5 inhibitors",
+    "molecule": "Tadalafil",
+    "metabolism": "CYP3A4 substrate; long half-life (~17 hours) means interactions persist longer than with sildenafil.",
+    "vs_class": "The long half-life is the distinguishing PK feature. Same nitrate contraindication, same CYP3A4 sensitivity. Daily low-dose tadalafil is a separate use case (BPH and ED) with its own dosing.",
+    "supplement_overrides": [
+      { "supplement": "grapefruit (whole / juice)", "interaction": "CAUTION", "reason": "CYP3A4 inhibition; effect persists longer than with sildenafil because of half-life.", "evidence": "PMID 12891229" },
+      { "supplement": "St John's wort", "interaction": "CAUTION", "reason": "CYP3A4 induction reduces tadalafil exposure.", "evidence": "PMID 11470322" },
+      { "supplement": "yohimbine", "interaction": "CAUTION", "reason": "Cardiovascular interaction concern.", "evidence": "Manufacturer label" }
+    ]
+  }
+
+}

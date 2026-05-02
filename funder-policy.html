@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funder policy — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="How SupplementScore handles study funding sources, conflicts of interest, and industry-sponsored evidence.">
+  <link rel="canonical" href="https://supplementscore.org/funder-policy.html">
+  <meta property="og:title" content="Funder policy — SupplementScore">
+  <meta property="og:description" content="How we handle study funding, COI, and industry-sponsored evidence.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260502a">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <style>
+    body { background: var(--color-background-primary); color: var(--color-text-primary); }
+    .pg-wrap { max-width: 760px; margin: 0 auto; padding: 32px 24px 64px; line-height: 1.65; }
+    .pg-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; transition: all .15s; }
+    .pg-back:hover { background: rgba(31,122,107,.05); color: var(--color-brand); }
+    .pg-wrap h1 { font-size: 2rem; font-weight: 700; margin: 0 0 8px; line-height: 1.2; letter-spacing: -.5px; }
+    .pg-sub { color: var(--color-text-secondary); font-size: 14.5px; margin-bottom: 28px; }
+    .pg-wrap h2 { font-size: 1.3rem; font-weight: 700; margin: 36px 0 10px; padding-top: 14px; border-top: 1px solid var(--color-border-tertiary); letter-spacing: -.2px; }
+    .pg-wrap h2:first-of-type { padding-top: 0; border-top: none; }
+    .pg-wrap p { margin-bottom: 14px; }
+    .pg-callout { background: rgba(31,122,107,.06); border-left: 3px solid var(--color-brand); padding: 14px 16px; border-radius: 4px; margin: 16px 0; font-size: 13.5px; color: #0F4A41; }
+    .ftbl { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13.5px; }
+    .ftbl th, .ftbl td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--color-border-tertiary); vertical-align: top; }
+    .ftbl th { background: var(--color-background-secondary); font-weight: 700; }
+    .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .pill-pub { background: var(--t1bg); color: var(--t1tx); }
+    .pill-mix { background: var(--t3bg); color: var(--t3tx); }
+    .pill-ind { background: var(--t4bg); color: var(--t4tx); }
+    .pill-und { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+    .ex { background: var(--color-background-secondary); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 13.5px; }
+    .ex strong { color: var(--color-text-primary); }
+    .pg-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
+    .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
+    .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+    @media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}
+  </style>
+</head>
+<body>
+<a href="index.html" class="pg-close-fab" onclick="event.preventDefault();if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='index.html';}" aria-label="Close and return">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</a>
+<main class="pg-wrap">
+  <a href="methodology.html" class="pg-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to Methodology
+  </a>
+  <h1>Funder policy</h1>
+  <p class="pg-sub">How we handle study funding, conflicts of interest, and industry-sponsored evidence. Last updated 2026-05-01.</p>
+
+  <div class="pg-callout">
+    <strong>The short version.</strong> Industry-funded studies are read, cited, and weighted — but they cannot, alone, promote a supplement to tier 1. Tier 1 requires at least one pivotal study with a public or nonprofit funder.
+  </div>
+
+  <h2>Funder types we recognise</h2>
+
+  <table class="ftbl">
+    <thead><tr><th>Type</th><th>Examples</th><th>How we treat it</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="pill pill-pub">Public</span></td>
+        <td>NIH, NIA, NHLBI, Wellcome Trust, MRC (UK), VA, NIHR, EU Horizon, NSF, military research grants</td>
+        <td>Counts toward the tier-1 citation gate. Highest weighting in scoring.</td>
+      </tr>
+      <tr>
+        <td><span class="pill pill-pub">Nonprofit</span></td>
+        <td>American Heart Association, ALS Association, MS Society, American Cancer Society, JDRF, foundation-funded research</td>
+        <td>Counts toward the tier-1 citation gate. Weighted equally with public funding.</td>
+      </tr>
+      <tr>
+        <td><span class="pill pill-mix">Mixed</span></td>
+        <td>Public + industry co-funding where the public component is substantial and the industry sponsor did not control study design or analysis</td>
+        <td>Counts toward the tier-1 gate <em>only</em> if the protocol explicitly limits sponsor involvement and an independent statistician analysed the data. Otherwise treated as industry.</td>
+      </tr>
+      <tr>
+        <td><span class="pill pill-ind">Industry-sponsored</span></td>
+        <td>Manufacturer, distributor, or retailer paid for the study, supplied product, or employed the principal investigator</td>
+        <td>Cited and weighted. <strong>Does not satisfy the tier-1 gate alone.</strong> If industry studies are the only evidence base, the supplement is capped at tier 2 regardless of effect size.</td>
+      </tr>
+      <tr>
+        <td><span class="pill pill-und">Undisclosed</span></td>
+        <td>Funding statement absent, ambiguous, or refuses to name a funder</td>
+        <td>Cited only with a flag. Does not satisfy the tier-1 gate. We email the corresponding author and update the entry if a credible disclosure arrives.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>What "industry-sponsored" actually means</h2>
+  <p>A study is industry-sponsored if any of the following are true: a supplement manufacturer or distributor paid for the trial; a manufacturer supplied the active product without independent verification of identity, potency, and purity; a study author held equity, consulting fees, or a paid speakership with a manufacturer of the supplement under study within the prior three years; or the manufacturer had any control over study design, conduct, analysis, or publication.</p>
+  <p>Free product alone, with no other involvement, is borderline. We treat it as industry unless the protocol shows the product was independently sourced or assayed.</p>
+
+  <h2>Worked examples</h2>
+
+  <div class="ex">
+    <strong>Example 1 — creatine monohydrate.</strong> Hundreds of pivotal trials, including dozens funded by NIH, the U.S. military's research grants, and university sports-medicine programs. Tier-1 gate satisfied many times over. Scored T1 (96/100).
+  </div>
+
+  <div class="ex">
+    <strong>Example 2 — a proprietary mushroom blend.</strong> All published trials are funded by the manufacturer, with the manufacturer supplying the product and analysing the data. Effect sizes look promising. Per this policy: capped at T2 until an independent group reproduces the effect with publicly-funded follow-up.
+  </div>
+
+  <div class="ex">
+    <strong>Example 3 — a polyphenol with mixed evidence.</strong> Three pivotal trials: one funded by NIA (positive), one funded by a beverage company (positive), one funded by a different beverage company (null). The NIA trial alone satisfies the gate. The industry trials are cited and discussed but the score is anchored to the public study.
+  </div>
+
+  <div class="ex">
+    <strong>Example 4 — a newly emerging peptide.</strong> Active manufacturer-sponsored research only. No PubMed-indexed independent trial. Per the gate: cannot enter tier 1 even if the manufacturer trials look strong. Currently sits at T3 with the gating reason explicitly logged.
+  </div>
+
+  <h2>Our own COI policy</h2>
+  <p>SupplementScore is operated as a non-profit reference. We accept no funding from manufacturers, distributors, retailers, or affiliate programs. We do not run advertising. We do not earn commission on any product mentioned. Our hosting and tooling are paid for from individual reader donations and the operator's personal funds; both are disclosed annually in the <a href="about.html">About page</a> transparency report.</p>
+  <p>Editorial staff disclose any holdings (equity, consulting, speakerships) related to the supplement industry within the prior three years. Anyone with active industry ties cannot author or second-read entries on supplements where the conflict applies.</p>
+
+  <h2>How to flag a funding issue</h2>
+  <p>If you believe we have mis-classified a study's funder, or missed a disclosed conflict, please report it via the <a href="https://github.com/supplementscore/supplementscore/issues/new?template=accuracy-issue.md" target="_blank" rel="noopener">accuracy-issue template</a>. Funder reclassifications take priority and are typically actioned within one editorial cycle.</p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="editorial-pipeline.html">Editorial pipeline</a> — the full study-to-score flow</li>
+    <li><a href="tier-promotion-flow.html">Tier promotion flow</a> — when scores move between tiers</li>
+    <li><a href="methodology.html">Full methodology</a></li>
+    <li><a href="about.html">About + transparency report</a></li>
+  </ul>
+</main>
+</body>
+</html>

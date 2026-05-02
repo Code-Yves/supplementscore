@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupplementScore — Information sur les compléments alimentaires, sans conflit d'intérêt</title>
+<meta name="description" content="Référence à but non lucratif, basée sur les preuves. 758 compléments évalués sur 6 dimensions à partir de 27 000+ études révisées par les pairs. Aucun parrainage, aucun affilié.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://supplementscore.org/fr/landing.html">
+
+<!-- Hreflang — language alternates -->
+<link rel="alternate" hreflang="en" href="https://supplementscore.org/landing.html">
+<link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/landing.html">
+<link rel="alternate" hreflang="x-default" href="https://supplementscore.org/landing.html">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=20260502a">
+
+<style>
+body{ padding: 0 0 4rem; }
+.lp{ max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+.lp-lang{
+  display: flex; justify-content: flex-end; padding: 14px 24px 0;
+  font-size: 12px; color: var(--color-text-tertiary);
+}
+.lp-lang a{
+  color: var(--color-text-secondary); text-decoration: none; padding: 4px 10px;
+  border-radius: 999px; transition: all .15s; margin-left: 4px;
+}
+.lp-lang a.on{ background: var(--color-brand); color: #fff; font-weight: 600; }
+.lp-lang a:hover:not(.on){ background: var(--color-background-secondary); color: var(--color-text-primary); }
+
+.lp-brand{ display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px 24px 0; }
+.lp-brand .mk-svg{ width: 36px; height: 36px; border-radius: 9px; background: var(--color-brand); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lp-brand .mk-svg svg{ display: block; }
+.lp-brand .mark{ font-size: 17px; font-weight: 700; letter-spacing: -.3px; color: var(--color-text-primary); text-decoration: none; }
+.lp-brand .mark .tld{ color: var(--color-text-tertiary); font-weight: 500; }
+
+.lp-callout{ margin: 26px auto 0; max-width: 640px; background: var(--color-accent-coral-soft, #F5C9B8); color: #6B231D; border-radius: 999px; padding: 9px 18px; font-size: 13px; font-weight: 500; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.lp-callout .pill{ background: var(--color-accent-coral, #E8967A); color: #fff; border-radius: 999px; padding: 2px 10px; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.lp-callout a{ color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+.lp-hero{ padding: 28px 24px 48px; text-align: center; }
+.lp-hero h1{ font-size: clamp(38px, 6vw, 60px); font-weight: 700; letter-spacing: -1.6px; line-height: 1.05; color: var(--color-text-primary); max-width: 22ch; margin: 0 auto 20px; }
+.lp-hero p.lede{ font-size: 17px; color: var(--color-text-secondary); max-width: 58ch; margin: 0 auto 32px; line-height: 1.6; }
+.lp-hero .cta-row{ display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; }
+.lp-hero .cta{ display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; background: var(--color-brand); color: #fff; font-weight: 600; font-size: 14.5px; text-decoration: none; border-radius: 999px; transition: background .15s; }
+.lp-hero .cta:hover{ background: var(--color-brand-hover); }
+.lp-hero .cta.secondary{ background: transparent; color: var(--color-text-primary); border: 1px solid var(--color-border-secondary); padding: 12px 21px; }
+.lp-hero .cta.secondary:hover{ background: var(--color-background-primary); border-color: var(--color-text-primary); }
+
+.lp-stats{ border-top: 0.5px solid var(--color-border-tertiary); display: grid; grid-template-columns: repeat(3, 1fr); padding: 32px 0; }
+.lp-stats .stat{ text-align: center; border-left: 0.5px solid var(--color-border-tertiary); padding: 0 16px; }
+.lp-stats .stat:first-child{ border-left: 0; }
+.lp-stats .n{ font-size: 30px; font-weight: 700; color: var(--color-text-primary); letter-spacing: -1px; line-height: 1; font-variant-numeric: tabular-nums; display: block; margin-bottom: 8px; }
+.lp-stats .lbl{ font-size: 13px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 3px; }
+.lp-stats .sub{ font-size: 11.5px; color: var(--color-text-tertiary); line-height: 1.4; }
+
+.lp-note{ background: rgba(31,122,107,.06); border-left: 3px solid var(--color-brand); padding: 14px 18px; border-radius: 6px; margin: 24px auto; max-width: 640px; font-size: 13px; color: #0F4A41; line-height: 1.55; }
+
+.lp-foot{ margin-top: 48px; padding: 18px 24px; text-align: center; font-size: 12px; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); line-height: 1.6; }
+.lp-foot a{ color: inherit; text-decoration: underline; }
+
+@media (max-width: 720px){
+  .lp-stats{ grid-template-columns: 1fr; gap: 24px; }
+  .lp-stats .stat{ border-left: 0; border-top: 0.5px solid var(--color-border-tertiary); padding: 18px 0 0; }
+  .lp-stats .stat:first-child{ border-top: 0; padding-top: 0; }
+  .lp-hero{ padding: 24px 18px 32px; }
+  .lp-callout{ flex-direction: column; border-radius: 14px; padding: 12px 16px; line-height: 1.5; gap: 6px; }
+}
+</style>
+<meta name="theme-color" content="#1F7A6B">
+<link rel="manifest" href="/manifest.webmanifest">
+</head>
+<body>
+
+<div class="lp-lang" aria-label="Choix de la langue">
+  Langue / Language ·
+  <a href="../landing.html" hreflang="en">English</a>
+  <a href="landing.html" hreflang="fr" class="on" aria-current="page">Français</a>
+</div>
+
+<main class="lp">
+
+  <div class="lp-brand">
+    <span class="mk-svg" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z" fill="#F8F4ED"/>
+        <path d="M5 19C9 15 13 11 19 5" stroke="#1F7A6B" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      </svg>
+    </span>
+    <a class="mark" href="landing.html">SupplementScore<span class="tld">.org</span></a>
+  </div>
+
+  <div class="lp-callout">
+    <span class="pill">Nouveau</span>
+    <span>15 protocoles par condition · 5 guides comparatifs — voir le site complet (en anglais pour le moment)</span>
+  </div>
+
+  <section class="lp-hero">
+    <h1>L'information sur les compléments, sans biais.</h1>
+    <p class="lede">758 compléments évalués à partir de 27 000+ études révisées par les pairs. Aucun parrainage, aucun produit en vente, aucun lien affilié. Juste les preuves — écrites de manière à ce que tout le monde puisse les utiliser.</p>
+    <div class="cta-row">
+      <a href="../index.html" class="cta">Parcourir l'index complet →</a>
+      <a href="../methodology.html" class="cta secondary">Comment fonctionne le scoring</a>
+    </div>
+  </section>
+
+  <div class="lp-stats">
+    <div class="stat">
+      <span class="n">27 142</span>
+      <div class="lbl">Études révisées par les pairs</div>
+      <div class="sub">Essais cliniques et méta-analyses uniquement</div>
+    </div>
+    <div class="stat">
+      <span class="n">758</span>
+      <div class="lbl">Compléments évalués</div>
+      <div class="sub">Mise à jour hebdomadaire</div>
+    </div>
+    <div class="stat">
+      <span class="n">0</span>
+      <div class="lbl">Parrainages ou affiliations</div>
+      <div class="sub">100% indépendant et à but non lucratif</div>
+    </div>
+  </div>
+
+  <div class="lp-note">
+    <strong>Note sur la traduction.</strong> Cette page d'accueil est traduite en français. Les pages détaillées (compléments, conditions, méthodologie) restent en anglais pour le moment — la traduction de l'ensemble du site est prévue mais pas encore disponible. Si vous souhaitez contribuer à la traduction française, écrivez-nous via la <a href="../about.html">page À propos</a>.
+  </div>
+
+</main>
+
+<footer class="lp-foot">
+  Référence éducative, pas un avis médical. Consultez toujours un professionnel de santé qualifié avant de modifier votre routine de compléments.
+  <br>
+  &copy; 2026 SupplementScore · Référence à but non lucratif · <a href="../methodology.html">Méthodologie</a> · <a href="../about.html">À propos</a> · <a href="../privacy.html">Confidentialité</a> · <a href="../terms.html">Conditions</a>
+</footer>
+
+</body>
+</html>

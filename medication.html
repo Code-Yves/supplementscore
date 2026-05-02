@@ -8,15 +8,15 @@
 <title>Medication detail — SupplementScore</title>
 <meta name="description" content="Supplement interactions for a given medication class.">
 <meta name="robots" content="index, follow">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260427a">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260502a">
 <style>
 .dt-wrap{max-width:880px;margin:0 auto;padding:24px}
 .dt-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:18px 0 14px}
-.dt-back:hover{background:rgba(123,31,162,.06);border-color:var(--color-brand);color:var(--color-brand)}
+.dt-back:hover{background:rgba(31,122,107,.06);border-color:var(--color-brand);color:var(--color-brand)}
 .dt-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:#B91C1C;margin-bottom:6px}
 .dt-h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
 .dt-note{padding:14px 18px;background:var(--t4bg);color:var(--t4tx);border:1px solid var(--t4c);border-radius:10px;font-size:13.5px;line-height:1.55;margin:14px 0 22px}
@@ -37,6 +37,43 @@
 .dt-empty{font-size:13px;color:var(--color-text-tertiary);font-style:italic}
 .dt-disclaim{margin:32px 0 24px;font-size:12px;color:var(--color-text-tertiary);text-align:center;line-height:1.55}
 </style>
+  <link rel="canonical" href="https://supplementscore.org/medication.html">
+  <meta property="og:title" content="Medication interactions | SupplementScore">
+  <meta property="og:description" content="Search supplements that interact with your prescription medications. 70 drug categories, 1,400+ documented interactions.">
+  <meta property="og:url" content="https://supplementscore.org/medication.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Medication interactions | SupplementScore">
+  <meta name="twitter:description" content="Search supplements that interact with your prescription medications. 70 drug categories, 1,400+ documented interactions.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Medication interactions | SupplementScore",
+  "description": "Search supplements that interact with your prescription medications. 70 drug categories, 1,400+ documented interactions.",
+  "url": "https://supplementscore.org/medication.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SupplementScore"
+  }
+}
+</script>
+  <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
+       Sign up at https://plausible.io and replace the data-domain if needed. -->
+  <!-- <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script> -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
 </head>
 <body>
 <div class="beta-bar" role="status" aria-live="polite">
@@ -54,7 +91,7 @@
     <div class="site-nav-tabs">
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
-      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Article</a>
       <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">Profile</a>
     </div>
@@ -100,8 +137,81 @@
     + bucket('Often supportive',        (m.extra   ||[]).length, m.extra,   'bucket-extra')
     + ((m.avoid||[]).length===0 && (m.caution||[]).length===0 && (m.extra||[]).length===0
         ? '<div class="dt-card"><div class="dt-empty">No supplement interactions on file for this class.</div></div>' : '')
-    + '<p class="dt-disclaim">Educational reference, not medical advice. Confirm any supplement change with your prescriber.</p>';
+    + '<div id="dt-mol-slot"></div>'
+    + '<p class="dt-disclaim">Educational reference, not medical advice. Confirm any supplement change with your prescriber.</p>'
+    + '<div class="dt-disclaim" style="font-size:11.5px;line-height:1.7;text-align:center;margin-top:8px"><strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Methodology</strong><a href="methodology.html" style="color:inherit;text-decoration:underline;margin-right:6px">Scoring</a> · <a href="editorial-pipeline.html" style="color:inherit;text-decoration:underline;margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Funder policy</a> · <a href="changed-our-mind.html" style="color:inherit;text-decoration:underline;margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" style="color:inherit;text-decoration:underline;margin-right:6px">Bibliography</a><br><strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Site</strong><a href="about.html" style="color:inherit;text-decoration:underline;margin-right:6px">About</a> · <a href="privacy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:underline;margin-right:6px">Terms</a> · <a href="accessibility.html" style="color:inherit;text-decoration:underline">Accessibility</a></div>';
+
+  // ── Per-molecule detail layer (Direction C, 2026-05-02) ───────────────
+  // Loads /data/meds-detail.json and surfaces specific molecules where the
+  // intra-class interaction profile diverges meaningfully from the class default.
+  (function loadMolDetail(){
+    var slot = document.getElementById('dt-mol-slot');
+    if (!slot) return;
+    fetch('/data/meds-detail.json').then(function(r){ return r.ok ? r.json() : null; }).then(function(db){
+      if (!db) return;
+      var classLabel = (m.label || '').toLowerCase();
+      var molecules = [];
+      Object.keys(db).forEach(function(k){
+        if (k === '_meta') return;
+        var entry = db[k];
+        if (!entry || !entry.category) return;
+        if (entry.category.toLowerCase().split('(')[0].trim().indexOf(classLabel.split('(')[0].trim()) !== -1
+            || classLabel.indexOf(entry.category.toLowerCase().split('(')[0].trim()) !== -1) {
+          molecules.push({ key: k, data: entry });
+        }
+      });
+      if (!molecules.length) return;
+      var rows = molecules.map(function(mol){
+        var d = mol.data;
+        var overrides = (d.supplement_overrides || []).map(function(o){
+          var color = ({AVOID:'t4',CAUTION:'t3',MONITOR:'t2',NONE:'t1'})[o.interaction] || 't2';
+          return ''
+            + '<div class="mol-ov">'
+            +   '<div class="mol-ov-h"><span class="mol-tag t-' + color + '">' + escapeHtml(o.interaction) + '</span><strong>' + escapeHtml(o.supplement) + '</strong></div>'
+            +   '<div class="mol-ov-r">' + escapeHtml(o.reason) + (o.evidence ? ' <span class="mol-ev">(' + escapeHtml(o.evidence) + ')</span>' : '') + '</div>'
+            + '</div>';
+        }).join('');
+        return ''
+          + '<details class="mol-detail" ' + (molecules.length === 1 ? 'open' : '') + '>'
+          +   '<summary class="mol-sum">'
+          +     '<strong>' + escapeHtml(d.molecule) + '</strong>'
+          +     '<span class="mol-meta">' + escapeHtml(d.metabolism || '') + '</span>'
+          +   '</summary>'
+          +   '<div class="mol-body">'
+          +     '<p class="mol-vsclass"><em>vs class default:</em> ' + escapeHtml(d.vs_class) + '</p>'
+          +     overrides
+          +   '</div>'
+          + '</details>';
+      }).join('');
+      slot.innerHTML =
+        '<section class="dt-card">'
+        + '<h2>Drill into specific drug<span class="pill" style="background:rgba(31,122,107,.10);color:var(--color-brand)">Per-molecule</span></h2>'
+        + '<p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 12px">' + molecules.length + ' molecule' + (molecules.length>1?'s':'') + ' in this class behave differently from the class default. Tap to expand.</p>'
+        + '<div class="mol-list">' + rows + '</div>'
+        + '</section>';
+    }).catch(function(){ /* silent — non-essential */ });
+  })();
 })();
 </script>
+<style>
+  .mol-list{display:flex;flex-direction:column;gap:8px}
+  .mol-detail{border:1px solid var(--color-border-tertiary);border-radius:10px;background:var(--color-background-secondary);overflow:hidden}
+  .mol-sum{padding:11px 14px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;font-size:13.5px;color:var(--color-text-primary);user-select:none;transition:background .15s}
+  .mol-sum:hover{background:var(--color-background-primary)}
+  .mol-sum strong{font-weight:700}
+  .mol-meta{font-size:11.5px;color:var(--color-text-tertiary);font-weight:400}
+  .mol-body{padding:0 14px 14px;border-top:1px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+  .mol-vsclass{font-size:13px;color:var(--color-text-secondary);margin:12px 0 14px;line-height:1.55}
+  .mol-ov{padding:10px 0;border-top:1px solid var(--color-border-tertiary)}
+  .mol-ov:first-of-type{border-top:0}
+  .mol-ov-h{display:flex;align-items:center;gap:8px;font-size:13.5px;margin-bottom:4px}
+  .mol-tag{font-size:9.5px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:5px;flex-shrink:0}
+  .mol-tag.t-t4{background:var(--t4bg);color:var(--t4tx)}
+  .mol-tag.t-t3{background:var(--t3bg);color:var(--t3tx)}
+  .mol-tag.t-t2{background:var(--t2bg);color:var(--t2tx)}
+  .mol-tag.t-t1{background:var(--t1bg);color:var(--t1tx)}
+  .mol-ov-r{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55}
+  .mol-ev{color:var(--color-text-tertiary);font-style:italic}
+</style>
 </body>
 </html>

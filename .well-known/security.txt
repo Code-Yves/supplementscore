@@ -1,0 +1,22 @@
+# Security policy for SupplementScore
+# https://supplementscore.org
+
+Contact: https://supplementscore.org/about.html
+Expires: 2027-05-01T00:00:00Z
+Preferred-Languages: en
+Canonical: https://supplementscore.org/.well-known/security.txt
+Policy: https://supplementscore.org/about.html
+
+# Reporting
+# Please report security vulnerabilities responsibly. Contact via the
+# email listed on /about.html. Allow up to 7 days for an acknowledgement.
+
+# Scope
+# - The site itself (HTML, CSS, JS, sitemap, robots.txt)
+# - The open-data files at /data/
+# - Anything that could lead to medical-data exposure or content injection
+
+# Out of scope
+# - GitHub Pages infrastructure (report to GitHub)
+# - Formspree (report to Formspree)
+# - Google Fonts CDN (report to Google)

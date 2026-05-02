@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#F8F4ED"/>
+  <rect x="0" y="0" width="1200" height="14" fill="#4B7BE5"/>
+
+  <!-- Tier badge -->
+  <rect x="80" y="80" rx="22" ry="22" width="220" height="56" fill="#4B7BE5"/>
+  <text x="190" y="118" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22"
+        font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">TIER 2</text>
+
+  <!-- Supplement name -->
+<text x="80" y="320" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="64" font-weight="800" fill="#0F172A" letter-spacing="-1.5">Flaxseed oil (ALA omega-3)</text>
+
+
+  <!-- Score -->
+  <text x="80" y="500" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22"
+        font-weight="700" fill="#5A5852" letter-spacing="2">SCORE</text>
+  <text x="80" y="582" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="84"
+        font-weight="800" fill="#0F172A" letter-spacing="-3">67<tspan font-size="40" fill="#8A8780"> /100</tspan></text>
+
+  <!-- Tag (right side) -->
+  <text x="1120" y="118" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="600" fill="#8A8780" text-anchor="end">Plant omega-3</text>
+
+  <!-- Footer wordmark -->
+  <text x="1120" y="582" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="28"
+        font-weight="800" fill="#1F7A6B" text-anchor="end">supplementscore<tspan fill="#8A8780">.org</tspan></text>
+</svg>

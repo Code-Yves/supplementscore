@@ -21,7 +21,7 @@
 .rs-hero .eb{
   font-size: 11px; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase;
-  color: #7B1FA2;
+  color: #1F7A6B;
   margin-bottom: 18px;
 }
 .rs-hero h1{
@@ -184,7 +184,7 @@
 .ix-hero .eb{ display: none; }
 .ix-hero-stats{
   display: inline-flex; align-items: center; gap: 8px;
-  color: #7B1FA2;
+  color: #1F7A6B;
   margin-bottom: 10px;
 }
 .ix-hero-stat{
@@ -417,24 +417,25 @@
   .ix-hero{ padding: 14px 18px 20px; }
 }
 
-.sfbar-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.sfbar-row .sfbar{flex:1;margin:0;padding:8px 0;}
-.sfbar-sort{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-tertiary);white-space:nowrap;flex-shrink:0;}
-.sfbar-sort-wrap{position:relative;display:inline-flex;align-items:center;}
-.sfbar-sort-wrap::after{content:"";pointer-events:none;position:absolute;right:9px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:4.5px solid var(--color-text-secondary);}
-.sfbar-sort select{
-  -webkit-appearance:none;appearance:none;
-  font-family:inherit;font-size:12px;font-weight:600;
-  color:var(--color-text-primary);
-  border:1px solid var(--color-border-secondary);
-  border-radius:8px;
-  padding:5px 28px 5px 10px;
-  background:var(--color-background-primary);
-  cursor:pointer;
-  transition:border-color .15s;
+.sfbar-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+.sfbar-row .sfbar{flex:1;margin:0;padding:8px 0;min-width:0;}
+/* Sort chip lives INSIDE .sfbar (injected by initAllTab) so it shares the
+   same flex-wrap row as Goal / Age & Sex / Symptom on every viewport.
+   margin-left:auto pushes it to the right end of whatever wrap row it lands on. */
+.sfbar .sort-chip-wrap{margin-left:auto;}
+/* The "Sort:" prefix is rendered in tertiary color inside the chip to
+   telegraph its purpose without needing a separate floating label. */
+.sort-chip .sort-pre{color:var(--color-text-tertiary);margin-right:2px;}
+.sort-chip .sort-lbl{color:var(--color-text-primary);}
+@media(max-width:560px){
+  .sfbar .cdd,.sfbar .cdd-btn{flex:0 1 auto;}
 }
-.sfbar-sort select:hover{border-color:var(--color-border-primary);}
-.sfbar-sort select:focus{outline:none;border-color:var(--color-brand);}
+@media(max-width:380px){
+  .sfbar .cdd-btn,.sort-chip{padding:6px 10px;font-size:11.5px;}
+}
+/* Anchor the sort menu to the right edge so it doesn't overflow the viewport
+   when the chip sits at the right of the row */
+#sort-dd-menu{left:auto;right:0;}
 .ix-toolbar{
   max-width: 1180px;
   margin: 0 auto 14px;
@@ -553,9 +554,9 @@
 
 /* ===== Block 4 (from line 5643, 22 lines) ===== */
     .rc-chart{margin:1.9rem 0;background:linear-gradient(135deg,#fafafa 0%,#f9f5ff 100%);border:1px solid #e9e5f2;border-radius:14px;padding:20px 22px 18px 26px;position:relative;overflow:hidden}
-    .rc-chart::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#7B1FA2 0%,#B91C1C 100%)}
-    .rc-chart-k{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#7B1FA2;margin-bottom:4px;display:flex;align-items:center;gap:7px}
-    .rc-chart-k::before{content:"";width:6px;height:6px;border-radius:50%;background:#7B1FA2}
+    .rc-chart::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#1F7A6B 0%,#B91C1C 100%)}
+    .rc-chart-k{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#1F7A6B;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+    .rc-chart-k::before{content:"";width:6px;height:6px;border-radius:50%;background:#1F7A6B}
     .rc-chart-title{font-size:1rem;font-weight:700;color:#1E1B4B;margin:0 0 14px;line-height:1.3;letter-spacing:-.01em}
     .rc-chart-row{display:grid;grid-template-columns:155px 1fr 58px;gap:12px;align-items:center;margin-bottom:9px}
     .rc-chart-row:last-of-type{margin-bottom:0}

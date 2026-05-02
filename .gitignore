@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+node_modules/
+__pycache__/
+*.pyc
+
+# Local backups
+*.bak
+*.bak-*
+*.backup
+*~

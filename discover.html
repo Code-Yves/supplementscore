@@ -13,12 +13,12 @@
 <meta property="og:url" content="https://supplementscore.org/discover.html">
 <meta property="og:title" content="Discover — Surprising Facts From 27,000+ Supplement Studies">
 <meta property="og:description" content="Top 10s, recalls, biggest surprises, and wild fun facts from the SupplementScore database.">
-<meta name="theme-color" content="#7B1FA2">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3Crect x='7.1' y='12' width='2.6' height='5.25' rx='.94' fill='white'/%3E%3Crect x='10.7' y='9' width='2.6' height='8.25' rx='.94' fill='white'/%3E%3Crect x='14.25' y='6' width='2.6' height='11.25' rx='.94' fill='white'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#1F7A6B">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260427a">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260502a">
 <style>
 /* ============================================================
    Discover — magazine-style page
@@ -26,23 +26,26 @@
    below adds the "fun" layer on top.
    ============================================================ */
 :root{
-  --dc-accent: #7B1FA2;
-  --dc-accent-soft: rgba(123,31,162,.08);
+  --dc-accent: #1F7A6B;
+  --dc-accent-soft: rgba(31,122,107,.08);
   --dc-shadow: 0 1px 2px rgba(15,23,42,.04), 0 4px 14px rgba(15,23,42,.06);
   --dc-shadow-hover: 0 2px 4px rgba(15,23,42,.06), 0 12px 28px rgba(15,23,42,.10);
 }
-body{ background: var(--color-background-secondary); color: var(--color-text-primary); font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+body{ background: var(--color-background-secondary); color: var(--color-text-primary); font-family: 'Mona Sans', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
 
 /* (Local nav removed — discover.html now uses the shared site-nav from index.html) */
 
 /* ---------- Hero ---------- */
 .dc-hero{ max-width: 1180px; margin: 0 auto 24px; padding: 18px 24px 28px; text-align: center; position: relative; }
-.dc-hero-eyebrow{ display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #7B1FA2; margin-bottom: 18px; }
+.dc-hero-eyebrow{ display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--color-brand); margin-bottom: 18px; }
 .dc-hero h1{ font-size: clamp(34px, 5.5vw, 56px); font-weight: 700; letter-spacing: -1.4px; line-height: 1.08; margin: 0 0 14px; color: var(--color-text-primary); }
 .dc-hero p{ font-size: 16px; color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 24px; line-height: 1.55; }
+.dc-hero-callout{ margin: 0 auto 22px; max-width: 520px; background: var(--color-accent-coral-soft, #F5C9B8); color: #6B231D; border-radius: 999px; padding: 8px 16px; font-size: 12.5px; font-weight: 500; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.dc-hero-callout .pill{ background: var(--color-accent-coral, #E8967A); color: #fff; border-radius: 999px; padding: 1px 8px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.dc-hero-callout a{ color: inherit; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
 .dc-search{ max-width: 560px; margin: 0 auto; position: relative; }
-.dc-search input{ width: 100%; padding: 13px 60px 13px 44px; font-family: inherit; font-size: 14.5px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); color: var(--color-text-primary); outline: 0; transition: border-color .15s, box-shadow .15s; border-radius: 0; }
-.dc-search input:focus{ border-color: var(--color-text-primary); box-shadow: inset 0 -1px 0 0 var(--color-text-primary); }
+.dc-search input{ width: 100%; padding: 14px 60px 14px 44px; font-family: inherit; font-size: 14.5px; background: var(--color-background-primary); border: 1px solid var(--color-border-secondary); color: var(--color-text-primary); outline: 0; transition: border-color .15s, box-shadow .15s; border-radius: 999px; }
+.dc-search input:focus{ border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(31,122,107,.12); }
 .dc-search input::placeholder{ color: var(--color-text-tertiary); font-style: italic; }
 .dc-search .ico{ position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--color-text-tertiary); pointer-events: none; }
 .dc-search .kbd{ position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10px; color: var(--color-text-tertiary); background: var(--color-background-secondary); padding: 2px 7px; border: 0.5px solid var(--color-border-tertiary); pointer-events: none; }
@@ -116,7 +119,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   text-decoration: none;
 }
 .dc-rank-grid > .dc-rank:last-child{ border-bottom: 0 !important; }
-.dc-rank:hover{ background: rgba(123,31,162,.04) !important; transform: none !important; box-shadow: none !important; }
+.dc-rank:hover{ background: rgba(31,122,107,.04) !important; transform: none !important; box-shadow: none !important; }
 
 .dc-rank-num, .dc-rank-num.gold, .dc-rank-num.silver, .dc-rank-num.bronze, .dc-rank-num.plain{
   position: static !important;
@@ -170,12 +173,12 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .s-hidden   .ico{ color: #065F56; background: var(--t1bg); }
 .s-recalls  .ico{ color: #5C0E0E; background: var(--t4bg); }
 .s-never    .ico{ color: #5C0E0E; background: var(--t4bg); }
-.s-surprise .ico{ color: #6B1A8E; background: var(--dc-accent-soft); }
+.s-surprise .ico{ color: #176258; background: var(--dc-accent-soft); }
 .s-money    .ico{ color: #7A5300; background: var(--t3bg); }
-.s-wild     .ico{ color: #6B1A8E; background: var(--dc-accent-soft); }
+.s-wild     .ico{ color: #176258; background: var(--dc-accent-soft); }
 .s-interact .ico{ color: #5C0E0E; background: var(--t4bg); }
 .s-cochrane .ico{ color: #2A4A8E; background: var(--t2bg); }
-.s-goal     .ico{ color: #6B1A8E; background: var(--dc-accent-soft); }
+.s-goal     .ico{ color: #176258; background: var(--dc-accent-soft); }
 .s-preg     .ico{ color: #9D174D; background: rgba(190,24,93,.10); }
 .s-defic    .ico{ color: #2A4A8E; background: var(--t2bg); }
 
@@ -278,9 +281,9 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 @media(max-width:720px){ .dc-goal-grid{ grid-template-columns: repeat(2, 1fr); } }
 @media(max-width:480px){ .dc-goal-grid{ grid-template-columns: 1fr; } }
 .dc-goal{ background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; overflow: hidden; }
-.dc-goal-h{ font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #7B1FA2; padding: 8px 12px 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.dc-goal-h{ font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #1F7A6B; padding: 8px 12px 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .dc-goal-h-ico{ display: none; }
-.dc-goal-h-name{ font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #7B1FA2; }
+.dc-goal-h-name{ font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #1F7A6B; }
 .dc-goal-list{ list-style: none; padding: 0; margin: 0; }
 .dc-goal-list li{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: 11.5px; padding: 4px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .dc-goal-list li:last-child{ border-bottom: none; }
@@ -321,9 +324,9 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .dc-divider hr{ border: none; border-top: 1px dashed var(--color-border-tertiary); margin: 0;}
 
 /* Floating back-to-top */
-.dc-up{ position: fixed; right: 22px; bottom: 22px; width: 44px; height: 44px; border-radius: 50%; background: var(--dc-accent); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(123,31,162,.30); opacity: 0; transform: translateY(8px) scale(.92); pointer-events: none; transition: opacity .25s, transform .25s; z-index: 50; will-change: opacity, transform; -webkit-backface-visibility: hidden; backface-visibility: hidden;}
+.dc-up{ position: fixed; right: 22px; bottom: 22px; width: 44px; height: 44px; border-radius: 50%; background: var(--dc-accent); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(31,122,107,.30); opacity: 0; transform: translateY(8px) scale(.92); pointer-events: none; transition: opacity .25s, transform .25s; z-index: 50; will-change: opacity, transform; -webkit-backface-visibility: hidden; backface-visibility: hidden;}
 .dc-up.show{ opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;}
-.dc-up:hover{ background: var(--color-brand-hover, #6B1A8E); }
+.dc-up:hover{ background: var(--color-brand-hover, #176258); }
 /* Disable hover transforms on touch (sticky :hover after tap on iOS causes flicker) */
 @media (hover: none) {
   .dc-fact:hover{ transform: none; box-shadow: var(--dc-shadow); }
@@ -340,6 +343,37 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .dc-sec-meta{ display: none !important; }
 
 </style>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Discover | SupplementScore">
+  <meta name="twitter:description" content="At-a-glance reference: which supplements are evidence-backed, which are risky, and which are pure marketing.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Discover | SupplementScore",
+  "description": "At-a-glance reference: which supplements are evidence-backed, which are risky, and which are pure marketing.",
+  "url": "https://supplementscore.org/discover.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SupplementScore"
+  }
+}
+</script>
+  <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
+       Sign up at https://plausible.io and replace the data-domain if needed. -->
+  <!-- <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script> -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
 </head>
 <body>
 <a href="#dc-hero" class="skip-link">Skip to main content</a>
@@ -360,7 +394,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <div class="site-nav-tabs">
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab active" href="discover.html" aria-current="page" style="text-decoration:none">Discover</a>
-      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Article</a>
       <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">Profile</a>
     </div>
@@ -373,6 +407,10 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   <h1>733 supplements.<br>27,000+ studies.<br>A few wild surprises.</h1>
   <p>The dense reviews live in the Index. This page is the highlight reel — the safest, the scariest, the most overhyped, and the facts that didn't fit anywhere else.</p>
 
+  <div class="dc-hero-callout">
+    <span class="pill">New</span>
+    <span>15 condition <a href="condition/index.html">deep-dive protocols</a> · 5 <a href="compare/index.html">comparison guides</a></span>
+  </div>
 </section>
 
 <!-- TOC: grouped by purpose (Rankings · Cautions · Curiosities) -->
@@ -409,7 +447,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-research" id="tier-mix">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M7 21V13"/><path d="M12 21V8"/><path d="M17 21V4"/></svg></span>Only 4% hold up under strong evidence</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M7 21V13"/><path d="M12 21V8"/><path d="M17 21V4"/></svg></span>Only 4% hold up under strong evidence</h2>
       <div class="dc-sec-sub">Of <b>733 supplements</b> catalogued, just <b>29</b> earn a Tier 1 rating from gold-standard trials. Another <b>12%</b> are flagged risky or avoid — leaving the remaining <b>84%</b> in the messy "promising" or "trending" middle.</div>
     </div>
     <span class="dc-sec-meta">n = 733</span>
@@ -450,7 +488,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-safe" id="safest">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg></span>Top 10 safest supplements</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg></span>Top 10 safest supplements</h2>
       <div class="dc-sec-sub">These are the ones you can hand a stranger without a second thought. Wide therapeutic windows, clean tox profiles, and decades of human data.</div>
     </div>
     <span class="dc-sec-meta">Sorted by composite score</span>
@@ -528,7 +566,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-danger" id="dangerous">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.86 3h8.28L21 7.86v8.28L16.14 21H7.86L3 16.14V7.86z"/><path d="M12 8v5"/><path d="M12 16.5h.01" stroke-width="2"/></svg></span>Top 10 most dangerous</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7.86 3h8.28L21 7.86v8.28L16.14 21H7.86L3 16.14V7.86z"/><path d="M12 8v5"/><path d="M12 16.5h.01" stroke-width="2"/></svg></span>Top 10 most dangerous</h2>
       <div class="dc-sec-sub">These have documented liver failure, kidney damage, cancer, or deaths. Several are still legally sold in the U.S.</div>
     </div>
     <span class="dc-sec-meta">All scored ≤ 26/100</span>
@@ -606,7 +644,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-research" id="researched">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 21h12"/><path d="M9 21v-3"/><path d="M9 18h6"/><circle cx="14" cy="10" r="3.5"/><path d="M11 7.5l-3-3"/><path d="M9.5 6L7 3.5"/><path d="M11 4.5L8.5 7"/></svg></span>The most-studied supplements on Earth</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 21h12"/><path d="M9 21v-3"/><path d="M9 18h6"/><circle cx="14" cy="10" r="3.5"/><path d="M11 7.5l-3-3"/><path d="M9.5 6L7 3.5"/><path d="M11 4.5L8.5 7"/></svg></span>The most-studied supplements on Earth</h2>
       <div class="dc-sec-sub">If a supplement has hundreds of human trials, you can stop guessing. These are the ones we know the most about — for better or worse.</div>
     </div>
     <span class="dc-sec-meta">Top 10 by research score</span>
@@ -633,7 +671,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-overhype" id="overhyped">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11v2l13 6V5L3 11z"/><path d="M16 8a4 4 0 0 1 0 8"/><path d="M5 13.5V17a2 2 0 0 0 4 0v-2"/></svg></span>Most overhyped of 2026</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11v2l13 6V5L3 11z"/><path d="M16 8a4 4 0 0 1 0 8"/><path d="M5 13.5V17a2 2 0 0 0 4 0v-2"/></svg></span>Most overhyped of 2026</h2>
       <div class="dc-sec-sub">Marketing-driven supplements with efficacy scores of 1 or 2 out of 5. Some have <i>zero</i> human trials. The TikTok-to-evidence ratio is wild.</div>
     </div>
     <span class="dc-sec-meta">Efficacy ≤ 2/5</span>
@@ -666,7 +704,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-hidden" id="hidden">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/><path d="M9 3l3 5 3-5"/><path d="M9 8l3 13 3-13"/></svg></span>Hidden gems no one markets</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/><path d="M9 3l3 5 3-5"/><path d="M9 8l3 13 3-13"/></svg></span>Hidden gems no one markets</h2>
       <div class="dc-sec-sub">High-evidence supplements that almost nobody Instagrams about. Most cost less than your morning coffee per month.</div>
     </div>
     <span class="dc-sec-meta">Strong evidence, low buzz</span>
@@ -699,7 +737,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-goal" id="by-goal">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></span>By goal: what to actually take</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></span>By goal: what to actually take</h2>
       <div class="dc-sec-sub">Cherry-picked top picks for six common goals. Tier 1 / 2 only — no trending wishful thinking.</div>
     </div>
     <span class="dc-sec-meta">Evidence-led shortlists</span>
@@ -770,7 +808,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-recalls" id="recalls">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 7H4c0-1 2-2 2-7z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span>Recent recalls &amp; FDA warnings</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 7H4c0-1 2-2 2-7z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span>Recent recalls &amp; FDA warnings</h2>
       <div class="dc-sec-sub">A roll-call of products the FDA, EFSA, WHO, or national regulators have flagged. Several are still legally on shelves through loopholes.</div>
     </div>
   </div>
@@ -857,7 +895,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-never" id="never">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span>Things you should literally never do</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span>Things you should literally never do</h2>
       <div class="dc-sec-sub">Dangerous combinations, mega-doses, and the pediatric ER's greatest hits. Print this and put it on the fridge.</div>
     </div>
   </div>
@@ -925,7 +963,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-preg" id="pregnancy">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 16.5 12 21 12 21z"/><path d="M12 14v-3"/><path d="M10.5 12.5h3"/></svg></span>Pregnancy: take vs avoid</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 16.5 12 21 12 21z"/><path d="M12 14v-3"/><path d="M10.5 12.5h3"/></svg></span>Pregnancy: take vs avoid</h2>
       <div class="dc-sec-sub">An at-a-glance reference. Always confirm with your obstetrician — but these are the consistent ACOG / NIH / WHO positions on what's worth taking and what to skip.</div>
     </div>
     <span class="dc-sec-meta">Educational, not a prescription</span>
@@ -971,7 +1009,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-surprise" id="surprises">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.7 1.5 2.7v.4h4v-.4c0-1 .6-2 1.5-2.7A6 6 0 0 0 12 3z"/><path d="M10 19h4"/><path d="M11 22h2"/></svg></span>The biggest surprises in 27,000 studies</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.7 1.5 2.7v.4h4v-.4c0-1 .6-2 1.5-2.7A6 6 0 0 0 12 3z"/><path d="M10 19h4"/><path d="M11 22h2"/></svg></span>The biggest surprises in 27,000 studies</h2>
       <div class="dc-sec-sub">Findings that flip "common knowledge" on its head. The trial data didn't read the marketing copy.</div>
     </div>
   </div>
@@ -997,7 +1035,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-money" id="money">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.5 9.5a2.5 2.5 0 0 0-5 0c0 1.5 1 2 2.5 2.5s2.5 1 2.5 2.5a2.5 2.5 0 0 1-5 0"/></svg></span>Most expensive vs cheapest effective</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.5 9.5a2.5 2.5 0 0 0-5 0c0 1.5 1 2 2.5 2.5s2.5 1 2.5 2.5a2.5 2.5 0 0 1-5 0"/></svg></span>Most expensive vs cheapest effective</h2>
       <div class="dc-sec-sub">The supplements with the worst ROI in your medicine cabinet — and the dirt-cheap ones with Tier 1 evidence.</div>
     </div>
     <span class="dc-sec-meta">Cost score 1 vs 5</span>
@@ -1044,7 +1082,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-interact" id="interact">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 14.5a3.5 3.5 0 0 1 0-5L13 6a3.5 3.5 0 0 1 5 5L16.5 12.5"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5L11 18a3.5 3.5 0 0 1-5-5l1.5-1.5"/></svg></span>Supplements that interact with the most prescription drugs</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9.5 14.5a3.5 3.5 0 0 1 0-5L13 6a3.5 3.5 0 0 1 5 5L16.5 12.5"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5L11 18a3.5 3.5 0 0 1-5-5l1.5-1.5"/></svg></span>Supplements that interact with the most prescription drugs</h2>
       <div class="dc-sec-sub">Mined from the interactions matrix in our database. If you take any prescription, check this list first.</div>
     </div>
     <span class="dc-sec-meta">By drug-class count</span>
@@ -1075,7 +1113,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-defic" id="deficiency">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/><path d="M3 6l5 4 4-3 8-3"/><path d="M16 4h4v4"/></svg></span>The deficiency map</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/><path d="M3 6l5 4 4-3 8-3"/><path d="M16 4h4v4"/></svg></span>The deficiency map</h2>
       <div class="dc-sec-sub">Estimated share of U.S. adults below the EAR / AI for nutrients people most often supplement. Numbers from NHANES, IOM, and AHA position statements.</div>
     </div>
     <span class="dc-sec-meta">Source: NHANES &amp; IOM</span>
@@ -1144,7 +1182,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <section class="dc-section s-wild" id="wild">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 4l.8 2L22 7l-2.2.8L19 10l-.8-2.2L16 7l2.2-1z"/><path d="M5 16l.6 1.4L7 18l-1.4.6L5 20l-.6-1.4L3 18l1.4-.6z"/></svg></span>Wild fun facts</h2>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 4l.8 2L22 7l-2.2.8L19 10l-.8-2.2L16 7l2.2-1z"/><path d="M5 16l.6 1.4L7 18l-1.4.6L5 20l-.6-1.4L3 18l1.4-.6z"/></svg></span>Wild fun facts</h2>
       <div class="dc-sec-sub">The stuff that doesn't fit any other list but is too good to leave out.</div>
     </div>
   </div>
@@ -1164,7 +1202,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 
 <div class="dc-disclaim">
   Educational reference, not medical advice. Discuss any supplement changes with a qualified clinician — especially in pregnancy, with prescription medications, or in pediatric use.
-  Sources: cited within each underlying supplement record. See <a href="methodology.html">Methodology</a> for how scores are calculated.
+  Sources: cited within each underlying supplement record. See <a href="methodology.html">Methodology</a> for how scores are calculated. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
 </div>
 
 <!-- Universal search dependencies -->

@@ -8,11 +8,14 @@
 <meta name="description" content="Non-profit, evidence-based supplement reference. 733 supplements scored across 6 dimensions using 27,000+ peer-reviewed studies. No endorsements, no sponsors.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://supplementscore.org/landing.html">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="alternate" hreflang="en" href="https://supplementscore.org/landing.html">
+<link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/landing.html">
+<link rel="alternate" hreflang="x-default" href="https://supplementscore.org/landing.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260427a">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260502a">
 
 <style>
 /* ============================================================
@@ -29,70 +32,111 @@ body{ padding: 0 0 4rem; }
 
 .lp-brand{
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
   padding: 36px 24px 0;
 }
+.lp-brand .mk-svg{
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: var(--color-brand);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.lp-brand .mk-svg svg{ display: block; }
 .lp-brand .mark{
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .18em;
-  color: var(--color-brand);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  color: var(--color-text-primary);
   text-decoration: none;
 }
-.lp-brand .mark .tld{ color: var(--color-text-tertiary); }
+.lp-brand .mark .tld{ color: var(--color-text-tertiary); font-weight: 500; }
+
+.lp-callout{
+  margin: 26px auto 0;
+  max-width: 640px;
+  background: var(--color-accent-coral-soft, #F5C9B8);
+  color: #6B231D;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.lp-callout .pill{
+  background: var(--color-accent-coral, #E8967A);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.lp-callout a{ color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
 .lp-hero{
-  padding: 32px 24px 48px;
+  padding: 28px 24px 48px;
   text-align: center;
 }
 .lp-hero h1{
-  font-size: clamp(40px, 6vw, 64px);
+  font-size: clamp(38px, 6vw, 60px);
   font-weight: 700;
-  letter-spacing: -1.8px;
-  line-height: 1.04;
+  letter-spacing: -1.6px;
+  line-height: 1.05;
   color: var(--color-text-primary);
-  max-width: 18ch;
-  margin: 0 auto 22px;
+  max-width: 20ch;
+  margin: 0 auto 20px;
 }
 .lp-hero p.lede{
   font-size: 17px;
   color: var(--color-text-secondary);
-  max-width: 60ch;
-  margin: 0 auto 36px;
-  line-height: 1.55;
+  max-width: 58ch;
+  margin: 0 auto 32px;
+  line-height: 1.6;
 }
 .lp-hero .cta-row{
   display: flex;
   justify-content: center;
-  gap: 28px;
+  align-items: center;
+  gap: 14px;
   flex-wrap: wrap;
 }
 .lp-hero .cta{
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 0 7px;
+  padding: 13px 22px;
+  background: var(--color-brand);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: -.1px;
+  text-decoration: none;
+  border: none;
+  border-radius: 999px;
+  transition: background .15s, transform .1s;
+}
+.lp-hero .cta:hover{ background: var(--color-brand-hover); }
+.lp-hero .cta:active{ transform: translateY(1px); }
+.lp-hero .cta.secondary{
   background: transparent;
   color: var(--color-text-primary);
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-text-primary);
-  transition: color .15s, border-bottom-color .15s;
-}
-.lp-hero .cta:hover{
-  color: var(--color-brand);
-  border-bottom-color: var(--color-brand);
-}
-.lp-hero .cta.secondary{
-  color: var(--color-text-secondary);
-  border-bottom-color: var(--color-text-tertiary);
+  border: 1px solid var(--color-border-secondary);
+  padding: 12px 21px;
 }
 .lp-hero .cta.secondary:hover{
-  color: var(--color-brand);
-  border-bottom-color: var(--color-brand);
+  background: var(--color-background-primary);
+  border-color: var(--color-text-primary);
 }
 
 /* Stat row — hairline-bracketed, three columns */
@@ -202,8 +246,52 @@ body{ padding: 0 0 4rem; }
   .lp-stats .stat{ border-left: 0; border-top: 0.5px solid var(--color-border-tertiary); padding: 18px 0 0; }
   .lp-stats .stat:first-child{ border-top: 0; padding-top: 0; }
   .lp-hero{ padding: 24px 18px 32px; }
+  .lp-callout{
+    flex-direction: column;
+    border-radius: 14px;
+    padding: 12px 16px;
+    text-align: center;
+    line-height: 1.5;
+    gap: 6px;
+  }
 }
 </style>
+  <meta property="og:title" content="SupplementScore — Evidence-based supplement ratings">
+  <meta property="og:description" content="4 tiers, 734 supplements, 1,400+ medication interactions. Rated against published clinical trials.">
+  <meta property="og:url" content="https://supplementscore.org/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SupplementScore — Evidence-based supplement ratings">
+  <meta name="twitter:description" content="4 tiers, 734 supplements, 1,400+ medication interactions. Rated against published clinical trials.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "SupplementScore — Evidence-based supplement ratings",
+  "description": "4 tiers, 734 supplements, 1,400+ medication interactions. Rated against published clinical trials.",
+  "url": "https://supplementscore.org/",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SupplementScore"
+  }
+}
+</script>
+  <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
+       Sign up at https://plausible.io and replace the data-domain if needed. -->
+  <!-- <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script> -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
 </head>
 <body>
 
@@ -213,7 +301,7 @@ body{ padding: 0 0 4rem; }
     <div class="site-nav-tabs">
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
-      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Article</a>
       <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">Profile</a>
     </div>
@@ -223,12 +311,23 @@ body{ padding: 0 0 4rem; }
 <main class="lp">
 
   <div class="lp-brand">
-    <a class="mark" href="/">SUPPLEMENTSCORE<span class="tld">.ORG</span></a>
+    <span class="mk-svg" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z" fill="#F8F4ED"/>
+        <path d="M5 19C9 15 13 11 19 5" stroke="#1F7A6B" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      </svg>
+    </span>
+    <a class="mark" href="/">SupplementScore<span class="tld">.org</span></a>
+  </div>
+
+  <div class="lp-callout">
+    <span class="pill">New this week</span>
+    <span>Saffron 2025 NMA, Omega-3 AFib paradox, Niacinamide UL update — <a href="index.html#research">see updates</a></span>
   </div>
 
   <section class="lp-hero">
-    <h1>Supplement information you can trust.</h1>
-    <p class="lede">Unbiased and conflict-free. Every score derived exclusively from peer-reviewed clinical trials and credible research institutions.</p>
+    <h1>Health information, told straight.</h1>
+    <p class="lede">734 supplements scored against 27,000+ peer-reviewed studies. No sponsors, no endorsements, no affiliate links. Just the evidence — written so anyone can use it.</p>
     <div class="cta-row">
       <a href="index.html" class="cta">Browse the full index →</a>
       <a href="methodology.html" class="cta secondary">How scores are built</a>
@@ -267,6 +366,24 @@ body{ padding: 0 0 4rem; }
       <a class="lk" href="https://www.thelancet.com" target="_blank" rel="noopener" aria-label="The Lancet"><img class="mk" src="source-logos/lancet.svg" alt=""></a>
       <a class="lk" href="https://www.nejm.org" target="_blank" rel="noopener" aria-label="NEJM"><img class="mk" src="source-logos/nejm.svg" alt=""></a>
       <a class="lk" href="https://www.stanford.edu" target="_blank" rel="noopener" aria-label="Stanford"><img class="mk" src="source-logos/stanford.svg" alt=""></a>
+      <a class="lk" href="https://www.nccih.nih.gov" target="_blank" rel="noopener" aria-label="NCCIH"><img class="mk" src="source-logos/nccih.svg" alt=""></a>
+      <a class="lk" href="https://www.mskcc.org/cancer-care/integrative-medicine/herbs" target="_blank" rel="noopener" aria-label="Memorial Sloan Kettering About Herbs"><img class="mk" src="source-logos/msk.svg" alt=""></a>
+      <a class="lk" href="https://www.usp.org" target="_blank" rel="noopener" aria-label="USP"><img class="mk" src="source-logos/usp.svg" alt=""></a>
+      <a class="lk" href="https://www.nsf.org" target="_blank" rel="noopener" aria-label="NSF International"><img class="mk" src="source-logos/nsf.svg" alt=""></a>
+      <a class="lk" href="https://www.drugs.com" target="_blank" rel="noopener" aria-label="drugs.com"><img class="mk" src="source-logos/drugscom.svg" alt=""></a>
+      <a class="lk" href="https://www.tga.gov.au" target="_blank" rel="noopener" aria-label="TGA Australia"><img class="mk" src="source-logos/tga.svg" alt=""></a>
+      <a class="lk" href="https://www.canada.ca/en/health-canada/services/drugs-health-products/natural-non-prescription.html" target="_blank" rel="noopener" aria-label="Health Canada NHPD"><img class="mk" src="source-logos/healthcanada.svg" alt=""></a>
+      <a class="lk" href="https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency" target="_blank" rel="noopener" aria-label="MHRA UK"><img class="mk" src="source-logos/mhra.svg" alt=""></a>
+      <a class="lk" href="https://www.aafp.org" target="_blank" rel="noopener" aria-label="AAFP"><img class="mk" src="source-logos/aafp.svg" alt=""></a>
+      <a class="lk" href="https://examine.com" target="_blank" rel="noopener" aria-label="Examine.com"><img class="mk" src="source-logos/examine.svg" alt=""></a>
+      <a class="lk" href="https://www.bfarm.de/EN/Home/_node.html" target="_blank" rel="noopener" aria-label="BfArM Germany"><img class="mk" src="source-logos/bfarm.svg" alt=""></a>
+      <a class="lk" href="https://ansm.sante.fr" target="_blank" rel="noopener" aria-label="ANSM France"><img class="mk" src="source-logos/ansm.svg" alt=""></a>
+      <a class="lk" href="https://www.aifa.gov.it" target="_blank" rel="noopener" aria-label="AIFA Italy"><img class="mk" src="source-logos/aifa.svg" alt=""></a>
+      <a class="lk" href="https://www.aemps.gob.es" target="_blank" rel="noopener" aria-label="AEMPS Spain"><img class="mk" src="source-logos/aemps.svg" alt=""></a>
+      <a class="lk" href="https://www.pmda.go.jp/english/" target="_blank" rel="noopener" aria-label="PMDA Japan"><img class="mk" src="source-logos/pmda.svg" alt=""></a>
+      <a class="lk" href="https://www.mfds.go.kr/eng/index.do" target="_blank" rel="noopener" aria-label="MFDS South Korea"><img class="mk" src="source-logos/mfds.svg" alt=""></a>
+      <a class="lk" href="https://www.gov.br/anvisa/pt-br" target="_blank" rel="noopener" aria-label="ANVISA Brazil"><img class="mk" src="source-logos/anvisa.svg" alt=""></a>
+      <a class="lk" href="https://www.hsa.gov.sg" target="_blank" rel="noopener" aria-label="HSA Singapore"><img class="mk" src="source-logos/hsa-singapore.svg" alt=""></a>
     </div>
   </div>
 
@@ -279,8 +396,22 @@ body{ padding: 0 0 4rem; }
 <footer class="lp-foot">
   Educational reference, not medical advice. Discuss any supplement changes with a qualified clinician.
   <br>
-  &copy; 2026 SupplementScore · A non-profit reference · <a href="methodology.html" style="color:inherit;text-decoration:underline">Methodology</a>
+  &copy; 2026 SupplementScore · A non-profit reference
+  <br>
+  <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Methodology</strong>
+<a href="methodology.html" style="color:inherit;text-decoration:underline;margin-right:6px">Scoring</a> · <a href="editorial-pipeline.html" style="color:inherit;text-decoration:underline;margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Funder policy</a> · <a href="changed-our-mind.html" style="color:inherit;text-decoration:underline;margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" style="color:inherit;text-decoration:underline;margin-right:6px">Bibliography</a><br>
+<strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Site</strong>
+<a href="about.html" style="color:inherit;text-decoration:underline;margin-right:6px">About</a> · <a href="privacy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:underline;margin-right:6px">Terms</a> · <a href="accessibility.html" style="color:inherit;text-decoration:underline">Accessibility</a>
 </footer>
 
+<script>
+/* Register service worker for offline + instant repeat visits.
+ * Skipped on browsers without SW support; safe to leave on. */
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function(){});
+  });
+}
+</script>
 </body>
 </html>

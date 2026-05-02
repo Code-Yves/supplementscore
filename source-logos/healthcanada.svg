@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" role="img" aria-label="Health Canada">
+  <rect x="6" y="14" width="20" height="20" fill="#000"/>
+  <text x="14" y="30" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" text-anchor="middle" fill="#fff">+</text>
+  <text x="34" y="22" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#000">Health Canada</text>
+  <text x="34" y="36" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#000">Natural Health Products Directorate</text>
+</svg>

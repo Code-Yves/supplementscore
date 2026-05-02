@@ -8,16 +8,16 @@
 <title>Search — SupplementScore</title>
 <meta name="description" content="Search across 733 supplements, 19 conditions, 21 medication classes, 17 lab biomarkers, and 241 articles.">
 <meta name="robots" content="noindex">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260427a">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260502a">
 <style>
 .sr-wrap{max-width:1100px;margin:0 auto;padding:24px}
 .sr-header{padding:24px 0 16px}
 .sr-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin-bottom:14px}
-.sr-back:hover{background:rgba(123,31,162,.06);border-color:var(--color-brand);color:var(--color-brand)}
+.sr-back:hover{background:rgba(31,122,107,.06);border-color:var(--color-brand);color:var(--color-brand)}
 .sr-title{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
 .sr-title em{font-style:normal;color:var(--color-brand)}
 .sr-meta{font-size:13.5px;color:var(--color-text-secondary)}
@@ -58,9 +58,46 @@
 .sec-condition  .ico{background:var(--t2bg);color:var(--t2tx)}
 .sec-medication .ico{background:var(--t4bg);color:var(--t4tx)}
 .sec-biomarker  .ico{background:var(--t2bg);color:var(--t2tx)}
-.sec-article    .ico{background:rgba(123,31,162,.10);color:#7B1FA2}
+.sec-article    .ico{background:rgba(31,122,107,.10);color:#1F7A6B}
 .sr-note{margin-top:10px;font-size:12px;color:var(--color-text-tertiary)}
 </style>
+  <link rel="canonical" href="https://supplementscore.org/search.html">
+  <meta property="og:title" content="Search | SupplementScore">
+  <meta property="og:description" content="Search 734 supplements, 70 medication categories, and 241 evidence-based articles in seconds.">
+  <meta property="og:url" content="https://supplementscore.org/search.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Search | SupplementScore">
+  <meta name="twitter:description" content="Search 734 supplements, 70 medication categories, and 241 evidence-based articles in seconds.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Search | SupplementScore",
+  "description": "Search 734 supplements, 70 medication categories, and 241 evidence-based articles in seconds.",
+  "url": "https://supplementscore.org/search.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SupplementScore"
+  }
+}
+</script>
+  <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
+       Sign up at https://plausible.io and replace the data-domain if needed. -->
+  <!-- <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script> -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
 </head>
 <body>
 <noscript><div class="noscript-msg" role="alert">This page requires JavaScript.</div></noscript>
@@ -81,7 +118,7 @@
     <div class="site-nav-tabs">
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
-      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Article</a>
       <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">Profile</a>
     </div>
@@ -91,13 +128,20 @@
 <main class="sr-wrap">
   <header class="sr-header">
     <a href="index.html" class="sr-back">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       Back to Index
     </a>
     <h1 class="sr-title" id="sr-title">Search</h1>
     <div class="sr-meta" id="sr-meta">Loading…</div>
   </header>
   <div id="sr-body"></div>
+
+  <footer class="footer-c" style="margin:48px auto 24px;max-width:760px;padding:24px 22px;border-top:0.5px solid var(--color-border-tertiary);font-size:11.5px;line-height:1.7;color:var(--color-text-tertiary);text-align:center">
+    <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Methodology</strong>
+<a href="methodology.html" style="color:inherit;text-decoration:underline;margin-right:6px">Scoring</a> · <a href="editorial-pipeline.html" style="color:inherit;text-decoration:underline;margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Funder policy</a> · <a href="changed-our-mind.html" style="color:inherit;text-decoration:underline;margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" style="color:inherit;text-decoration:underline;margin-right:6px">Bibliography</a><br>
+<strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Site</strong>
+<a href="about.html" style="color:inherit;text-decoration:underline;margin-right:6px">About</a> · <a href="privacy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:underline;margin-right:6px">Terms</a> · <a href="accessibility.html" style="color:inherit;text-decoration:underline">Accessibility</a>
+  </footer>
 </main>
 
 <script src="data.js?v=20260418m"></script>
@@ -153,11 +197,11 @@
 
   // Section icon SVGs
   var ICONS = {
-    supplement: '<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg>',
-    condition:  '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 7 3.5C19 15.5 12 20 12 20z"/></svg>',
-    medication: '<svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M12 9v6"/></svg>',
-    biomarker:  '<svg viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>',
-    article:    '<svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M16 4v3h3"/><path d="M8 12h8"/><path d="M8 16h6"/></svg>'
+    supplement: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg>',
+    condition:  '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 7 3.5C19 15.5 12 20 12 20z"/></svg>',
+    medication: '<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M12 9v6"/></svg>',
+    biomarker:  '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>',
+    article:    '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M16 4v3h3"/><path d="M8 12h8"/><path d="M8 16h6"/></svg>'
   };
 
   function suppCard(item){

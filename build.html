@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build my stack — a 5-question supplement planner · SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Answer 5 questions about your goals, sex, age, current medications, and budget. Get a ranked, evidence-tiered supplement plan with estimated monthly cost.">
+  <link rel="canonical" href="https://supplementscore.org/build.html">
+  <meta property="og:title" content="Build my stack — a 5-question supplement planner">
+  <meta property="og:description" content="A guided 5-question wizard that outputs a ranked, evidence-tiered supplement plan with estimated monthly cost.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260502a">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <style>
+    body{background:var(--color-background-primary);color:var(--color-text-primary)}
+    .bm-wrap{max-width:780px;margin:0 auto;padding:32px 22px 64px;line-height:1.65}
+    .bm-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;margin-bottom:22px}
+    .bm-back:hover{background:rgba(31,122,107,.05);color:var(--color-brand)}
+    .bm-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
+    .bm-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
+    .bm-lede{font-size:16px;color:var(--color-text-secondary);margin-bottom:30px;line-height:1.55;max-width:60ch}
+    .bm-progress{display:flex;gap:6px;margin-bottom:24px}
+    .bm-prog-dot{flex:1;height:5px;border-radius:3px;background:var(--color-border-tertiary);transition:background .2s}
+    .bm-prog-dot.active{background:var(--color-brand)}
+    .bm-prog-dot.done{background:var(--color-brand);opacity:.6}
+    .bm-step{display:none}
+    .bm-step.active{display:block}
+    .bm-step-h{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:8px}
+    .bm-step-q{font-size:1.5rem;font-weight:700;letter-spacing:-.4px;margin:0 0 6px}
+    .bm-step-help{font-size:13.5px;color:var(--color-text-secondary);margin-bottom:22px;line-height:1.55}
+    .bm-opts{display:grid;gap:10px;grid-template-columns:1fr;margin-bottom:24px}
+    .bm-opts.cols-2{grid-template-columns:1fr 1fr}
+    @media(max-width:520px){.bm-opts.cols-2{grid-template-columns:1fr}}
+    .bm-opt{padding:14px 16px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:var(--color-background-primary);cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--color-text-primary);text-align:left;transition:all .15s;display:flex;align-items:center;gap:10px}
+    .bm-opt:hover{border-color:var(--color-brand);background:rgba(31,122,107,.04)}
+    .bm-opt.on{border-color:var(--color-brand);background:rgba(31,122,107,.08);color:var(--color-brand)}
+    .bm-opt-check{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+    .bm-opt.on .bm-opt-check{border-color:var(--color-brand);background:var(--color-brand)}
+    .bm-opt.on .bm-opt-check::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+    .bm-opt-sub{font-size:11.5px;color:var(--color-text-tertiary);font-weight:400;margin-top:2px}
+    .bm-input{width:100%;padding:12px 16px;border:1px solid var(--color-border-secondary);border-radius:10px;font-size:14.5px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary);outline:none;margin-bottom:8px;transition:border-color .15s,box-shadow .15s;box-sizing:border-box}
+    .bm-input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.12)}
+    .bm-input-hint{font-size:11.5px;color:var(--color-text-tertiary);margin-bottom:24px;line-height:1.5}
+    .bm-actions{display:flex;justify-content:space-between;gap:12px;margin-top:8px;padding-top:18px;border-top:1px solid var(--color-border-tertiary)}
+    .bm-btn{padding:12px 22px;border:none;border-radius:999px;font-family:inherit;font-size:14.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+    .bm-btn-prev{background:transparent;color:var(--color-text-secondary);border:1px solid var(--color-border-secondary)}
+    .bm-btn-prev:hover{background:var(--color-background-secondary)}
+    .bm-btn-prev:disabled{opacity:.4;cursor:not-allowed}
+    .bm-btn-next{background:var(--color-brand);color:#fff;margin-left:auto}
+    .bm-btn-next:hover{background:var(--color-brand-hover)}
+    .bm-btn-next:disabled{background:var(--color-border-secondary);cursor:not-allowed}
+
+    /* Results */
+    .bm-results{display:none}
+    .bm-results.show{display:block}
+    .bm-result-summary{background:rgba(31,122,107,.06);border-left:3px solid var(--color-brand);padding:14px 18px;border-radius:6px;margin-bottom:22px;font-size:13.5px}
+    .bm-cost-pill{display:inline-block;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-right:8px;margin-bottom:8px}
+    .bm-cost-pill .lbl{color:var(--color-text-tertiary);font-weight:500;margin-right:5px;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+    .bm-cost-pill .val{color:var(--color-brand);font-weight:700}
+    .bm-rec{padding:14px 16px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:var(--color-background-primary);margin-bottom:10px;display:flex;gap:14px;align-items:center;transition:border-color .15s}
+    .bm-rec:hover{border-color:var(--color-brand)}
+    .bm-rec-score{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;font-variant-numeric:tabular-nums}
+    .bm-rec-score.t1{background:linear-gradient(135deg,#1F8A7A,#0F4A41)}
+    .bm-rec-score.t2{background:linear-gradient(135deg,#5A7BC4,#2D3F6E)}
+    .bm-rec-score.t3{background:linear-gradient(135deg,#C2872B,#6B4716)}
+    .bm-rec-body{flex:1;min-width:0}
+    .bm-rec-name{font-size:14px;font-weight:700;color:var(--color-text-primary);margin-bottom:2px}
+    .bm-rec-name a{color:inherit;text-decoration:none}
+    .bm-rec-name a:hover{color:var(--color-brand);text-decoration:underline}
+    .bm-rec-meta{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+    .bm-rec-dose{font-size:12.5px;color:var(--color-text-tertiary);line-height:1.45}
+    .bm-rec-tier{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:6px;flex-shrink:0;align-self:flex-start;white-space:nowrap}
+    .bm-rec-tier.t1{background:var(--t1bg);color:var(--t1tx)}
+    .bm-rec-tier.t2{background:var(--t2bg);color:var(--t2tx)}
+    .bm-rec-tier.t3{background:var(--t3bg);color:var(--t3tx)}
+    .bm-warning{background:rgba(184,80,70,.08);border-left:3px solid var(--t4c);padding:14px 18px;border-radius:6px;margin:18px 0;color:var(--t4tx);font-size:13.5px;line-height:1.55}
+    .bm-restart{margin-top:24px;text-align:center}
+    .bm-disclaim{margin-top:32px;font-size:12px;color:var(--color-text-tertiary);text-align:center;padding-top:18px;border-top:1px solid var(--color-border-tertiary);line-height:1.6}
+  </style>
+</head>
+<body>
+<main class="bm-wrap">
+  <a href="index.html" class="bm-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to Supplement Score
+  </a>
+
+  <div class="bm-kicker">Build my stack</div>
+  <h1>A 5-question supplement planner</h1>
+  <p class="bm-lede">Five short questions get you to a ranked, evidence-tiered supplement plan with estimated monthly cost. Nothing leaves your browser. This is a starting point for research, not a treatment plan — discuss any change with your clinician.</p>
+
+  <div id="bm-wizard">
+    <div class="bm-progress" aria-hidden="true">
+      <div class="bm-prog-dot active" data-prog="1"></div>
+      <div class="bm-prog-dot" data-prog="2"></div>
+      <div class="bm-prog-dot" data-prog="3"></div>
+      <div class="bm-prog-dot" data-prog="4"></div>
+      <div class="bm-prog-dot" data-prog="5"></div>
+    </div>
+
+    <!-- Step 1: Goals -->
+    <div class="bm-step active" data-step="1">
+      <div class="bm-step-h">Step 1 of 5</div>
+      <h2 class="bm-step-q">What do you want to work on?</h2>
+      <p class="bm-step-help">Pick 1 to 3 goals. We'll rank supplements that have actual trial evidence for those specific outcomes.</p>
+      <div class="bm-opts cols-2" id="bm-goals">
+        <button type="button" class="bm-opt" data-goal="Sleep">Sleep</button>
+        <button type="button" class="bm-opt" data-goal="Anxiety">Anxiety / stress</button>
+        <button type="button" class="bm-opt" data-goal="Mood">Mood</button>
+        <button type="button" class="bm-opt" data-goal="Cognition">Memory / focus</button>
+        <button type="button" class="bm-opt" data-goal="Cardio">Cardiovascular</button>
+        <button type="button" class="bm-opt" data-goal="Glucose">Blood sugar</button>
+        <button type="button" class="bm-opt" data-goal="Joint">Joint / pain</button>
+        <button type="button" class="bm-opt" data-goal="Gut">Gut / digestion</button>
+        <button type="button" class="bm-opt" data-goal="Immunity">Immunity</button>
+        <button type="button" class="bm-opt" data-goal="Skin">Skin / hair / nails</button>
+        <button type="button" class="bm-opt" data-goal="Energy">Energy / fatigue</button>
+        <button type="button" class="bm-opt" data-goal="Performance">Athletic performance</button>
+        <button type="button" class="bm-opt" data-goal="Bone">Bone / calcium</button>
+        <button type="button" class="bm-opt" data-goal="Hormone">Hormonal balance</button>
+        <button type="button" class="bm-opt" data-goal="Liver">Liver</button>
+        <button type="button" class="bm-opt" data-goal="Eye">Eye / vision</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Sex -->
+    <div class="bm-step" data-step="2">
+      <div class="bm-step-h">Step 2 of 5</div>
+      <h2 class="bm-step-q">Which best describes you?</h2>
+      <p class="bm-step-help">Some supplements have specific contraindications in pregnancy or are sex-dependent in dosing. We use this to filter the recommendations.</p>
+      <div class="bm-opts" id="bm-sex">
+        <button type="button" class="bm-opt" data-sex="m">Male</button>
+        <button type="button" class="bm-opt" data-sex="f">Female</button>
+        <button type="button" class="bm-opt" data-sex="fp">Female · pregnant or trying</button>
+        <button type="button" class="bm-opt" data-sex="x">Prefer not to say</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Age -->
+    <div class="bm-step" data-step="3">
+      <div class="bm-step-h">Step 3 of 5</div>
+      <h2 class="bm-step-q">What's your age range?</h2>
+      <p class="bm-step-help">Several recommendations shift meaningfully with age — vitamin D, B12, magnesium, and creatine in particular.</p>
+      <div class="bm-opts cols-2" id="bm-age">
+        <button type="button" class="bm-opt" data-age="under25">Under 25</button>
+        <button type="button" class="bm-opt" data-age="25-39">25 to 39</button>
+        <button type="button" class="bm-opt" data-age="40-54">40 to 54</button>
+        <button type="button" class="bm-opt" data-age="55-69">55 to 69</button>
+        <button type="button" class="bm-opt" data-age="70plus">70 and over</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Medications -->
+    <div class="bm-step" data-step="4">
+      <div class="bm-step-h">Step 4 of 5</div>
+      <h2 class="bm-step-q">Are you on any prescription medications?</h2>
+      <p class="bm-step-help">We use this to flag interactions and exclude supplements that are problematic alongside your current treatment. Pick all that apply, or pick "None."</p>
+      <div class="bm-opts cols-2" id="bm-meds">
+        <button type="button" class="bm-opt" data-med="none">None</button>
+        <button type="button" class="bm-opt" data-med="warfarin">Warfarin</button>
+        <button type="button" class="bm-opt" data-med="doac">DOAC (apixaban, rivaroxaban, etc.)</button>
+        <button type="button" class="bm-opt" data-med="ssri">SSRI / SNRI</button>
+        <button type="button" class="bm-opt" data-med="statin">Statin</button>
+        <button type="button" class="bm-opt" data-med="thyroid">Levothyroxine</button>
+        <button type="button" class="bm-opt" data-med="bp">Blood-pressure medication</button>
+        <button type="button" class="bm-opt" data-med="diabetes">Metformin / diabetes medication</button>
+        <button type="button" class="bm-opt" data-med="immunosuppressant">Immunosuppressant (transplant)</button>
+        <button type="button" class="bm-opt" data-med="other">Other (we'll show all warnings)</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Budget -->
+    <div class="bm-step" data-step="5">
+      <div class="bm-step-h">Step 5 of 5</div>
+      <h2 class="bm-step-q">Monthly supplement budget?</h2>
+      <p class="bm-step-help">We rank within budget — same evidence-tier ordering, but trimming to what you can actually sustain. Most foundational stacks fit under $40 a month.</p>
+      <div class="bm-opts cols-2" id="bm-budget">
+        <button type="button" class="bm-opt" data-budget="20">Under $20</button>
+        <button type="button" class="bm-opt" data-budget="40">$20 to $40</button>
+        <button type="button" class="bm-opt" data-budget="80">$40 to $80</button>
+        <button type="button" class="bm-opt" data-budget="999">$80 or more</button>
+      </div>
+    </div>
+
+    <div class="bm-actions">
+      <button type="button" class="bm-btn bm-btn-prev" id="bm-prev" disabled>← Back</button>
+      <button type="button" class="bm-btn bm-btn-next" id="bm-next" disabled>Next →</button>
+    </div>
+  </div>
+
+  <div class="bm-results" id="bm-results">
+    <h2 class="bm-step-q" style="margin-bottom:14px">Your starter stack</h2>
+    <div id="bm-result-summary"></div>
+    <div id="bm-result-warnings"></div>
+    <div id="bm-result-list"></div>
+    <div class="bm-restart">
+      <button type="button" class="bm-btn bm-btn-prev" onclick="restartWizard()">Start over</button>
+    </div>
+  </div>
+
+  <p class="bm-disclaim">Educational reference, not medical advice. Discuss any supplement change with a qualified clinician — especially in pregnancy, with prescription medications, or in pediatric use. <a href="methodology.html" style="color:inherit;text-decoration:underline">How scores work</a> · <a href="funder-policy.html" style="color:inherit;text-decoration:underline">Funder policy</a></p>
+</main>
+
+<script src="data.js?v=20260418m"></script>
+<script>
+(function(){
+  // ── Wizard state ─────────────────────────────────────────────────────
+  var state = { step:1, goals:new Set(), sex:null, age:null, meds:new Set(), budget:null };
+  var GOAL_KEYS = {
+    Sleep:['sleep','insomnia'],
+    Anxiety:['anxiety','stress','adapt'],
+    Mood:['mood','depress','antidepres'],
+    Cognition:['cognit','memory','focus','nootropic','attention','brain'],
+    Cardio:['cardiov','heart','blood pressure','cholesterol','lipid'],
+    Glucose:['glucose','insulin','metabolic','diabet','a1c'],
+    Joint:['joint','pain','arthri','inflamm'],
+    Gut:['gut','digest','probiotic','ibs','prebiot','fiber','fibre'],
+    Immunity:['immun','cold','flu','antiviral'],
+    Skin:['skin','hair','nail','collag','derma'],
+    Energy:['energy','fatigu','endurance','stamina','vitality'],
+    Performance:['performance','muscle','strength','recovery','sarcopen','hypertroph'],
+    Bone:['bone','osteo','fracture','calcium'],
+    Hormone:['hormonal','testosterone','estrogen','menopau','pms','menstru','thyroid'],
+    Liver:['liver','hepatic','detox','nafld'],
+    Eye:['eye','vision','macular','retina']
+  };
+
+  // Estimated monthly cost per supplement tier (rough, used for budget filter)
+  // c sub-score 1=poor value (~$30-50/mo), 2=expensive (~$20-40), 3=moderate (~$15-25), 4=affordable (~$8-15), 5=excellent value (~$3-10)
+  var COST_BAND = { 5:6, 4:11, 3:18, 2:28, 1:42 };
+
+  // Med-keyed avoid lists — supplements that should be excluded outright for that medication
+  var MED_AVOID = {
+    warfarin:    ['vitamin k','st john','garlic (high','ginkgo','fish oil (>3','coq10','cranberry'],
+    doac:        ['st john','ginkgo','garlic (high','dabigatran','fish oil (>3'],
+    ssri:        ['st john','5-htp','l-tryptophan','tryptophan','same','saffron'],
+    statin:      ['red yeast rice','grapefruit'],
+    thyroid:     [],
+    bp:          ['licorice','yohimbine'],
+    diabetes:    [],
+    immunosuppressant:['st john','grapefruit','berberine','echinacea','schisandra'],
+    other:       []
+  };
+
+  // Med-keyed warning text shown above the recommendations
+  var MED_WARN = {
+    warfarin:'Warfarin chosen — your supplement list excludes vitamin K, St John\'s wort, ginkgo, high-dose fish oil, CoQ10, and cranberry, which are the highest-impact warfarin-supplement interactions.',
+    doac:'DOAC chosen — your list excludes St John\'s wort and ginkgo. Note: unlike warfarin, vitamin K does not interact with DOACs.',
+    ssri:'SSRI / SNRI chosen — supplements with serotonergic activity (5-HTP, L-tryptophan, SAMe, St John\'s wort, saffron) are excluded. Talk to your prescriber before adding any mood-targeting supplement.',
+    statin:'Statin chosen — red yeast rice (additive statin exposure) and grapefruit-rich items are excluded. Mention any new supplement to your pharmacist.',
+    thyroid:'Levothyroxine chosen — calcium, iron, and magnesium are kept in your list but should be taken at least 4 hours apart from your levothyroxine dose. Pause biotin 48-72h before any thyroid lab.',
+    bp:'Blood-pressure medication chosen — licorice (with glycyrrhizin) and yohimbine are excluded.',
+    diabetes:'Antidiabetic medication chosen — supplements with glucose-lowering effects (berberine, inositol, alpha-lipoic acid, cinnamon) are kept but flagged. Monitor glucose and discuss with your prescriber to avoid hypoglycaemia.',
+    immunosuppressant:'Immunosuppressant chosen — St John\'s wort, berberine, grapefruit, echinacea, and schisandra are excluded. Discuss every supplement with your transplant team.',
+    other:'You picked "other" — we\'re showing the full standard list. Always cross-check any supplement against your specific prescriptions with a pharmacist.'
+  };
+
+  // ── DOM helpers ──────────────────────────────────────────────────────
+  function $(id){return document.getElementById(id);}
+  function $$(sel,p){return Array.prototype.slice.call((p||document).querySelectorAll(sel));}
+  function calcScore(s){var rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1;return Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2);}
+  function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+
+  // ── Wizard navigation ────────────────────────────────────────────────
+  function setStep(n){
+    state.step = n;
+    $$('.bm-step').forEach(function(el){ el.classList.toggle('active', +el.dataset.step === n); });
+    $$('.bm-prog-dot').forEach(function(el){
+      var p = +el.dataset.prog;
+      el.classList.toggle('active', p === n);
+      el.classList.toggle('done', p < n);
+    });
+    $('bm-prev').disabled = n === 1;
+    updateNextButton();
+  }
+
+  function canAdvance(){
+    if (state.step === 1) return state.goals.size >= 1 && state.goals.size <= 3;
+    if (state.step === 2) return !!state.sex;
+    if (state.step === 3) return !!state.age;
+    if (state.step === 4) return state.meds.size >= 1;
+    if (state.step === 5) return !!state.budget;
+    return false;
+  }
+
+  function updateNextButton(){
+    var nx = $('bm-next');
+    nx.disabled = !canAdvance();
+    nx.textContent = state.step === 5 ? 'Build my stack →' : 'Next →';
+  }
+
+  // Multi-select for goals; single-select for sex / age / budget; multi for meds (with "none" mutex)
+  $('bm-goals').addEventListener('click', function(e){
+    var b = e.target.closest('[data-goal]');
+    if (!b) return;
+    var g = b.dataset.goal;
+    if (state.goals.has(g)) { state.goals.delete(g); b.classList.remove('on'); }
+    else if (state.goals.size < 3) { state.goals.add(g); b.classList.add('on'); }
+    updateNextButton();
+  });
+  $('bm-sex').addEventListener('click', function(e){
+    var b = e.target.closest('[data-sex]');
+    if (!b) return;
+    state.sex = b.dataset.sex;
+    $$('#bm-sex .bm-opt').forEach(function(x){ x.classList.toggle('on', x.dataset.sex === state.sex); });
+    updateNextButton();
+  });
+  $('bm-age').addEventListener('click', function(e){
+    var b = e.target.closest('[data-age]');
+    if (!b) return;
+    state.age = b.dataset.age;
+    $$('#bm-age .bm-opt').forEach(function(x){ x.classList.toggle('on', x.dataset.age === state.age); });
+    updateNextButton();
+  });
+  $('bm-meds').addEventListener('click', function(e){
+    var b = e.target.closest('[data-med]');
+    if (!b) return;
+    var m = b.dataset.med;
+    if (m === 'none') {
+      // Mutex: clear all others
+      state.meds.clear(); state.meds.add('none');
+      $$('#bm-meds .bm-opt').forEach(function(x){ x.classList.toggle('on', x.dataset.med === 'none'); });
+    } else {
+      // If user picks anything, remove "none"
+      state.meds.delete('none');
+      $$('#bm-meds .bm-opt[data-med="none"]').forEach(function(x){ x.classList.remove('on'); });
+      if (state.meds.has(m)) { state.meds.delete(m); b.classList.remove('on'); }
+      else { state.meds.add(m); b.classList.add('on'); }
+    }
+    updateNextButton();
+  });
+  $('bm-budget').addEventListener('click', function(e){
+    var b = e.target.closest('[data-budget]');
+    if (!b) return;
+    state.budget = +b.dataset.budget;
+    $$('#bm-budget .bm-opt').forEach(function(x){ x.classList.toggle('on', +x.dataset.budget === state.budget); });
+    updateNextButton();
+  });
+
+  $('bm-prev').addEventListener('click', function(){ if (state.step > 1) setStep(state.step - 1); });
+  $('bm-next').addEventListener('click', function(){
+    if (!canAdvance()) return;
+    if (state.step < 5) setStep(state.step + 1);
+    else buildResults();
+  });
+
+  // ── Results builder ──────────────────────────────────────────────────
+  function buildResults(){
+    if (typeof S === 'undefined') {
+      $('bm-result-summary').innerHTML = '<div class="bm-warning">Database not loaded. Please refresh the page.</div>';
+      $('bm-wizard').style.display = 'none';
+      $('bm-results').classList.add('show');
+      return;
+    }
+
+    // Filter by goals
+    var goalKeys = [];
+    state.goals.forEach(function(g){ (GOAL_KEYS[g] || []).forEach(function(k){ goalKeys.push(k); }); });
+    var matched = S.filter(function(s){
+      var hay = ((s.tag || '') + ' ' + (s.desc || '')).toLowerCase();
+      return goalKeys.some(function(k){ return hay.indexOf(k) !== -1; });
+    });
+
+    // Exclude tier-4 unconditionally
+    matched = matched.filter(function(s){ return s.t !== 't4'; });
+
+    // Pregnancy: exclude common contraindications
+    if (state.sex === 'fp') {
+      var pregAvoid = ['ashwagandha','vitamin a','high','dha','vitex','licorice','black cohosh','dong quai','blue cohosh','pennyroyal','wormwood','rosemary (medicinal','high-dose vitamin','berberine','ho-shou-wu','tongkat ali'];
+      matched = matched.filter(function(s){
+        var n = (s.n || '').toLowerCase();
+        return !pregAvoid.some(function(p){ return n.indexOf(p) !== -1; });
+      });
+    }
+
+    // Medication exclusions
+    var medAvoid = [];
+    state.meds.forEach(function(m){ if (m !== 'none') (MED_AVOID[m] || []).forEach(function(x){ medAvoid.push(x); }); });
+    if (medAvoid.length) {
+      matched = matched.filter(function(s){
+        var n = (s.n || '').toLowerCase();
+        return !medAvoid.some(function(p){ return n.indexOf(p) !== -1; });
+      });
+    }
+
+    // Add composite score
+    matched.forEach(function(s){ s._sc = calcScore(s); });
+
+    // Sort: tier first (t1 → t2 → t3), then composite
+    var tierOrder = { t1:0, t2:1, t3:2 };
+    matched.sort(function(a,b){
+      var ta = tierOrder[a.t]; var tb = tierOrder[b.t];
+      if (ta !== tb) return ta - tb;
+      return b._sc - a._sc;
+    });
+
+    // De-dupe: one supplement per "core ingredient" (rough — by first word of name)
+    var seen = {};
+    matched = matched.filter(function(s){
+      var key = (s.n || '').toLowerCase().split(' ')[0];
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+
+    // Trim by budget — greedy fit
+    var budgetCap = state.budget;
+    var picked = [];
+    var totalCost = 0;
+    for (var i = 0; i < matched.length && picked.length < 12; i++) {
+      var s = matched[i];
+      var cost = COST_BAND[s.c || 3] || 18;
+      if (totalCost + cost <= budgetCap) {
+        picked.push(s);
+        totalCost += cost;
+      }
+    }
+    // If budget squeeze yielded < 3 items, fall back to top 5 regardless of budget
+    if (picked.length < 3) {
+      picked = matched.slice(0, 5);
+      totalCost = picked.reduce(function(sum, s){ return sum + (COST_BAND[s.c || 3] || 18); }, 0);
+    }
+
+    // Render summary
+    var goalLbl = Array.from(state.goals).join(' · ');
+    $('bm-result-summary').innerHTML =
+      '<div class="bm-result-summary">'
+      + '<strong>Built for:</strong> ' + escHtml(goalLbl) + '. '
+      + picked.length + ' supplements ranked by tier and composite score, fitted to your budget.'
+      + '</div>'
+      + '<div>'
+      + '<span class="bm-cost-pill"><span class="lbl">Estimated monthly cost</span><span class="val">~$' + totalCost + '</span></span>'
+      + '<span class="bm-cost-pill"><span class="lbl">Your budget</span><span class="val">' + (state.budget === 999 ? '$80+' : 'up to $' + state.budget) + '</span></span>'
+      + '</div>';
+
+    // Render warnings — one block per medication chosen (excluding "none")
+    var warnHtml = '';
+    state.meds.forEach(function(m){
+      if (m !== 'none' && MED_WARN[m]) {
+        warnHtml += '<div class="bm-warning"><strong>⚠︎</strong> ' + MED_WARN[m] + '</div>';
+      }
+    });
+    if (state.sex === 'fp') {
+      warnHtml += '<div class="bm-warning"><strong>⚠︎</strong> Pregnancy / trying-to-conceive — supplements with insufficient pregnancy safety data have been excluded. The list below is conservative; always confirm any supplement with your OB.</div>';
+    }
+    $('bm-result-warnings').innerHTML = warnHtml;
+
+    // Render list
+    var listHtml = picked.map(function(s){
+      var bg = s._sc >= 72 ? 't1' : s._sc >= 60 ? 't2' : 't3';
+      var tierLbl = s.t === 't1' ? 'Tier 1' : s.t === 't2' ? 'Tier 2' : 'Tier 3';
+      var url = 'supplement.html?n=' + encodeURIComponent(s.n);
+      return '<div class="bm-rec">'
+        + '<div class="bm-rec-score ' + bg + '">' + s._sc + '</div>'
+        + '<div class="bm-rec-body">'
+        +   '<div class="bm-rec-name"><a href="' + url + '">' + escHtml(s.n) + '</a></div>'
+        +   '<div class="bm-rec-meta">' + escHtml(s.tag || '') + '</div>'
+        +   '<div class="bm-rec-dose">' + escHtml(s.dose || '') + '</div>'
+        + '</div>'
+        + '<span class="bm-rec-tier ' + s.t + '">' + tierLbl + '</span>'
+        + '</div>';
+    }).join('');
+    if (!picked.length) {
+      listHtml = '<div class="bm-warning">No supplements matched your filters. Try widening your budget or removing a goal.</div>';
+    }
+    $('bm-result-list').innerHTML = listHtml;
+
+    // Show results
+    $('bm-wizard').style.display = 'none';
+    $('bm-results').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  window.restartWizard = function(){
+    state = { step:1, goals:new Set(), sex:null, age:null, meds:new Set(), budget:null };
+    $$('.bm-opt.on').forEach(function(x){ x.classList.remove('on'); });
+    $('bm-results').classList.remove('show');
+    $('bm-wizard').style.display = 'block';
+    setStep(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Initial state
+  setStep(1);
+})();
+</script>
+</body>
+</html>

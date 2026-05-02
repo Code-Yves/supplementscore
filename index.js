@@ -686,3 +686,80 @@ if (typeof renderAll === 'function') {
   window.addEventListener('hashchange', onTabChange);
   onTabChange(); // apply on initial load
 })();
+
+/* ===== Per-article JSON-LD MedicalScholarlyArticle injection (added 2026-05-01) =====
+ * When the user opens an inlined article via showArticle(n), inject a
+ * MedicalScholarlyArticle JSON-LD block in the document head so search engines
+ * can crawl per-article structured data. The block is replaced when the user
+ * navigates to a different article. Removed when the user returns to the list. */
+(function(){
+  function getArticleMeta(n) {
+    var div = document.getElementById('article-' + n);
+    if (!div) return null;
+    var titleEl = div.querySelector('h2');
+    var title = titleEl ? titleEl.textContent.trim() : '';
+    // Date: text like "Apr 11, 2026" inside .article-meta
+    var metaEl = div.querySelector('.article-meta');
+    var dateMatch = metaEl ? metaEl.textContent.match(/[A-Z][a-z]{2}\s+\d{1,2},\s*\d{4}/) : null;
+    var datePub = dateMatch ? dateMatch[0] : null;
+    // Reviewed date from the comment <!-- last-reviewed: YYYY-MM-DD -->
+    var html = div.outerHTML;
+    var reviewedMatch = html.match(/last-reviewed:\s*(\d{4}-\d{2}-\d{2})/);
+    var dateReviewed = reviewedMatch ? reviewedMatch[1] : null;
+    // First paragraph as description
+    var p = div.querySelector('p');
+    var desc = p ? p.textContent.trim().slice(0, 280) : '';
+    // Citations: gather all <li data-pmid> or <a href*=pubmed/doi>
+    var cites = [];
+    div.querySelectorAll('a[href*="pubmed.ncbi"], a[href*="doi.org"]').forEach(function(a){
+      var url = a.getAttribute('href');
+      if (cites.indexOf(url) === -1) cites.push(url);
+    });
+    return {n: n, title: title, datePub: datePub, dateReviewed: dateReviewed, desc: desc, cites: cites};
+  }
+
+  function injectArticleJsonLd(n) {
+    removeArticleJsonLd();
+    var meta = getArticleMeta(n);
+    if (!meta || !meta.title) return;
+    var ld = {
+      "@context": "https://schema.org",
+      "@type": "MedicalScholarlyArticle",
+      "headline": meta.title,
+      "name": meta.title,
+      "description": meta.desc,
+      "url": location.origin + location.pathname + '#article-' + n,
+      "isPartOf": { "@type": "WebSite", "name": "SupplementScore", "url": location.origin },
+      "publisher": { "@type": "Organization", "name": "SupplementScore" }
+    };
+    if (meta.datePub) ld.datePublished = new Date(meta.datePub).toISOString().slice(0,10);
+    if (meta.dateReviewed) ld.dateModified = meta.dateReviewed;
+    if (meta.cites.length) ld.citation = meta.cites.slice(0, 12);
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.id = '__article-jsonld';
+    s.textContent = JSON.stringify(ld);
+    document.head.appendChild(s);
+  }
+
+  function removeArticleJsonLd() {
+    var existing = document.getElementById('__article-jsonld');
+    if (existing) existing.remove();
+  }
+
+  // Hook the existing showArticle/_renderArticleInline functions if present
+  if (typeof window.showArticle === 'function') {
+    var origShow = window.showArticle;
+    window.showArticle = function(n) {
+      origShow.apply(this, arguments);
+      injectArticleJsonLd(n);
+    };
+  }
+  if (typeof window.showArticleList === 'function') {
+    var origList = window.showArticleList;
+    window.showArticleList = function() {
+      origList.apply(this, arguments);
+      removeArticleJsonLd();
+    };
+  }
+})();

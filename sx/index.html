@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse supplements by symptom — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Find evidence-tiered supplements for sleep, anxiety, cognition, gut health, joints, immunity, and twelve other symptom domains.">
+  <link rel="canonical" href="https://supplementscore.org/sx/index.html">
+  <meta property="og:title" content="Browse supplements by symptom — SupplementScore">
+  <meta property="og:description" content="Sixteen symptom domains, each with the supplements that have actual evidence.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=20260502a">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <style>
+    body{background:var(--color-background-primary);color:var(--color-text-primary)}
+    .hub-wrap{max-width:880px;margin:0 auto;padding:32px 22px 64px}
+    /* Floating close button — returns to the Discover page (the parent
+       index for these hub pages). Same visual language as the article reader
+       and compare-page close FABs. */
+    .hub-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
+    .hub-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
+    .hub-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+    @media(max-width:760px){.hub-close-fab{top:12px;right:12px;width:36px;height:36px}}
+    .hub-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
+    .hub-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
+    .hub-lede{font-size:17px;color:var(--color-text-secondary);max-width:62ch;margin-bottom:30px;line-height:1.55}
+    .hub-section{margin:32px 0 14px}
+    .hub-section h2{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 12px}
+    .hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+    .hub-tile{display:flex;align-items:center;gap:12px;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;text-decoration:none;color:inherit;transition:border-color .15s,transform .12s}
+    .hub-tile:hover{border-color:var(--color-brand);transform:translateY(-1px)}
+    .hub-tile-icon{width:32px;height:32px;border-radius:8px;background:rgba(31,122,107,.10);color:var(--color-brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .hub-tile-icon svg{width:18px;height:18px}
+    .hub-tile-name{font-size:13.5px;font-weight:600;color:var(--color-text-primary);line-height:1.3}
+    .hub-tile-sub{font-size:11.5px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+    .hub-foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--color-border-tertiary);font-size:12.5px;color:var(--color-text-tertiary);line-height:1.6}
+  </style>
+</head>
+<body>
+<a href="../discover.html" class="hub-close-fab" aria-label="Close and return to Discover">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</a>
+<main class="hub-wrap">
+
+  <div class="hub-kicker">Browse by symptom</div>
+  <h1>Find supplements by symptom domain</h1>
+  <p class="hub-lede">Sixteen common symptom domains, each with the tier-scored supplements that have actual trial evidence — no kitchen-sink lists. For multi-supplement protocols, see the <a href="../condition/index.html">condition deep-dive guides</a>.</p>
+
+  <div class="hub-section">
+    <h2>Mind &amp; mood</h2>
+    <div class="hub-grid">
+      <a href="sleep.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        <span><span class="hub-tile-name">Sleep</span><div class="hub-tile-sub">Onset, quality, fragmentation</div></span>
+      </a>
+      <a href="anxiety.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg></span>
+        <span><span class="hub-tile-name">Anxiety / stress</span><div class="hub-tile-sub">GABA, adaptogens, magnesium</div></span>
+      </a>
+      <a href="mood.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/></svg></span>
+        <span><span class="hub-tile-name">Mood</span><div class="hub-tile-sub">SAMe, saffron, omega-3</div></span>
+      </a>
+      <a href="cognition.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5"/><path d="M15 5h5a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-5"/><path d="M12 4v16"/></svg></span>
+        <span><span class="hub-tile-name">Cognition</span><div class="hub-tile-sub">Focus, memory, brain fog</div></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hub-section">
+    <h2>Cardiometabolic</h2>
+    <div class="hub-grid">
+      <a href="cardiovascular.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+        <span><span class="hub-tile-name">Cardiovascular</span><div class="hub-tile-sub">Lipids, BP, omega-3</div></span>
+      </a>
+      <a href="glucose.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg></span>
+        <span><span class="hub-tile-name">Glucose / insulin</span><div class="hub-tile-sub">Berberine, inositol, fibre</div></span>
+      </a>
+      <a href="liver.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6 8 6 14 12 22"/><path d="M12 2c6 6 6 12 0 20"/></svg></span>
+        <span><span class="hub-tile-name">Liver</span><div class="hub-tile-sub">Milk thistle, NAC, choline</div></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hub-section">
+    <h2>Movement &amp; performance</h2>
+    <div class="hub-grid">
+      <a href="performance.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+        <span><span class="hub-tile-name">Performance</span><div class="hub-tile-sub">Creatine, beta-alanine, caffeine</div></span>
+      </a>
+      <a href="energy.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+        <span><span class="hub-tile-name">Energy</span><div class="hub-tile-sub">CoQ10, B12, iron, ribose</div></span>
+      </a>
+      <a href="joint-pain.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M12 8v8"/></svg></span>
+        <span><span class="hub-tile-name">Joint pain</span><div class="hub-tile-sub">Glucosamine, collagen, boswellia</div></span>
+      </a>
+      <a href="bone-health.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 10c.7-.7 1.69-1 2.69-1A4.31 4.31 0 0 1 24 13.31C24 16.5 22 19 19 19l-2-2-7 7-3-3 7-7-2-2c-3 0-5-2.5-5-5.69A4.31 4.31 0 0 1 11.31 2c1 0 1.99.3 2.69 1L11 6l3 3z"/></svg></span>
+        <span><span class="hub-tile-name">Bone health</span><div class="hub-tile-sub">Vitamin D, K2, calcium</div></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hub-section">
+    <h2>Gut, skin, immunity</h2>
+    <div class="hub-grid">
+      <a href="gut-health.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12c0-5 4-9 9-9s9 4 9 9"/><path d="M3 12c0 5 4 9 9 9s9-4 9-9"/></svg></span>
+        <span><span class="hub-tile-name">Gut health</span><div class="hub-tile-sub">Probiotics, fibre, peppermint</div></span>
+      </a>
+      <a href="immunity.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg></span>
+        <span><span class="hub-tile-name">Immunity</span><div class="hub-tile-sub">Vitamin D, zinc, elderberry</div></span>
+      </a>
+      <a href="skin.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></span>
+        <span><span class="hub-tile-name">Skin</span><div class="hub-tile-sub">Collagen, vitamin C, omega-3</div></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hub-section">
+    <h2>Hormonal &amp; sensory</h2>
+    <div class="hub-grid">
+      <a href="hormones.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="9"/></svg></span>
+        <span><span class="hub-tile-name">Hormones</span><div class="hub-tile-sub">Inositol, ashwagandha, DHEA</div></span>
+      </a>
+      <a href="vision.html" class="hub-tile">
+        <span class="hub-tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <span><span class="hub-tile-name">Vision</span><div class="hub-tile-sub">Lutein, zeaxanthin, AREDS 2</div></span>
+      </a>
+    </div>
+  </div>
+
+  <p class="hub-foot">Looking for a multi-supplement plan for a specific condition? See the <a href="../condition/index.html">condition deep-dive guides</a>. Looking for a side-by-side comparison of two supplement forms? See the <a href="../compare/index.html">comparative guides</a>.</p>
+</main>
+</body>
+</html>

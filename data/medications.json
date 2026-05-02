@@ -1,0 +1,2131 @@
+{
+  "warfarin": {
+    "label": "Warfarin / Blood thinners",
+    "avoid": [
+      "Vitamin K2 (MK-7)",
+      "St. John's Wort",
+      "Ginkgo biloba",
+      "Vitamin K1 (phylloquinone)"
+    ],
+    "caution": [
+      "Omega-3 (EPA/DHA)",
+      "Curcumin (bioavailable form)",
+      "Ginger (Zingiber officinale)",
+      "NAC (N-Acetyl Cysteine)",
+      "Nattokinase",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Pine bark extract (Pycnogenol)",
+      "Grape seed extract (OPC)",
+      "Bromelain",
+      "Quercetin",
+      "Aged garlic extract (Kyolic)",
+      "Black garlic extract",
+      "Policosanol",
+      "Horse chestnut (Aesculus)",
+      "Dan Shen compound (Salvia miltiorrhiza)",
+      "Red sage / Danshen (Salvia miltiorrhiza)",
+      "Berberine HCl (sustained release)",
+      "Berberine",
+      "Omega-3 (high dose)",
+      "Omega-3 DHA-dominant",
+      "DHA (standalone, algal)",
+      "Holy basil (Tulsi)",
+      "Fucoidan",
+      "Hesperidin",
+      "Spirulina",
+      "Phycocyanin (spirulina blue pigment)",
+      "Boswellia serrata",
+      "Meriva curcumin (phytosome)",
+      "Theracurmin (curcumin nanoparticle)",
+      "Reishi (Ganoderma lucidum)",
+      "Cordyceps militaris",
+      "Saw palmetto (Serenoa repens)",
+      "Devil's claw (Harpagophytum procumbens)",
+      "Feverfew (Tanacetum parthenium)",
+      "White willow bark (Salix alba)",
+      "Vinpocetine",
+      "Coleus forskohlii (Forskolin)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Vitamin K (K1 and K2) directly antagonises warfarin — keep daily intake CONSTANT or notify your anticoagulation clinic. Many botanicals and high-dose fish oil add to bleeding risk via additive antiplatelet or fibrinolytic effects (nattokinase is the strongest). Always inform your anticoagulation clinic before any supplement changes; recheck INR within 1–2 weeks of starting or stopping any of the listed items."
+  },
+  "ssri": {
+    "label": "SSRIs / SNRIs",
+    "avoid": [
+      "5-HTP",
+      "St. John's Wort",
+      "S-Adenosylmethionine (SAMe)",
+      "Tryptophan (L-tryptophan)",
+      "Saffron Affron (standardised extract)",
+      "Rhodiola rosea",
+      "Korean red ginseng (Panax ginseng)",
+      "Korean red ginseng (fermented)",
+      "American ginseng (Panax quinquefolius)"
+    ],
+    "caution": [
+      "Saffron (Crocus sativus)",
+      "Omega-3 (EPA/DHA)",
+      "Tyrosine (L-tyrosine)",
+      "Methylcobalamin (high-dose neurological)",
+      "Activated B complex (methylated)",
+      "Folate (5-MTHF)",
+      "Folic acid (synthetic)",
+      "Curcumin (bioavailable form)",
+      "Lavender oil oral (Silexan)",
+      "Magnolia bark (honokiol + magnolol)",
+      "Honokiol (magnolia bark isolate)",
+      "CBD (Cannabidiol)",
+      "Cannabigerol (CBG)",
+      "Inositol (high-dose, psychiatric)",
+      "Valerian root",
+      "Passionflower (Passiflora incarnata)",
+      "Kava (high-dose/extract)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Serotonin syndrome risk — 5-HTP, L-tryptophan, SAMe, and St. John's Wort directly raise serotonin and must be avoided. Saffron, Rhodiola, and ginsengs have monoaminergic activity at clinical doses; combine only under psychiatrist guidance. Several CYP2D6/3A4-modulating supplements can also raise SSRI levels — flag any new supplement to your prescriber."
+  },
+  "maoi": {
+    "label": "MAOIs",
+    "avoid": [
+      "5-HTP",
+      "St. John's Wort",
+      "Panax ginseng",
+      "S-Adenosylmethionine (SAMe)",
+      "Tryptophan (L-tryptophan)",
+      "Tyrosine (L-tyrosine)",
+      "Saffron Affron (standardised extract)",
+      "Rhodiola rosea",
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Korean red ginseng (Panax ginseng)",
+      "Korean red ginseng (fermented)",
+      "American ginseng (Panax quinquefolius)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "DMAA/DMHA novel stimulant pre-workouts",
+      "Sinicuichi (Heimia salicifolia)"
+    ],
+    "caution": [
+      "Saffron (Crocus sativus)",
+      "Taurine",
+      "Methylcobalamin (high-dose neurological)",
+      "Activated B complex (methylated)",
+      "Lavender oil oral (Silexan)",
+      "CBD (Cannabidiol)",
+      "Cannabigerol (CBG)"
+    ],
+    "depleted_or_replace": [],
+    "note": "MAOIs have severe interactions — risk of hypertensive crisis (with tyrosine, ginseng, stimulants) or serotonin syndrome (with 5-HTP, tryptophan, SAMe, St. John's Wort, saffron). Treat ALL supplements as potentially interacting; consult your prescriber before any new product."
+  },
+  "statin": {
+    "label": "Statins",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Niacin (Vitamin B3)",
+      "Red yeast rice",
+      "Niacinamide (nicotinamide)",
+      "Bergamot citrus polyphenol extract",
+      "Berberine HCl (sustained release)",
+      "Dihydroberberine (DHB)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "Milk thistle (Silymarin)",
+      "NMN / NAD+ precursors"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)"
+    ],
+    "note": "Statins deplete CoQ10 — ubiquinol supplementation is clinically supported and recommended (especially if you experience muscle aches). Berberine, red yeast rice, and bergamot have additive lipid-lowering effects (can be intentional under guidance, but monitor liver enzymes). CYP3A4-modulating supplements (piperine, grapefruit, quercetin) can raise statin levels — separate by 2 hours or reduce dose."
+  },
+  "metformin": {
+    "label": "Metformin",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Alpha-Lipoic Acid (ALA)",
+      "Chromium picolinate",
+      "Cinnamon extract (Ceylon)",
+      "Berberine + Ceylon cinnamon combo",
+      "Gymnema sylvestre",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Bitter melon (Momordica charantia)",
+      "Banaba leaf (corosolic acid)",
+      "Dihydroberberine (DHB)",
+      "Berberine HCl (sustained release)",
+      "Berberine-containing Coptis (Huang Lian)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "Myo-inositol",
+      "D-Chiro Inositol",
+      "5-ALA (5-aminolevulinic acid)",
+      "Bergamot citrus polyphenol extract"
+    ],
+    "depleted_or_replace": [
+      "Vitamin B12",
+      "Folate (5-MTHF)"
+    ],
+    "note": "Metformin depletes vitamin B12 (especially after ~4 years of use) and folate — supplementation with annual blood-level monitoring is clinically indicated. Berberine and several botanicals (gymnema, fenugreek, bitter melon, cinnamon, ALA, inositols) are additive glucose-lowering; if combined, monitor for hypoglycemia and reduce metformin only with prescriber input."
+  },
+  "thyroid": {
+    "label": "Levothyroxine / Thyroid meds",
+    "avoid": [],
+    "caution": [
+      "Iodine",
+      "Selenium",
+      "Iron",
+      "Calcium",
+      "Magnesium",
+      "Kelp (iodine-rich)",
+      "Sea moss (Irish moss)",
+      "Bladderwrack (Fucus vesiculosus)",
+      "Spirulina",
+      "Phycocyanin (spirulina blue pigment)",
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Ashwagandha (KSM-66)",
+      "Shoden ashwagandha (high-withanolide)",
+      "Multivitamins (healthy adults)",
+      "Prenatal multivitamin (general)",
+      "Activated B complex (methylated)",
+      "Caffeine (standardised)",
+      "Berberine"
+    ],
+    "depleted_or_replace": [],
+    "note": "Levothyroxine absorption is blocked by minerals (iron, calcium, magnesium), iodine-rich supplements (kelp, sea moss, bladderwrack, spirulina), soy, fibre, and even coffee. Take thyroid medication on an empty stomach, ≥30 min before food and ≥4 hours apart from all supplements. Ashwagandha can shift TSH/T4 — recheck thyroid panel 6–8 weeks after starting."
+  },
+  "ppi": {
+    "label": "PPIs (omeprazole, lansoprazole)",
+    "avoid": [],
+    "caution": [
+      "Magnesium",
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Calcium",
+      "Zinc",
+      "Vitamin D3"
+    ],
+    "depleted_or_replace": [
+      "Vitamin B12",
+      "Magnesium glycinate",
+      "Probiotics"
+    ],
+    "note": "Long-term PPIs reduce stomach acid, depleting magnesium, B12, and reducing absorption of iron, calcium (carbonate worse than citrate), zinc, and vitamin D. Monitor levels yearly; supplement chelated mineral forms (glycinate, citrate) which absorb without acid. Consider probiotics — chronic PPI use disrupts gut flora and raises C. difficile risk."
+  },
+  "ocp": {
+    "label": "Oral contraceptive pill",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Saffron (Crocus sativus)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "Myo-inositol",
+      "D-Chiro Inositol",
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Black cohosh (Cimicifuga racemosa)",
+      "Dong quai (Angelica sinensis)",
+      "Vitex / Chasteberry (Vitex agnus-castus)",
+      "Chasteberry/Vitex standardised (BNO 1095)",
+      "DIM (Diindolylmethane)",
+      "Diindolylmethane (DIM)",
+      "Indole-3-Carbinol (I3C)",
+      "Calcium D-glucarate",
+      "Activated charcoal",
+      "Psyllium husk (Plantago ovata)",
+      "Berberine"
+    ],
+    "depleted_or_replace": [
+      "Folate (5-MTHF)",
+      "Vitamin B6 (P5P)",
+      "Vitamin C (moderate dose)",
+      "Magnesium",
+      "Zinc"
+    ],
+    "note": "St. John's Wort significantly reduces OCP efficacy through CYP3A4 induction — contraception failure risk. Phytoestrogens and DIM/I3C can shift estrogen metabolism; clinical impact is uncertain but worth noting if breakthrough bleeding occurs. Adsorbents (activated charcoal, psyllium) taken within 4 hours of the pill can also reduce absorption. OCP itself depletes folate, B6, B12, magnesium, zinc and vitamin C — supplementation is reasonable."
+  },
+  "bp": {
+    "label": "Blood pressure meds",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Olive leaf extract",
+      "CoQ10 (Ubiquinol)",
+      "Taurine",
+      "Dietary Nitrate / Beetroot",
+      "Hawthorn berry (Crataegus)",
+      "Hibiscus sabdariffa",
+      "Magnesium",
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Magnesium taurate",
+      "Potassium citrate",
+      "Potassium supplementation (clinical)",
+      "Aged garlic extract (Kyolic)",
+      "Black garlic extract",
+      "L-Arginine",
+      "Citrulline (L-citrulline, pure form)",
+      "Citrulline malate",
+      "Cacao flavanols",
+      "Reishi (Ganoderma lucidum)",
+      "Pycnogenol",
+      "Pine bark extract (Pycnogenol)",
+      "Grape seed extract (OPC)",
+      "Hesperidin",
+      "Coleus forskohlii (Forskolin)",
+      "Celery seed extract (3nB)",
+      "Nattokinase",
+      "Spirulina",
+      "Hesperidin (citrus bioflavonoid)",
+      "Chlorella",
+      "Black seed oil (Nigella sativa)",
+      "Nigella sativa standardised (TQ)",
+      "Quercetin"
+    ],
+    "depleted_or_replace": [],
+    "note": "Many supplements lower blood pressure — additive hypotension risk when combined with antihypertensives (especially after the morning dose). Re-check home BP weekly when starting any of the listed items; report symptomatic dizziness. CoQ10 (ubiquinol) is also depleted by many BP meds — replacing it is reasonable."
+  },
+  "antibiotic": {
+    "label": "Antibiotics",
+    "avoid": [],
+    "caution": [
+      "Iron",
+      "Calcium",
+      "Magnesium",
+      "Zinc",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Magnesium L-threonate",
+      "Magnesium bisglycinate",
+      "Magnesium taurate",
+      "Magnesium malate",
+      "Magnesium orotate",
+      "Magnesium chloride (topical)",
+      "Multivitamins (healthy adults)",
+      "Prenatal multivitamin (general)",
+      "St. John's Wort"
+    ],
+    "depleted_or_replace": [
+      "Probiotics",
+      "Saccharomyces boulardii",
+      "Saccharomyces boulardii CNCM I-745",
+      "Lactobacillus rhamnosus GG"
+    ],
+    "note": "Take all mineral supplements (iron, calcium, magnesium, zinc) and multivitamins ≥2 hours away from quinolones and tetracyclines to avoid chelation/absorption interference. Probiotics (Saccharomyces boulardii especially — yeast survives antibiotics) reduce antibiotic-associated diarrhoea and C. difficile risk. St John's Wort can lower antibiotic blood levels (CYP3A4) — avoid during the course."
+  },
+  "diabetes": {
+    "label": "Diabetes meds (insulin / sulfonylurea)",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Alpha-Lipoic Acid (ALA)",
+      "Chromium picolinate",
+      "Cinnamon extract (Ceylon)",
+      "Berberine + Ceylon cinnamon combo",
+      "Gymnema sylvestre",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Bitter melon (Momordica charantia)",
+      "Banaba leaf (corosolic acid)",
+      "Dihydroberberine (DHB)",
+      "Berberine HCl (sustained release)",
+      "Berberine-containing Coptis (Huang Lian)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "Myo-inositol",
+      "D-Chiro Inositol",
+      "Bergamot citrus polyphenol extract",
+      "Aged garlic extract (Kyolic)",
+      "Magnesium",
+      "Vanadium (ultra-trace)",
+      "White mulberry leaf (Morus alba)",
+      "Jambolan (Syzygium cumini)",
+      "Caralluma fimbriata",
+      "5-ALA (5-aminolevulinic acid)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Many supplements significantly lower blood glucose — hypoglycemia risk when combined with insulin or sulfonylureas. Berberine can cut HbA1c by ~0.7% (similar to low-dose metformin). Test blood sugar more frequently when adding any of these; reduce sulfonylurea/insulin dose only with prescriber input."
+  },
+  "chemo": {
+    "label": "Chemotherapy",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "NAC (N-Acetyl Cysteine)",
+      "Curcumin (bioavailable form)",
+      "Omega-3 (EPA/DHA)",
+      "Vitamin C (moderate dose)",
+      "Vitamin C (high-dose IV/oral, oncology)",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Selenium",
+      "Quercetin",
+      "Resveratrol",
+      "EGCG (Green tea catechins)",
+      "Green tea extract (EGCG)",
+      "Astragalus (Astragalus membranaceus)",
+      "Astragalus membranaceus (Huang Qi)",
+      "Cycloastragenol (TA-65)",
+      "Echinacea purpurea",
+      "Reishi (Ganoderma lucidum)",
+      "Cordyceps militaris",
+      "Beta-glucan (1,3/1,6)",
+      "Larch arabinogalactan",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Milk thistle (Silymarin)",
+      "Black pepper extract (piperine)",
+      "CBD (Cannabidiol)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Antioxidant supplements (high-dose vitamin C, E, selenium, NAC) MAY interfere with chemotherapy mechanisms that rely on oxidative stress (most cytotoxics, some immunotherapies). CYP3A4-modulating supplements (St John's Wort, milk thistle, grapefruit, piperine) can raise or lower drug levels unpredictably. Always consult your oncologist BEFORE any supplement and ideally pause non-essential supplements during active treatment cycles."
+  },
+  "benzo": {
+    "label": "Benzodiazepines (Xanax, Valium)",
+    "avoid": [],
+    "caution": [
+      "Ashwagandha (KSM-66)",
+      "L-Theanine",
+      "Magnesium",
+      "Melatonin",
+      "Valerian root",
+      "Kava (high-dose/extract)",
+      "Kratom (Mitragyna speciosa)",
+      "Phenibut",
+      "Passionflower (Passiflora incarnata)",
+      "Lemon balm (Melissa officinalis)",
+      "Chamomile extract (Matricaria chamomilla)",
+      "Hops (Humulus lupulus)",
+      "CBD (Cannabidiol)",
+      "Cannabigerol (CBG)",
+      "Lavender oil oral (Silexan)",
+      "Magnolia bark (honokiol + magnolol)",
+      "Honokiol (magnolia bark isolate)",
+      "Skullcap (Scutellaria lateriflora)",
+      "GABA (standalone supplement)",
+      "PharmaGABA",
+      "California poppy (Eschscholzia californica)",
+      "Reishi (Ganoderma lucidum)",
+      "Glycine",
+      "Magnesium glycinate",
+      "Magnesium taurate",
+      "St. John's Wort"
+    ],
+    "depleted_or_replace": [],
+    "note": "Sedative supplements amplify CNS depression with benzodiazepines — risk of excessive sedation, falls, and respiratory depression. Combinations involving kava, kratom, phenibut, or CBD have caused fatalities. St John's Wort additionally lowers benzodiazepine levels (CYP3A4). Never combine without medical supervision; never combine with alcohol or opioids."
+  },
+  "lithium": {
+    "label": "Lithium",
+    "avoid": [],
+    "caution": [
+      "Iodine",
+      "5-HTP",
+      "Kelp (iodine-rich)",
+      "Sea moss (Irish moss)",
+      "Bladderwrack (Fucus vesiculosus)",
+      "Spirulina",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Saffron Affron (standardised extract)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Dandelion root (Taraxacum officinale)",
+      "Horsetail (Equisetum)",
+      "Uva ursi (Arctostaphylos uva-ursi)",
+      "Hibiscus sabdariffa",
+      "Magnesium",
+      "Sodium bicarbonate (exercise buffer)",
+      "Sodium bicarbonate (sports)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Iodine-rich supplements (kelp, sea moss, bladderwrack, spirulina) can worsen lithium-induced thyroid suppression. Diuretic/dehydrating supplements (caffeine, theacrine, dandelion, juniper, horsetail, uva ursi) and big sodium changes (excess sodium bicarbonate, low-salt diets) raise or drop lithium levels — both directions can be toxic. Maintain stable hydration, sodium intake, and recheck lithium level 5–7 days after any change."
+  },
+  "nsaid": {
+    "label": "NSAIDs (ibuprofen, naproxen)",
+    "avoid": [],
+    "caution": [
+      "Omega-3 (EPA/DHA)",
+      "Ginkgo biloba",
+      "Ginger (Zingiber officinale)",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Pine bark extract (Pycnogenol)",
+      "Grape seed extract (OPC)",
+      "Aged garlic extract (Kyolic)",
+      "Quercetin",
+      "Bromelain",
+      "Boswellia serrata",
+      "Curcumin (bioavailable form)",
+      "Meriva curcumin (phytosome)",
+      "Theracurmin (curcumin nanoparticle)",
+      "Nattokinase",
+      "Saw palmetto (Serenoa repens)",
+      "Devil's claw (Harpagophytum procumbens)",
+      "Feverfew (Tanacetum parthenium)",
+      "White willow bark (Salix alba)",
+      "Resveratrol",
+      "Holy basil (Tulsi)"
+    ],
+    "depleted_or_replace": [
+      "Probiotics",
+      "DGL Licorice (deglycyrrhizinated)",
+      "Saccharomyces boulardii"
+    ],
+    "note": "NSAIDs and antiplatelet supplements (fish oil, garlic, ginger, ginkgo, vitamin E, pycnogenol, quercetin, curcumin, nattokinase) compound bleeding and gastric-ulcer risk. Long-term NSAID use damages the stomach and small bowel — DGL licorice, Saccharomyces boulardii, and probiotics may help mucosal integrity, but the safest move is using the lowest effective NSAID dose for the shortest time."
+  },
+  "cortico": {
+    "label": "Corticosteroids (prednisone)",
+    "avoid": [],
+    "caution": [
+      "Echinacea purpurea",
+      "Astragalus (Astragalus membranaceus)",
+      "Astragalus membranaceus (Huang Qi)",
+      "Beta-glucan (1,3/1,6)",
+      "Reishi (Ganoderma lucidum)",
+      "Maitake mushroom (Grifola frondosa)",
+      "Cordyceps militaris",
+      "Larch arabinogalactan",
+      "Elderberry (Sambucus nigra)",
+      "Spirulina",
+      "Phycocyanin (spirulina blue pigment)",
+      "Andrographis paniculata",
+      "Licorice root high-dose"
+    ],
+    "depleted_or_replace": [
+      "Calcium",
+      "Vitamin D3",
+      "Zinc",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate",
+      "Potassium citrate"
+    ],
+    "note": "Long-term corticosteroids deplete calcium, vitamin D, magnesium, potassium, and zinc — supplement the first three to protect bone density and reduce fracture risk; potassium often needs replacement with longer courses. Immune-stimulating herbs may counteract the intended immunosuppression and are best avoided. Licorice (whole, not DGL) compounds steroid-like effects and worsens hypokalemia."
+  },
+  "immuno": {
+    "label": "Immunosuppressants",
+    "avoid": [
+      "Echinacea purpurea",
+      "Astragalus (Astragalus membranaceus)",
+      "Astragalus membranaceus (Huang Qi)",
+      "Cycloastragenol (TA-65)",
+      "Elderberry (Sambucus nigra)",
+      "Elderberry + Zinc combo",
+      "Sambucol (elderberry extract, maintenance)",
+      "Andrographis paniculata",
+      "Andrographis + Echinacea combo",
+      "Andrographis (maintenance dose)",
+      "Reishi (Ganoderma lucidum)",
+      "Maitake mushroom (Grifola frondosa)",
+      "Cordyceps militaris",
+      "Beta-glucan (1,3/1,6)",
+      "Saccharomyces cerevisiae beta-glucan",
+      "Larch arabinogalactan",
+      "Olive leaf extract",
+      "Colostrum (bovine)",
+      "Spirulina",
+      "Phycocyanin (spirulina blue pigment)",
+      "Chlorella",
+      "Fucoidan",
+      "Guduchi (Tinospora cordifolia)",
+      "Phellinus linteus (Meshimakobu)",
+      "Tocotrienols (annatto-derived)"
+    ],
+    "caution": [
+      "Vitamin D3",
+      "Zinc",
+      "Probiotics",
+      "Cat's claw (Uncaria tomentosa)",
+      "St. John's Wort",
+      "Berberine",
+      "Milk thistle (Silymarin)",
+      "Black pepper extract (piperine)",
+      "Curcumin (bioavailable form)",
+      "Quercetin",
+      "Resveratrol"
+    ],
+    "depleted_or_replace": [],
+    "note": "Immune-stimulating supplements may counteract immunosuppressive therapy and provoke organ rejection or autoimmune flares. CYP3A4-modulating supplements (St John's Wort especially, plus grapefruit, milk thistle, piperine, curcumin) can shift tacrolimus, cyclosporine, sirolimus and prednisone levels unpredictably. Always consult your transplant team or rheumatologist; do not start ANY new supplement without checking levels."
+  },
+  "seizure": {
+    "label": "Anti-seizure meds (gabapentin, valproate)",
+    "avoid": [],
+    "caution": [
+      "Ginkgo biloba",
+      "Melatonin",
+      "Ginkgo biloba EGb 761",
+      "St. John's Wort",
+      "Kava (high-dose/extract)",
+      "Borage oil",
+      "Evening primrose oil",
+      "CBD (Cannabidiol)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)"
+    ],
+    "depleted_or_replace": [
+      "Folate (5-MTHF)",
+      "Vitamin D3",
+      "Vitamin B6 (P5P)",
+      "Pyridoxal 5-phosphate (P5P)",
+      "Magnesium glycinate",
+      "L-carnitine (with valproate)"
+    ],
+    "note": "Ginkgo, evening primrose oil, borage oil, caffeine, and high-dose CBD can lower seizure threshold. St John's Wort lowers blood levels of most anti-epileptic drugs (carbamazepine, lamotrigine, etc.) via CYP3A4 induction. Long-term anti-epileptics deplete folate, B6, vitamin D, biotin, and (with valproate) carnitine — replace with monitoring."
+  },
+  "sleep_rx": {
+    "label": "Prescription sleep aids (Ambien, trazodone)",
+    "avoid": [],
+    "caution": [
+      "Melatonin",
+      "Ashwagandha (KSM-66)",
+      "L-Theanine",
+      "Glycine",
+      "Magnesium",
+      "Valerian root",
+      "Passionflower (Passiflora incarnata)",
+      "Hops (Humulus lupulus)",
+      "Lemon balm (Melissa officinalis)",
+      "Chamomile extract (Matricaria chamomilla)",
+      "Lavender oil oral (Silexan)",
+      "CBD (Cannabidiol)",
+      "Cannabigerol (CBG)",
+      "Honokiol (magnolia bark isolate)",
+      "Magnolia bark (honokiol + magnolol)",
+      "Kava (high-dose/extract)",
+      "Kratom (Mitragyna speciosa)",
+      "Phenibut",
+      "Skullcap (Scutellaria lateriflora)",
+      "California poppy (Eschscholzia californica)",
+      "Reishi (Ganoderma lucidum)",
+      "GABA (standalone supplement)",
+      "PharmaGABA",
+      "Magnesium glycinate",
+      "Magnesium bisglycinate",
+      "Magnesium taurate",
+      "Tart cherry (Montmorency)",
+      "Apigenin",
+      "Jujube (Ziziphus jujuba)",
+      "Melatonin (0.1-0.5 mg physiological dose)",
+      "Melatonin extended-release",
+      "Melatonin (high-dose, nightly)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Sedative supplements compound the central depressant effect of zolpidem, eszopiclone, trazodone, and other sleep medications — risk of next-day sedation, falls, and impaired driving. Combinations with kava, kratom, phenibut, or alcohol have caused fatalities. Use any one sleep aid at a time when possible; if combining, choose lowest effective doses and avoid the morning after."
+  },
+  "antifungal": {
+    "label": "Antifungal medications",
+    "avoid": [],
+    "caution": [
+      "Milk thistle (Silymarin)",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Dihydroberberine (DHB)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "Curcumin (bioavailable form)",
+      "St. John's Wort"
+    ],
+    "depleted_or_replace": [
+      "Probiotics",
+      "Saccharomyces boulardii",
+      "Saccharomyces boulardii CNCM I-745",
+      "Lactobacillus rhamnosus GG"
+    ],
+    "note": "Azole antifungals (fluconazole, ketoconazole, itraconazole) are heavily CYP3A4-metabolised. Inhibitors (milk thistle, grapefruit, piperine, quercetin, curcumin) raise antifungal levels and toxicity risk; St John's Wort lowers them and can cause treatment failure. Probiotics (especially S. boulardii — survives antifungals) protect the gut microbiome during longer courses."
+  },
+  "doac": {
+    "label": "DOACs (apixaban, rivaroxaban, dabigatran, edoxaban)",
+    "avoid": [
+      "Vitamin K1 (phylloquinone)",
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Nattokinase",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Pine bark extract (Pycnogenol)",
+      "Grape seed extract (OPC)",
+      "Bromelain",
+      "Quercetin",
+      "Aged garlic extract (Kyolic)",
+      "Ginger (Zingiber officinale)",
+      "Ginkgo biloba",
+      "Ginkgo biloba EGb 761",
+      "Curcumin (bioavailable form)",
+      "Meriva curcumin (phytosome)",
+      "Theracurmin (curcumin nanoparticle)",
+      "Boswellia serrata",
+      "Omega-3 (EPA/DHA)",
+      "Omega-3 (high dose)",
+      "Omega-3 DHA-dominant",
+      "NAC (N-Acetyl Cysteine)",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Resveratrol",
+      "Saw palmetto (Serenoa repens)",
+      "Dan Shen compound (Salvia miltiorrhiza)",
+      "Red sage / Danshen (Salvia miltiorrhiza)",
+      "Holy basil (Tulsi)",
+      "Black garlic extract",
+      "Policosanol",
+      "Spirulina"
+    ],
+    "depleted_or_replace": [],
+    "note": "Unlike warfarin, DOACs cannot be monitored with INR — bleeding risk from supplement combinations is harder to detect early. Apixaban, rivaroxaban and edoxaban are partly P-glycoprotein and CYP3A4 substrates: St John's Wort meaningfully lowers their levels (clot risk); strong inhibitors (grapefruit, milk thistle, piperine) raise levels (bleed risk). Stop fish oil, ginkgo, ginger, garlic, curcumin and nattokinase 7 days before any planned procedure."
+  },
+  "antiplatelet": {
+    "label": "Antiplatelet drugs (aspirin, clopidogrel, ticagrelor, prasugrel)",
+    "avoid": [],
+    "caution": [
+      "Nattokinase",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Pine bark extract (Pycnogenol)",
+      "Grape seed extract (OPC)",
+      "Bromelain",
+      "Quercetin",
+      "Aged garlic extract (Kyolic)",
+      "Ginger (Zingiber officinale)",
+      "Ginkgo biloba",
+      "Ginkgo biloba EGb 761",
+      "Curcumin (bioavailable form)",
+      "Boswellia serrata",
+      "Omega-3 (EPA/DHA)",
+      "Omega-3 (high dose)",
+      "NAC (N-Acetyl Cysteine)",
+      "Resveratrol",
+      "Holy basil (Tulsi)",
+      "Policosanol",
+      "Feverfew (Tanacetum parthenium)",
+      "White willow bark (Salix alba)",
+      "Dan Shen compound (Salvia miltiorrhiza)",
+      "Devil's claw (Harpagophytum procumbens)"
+    ],
+    "depleted_or_replace": [
+      "DGL Licorice (deglycyrrhizinated)",
+      "Saccharomyces boulardii"
+    ],
+    "note": "Aspirin and P2Y12 inhibitors (clopidogrel, ticagrelor) inhibit platelet aggregation; many supplements add to this antiplatelet load and raise GI-bleed and intracranial-bleed risk. Clopidogrel is a CYP2C19 prodrug — strong CYP2C19 inhibitors (omeprazole) and inducers (St John's Wort) shift its activation. Pause non-essential antiplatelet supplements 7 days before surgery or invasive procedures."
+  },
+  "ace_arb": {
+    "label": "ACE inhibitors / ARBs (lisinopril, ramipril, losartan, valsartan)",
+    "avoid": [],
+    "caution": [
+      "Potassium citrate",
+      "Potassium supplementation (clinical)",
+      "Licorice root high-dose",
+      "Hawthorn berry (Crataegus)",
+      "Hibiscus sabdariffa",
+      "Magnesium",
+      "Aged garlic extract (Kyolic)",
+      "Black garlic extract",
+      "L-Arginine",
+      "Citrulline (L-citrulline, pure form)",
+      "Citrulline malate",
+      "Cacao flavanols",
+      "Pine bark extract (Pycnogenol)",
+      "Grape seed extract (OPC)",
+      "Reishi (Ganoderma lucidum)",
+      "Coleus forskohlii (Forskolin)",
+      "Spirulina",
+      "Dietary Nitrate / Beetroot",
+      "Quercetin",
+      "Nigella sativa standardised (TQ)",
+      "Black seed oil (Nigella sativa)"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)",
+      "CoQ10 (ubiquinone, classic form)"
+    ],
+    "note": "ACE-I / ARBs raise serum potassium — additional potassium supplementation, salt substitutes (KCl-based), and high-dose licorice can cause clinically significant hyperkalemia. NSAIDs (and high-dose fish oil) reduce ACE-I effect on BP. Many BP-lowering supplements compound the antihypertensive effect; recheck home BP weekly when starting any of the listed items. CoQ10 may help symptomatic ACE-I cough/myalgia in trials."
+  },
+  "diuretic": {
+    "label": "Diuretics (furosemide, hydrochlorothiazide, spironolactone)",
+    "avoid": [],
+    "caution": [
+      "Licorice root high-dose",
+      "Dandelion root (Taraxacum officinale)",
+      "Horsetail (Equisetum)",
+      "Uva ursi (Arctostaphylos uva-ursi)",
+      "Hibiscus sabdariffa",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Hawthorn berry (Crataegus)",
+      "Aged garlic extract (Kyolic)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium",
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Potassium citrate",
+      "Potassium supplementation (clinical)",
+      "Vitamin B1 (Thiamine)",
+      "Zinc",
+      "Calcium",
+      "CoQ10 (Ubiquinol)"
+    ],
+    "note": "Loop diuretics (furosemide) and thiazides (HCTZ) deplete magnesium, potassium, sodium, B1, zinc, and calcium. Spironolactone is potassium-sparing — DO NOT add K+ supplementation. Diuretic herbs (dandelion, horsetail, juniper, uva ursi, caffeine) are additive — risk of dehydration and electrolyte derangement. High-dose licorice causes pseudoaldosteronism and worsens K+ depletion."
+  },
+  "beta_blocker": {
+    "label": "Beta-blockers (metoprolol, propranolol, atenolol, carvedilol)",
+    "avoid": [],
+    "caution": [
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "DMAA/DMHA novel stimulant pre-workouts",
+      "Hawthorn berry (Crataegus)",
+      "Magnesium",
+      "Aged garlic extract (Kyolic)",
+      "Coleus forskohlii (Forskolin)",
+      "L-Arginine",
+      "Citrulline malate",
+      "Reishi (Ganoderma lucidum)",
+      "Berberine",
+      "Calcium carbonate/citrate (bone health)"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)",
+      "CoQ10 (ubiquinone, classic form)",
+      "Melatonin (0.1-0.5 mg physiological dose)"
+    ],
+    "note": "Beta-blockers blunt the stress response. Stimulant supplements (caffeine, theacrine, guarana, yohimbine, synephrine, DMAA) compound to BP/HR swings or \"rebound\" reactions. Carvedilol and propranolol deplete CoQ10 and may suppress nighttime melatonin — both worth supplementing. Calcium taken with metoprolol can reduce its absorption — separate by 2 hours."
+  },
+  "ccb": {
+    "label": "Calcium channel blockers (amlodipine, diltiazem, verapamil, nifedipine)",
+    "avoid": [],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "Milk thistle (Silymarin)",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Curcumin (bioavailable form)",
+      "St. John's Wort",
+      "Hawthorn berry (Crataegus)",
+      "Magnesium",
+      "Calcium carbonate/citrate (bone health)",
+      "Calcium",
+      "Aged garlic extract (Kyolic)",
+      "L-Arginine",
+      "Citrulline malate",
+      "Coleus forskohlii (Forskolin)",
+      "Hibiscus sabdariffa",
+      "Reishi (Ganoderma lucidum)",
+      "Pine bark extract (Pycnogenol)"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)"
+    ],
+    "note": "CCBs are heavily CYP3A4-metabolised. Grapefruit (especially with felodipine), piperine, quercetin, milk thistle, and curcumin raise CCB levels and cause hypotension/edema/bradycardia. St John's Wort lowers levels and may cause uncontrolled BP. Excess oral calcium can blunt CCB efficacy. Verapamil and diltiazem additionally raise digoxin and statin levels — flag any cardiac supplement to prescriber."
+  },
+  "digoxin": {
+    "label": "Digoxin (cardiac glycoside)",
+    "avoid": [
+      "St. John's Wort",
+      "Licorice root high-dose",
+      "Senna leaf (Cassia senna)",
+      "Cascara sagrada",
+      "Aloe vera (oral supplement)",
+      "Nattokinase"
+    ],
+    "caution": [
+      "Hawthorn berry (Crataegus)",
+      "Calcium carbonate/citrate (bone health)",
+      "Calcium",
+      "Magnesium",
+      "Magnesium glycinate",
+      "Potassium citrate",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Black pepper extract (piperine)",
+      "Milk thistle (Silymarin)",
+      "Quercetin",
+      "Psyllium husk (Plantago ovata)",
+      "Panax ginseng",
+      "Korean red ginseng (Panax ginseng)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate"
+    ],
+    "note": "Digoxin has a narrow therapeutic index — small shifts cause toxicity (nausea, arrhythmia, vision changes). St John's Wort lowers digoxin levels; piperine, milk thistle, grapefruit raise them. Stimulant laxatives and high-dose licorice cause hypokalemia, which sensitises the heart to digoxin toxicity. Hawthorn and ginseng have additive cardiac effects. Plant cardiac glycosides (foxglove, oleander) cause additive toxicity. Recheck digoxin level 5–7 days after starting any new supplement."
+  },
+  "amiodarone": {
+    "label": "Amiodarone (and other class III antiarrhythmics)",
+    "avoid": [
+      "St. John's Wort",
+      "Iodine",
+      "Kelp (iodine-rich)",
+      "Sea moss (Irish moss)",
+      "Bladderwrack (Fucus vesiculosus)",
+      "Spirulina"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Curcumin (bioavailable form)",
+      "Resveratrol",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Selenium",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Echinacea purpurea",
+      "Saffron (Crocus sativus)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Hawthorn berry (Crataegus)",
+      "Magnesium"
+    ],
+    "depleted_or_replace": [
+      "Selenium",
+      "CoQ10 (Ubiquinol)",
+      "Vitamin B1 (Thiamine)"
+    ],
+    "note": "Amiodarone contains 37% iodine by weight — adding iodine sources (kelp, sea moss, spirulina, supplemental iodine) provokes thyrotoxicosis or hypothyroidism. Heavily CYP3A4 metabolised — grapefruit and St John's Wort cause major level shifts. Liver and lung toxicity are dose-related; hepatoprotective supplements (NAC, milk thistle) may have additive antioxidant effects but also raise drug levels. Selenium 100–200 mcg/day reduces amiodarone-induced thyroiditis risk."
+  },
+  "nitrates": {
+    "label": "Nitrates (nitroglycerin, isosorbide mononitrate/dinitrate)",
+    "avoid": [
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)"
+    ],
+    "caution": [
+      "L-Arginine",
+      "Citrulline (L-citrulline, pure form)",
+      "Citrulline malate",
+      "Dietary Nitrate / Beetroot",
+      "Hawthorn berry (Crataegus)",
+      "Hibiscus sabdariffa",
+      "Aged garlic extract (Kyolic)",
+      "Magnesium",
+      "CoQ10 (Ubiquinol)",
+      "Reishi (Ganoderma lucidum)",
+      "Pine bark extract (Pycnogenol)",
+      "Cacao flavanols"
+    ],
+    "depleted_or_replace": [
+      "NAC (N-Acetyl Cysteine)"
+    ],
+    "note": "Nitrates work via nitric-oxide release; combining with nitric-oxide-boosting supplements (L-arginine, citrulline, beetroot, dark chocolate) compounds vasodilation — risk of severe hypotension and headache. NEVER combine with PDE-5 inhibitors (sildenafil, tadalafil) — life-threatening hypotension. Tolerance to nitrates develops with continuous use; NAC has trial evidence for preventing tolerance."
+  },
+  "glp1": {
+    "label": "GLP-1 receptor agonists (semaglutide, liraglutide, tirzepatide, dulaglutide)",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Dihydroberberine (DHB)",
+      "Berberine-containing Coptis (Huang Lian)",
+      "Cinnamon extract (Ceylon)",
+      "Gymnema sylvestre",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Bitter melon (Momordica charantia)",
+      "Banaba leaf (corosolic acid)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "Myo-inositol",
+      "D-Chiro Inositol",
+      "Bergamot citrus polyphenol extract",
+      "Alpha-Lipoic Acid (ALA)",
+      "Chromium picolinate",
+      "White mulberry leaf (Morus alba)",
+      "Jambolan (Syzygium cumini)",
+      "5-ALA (5-aminolevulinic acid)",
+      "Caralluma fimbriata",
+      "Garcinia cambogia (HCA)",
+      "Ginger (Zingiber officinale)",
+      "Psyllium husk (Plantago ovata)",
+      "Acacia fiber (prebiotic)",
+      "Inulin / FOS (prebiotic fibre)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin B12",
+      "Methylcobalamin (high-dose neurological)",
+      "Whey protein",
+      "Casein protein",
+      "Creatine monohydrate",
+      "HMB (β-Hydroxy-β-methylbutyrate)",
+      "L-Leucine (standalone)",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)"
+    ],
+    "note": "GLP-1 agonists slow gastric emptying — already nausea-prone. Adding fibre, ginger, or other glucose-lowering supplements amplifies GI side effects and hypoglycemia risk. Significant weight loss on GLP-1s comes with muscle mass loss and bone density decline — protein (1.2–1.6 g/kg/day), creatine, leucine/HMB, calcium, vitamin D3 and K2 are clinically reasonable to preserve lean mass and skeleton. Slowed emptying may reduce absorption of fat-soluble vitamins — separate by 2 hours."
+  },
+  "sglt2": {
+    "label": "SGLT2 inhibitors (empagliflozin, dapagliflozin, canagliflozin)",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Dihydroberberine (DHB)",
+      "Cinnamon extract (Ceylon)",
+      "Gymnema sylvestre",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Bitter melon (Momordica charantia)",
+      "Banaba leaf (corosolic acid)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "Cranberry extract",
+      "Cranberry PAC (A-type proanthocyanidins)",
+      "D-Mannose",
+      "Vitamin C (megadose)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "Vitamin B1 (Thiamine)",
+      "Electrolyte complex (Na/K/Mg)",
+      "Probiotics",
+      "Saccharomyces boulardii"
+    ],
+    "note": "SGLT2 inhibitors cause glucose-rich urine — increased UTI and genital fungal infection risk. D-Mannose, cranberry, and probiotics reduce UTI rate. Concomitant ketogenic diet or low-carb fasting raises euglycemic ketoacidosis risk. Volume depletion and mild magnesium / B1 loss are common — replace as indicated. Combining with other glucose-lowering supplements compounds hypotension and hypoglycemia (latter is rare on SGLT2 alone)."
+  },
+  "dpp4": {
+    "label": "DPP-4 inhibitors (sitagliptin, linagliptin, saxagliptin)",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Cinnamon extract (Ceylon)",
+      "Gymnema sylvestre",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Bitter melon (Momordica charantia)",
+      "Bergamot citrus polyphenol extract",
+      "Black pepper extract (piperine)",
+      "Quercetin"
+    ],
+    "depleted_or_replace": [],
+    "note": "DPP-4 inhibitors are weight-neutral and rarely cause hypoglycemia alone, but additive glucose-lowering supplements raise hypoglycemia risk when combined with insulin/sulfonylurea. Pancreatitis is a known signal — flag any abdominal pain to your prescriber rather than self-treating with supplements."
+  },
+  "tzd": {
+    "label": "Thiazolidinediones (pioglitazone, rosiglitazone)",
+    "avoid": [
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)"
+    ],
+    "caution": [
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Gymnema sylvestre",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Bitter melon (Momordica charantia)",
+      "Banaba leaf (corosolic acid)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "Alpha-Lipoic Acid (ALA)",
+      "Cinnamon extract (Ceylon)",
+      "Bergamot citrus polyphenol extract",
+      "Vitamin E (mixed tocopherols)"
+    ],
+    "depleted_or_replace": [
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate"
+    ],
+    "note": "TZDs cause fluid retention (CHF risk) and bone loss — additive sodium/water retention from licorice or NSAIDs is risky. Bone-protective minerals/vitamins are reasonable. Pioglitazone is CYP2C8 metabolised (gemfibrozil interaction is the big one); herbs that modulate CYP2C8 are less common but quercetin and resveratrol have some inhibition."
+  },
+  "opioid": {
+    "label": "Opioid analgesics (oxycodone, morphine, codeine, fentanyl, tramadol)",
+    "avoid": [
+      "St. John's Wort",
+      "Kratom (Mitragyna speciosa)",
+      "Phenibut",
+      "Tianeptine (\"gas station heroin\")",
+      "Kava (high-dose/extract)"
+    ],
+    "caution": [
+      "Valerian root",
+      "Passionflower (Passiflora incarnata)",
+      "Lemon balm (Melissa officinalis)",
+      "Chamomile extract (Matricaria chamomilla)",
+      "Hops (Humulus lupulus)",
+      "CBD (Cannabidiol)",
+      "Cannabigerol (CBG)",
+      "Lavender oil oral (Silexan)",
+      "Magnolia bark (honokiol + magnolol)",
+      "Honokiol (magnolia bark isolate)",
+      "Skullcap (Scutellaria lateriflora)",
+      "GABA (standalone supplement)",
+      "PharmaGABA",
+      "California poppy (Eschscholzia californica)",
+      "Reishi (Ganoderma lucidum)",
+      "Glycine",
+      "Magnesium glycinate",
+      "Magnesium taurate",
+      "Melatonin",
+      "5-HTP",
+      "St. John's Wort",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Rhodiola rosea",
+      "Korean red ginseng (Panax ginseng)",
+      "Caffeine (standardised)"
+    ],
+    "depleted_or_replace": [
+      "Saccharomyces boulardii",
+      "Magnesium citrate",
+      "Psyllium husk (Plantago ovata)",
+      "Acacia fiber (prebiotic)",
+      "Probiotics"
+    ],
+    "note": "Opioid + sedative supplement combinations have caused fatalities — kratom, kava, phenibut, tianeptine, GHB, and CBD are the most dangerous. Tramadol and tapentadol are also serotonergic — combining with 5-HTP, tryptophan, SAMe, St John's Wort, saffron, or rhodiola raises serotonin syndrome risk. Constipation is universal — magnesium citrate, psyllium, and acacia fibre are reasonable; S. boulardii reduces antibiotic-associated diarrhoea but does not relieve opioid constipation."
+  },
+  "acetaminophen": {
+    "label": "Acetaminophen / Paracetamol (Tylenol, Panadol)",
+    "avoid": [],
+    "caution": [
+      "Pyrrolizidine alkaloid herbs (comfrey/borage/coltsfoot)",
+      "Black cohosh (Cimicifuga racemosa)",
+      "Black cohosh high-dose",
+      "Green tea extract (EGCG)",
+      "Kava (high-dose/extract)",
+      "Nicotinic acid (Niacin, flush form)",
+      "Berberine",
+      "Garcinia cambogia (HCA)",
+      "Echinacea purpurea",
+      "Valerian root",
+      "Chaparral (Larrea tridentata)",
+      "Korean mistletoe (Viscum album)",
+      "Pennyroyal oil (Mentha pulegium)"
+    ],
+    "depleted_or_replace": [
+      "NAC (N-Acetyl Cysteine)",
+      "Milk thistle (Silymarin)"
+    ],
+    "note": "Acetaminophen is the leading cause of acute liver failure in the US. Combining with hepatotoxic supplements (high-dose green tea extract, kava, black cohosh, pyrrolizidine herbs, chaparral) compounds risk. NAC is the antidote and is reasonable to keep on hand. Chronic acetaminophen depletes glutathione — NAC and adequate dietary cysteine support replacement. Avoid alcohol and stay below 3 g/day for chronic use."
+  },
+  "dmards": {
+    "label": "Conventional DMARDs (methotrexate, hydroxychloroquine, sulfasalazine)",
+    "avoid": [
+      "Echinacea purpurea",
+      "Andrographis paniculata",
+      "Andrographis (maintenance dose)",
+      "Andrographis + Echinacea combo"
+    ],
+    "caution": [
+      "NAC (N-Acetyl Cysteine)",
+      "Vitamin C (megadose)",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "St. John's Wort",
+      "Probiotics",
+      "Reishi (Ganoderma lucidum)",
+      "Beta-glucan (1,3/1,6)",
+      "Spirulina"
+    ],
+    "depleted_or_replace": [
+      "Folate (5-MTHF)",
+      "Folic acid (synthetic)",
+      "Vitamin B12",
+      "Methylcobalamin (high-dose neurological)",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3"
+    ],
+    "note": "Methotrexate REQUIRES folate supplementation (1–5 mg/day, NOT on the same day as MTX) to reduce mucositis, hepatotoxicity, and hair loss. Folate is a recommended cofactor, not a contraindication. Hydroxychloroquine causes retinal toxicity at cumulative doses; antioxidants may help but evidence is weak. Sulfasalazine impairs folate absorption — supplement. Immune-stimulating herbs counteract DMARD action."
+  },
+  "tricyclic": {
+    "label": "Tricyclic antidepressants (amitriptyline, nortriptyline, imipramine)",
+    "avoid": [
+      "St. John's Wort",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)"
+    ],
+    "caution": [
+      "Saffron (Crocus sativus)",
+      "Saffron Affron (standardised extract)",
+      "Rhodiola rosea",
+      "Korean red ginseng (Panax ginseng)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Tyrosine (L-tyrosine)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Curcumin (bioavailable form)",
+      "Magnesium",
+      "L-Theanine",
+      "Melatonin",
+      "Valerian root",
+      "Ashwagandha (KSM-66)",
+      "Hawthorn berry (Crataegus)"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)",
+      "Magnesium glycinate",
+      "Riboflavin (Vitamin B2)"
+    ],
+    "note": "TCAs are anticholinergic and cardiotoxic. Serotonin syndrome with serotonergic supplements; hypertensive risk with stimulants and tyrosine. CYP2D6 polymorphisms drive much of the interaction — strong CYP2D6 inhibitors (some quercetin and curcumin doses) can amplify TCA cardiotoxicity. ECG monitoring is wise when combining anything that prolongs QT (5-HTP, SAMe, high-dose magnesium/IV)."
+  },
+  "atypical_antipsy": {
+    "label": "Atypical antipsychotics (olanzapine, quetiapine, aripiprazole, risperidone, clozapine)",
+    "avoid": [
+      "St. John's Wort",
+      "Kava (high-dose/extract)"
+    ],
+    "caution": [
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Rhodiola rosea",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Resveratrol",
+      "Curcumin (bioavailable form)",
+      "Yohimbine HCl",
+      "Bitter orange (Citrus aurantium)",
+      "Magnesium",
+      "Magnesium glycinate",
+      "Melatonin",
+      "Valerian root",
+      "L-Theanine",
+      "Inositol (high-dose, psychiatric)"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)",
+      "Folate (5-MTHF)",
+      "Vitamin D3",
+      "Omega-3 (EPA/DHA)",
+      "Magnesium glycinate",
+      "Carnitine tartrate"
+    ],
+    "note": "Atypicals frequently cause weight gain, dyslipidemia, and metabolic syndrome — omega-3, methylfolate (with clozapine in particular), CoQ10, and carnitine have trial support as adjuncts. Clozapine is uniquely CYP1A2 dependent — caffeine REDUCES clearance and can double levels. Most atypicals lower seizure threshold (clozapine highest) — caution with caffeine, EPO, ginkgo, and kava. Hyperprolactinemia from risperidone may worsen with vitex/chasteberry."
+  },
+  "stimulant_adhd": {
+    "label": "ADHD stimulants (methylphenidate, amphetamine — Adderall, Vyvanse, Concerta)",
+    "avoid": [
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "DMAA/DMHA novel stimulant pre-workouts",
+      "1,3-DMBA (dimethylbutylamine)",
+      "Phenylpiracetam (Phenotropil)",
+      "Theacrine (TeaCrine)"
+    ],
+    "caution": [
+      "Caffeine (standardised)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Rhodiola rosea",
+      "Korean red ginseng (Panax ginseng)",
+      "American ginseng (Panax quinquefolius)",
+      "Acetyl-L-Carnitine (ALCAR)",
+      "Tyrosine (L-tyrosine)",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Hawthorn berry (Crataegus)",
+      "Magnesium",
+      "Magnesium glycinate",
+      "L-Theanine",
+      "Melatonin",
+      "Ashwagandha (KSM-66)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "Omega-3 (EPA/DHA)",
+      "L-Theanine",
+      "Vitamin D3"
+    ],
+    "note": "Adding sympathomimetic supplements (yohimbine, synephrine, DMAA, theacrine, high-dose caffeine) to prescription stimulants causes BP/HR spikes, anxiety, and cardiac events — several deaths reported. Tyrosine and PEA are dopaminergic and may add to peak effect. L-Theanine, magnesium glycinate, and ashwagandha are evidence-based countermeasures for stimulant-induced anxiety and sleep disruption. Acid-shifting supplements (high-dose vitamin C, sodium bicarbonate) significantly alter amphetamine excretion."
+  },
+  "ndri_adhd": {
+    "label": "Non-stimulant ADHD / atypical antidepressants (atomoxetine, bupropion)",
+    "avoid": [
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Rhodiola rosea",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Tyrosine (L-tyrosine)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Berberine",
+      "Curcumin (bioavailable form)",
+      "Milk thistle (Silymarin)",
+      "Magnesium glycinate"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "L-Theanine",
+      "Vitamin D3",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "Bupropion lowers seizure threshold — kava, ginkgo, EPO, and high-dose caffeine compound this risk. Atomoxetine is CYP2D6 metabolised — strong inhibitors (quercetin, curcumin in some doses) raise levels. Both raise norepinephrine — additive sympathomimetic effects with stimulant supplements."
+  },
+  "h2_blocker": {
+    "label": "H2 blockers (famotidine, ranitidine, cimetidine)",
+    "avoid": [],
+    "caution": [
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Calcium",
+      "Zinc"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "Vitamin B12",
+      "Methylcobalamin (high-dose neurological)",
+      "Probiotics",
+      "Saccharomyces boulardii"
+    ],
+    "note": "H2 blockers reduce stomach acid (less than PPIs but still significant chronically). Iron, B12, calcium carbonate, and zinc all need acid for absorption — use chelated/citrate forms or take with vitamin C. Cimetidine specifically is a strong CYP1A2/CYP2D6/CYP3A4 inhibitor — many supplement interactions; modern famotidine has minimal CYP effect."
+  },
+  "antiemetic_5ht3": {
+    "label": "5-HT3 antiemetics (ondansetron, granisetron, palonosetron)",
+    "avoid": [
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Saffron (Crocus sativus)",
+      "Rhodiola rosea",
+      "Tyrosine (L-tyrosine)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Magnesium",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Curcumin (bioavailable form)",
+      "Apigenin",
+      "Licorice root high-dose"
+    ],
+    "depleted_or_replace": [
+      "Ginger (Zingiber officinale)",
+      "Vitamin B6 (P5P)",
+      "Probiotics"
+    ],
+    "note": "5-HT3 antagonists prolong QT — combining with hypomagnesemia-inducing supplements (excess diuretic herbs) or with other QT-prolonging compounds (high-dose chamomile/apigenin) raises arrhythmia risk. Serotonergic supplements compound serotonin syndrome risk (rare on ondansetron alone but real). Ginger and B6 are evidence-based adjuncts; both are safe alongside."
+  },
+  "ibd_meds": {
+    "label": "IBD medications (5-ASA mesalamine, sulfasalazine, biologics)",
+    "avoid": [
+      "Echinacea purpurea",
+      "Andrographis paniculata"
+    ],
+    "caution": [
+      "Curcumin (bioavailable form)",
+      "Boswellia serrata",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "St. John's Wort",
+      "Beta-glucan (1,3/1,6)",
+      "Reishi (Ganoderma lucidum)",
+      "Spirulina"
+    ],
+    "depleted_or_replace": [
+      "Folate (5-MTHF)",
+      "Folic acid (synthetic)",
+      "Vitamin B12",
+      "Methylcobalamin (high-dose neurological)",
+      "Vitamin D3",
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate",
+      "Zinc",
+      "Probiotics",
+      "Saccharomyces boulardii",
+      "Lactobacillus rhamnosus GG",
+      "Bifidobacterium infantis 35624",
+      "Glutamine (standalone, healthy adults)",
+      "Curcumin (bioavailable form)"
+    ],
+    "note": "IBD often causes deficiencies in iron, B12, folate, vitamin D, calcium, magnesium, and zinc — replace with absorbable forms. VSL#3 / De Simone formulation has the strongest evidence in pouchitis and ulcerative colitis. Curcumin (Theracurmin and Meriva) has positive RCTs as a 5-ASA adjunct in UC. Sulfasalazine impairs folate absorption — supplement. Avoid immune-stimulating herbs and prebiotic stacks during active flares."
+  },
+  "laxative_chronic": {
+    "label": "Chronic stimulant laxatives (senna, bisacodyl, cascara)",
+    "avoid": [
+      "Aloe vera (oral supplement)",
+      "Cascara sagrada",
+      "Senna leaf (Cassia senna)"
+    ],
+    "caution": [
+      "Licorice root high-dose",
+      "Caffeine (standardised)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Potassium citrate",
+      "Calcium",
+      "Probiotics",
+      "Psyllium husk (Plantago ovata)",
+      "Acacia fiber (prebiotic)",
+      "Inulin / FOS (prebiotic fibre)",
+      "Vitamin B1 (Thiamine)"
+    ],
+    "note": "Chronic stimulant laxatives cause electrolyte loss (especially potassium and magnesium) and may damage the colonic plexus over years. Transition to bulk-forming fibre (psyllium, acacia) and osmotic agents (Mg citrate, PEG). Never combine multiple stimulant laxatives. Replace lost electrolytes; correct B1 if intake is low."
+  },
+  "bronchodilator": {
+    "label": "Beta-2 agonists / bronchodilators (albuterol/salbutamol, ipratropium, tiotropium)",
+    "avoid": [
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "DMAA/DMHA novel stimulant pre-workouts"
+    ],
+    "caution": [
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Tyrosine (L-tyrosine)",
+      "Hawthorn berry (Crataegus)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Potassium citrate",
+      "Vitamin D3",
+      "NAC (N-Acetyl Cysteine)",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "Beta-agonists cause tachycardia and tremor, deplete potassium and magnesium with chronic use, and add to cardiac stimulation from caffeine/yohimbine/synephrine. Magnesium IV is a guideline therapy in severe asthma — oral magnesium is reasonable preventive supplementation. NAC, vitamin D, and omega-3 each have asthma trials. Anticholinergic supplements (high-dose Sceletium) reduce ipratropium efficacy."
+  },
+  "ics_inhaled_steroid": {
+    "label": "Inhaled corticosteroids (fluticasone, budesonide, beclomethasone)",
+    "avoid": [],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "Milk thistle (Silymarin)",
+      "Berberine"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate",
+      "Probiotics"
+    ],
+    "note": "Local steroid effect is the goal but systemic absorption occurs (especially fluticasone) — bone and adrenal effects are dose-related. CYP3A4 inhibitors (grapefruit, milk thistle, piperine) markedly raise systemic fluticasone exposure (case reports of Cushing's). Probiotics and good oral hygiene reduce thrush risk."
+  },
+  "leukotriene": {
+    "label": "Leukotriene modifiers (montelukast, zafirlukast)",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Curcumin (bioavailable form)",
+      "Resveratrol",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Rhodiola rosea",
+      "Magnolia bark (honokiol + magnolol)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Magnesium glycinate",
+      "Omega-3 (EPA/DHA)",
+      "NAC (N-Acetyl Cysteine)"
+    ],
+    "note": "Montelukast carries an FDA black-box warning for neuropsychiatric effects (depression, suicidal ideation). Avoid serotonergic and sedative supplements that could mask or worsen mood changes. CYP3A4/2C9 metabolism — interactions with grapefruit and St John's Wort are clinically meaningful."
+  },
+  "theophylline": {
+    "label": "Theophylline / aminophylline",
+    "avoid": [
+      "St. John's Wort",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Echinacea purpurea",
+      "Ginkgo biloba EGb 761",
+      "Ginkgo biloba",
+      "Cat's claw (Uncaria tomentosa)",
+      "Magnesium glycinate"
+    ],
+    "depleted_or_replace": [
+      "Pyridoxal 5-phosphate (P5P)",
+      "Magnesium glycinate"
+    ],
+    "note": "Theophylline has a narrow therapeutic index — toxicity causes seizures and arrhythmia. CYP1A2-metabolised — caffeine, smoking cessation, and CYP1A2 inhibitors (echinacea, ciprofloxacin) all shift levels significantly. Theophylline depletes B6 and magnesium; supplementation is reasonable. Ginkgo may lower seizure threshold — additive risk."
+  },
+  "levodopa": {
+    "label": "Levodopa / carbidopa (Parkinson's)",
+    "avoid": [
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Vitamin B6 (P5P)",
+      "Pyridoxal 5-phosphate (P5P)",
+      "Mucuna pruriens",
+      "Activated B complex (methylated)"
+    ],
+    "caution": [
+      "Whey protein",
+      "Casein protein",
+      "EAAs (Essential amino acids)",
+      "Tyrosine (L-tyrosine)",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Activated B complex (methylated)",
+      "Multivitamins (healthy adults)",
+      "Curcumin (bioavailable form)",
+      "Coleus forskohlii (Forskolin)",
+      "Caffeine (standardised)",
+      "Berberine",
+      "Magnesium",
+      "Calcium carbonate/citrate (bone health)"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)",
+      "Creatine monohydrate",
+      "Vitamin D3",
+      "Calcium carbonate/citrate (bone health)",
+      "Folate (5-MTHF)",
+      "Methylcobalamin (high-dose neurological)",
+      "Glutathione (liposomal)",
+      "NAC (N-Acetyl Cysteine)"
+    ],
+    "note": "Iron and protein compete with levodopa absorption — separate iron by 2 hours and dose protein away from levodopa. Vitamin B6 (>10 mg) accelerates peripheral L-DOPA decarboxylation, reducing brain delivery (less of an issue with carbidopa-protected formulations, but still relevant at high B6). Mucuna pruriens contains L-DOPA — additive overdose risk. Levodopa/carbidopa raises homocysteine — methylated folate and B12 lower it. Long-term Parkinson's patients commonly need vitamin D, calcium, and bone protection."
+  },
+  "dopamine_agonist": {
+    "label": "Dopamine agonists (pramipexole, ropinirole, rotigotine)",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Mucuna pruriens",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Tyrosine (L-tyrosine)",
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Yohimbine HCl",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Magnesium",
+      "Melatonin"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Magnesium glycinate",
+      "Ferrous bisglycinate (gentle iron)"
+    ],
+    "note": "Dopamine agonists carry impulse-control disorder risk (gambling, hypersexuality) — additional dopaminergic supplements (mucuna, tyrosine) may amplify. Restless legs syndrome treated with dopamine agonists often coexists with iron deficiency — ferritin <75 ng/mL benefits from iron supplementation, but iron must be separated from any L-DOPA-containing supplement."
+  },
+  "cholinesterase_inhibitor": {
+    "label": "Cholinesterase inhibitors (donepezil, rivastigmine, galantamine — Alzheimer's)",
+    "avoid": [
+      "Belladonna (Atropa belladonna)"
+    ],
+    "caution": [
+      "Choline",
+      "Citicoline (CDP-Choline)",
+      "Alpha-GPC",
+      "Phosphatidylcholine",
+      "Huperzine A",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Curcumin (bioavailable form)",
+      "Resveratrol",
+      "Magnesium glycinate",
+      "Berberine"
+    ],
+    "depleted_or_replace": [
+      "Omega-3 (EPA/DHA)",
+      "Vitamin D3",
+      "Vitamin B12",
+      "Methylcobalamin (high-dose neurological)",
+      "Folate (5-MTHF)",
+      "Citicoline (CDP-Choline)"
+    ],
+    "note": "Cholinergic supplements (choline, alpha-GPC, citicoline, huperzine A) and prescription cholinesterase inhibitors are additive — risk of cholinergic excess (bradycardia, GI distress, increased secretions, syncope). Anticholinergic herbs counteract benefit. Donepezil and galantamine are CYP3A4/2D6 metabolised — interactions with grapefruit, milk thistle, and piperine raise levels."
+  },
+  "memantine": {
+    "label": "Memantine (NMDA antagonist — Alzheimer's/dementia)",
+    "avoid": [],
+    "caution": [
+      "Magnesium glycinate",
+      "Magnesium taurate",
+      "Sodium bicarbonate (sports)",
+      "Sodium bicarbonate (exercise buffer)",
+      "NAC (N-Acetyl Cysteine)",
+      "L-Theanine",
+      "Glycine",
+      "Agmatine sulfate"
+    ],
+    "depleted_or_replace": [
+      "Omega-3 (EPA/DHA)",
+      "Vitamin D3",
+      "Methylcobalamin (high-dose neurological)",
+      "Folate (5-MTHF)"
+    ],
+    "note": "Memantine is a low-affinity NMDA antagonist; supplements with NMDA-modulating activity (glycine, theanine, agmatine) may shift effect. Memantine is renally excreted — alkalinizing supplements (sodium bicarbonate) reduce excretion and raise levels."
+  },
+  "triptan": {
+    "label": "Triptans (sumatriptan, rizatriptan, eletriptan — migraine abortive)",
+    "avoid": [
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Saffron (Crocus sativus)",
+      "Rhodiola rosea",
+      "Korean red ginseng (Panax ginseng)",
+      "American ginseng (Panax quinquefolius)",
+      "Tyrosine (L-tyrosine)",
+      "Caffeine (standardised)",
+      "Yohimbine HCl",
+      "Bitter orange (Citrus aurantium)",
+      "Black pepper extract (piperine)"
+    ],
+    "depleted_or_replace": [
+      "Riboflavin (Vitamin B2)",
+      "Magnesium glycinate",
+      "CoQ10 (Ubiquinol)",
+      "Feverfew (Tanacetum parthenium)",
+      "Butterbur (Petasites hybridus)"
+    ],
+    "note": "Triptans are 5-HT1B/1D agonists — combining with serotonergic supplements raises serotonin syndrome risk. Cardiac vasoconstriction is the main safety issue: stimulant supplements compound risk. Migraine PROPHYLAXIS supplements (riboflavin 400 mg, magnesium 400–600 mg, CoQ10 100–300 mg, feverfew, butterbur) are all evidence-based adjuncts that REDUCE triptan use."
+  },
+  "hrt": {
+    "label": "Postmenopausal hormone therapy (estrogen ± progestogen)",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Black cohosh (Cimicifuga racemosa)",
+      "Black cohosh high-dose",
+      "Dong quai (Angelica sinensis)",
+      "Vitex / Chasteberry (Vitex agnus-castus)",
+      "Chasteberry/Vitex standardised (BNO 1095)",
+      "DIM (Diindolylmethane)",
+      "Diindolylmethane (DIM)",
+      "Indole-3-Carbinol (I3C)",
+      "Calcium D-glucarate",
+      "Maca (Lepidium meyenii)",
+      "Pueraria mirifica (Kwao Krua)",
+      "Hops (Humulus lupulus)",
+      "Licorice root high-dose",
+      "Berberine",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Resveratrol"
+    ],
+    "depleted_or_replace": [
+      "Vitamin K2 (MK-7)",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Magnesium glycinate",
+      "Folate (5-MTHF)"
+    ],
+    "note": "HRT raises VTE risk; CYP3A4-modulating supplements (grapefruit, St John's Wort, milk thistle, piperine) shift estrogen levels unpredictably. Phytoestrogens and DIM/I3C alter estrogen metabolism — clinical relevance unclear but worth disclosing. Bone-protective minerals/vitamins remain useful even on HRT."
+  },
+  "trt": {
+    "label": "Testosterone replacement therapy",
+    "avoid": [],
+    "caution": [
+      "DIM (Diindolylmethane)",
+      "Diindolylmethane (DIM)",
+      "Indole-3-Carbinol (I3C)",
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Black cohosh (Cimicifuga racemosa)",
+      "Saw palmetto (Serenoa repens)",
+      "Stinging nettle root (Urtica dioica)",
+      "Resveratrol",
+      "Quercetin",
+      "Tongkat ali (Eurycoma longifolia)",
+      "Fadogia agrestis",
+      "Tribulus terrestris",
+      "Shilajit (Mumie)",
+      "Fenugreek (Trigonella foenum-graecum)",
+      "Horny goat weed (Epimedium)",
+      "Boron",
+      "Zinc",
+      "Vitamin D3",
+      "Ashwagandha (KSM-66)",
+      "Maca (Lepidium meyenii)",
+      "Mucuna pruriens",
+      "Pine pollen extract"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Zinc",
+      "Boron",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "Adding \"natural T-boosters\" to TRT doesn't add much testosterone but may push estrogen, DHT, and hematocrit balance. DIM/I3C are sometimes used to manage estrogen but can over-suppress. 5-AR inhibition (saw palmetto, pumpkin seed) lowers DHT — potentially useful for prostate but also reduces some androgen effect. Hematocrit, PSA, and lipids should be monitored regardless of supplements. Vitamin D3, zinc, and boron support endogenous T axis."
+  },
+  "tamoxifen": {
+    "label": "Tamoxifen / SERMs (raloxifene, toremifene)",
+    "avoid": [
+      "St. John's Wort",
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Black cohosh (Cimicifuga racemosa)",
+      "Pueraria mirifica (Kwao Krua)",
+      "Hops (Humulus lupulus)",
+      "Licorice root high-dose",
+      "Quercetin",
+      "Curcumin (bioavailable form)"
+    ],
+    "caution": [
+      "DIM (Diindolylmethane)",
+      "Diindolylmethane (DIM)",
+      "Indole-3-Carbinol (I3C)",
+      "Calcium D-glucarate",
+      "Black pepper extract (piperine)",
+      "Milk thistle (Silymarin)",
+      "Berberine",
+      "Resveratrol"
+    ],
+    "depleted_or_replace": [
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "Tamoxifen is a CYP2D6 prodrug — strong CYP2D6 inhibitors (paroxetine, some quercetin/curcumin doses) reduce active metabolite (endoxifen) and may compromise efficacy. Phytoestrogens have unclear clinical impact; current oncology guidance is to avoid concentrated extracts during active treatment. CYP3A4 inducers (St John's Wort) lower tamoxifen levels."
+  },
+  "ai_aromatase": {
+    "label": "Aromatase inhibitors (letrozole, anastrozole, exemestane)",
+    "avoid": [
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Black cohosh (Cimicifuga racemosa)",
+      "Hops (Humulus lupulus)",
+      "Licorice root high-dose",
+      "Pueraria mirifica (Kwao Krua)"
+    ],
+    "caution": [
+      "DIM (Diindolylmethane)",
+      "Diindolylmethane (DIM)",
+      "Indole-3-Carbinol (I3C)",
+      "Resveratrol",
+      "Quercetin",
+      "Curcumin (bioavailable form)",
+      "Black pepper extract (piperine)",
+      "Milk thistle (Silymarin)",
+      "Berberine",
+      "Boron"
+    ],
+    "depleted_or_replace": [
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate",
+      "Glucosamine / Chondroitin",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "AIs cause severe osteoporosis and arthralgia — bone-protective minerals and vitamins are essential. Phytoestrogens may compete with AI mechanism; CYP19 (aromatase) inhibitors in supplements (chrysin, resveratrol, boron at high dose) have weak human data but the pharmacological direction is the same. Glucosamine, omega-3, and vitamin D have small trial evidence for AI-induced joint pain."
+  },
+  "growth_hormone": {
+    "label": "Growth hormone / IGF-1 therapy",
+    "avoid": [],
+    "caution": [
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Cinnamon extract (Ceylon)",
+      "Gymnema sylvestre",
+      "Bitter melon (Momordica charantia)",
+      "Inositol myo-form (PCOS/metabolic)",
+      "L-Arginine",
+      "L-Ornithine",
+      "Creatine monohydrate",
+      "Mucuna pruriens",
+      "Beta-Alanine"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Magnesium glycinate",
+      "Calcium carbonate/citrate (bone health)",
+      "Whey protein",
+      "Casein protein"
+    ],
+    "note": "GH causes insulin resistance — additive glucose-lowering supplements are mostly OK but watch for unmasking T2D. Endogenous GH-releasing supplements (arginine, ornithine, mucuna) add little if therapeutic GH is being given. Joint and carpal-tunnel symptoms from GH may worsen with collagen-stimulating supplements but evidence is minimal."
+  },
+  "bph_5ari": {
+    "label": "5-alpha reductase inhibitors (finasteride, dutasteride)",
+    "avoid": [
+      "Saw palmetto (Serenoa repens)",
+      "Stinging nettle root (Urtica dioica)",
+      "Pygeum africanum",
+      "Beta-sitosterol",
+      "Phytosterols (beta-sitosterol complex)",
+      "Reishi (Ganoderma lucidum)"
+    ],
+    "caution": [
+      "Zinc",
+      "Soy isoflavones",
+      "Red clover (Trifolium pratense)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "Vitamin D3"
+    ],
+    "depleted_or_replace": [
+      "Omega-3 (EPA/DHA)",
+      "Vitamin D3"
+    ],
+    "note": "Saw palmetto, beta-sitosterol, pygeum, pumpkin seed and stinging nettle are 5-AR inhibitors themselves — combining with finasteride/dutasteride creates additive pharmacology and complicates interpretation of PSA and DHT measurements. None have strong evidence to add to prescription 5-ARI. Persistent post-finasteride syndrome remains debated; supplement intervention is unproven."
+  },
+  "pde5": {
+    "label": "PDE-5 inhibitors (sildenafil, tadalafil, vardenafil)",
+    "avoid": [
+      "Yohimbine HCl",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "Nitric oxide donors"
+    ],
+    "caution": [
+      "L-Arginine",
+      "Citrulline (L-citrulline, pure form)",
+      "Citrulline malate",
+      "Dietary Nitrate / Beetroot",
+      "Aged garlic extract (Kyolic)",
+      "Pine bark extract (Pycnogenol)",
+      "Cacao flavanols",
+      "Hawthorn berry (Crataegus)",
+      "Hibiscus sabdariffa",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Resveratrol",
+      "Curcumin (bioavailable form)",
+      "Milk thistle (Silymarin)",
+      "Berberine",
+      "Tongkat ali (Eurycoma longifolia)",
+      "Maca (Lepidium meyenii)",
+      "Horny goat weed (Epimedium)",
+      "Tribulus terrestris"
+    ],
+    "depleted_or_replace": [],
+    "note": "PDE-5 + nitrates of any form (prescription nitrates, sodium nitrite, amyl nitrite/poppers, very high-dose beetroot) is a CONTRAINDICATED, life-threatening combination — severe hypotension. CYP3A4 inhibitors (grapefruit, milk thistle, piperine, quercetin) raise PDE-5 levels. Stacking arginine, citrulline, and beetroot with PDE-5 amplifies vasodilation; symptomatic hypotension and headache are common."
+  },
+  "anticholinergic_oab": {
+    "label": "Anticholinergic OAB / antispasmodic (oxybutynin, tolterodine, solifenacin)",
+    "avoid": [
+      "Belladonna (Atropa belladonna)"
+    ],
+    "caution": [
+      "Choline",
+      "Citicoline (CDP-Choline)",
+      "Alpha-GPC",
+      "Phosphatidylcholine",
+      "Huperzine A",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium citrate",
+      "Probiotics",
+      "Psyllium husk (Plantago ovata)"
+    ],
+    "note": "Adding anticholinergic herbs/OTC sleep aids (diphenhydramine) is additive — risk of confusion (especially older adults), urinary retention, dry mouth, and constipation. Cholinergic supplements counteract OAB drugs. CYP3A4 inhibitors raise solifenacin levels and QT-prolongation risk."
+  },
+  "allopurinol": {
+    "label": "Allopurinol / febuxostat (gout)",
+    "avoid": [],
+    "caution": [
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Vitamin C (megadose)",
+      "Nicotinic acid (Niacin, flush form)",
+      "Black pepper extract (piperine)",
+      "Quercetin"
+    ],
+    "depleted_or_replace": [
+      "Tart cherry (Montmorency)",
+      "Magnesium glycinate",
+      "Vitamin C (moderate dose)",
+      "Folate (5-MTHF)"
+    ],
+    "note": "High-dose vitamin C and niacin can transiently shift uric acid. Iron supplementation may be reduced by allopurinol's xanthine oxidase inhibition. Tart cherry has independent uric-acid-lowering and gout-flare-reduction trial data; combines safely. Allopurinol hypersensitivity (DRESS) is more common in HLA-B*5801 carriers."
+  },
+  "colchicine": {
+    "label": "Colchicine (gout, FMF, pericarditis)",
+    "avoid": [
+      "Black pepper extract (piperine)"
+    ],
+    "caution": [
+      "Quercetin",
+      "Resveratrol",
+      "Milk thistle (Silymarin)",
+      "Berberine",
+      "Berberine HCl (sustained release)",
+      "Curcumin (bioavailable form)",
+      "St. John's Wort"
+    ],
+    "depleted_or_replace": [
+      "Vitamin B12",
+      "Folate (5-MTHF)",
+      "Magnesium glycinate",
+      "Probiotics"
+    ],
+    "note": "Colchicine has a narrow therapeutic index — toxicity causes diarrhoea, bone marrow suppression, and death. CYP3A4 and P-gp inhibitors (grapefruit, piperine, milk thistle, quercetin) raise levels SHARPLY — severe toxicity has been reported. Long-term use depletes B12. Macrolide antibiotics + colchicine is also a major interaction; flag any prescribed antibiotic."
+  },
+  "bisphosphonate": {
+    "label": "Bisphosphonates (alendronate, risedronate, zoledronic acid)",
+    "avoid": [],
+    "caution": [
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Calcium",
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Magnesium",
+      "Multivitamins (healthy adults)",
+      "Strontium (strontium citrate)",
+      "Caffeine (standardised)"
+    ],
+    "depleted_or_replace": [
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)",
+      "Magnesium glycinate",
+      "Boron",
+      "Vitamin C (moderate dose)"
+    ],
+    "note": "Oral bisphosphonates have <1% bioavailability and are completely blocked by minerals, food, and even mineral water — take FIRST THING in the morning with plain water, ≥30 min before any food, drink, or other supplement. Strontium ranelate confounds DEXA results — never combine. Vitamin D and calcium are co-prescribed; K2 and magnesium are evidence-based co-supplements for skeletal benefit."
+  },
+  "retinoid": {
+    "label": "Oral retinoids (isotretinoin / Accutane, acitretin)",
+    "avoid": [
+      "Vitamin A (retinol, low-dose)",
+      "Cod liver oil",
+      "Beta-carotene (standalone supplement)",
+      "Multivitamins (healthy adults)"
+    ],
+    "caution": [
+      "St. John's Wort",
+      "Vitamin E (mixed tocopherols)",
+      "Tocotrienols (annatto-derived)",
+      "Nicotinic acid (Niacin, flush form)",
+      "Niacinamide (nicotinamide)",
+      "Iron",
+      "Black pepper extract (piperine)",
+      "Berberine"
+    ],
+    "depleted_or_replace": [
+      "Omega-3 (EPA/DHA)",
+      "Vitamin D3",
+      "Probiotics"
+    ],
+    "note": "Oral retinoids are teratogenic — pregnancy must be prevented. Adding vitamin A or high-beta-carotene supplements stacks toxicity risk (headache, hepatotoxicity, pseudotumor cerebri). Tetracyclines + retinoids cause intracranial hypertension. Lipid abnormalities are dose-related; omega-3 may help triglycerides."
+  },
+  "tacro_cyclo": {
+    "label": "Calcineurin inhibitors (tacrolimus, cyclosporine — transplant)",
+    "avoid": [
+      "St. John's Wort",
+      "Echinacea purpurea",
+      "Andrographis paniculata",
+      "Andrographis (maintenance dose)",
+      "Astragalus (Astragalus membranaceus)",
+      "Astragalus membranaceus (Huang Qi)",
+      "Cycloastragenol (TA-65)",
+      "Cordyceps militaris",
+      "Beta-glucan (1,3/1,6)",
+      "Reishi (Ganoderma lucidum)",
+      "Maitake mushroom (Grifola frondosa)",
+      "Larch arabinogalactan",
+      "Spirulina",
+      "Elderberry (Sambucus nigra)",
+      "Olive leaf extract",
+      "Schisandra (Schisandra chinensis)",
+      "Berberine",
+      "Berberine HCl (sustained release)"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Curcumin (bioavailable form)",
+      "Resveratrol"
+    ],
+    "depleted_or_replace": [
+      "Magnesium glycinate",
+      "Vitamin D3",
+      "Calcium carbonate/citrate (bone health)",
+      "Probiotics"
+    ],
+    "note": "Calcineurin inhibitors are heavily CYP3A4 / P-gp metabolised — small CYP-shifts move blood levels into rejection or toxicity ranges. NEVER take grapefruit, pomegranate, St John's Wort, schisandra, or any high-CYP3A4 supplement without explicit transplant-team approval. Magnesium wasting and hypocalcemia are common with tacrolimus — replace with monitoring. Vitamin D and calcium support steroid co-therapy."
+  },
+  "hiv_art": {
+    "label": "HIV antiretrovirals (NNRTI, PI, INSTI — efavirenz, dolutegravir, ritonavir, etc.)",
+    "avoid": [
+      "St. John's Wort",
+      "Aged garlic extract (Kyolic)",
+      "Black garlic extract",
+      "Schisandra (Schisandra chinensis)"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Milk thistle (Silymarin)",
+      "Quercetin",
+      "Resveratrol",
+      "Curcumin (bioavailable form)",
+      "Berberine",
+      "Echinacea purpurea",
+      "Andrographis paniculata",
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Zinc",
+      "Multivitamins (healthy adults)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin B12",
+      "Methylcobalamin (high-dose neurological)",
+      "Selenium",
+      "Probiotics",
+      "Omega-3 (EPA/DHA)",
+      "L-Carnitine"
+    ],
+    "note": "St John's Wort lowers PI and NNRTI levels and has caused virological failure. Garlic supplements lower saquinavir levels significantly. Polyvalent cations (Ca, Mg, Fe, Zn, multivitamin) chelate INSTIs (dolutegravir, raltegravir, bictegravir) — separate by 2 hours before / 6 hours after the dose. Long-term ART can cause B12, vitamin D, selenium, and carnitine deficiency."
+  },
+  "hep_c_daa": {
+    "label": "Hepatitis C direct-acting antivirals (sofosbuvir, ledipasvir, glecaprevir)",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Milk thistle (Silymarin)",
+      "Quercetin",
+      "Curcumin (bioavailable form)",
+      "Berberine",
+      "Schisandra (Schisandra chinensis)",
+      "Astragalus (Astragalus membranaceus)"
+    ],
+    "depleted_or_replace": [
+      "NAC (N-Acetyl Cysteine)",
+      "Vitamin D3",
+      "Magnesium glycinate"
+    ],
+    "note": "St John's Wort can cause virological failure with several DAAs. Most DAAs have shorter, well-defined courses — minimise non-essential supplements during the 8–12 week treatment window. Milk thistle has long traditional liver use but actively interferes with sofosbuvir/velpatasvir levels in some studies — pause during treatment."
+  },
+  "fluoroquinolone": {
+    "label": "Fluoroquinolones (ciprofloxacin, levofloxacin, moxifloxacin)",
+    "avoid": [
+      "Iron",
+      "Ferrous bisglycinate (gentle iron)",
+      "Calcium carbonate/citrate (bone health)",
+      "Calcium",
+      "Magnesium",
+      "Magnesium glycinate",
+      "Magnesium citrate",
+      "Magnesium L-threonate",
+      "Zinc",
+      "Multivitamins (healthy adults)"
+    ],
+    "caution": [
+      "Caffeine (standardised)",
+      "Theacrine (TeaCrine)",
+      "Guarana (Paullinia cupana)",
+      "Yerba mate (Ilex paraguayensis)",
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)"
+    ],
+    "depleted_or_replace": [
+      "Probiotics",
+      "Saccharomyces boulardii",
+      "Lactobacillus rhamnosus GG"
+    ],
+    "note": "Fluoroquinolones are CHELATED by polyvalent cations (Fe, Ca, Mg, Zn, Al) — co-administration can drop bioavailability by 90%. Take ≥2 hours before or ≥6 hours after any mineral or multivitamin. Caffeine clearance is reduced by ciprofloxacin (CYP1A2 inhibition) — moderate caffeine intake. NSAIDs + fluoroquinolones can lower seizure threshold."
+  },
+  "macrolide": {
+    "label": "Macrolide antibiotics (azithromycin, clarithromycin, erythromycin)",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Black pepper extract (piperine)",
+      "Quercetin",
+      "Milk thistle (Silymarin)",
+      "Curcumin (bioavailable form)",
+      "Resveratrol",
+      "Berberine",
+      "Hawthorn berry (Crataegus)",
+      "Magnesium",
+      "Apigenin",
+      "Licorice root high-dose"
+    ],
+    "depleted_or_replace": [
+      "Probiotics",
+      "Saccharomyces boulardii",
+      "Lactobacillus rhamnosus GG"
+    ],
+    "note": "Macrolides (especially clarithromycin and erythromycin) are strong CYP3A4 inhibitors and cause QT prolongation — combining with QT-prolonging supplements (high-dose chamomile/apigenin, licorice-induced hypokalemia) raises arrhythmia risk. They also raise levels of many co-administered drugs (statins, calcium-channel blockers, colchicine). Azithromycin has the least CYP impact."
+  }
+}

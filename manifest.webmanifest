@@ -1,0 +1,50 @@
+{
+  "name": "SupplementScore",
+  "short_name": "SuppScore",
+  "description": "Evidence-based supplement ratings — 734 supplements scored against published clinical trials.",
+  "start_url": "/landing.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8F4ED",
+  "theme_color": "#1F7A6B",
+  "lang": "en",
+  "categories": ["health", "medical", "education", "reference"],
+  "icons": [
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-180-apple.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Browse by symptom",
+      "short_name": "Symptoms",
+      "url": "/symptom.html"
+    },
+    {
+      "name": "Compare two supplements",
+      "short_name": "Compare",
+      "url": "/compare.html"
+    },
+    {
+      "name": "Discover",
+      "short_name": "Discover",
+      "url": "/discover.html"
+    }
+  ]
+}

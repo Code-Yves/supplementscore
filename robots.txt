@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://supplementscore.org/sitemap-index.xml
 Sitemap: https://supplementscore.org/sitemap.xml
+Sitemap: https://supplementscore.org/sitemap-supplements.xml

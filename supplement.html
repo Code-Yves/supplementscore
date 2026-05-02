@@ -8,21 +8,24 @@
 <title>Supplement detail — SupplementScore</title>
 <meta name="description" content="Supplement detail: tier, sub-scores, dose, related conditions, drug interactions, and articles.">
 <meta name="robots" content="index, follow">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z' fill='%237B1FA2'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260429b">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20260502a">
 <style>
 /* ============================================================ */
 /*  Detail page — V5 hero + Body B (consolidated 2026-04-29)    */
 /* ============================================================ */
 .det-wrap{max-width:880px;margin:0 auto;padding:0 22px}
-.det-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:14px 0 18px;text-decoration:none}
+.det-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:14px 8px 18px 0;text-decoration:none}
 .det-back:hover{border-color:var(--color-brand);color:var(--color-brand)}
+.det-compare-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--color-brand);padding:6px 14px;border:1px solid var(--color-brand);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:14px 0 18px;text-decoration:none}
+.det-compare-btn:hover{background:var(--color-brand);color:#fff}
+.det-compare-btn svg{width:13px;height:13px}
 
 /* tier-aware accent (score, bar fills, prose dashes, jump-nav hover, trending tag) */
-.det-page{--accent:var(--color-brand);--accent-glow:rgba(123,31,162,.13)}
+.det-page{--accent:var(--color-brand);--accent-glow:rgba(31,122,107,.13)}
 .det-page.t1{--accent:var(--t1c);--accent-glow:rgba(13,148,136,.12)}
 .det-page.t2{--accent:var(--t2c);--accent-glow:rgba(75,123,229,.12)}
 .det-page.t3{--accent:var(--t3c);--accent-glow:rgba(202,138,4,.12)}
@@ -162,6 +165,43 @@ body.is-modal .det-back{display:none}
 body.is-modal .det-wrap{padding-top:18px}
 body.is-modal .det-jump{top:0}
 </style>
+  <link rel="canonical" href="https://supplementscore.org/supplement.html">
+  <meta property="og:title" content="Supplement detail | SupplementScore">
+  <meta property="og:description" content="Detailed evidence profile for any supplement: tier, score, dose, timing, interactions, and citations.">
+  <meta property="og:url" content="https://supplementscore.org/supplement.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supplement detail | SupplementScore">
+  <meta name="twitter:description" content="Detailed evidence profile for any supplement: tier, score, dose, timing, interactions, and citations.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Supplement detail | SupplementScore",
+  "description": "Detailed evidence profile for any supplement: tier, score, dose, timing, interactions, and citations.",
+  "url": "https://supplementscore.org/supplement.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SupplementScore"
+  }
+}
+</script>
+  <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
+       Sign up at https://plausible.io and replace the data-domain if needed. -->
+  <!-- <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script> -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
 </head>
 <body>
 <div class="beta-bar" role="status" aria-live="polite">
@@ -179,7 +219,7 @@ body.is-modal .det-jump{top:0}
     <div class="site-nav-tabs">
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
-      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Research</a>
+      <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Article</a>
       <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab" href="index.html#profile" style="text-decoration:none">Profile</a>
     </div>
@@ -395,6 +435,10 @@ body.is-modal .det-jump{top:0}
 
   root.innerHTML =
     '<a class="det-back" href="search.html?q='+encodeURIComponent(s.n)+'">‹ Back to search</a>'
+    + '<a class="det-compare-btn" href="compare.html?a='+encodeURIComponent(s.n)+'" title="Compare '+escAttr(s.n)+' with another supplement">'
+    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M21 16l-4 4-4-4"/></svg>'
+    + 'Compare with another'
+    + '</a>'
     + '<div class="det-page '+escAttr(s.t)+'">'
 
       // HERO V5
@@ -449,10 +493,149 @@ body.is-modal .det-jump{top:0}
 
       +   sourcesHtml
 
+      +   '<div id="det-related-guides-slot"></div>'
+      +   '<div id="det-brands-slot"></div>'
+
       +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="methodology.html">methodology</a> for how scores are derived.</p>'
       + '</div>'
     + '</div>';
+
+  // ── Related guides layer (Direction C, 2026-05-02) ─────────────────────
+  // Surfaces relevant /compare/ and /condition/ deep-dive guides on the supplement detail page.
+  (function loadRelatedGuides(){
+    var slot = document.getElementById('det-related-guides-slot');
+    if (!slot) return;
+    var name = (s.n || '').toLowerCase();
+    var matches = [];
+
+    // Comparison guides — keyword set per guide
+    var COMPARES = [
+      { href:'compare/magnesium-forms.html',     title:'Magnesium glycinate vs citrate vs L-threonate', keys:['magnesium'] },
+      { href:'compare/protein-powders.html',     title:'Whey vs casein vs pea protein',                 keys:['whey','casein','pea protein'] },
+      { href:'compare/serotonin-precursors.html',title:'5-HTP vs L-tryptophan vs SAMe',                 keys:['5-htp','l-tryptophan','tryptophan','same'] },
+      { href:'compare/adaptogens.html',          title:'Ashwagandha vs Rhodiola vs Cordyceps',          keys:['ashwagandha','rhodiola','cordyceps'] },
+      { href:'compare/omega-3-forms.html',       title:'EPA vs DHA vs ALA omega-3',                     keys:['omega-3','epa','dha','fish oil','algae oil','flaxseed oil'] }
+    ];
+    COMPARES.forEach(function(c){
+      if (c.keys.some(function(k){ return name.indexOf(k) !== -1; })) {
+        matches.push({ href: c.href, title: c.title, kind: 'compare' });
+      }
+    });
+
+    // Condition deep-dives — keyword set per protocol
+    var CONDITIONS = [
+      { href:'condition/anxiety-stack.html',        title:'The 2026 anxiety supplement stack', keys:['ashwagandha','l-theanine','theanine','magnesium glycinate','saffron','glycine','melatonin','lemon balm'] },
+      { href:'condition/migraine-prevention.html',  title:'Migraine prevention stack',         keys:['riboflavin','coq10','feverfew','magnesium'] },
+      { href:'condition/pcos-protocol.html',        title:'PCOS supplement protocol',          keys:['inositol','myo-inositol','d-chiro','berberine','spearmint'] },
+      { href:'condition/prediabetes-protocol.html', title:'Pre-diabetes supplement protocol',  keys:['berberine','inositol','alpha-lipoic','psyllium','beta-glucan','cinnamon','chromium'] },
+      { href:'condition/perimenopause-stack.html',  title:'Perimenopause hot-flash protocol',  keys:['black cohosh','soy isoflavone','equol','vitamin e','vitamin d3','vitamin k2'] },
+      { href:'condition/hypothyroidism-stack.html', title:'Hypothyroidism supplement stack',   keys:['selenium','levothyroxine'] },
+      { href:'condition/prostate-health.html',      title:'Prostate health protocol',          keys:['saw palmetto','beta-sitosterol','pygeum','lycopene'] },
+      { href:'condition/gout-protocol.html',        title:'Gout supplement protocol',          keys:['tart cherry','vitamin c'] },
+      { href:'condition/ibs-protocol.html',         title:'IBS supplement protocol',           keys:['peppermint oil','psyllium','saccharomyces boulardii','bifidobacterium lactis'] },
+      { href:'condition/gerd-protocol.html',        title:'GERD supplement protocol',          keys:['alginate','dgl','melatonin','slippery elm','marshmallow root'] },
+      { href:'condition/chronic-constipation.html', title:'Chronic constipation protocol',     keys:['psyllium','magnesium oxide','bifidobacterium lactis hn019'] },
+      { href:'condition/eczema-stack.html',         title:'Eczema (atopic dermatitis) stack',  keys:['lactobacillus rhamnosus','vitamin d3','evening primrose','borage'] },
+      { href:'condition/long-covid-evidence.html',  title:'Long COVID supplement evidence',    keys:['coq10','ubiquinol','omega-3'] },
+      { href:'condition/me-cfs-evidence.html',      title:'ME-CFS supplement evidence',        keys:['coq10','nadh','d-ribose','l-carnitine','acetyl-l-carnitine'] },
+      { href:'condition/gallstone-prevention.html', title:'Gallstone prevention',              keys:['vitamin c','ursodeoxycholic'] }
+    ];
+    var seen = {};
+    CONDITIONS.forEach(function(c){
+      if (c.keys.some(function(k){ return name.indexOf(k) !== -1; })) {
+        if (!seen[c.href]) { matches.push({ href: c.href, title: c.title, kind: 'condition' }); seen[c.href] = true; }
+      }
+    });
+
+    if (!matches.length) return;
+    var rows = matches.map(function(m){
+      var icon = m.kind === 'compare'
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M21 16l-4 4-4-4"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+      var kindLbl = m.kind === 'compare' ? 'Comparison guide' : 'Condition deep-dive';
+      return '<a class="dr-link" href="' + m.href + '"><span class="dr-icon">' + icon + '</span><span class="dr-body"><span class="dr-kind">' + kindLbl + '</span><span class="dr-title">' + escHtml(m.title) + '</span></span><svg class="dr-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>';
+    }).join('');
+    slot.innerHTML =
+      '<section class="det-related-guides">'
+      + '<div class="dr-head">'
+      +   '<span class="dr-tag">Related guides</span>'
+      +   '<span class="dr-meta">' + matches.length + ' deep-dive' + (matches.length>1?'s':'') + ' that mention this supplement</span>'
+      + '</div>'
+      + '<div class="dr-list">' + rows + '</div>'
+      + '</section>';
+  })();
+
+  // ── Brand-quality layer (Direction C, 2026-05-02) ───────────────────────
+  // Loads /data/brands.json and renders verified-tested products for this supplement.
+  // Source-of-truth disclaimer: SupplementScore receives no compensation. See brands.json _meta.policy.
+  (function loadBrands(){
+    var slot = document.getElementById('det-brands-slot');
+    if (!slot) return;
+    fetch('/data/brands.json').then(function(r){ return r.ok ? r.json() : null; }).then(function(db){
+      if (!db) return;
+      var key = (s.n||'').toLowerCase().trim();
+      var entries = db[key];
+      // Try alternate key normalisations: hyphen/space variants, plural strip
+      if (!entries) entries = db[key.replace(/-/g,' ')] || db[key.replace(/\s+/g,'-')];
+      if (!entries || !entries.length) return;
+      var rows = entries.map(function(b){
+        var verified = (b.verified||[]).map(function(v){
+          return '<span class="bq-v">'+escHtml(v)+'</span>';
+        }).join('');
+        return ''
+          + '<div class="bq-row">'
+          +   '<div class="bq-name">'+escHtml(b.brand)+'</div>'
+          +   '<div class="bq-verified">'+verified+'</div>'
+          +   (b.form || b.size ? '<div class="bq-form">'+escHtml([b.form, b.size].filter(Boolean).join(' · '))+'</div>' : '')
+          +   (b.notes ? '<div class="bq-notes">'+escHtml(b.notes)+'</div>' : '')
+          + '</div>';
+      }).join('');
+      slot.innerHTML =
+        '<section class="det-bq" id="det-brands">'
+        + '<div class="bq-head">'
+        +   '<span class="bq-tag">Verified brands</span>'
+        +   '<span class="bq-meta">Third-party-tested · no affiliate links</span>'
+        + '</div>'
+        + '<div class="bq-list">'+rows+'</div>'
+        + '<p class="bq-foot">Listings are public certifier registries (NSF, USP, ConsumerLab, LabDoor, IFOS) as of 2026-05-02. We earn nothing from any listed product. <a href="funder-policy.html">Read our funder policy</a>.</p>'
+        + '</section>';
+    }).catch(function(){ /* silent — non-essential */ });
+  })();
 })();
 </script>
+<style>
+  /* Related guides panel */
+  .det-related-guides{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden;margin-top:18px}
+  .dr-head{padding:13px 22px;border-bottom:1px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;background:var(--color-background-secondary);gap:12px;flex-wrap:wrap}
+  .dr-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand)}
+  .dr-meta{font-size:11px;color:var(--color-text-tertiary)}
+  .dr-list{padding:6px 0}
+  .dr-link{display:flex;align-items:center;gap:14px;padding:13px 22px;border-bottom:0.5px solid var(--color-border-tertiary);text-decoration:none;color:inherit;transition:background .12s}
+  .dr-link:last-child{border-bottom:0}
+  .dr-link:hover{background:rgba(31,122,107,.05)}
+  .dr-icon{width:34px;height:34px;border-radius:9px;background:rgba(31,122,107,.10);color:var(--color-brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .dr-icon svg{width:18px;height:18px}
+  .dr-body{flex:1;min-width:0}
+  .dr-kind{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:2px}
+  .dr-title{display:block;font-size:14px;font-weight:600;color:var(--color-text-primary);line-height:1.3}
+  .dr-arrow{color:var(--color-text-tertiary);flex-shrink:0}
+  .dr-link:hover .dr-arrow{color:var(--color-brand)}
+
+  /* Brand-quality layer */
+  .det-bq{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden;margin-top:18px}
+  .bq-head{padding:13px 22px;border-bottom:1px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;background:var(--color-background-secondary);gap:12px;flex-wrap:wrap}
+  .bq-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-secondary)}
+  .bq-meta{font-size:11px;color:var(--color-text-tertiary)}
+  .bq-list{padding:6px 22px 14px}
+  .bq-row{padding:14px 0;border-bottom:1px solid var(--color-border-tertiary)}
+  .bq-row:last-child{border-bottom:0}
+  .bq-name{font-size:14.5px;font-weight:600;color:var(--color-text-primary);margin-bottom:5px}
+  .bq-verified{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px}
+  .bq-v{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px;background:var(--t1bg);color:var(--t1tx)}
+  .bq-form{font-size:12px;color:var(--color-text-secondary);margin-bottom:3px}
+  .bq-notes{font-size:13px;color:var(--color-text-secondary);line-height:1.5}
+  .bq-foot{font-size:11.5px;color:var(--color-text-tertiary);padding:0 22px 16px;line-height:1.55}
+  .bq-foot a{color:var(--color-text-secondary)}
+</style>
 </body>
 </html>

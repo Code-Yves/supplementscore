@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Plain-language definitions for medical research terms used across SupplementScore: RCT, meta-analysis, PMID, NNT, MTHFR, and more.">
+  <link rel="canonical" href="https://supplementscore.org/glossary.html">
+  <meta property="og:title" content="Glossary — SupplementScore">
+  <meta property="og:description" content="Plain-language definitions for the research terms used across the site.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260502a">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
+  <meta name="theme-color" content="#1F7A6B">
+  <meta name="apple-mobile-web-app-title" content="SuppScore">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <style>
+    body { background: var(--color-background-primary); color: var(--color-text-primary); }
+    .gl-wrap { max-width: 800px; margin: 0 auto; padding: 32px 24px 64px; line-height: 1.6; }
+    .gl-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; }
+    .gl-back:hover { color: var(--color-brand); }
+    .gl-h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.5px; margin: 0 0 6px; line-height: 1.2; }
+    .gl-sub { color: var(--color-text-secondary); font-size: 14.5px; margin-bottom: 28px; }
+    .gl-search { width: 100%; padding: 12px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; background: var(--color-background-primary); margin-bottom: 24px; box-sizing: border-box; }
+    .gl-search:focus { border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(31,122,107,.12); }
+    .gl-section { margin: 30px 0 12px; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 16px; }
+    .gl-term { padding: 14px 0; border-bottom: 0.5px dashed var(--color-border-tertiary); }
+    .gl-term dt { font-size: 14.5px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px; }
+    .gl-term dt span.acro { color: var(--color-brand); margin-right: 8px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; }
+    .gl-term dd { font-size: 13.5px; color: var(--color-text-secondary); margin: 0; line-height: 1.55; }
+    .gl-term.hidden { display: none; }
+    .gl-foot { margin-top: 32px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); }
+    .pg-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
+    .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
+    .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+    @media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}
+  </style>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+</head>
+<body>
+<main class="gl-wrap">
+  <a href="index.html" class="pg-close-fab" onclick="event.preventDefault();if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='index.html';}" aria-label="Close and return">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </a>
+  <h1 class="gl-h1">Glossary</h1>
+  <p class="gl-sub">Plain-language definitions for the research terms used across the site. If you've ever wondered what "p < 0.05" means, this is for you.</p>
+
+  <input type="text" id="gl-search" class="gl-search" placeholder="Filter terms (e.g. RCT, meta-analysis, MTHFR)" autocomplete="off">
+
+  <div class="gl-section">Study design</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">RCT</span>Randomized controlled trial</dt><dd>The strongest single-study design. Participants are randomly assigned to receive the intervention (e.g. a supplement) or a control (placebo or standard care). Randomization balances confounders so any difference in outcome is attributable to the intervention.</dd></div>
+    <div class="gl-term"><dt><span class="acro">DBPC</span>Double-blind, placebo-controlled</dt><dd>An RCT where neither the participant nor the researchers measuring outcomes know who received the active compound. Eliminates placebo and observer bias. The gold standard for supplement evidence.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Crossover</span>Crossover trial</dt><dd>Each participant receives both the intervention and the control, separated by a washout period. Smaller sample size needed but only works for short-term, fully-reversible effects.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Cohort</span>Cohort study</dt><dd>Observational. Follows a group of people over time and observes which ones develop an outcome. Can show association, not causation. Confounding (e.g. healthy-user bias) is the main weakness.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Case-control</span>Case-control study</dt><dd>Observational. Compares people with a condition to people without it, looking backward for differences. Cheap and fast but prone to recall bias.</dd></div>
+    <div class="gl-term"><dt><span class="acro">In vitro</span>In vitro</dt><dd>Latin for "in glass". Done in cells or test tubes, not in living humans or animals. Hypothesis-generating; rarely translates directly to human effects.</dd></div>
+  </dl>
+
+  <div class="gl-section">Synthesizing evidence</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">SR</span>Systematic review</dt><dd>A structured search across all published evidence on a question, using pre-specified inclusion criteria. Reduces cherry-picking. Often paired with a meta-analysis.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Meta-analysis</span>Meta-analysis</dt><dd>Pools the numeric results of multiple RCTs to compute a more precise summary effect. Cochrane reviews are considered the highest-quality form. The site's Tier 1 calls usually rest on a meta-analysis with positive results.</dd></div>
+    <div class="gl-term"><dt><span class="acro">NMA</span>Network meta-analysis</dt><dd>A meta-analysis that compares 3+ interventions even when not all of them have been directly compared head-to-head. Used to rank treatments (e.g. the 2025 Cheng NMA ranking nutraceuticals against antidepressants).</dd></div>
+    <div class="gl-term"><dt><span class="acro">GRADE</span>GRADE evidence rating</dt><dd>A standardized framework that rates the certainty of evidence as High, Moderate, Low, or Very Low based on study design, consistency, directness, precision, and publication bias.</dd></div>
+    <div class="gl-term"><dt><span class="acro">PRISMA</span>PRISMA reporting standard</dt><dd>The PRISMA checklist standardizes how systematic reviews report their methods, so you can reproduce the search and judge what was excluded.</dd></div>
+  </dl>
+
+  <div class="gl-section">Effect-size measures</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">SMD</span>Standardized mean difference</dt><dd>The intervention's effect expressed in standard deviations. SMD 0.2 ≈ small, 0.5 ≈ moderate, 0.8 ≈ large. Lets you compare effect sizes across trials that used different scales.</dd></div>
+    <div class="gl-term"><dt><span class="acro">RR</span>Relative risk</dt><dd>The ratio of an event happening in the treated group vs control. RR 0.7 means 30% lower risk; RR 1.5 means 50% higher risk.</dd></div>
+    <div class="gl-term"><dt><span class="acro">OR</span>Odds ratio</dt><dd>Like RR but uses odds (event:no-event) instead of probability. Approximates RR when the event is rare.</dd></div>
+    <div class="gl-term"><dt><span class="acro">HR</span>Hazard ratio</dt><dd>Like RR but accounts for time-to-event. Used in survival analysis.</dd></div>
+    <div class="gl-term"><dt><span class="acro">CI</span>Confidence interval (95% CI)</dt><dd>The range within which the "true" effect probably lies. If the 95% CI for an RR crosses 1.0, the result is not statistically significant.</dd></div>
+    <div class="gl-term"><dt><span class="acro">p-value</span>p-value</dt><dd>The probability that a result this large would happen by chance if the intervention had no real effect. p < 0.05 is the conventional cutoff for "statistically significant" — but it doesn't mean clinically meaningful.</dd></div>
+    <div class="gl-term"><dt><span class="acro">NNT</span>Number needed to treat</dt><dd>How many people you'd need to treat to prevent one bad outcome. NNT 10 = treat 10 people for one to benefit. The lower the better.</dd></div>
+  </dl>
+
+  <div class="gl-section">Citation infrastructure</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">PMID</span>PubMed identifier</dt><dd>A unique number assigned by the U.S. National Library of Medicine to every paper indexed in PubMed. Lets you look up the exact source — every PMID on this site is a clickable link.</dd></div>
+    <div class="gl-term"><dt><span class="acro">DOI</span>Digital Object Identifier</dt><dd>A persistent ID for any published document. Resolves to the publisher's page (where the full PDF often lives behind a paywall, sometimes not).</dd></div>
+    <div class="gl-term"><dt><span class="acro">PMC</span>PubMed Central</dt><dd>The free full-text repository for biomedical research. ~6 million papers; a subset of PubMed.</dd></div>
+    <div class="gl-term"><dt><span class="acro">COI</span>Conflict of interest</dt><dd>Any financial or personal relationship that could bias the research. We tag every cited paper with its disclosed COI status.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Funder type</span>Funder type</dt><dd>Who paid for the research. Categorised on this site as <code>public</code> (NIH, NHS, etc.), <code>nonprofit</code> (American Heart Association, etc.), <code>industry</code> (a supplement company), <code>mixed</code>, or <code>none_disclosed</code>. Tier 1 calls require at least one public/nonprofit citation.</dd></div>
+  </dl>
+
+  <div class="gl-section">Pharmacology terms</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">UL</span>Tolerable Upper Intake Level</dt><dd>The highest daily intake of a nutrient unlikely to cause harm in nearly all people. Set by NIH/NAS/EFSA. Above the UL, risk of toxicity rises.</dd></div>
+    <div class="gl-term"><dt><span class="acro">RDA</span>Recommended Dietary Allowance</dt><dd>The intake sufficient to meet the requirement of 97–98% of healthy people. Below the RDA, deficiency risk rises.</dd></div>
+    <div class="gl-term"><dt><span class="acro">AI</span>Adequate Intake</dt><dd>Used when an RDA can't be set due to insufficient data. The AI is the average intake assumed to maintain adequacy.</dd></div>
+    <div class="gl-term"><dt><span class="acro">EAR</span>Estimated Average Requirement</dt><dd>The intake that meets the requirement of 50% of healthy people in a group. Below the EAR, deficiency is statistically common.</dd></div>
+    <div class="gl-term"><dt><span class="acro">CYP450</span>Cytochrome P450</dt><dd>The liver's main drug-metabolising enzyme system. CYP3A4, CYP2D6, CYP1A2, CYP2C9, CYP2C19 are the most clinically important. Many supplements either induce (speed up) or inhibit (slow down) these — which changes prescription drug levels.</dd></div>
+    <div class="gl-term"><dt><span class="acro">P-gp</span>P-glycoprotein</dt><dd>A pump that ferries drugs out of cells. Some supplements modulate P-gp activity, which changes how much of an oral drug actually gets absorbed and how much gets cleared.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Half-life</span>Half-life</dt><dd>The time it takes for half of a dose to clear from the bloodstream. After 5 half-lives, ~97% is gone. Determines dosing frequency.</dd></div>
+    <div class="gl-term"><dt><span class="acro">AUC</span>Area Under the Curve</dt><dd>Total drug exposure over time. A higher AUC means more drug reached the bloodstream — relevant when evaluating bioavailability or absorption-enhancing pairings (e.g. piperine + curcumin).</dd></div>
+    <div class="gl-term"><dt><span class="acro">Cmax</span>Cmax</dt><dd>Peak blood concentration after a dose.</dd></div>
+  </dl>
+
+  <div class="gl-section">Genetic terms</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">SNP</span>Single nucleotide polymorphism</dt><dd>A common one-letter difference in DNA. Some SNPs affect how you metabolise nutrients or drugs.</dd></div>
+    <div class="gl-term"><dt><span class="acro">MTHFR</span>MTHFR variant</dt><dd>The methylenetetrahydrofolate reductase gene. Common variants (C677T, A1298C) reduce conversion of folic acid to its active form. Carriers benefit from supplementing methylfolate (5-MTHF) directly.</dd></div>
+    <div class="gl-term"><dt><span class="acro">APOE4</span>APOE4 carrier</dt><dd>A variant of the apolipoprotein E gene linked to higher Alzheimer's risk. Some supplement effects (e.g. omega-3, B vitamins) differ by APOE status.</dd></div>
+  </dl>
+
+  <div class="gl-section">Methodology</div>
+  <dl>
+    <div class="gl-term"><dt><span class="acro">Tier 1</span>Tier 1 (Strong Evidence)</dt><dd>Composite score ≥ 72 AND at least one cited PMID with public or nonprofit funding. The "I'm comfortable taking this" tier.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Tier 2</span>Tier 2 (Promising)</dt><dd>Composite score 60–71. Real evidence but limited to specific populations, doses, or outcomes.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Tier 3</span>Tier 3 (Trending)</dt><dd>Popular in wellness culture but weak or inconsistent clinical evidence.</dd></div>
+    <div class="gl-term"><dt><span class="acro">Tier 4</span>Tier 4 (Risky / Avoid)</dt><dd>Documented safety risks (organ damage, drug interactions, deaths). Regulatory warnings issued.</dd></div>
+  </dl>
+
+  <div class="gl-foot">Term missing? <a href="index.html" style="color:inherit;text-decoration:underline">Suggest a definition</a> via the inaccuracy-report flow on any supplement card.</div>
+
+  <footer class="footer-c" style="margin:48px auto 24px;max-width:760px;padding:24px 22px;border-top:0.5px solid var(--color-border-tertiary);font-size:11.5px;line-height:1.7;color:var(--color-text-tertiary);text-align:center">
+    <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Methodology</strong>
+<a href="methodology.html" style="color:inherit;text-decoration:underline;margin-right:6px">Scoring</a> · <a href="editorial-pipeline.html" style="color:inherit;text-decoration:underline;margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Funder policy</a> · <a href="changed-our-mind.html" style="color:inherit;text-decoration:underline;margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" style="color:inherit;text-decoration:underline;margin-right:6px">Bibliography</a><br>
+<strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Site</strong>
+<a href="about.html" style="color:inherit;text-decoration:underline;margin-right:6px">About</a> · <a href="privacy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:underline;margin-right:6px">Terms</a> · <a href="accessibility.html" style="color:inherit;text-decoration:underline">Accessibility</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var inp = document.getElementById('gl-search');
+  var terms = [].slice.call(document.querySelectorAll('.gl-term'));
+  inp.addEventListener('input', function(){
+    var q = inp.value.trim().toLowerCase();
+    terms.forEach(function(t){
+      var hit = !q || t.textContent.toLowerCase().indexOf(q) !== -1;
+      t.classList.toggle('hidden', !hit);
+    });
+  });
+})();
+</script>
+</body>
+</html>
