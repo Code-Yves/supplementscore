@@ -1,0 +1,250 @@
+/* Print stylesheet for condition deep-dive pages
+ * Loaded only when the user prints (media="print" on the link tag).
+ * Optimised for: a clean A4/Letter handout the reader can take to a clinician.
+ */
+
+@media print {
+
+  /* ---------- Page setup ---------- */
+  @page {
+    margin: 0.6in 0.55in;
+    size: auto;
+  }
+
+  /* ---------- Reset chrome and theming for print ---------- */
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 11.5pt;
+    line-height: 1.45;
+  }
+
+  /* ---------- Hide non-essential UI ----------
+   * Note: condition deep-dives are deliberately minimal (no global nav, no
+   * footer, no Sources strip in the body). The selectors below are defensive —
+   * they cover the close button used on hub-style overlays plus any nav,
+   * footer, disclaimer strip, or logo wall in case the template grows.
+   */
+  .hub-close-fab,
+  nav,
+  header nav,
+  .site-nav,
+  .top-nav,
+  .global-nav,
+  footer,
+  .site-footer,
+  .footer-disclaimer,
+  .sources-strip,
+  .sources-from,
+  .logo-strip,
+  .logo-wall,
+  .ca-back,         /* "Back to articles" link is screen-only navigation */
+  .ca-related,      /* "Read more" cross-links — not useful in print */
+  .plausible-event-trigger,
+  script,
+  noscript,
+  [hidden],
+  [aria-hidden="true"]:not(svg) {
+    display: none !important;
+  }
+
+  /* ---------- Main content layout ---------- */
+  main, .ca-wrap {
+    max-width: 6.8in !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* ---------- Typography ---------- */
+  .ca-kicker {
+    font-size: 9pt !important;
+    color: #555 !important;
+    letter-spacing: .12em;
+    margin-bottom: 4pt;
+  }
+
+  .ca-wrap h1, h1 {
+    font-size: 20pt !important;
+    line-height: 1.15 !important;
+    margin: 0 0 8pt !important;
+    color: #000 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .ca-meta {
+    font-size: 9.5pt !important;
+    color: #555 !important;
+    border-bottom: 1pt solid #999 !important;
+    padding-bottom: 6pt !important;
+    margin-bottom: 14pt !important;
+  }
+
+  .ca-lede {
+    font-size: 12pt !important;
+    color: #222 !important;
+    margin-bottom: 14pt !important;
+  }
+
+  .ca-wrap h2, h2 {
+    font-size: 15pt !important;
+    margin: 18pt 0 6pt !important;
+    color: #000 !important;
+    page-break-before: auto;
+    page-break-after: avoid;
+    break-after: avoid;
+    border-bottom: 0.5pt solid #ccc;
+    padding-bottom: 3pt;
+  }
+
+  .ca-wrap h3, h3 {
+    font-size: 12.5pt !important;
+    margin: 12pt 0 4pt !important;
+    color: #000 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  p, li {
+    orphans: 3;
+    widows: 3;
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  p {
+    margin: 0 0 8pt !important;
+    color: #000 !important;
+  }
+
+  ul, ol {
+    margin: 0 0 10pt 22pt !important;
+  }
+
+  /* ---------- Cards (stack-card, pick-card, danger-card) ----------
+   * Strip background fills; replace with a thin grey rule on the left so
+   * the visual hierarchy survives a black-and-white printer.
+   */
+  .stack-card,
+  .pick-card,
+  .danger-card {
+    background: #ffffff !important;
+    color: #000 !important;
+    border: 0.5pt solid #999 !important;
+    border-left: 3pt solid #555 !important;
+    border-radius: 0 !important;
+    padding: 8pt 10pt !important;
+    margin: 8pt 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .danger-card {
+    border-left-color: #000 !important;
+  }
+  .danger-card::before {
+    content: "WARNING — ";
+    font-weight: 700;
+  }
+
+  .pick-card::before {
+    content: "QUICK START — ";
+    font-weight: 700;
+    font-size: 9pt;
+    letter-spacing: .08em;
+  }
+
+  /* Tier / layer badges — keep as text but force readable greyscale */
+  .stack-card .layer,
+  .tier-badge,
+  [class*="tier-"] {
+    background: transparent !important;
+    color: #000 !important;
+    border: 0.5pt solid #555 !important;
+    padding: 1pt 4pt !important;
+    font-weight: 700 !important;
+  }
+
+  .stack-card .dose {
+    color: #222 !important;
+    font-style: italic;
+  }
+
+  /* ---------- Tables — keep them intact ---------- */
+  table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    font-size: 10pt !important;
+  }
+  th, td {
+    border: 0.5pt solid #666 !important;
+    padding: 4pt 6pt !important;
+    color: #000 !important;
+    background: #ffffff !important;
+  }
+  thead {
+    display: table-header-group; /* repeat header on each printed page */
+  }
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* ---------- Links ---------- */
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  /* Print the URL after citation links only — pubmed, doi, NIH, cochrane,
+   * clinicaltrials, who.int, fda.gov, efsa, examine.com, nice.org.uk.
+   * Internal nav links (../sx/anxiety.html etc.) are intentionally skipped
+   * so the print copy isn't littered with relative paths.
+   */
+  a[href*="pubmed.ncbi.nlm.nih.gov"]:after,
+  a[href*="ncbi.nlm.nih.gov"]:after,
+  a[href*="doi.org"]:after,
+  a[href*="nih.gov"]:after,
+  a[href*="cochranelibrary.com"]:after,
+  a[href*="cochrane.org"]:after,
+  a[href*="clinicaltrials.gov"]:after,
+  a[href*="who.int"]:after,
+  a[href*="fda.gov"]:after,
+  a[href*="efsa.europa.eu"]:after,
+  a[href*="nice.org.uk"]:after,
+  a[href*="examine.com"]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #444;
+    word-break: break-all;
+  }
+
+  /* ---------- Avoid breaks inside semantic blocks ---------- */
+  blockquote, figure, img, svg {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  img, svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* ---------- Optional URL footer note ----------
+   * After the H1, append the canonical source URL so the printout is
+   * traceable back to supplementscore.org.
+   */
+  h1::after {
+    content: "";
+  }
+}
