@@ -77,6 +77,7 @@
     attachModal();
     openSlug = slug;
     modal.classList.remove('loaded');
+    var _x = modal.querySelector('.ssm-x'); if (_x) _x.style.visibility = '';
     frame.src = 'supplement.html?slug=' + encodeURIComponent(slug) + '&modal=1';
     requestAnimationFrame(function(){ modal.classList.add('open'); });
     document.body.classList.add('ssm-locked');
@@ -104,6 +105,18 @@
   modal.addEventListener('click', function(e){
     var t = e.target.closest('[data-ssm-close]');
     if (t){ e.preventDefault(); close(); }
+  });
+
+  // Hide our own close X while the iframe child has its article modal open,
+  // so the user doesn't see two overlapping X buttons in the same corner.
+  // The child posts {type:'ss-art-modal', state:'open'|'close'} from app.js.
+  window.addEventListener('message', function(e){
+    if (!e.data || typeof e.data !== 'object') return;
+    if (e.data.type !== 'ss-art-modal') return;
+    var x = modal.querySelector('.ssm-x');
+    if (!x) return;
+    if (e.data.state === 'open'){ x.style.visibility = 'hidden'; }
+    else { x.style.visibility = ''; }
   });
 
   // Esc closes

@@ -2053,15 +2053,19 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   box-sizing:border-box;
   font-family:inherit;
 }
-.site-footer-inner{max-width:1180px;margin:0 auto}
+.site-footer-inner{max-width:1200px;margin:0 auto}
+/* Brand column expands to fill leftover space; link columns size to their
+   widest link so columns sit visually tight instead of leaving large empty
+   rectangles to the right of each link group. */
 .site-footer-grid{
   display:grid;
-  grid-template-columns:1.4fr 1fr 1fr 1fr;
-  gap:32px;
+  grid-template-columns:1fr auto auto auto;
+  column-gap:56px;
+  row-gap:0;
   align-items:start;
 }
-@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;gap:28px}}
-@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;gap:24px}}
+@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;column-gap:32px;row-gap:28px}}
+@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}}
 .site-footer-brand-row{display:flex;align-items:center;gap:0;margin-bottom:0}
 .site-footer-leaf{
   width:22px;height:22px;border-radius:6px;

@@ -217,36 +217,39 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .dc-rc-lbl{ font-size: 10.5px; color: var(--color-text-tertiary); line-height: 1.3; }
 
 /* ---------- "vs" comparison — Tierbar Twin (matches the .dc-tierbar at top of page) ---------- */
-.dc-vs{ display: flex; flex-direction: column; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 14px; overflow: hidden; margin-top: 6px; }
-.dc-vs-head{ display: grid; grid-template-columns: 1fr 1fr; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
-.dc-vs-head > div{ padding: 14px 22px; display: flex; align-items: center; gap: 10px; border-right: 0.5px solid var(--color-border-tertiary); }
+/* Compact two-column "take vs avoid" pattern. Densified in 2026-05 to match
+   .dc-goal-grid spacing (uppercase mini-headers, 11.5px rows) so it sits
+   consistently with the rest of the Discover page instead of dominating it. */
+.dc-vs{ display: flex; flex-direction: column; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; overflow: hidden; margin-top: 6px; }
+.dc-vs-head{ display: grid; grid-template-columns: 1fr 1fr; }
+.dc-vs-head > div{ padding: 8px 14px 6px; display: flex; align-items: center; gap: 8px; border-right: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
 .dc-vs-head > div:last-child{ border-right: 0; }
-.dc-vs-head .tag{ font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; flex-shrink: 0; }
-.dc-vs-head .take .tag{ background: var(--t1bg); color: var(--t1tx); }
+.dc-vs-head .tag{ font-size: 9.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; flex-shrink: 0; line-height: 1.4; }
+.dc-vs-head .take  .tag{ background: var(--t1bg); color: var(--t1tx); }
 .dc-vs-head .avoid .tag{ background: var(--t4bg); color: var(--t4tx); }
-.dc-vs-head .lab{ font-size: 13.5px; font-weight: 700; color: var(--color-text-primary); }
+.dc-vs-head .lab{ font-size: 11.5px; font-weight: 600; color: var(--color-text-primary); letter-spacing: 0; }
 .dc-vs-rows{ display: grid; grid-template-columns: 1fr 1fr; }
 .dc-vs-col{ display: flex; flex-direction: column; }
 .dc-vs-col + .dc-vs-col{ border-left: 0.5px solid var(--color-border-tertiary); }
-.dc-vs-row{ display: flex; justify-content: space-between; align-items: baseline; padding: 11px 22px; border-bottom: 0.5px dashed var(--color-border-tertiary); gap: 14px; }
+.dc-vs-row{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 5px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .dc-vs-row:last-child{ border-bottom: 0; }
-.dc-vs-name{ font-size: 13.5px; font-weight: 600; color: var(--color-text-primary); }
-.dc-vs-meta{ font-size: 12px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
-.dc-vs-foot{ padding: 14px 22px; background: var(--color-background-secondary); border-top: 0.5px solid var(--color-border-tertiary); display: flex; align-items: flex-start; gap: 14px; font-size: 12.5px; color: var(--color-text-secondary); line-height: 1.55; }
-.dc-vs-foot .lab{ font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dc-accent); flex-shrink: 0; padding-top: 2px; }
+.dc-vs-name{ font-size: 11.5px; font-weight: 500; color: var(--color-text-primary); }
+.dc-vs-meta{ font-size: 11px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; flex-shrink: 0; }
+.dc-vs-foot{ padding: 8px 14px; background: var(--color-background-secondary); border-top: 0.5px solid var(--color-border-tertiary); display: flex; align-items: flex-start; gap: 10px; font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.5; }
+.dc-vs-foot .lab{ font-size: 9.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dc-accent); flex-shrink: 0; padding-top: 1px; }
 .dc-vs-foot strong{ color: var(--color-text-primary); font-weight: 600; }
 @media (max-width: 720px){
-  /* Flatten head + rows so header pills sit directly above their own column */
+  /* Flatten head + rows so each header pill sits directly above its column */
   .dc-vs > .dc-vs-head,
   .dc-vs > .dc-vs-rows{ display: contents; }
-  .dc-vs-head > div{ border-right: 0; padding: 12px 16px; }
-  .dc-vs-head .take{ order: 1; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .dc-vs-head > div{ border-right: 0; padding: 8px 12px 6px; }
+  .dc-vs-head .take{ order: 1; }
   .dc-vs-rows > .dc-vs-col:nth-child(1){ order: 2; }
-  .dc-vs-head .avoid{ order: 3; border-top: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .dc-vs-head .avoid{ order: 3; border-top: 0.5px solid var(--color-border-tertiary); }
   .dc-vs-rows > .dc-vs-col:nth-child(2){ order: 4; }
-  .dc-vs-col + .dc-vs-col{ border-left: 0; border-top: 0; }
-  .dc-vs-foot{ order: 5; padding: 12px 16px; flex-direction: column; gap: 6px; }
-  .dc-vs-row{ padding: 10px 16px; }
+  .dc-vs-col + .dc-vs-col{ border-left: 0; }
+  .dc-vs-foot{ order: 5; padding: 8px 12px; flex-direction: column; gap: 4px; }
+  .dc-vs-row{ padding: 5px 12px; }
 }
 
 /* ---------- Tier-mix / deficiency bar chart ---------- */
