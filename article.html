@@ -152,6 +152,20 @@
 </script>
 <footer class="site-footer" role="contentinfo">
   <div class="site-footer-inner">
+    <div class="site-footer-contrib">
+      <div class="site-footer-contrib-inner">
+        <div class="site-footer-contrib-text">
+          <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+          <div class="site-footer-contrib-title">Help build the database</div>
+          <div class="site-footer-contrib-desc">Clinicians, researchers, developers, and writers who can flag bad evidence, contribute corrections, or help us scale — get in touch.</div>
+        </div>
+        <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
+          <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
+          <button type="submit">Reach out →</button>
+          <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
+        </form>
+      </div>
+    </div>
     <div class="site-footer-grid">
       <div>
         <div class="site-footer-brand-row">
@@ -192,6 +206,34 @@
     </div>
     <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
+<script>
+/* Footer contributor form — small handler shared by every page that ships the
+   shared site-footer. Defined once on window so re-loads on subsequent pages
+   are no-ops. Posts to the same Formspree endpoint as the about-page form,
+   tagged with source='contributor-footer' so leads from here are attributable. */
+window.ssFooterContrib = window.ssFooterContrib || function(e){
+  e.preventDefault();
+  var form = e.target;
+  var input = form.querySelector('input[type=email]');
+  var btn = form.querySelector('button');
+  var email = (input.value || '').trim();
+  if (!email || email.indexOf('@') < 0 || email.length < 5) {
+    input.classList.add('is-invalid');
+    setTimeout(function(){ input.classList.remove('is-invalid'); }, 2000);
+    return false;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  fetch('https://formspree.io/f/mnjoylkz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email: email, source: 'contributor-footer', date: new Date().toISOString() })
+  }).then(function(r){
+    if (r.ok) { form.classList.add('is-success'); }
+    else { btn.disabled = false; btn.textContent = 'Try again'; }
+  }).catch(function(){ btn.disabled = false; btn.textContent = 'Try again'; });
+  return false;
+};
+</script>
 </footer>
 </body>
 </html>

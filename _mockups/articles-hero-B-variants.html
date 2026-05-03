@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Articles hero — Option B refined (single hero + arrows)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#1F7A6B;
+  --brand-deep:#155b50;
+  --cream:#F8F4ED;
+  --bg:#EFEAE0;
+  --bg-alt:#E5DFD2;
+  --paper:#FFFFFF;
+  --ink:#0E1B19;
+  --ink-2:#3B4A47;
+  --ink-3:#7A8682;
+  --line:#D9D3C5;
+  --coral:#E8967A;
+  --gold:#C99A3F;
+  --display:'Mona Sans','Plus Jakarta Sans',-apple-system,system-ui,sans-serif;
+  --body:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{
+  margin:0;padding:48px 32px 96px;
+  background:var(--bg);color:var(--ink);
+  font-family:var(--body);-webkit-font-smoothing:antialiased;
+}
+.page{max-width:1240px;margin:0 auto}
+.page-h{margin:0 0 8px;font-family:var(--display);font-weight:800;font-size:32px;letter-spacing:-0.02em}
+.page-sub{margin:0 0 48px;color:var(--ink-2);font-size:15px;max-width:680px;line-height:1.55}
+
+.opt{margin-bottom:64px}
+.opt-h{display:flex;align-items:baseline;gap:14px;margin:0 0 6px}
+.opt-letter{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--brand);color:#fff;
+  font-family:var(--display);font-weight:700;font-size:13px;
+}
+.opt-title{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-0.01em;margin:0}
+.opt-note{margin:0 0 22px;color:var(--ink-3);font-size:13.5px;max-width:780px;line-height:1.55;padding-left:42px}
+
+.stage{
+  background:var(--bg);border:1px solid var(--line);border-radius:18px;
+  padding:32px 36px 36px;position:relative;overflow:hidden;
+}
+.stage-context{
+  text-align:center;margin-bottom:28px;padding-bottom:24px;
+  border-bottom:1px dashed var(--line);
+}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.18em;color:var(--brand);text-transform:uppercase;margin:0 0 8px}
+.stage-h1{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:40px;letter-spacing:-0.025em;line-height:1.05}
+.stage-sub{margin:0 auto;color:var(--ink-2);font-size:14px;max-width:520px;line-height:1.5}
+
+/* ========= Shared Hero Card ========= */
+.hero{
+  background:linear-gradient(160deg,#1F7A6B 0%,#155b50 100%);
+  color:var(--cream);
+  border-radius:20px;padding:44px 48px 38px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-height:340px;
+}
+.hero::before{
+  content:'';position:absolute;top:-100px;right:-60px;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(248,244,237,0.10),transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-90px;left:-40px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,150,122,0.14),transparent 70%);
+}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;position:relative;z-index:2}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:rgba(248,244,237,.4)}
+.hero-cat-line{display:flex;align-items:center;gap:14px;margin-top:14px;position:relative;z-index:2}
+.hero-cat-line .badge{background:rgba(248,244,237,.16);padding:5px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
+.hero-views{font-size:11.5px;opacity:.75}
+.hero-h{font-family:var(--display);font-weight:800;font-size:40px;line-height:1.05;letter-spacing:-0.025em;margin:18px 0 16px;position:relative;z-index:2;max-width:720px}
+.hero-deck{font-size:15.5px;line-height:1.55;opacity:.86;margin:0 0 24px;max-width:580px;position:relative;z-index:2}
+.hero-foot{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;gap:24px;flex-wrap:wrap}
+.hero-meta{font-size:12.5px;opacity:.78}
+.hero-cta{
+  background:var(--cream);color:var(--brand);
+  padding:11px 20px;border-radius:10px;font-family:var(--display);font-weight:700;font-size:13px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.hero-cta::after{content:'→'}
+
+/* ========= Variant 1 — Arrows OUTSIDE hero (sides) ========= */
+.v1-rail{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.v1-arr{
+  width:54px;height:54px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--line);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:22px;font-family:var(--display);font-weight:500;
+  box-shadow:0 4px 14px rgba(15,23,22,.08);
+  transition:transform .15s,background .15s;
+}
+.v1-arr:hover{transform:scale(1.06);background:var(--cream)}
+.v1-arr.disabled{opacity:.4;cursor:not-allowed}
+
+/* ========= Variant 2 — Arrows INSIDE hero (top-right corner) ========= */
+.v2-corner{
+  position:absolute;top:24px;right:24px;display:flex;gap:8px;z-index:3;
+}
+.v2-arr{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(248,244,237,.14);border:1px solid rgba(248,244,237,.22);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;
+  backdrop-filter:blur(8px);transition:background .15s;
+}
+.v2-arr:hover{background:rgba(248,244,237,.28)}
+.v2-counter{
+  position:absolute;top:32px;right:108px;font-family:var(--display);font-weight:600;font-size:11.5px;letter-spacing:0.08em;color:var(--cream);opacity:.7;text-transform:uppercase;
+}
+
+/* ========= Variant 3 — Arrows + dots together at bottom (centered) ========= */
+.v3-controls{
+  display:flex;align-items:center;justify-content:center;gap:18px;margin-top:24px;
+}
+.v3-arr{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--line);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;
+  box-shadow:0 2px 6px rgba(15,23,22,.06);
+}
+.v3-dots{display:flex;gap:6px;align-items:center}
+.v3-dot{width:7px;height:7px;border-radius:50%;background:rgba(14,27,25,.18)}
+.v3-dot.on{width:24px;border-radius:4px;background:var(--brand)}
+.v3-counter{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:0.06em;color:var(--ink-3);text-transform:uppercase;margin-left:6px}
+
+/* ========= Variant 4 — Arrows tucked next to CTA ========= */
+.v4-foot-actions{display:flex;align-items:center;gap:12px}
+.v4-arr{
+  width:42px;height:42px;border-radius:10px;
+  background:rgba(248,244,237,.14);border:1px solid rgba(248,244,237,.22);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;
+  backdrop-filter:blur(8px);
+}
+.v4-arr:hover{background:rgba(248,244,237,.28)}
+.v4-progress{
+  position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(248,244,237,.14);overflow:hidden;
+}
+.v4-progress::before{
+  content:'';position:absolute;left:0;top:0;height:100%;width:42%;background:var(--coral);
+}
+
+/* ====== List hint ====== */
+.list-hint{margin-top:28px;display:flex;flex-direction:column;gap:14px;opacity:.5}
+.list-hint-row{
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 20px;
+  display:flex;align-items:center;gap:18px;
+}
+.list-hint-ico{width:44px;height:44px;border-radius:10px;background:var(--bg-alt);flex-shrink:0}
+.list-hint-text{flex:1}
+.list-hint-cat{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.list-hint-h{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--ink)}
+
+@media(max-width:760px){
+  .hero{padding:32px 26px 32px;min-height:auto}
+  .hero-h{font-size:28px}
+  .hero-deck{font-size:14px}
+  .v1-rail{grid-template-columns:1fr;gap:0}
+  .v1-arr{display:none} /* arrows would move to bottom dots on mobile */
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="page-h">Refined: single hero + arrow nav</h1>
+  <p class="page-sub">Option B without the 4 thumbnails. The dark teal editor&rsquo;s-pick hero stays as the only feature; arrows let users page through all 15 articles. Four placement variants below — pick the one that feels right.</p>
+
+  <!-- ============================== VARIANT 1 -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">1</span>
+      <h2 class="opt-title">Arrows on the outside (railroad style)</h2>
+    </header>
+    <p class="opt-note">Arrows sit OUTSIDE the hero, left and right, on cream/white pill buttons. Most familiar carousel pattern; clear hit area; never competes with the headline. Works well on desktop, hides on mobile (replaced by swipe + dots).</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="v1-rail">
+        <button class="v1-arr" aria-label="Previous article">‹</button>
+        <div class="hero">
+          <div>
+            <div class="hero-eyebrow">Editor&rsquo;s Pick · Week of May 3</div>
+            <div class="hero-cat-line">
+              <span class="badge">Reality Check</span>
+              <span class="hero-views">Read by 12,400 this week</span>
+            </div>
+            <h2 class="hero-h">Ashwagandha: The Most Overhyped Supplement of 2026</h2>
+            <p class="hero-deck">Real evidence for stress &amp; anxiety. Thinner evidence for testosterone, sleep quality, and sport performance. We separate the supported claims from the marketing.</p>
+          </div>
+          <div class="hero-foot">
+            <div class="hero-meta">9 min read · Updated Apr 24, 2026 · 14 sources</div>
+            <a class="hero-cta" href="#">Read article</a>
+          </div>
+        </div>
+        <button class="v1-arr" aria-label="Next article">›</button>
+      </div>
+
+      <div class="v3-controls" style="margin-top:18px">
+        <div class="v3-dots">
+          <span class="v3-dot on"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span>
+        </div>
+        <span class="v3-counter">1 / 15</span>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row"><div class="list-hint-ico"></div><div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== VARIANT 2 -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">2</span>
+      <h2 class="opt-title">Arrows inside the corner (compact, in-card)</h2>
+    </header>
+    <p class="opt-note">Arrows sit INSIDE the hero, top-right corner, on translucent buttons that read against the dark teal. A small "1 / 15" counter sits to their left. Quietest visual — keeps the hero feeling like one solid card. Best when you don&rsquo;t want navigation chrome to compete with the headline.</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="hero">
+        <span class="v2-counter">02 / 15</span>
+        <div class="v2-corner">
+          <button class="v2-arr" aria-label="Previous article">‹</button>
+          <button class="v2-arr" aria-label="Next article">›</button>
+        </div>
+        <div>
+          <div class="hero-eyebrow">Editor&rsquo;s Pick · Week of May 3</div>
+          <div class="hero-cat-line">
+            <span class="badge">Reality Check</span>
+            <span class="hero-views">Read by 12,400 this week</span>
+          </div>
+          <h2 class="hero-h">Ashwagandha: The Most Overhyped Supplement of 2026</h2>
+          <p class="hero-deck">Real evidence for stress &amp; anxiety. Thinner evidence for testosterone, sleep quality, and sport performance. We separate the supported claims from the marketing.</p>
+        </div>
+        <div class="hero-foot">
+          <div class="hero-meta">9 min read · Updated Apr 24, 2026 · 14 sources</div>
+          <a class="hero-cta" href="#">Read article</a>
+        </div>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row"><div class="list-hint-ico"></div><div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== VARIANT 3 -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">3</span>
+      <h2 class="opt-title">Arrows + dots together, below the hero</h2>
+    </header>
+    <p class="opt-note">All navigation lives in one row UNDER the hero: previous arrow, dot strip, next arrow, counter. Most accessible — controls are obvious, position is unambiguous, and the hero itself stays clean. Strongest if you want users to feel "this rotates and there&rsquo;s more here."</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="hero">
+        <div>
+          <div class="hero-eyebrow">Editor&rsquo;s Pick · Week of May 3</div>
+          <div class="hero-cat-line">
+            <span class="badge">Reality Check</span>
+            <span class="hero-views">Read by 12,400 this week</span>
+          </div>
+          <h2 class="hero-h">Ashwagandha: The Most Overhyped Supplement of 2026</h2>
+          <p class="hero-deck">Real evidence for stress &amp; anxiety. Thinner evidence for testosterone, sleep quality, and sport performance. We separate the supported claims from the marketing.</p>
+        </div>
+        <div class="hero-foot">
+          <div class="hero-meta">9 min read · Updated Apr 24, 2026 · 14 sources</div>
+          <a class="hero-cta" href="#">Read article</a>
+        </div>
+      </div>
+
+      <div class="v3-controls">
+        <button class="v3-arr" aria-label="Previous article">‹</button>
+        <div class="v3-dots">
+          <span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot on"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span>
+        </div>
+        <button class="v3-arr" aria-label="Next article">›</button>
+        <span class="v3-counter">3 / 15</span>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row"><div class="list-hint-ico"></div><div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== VARIANT 4 -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">4</span>
+      <h2 class="opt-title">Arrows next to the CTA + auto-progress bar</h2>
+    </header>
+    <p class="opt-note">Arrows sit on the same row as the "Read article" CTA, inside the hero. A thin coral progress bar at the very bottom signals auto-advance. Best if you want navigation tied tightly to the action affordance — clear that arrows are a way to get to the <em>next</em> story before your current one ends.</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="hero">
+        <div>
+          <div class="hero-eyebrow">Editor&rsquo;s Pick · Week of May 3 · 04 / 15</div>
+          <div class="hero-cat-line">
+            <span class="badge">Reality Check</span>
+            <span class="hero-views">Read by 12,400 this week</span>
+          </div>
+          <h2 class="hero-h">Ashwagandha: The Most Overhyped Supplement of 2026</h2>
+          <p class="hero-deck">Real evidence for stress &amp; anxiety. Thinner evidence for testosterone, sleep quality, and sport performance. We separate the supported claims from the marketing.</p>
+        </div>
+        <div class="hero-foot">
+          <div class="hero-meta">9 min read · Updated Apr 24, 2026 · 14 sources</div>
+          <div class="v4-foot-actions">
+            <button class="v4-arr" aria-label="Previous article">‹</button>
+            <button class="v4-arr" aria-label="Next article">›</button>
+            <a class="hero-cta" href="#">Read article</a>
+          </div>
+        </div>
+        <div class="v4-progress" aria-hidden="true"></div>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row"><div class="list-hint-ico"></div><div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendation -->
+  <section style="margin-top:48px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px 28px;font-size:13.5px;line-height:1.6;color:var(--ink-2)">
+    <strong style="color:var(--ink);font-family:var(--display);font-size:15px">Quick recommendation:</strong>
+    Variant <strong style="color:var(--brand)">1</strong> reads as the most "obviously a carousel" — easiest first-time use. Variant <strong style="color:var(--brand)">3</strong> is the most accessible and matches the dot pattern already used on the live site. Variants 2 and 4 are quieter / more compact options if you want navigation to feel secondary to the headline.
+  </section>
+
+</div>
+</body>
+</html>

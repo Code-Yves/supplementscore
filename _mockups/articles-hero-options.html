@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Articles page — Hero mockup options</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:;">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#1F7A6B;
+  --brand-deep:#155b50;
+  --cream:#F8F4ED;
+  --bg:#EFEAE0;
+  --bg-alt:#E5DFD2;
+  --paper:#FFFFFF;
+  --ink:#0E1B19;
+  --ink-2:#3B4A47;
+  --ink-3:#7A8682;
+  --line:#D9D3C5;
+  --coral:#E8967A;
+  --gold:#C99A3F;
+  --red:#B14F3D;
+  --display:'Mona Sans','Plus Jakarta Sans',-apple-system,system-ui,sans-serif;
+  --body:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{
+  margin:0;padding:48px 32px 96px;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:'ss01','cv11';
+}
+.page{max-width:1240px;margin:0 auto}
+.page-h{margin:0 0 8px;font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:-0.02em}
+.page-sub{margin:0 0 48px;color:var(--ink-2);font-size:15px;max-width:680px;line-height:1.55}
+
+.opt{margin-bottom:72px}
+.opt-h{display:flex;align-items:baseline;gap:14px;margin:0 0 6px}
+.opt-letter{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--brand);color:#fff;
+  font-family:var(--display);font-weight:700;font-size:13px;
+}
+.opt-title{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-0.01em;margin:0}
+.opt-note{margin:0 0 22px;color:var(--ink-3);font-size:13.5px;max-width:680px;line-height:1.55;padding-left:42px}
+
+/* Stage = the simulated page background that hero sits on */
+.stage{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:32px 36px 40px;
+  position:relative;
+  overflow:hidden;
+}
+.stage-context{
+  text-align:center;margin-bottom:28px;padding-bottom:24px;
+  border-bottom:1px dashed var(--line);
+}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.18em;color:var(--brand);text-transform:uppercase;margin:0 0 8px}
+.stage-h1{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:44px;letter-spacing:-0.025em;line-height:1.05}
+.stage-sub{margin:0 auto;color:var(--ink-2);font-size:14px;max-width:520px;line-height:1.5}
+.stage-tabs{
+  display:inline-flex;background:var(--bg-alt);border-radius:999px;padding:4px;margin-top:18px;
+  font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.04em;
+}
+.stage-tab{padding:7px 14px;border-radius:999px;color:var(--ink-3);text-transform:uppercase}
+.stage-tab.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+
+/* Common card chrome */
+.cat-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.16em;
+  text-transform:uppercase;
+}
+.cat-pill::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:currentColor;
+}
+.cat-rc{color:var(--gold)}
+.cat-bt{color:var(--brand)}
+.cat-sa{color:var(--red)}
+.cat-gd{color:#5b6cad}
+.cat-up{color:var(--brand)}
+
+.meta-row{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--ink-3);font-family:var(--body);font-weight:500}
+.meta-row .dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.5}
+
+.read-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--brand);color:var(--cream);
+  padding:11px 18px;border-radius:10px;
+  font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:0.01em;
+  text-decoration:none;
+}
+.read-cta::after{content:'→';font-size:15px}
+
+.dots{display:flex;gap:6px;justify-content:center;margin-top:20px}
+.dot-i{width:6px;height:6px;border-radius:50%;background:rgba(14,27,25,.18)}
+.dot-i.on{width:22px;border-radius:3px;background:var(--brand)}
+
+/* ---------------- OPTION A: Editorial Hero ---------------- */
+.A-hero{
+  background:linear-gradient(135deg,#FFFAF1 0%,#F6EFDE 100%);
+  border:1px solid var(--line);border-radius:20px;
+  padding:48px 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;
+  min-height:340px;position:relative;overflow:hidden;
+}
+.A-hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(31,122,107,0.10),transparent 70%);
+}
+.A-cat{margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.A-cat .badge{background:rgba(201,154,63,.15);color:var(--gold);padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
+.A-h{font-family:var(--display);font-weight:800;font-size:38px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 16px;color:var(--ink)}
+.A-deck{font-size:15.5px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:520px}
+.A-meta{margin-bottom:24px}
+.A-actions{display:flex;align-items:center;gap:18px}
+.A-secondary{font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:1.5px solid var(--ink-3);padding-bottom:1px}
+
+.A-visual{position:relative;height:100%;min-height:280px;display:flex;align-items:center;justify-content:center}
+.A-stat{
+  background:var(--paper);border:1px solid var(--line);border-radius:16px;
+  padding:24px 28px;width:100%;max-width:300px;
+  box-shadow:0 12px 40px rgba(15,23,22,0.08);
+}
+.A-stat-k{font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:14px}
+.A-stat-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.A-stat-row:last-child{border-bottom:none}
+.A-stat-name{color:var(--ink);font-weight:600}
+.A-stat-name small{color:var(--ink-3);display:block;font-weight:500;font-size:10.5px;margin-top:2px}
+.A-stat-val{font-family:var(--display);font-weight:700;color:var(--brand);font-size:14px}
+.A-stat-val.lo{color:var(--ink-3)}
+.A-stat-foot{font-size:11px;color:var(--ink-3);line-height:1.5;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-style:italic}
+
+.A-controls{
+  position:absolute;bottom:18px;right:24px;
+  display:flex;gap:8px;
+}
+.A-arr{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.85);border:1px solid var(--line);
+  color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;
+  backdrop-filter:blur(6px);
+}
+
+/* ---------------- OPTION B: Editor's Pick + 4 quick-take grid ---------------- */
+.B-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+.B-main{
+  background:linear-gradient(160deg,#1F7A6B 0%,#155b50 100%);
+  color:var(--cream);
+  border-radius:18px;padding:36px 36px 32px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-height:380px;
+}
+.B-main::before{
+  content:'';position:absolute;top:-100px;right:-60px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(248,244,237,0.10),transparent 70%);
+}
+.B-main::after{
+  content:'';position:absolute;bottom:-80px;left:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,150,122,0.12),transparent 70%);
+}
+.B-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;position:relative;z-index:2}
+.B-eyebrow::before{content:'';width:24px;height:1px;background:rgba(248,244,237,.4)}
+.B-cat-line{display:flex;align-items:center;gap:14px;margin-top:14px;position:relative;z-index:2}
+.B-cat-line .badge{background:rgba(248,244,237,.16);padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
+.B-h{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.08;letter-spacing:-0.02em;margin:14px 0 14px;position:relative;z-index:2}
+.B-deck{font-size:14.5px;line-height:1.55;opacity:.86;margin:0 0 22px;max-width:480px;position:relative;z-index:2}
+.B-foot{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+.B-meta{font-size:12px;opacity:.78}
+.B-cta{
+  background:var(--cream);color:var(--brand);
+  padding:10px 18px;border-radius:10px;font-family:var(--display);font-weight:700;font-size:13px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.B-cta::after{content:'→'}
+
+.B-grid{display:grid;grid-template-rows:1fr 1fr;gap:20px}
+.B-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.B-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  padding:18px 20px 16px;display:flex;flex-direction:column;justify-content:space-between;
+  min-height:178px;position:relative;
+}
+.B-card .cat-pill{font-size:9px;letter-spacing:.14em}
+.B-card-h{font-family:var(--display);font-weight:700;font-size:15px;line-height:1.25;letter-spacing:-0.01em;margin:10px 0 0;color:var(--ink)}
+.B-card-meta{font-size:11px;color:var(--ink-3);margin-top:10px;font-weight:500}
+.B-card.live::before{
+  content:'';position:absolute;top:14px;right:14px;width:7px;height:7px;border-radius:50%;background:var(--brand);
+  box-shadow:0 0 0 4px rgba(31,122,107,.15);
+}
+
+/* ---------------- OPTION C: News Wire ticker + big card ---------------- */
+.C-ticker{
+  background:#101F1D;color:var(--cream);
+  border-radius:14px 14px 0 0;
+  padding:14px 24px;display:flex;align-items:center;gap:18px;overflow:hidden;
+  border:1px solid #0a1614;border-bottom:none;
+}
+.C-live{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--coral);flex-shrink:0;
+}
+.C-live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px rgba(232,150,122,.2)}
+.C-divider{width:1px;height:18px;background:rgba(248,244,237,.18);flex-shrink:0}
+.C-track{display:flex;gap:36px;font-size:13px;color:rgba(248,244,237,.86);white-space:nowrap;overflow:hidden;mask-image:linear-gradient(90deg,#000 90%,transparent)}
+.C-item{display:inline-flex;align-items:center;gap:10px;flex-shrink:0}
+.C-item .cat-pill{color:rgba(248,244,237,.55);font-size:9.5px;letter-spacing:.12em}
+.C-item .cat-pill::before{background:var(--coral)}
+.C-item-bt .cat-pill::before{background:#5fc3b3}
+.C-item-rc .cat-pill::before{background:var(--gold)}
+
+.C-feature{
+  background:var(--paper);border:1px solid var(--line);border-top:none;border-radius:0 0 18px 18px;
+  padding:36px 40px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;
+  min-height:300px;
+}
+.C-meta-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.C-h{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 16px}
+.C-deck{font-size:15px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:520px}
+.C-callout{
+  background:var(--bg);border-left:3px solid var(--brand);padding:18px 22px;border-radius:6px;
+}
+.C-callout-k{font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:0.14em;color:var(--brand);text-transform:uppercase;margin-bottom:8px}
+.C-callout-v{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.25;color:var(--ink);margin-bottom:8px;letter-spacing:-0.01em}
+.C-callout-q{font-size:12.5px;line-height:1.55;color:var(--ink-3);margin:0}
+
+/* ---------------- OPTION D: Magazine cover (asymmetric) ---------------- */
+.D-cover{
+  background:var(--paper);border:1px solid var(--line);border-radius:20px;
+  padding:48px 52px;display:grid;grid-template-columns:1.55fr 1fr;gap:48px;
+  position:relative;overflow:hidden;min-height:420px;
+}
+.D-issue{
+  position:absolute;top:24px;right:36px;
+  font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;
+}
+.D-issue strong{color:var(--brand);font-weight:800}
+.D-volnum{
+  font-family:var(--display);font-weight:900;font-size:13px;letter-spacing:0.04em;color:var(--brand);margin-bottom:20px;
+}
+.D-cat-strip{
+  display:inline-flex;align-items:center;gap:10px;background:#FAF1E5;color:var(--gold);
+  padding:6px 12px;border-radius:6px;font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:22px;
+}
+.D-cat-strip::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.D-h{
+  font-family:var(--display);font-weight:900;font-size:60px;line-height:.98;letter-spacing:-0.035em;margin:0 0 28px;
+  color:var(--ink);
+}
+.D-h em{font-style:normal;color:var(--brand);font-weight:900}
+.D-deck{font-size:16px;line-height:1.55;color:var(--ink-2);max-width:520px;margin:0 0 28px}
+.D-byline{display:flex;align-items:center;gap:18px;font-size:12.5px;color:var(--ink-3);font-weight:500}
+.D-byline strong{color:var(--ink);font-weight:700}
+
+.D-rail{display:flex;flex-direction:column;gap:14px;border-left:1px solid var(--line);padding-left:32px;justify-content:center}
+.D-rail-h{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin:0 0 6px}
+.D-mini{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.D-mini:last-child{border-bottom:none}
+.D-mini-num{font-family:var(--display);font-weight:800;font-size:18px;color:var(--brand);line-height:1;width:28px;flex-shrink:0;padding-top:2px}
+.D-mini-body{flex:1}
+.D-mini-cat{font-family:var(--display);font-weight:700;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px}
+.D-mini-cat.rc{color:var(--gold)}
+.D-mini-cat.bt{color:var(--brand)}
+.D-mini-cat.sa{color:var(--red)}
+.D-mini-cat.gd{color:#5b6cad}
+.D-mini-t{font-family:var(--display);font-weight:700;font-size:13px;line-height:1.25;color:var(--ink);letter-spacing:-0.01em}
+
+.D-progress{
+  position:absolute;bottom:24px;left:52px;right:52px;height:2px;background:rgba(14,27,25,0.08);border-radius:2px;overflow:hidden;
+}
+.D-progress::before{
+  content:'';position:absolute;left:0;top:0;height:100%;width:38%;background:var(--brand);border-radius:2px;
+}
+
+/* ---- bottom of stage: "list continues here" hint ---- */
+.list-hint{
+  margin-top:32px;display:flex;flex-direction:column;gap:14px;opacity:.55;
+}
+.list-hint-row{
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 20px;
+  display:flex;align-items:center;gap:18px;
+}
+.list-hint-ico{width:44px;height:44px;border-radius:10px;background:var(--bg-alt);flex-shrink:0}
+.list-hint-text{flex:1}
+.list-hint-cat{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.list-hint-h{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--ink)}
+
+@media(max-width:920px){
+  .A-hero,.D-cover{grid-template-columns:1fr;padding:32px 28px}
+  .B-wrap{grid-template-columns:1fr}
+  .B-row{grid-template-columns:1fr 1fr}
+  .C-feature{grid-template-columns:1fr;padding:28px}
+  .D-h{font-size:42px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="page-h">Articles page — hero treatment options</h1>
+  <p class="page-sub">Four directions for an auto-rotating featured-article hero that sits between the page intro and the article list. Each rotates through ~15 hand-picked editor's-choice articles. All use real SupplementScore content; brand palette, light mode only.</p>
+
+  <!-- ============================================================ OPTION A -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">A</span>
+      <h2 class="opt-title">Editorial Hero — single rotating card with proof element</h2>
+    </header>
+    <p class="opt-note">Big, conventional, magazine-style. Headline + deck on the left, an interactive "proof" widget on the right (chart, stat panel, evidence summary — pulled from the article itself). Auto-rotates every ~7s with arrows + dots. The proof widget is what differentiates this from a generic carousel: every featured article has a "what does the data actually show" panel.</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+        <div class="stage-tabs">
+          <span class="stage-tab on">All 241</span><span class="stage-tab">Guide 63</span><span class="stage-tab">Breakthrough 62</span><span class="stage-tab">Reality check 49</span><span class="stage-tab">Safety alert 29</span>
+        </div>
+      </div>
+
+      <div class="A-hero">
+        <div>
+          <div class="A-cat">
+            <span class="cat-pill cat-rc">Reality Check</span>
+            <span class="badge">Editor&rsquo;s Pick</span>
+          </div>
+          <h2 class="A-h">Berberine: Is It Really Nature&rsquo;s Ozempic?</h2>
+          <p class="A-deck">Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the magnitude. We pulled the actual trial data side-by-side.</p>
+          <div class="meta-row A-meta">
+            <span>7 min read</span><span class="dot"></span><span>Updated Apr 24, 2026</span><span class="dot"></span><span>6 sources</span>
+          </div>
+          <div class="A-actions">
+            <a class="read-cta" href="#">Read article</a>
+            <a class="A-secondary" href="#">See all 49 reality checks</a>
+          </div>
+        </div>
+
+        <div class="A-visual">
+          <div class="A-stat">
+            <div class="A-stat-k">HbA1c reduction · diabetes trials</div>
+            <div class="A-stat-row"><div class="A-stat-name">Semaglutide 1mg <small>SUSTAIN-6</small></div><div class="A-stat-val">−1.5%</div></div>
+            <div class="A-stat-row"><div class="A-stat-name">Tirzepatide 10mg <small>SURPASS</small></div><div class="A-stat-val">−2.0%</div></div>
+            <div class="A-stat-row"><div class="A-stat-name">Metformin 2g <small>1st-line Rx</small></div><div class="A-stat-val">−1.2%</div></div>
+            <div class="A-stat-row"><div class="A-stat-name">Berberine 1.5g <small>Dong meta</small></div><div class="A-stat-val">−0.7%</div></div>
+            <div class="A-stat-row"><div class="A-stat-name">Placebo</div><div class="A-stat-val lo">−0.1%</div></div>
+            <div class="A-stat-foot">"Nature's Ozempic" overstates the magnitude by roughly 2×.</div>
+          </div>
+        </div>
+
+        <div class="A-controls">
+          <button class="A-arr" aria-label="Previous">‹</button>
+          <button class="A-arr" aria-label="Next">›</button>
+        </div>
+      </div>
+
+      <div class="dots">
+        <span class="dot-i on"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row">
+          <div class="list-hint-ico"></div>
+          <div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ OPTION B -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">B</span>
+      <h2 class="opt-title">Editor&rsquo;s Pick + 4-up grid — one big, four small, all rotating</h2>
+    </header>
+    <p class="opt-note">A single hero "Editor's Pick of the week" gets prominence, with four smaller cards on the right that each rotate independently across categories (Breakthrough / Reality Check / Safety / Guide). The grid feels alive without one giant carousel; users always see five articles at once. Best for users who scan rather than read.</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="B-wrap">
+        <div class="B-main">
+          <div>
+            <div class="B-eyebrow">Editor&rsquo;s Pick · Week of May 3</div>
+            <div class="B-cat-line">
+              <span class="badge">Reality Check</span>
+              <span style="font-size:11.5px;opacity:.75">Read by 12,400 this week</span>
+            </div>
+            <h2 class="B-h">Ashwagandha: The Most Overhyped Supplement of 2026</h2>
+            <p class="B-deck">Real evidence for stress &amp; anxiety. Thinner evidence for testosterone, sleep quality, and sport performance. We separate the supported claims from the marketing.</p>
+          </div>
+          <div class="B-foot">
+            <div class="B-meta">9 min read · Updated Apr 24, 2026</div>
+            <a class="B-cta" href="#">Read article</a>
+          </div>
+        </div>
+
+        <div class="B-grid">
+          <div class="B-row">
+            <div class="B-card live">
+              <div>
+                <span class="cat-pill cat-bt">Breakthrough</span>
+                <h3 class="B-card-h">Creatine for Brain Health: What the new meta-analyses show</h3>
+              </div>
+              <div class="B-card-meta">7 min · Apr 24</div>
+            </div>
+            <div class="B-card">
+              <div>
+                <span class="cat-pill cat-sa">Safety Alert</span>
+                <h3 class="B-card-h">Green Tea Extract and Liver Failure: What you need to know</h3>
+              </div>
+              <div class="B-card-meta">6 min · Apr 17</div>
+            </div>
+          </div>
+          <div class="B-row">
+            <div class="B-card">
+              <div>
+                <span class="cat-pill cat-gd">Guide</span>
+                <h3 class="B-card-h">The Complete Beginner&rsquo;s Guide to Supplements 2026</h3>
+              </div>
+              <div class="B-card-meta">12 min · Apr 8</div>
+            </div>
+            <div class="B-card">
+              <div>
+                <span class="cat-pill cat-rc">Reality Check</span>
+                <h3 class="B-card-h">Glucosamine and Joint Pain: The evidence has changed</h3>
+              </div>
+              <div class="B-card-meta">6 min · Apr 11</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dots" style="margin-top:24px">
+        <span class="dot-i on"></span><span class="dot-i"></span><span class="dot-i"></span>
+        <span style="font-size:11px;color:var(--ink-3);margin-left:14px;font-family:var(--display);font-weight:600;letter-spacing:0.06em">CYCLE 1 OF 3</span>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row">
+          <div class="list-hint-ico"></div>
+          <div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ OPTION C -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">C</span>
+      <h2 class="opt-title">News Wire — live ticker + featured story with key-finding callout</h2>
+    </header>
+    <p class="opt-note">Plays into the site&rsquo;s "3,363 new studies reviewed in the last 72 hours" energy. A dark ticker scrolls 12–15 article headlines; below it sits a single featured story with a pulled key-finding callout (the strongest sentence from the article). Most journalistic feel — reinforces the "we read the trials so you don&rsquo;t have to" positioning.</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="C-ticker">
+        <span class="C-live">● Live</span>
+        <span class="C-divider"></span>
+        <div class="C-track">
+          <span class="C-item C-item-rc"><span class="cat-pill cat-rc" style="color:var(--gold)">RC</span>Berberine isn&rsquo;t Nature&rsquo;s Ozempic — the actual numbers</span>
+          <span class="C-item C-item-bt"><span class="cat-pill cat-bt" style="color:#5fc3b3">BT</span>Creatine for brain health: 2024 meta-analyses</span>
+          <span class="C-item C-item-rc"><span class="cat-pill cat-rc" style="color:var(--gold)">RC</span>Ashwagandha overhyped in 2026</span>
+          <span class="C-item"><span class="cat-pill" style="color:var(--coral)">SA</span>Green tea extract and liver failure</span>
+          <span class="C-item C-item-bt"><span class="cat-pill cat-bt" style="color:#5fc3b3">BT</span>Glucosamine evidence has changed</span>
+          <span class="C-item C-item-rc"><span class="cat-pill cat-rc" style="color:var(--gold)">RC</span>Detox supplements: a $3B scam</span>
+        </div>
+      </div>
+
+      <div class="C-feature">
+        <div>
+          <div class="C-meta-row">
+            <span class="cat-pill cat-bt">Breakthrough</span>
+            <span style="font-size:11.5px;color:var(--ink-3);font-weight:500">Featured · 3 of 15</span>
+          </div>
+          <h2 class="C-h">Creatine for Brain Health: What the New Meta-Analyses Actually Show</h2>
+          <p class="C-deck">Two 2024 meta-analyses (Prokopidis et al., Xu et al.) confirm that creatine improves memory and cognitive task performance in healthy adults — not just athletes. Effect sizes are modest but consistent.</p>
+          <div class="meta-row">
+            <span>7 min read</span><span class="dot"></span><span>Updated Apr 24, 2026</span><span class="dot"></span><span>14 sources</span>
+          </div>
+        </div>
+
+        <div class="C-callout">
+          <div class="C-callout-k">Key finding</div>
+          <div class="C-callout-v">+0.27 SMD on memory tasks — significant in healthy non-athletes for the first time.</div>
+          <p class="C-callout-q">"The cognitive effect appears most pronounced in conditions of acute stress, sleep deprivation, or aging." — Prokopidis 2024</p>
+        </div>
+      </div>
+
+      <div class="dots" style="margin-top:24px">
+        <span class="dot-i"></span><span class="dot-i"></span><span class="dot-i on"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span><span class="dot-i"></span>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row">
+          <div class="list-hint-ico"></div>
+          <div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ OPTION D -->
+  <section class="opt">
+    <header class="opt-h">
+      <span class="opt-letter">D</span>
+      <h2 class="opt-title">Magazine Cover — oversized headline, "also reading" rail</h2>
+    </header>
+    <p class="opt-note">Highest editorial gravitas. The title is the cover — set huge, with two-color emphasis. A right-rail shows the next 4 in queue (each clickable to jump). A subtle progress bar at the bottom signals auto-advance. Best for prestige/credibility positioning. Closest in spirit to a serious science magazine cover (Nature, NEJM Journal Watch).</p>
+
+    <div class="stage">
+      <div class="stage-context">
+        <div class="eyebrow">Research &amp; Insights</div>
+        <h1 class="stage-h1">What the trials actually show.</h1>
+        <p class="stage-sub">Evidence-based reviews, safety alerts, and deep dives — every article checked against the peer-reviewed literature.</p>
+      </div>
+
+      <div class="D-cover">
+        <div class="D-issue">Issue 18 · <strong>May 2026</strong></div>
+
+        <div>
+          <div class="D-volnum">VOL. 26 / NO. 18</div>
+          <span class="D-cat-strip">Reality Check</span>
+          <h2 class="D-h">Berberine isn&rsquo;t <em>Nature&rsquo;s Ozempic.</em></h2>
+          <p class="D-deck">A 700% sales spike on a single TikTok comparison — a comparison the trial data doesn&rsquo;t support. We pulled six head-to-head studies and one Cochrane review.</p>
+          <div class="D-byline">
+            <span><strong>SupplementScore Editorial</strong></span>
+            <span>·</span>
+            <span>7 min read</span>
+            <span>·</span>
+            <span>Reviewed Apr 24, 2026</span>
+          </div>
+        </div>
+
+        <div class="D-rail">
+          <h3 class="D-rail-h">Also in this issue</h3>
+          <div class="D-mini">
+            <div class="D-mini-num">02</div>
+            <div class="D-mini-body">
+              <div class="D-mini-cat bt">Breakthrough</div>
+              <div class="D-mini-t">Creatine for brain health: the new meta-analyses</div>
+            </div>
+          </div>
+          <div class="D-mini">
+            <div class="D-mini-num">03</div>
+            <div class="D-mini-body">
+              <div class="D-mini-cat rc">Reality Check</div>
+              <div class="D-mini-t">Ashwagandha: most overhyped supplement of 2026</div>
+            </div>
+          </div>
+          <div class="D-mini">
+            <div class="D-mini-num">04</div>
+            <div class="D-mini-body">
+              <div class="D-mini-cat sa">Safety Alert</div>
+              <div class="D-mini-t">Green tea extract and liver failure</div>
+            </div>
+          </div>
+          <div class="D-mini">
+            <div class="D-mini-num">05</div>
+            <div class="D-mini-body">
+              <div class="D-mini-cat gd">Guide</div>
+              <div class="D-mini-t">The complete beginner&rsquo;s guide, 2026 edition</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="D-progress" aria-hidden="true"></div>
+      </div>
+
+      <div class="list-hint">
+        <div class="list-hint-row">
+          <div class="list-hint-ico"></div>
+          <div class="list-hint-text"><div class="list-hint-cat">Reality Check</div><div class="list-hint-h">The article list continues below…</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick comparison summary -->
+  <section style="margin-top:48px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px 32px">
+    <h3 style="margin:0 0 18px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-0.01em">Picking between them</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.55">
+      <thead>
+        <tr style="text-align:left;color:var(--ink-3);font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.08em;text-transform:uppercase">
+          <th style="padding:10px 12px 10px 0;border-bottom:1px solid var(--line);width:60px"></th>
+          <th style="padding:10px 12px;border-bottom:1px solid var(--line)">Best when&hellip;</th>
+          <th style="padding:10px 12px;border-bottom:1px solid var(--line)">Tradeoff</th>
+          <th style="padding:10px 0 10px 12px;border-bottom:1px solid var(--line)">Build effort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:14px 12px 14px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">A</td>
+          <td style="padding:14px 12px;border-bottom:1px dashed var(--line)">Articles have strong data tables / charts. The proof widget makes each rotation feel substantive, not promotional.</td>
+          <td style="padding:14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Right-side widget needs a per-article custom snippet — adds editorial work.</td>
+          <td style="padding:14px 0 14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Medium-high</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 12px 14px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">B</td>
+          <td style="padding:14px 12px;border-bottom:1px dashed var(--line)">You want users to see <em>five</em> articles immediately, biased toward the scanner / browser, not the deep reader.</td>
+          <td style="padding:14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Less prestige than A or D — feels more "publication" than "journal."</td>
+          <td style="padding:14px 0 14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Low-medium</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 12px 14px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">C</td>
+          <td style="padding:14px 12px;border-bottom:1px dashed var(--line)">Reinforces the "we&rsquo;re reviewing studies in real time" positioning. Ticker is rare in this category, signals active editorial.</td>
+          <td style="padding:14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Dark ticker breaks the cream/light theme; needs accessibility care for the marquee.</td>
+          <td style="padding:14px 0 14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Medium</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 12px 14px 0;font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">D</td>
+          <td style="padding:14px 12px">Maximum credibility / editorial gravitas. The "issue / vol. / no." framing positions SupplementScore as a publication, not a database.</td>
+          <td style="padding:14px 12px;color:var(--ink-2)">Implies a publishing cadence (issues) that may not match daily updates. Headline-heavy = less excerpt visible.</td>
+          <td style="padding:14px 0 14px 12px;color:var(--ink-2)">Medium</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin:22px 0 0;color:var(--ink-3);font-size:13px;line-height:1.55">
+      My read: <strong style="color:var(--ink)">A or C</strong> is the closest fit to what the rest of the site already does — both lean on the "show me the data" instinct that makes SupplementScore distinct. <strong style="color:var(--ink)">B</strong> is the safest if you want maximum article exposure per scroll. <strong style="color:var(--ink)">D</strong> is the strongest brand bet if you want this page to feel like a flagship publication.
+    </p>
+  </section>
+
+</div>
+</body>
+</html>
