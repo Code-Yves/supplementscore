@@ -196,7 +196,7 @@
 <link rel="stylesheet" href="styles.css?v=20260503a">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260503a">
+<link rel="stylesheet" href="index.css?v=20260503b">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -1411,7 +1411,17 @@
       </nav>
     </div></div>
 
-<script src="index.js?v=20260503a" defer></script>
+    <!-- Article search (typeahead over titles + categories) -->
+    <div class="rs-search-wrap">
+      <div class="rs-search">
+        <svg class="rs-search-ico" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="rs-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search 241 articles…" aria-label="Search articles" aria-controls="rs-search-ac" aria-expanded="false">
+        <button type="button" class="rs-search-clear" id="rs-search-clear" aria-label="Clear search" hidden>×</button>
+        <div class="rs-search-ac" id="rs-search-ac" role="listbox" hidden></div>
+      </div>
+    </div>
+
+<script src="index.js?v=20260503b" defer></script>
 
     <!-- Old filter row replaced by .rs-hero search and .rs-cat bar above.
          Hidden dropdown stub retained for any JS that might still reach for the IDs. -->

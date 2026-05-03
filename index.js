@@ -773,3 +773,162 @@ if (typeof renderAll === 'function') {
     };
   }
 })();
+
+/* ============================================================
+   Articles tab — typeahead search (rs-search)
+   Filters the visible article cards as the user types AND
+   shows a dropdown of matching titles. Click/Enter opens the
+   article via the existing showArticle(id).
+   ============================================================ */
+(function(){
+  var input=document.getElementById('rs-search-input');
+  if(!input)return;
+  var ac=document.getElementById('rs-search-ac');
+  var clearBtn=document.getElementById('rs-search-clear');
+  var noResults=document.getElementById('articles-no-results');
+
+  /* Build index from .article-card elements */
+  var INDEX=[];
+  function buildIndex(){
+    INDEX=[];
+    document.querySelectorAll('.article-card[onclick]').forEach(function(card){
+      var oc=card.getAttribute('onclick')||'';
+      var m=oc.match(/showArticle\s*\(\s*(\d+)\s*\)/);
+      if(!m)return;
+      var titleEl=card.querySelector('.article-title');
+      if(!titleEl)return;
+      var title=(titleEl.textContent||'').trim();
+      var cat=card.getAttribute('data-category')||'';
+      var descEl=card.querySelector('.article-desc');
+      var desc=descEl?(descEl.textContent||'').trim():'';
+      var minRead=(card.querySelector('.article-side-stat')||{}).textContent||'';
+      INDEX.push({id:parseInt(m[1],10),title:title,cat:cat,desc:desc,min:minRead,el:card});
+    });
+  }
+  buildIndex();
+
+  var CAT_LABEL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety Alert',kids:'Kids'};
+
+  function escHtml(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function highlight(text,q){
+    if(!q)return escHtml(text);
+    var idx=text.toLowerCase().indexOf(q.toLowerCase());
+    if(idx<0)return escHtml(text);
+    return escHtml(text.substring(0,idx))+'<mark>'+escHtml(text.substring(idx,idx+q.length))+'</mark>'+escHtml(text.substring(idx+q.length));
+  }
+  function score(item,q){
+    var t=item.title.toLowerCase(),lq=q.toLowerCase();
+    if(t.startsWith(lq))return 0;
+    var i=t.indexOf(lq);
+    if(i>-1)return 10+i;
+    if(item.desc.toLowerCase().indexOf(lq)>-1)return 100;
+    return 1000;
+  }
+  function search(q){
+    if(!q)return [];
+    return INDEX
+      .map(function(it){return {it:it,s:score(it,q)};})
+      .filter(function(x){return x.s<1000;})
+      .sort(function(a,b){return a.s-b.s;})
+      .slice(0,8)
+      .map(function(x){return x.it;});
+  }
+
+  var activeIdx=-1, lastQuery='';
+
+  function renderAc(matches,q){
+    if(!matches.length){
+      ac.innerHTML='<div class="rs-ac-empty">No articles matching &ldquo;'+escHtml(q)+'&rdquo;</div>';
+      ac.hidden=false;input.setAttribute('aria-expanded','true');
+      activeIdx=-1;return;
+    }
+    ac.innerHTML=matches.map(function(it,i){
+      return '<a class="rs-ac-item'+(i===activeIdx?' active':'')+'" data-id="'+it.id+'" role="option" href="#article-'+it.id+'">'+
+        '<span class="rs-ac-cat" data-cat="'+escHtml(it.cat)+'">'+escHtml(CAT_LABEL[it.cat]||it.cat)+'</span>'+
+        '<span class="rs-ac-body"><span class="rs-ac-title">'+highlight(it.title,q)+'</span>'+
+        (it.min?'<span class="rs-ac-meta">'+escHtml(it.min)+' min read</span>':'')+'</span>'+
+      '</a>';
+    }).join('');
+    ac.hidden=false;input.setAttribute('aria-expanded','true');
+  }
+
+  function hideAc(){ac.hidden=true;ac.innerHTML='';input.setAttribute('aria-expanded','false');activeIdx=-1;}
+
+  /* Filter the visible cards in the list to match the query.
+     Empty query → restore all (delegate to filterArticles if available, else show all). */
+  function filterCards(q){
+    var anyVisible=false;
+    if(!q){
+      /* Re-apply current category filter if one is active */
+      var activeCat=document.querySelector('.rs-cat a.on');
+      var cat=activeCat?activeCat.getAttribute('data-cat'):'all';
+      if(typeof window.filterArticles==='function'){window.filterArticles(cat);return;}
+      INDEX.forEach(function(it){it.el.style.display='';anyVisible=true;});
+    } else {
+      var lq=q.toLowerCase();
+      INDEX.forEach(function(it){
+        var match=it.title.toLowerCase().indexOf(lq)>-1 || it.desc.toLowerCase().indexOf(lq)>-1 || (CAT_LABEL[it.cat]||'').toLowerCase().indexOf(lq)>-1;
+        it.el.style.display=match?'':'none';
+        if(match)anyVisible=true;
+      });
+    }
+    if(noResults)noResults.style.display=anyVisible?'none':'';
+  }
+
+  var debounceTimer;
+  input.addEventListener('input',function(){
+    var q=input.value.trim();
+    lastQuery=q;
+    clearBtn.hidden=!q;
+    clearTimeout(debounceTimer);
+    debounceTimer=setTimeout(function(){
+      filterCards(q);
+      if(q){renderAc(search(q),q);}else{hideAc();}
+    },80);
+  });
+
+  input.addEventListener('keydown',function(e){
+    var items=ac.querySelectorAll('.rs-ac-item');
+    if(e.key==='ArrowDown'){
+      if(ac.hidden && lastQuery){renderAc(search(lastQuery),lastQuery);return;}
+      e.preventDefault();
+      activeIdx=Math.min(items.length-1,activeIdx+1);
+      items.forEach(function(el,i){el.classList.toggle('active',i===activeIdx);});
+      if(items[activeIdx])items[activeIdx].scrollIntoView({block:'nearest'});
+    } else if(e.key==='ArrowUp'){
+      e.preventDefault();
+      activeIdx=Math.max(-1,activeIdx-1);
+      items.forEach(function(el,i){el.classList.toggle('active',i===activeIdx);});
+      if(items[activeIdx])items[activeIdx].scrollIntoView({block:'nearest'});
+    } else if(e.key==='Enter'){
+      var pick=activeIdx>=0?items[activeIdx]:items[0];
+      if(pick){e.preventDefault();var id=parseInt(pick.getAttribute('data-id'),10);if(typeof window.showArticle==='function')window.showArticle(id);hideAc();input.blur();}
+    } else if(e.key==='Escape'){
+      if(!ac.hidden){hideAc();}else if(input.value){input.value='';clearBtn.hidden=true;filterCards('');}
+    }
+  });
+
+  input.addEventListener('focus',function(){if(lastQuery)renderAc(search(lastQuery),lastQuery);});
+
+  /* Click on a suggestion */
+  ac.addEventListener('click',function(e){
+    var item=e.target.closest('.rs-ac-item');
+    if(!item)return;
+    e.preventDefault();
+    var id=parseInt(item.getAttribute('data-id'),10);
+    if(typeof window.showArticle==='function')window.showArticle(id);
+    hideAc();input.blur();
+  });
+
+  /* Clear button */
+  clearBtn.addEventListener('click',function(){
+    input.value='';lastQuery='';clearBtn.hidden=true;filterCards('');hideAc();input.focus();
+  });
+
+  /* Click outside hides dropdown */
+  document.addEventListener('click',function(e){
+    if(ac.hidden)return;
+    if(e.target.closest('.rs-search'))return;
+    hideAc();
+  });
+})();
