@@ -479,6 +479,136 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 
 .dc-sec-meta{ display: none !important; }
 
+/* ============================================================
+   Rotating "best fact" hero — stat / fact split (Variant C)
+   Sits between the page intro and the first ranking section.
+   Auto-rotates every 7s, pauses on hover, prev/next + CTA jumps
+   to the source row in its parent section.
+   ============================================================ */
+.dc-fact-hero-wrap{ max-width: 1200px; margin: 0 auto 32px; padding: 0 24px; }
+.dc-fact-hero{
+  background: linear-gradient(135deg, #155b50 0%, #0f3f37 100%);
+  color: var(--color-background-primary, #F8F4ED);
+  border-radius: 20px;
+  padding: 36px 44px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 44px;
+  align-items: center;
+  min-height: 280px;
+  cursor: default;
+  --cream: #F8F4ED;
+}
+.dc-fact-hero::before{
+  content:'';position:absolute;top:-50%;right:-10%;width:500px;height:500px;border-radius:50%;
+  background: radial-gradient(circle, rgba(232,150,122,0.16), transparent 60%);
+  pointer-events:none;
+}
+.dc-fact-hero::after{
+  content:'';position:absolute;bottom:-30%;left:-15%;width:340px;height:340px;border-radius:50%;
+  background: radial-gradient(circle, rgba(248,244,237,0.05), transparent 70%);
+  pointer-events:none;
+}
+.dc-fact-counter{
+  position: absolute; top: 22px; left: 30px;
+  font-family: 'Mona Sans', inherit;
+  font-weight: 600; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(248,244,237,.6);
+  z-index: 2;
+}
+.dc-fact-counter::before{
+  content:'●'; color:#E8967A; margin-right:8px; font-size:8px; vertical-align:1px;
+  animation: dcFactPulse 2s ease-in-out infinite;
+}
+@keyframes dcFactPulse{ 0%,100%{opacity:1} 50%{opacity:.4} }
+.dc-fact-counter strong{ color: rgba(248,244,237,.85); font-weight: 700; }
+
+.dc-fact-stat{
+  position: relative; z-index: 2; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 18px 0;
+}
+.dc-fact-stat-num{
+  font-family: 'Mona Sans', inherit;
+  font-weight: 900;
+  font-size: clamp(64px, 9vw, 120px);
+  line-height: .92; letter-spacing: -0.04em;
+  background: linear-gradient(180deg, #F8F4ED 0%, #E8967A 130%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  white-space: nowrap;
+}
+.dc-fact-stat-num small{ font-size: .55em; font-weight: 800; }
+.dc-fact-stat-unit{
+  font-family: 'Mona Sans', inherit;
+  font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #E8967A;
+  margin-top: 10px;
+  max-width: 280px; line-height: 1.35;
+}
+
+.dc-fact-body{ position: relative; z-index: 2; }
+.dc-fact-source-line{
+  font-family: 'Mona Sans', inherit;
+  font-weight: 700; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(248,244,237,.65);
+  margin-bottom: 14px;
+}
+.dc-fact-h{
+  font-family: 'Mona Sans', inherit;
+  font-weight: 700; font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.2; letter-spacing: -0.012em;
+  margin: 0 0 22px; color: var(--cream);
+}
+.dc-fact-foot{ display: flex; align-items: center; gap: 10px; }
+.dc-fact-arr{
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(248,244,237,.12);
+  border: 1px solid rgba(248,244,237,.22);
+  color: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 15px; padding: 0;
+  font-family: inherit; font-weight: 500;
+  backdrop-filter: blur(8px);
+  transition: background .15s;
+}
+.dc-fact-arr:hover{ background: rgba(248,244,237,.22); }
+.dc-fact-cta{
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #E8967A; color: #3A1F15;
+  padding: 10px 18px; border-radius: 10px;
+  font-family: 'Mona Sans', inherit; font-weight: 700; font-size: 13px;
+  text-decoration: none; margin-left: 4px;
+  transition: transform .15s, background .15s;
+}
+.dc-fact-cta::after{ content:'→'; }
+.dc-fact-cta:hover{ background: #f3a78c; transform: translateX(2px); }
+
+.dc-fact-progress{
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: rgba(248,244,237,.10); overflow: hidden; z-index: 2;
+}
+.dc-fact-progress-fill{
+  position: absolute; left: 0; top: 0; height: 100%; width: 0;
+  background: #E8967A; border-radius: 0 2px 2px 0;
+}
+.dc-fact-progress-fill.run{ animation: dcFactProgress 7s linear forwards; }
+@keyframes dcFactProgress{ from{width:0} to{width:100%} }
+
+@media (max-width: 760px){
+  .dc-fact-hero-wrap{ padding: 0 16px; }
+  .dc-fact-hero{
+    grid-template-columns: 1fr; gap: 18px;
+    padding: 50px 24px 28px; min-height: auto;
+  }
+  .dc-fact-counter{ top: 18px; left: 22px; }
+  .dc-fact-stat{ padding: 8px 0 0; }
+  .dc-fact-stat-num{ font-size: clamp(56px, 22vw, 88px); }
+  .dc-fact-stat-unit{ font-size: 11px; }
+  .dc-fact-foot{ flex-wrap: wrap; }
+}
+
 </style>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Discover | SupplementScore">
@@ -542,6 +672,27 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   <div class="dc-hero-eyebrow">The fun side of the database</div>
   <h1>733 supplements.<br>27,000+ studies.<br>A few <span style="color:var(--t1c)">wild surprises</span>.</h1>
   <p>The dense reviews live in the Index. This page is the highlight reel — the safest, the scariest, the most overhyped, and the facts that didn't fit anywhere else.</p>
+</section>
+
+<!-- Rotating "best fact" hero — content driven by JS at end of file -->
+<section class="dc-fact-hero-wrap">
+  <div class="dc-fact-hero" id="dc-fact-hero">
+    <div class="dc-fact-counter">Wild Fact &middot; <span id="dc-fact-current">1</span> / <span id="dc-fact-total">15</span></div>
+    <div class="dc-fact-stat">
+      <div class="dc-fact-stat-num" id="dc-fact-stat-num">&mdash;</div>
+      <div class="dc-fact-stat-unit" id="dc-fact-stat-unit">&nbsp;</div>
+    </div>
+    <div class="dc-fact-body">
+      <div class="dc-fact-source-line" id="dc-fact-source">&nbsp;</div>
+      <h2 class="dc-fact-h" id="dc-fact-text">Loading the wildest facts in the database&hellip;</h2>
+      <div class="dc-fact-foot">
+        <button type="button" class="dc-fact-arr" onclick="dcFactPrev()" aria-label="Previous fact">&lsaquo;</button>
+        <button type="button" class="dc-fact-arr" onclick="dcFactNext()" aria-label="Next fact">&rsaquo;</button>
+        <a class="dc-fact-cta" id="dc-fact-cta" href="#safest">See entry</a>
+      </div>
+    </div>
+    <div class="dc-fact-progress" aria-hidden="true"><div class="dc-fact-progress-fill" id="dc-fact-progress-fill"></div></div>
+  </div>
 </section>
 
 <!-- ============================================================
@@ -1559,6 +1710,124 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     row.addEventListener('keydown', function(e){
       if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(slug); }
     });
+  });
+})();
+</script>
+
+<script>
+/* ============================================================
+   Discover "wild fact" rotating hero
+   Hand-curated stat-led facts pulled from the page's own ranking
+   sections. Rotates every 7s, pauses on hover, prev/next navigates.
+   ============================================================ */
+(function(){
+  var hero = document.getElementById('dc-fact-hero');
+  if (!hero) return;
+
+  var FACTS = [
+    { stat:'22', unit:'/100 score &mdash; lowest in the entire database',
+      sectionHash:'#dangerous', sectionLabel:'Top 10 most dangerous &middot; #1',
+      text:'Greater celandine has more than 50 documented hepatitis cases including transplants. Germany&rsquo;s BfArM withdrew authorization in 2008.' },
+    { stat:'700', unit:'% sales spike on a single TikTok claim',
+      sectionHash:'#overhyped', sectionLabel:'Top 10 most overhyped &middot; Berberine',
+      text:'Berberine isn&rsquo;t Nature&rsquo;s Ozempic. Trial data shows roughly half the HbA1c effect of semaglutide and zero comparable weight-loss mechanism.' },
+    { stat:'100', unit:'/100 &mdash; the only perfect score',
+      sectionHash:'#safest', sectionLabel:'Top 10 safest &middot; #1',
+      text:'UNICEF and WHO call oral rehydration salts the most cost-effective intervention in modern medicine. Cents per serving, decades of trial data.' },
+    { stat:'50<small>+</small>', unit:'documented hepatitis cases',
+      sectionHash:'#dangerous', sectionLabel:'Top 10 most dangerous &middot; Greater celandine',
+      text:'Multiple liver transplants traced to a single &ldquo;detox&rdquo; herb. Still legally sold in the U.S. wellness aisle.' },
+    { stat:'5<small>+</small>', unit:'drug categories interact with St. John&rsquo;s Wort',
+      sectionHash:'#interact', sectionLabel:'Top 10 drug interactions &middot; #1',
+      text:'Warfarin, SSRIs, MAOIs, oral contraceptives, chemotherapy. The poster child for &ldquo;natural &ne; inert.&rdquo;' },
+    { stat:'500<small>+</small>', unit:'creatine trials &mdash; safe at 3&ndash;5 g/day',
+      sectionHash:'#safest', sectionLabel:'Top 10 safest &middot; Creatine monohydrate',
+      text:'ISSN&rsquo;s 2017 position stand. New 2024&ndash;25 reviews extend the safety record to older adults and teen athletes.' },
+    { stat:'$3<small>B</small>', unit:'detox supplement industry',
+      sectionHash:'#money', sectionLabel:'Money-burning categories &middot; Detox',
+      text:'A $3B category built on a single undefined word &mdash; &ldquo;toxins.&rdquo; The liver runs a two-phase enzymatic clearance system; no capsule accelerates it.' },
+    { stat:'28', unit:'RCTs &middot; FDA cholesterol claim since 1998',
+      sectionHash:'#safest', sectionLabel:'Top 10 safest &middot; Psyllium husk',
+      text:'One of only ~12 supplements with an authorized FDA health claim. Cochrane-confirmed for LDL reduction.' },
+    { stat:'1992', unit:'France banned germander after 26 liver injuries',
+      sectionHash:'#dangerous', sectionLabel:'Top 10 most dangerous &middot; Germander',
+      text:'At least 26 reported liver-injury cases including one death linked to a popular slimming product.' },
+    { stat:'2001', unit:'FDA warning &mdash; still in fat burners',
+      sectionHash:'#dangerous', sectionLabel:'Top 10 most dangerous &middot; Usnic acid',
+      text:'Acute liver failure, multiple transplants, at least one death traced to the LipoKinetix recall. Still appears in fat burners.' },
+    { stat:'IARC<br>Group 1', unit:'human carcinogen',
+      sectionHash:'#dangerous', sectionLabel:'Top 10 most dangerous &middot; Aristolochic acid',
+      text:'Causes &ldquo;Chinese herb nephropathy&rdquo; &mdash; irreversible kidney failure and upper urinary-tract cancer at low cumulative doses.' },
+    { stat:'58', unit:'RCTs &middot; LDL down 5&ndash;10% at 3 g/day',
+      sectionHash:'#safest', sectionLabel:'Top 10 safest &middot; Oat beta-glucan',
+      text:'Cochrane meta-analysis pooled 58 RCTs, N = 3,974. Also carries an FDA-approved cholesterol claim.' },
+    { stat:'1.2<small>&ndash;1.6</small>', unit:'g/kg/day &middot; PROT-AGE consensus',
+      sectionHash:'#safest', sectionLabel:'Top 10 safest &middot; Protein supplementation',
+      text:'Older adults need roughly double the dietary RDA to preserve muscle mass and prevent sarcopenia.' },
+    { stat:'24', unit:'tier-4 score &middot; banned by FDA',
+      sectionHash:'#dangerous', sectionLabel:'Top 10 most dangerous &middot; Calomel',
+      text:'A mercury compound banned from OTC drugs. Irreversible kidney and CNS damage. Still surfaces in &ldquo;detox&rdquo; products online.' },
+    { stat:'27,000<small>+</small>', unit:'studies reviewed across the database',
+      sectionHash:'#researched', sectionLabel:'The most-studied supplements on Earth',
+      text:'Every score is derived exclusively from peer-reviewed clinical trials and credible research institutions. Zero industry funding.' }
+  ];
+
+  var els = {
+    counter: document.getElementById('dc-fact-current'),
+    total:   document.getElementById('dc-fact-total'),
+    statNum: document.getElementById('dc-fact-stat-num'),
+    statUnit:document.getElementById('dc-fact-stat-unit'),
+    source:  document.getElementById('dc-fact-source'),
+    text:    document.getElementById('dc-fact-text'),
+    cta:     document.getElementById('dc-fact-cta'),
+    progress:document.getElementById('dc-fact-progress-fill')
+  };
+  if (!els.text) return;
+  els.total.textContent = FACTS.length;
+
+  var idx = 0, timer;
+
+  function render(i){
+    var f = FACTS[i];
+    els.counter.textContent = i + 1;
+    els.statNum.innerHTML  = f.stat;
+    els.statUnit.innerHTML = f.unit;
+    els.source.innerHTML   = f.sectionLabel;
+    els.text.innerHTML     = f.text;
+    els.cta.setAttribute('href', f.sectionHash);
+    /* Restart progress bar */
+    if (els.progress){
+      els.progress.classList.remove('run');
+      void els.progress.offsetWidth;
+      els.progress.classList.add('run');
+    }
+  }
+
+  window.dcFactGoto = function(i){
+    idx = ((i % FACTS.length) + FACTS.length) % FACTS.length;
+    render(idx);
+    resetTimer();
+  };
+  window.dcFactNext = function(){ window.dcFactGoto(idx + 1); };
+  window.dcFactPrev = function(){ window.dcFactGoto(idx - 1); };
+
+  function resetTimer(){
+    clearInterval(timer);
+    timer = setInterval(function(){ idx = (idx + 1) % FACTS.length; render(idx); }, 7000);
+  }
+
+  /* Shuffle the starting position so refreshes don't always start with #1 */
+  idx = Math.floor(Math.random() * FACTS.length);
+  render(idx);
+  resetTimer();
+
+  hero.addEventListener('mouseenter', function(){
+    clearInterval(timer);
+    if (els.progress) els.progress.style.animationPlayState = 'paused';
+  });
+  hero.addEventListener('mouseleave', function(){
+    if (els.progress) els.progress.style.animationPlayState = '';
+    resetTimer();
   });
 })();
 </script>
