@@ -24,8 +24,10 @@
   <style>
     body{background:var(--color-background-primary);color:var(--color-text-primary)}
     .ca-wrap{max-width:780px;margin:0 auto;padding:32px 22px 64px;line-height:1.7}
-    .ca-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;margin-bottom:22px}
-    .ca-back:hover{background:rgba(31,122,107,.05);color:var(--color-brand)}
+    .ca-close{position:fixed;top:18px;right:18px;width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;z-index:50;transition:background .15s,color .15s,border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+    .ca-close:hover{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+    .ca-close:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+    .ca-wrap{padding-top:64px}
     .ca-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
     .ca-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
     .ca-meta{font-size:13px;color:var(--color-text-tertiary);margin-bottom:30px;border-bottom:1px solid var(--color-border-tertiary);padding-bottom:18px}
@@ -71,10 +73,9 @@
 </head>
 <body>
 <main class="ca-wrap">
-  <a href="../index.html#articles" class="ca-back">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-    Back to articles
-  </a>
+  <button type="button" class="ca-close" aria-label="Close and go back" onclick="if(history.length&gt;1){history.back()}else{location.href='../index.html#articles'}">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
 
   <div class="ca-kicker">Condition deep-dive · 9 min read</div>
   <h1>IBS supplement protocol — by subtype, with the evidence behind each layer</h1>

@@ -169,6 +169,131 @@
 }
 
 /* ============================================================
+   Toolbar — category dropdown + search on a single row
+   ============================================================ */
+.rs-toolbar{
+  max-width: 1180px;
+  margin: 18px auto 22px;
+  padding: 0 24px;
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.rs-toolbar .rs-search{
+  flex: 1;
+  min-width: 240px;
+  max-width: none;
+  margin: 0;
+  /* inherits the existing .rs-search rounded-pill styling otherwise */
+}
+
+/* Dropdown trigger (matches search-bar height/treatment) */
+.rs-cat-dd{ position: relative; flex-shrink: 0; }
+.rs-cat-dd-btn{
+  height: 46px;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 0 14px;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 12px;
+  color: var(--color-text-primary);
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.rs-cat-dd-btn:hover{ background: var(--color-background-secondary); }
+.rs-cat-dd-btn:focus-visible,
+.rs-cat-dd[aria-expanded="true"] .rs-cat-dd-btn,
+.rs-cat-dd-btn[aria-expanded="true"]{
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(31,122,107,.12);
+}
+.rs-cat-dd-label{ letter-spacing: -.005em; }
+.rs-cat-dd-count{
+  font-size: 11.5px; font-weight: 700;
+  color: var(--color-text-secondary);
+  background: var(--color-background-secondary);
+  padding: 2px 8px; border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.rs-cat-dd-chv{
+  color: var(--color-text-tertiary);
+  transition: transform .18s ease;
+  margin-left: 2px;
+}
+.rs-cat-dd-btn[aria-expanded="true"] .rs-cat-dd-chv{ transform: rotate(180deg); }
+
+/* Active-category color tint on the button label + count */
+.rs-cat-dd-label[data-cat="guide"]        { color: var(--t2c); }
+.rs-cat-dd-label[data-cat="breakthrough"] { color: var(--t1c); }
+.rs-cat-dd-label[data-cat="kids"]         { color: var(--color-brand); }
+.rs-cat-dd-label[data-cat="myth"]         { color: var(--t3c); }
+.rs-cat-dd-label[data-cat="safety"]       { color: var(--t4c); }
+
+/* Panel — overrides the legacy .rs-cat grid into a vertical menu */
+.rs-cat.rs-cat-dd-panel{
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(15,23,22,.12), 0 4px 10px rgba(15,23,22,.06);
+  padding: 6px;
+  grid-template-columns: none !important;
+  z-index: 60;
+}
+.rs-cat.rs-cat-dd-panel[hidden]{ display: none; }
+
+/* Each option becomes a horizontal row inside the panel */
+.rs-cat.rs-cat-dd-panel a{
+  display: flex; flex-direction: row;
+  align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  border: 0 !important;
+  border-radius: 8px;
+  background: transparent !important;
+}
+.rs-cat.rs-cat-dd-panel a:hover{
+  background: var(--color-background-secondary) !important;
+}
+.rs-cat.rs-cat-dd-panel a.on{
+  background: var(--color-background-secondary) !important;
+}
+/* Kill the "active underline" — selection is shown by background instead */
+.rs-cat.rs-cat-dd-panel a.on::after{ display: none; }
+.rs-cat.rs-cat-dd-panel .lbl{
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.rs-cat.rs-cat-dd-panel .n{
+  font-size: 12px; font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-background-secondary);
+  padding: 1px 8px; border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+.rs-cat.rs-cat-dd-panel a:hover .n,
+.rs-cat.rs-cat-dd-panel a.on .n{
+  background: var(--color-background-primary);
+}
+/* Per-category color tints stay (they target [data-cat] which is unchanged) */
+
+@media (max-width: 600px){
+  .rs-toolbar{ padding: 0 16px; gap: 8px; }
+  .rs-cat-dd-btn{ height: 44px; padding: 0 12px; font-size: 13px; }
+  .rs-cat.rs-cat-dd-panel{ min-width: 220px; }
+}
+
+/* ============================================================
    Index page — clean hero + tier category bar + toolbar
    Apr 29 2026 — replaces the legacy trust hero (hidden below).
    The trust hero content lives on landing.html now.
@@ -483,12 +608,11 @@
 #rs-search-input::placeholder{color:var(--color-text-tertiary);font-weight:500}
 #rs-search-input::-webkit-search-cancel-button{display:none}
 .rs-search-clear{
-  width:22px;height:22px;border-radius:50%;border:0;background:var(--color-background-secondary);
-  color:var(--color-text-secondary);font-size:18px;line-height:1;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;
-  transition:background .15s,color .15s;
+  /* Visual clear-button removed per design — kept in DOM only so the
+     existing JS handlers (input.addEventListener, hidden toggles) keep
+     working without null-guarding. Use Esc to clear the input. */
+  display:none !important;
 }
-.rs-search-clear:hover{background:var(--color-border-secondary);color:var(--color-text-primary)}
 
 /* Typeahead dropdown */
 .rs-search-ac{

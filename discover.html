@@ -188,44 +188,15 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   text-overflow: clip;
 }
 
-/* Compact: hide TIER pills entirely; show only the PRIMARY score, in brand
-   green, floated to the top-right of the card so it sits inline with the name.
-   Secondary score pills (e.g. "Safety 5/5") are hidden — they belong on the
-   detail page, not in the rank teaser. */
-.dc-rank{ position: relative; padding-right: 96px !important; }
-.dc-rank-foot{
-  position: absolute !important;
-  top: 14px;
-  right: 6px;
-  margin-top: 0 !important;
-  display: flex !important;
-  align-items: center;
-  gap: 0;
-  max-width: 90px;
-  pointer-events: none;
-}
-.dc-rank-foot .dc-tier{ display: none !important; }
-/* Only the first score pill renders inline; suppress any extras */
-.dc-rank-foot .dc-score-pill ~ .dc-score-pill{ display: none !important; }
-.dc-rank-foot .dc-score-pill{
-  background: transparent !important;
-  border: 0 !important;
-  color: var(--t1c) !important;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 0 !important;
-  letter-spacing: -.01em;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
+/* Score / tier badges removed from rank teasers — they belong on the detail
+   page. Hiding the entire foot also covers the JS-injected score pill. */
+.dc-rank-foot{ display: none !important; }
 
 @media(max-width:600px){
-  .dc-rank, .dc-rank.feat{ grid-template-columns: 40px 1fr; gap: 12px; padding: 12px 2px !important; padding-right: 64px !important; }
+  .dc-rank, .dc-rank.feat{ grid-template-columns: 40px 1fr; gap: 12px; padding: 12px 2px !important; }
   .dc-rank-num, .dc-rank-num.gold{ font-size: 26px !important; }
   .dc-rank-name{ font-size: 13.5px; }
   .dc-rank-fact{ font-size: 12px; }
-  .dc-rank-foot{ top: 11px; right: 2px; max-width: 60px; }
-  .dc-rank-foot .dc-score-pill{ font-size: 12.5px; }
 }
 .dc-sec-sub{ font-size: 14.5px; color: var(--color-text-secondary); margin-top: 8px; max-width: 620px; line-height: 1.5; }
 .dc-sec-meta{ font-size: 12px; color: var(--color-text-tertiary); padding: 5px 11px; border-radius: 999px; background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); white-space: nowrap; }

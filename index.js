@@ -15,6 +15,76 @@
       el.classList.add('on');
     }
 
+    /* ----- Articles category dropdown (compact toolbar version) -----
+       The .rs-cat panel inside .rs-cat-dd-panel is the option list. The
+       button is a summary that mirrors the active option. */
+    function rsCatDdToggle(e){
+      if (e && e.stopPropagation) e.stopPropagation();
+      var dd = document.getElementById('rs-cat-dd');
+      if (!dd) return;
+      var btn = dd.querySelector('.rs-cat-dd-btn');
+      var panel = dd.querySelector('.rs-cat-dd-panel');
+      if (!btn || !panel) return;
+      var open = !panel.hasAttribute('hidden');
+      if (open) {
+        panel.setAttribute('hidden','');
+        btn.setAttribute('aria-expanded','false');
+      } else {
+        panel.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded','true');
+      }
+    }
+    function rsCatDdClose(){
+      var dd = document.getElementById('rs-cat-dd');
+      if (!dd) return;
+      var btn = dd.querySelector('.rs-cat-dd-btn');
+      var panel = dd.querySelector('.rs-cat-dd-panel');
+      if (panel) panel.setAttribute('hidden','');
+      if (btn) btn.setAttribute('aria-expanded','false');
+    }
+    /* Mirror the active option's label + count + tint onto the button. */
+    function rsCatDdSync(){
+      var dd = document.getElementById('rs-cat-dd');
+      if (!dd) return;
+      var active = dd.querySelector('.rs-cat-dd-panel a.on') ||
+                   dd.querySelector('.rs-cat-dd-panel a[data-cat="all"]');
+      if (!active) return;
+      var labelEl = document.getElementById('rs-cat-dd-label');
+      var countEl = document.getElementById('rs-cat-dd-count');
+      if (labelEl) {
+        var lbl = active.querySelector('.lbl');
+        labelEl.textContent = lbl ? lbl.textContent : 'All';
+        labelEl.setAttribute('data-cat', active.getAttribute('data-cat') || 'all');
+      }
+      if (countEl) {
+        var n = active.querySelector('.n');
+        countEl.textContent = n ? n.textContent : '0';
+      }
+    }
+    /* Close on outside click */
+    document.addEventListener('click', function(e){
+      var dd = document.getElementById('rs-cat-dd');
+      if (!dd) return;
+      var panel = dd.querySelector('.rs-cat-dd-panel');
+      if (!panel || panel.hasAttribute('hidden')) return;
+      if (!dd.contains(e.target)) rsCatDdClose();
+    });
+    /* Close on Esc */
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') rsCatDdClose();
+    });
+    /* Initial sync once the count-population code has run.
+       The data-cat-count attributes are filled by the loop further
+       down in this file; we wait two animation frames to let that
+       finish before mirroring numbers onto the button. */
+    if (typeof window !== 'undefined') {
+      window.addEventListener('DOMContentLoaded', function(){
+        requestAnimationFrame(function(){
+          requestAnimationFrame(rsCatDdSync);
+        });
+      });
+    }
+
 /* ===== Block 2 (from line 16567, 323 lines) ===== */
 function _renderArticleInline(n) {
   document.getElementById('research-list-view').style.display = 'none';
@@ -105,7 +175,7 @@ function filterArticles(cat, shouldScroll) {
   document.querySelectorAll('.articles-dd-item').forEach(p => {
     p.classList.toggle('active', p.dataset.cat === window._articleCategoryFilter);
   });
-  // Update dropdown button label + count
+  // Update dropdown button label + count (legacy hidden dropdown)
   const labelEl = document.getElementById('articles-dd-label');
   const countEl = document.getElementById('articles-dd-count');
   if(labelEl) labelEl.textContent = ARTICLE_CAT_LABELS[window._articleCategoryFilter] || 'All Articles';
@@ -118,15 +188,21 @@ function filterArticles(cat, shouldScroll) {
       countEl.textContent = src ? src.textContent : '0';
     }
   }
+  // Sync the new compact toolbar dropdown — mark active option, mirror to button
+  document.querySelectorAll('.rs-cat-dd-panel a').forEach(function(a){
+    a.classList.toggle('on', a.getAttribute('data-cat') === window._articleCategoryFilter);
+  });
+  if (typeof rsCatDdSync === 'function') rsCatDdSync();
   // Close dropdown
   const dd = document.getElementById('articles-dd');
   if(dd) dd.classList.remove('open');
+  if (typeof rsCatDdClose === 'function') rsCatDdClose();
   applyArticleFilter();
-  // Scroll to the filter row so it sits at the top of the viewport and the first article appears fully below it
+  // Scroll to the toolbar so it sits at the top of the viewport and the first article appears fully below it
   if(shouldScroll){
-    const filterRow = document.querySelector('.articles-filter-row');
-    if(filterRow){
-      const y = filterRow.getBoundingClientRect().top + window.pageYOffset - 72;
+    const toolbar = document.querySelector('.rs-toolbar') || document.querySelector('.articles-filter-row');
+    if(toolbar){
+      const y = toolbar.getBoundingClientRect().top + window.pageYOffset - 72;
       window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
     }
   }
