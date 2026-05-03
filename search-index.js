@@ -160,7 +160,20 @@
 
   function getSupplement(slug) {
     var t = String(slug || '').toLowerCase();
-    return _S().find(function (s) { return slugify(s.n) === t; }) || null;
+    var S = _S();
+    // 1. Exact canonical slug — slugify of the full name including parens.
+    var hit = S.find(function (s) { return slugify(s.n) === t; });
+    if (hit) return hit;
+    // 2. Short-form slug — strip parenthetical disambiguation, then slugify.
+    //    Discover and other curated lists use short names (e.g. "calomel" for
+    //    the entry "Calomel (mercurous chloride)"). Falling back here avoids
+    //    broken "Supplement not found" pages without forcing every curated
+    //    list across the site to use the long canonical slug.
+    hit = S.find(function (s) {
+      var shortName = String(s.n || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+      return slugify(shortName) === t;
+    });
+    return hit || null;
   }
   function getCondition(slug)  { return _CONDITIONS()[slug] || null; }
   function getMedication(slug) { return _MEDS()[slug] || null; }
