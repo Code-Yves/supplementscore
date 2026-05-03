@@ -669,10 +669,10 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .site-nav-tab,
 button.site-nav-tab,
 a.site-nav-tab{
-  font: 600 9px/1 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font: 600 11px/1 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;
   display:inline-flex;align-items:center;justify-content:center;
-  height:16px;padding:0 14px;box-sizing:border-box;margin:0;
+  height:20px;padding:0 18px;box-sizing:border-box;margin:0;
   color:var(--color-text-secondary);
   border:0;border-radius:999px;
   background:none;cursor:pointer;text-decoration:none;
@@ -685,6 +685,28 @@ a.site-nav-tab{
 .site-nav-tab.active{background:var(--color-brand);color:#fff;box-shadow:0 2px 6px rgba(31,122,107,.20)}
 .site-nav-tab.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab:focus-visible{outline:2px solid var(--color-brand-soft);outline-offset:2px}
+
+/* Icon variant — used for the Profile tab so it reads as "my account" rather
+   than text. Sized to match the text tabs exactly (16px row height) so the
+   pill row stays uniform — no bulging, no off-center alignment. The circle
+   reads as a subtle avatar slot. */
+.site-nav-tab.site-nav-tab-icon{
+  padding:0;width:20px;height:20px;border-radius:50%;
+  background:rgba(31,122,107,.08);
+  color:#1F7A6B;
+  margin-left:6px;
+}
+.site-nav-tab.site-nav-tab-icon:hover{
+  background:rgba(31,122,107,.16);
+  color:var(--color-brand);
+}
+.site-nav-tab.site-nav-tab-icon.active{
+  background:var(--color-brand);
+  color:#fff;
+  box-shadow:0 2px 6px rgba(31,122,107,.25);
+}
+.site-nav-tab.site-nav-tab-icon.active:hover{background:var(--color-brand-hover);color:#fff}
+.site-nav-tab.site-nav-tab-icon svg{display:block}
 @media(max-width:600px){.beta-bar{position:relative}.site-nav{top:0}.sticky-bar{top:36px}.az-letter-bar{top:54px}}
 /* Mobile flicker mitigations:
    - Reduce backdrop-filter blur (very expensive on iOS Safari and re-rasterises every scroll frame).
@@ -1997,3 +2019,11 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   .bw-review-row{grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:8px 14px}
   .bw-review-val{grid-column:2/-1;justify-content:flex-end}
 }
+/* Floating X close button — used by per-article /a/ pages (and any other
+   page that wants to behave like a modal-style overlay). Returns the user
+   to wherever they came from via history.back(); falls back to the home
+   page when there's no in-site referrer. */
+.pg-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
+.pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
+.pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+@media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}

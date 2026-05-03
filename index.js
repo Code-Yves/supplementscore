@@ -467,30 +467,13 @@ if (typeof renderAll === 'function') {
   const ac  = document.getElementById('ix-ac');
   if (!inp || !ac) return;
 
-  // ── Typewriter placeholder ──────────────────────────────────────────────
-  const terms = [
-    'creatine','magnesium','ashwagandha','vitamin D','omega-3',
-    'melatonin','zinc','CoQ10','berberine','NAC',
-    "lion's mane",'collagen','B12','iron','probiotics',
-    'rhodiola','turmeric','glucosamine','GABA','L-theanine'
-  ];
-  let tIdx=0,charIdx=0,deleting=false,pausing=false,userTyped=false;
-  const TYPING_MS=70,DELETE_MS=35,PAUSE_MS=1800,PAUSE_START_MS=500;
-  function tick(){
-    if(userTyped)return;
-    const word=terms[tIdx];
-    if(pausing){pausing=false;deleting=true;setTimeout(tick,PAUSE_MS);return;}
-    if(!deleting){
-      charIdx++;
-      inp.placeholder='Search '+word.slice(0,charIdx)+(charIdx<word.length?'|':'…');
-      if(charIdx>=word.length){pausing=true;setTimeout(tick,PAUSE_START_MS);}
-      else setTimeout(tick,TYPING_MS);
-    } else {
-      if(charIdx>0){charIdx--;inp.placeholder='Search '+word.slice(0,charIdx)+(charIdx>0?'|':'');setTimeout(tick,DELETE_MS);}
-      else{deleting=false;tIdx=(tIdx+1)%terms.length;setTimeout(tick,TYPING_MS);}
-    }
-  }
-  setTimeout(tick,1200);
+  // Typewriter placeholder removed 2026-05-02 — replaced with a static
+  // descriptive placeholder set in the HTML ("Search supplements, categories,
+  // or conditions…"). The animation pulled focus from the rest of the hero,
+  // and a static example list reads better for screen readers and tab-focused
+  // users. The userTyped flag is preserved because the autocomplete logic
+  // below references it.
+  let userTyped=false;
 
   // ── Autocomplete ────────────────────────────────────────────────────────
   function escH(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}

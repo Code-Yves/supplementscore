@@ -3365,7 +3365,14 @@ function switchTab(tab){
     const tgt=document.getElementById('about-content-target');
     if(src&&tgt&&!tgt.children.length){tgt.appendChild(src);src.style.display='';}
   }
-  window.scrollTo({top:0,behavior:'smooth'});
+  /* Only scroll to top on USER-initiated tab switches.
+     On initial page load (and on history.back()/forward navigation), respect
+     the browser's restored scroll position so the user lands where they were.
+     Callers pass `true` from click handlers; the page-init applyHash() call
+     omits the arg and we keep the existing scroll. */
+  if (window._tabSwitchByUser === true) {
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
 }
 
 /* Profile gate: secret code or email signup */

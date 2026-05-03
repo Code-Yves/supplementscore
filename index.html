@@ -4,6 +4,67 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>document.documentElement.setAttribute('data-theme','light');</script>
+<script>
+/* Scroll preservation across navigations.
+   When the user clicks a footer link (Methodology, About, Privacy, etc.) and
+   then closes that page via the X button to return here, we want to land them
+   exactly where they were — not at the top. We:
+     1. Tell the browser NOT to auto-restore scroll (we'll handle it)
+     2. Save the current scroll position to sessionStorage when leaving
+     3. Restore from sessionStorage on the next load of this URL
+   Runs synchronously in <head> so we capture scroll restoration before any
+   other script (e.g. switchTab) has a chance to interfere. */
+(function(){
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  var KEY = 'ss-scroll:' + location.pathname;
+  function save(){
+    try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch(_){}
+  }
+  window.addEventListener('beforeunload', save);
+  window.addEventListener('pagehide', save);
+  // Restore on next paint after the page lays out, with retry — DOM might
+  // still be growing for a few hundred ms while data.js renders the cards.
+  // BUT skip restore when the URL has a tab-hash (#research, #about, #profile,
+  // #supplements). Those are explicit tab-nav arrivals (e.g. clicking
+  // "Articles" from discover.html) and should land at the top of the new tab,
+  // not a previous scroll position. Restore is only for "back to where I was"
+  // navigations like the X close button or browser-back from a sub-page.
+  window.addEventListener('DOMContentLoaded', function(){
+    var hash = (location.hash || '').replace(/^#/, '').toLowerCase();
+    var TAB_HASHES = {research:1, about:1, profile:1, supplements:1};
+    if (TAB_HASHES[hash]) {
+      // Tab-hash arrival (e.g. clicked "Articles" from discover.html).
+      // Drop any saved scroll for this path AND force a scroll to top —
+      // the layout shifts as switchTab toggles views, and we want the user
+      // to land at the top of the new tab, not at a stale scroll position.
+      try { sessionStorage.removeItem(KEY); } catch(_){}
+      function pinTop(){ window.scrollTo(0, 0); }
+      pinTop();
+      // switchTab fires on a 50ms interval and may shift content as it swaps
+      // views — re-pin a few times to cover that window.
+      setTimeout(pinTop, 50);
+      setTimeout(pinTop, 150);
+      setTimeout(pinTop, 350);
+      return;
+    }
+    var saved = null;
+    try { saved = sessionStorage.getItem(KEY); } catch(_){}
+    if (saved === null) return;
+    var y = parseInt(saved, 10);
+    if (isNaN(y) || y <= 0) return;
+    var attempts = 0;
+    function tryScroll(){
+      window.scrollTo(0, y);
+      attempts++;
+      // Re-attempt while page height is still settling and we haven't reached the target
+      if (attempts < 12 && Math.abs(window.scrollY - y) > 4 && document.documentElement.scrollHeight > y + 100) {
+        setTimeout(tryScroll, 80);
+      }
+    }
+    setTimeout(tryScroll, 50);
+  });
+})();
+</script>
 <style>html{color-scheme:light}</style>
 <title>SupplementScore — Evidence-Based Supplement Ratings | 733 Supplements Reviewed</title>
 <meta name="description" content="Non-profit, AI-powered supplement reference. 733 supplements rated across 6 dimensions using 27,000+ peer-reviewed studies from Cochrane, PubMed, NIH, WHO, and EFSA. No endorsements, no sponsors. Free and updated weekly.">
@@ -139,11 +200,13 @@
 <nav class="site-nav" aria-label="Primary">
   <div class="site-nav-inner">
     <div class="site-nav-tabs">
-      <a class="site-nav-tab active" id="tab-supplements" href="#supplements" style="text-decoration:none">Index</a>
+      <a class="site-nav-tab active" id="tab-supplements" href="#supplements" style="text-decoration:none" onclick="window._tabSwitchByUser=true">Index</a>
       <a class="site-nav-tab" id="tab-discover" href="discover.html" style="text-decoration:none">Discover</a>
-      <a class="site-nav-tab" id="tab-research" href="#research" style="text-decoration:none">Articles</a>
-      <a class="site-nav-tab" id="tab-about" href="#about" style="text-decoration:none">About</a>
-      <a class="site-nav-tab" id="tab-profile" href="#profile" style="text-decoration:none">Profile</a>
+      <a class="site-nav-tab" id="tab-research" href="#research" style="text-decoration:none" onclick="window._tabSwitchByUser=true">Articles</a>
+      <a class="site-nav-tab" id="tab-about" href="#about" style="text-decoration:none" onclick="window._tabSwitchByUser=true">About</a>
+      <a class="site-nav-tab site-nav-tab-icon" id="tab-profile" href="#profile" style="text-decoration:none" onclick="window._tabSwitchByUser=true" aria-label="Profile" title="Profile">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 4-8 8-8s8 3 8 8z"/></svg>
+      </a>
     </div>
     <button type="button" class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark / light mode" hidden style="display:none">
       <span class="theme-toggle-track">
@@ -275,8 +338,7 @@
       <circle cx="7" cy="7" r="5"/>
       <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
     </svg>
-    <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements…" autocomplete="off" aria-label="Search the index" tabindex="-1">
-    <span class="kbd">↵</span>
+    <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index" tabindex="-1">
     <div class="gs-ac" id="ix-sticky-ac" role="listbox" aria-label="Search suggestions"></div>
   </form>
 </div>
@@ -296,8 +358,7 @@
       <circle cx="7" cy="7" r="5"/>
       <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
     </svg>
-    <input type="search" id="ix-hero-search" name="q" placeholder="Search creatine, magnesium, ashwagandha…" autocomplete="off" aria-label="Search the index">
-    <span class="kbd">↵</span>
+    <input type="search" id="ix-hero-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index">
     <div class="gs-ac" id="ix-ac" role="listbox" aria-label="Search suggestions"></div>
   </form>
 
@@ -673,7 +734,7 @@
   <div class="abt-stats">
     <div class="abt-stat"><div class="num">733+</div><div class="lbl">Supplements scored</div></div>
     <div class="abt-stat"><div class="num">61</div><div class="lbl">Research sources</div></div>
-    <div class="abt-stat"><div class="num">6</div><div class="lbl">Scoring dimensions</div></div>
+    <div class="abt-stat"><div class="num">27,000+</div><div class="lbl">Studies reviewed</div></div>
     <div class="abt-stat"><div class="num">$0</div><div class="lbl">Industry funding</div></div>
   </div>
 </div>
@@ -778,113 +839,6 @@
   </div>
 </div>
 
-<!-- Our 61 Sources -->
-<div class="abt-sec">
-  <h2>Our 61 Sources</h2>
-  <p class="abt-sec-sub">Every score traces back to these peer-reviewed databases, journals, and regulatory bodies.</p>
-  <div class="src-cards-c">
-
-    <div class="src-card-c cat1">
-      <div class="src-card-c-top"><span class="src-card-c-badge">Reviews</span></div>
-      <div class="src-card-c-num">8 <small>sources</small></div>
-      <div class="src-card-c-title">Systematic Reviews &amp; Databases</div>
-      <div class="src-card-c-divider"></div>
-      <div class="src-card-c-names">
-        <a class="src-card-c-name" href="https://www.cochranelibrary.com" target="_blank" rel="noopener noreferrer">Cochrane Library</a>
-        <a class="src-card-c-name" href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener noreferrer">PubMed / MEDLINE</a>
-        <a class="src-card-c-name" href="https://examine.com" target="_blank" rel="noopener noreferrer">Examine.com</a>
-        <a class="src-card-c-name" href="https://naturalmedicines.therapeuticresearch.com" target="_blank" rel="noopener noreferrer">Natural Medicines (TRC)</a>
-        <a class="src-card-c-name" href="https://lpi.oregonstate.edu" target="_blank" rel="noopener noreferrer">Linus Pauling Inst.</a>
-        <a class="src-card-c-name" href="https://www.mskcc.org/cancer-care/diagnosis-treatment/symptom-management/integrative-medicine/herbs" target="_blank" rel="noopener noreferrer">Sloan Kettering</a>
-        <a class="src-card-c-name" href="https://journals.plos.org/plosmedicine/" target="_blank" rel="noopener noreferrer">PLOS Medicine</a>
-        <a class="src-card-c-name" href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener noreferrer">GRADE Working Grp.</a>
-      </div>
-    </div>
-
-    <div class="src-card-c cat2">
-      <div class="src-card-c-top"><span class="src-card-c-badge">Regulatory</span></div>
-      <div class="src-card-c-num">12 <small>sources</small></div>
-      <div class="src-card-c-title">Government &amp; Regulatory</div>
-      <div class="src-card-c-divider"></div>
-      <div class="src-card-c-names">
-        <a class="src-card-c-name" href="https://ods.od.nih.gov" target="_blank" rel="noopener noreferrer">NIH ODS</a>
-        <a class="src-card-c-name" href="https://www.nccih.nih.gov" target="_blank" rel="noopener noreferrer">NCCIH</a>
-        <a class="src-card-c-name" href="https://www.who.int" target="_blank" rel="noopener noreferrer">WHO</a>
-        <a class="src-card-c-name" href="https://www.efsa.europa.eu" target="_blank" rel="noopener noreferrer">EFSA</a>
-        <a class="src-card-c-name" href="https://www.fda.gov" target="_blank" rel="noopener noreferrer">FDA</a>
-        <a class="src-card-c-name" href="https://www.ema.europa.eu" target="_blank" rel="noopener noreferrer">EMA</a>
-        <a class="src-card-c-name" href="https://www.canada.ca/en/health-canada.html" target="_blank" rel="noopener noreferrer">Health Canada</a>
-        <a class="src-card-c-name" href="https://www.tga.gov.au" target="_blank" rel="noopener noreferrer">Australian TGA</a>
-        <a class="src-card-c-name" href="https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency" target="_blank" rel="noopener noreferrer">UK MHRA</a>
-        <a class="src-card-c-name" href="https://clinicaltrials.gov" target="_blank" rel="noopener noreferrer">ClinicalTrials.gov</a>
-        <div class="src-card-c-more">+ AHRQ, NASEM</div>
-      </div>
-    </div>
-
-    <div class="src-card-c cat5">
-      <div class="src-card-c-top"><span class="src-card-c-badge">Academic</span></div>
-      <div class="src-card-c-num">6 <small>sources</small></div>
-      <div class="src-card-c-title">Academic &amp; Clinical Research Centers</div>
-      <div class="src-card-c-divider"></div>
-      <div class="src-card-c-names">
-        <a class="src-card-c-name" href="https://nutritionsource.hsph.harvard.edu/" target="_blank" rel="noopener noreferrer">Harvard T.H. Chan</a>
-        <a class="src-card-c-name" href="https://www.hopkinsmedicine.org/" target="_blank" rel="noopener noreferrer">Johns Hopkins</a>
-        <a class="src-card-c-name" href="https://med.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford Medicine</a>
-        <a class="src-card-c-name" href="https://my.clevelandclinic.org/health/drugs" target="_blank" rel="noopener noreferrer">Cleveland Clinic</a>
-        <a class="src-card-c-name" href="https://ki.se/en" target="_blank" rel="noopener noreferrer">Karolinska</a>
-        <a class="src-card-c-name" href="https://nutrition.tufts.edu/" target="_blank" rel="noopener noreferrer">Tufts Friedman</a>
-      </div>
-    </div>
-
-    <div class="src-card-c cat4">
-      <div class="src-card-c-top"><span class="src-card-c-badge">Specialty</span></div>
-      <div class="src-card-c-num">16 <small>sources</small></div>
-      <div class="src-card-c-title">Specialty Research &amp; Quality Testing</div>
-      <div class="src-card-c-divider"></div>
-      <div class="src-card-c-names">
-        <a class="src-card-c-name" href="https://www.mdpi.com/journal/nutrients" target="_blank" rel="noopener noreferrer">Nutrients (MDPI)</a>
-        <a class="src-card-c-name" href="https://jissn.biomedcentral.com" target="_blank" rel="noopener noreferrer">JISSN</a>
-        <a class="src-card-c-name" href="https://www.consumerlab.com" target="_blank" rel="noopener noreferrer">ConsumerLab</a>
-        <a class="src-card-c-name" href="https://www.usp.org" target="_blank" rel="noopener noreferrer">USP</a>
-        <a class="src-card-c-name" href="https://www.nsf.org" target="_blank" rel="noopener noreferrer">NSF Intl.</a>
-        <a class="src-card-c-name" href="https://sport.informed-sport.com" target="_blank" rel="noopener noreferrer">Informed Sport</a>
-        <a class="src-card-c-name" href="https://www.wada-ama.org" target="_blank" rel="noopener noreferrer">WADA</a>
-        <a class="src-card-c-name" href="https://link.springer.com/journal/40279" target="_blank" rel="noopener noreferrer">Sports Medicine</a>
-        <div class="src-card-c-more">+ Nutr. Neuroscience, Ann. Rev. Nutr., Clin. Pharm. &amp; Ther., Am. Botanical, Intl. Osteo. Fdn., Am. Diabetes Assn., AAP, ASPEN</div>
-      </div>
-    </div>
-
-    <div class="src-card-c cat3" style="grid-column:span 2">
-      <div class="src-card-c-top"><span class="src-card-c-badge">Journals</span></div>
-      <div class="src-card-c-num">19 <small>sources</small></div>
-      <div class="src-card-c-title">Peer-Reviewed Medical Journals</div>
-      <div class="src-card-c-divider"></div>
-      <div class="src-card-c-names" style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
-        <a class="src-card-c-name" href="https://www.nejm.org" target="_blank" rel="noopener noreferrer">NEJM</a>
-        <a class="src-card-c-name" href="https://jamanetwork.com" target="_blank" rel="noopener noreferrer">JAMA Network</a>
-        <a class="src-card-c-name" href="https://www.thelancet.com" target="_blank" rel="noopener noreferrer">The Lancet</a>
-        <a class="src-card-c-name" href="https://www.bmj.com" target="_blank" rel="noopener noreferrer">BMJ</a>
-        <a class="src-card-c-name" href="https://www.nature.com/nrd" target="_blank" rel="noopener noreferrer">Nature Reviews</a>
-        <a class="src-card-c-name" href="https://academic.oup.com/ajcn" target="_blank" rel="noopener noreferrer">AJCN</a>
-        <a class="src-card-c-name" href="https://www.ahajournals.org/journal/circ" target="_blank" rel="noopener noreferrer">Circulation</a>
-        <a class="src-card-c-name" href="https://gut.bmj.com/" target="_blank" rel="noopener noreferrer">Gut</a>
-        <a class="src-card-c-name" href="https://www.cell.com/cell-metabolism/home" target="_blank" rel="noopener noreferrer">Cell Metabolism</a>
-        <a class="src-card-c-name" href="https://www.acpjournals.org/journal/aim" target="_blank" rel="noopener noreferrer">Ann. Int. Med.</a>
-        <a class="src-card-c-name" href="https://www.frontiersin.org/journals/nutrition" target="_blank" rel="noopener noreferrer">Frontiers Nutr.</a>
-        <a class="src-card-c-name" href="https://link.springer.com/journal/394" target="_blank" rel="noopener noreferrer">Eur. J. Nutrition</a>
-        <a class="src-card-c-name" href="https://academic.oup.com/eurheartj" target="_blank" rel="noopener noreferrer">Eur. Heart J.</a>
-        <a class="src-card-c-name" href="https://link.springer.com/journal/125" target="_blank" rel="noopener noreferrer">Diabetologia</a>
-        <a class="src-card-c-name" href="https://academic.oup.com/edrv" target="_blank" rel="noopener noreferrer">Endocrine Reviews</a>
-        <a class="src-card-c-name" href="https://diabetesjournals.org/care" target="_blank" rel="noopener noreferrer">Diabetes Care</a>
-        <a class="src-card-c-name" href="https://bjsm.bmj.com/" target="_blank" rel="noopener noreferrer">BJSM</a>
-        <a class="src-card-c-name" href="https://asbmr.onlinelibrary.wiley.com/journal/15234681" target="_blank" rel="noopener noreferrer">JBMR</a>
-        <a class="src-card-c-name" href="https://academic.oup.com/nutritionreviews" target="_blank" rel="noopener noreferrer">Nutr. Reviews</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <!-- Our Mission -->
 <div class="abt-mission">
   <div class="abt-mission-text">
@@ -938,63 +892,9 @@
     </div>
   </div>
   <div class="disc-c-divider"></div>
-  <div class="disc-c-grid">
-
-    <div class="disc-c-card">
-      <div class="disc-c-card-icon">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      </div>
-      <div class="disc-c-card-title">Educational Tool Only</div>
-      <div class="disc-c-card-text">SupplementScore is an <b>educational reference, not a medical device</b>. Not reviewed or approved by the FDA, Health Canada, or any regulatory body.</div>
-    </div>
-
-    <div class="disc-c-card">
-      <div class="disc-c-card-icon">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
-      <div class="disc-c-card-title">Population-Level Evidence</div>
-      <div class="disc-c-card-text">Scores reflect <b>group-level clinical data</b>. Individual responses vary by genetics, diet, health status, medications, and pre-existing conditions.</div>
-    </div>
-
-    <div class="disc-c-card">
-      <div class="disc-c-card-icon">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
-      </div>
-      <div class="disc-c-card-title">AI-Assisted Review</div>
-      <div class="disc-c-card-text"><b>AI content review may miss nuances</b> a trained clinician would catch. All data should be independently verified with a healthcare provider.</div>
-    </div>
-
-    <div class="disc-c-card">
-      <div class="disc-c-card-icon">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-      </div>
-      <div class="disc-c-card-title">Product Quality Not Tested</div>
-      <div class="disc-c-card-text"><b>Supplement quality varies</b> dramatically between brands. We do not test, certify, or endorse any specific products or manufacturers.</div>
-    </div>
-
-    <div class="disc-c-card">
-      <div class="disc-c-card-icon">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-      </div>
-      <div class="disc-c-card-title">No Disease Claims</div>
-      <div class="disc-c-card-text">Nothing on this site is intended to <b>diagnose, treat, cure, or prevent</b> any disease or medical condition.</div>
-    </div>
-
-    <div class="disc-c-card">
-      <div class="disc-c-card-icon">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
-      </div>
-      <div class="disc-c-card-title">Consult Your Doctor</div>
-      <div class="disc-c-card-text"><b>Always consult a qualified healthcare professional</b> before starting, stopping, or changing supplements — especially if pregnant, nursing, or on medications.</div>
-    </div>
-
-  </div>
-  <div class="disc-c-footer">
-    <div class="disc-c-footer-icon">
-      <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    </div>
-    <span><b>This is not a substitute for professional medical advice.</b> If you are experiencing a medical emergency, contact your local emergency services immediately.</span>
-  </div>
+  <p class="disc-c-prose" style="font-size:13.5px;line-height:1.55;color:var(--color-text-secondary);margin:0;padding:4px 4px 6px">
+    SupplementScore is an <b style="color:var(--color-text-primary)">educational reference, not a medical device</b> — not reviewed by the FDA, Health Canada, or any regulatory body. Scores reflect <b style="color:var(--color-text-primary)">group-level clinical data</b>; individual responses vary by genetics, diet, health status, medications, and pre-existing conditions. AI assists our content review and may miss nuances a clinician would catch — independently verify anything you act on. Supplement quality varies dramatically between brands; we do not test, certify, or endorse specific products. Nothing here is intended to <b style="color:var(--color-text-primary)">diagnose, treat, cure, or prevent</b> any disease, and nothing here substitutes for professional medical advice. <b style="color:var(--color-text-primary)">Always consult a qualified healthcare provider</b> before starting, stopping, or changing supplements — especially if you are pregnant, nursing, or on medications. In a medical emergency, contact your local emergency services immediately.
+  </p>
 </div>
 
 </div><!-- end about-content-inline -->
@@ -16300,7 +16200,7 @@
   Evidence-Based Supplement Reference · 758 supplements · 27,000+ studies referenced · 2024–2026 data<br>
   Not a substitute for personalized medical advice. Always consult a clinician before changing your supplement regimen.<br><br>
   <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:8px">Methodology</strong>
-  <a href="methodology.html" class="link-btn" style="margin-right:6px">How scores work</a> · <a href="editorial-pipeline.html" class="link-btn" style="margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" class="link-btn" style="margin-right:6px">Funder policy</a> · <a href="tier-promotion-flow.html" class="link-btn" style="margin-right:6px">Tier promotion</a> · <a href="changed-our-mind.html" class="link-btn" style="margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" class="link-btn" style="margin-right:6px">Bibliography</a><br><br>
+  <a href="methodology.html" class="link-btn" style="margin-right:6px">How scores work</a> · <a href="editorial-pipeline.html" class="link-btn" style="margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" class="link-btn" style="margin-right:6px">Funder policy</a> · <a href="tier-promotion-flow.html" class="link-btn" style="margin-right:6px">Tier promotion</a> · <a href="changed-our-mind.html" class="link-btn" style="margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" class="link-btn" style="margin-right:6px">Bibliography</a><br>
   <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:8px">Site</strong>
   <a href="about.html" class="link-btn" style="margin-right:6px">About</a> · <a href="privacy.html" class="link-btn" style="margin-right:6px">Privacy</a> · <a href="terms.html" class="link-btn" style="margin-right:6px">Terms</a> · <a href="accessibility.html" class="link-btn" style="margin-right:6px">Accessibility</a> · <a href="glossary.html" class="link-btn" style="margin-right:6px">Glossary</a> · <button type="button" id="cta-email" class="link-btn" onclick="decodeContact(event)">Contact</button>
 </footer>
