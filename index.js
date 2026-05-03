@@ -256,27 +256,49 @@ function catCardClick(cat){
       dotsEl.appendChild(d);
     }
   }
+  const progressEl=document.getElementById('hero-progress-fill');
+  function restartProgress(){
+    if(!progressEl) return;
+    progressEl.classList.remove('run');
+    /* force reflow so the animation restarts */
+    void progressEl.offsetWidth;
+    progressEl.classList.add('run');
+  }
   window.heroGoto=function(i){
     SLIDES.forEach((s,idx)=>s.classList.toggle('active',idx===i));
     current=i;
-    if(counterEl) counterEl.textContent=i+1;
+    if(counterEl) counterEl.textContent=(i+1)+' / '+TOTAL;
     renderDots();
     rotatePattern();
+    restartProgress();
     resetTimer();
   };
   window.heroNext=function(){window.heroGoto((current+1)%TOTAL);};
   window.heroPrev=function(){window.heroGoto((current-1+TOTAL)%TOTAL);};
+  /* Click the CTA → open the currently-active slide's article */
+  window.heroReadActive=function(){
+    const active=SLIDES[current];
+    if(!active) return;
+    /* Each slide has onclick="showArticle(<id>)" — extract the id and call directly */
+    const oc=active.getAttribute('onclick')||'';
+    const m=oc.match(/showArticle\s*\(\s*(\d+)\s*\)/);
+    if(m && typeof window.showArticle==='function'){window.showArticle(parseInt(m[1],10));return;}
+    /* Fallback: synthesize a click */
+    active.click();
+  };
   function resetTimer(){
     clearInterval(timer);
     timer=setInterval(()=>window.heroGoto((current+1)%TOTAL),6000);
   }
   rotatePattern();
   renderDots();
+  if(counterEl) counterEl.textContent='1 / '+TOTAL;
+  restartProgress();
   resetTimer();
   const hero=document.getElementById('hero');
   if(hero){
-    hero.addEventListener('mouseenter',()=>clearInterval(timer));
-    hero.addEventListener('mouseleave',resetTimer);
+    hero.addEventListener('mouseenter',()=>{clearInterval(timer);if(progressEl)progressEl.style.animationPlayState='paused';});
+    hero.addEventListener('mouseleave',()=>{if(progressEl)progressEl.style.animationPlayState='';resetTimer();});
   }
 })();
 function initCatCardCounts(){
