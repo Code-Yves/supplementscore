@@ -108,7 +108,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   column-gap: 16px;
   row-gap: 0;
   align-items: start;
-  padding: 14px 4px !important;
+  padding: 8px 4px 10px !important;
   border: 0 !important;
   border-top: 1px solid var(--color-border-tertiary) !important;
   border-radius: 0 !important;
@@ -127,12 +127,14 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 }
 .dc-rank:hover{ background: rgba(31,122,107,.04) !important; }
 
-/* Rank number occupies column 1 and spans every row of its row group,
-   so name/meta/fact/foot all stack in column 2 instead of auto-flowing
-   into column 1 on subsequent rows. */
+/* Rank number lives in column 1, row 1. The children below explicitly
+   set `grid-column: 2`, so we don't need the rank-num to span extra rows
+   to "claim" column 1 — `1 / span 99` was creating 99 implicit row tracks
+   that, combined with the absolute-positioned foot, were inflating each
+   card to ~1,300px on mobile. */
 .dc-rank-num, .dc-rank-num.gold, .dc-rank-num.silver, .dc-rank-num.bronze, .dc-rank-num.plain{
   grid-column: 1;
-  grid-row: 1 / span 99;
+  grid-row: 1;
   align-self: start;
   position: static !important;
   width: auto !important; height: auto !important;
@@ -161,9 +163,12 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   color: var(--color-text-primary);
   line-height: 1.3;
   letter-spacing: -.1px;
-  margin-bottom: 4px;
+  margin-bottom: 0;
 }
 .dc-rank-name::after{ content: none; }
+
+/* Add a tiny breathing room only when a meta line follows the name. */
+.dc-rank-name:has(+ .dc-rank-meta){ margin-bottom: 4px; }
 
 .dc-rank-meta{
   display: block !important;
@@ -183,8 +188,10 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   text-overflow: clip;
 }
 
-/* Compact: hide TIER pills entirely; show only the score, in brand green,
-   floated to the top-right of the card so it sits inline with the name. */
+/* Compact: hide TIER pills entirely; show only the PRIMARY score, in brand
+   green, floated to the top-right of the card so it sits inline with the name.
+   Secondary score pills (e.g. "Safety 5/5") are hidden — they belong on the
+   detail page, not in the rank teaser. */
 .dc-rank{ position: relative; padding-right: 96px !important; }
 .dc-rank-foot{
   position: absolute !important;
@@ -194,8 +201,12 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   display: flex !important;
   align-items: center;
   gap: 0;
+  max-width: 90px;
+  pointer-events: none;
 }
 .dc-rank-foot .dc-tier{ display: none !important; }
+/* Only the first score pill renders inline; suppress any extras */
+.dc-rank-foot .dc-score-pill ~ .dc-score-pill{ display: none !important; }
 .dc-rank-foot .dc-score-pill{
   background: transparent !important;
   border: 0 !important;
@@ -205,14 +216,15 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   padding: 0 !important;
   letter-spacing: -.01em;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 @media(max-width:600px){
-  .dc-rank, .dc-rank.feat{ grid-template-columns: 40px 1fr; gap: 12px; padding: 12px 2px !important; padding-right: 70px !important; }
+  .dc-rank, .dc-rank.feat{ grid-template-columns: 40px 1fr; gap: 12px; padding: 12px 2px !important; padding-right: 64px !important; }
   .dc-rank-num, .dc-rank-num.gold{ font-size: 26px !important; }
   .dc-rank-name{ font-size: 13.5px; }
   .dc-rank-fact{ font-size: 12px; }
-  .dc-rank-foot{ top: 11px; right: 2px; }
+  .dc-rank-foot{ top: 11px; right: 2px; max-width: 60px; }
   .dc-rank-foot .dc-score-pill{ font-size: 12.5px; }
 }
 .dc-sec-sub{ font-size: 14.5px; color: var(--color-text-secondary); margin-top: 8px; max-width: 620px; line-height: 1.5; }
@@ -377,6 +389,73 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .dc-disclaim{ max-width: 760px; margin: 0 auto; padding: 20px 24px 56px; font-size: 12px; color: var(--color-text-tertiary); line-height: 1.55; text-align: center;}
 .dc-disclaim a{ color: var(--color-text-secondary); text-decoration: underline;}
 
+/* ── Bottom-of-page closer — bridges Discover ("highlight reel") to the
+       condition deep-dive protocols ── */
+.dc-closer-wrap{ max-width: 1200px; margin: 0 auto; padding: 0 24px 56px; }
+.dc-closer-eyebrow-row{
+  display: flex; align-items: center; gap: 14px;
+  border-top: 1px dashed rgba(15,12,10,0.18);
+  padding-top: 28px; margin-bottom: 22px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(15,12,10,0.4);
+}
+.dc-closer{
+  position: relative; overflow: hidden;
+  background: var(--color-background-primary);
+  border: 1px solid rgba(31,122,107,0.18);
+  border-radius: 14px;
+  padding: 36px 40px;
+}
+.dc-closer::before{
+  content: ''; position: absolute; left: 0; top: 0; width: 6px; height: 100%;
+  background: linear-gradient(180deg, #F5C9B8 0%, #1F7A6B 100%); opacity: 0.6;
+}
+.dc-closer-grid{
+  display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center;
+}
+.dc-closer-tags{ display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.dc-closer-tag-new{
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--color-accent-coral-soft, #F5C9B8); color: #6B231D;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.dc-closer-eyebrow{
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--color-brand);
+}
+.dc-closer h2{
+  font-size: 26px; font-weight: 700; letter-spacing: -0.4px; line-height: 1.2;
+  color: var(--color-text-primary); margin: 0 0 10px;
+}
+.dc-closer-desc{
+  font-size: 14px; line-height: 1.6; color: var(--color-text-secondary);
+  max-width: 560px; margin: 0 0 18px;
+}
+.dc-closer-pills{ display: flex; flex-wrap: wrap; gap: 6px; }
+.dc-closer-pill{
+  font-size: 11.5px; font-weight: 500; padding: 4px 10px; border-radius: 999px;
+  background: rgba(31,122,107,0.08); color: #0F4A41;
+}
+.dc-closer-pill.more{ background: rgba(15,12,10,0.06); color: rgba(15,12,10,0.55); }
+.dc-closer-cta{ display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+.dc-closer-btn{
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 22px; border-radius: 10px;
+  background: var(--color-brand); color: #F8F4ED;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  white-space: nowrap; transition: background 0.15s;
+}
+.dc-closer-btn:hover{ background: #176258; }
+.dc-closer-btn .arrow{ font-size: 16px; line-height: 1; }
+.dc-closer-meta{ font-size: 11px; color: var(--color-text-tertiary); text-align: right; }
+@media (max-width: 720px){
+  .dc-closer{ padding: 28px 24px; }
+  .dc-closer-grid{ grid-template-columns: 1fr; gap: 22px; }
+  .dc-closer-cta{ align-items: stretch; }
+  .dc-closer-meta{ text-align: left; }
+  .dc-closer h2{ font-size: 22px; }
+}
+
 /* utility */
 .dc-divider{ max-width: 1200px; margin: 0 auto; padding: 0 24px;}
 .dc-divider hr{ border: none; border-top: 1px dashed var(--color-border-tertiary); margin: 0;}
@@ -463,11 +542,6 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   <div class="dc-hero-eyebrow">The fun side of the database</div>
   <h1>733 supplements.<br>27,000+ studies.<br>A few <span style="color:var(--t1c)">wild surprises</span>.</h1>
   <p>The dense reviews live in the Index. This page is the highlight reel — the safest, the scariest, the most overhyped, and the facts that didn't fit anywhere else.</p>
-
-  <div class="dc-hero-callout">
-    <span class="pill">New</span>
-    <span>15 condition <a href="condition/index.html">deep-dive protocols</a></span>
-  </div>
 </section>
 
 <!-- ============================================================
@@ -1127,6 +1201,40 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 
   </div>
 </section>
+
+<!-- ============================================================
+     End-of-page closer — bridges Discover to the deep-dive protocols
+     ============================================================ -->
+<div class="dc-closer-wrap">
+  <div class="dc-closer-eyebrow-row">
+    <span>End of the highlight reel</span>
+  </div>
+  <section class="dc-closer" aria-labelledby="dc-closer-title">
+    <div class="dc-closer-grid">
+      <div>
+        <div class="dc-closer-tags">
+          <span class="dc-closer-tag-new">New</span>
+          <span class="dc-closer-eyebrow">Now go deeper</span>
+        </div>
+        <h2 id="dc-closer-title">From the highlight reel to a real protocol</h2>
+        <p class="dc-closer-desc">Discover lists what works. The condition deep-dives stack the right supplements together — with dosing, timing, and drug interactions — for 15 specific conditions.</p>
+        <div class="dc-closer-pills">
+          <span class="dc-closer-pill">PCOS</span>
+          <span class="dc-closer-pill">Migraine</span>
+          <span class="dc-closer-pill">IBS</span>
+          <span class="dc-closer-pill">Insomnia</span>
+          <span class="dc-closer-pill">Anxiety</span>
+          <span class="dc-closer-pill">Pre-diabetes</span>
+          <span class="dc-closer-pill more">+9 more</span>
+        </div>
+      </div>
+      <div class="dc-closer-cta">
+        <a class="dc-closer-btn" href="condition/index.html">Browse all 15 protocols<span class="arrow">→</span></a>
+        <div class="dc-closer-meta">15 conditions · evidence-graded</div>
+      </div>
+    </div>
+  </section>
+</div>
 
 <footer class="site-footer" role="contentinfo">
   <div class="site-footer-inner">
