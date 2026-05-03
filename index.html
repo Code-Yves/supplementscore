@@ -968,44 +968,6 @@
 
     </section>
 
-    <!-- Flat category bar (replaces .articles-filter-row dropdown + secondary search) -->
-    <div class="rs-cat-sticky"><div class="rs-cat-wrap">
-      <nav class="rs-cat" aria-label="Article categories">
-        <a class="on" data-cat="all"
-           onclick="filterArticles('all'); rsActivateCat(this); return false;">
-          <span class="lbl">All</span>
-          <span class="n" data-total-count>0</span>
-        </a>
-        <a data-cat="guide"
-           onclick="filterArticles('guide'); rsActivateCat(this); return false;">
-          <span class="lbl">Guide</span>
-          <span class="n" data-cat-count="guide">0</span>
-        </a>
-        <a data-cat="breakthrough"
-           onclick="filterArticles('breakthrough'); rsActivateCat(this); return false;">
-          <span class="lbl">Breakthrough</span>
-          <span class="n" data-cat-count="breakthrough">0</span>
-        </a>
-        <a data-cat="kids"
-           onclick="filterArticles('kids'); rsActivateCat(this); return false;">
-          <span class="lbl">Kids</span>
-          <span class="n" data-cat-count="kids">0</span>
-        </a>
-        <a data-cat="myth"
-           onclick="filterArticles('myth'); rsActivateCat(this); return false;">
-          <span class="lbl">Reality Check</span>
-          <span class="n" data-cat-count="myth">0</span>
-        </a>
-        <a data-cat="safety"
-           onclick="filterArticles('safety'); rsActivateCat(this); return false;">
-          <span class="lbl">Safety Alert</span>
-          <span class="n" data-cat-count="safety">0</span>
-        </a>
-      </nav>
-    </div></div>
-
-<script src="index.js?v=20260503a" defer></script>
-
     <!-- HERO CAROUSEL -->
     <div class="hero" id="hero">
       <!-- Background patterns (rotate randomly on each slide change) -->
@@ -1412,6 +1374,44 @@
       </div>
       <div class="hero-progress" aria-hidden="true"><div class="hero-progress-fill" id="hero-progress-fill"></div></div>
     </div>
+
+    <!-- Flat category bar (replaces .articles-filter-row dropdown + secondary search) -->
+    <div class="rs-cat-sticky"><div class="rs-cat-wrap">
+      <nav class="rs-cat" aria-label="Article categories">
+        <a class="on" data-cat="all"
+           onclick="filterArticles('all'); rsActivateCat(this); return false;">
+          <span class="lbl">All</span>
+          <span class="n" data-total-count>0</span>
+        </a>
+        <a data-cat="guide"
+           onclick="filterArticles('guide'); rsActivateCat(this); return false;">
+          <span class="lbl">Guide</span>
+          <span class="n" data-cat-count="guide">0</span>
+        </a>
+        <a data-cat="breakthrough"
+           onclick="filterArticles('breakthrough'); rsActivateCat(this); return false;">
+          <span class="lbl">Breakthrough</span>
+          <span class="n" data-cat-count="breakthrough">0</span>
+        </a>
+        <a data-cat="kids"
+           onclick="filterArticles('kids'); rsActivateCat(this); return false;">
+          <span class="lbl">Kids</span>
+          <span class="n" data-cat-count="kids">0</span>
+        </a>
+        <a data-cat="myth"
+           onclick="filterArticles('myth'); rsActivateCat(this); return false;">
+          <span class="lbl">Reality Check</span>
+          <span class="n" data-cat-count="myth">0</span>
+        </a>
+        <a data-cat="safety"
+           onclick="filterArticles('safety'); rsActivateCat(this); return false;">
+          <span class="lbl">Safety Alert</span>
+          <span class="n" data-cat-count="safety">0</span>
+        </a>
+      </nav>
+    </div></div>
+
+<script src="index.js?v=20260503a" defer></script>
 
     <!-- Old filter row replaced by .rs-hero search and .rs-cat bar above.
          Hidden dropdown stub retained for any JS that might still reach for the IDs. -->
