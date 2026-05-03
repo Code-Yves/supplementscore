@@ -615,7 +615,12 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
    centered relative to the viewport. No search bar in this layout.
    The empty third column mirrors the brand column's width so tabs stay
    visually centered regardless of how long the wordmark gets. */
-.site-nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;position:relative;height:auto;max-width:1200px;margin:0 auto;padding:0 20px;gap:16px}
+/* min-height pinned to the brand-svg height (22px) so the nav is the same
+   height whether or not the page renders the .site-nav-brand element.
+   Without this, brand-less pages (index, discover, landing) render the nav
+   2px shorter than detail pages, producing a tiny vertical shift on each
+   navigation. */
+.site-nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;position:relative;min-height:22px;max-width:1200px;margin:0 auto;padding:0 20px;gap:16px}
 
 /* Brand on the left — SS shield + wordmark, links to home */
 .site-nav-brand{grid-column:1;justify-self:start;display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--color-text-primary);transition:opacity .15s ease}

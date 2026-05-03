@@ -2,6 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SupplementScore — Evidence-based supplement information you can trust</title>
@@ -14,7 +15,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20260502a">
 
 <style>
@@ -22,7 +23,12 @@
    Landing page — quietened version of the trust hero.
    Built on existing tokens from styles.css.
    ============================================================ */
-body{ padding: 0 0 4rem; }
+/* Match the global body padding so .beta-bar / .site-nav (which use
+   margin:0 -1rem to escape that padding) hug the viewport edges as on
+   every other page. Without the 1rem inline padding, the nav and beta
+   bar overflow horizontally by 2rem and shift sideways relative to the
+   rest of the site. */
+body{ padding: 0 1rem 4rem; }
 
 .lp{
   max-width: 1180px;
@@ -294,6 +300,17 @@ body{ padding: 0 0 4rem; }
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
 </head>
 <body>
+
+<!-- Site banner — must precede the nav so .site-nav's sticky `top:32px`
+     anchors below the bar (matches every other page on the site).
+     Without this bar, the nav floats 32px below the viewport top on load
+     and creates a jarring layout shift when arriving from index/discover. -->
+<div class="beta-bar" role="status" aria-live="polite">
+  <span class="beta-bar-pulse" aria-hidden="true"></span>
+  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-sep" aria-hidden="true">·</span>
+  <span class="beta-bar-tag">Actively refining for accuracy</span>
+</div>
 
 <!-- Site nav (search hidden via styles.css override) -->
 <nav class="site-nav" aria-label="Primary">

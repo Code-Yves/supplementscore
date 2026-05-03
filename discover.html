@@ -37,11 +37,11 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 /* (Local nav removed — discover.html now uses the shared site-nav from index.html) */
 
 /* ---------- Hero ---------- */
-.dc-hero{ max-width: 1180px; margin: 0 auto 24px; padding: 18px 24px 28px; text-align: center; position: relative; }
+.dc-hero{ max-width: 1180px; margin: 0 auto 0; padding: 18px 24px 8px; text-align: center; position: relative; }
 .dc-hero-eyebrow{ display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--color-brand); margin-bottom: 18px; }
 .dc-hero h1{ font-size: clamp(34px, 5.5vw, 56px); font-weight: 700; letter-spacing: -1.4px; line-height: 1.08; margin: 0 0 14px; color: var(--color-text-primary); }
 .dc-hero p{ font-size: 16px; color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 24px; line-height: 1.55; }
-.dc-hero-callout{ margin: 0 auto 22px; max-width: 520px; background: var(--color-accent-coral-soft, #F5C9B8); color: #6B231D; border-radius: 999px; padding: 8px 16px; font-size: 12.5px; font-weight: 500; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.dc-hero-callout{ margin: 0 auto 0; max-width: 520px; background: var(--color-accent-coral-soft, #F5C9B8); color: #6B231D; border-radius: 999px; padding: 8px 16px; font-size: 12.5px; font-weight: 500; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .dc-hero-callout .pill{ background: var(--color-accent-coral, #E8967A); color: #fff; border-radius: 999px; padding: 1px 8px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .dc-hero-callout a{ color: inherit; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
 .dc-search{ max-width: 560px; margin: 0 auto; position: relative; }
@@ -85,8 +85,8 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 }
 
 /* ---------- Section block ---------- */
-.dc-section{ max-width: 1180px; margin: 0 auto; padding: 48px 24px; scroll-margin-top: 96px; }
-@media (max-width: 600px){ .dc-section{ padding: 36px 18px;} }
+.dc-section{ max-width: 1180px; margin: 0 auto; padding: 24px 24px 48px; scroll-margin-top: 96px; }
+@media (max-width: 600px){ .dc-section{ padding: 18px 18px 36px;} }
 .dc-sec-head{ display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
 .dc-sec-titlewrap{ flex: 1; min-width: 240px; }
 .dc-sec-title{ font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; margin: 0; color: var(--color-text-primary); display: flex; align-items: center; gap: 14px; flex-wrap: wrap;}
@@ -427,67 +427,67 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">Sorted by composite score</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank feat">
+    <a href="s/oral-rehydration-salts.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank feat">
       <div class="dc-rank-num gold">1</div>
       <div class="dc-rank-name">Oral rehydration salts (WHO formula)</div>
       <div class="dc-rank-meta">Score 100/100 · the only perfect score in the database</div>
       <div class="dc-rank-fact">UNICEF and WHO call it the most cost-effective intervention in modern medicine. Cents per serving, decades of trial data, and no meaningful toxicity at intended doses.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">100/100</span><span class="dc-score-pill">Safety 5/5</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/electrolyte-replacement.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num silver">2</div>
       <div class="dc-rank-name">Electrolyte replacement (clinical)</div>
       <div class="dc-rank-fact">Hospital-grade electrolyte mix. Same evidence base as ORS, formulated for adults instead of pediatric dehydration.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">98</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/creatine-monohydrate.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num bronze">3</div>
       <div class="dc-rank-name">Creatine monohydrate</div>
       <div class="dc-rank-fact">500+ trials. ISSN's 2017 position stand: safe in healthy adults at 3–5 g/day. New 2024–25 reviews extend the safety record to older adults and teen athletes.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">96</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/psyllium-husk.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">4</div>
       <div class="dc-rank-name">Psyllium husk (soluble fibre)</div>
       <div class="dc-rank-fact">Cochrane review of 28 RCTs and one of only ~12 supplements with an authorized FDA health claim — for coronary heart disease at 7 g/day.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">94</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/oat-beta-glucan.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">5</div>
       <div class="dc-rank-name">Oat beta-glucan</div>
       <div class="dc-rank-fact">Cochrane meta-analysis: 58 RCTs, N=3,974, LDL cholesterol down 5–10% at 3 g/day. Also FDA-approved cholesterol claim.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">94</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/protein-supplementation.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">6</div>
       <div class="dc-rank-name">Protein supplementation (sarcopenia)</div>
       <div class="dc-rank-fact">PROT-AGE consensus: older adults need 1.2–1.6 g/kg/day — roughly double the dietary RDA — to preserve muscle.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">92</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/lactase-enzyme.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">7</div>
       <div class="dc-rank-name">Lactase enzyme</div>
       <div class="dc-rank-fact">Cochrane-confirmed for lactose intolerance. Acts only in the gut, doesn't enter the bloodstream — virtually no downside.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">90</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/vitamin-b1.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">8</div>
       <div class="dc-rank-name">Vitamin B1 (Thiamine, clinical)</div>
       <div class="dc-rank-fact">Life-saving in alcohol-use disorder and refeeding syndrome. Therapeutic doses are 100–500 mg/day with no documented chronic toxicity.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">88</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/l-leucine.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">9</div>
       <div class="dc-rank-name">L-Leucine (standalone)</div>
       <div class="dc-rank-fact">2.5–3 g triggers muscle protein synthesis via mTOR. The "leucine threshold" matters more than total protein at any single meal.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">88</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="s/melatonin.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">10</div>
       <div class="dc-rank-name">Melatonin (0.1–0.5 mg, physiological)</div>
       <div class="dc-rank-fact">Matches natural nighttime peaks (50–200 pg/mL) without next-day grogginess. Most retail products are 10–30× higher than they need to be.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div>
-    </article>
+    </article></a>
   </div>
 </section>
 
@@ -505,67 +505,67 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">All scored ≤ 26/100</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank feat">
+    <a href="supplement.html?slug=greater-celandine" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank feat">
       <div class="dc-rank-num gold">1</div>
       <div class="dc-rank-name">Greater celandine (Chelidonium majus)</div>
       <div class="dc-rank-meta">Score 22/100 — the lowest in the entire database</div>
       <div class="dc-rank-fact">More than 50 documented hepatitis cases including transplants. Germany's BfArM withdrew authorization in 2008 after a formal benefit–risk review.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">22/100</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=aristolochic-acid" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num silver">2</div>
       <div class="dc-rank-name">Aristolochic acid</div>
       <div class="dc-rank-fact">IARC Group 1 human carcinogen. Causes "Chinese herb nephropathy" — irreversible kidney failure and upper urinary-tract cancer at low cumulative doses.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=usnic-acid" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num bronze">3</div>
       <div class="dc-rank-name">Usnic acid</div>
       <div class="dc-rank-fact">Acute liver failure, multiple transplants, at least one death traced to the LipoKinetix recall. FDA warning since 2001 — still appears in fat burners.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=calomel" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">4</div>
       <div class="dc-rank-name">Calomel (mercurous chloride)</div>
       <div class="dc-rank-fact">A mercury compound, banned from OTC drugs by the FDA. Irreversible kidney and central nervous system damage. Still surfaces in "detox" products online.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=comfrey" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">5</div>
       <div class="dc-rank-name">Comfrey (oral)</div>
       <div class="dc-rank-fact">Pyrrolizidine alkaloids cause hepatic veno-occlusive disease. FDA, EMA, and the Australian TGA advise against any oral use. Topical only.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=cesium-chloride" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">6</div>
       <div class="dc-rank-name">Cesium chloride</div>
       <div class="dc-rank-fact">Marketed as an alkaline "cancer cure." Multiple deaths from torsades de pointes (fatal arrhythmia). FDA issued a formal compounding warning in 2018.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=germander" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">7</div>
       <div class="dc-rank-name">Germander</div>
       <div class="dc-rank-fact">Banned in France since 1992 after at least 26 reported cases of liver injury, including one death linked to a popular slimming product.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=chaparral" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">8</div>
       <div class="dc-rank-name">Chaparral (Larrea tridentata)</div>
       <div class="dc-rank-fact">FDA's Special Nutritional Adverse Event Monitoring System has logged hepatitis, fulminant liver failure, and at least one death tied to chaparral teas.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">24</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=pennyroyal-oil" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">9</div>
       <div class="dc-rank-name">Pennyroyal oil</div>
       <div class="dc-rank-fact">Pulegone is a potent hepatotoxin. Fatalities documented from as little as 10 mL ingested as a "natural abortifacient." It is neither.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">26</span></div>
-    </article>
-    <article class="dc-rank">
+    </article></a>
+    <a href="supplement.html?slug=amanita-muscaria" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank">
       <div class="dc-rank-num plain">10</div>
       <div class="dc-rank-name">Amanita muscaria</div>
       <div class="dc-rank-fact">Sold as TikTok "microdose" gummies. Muscimol and ibotenic acid produce delirium, seizures, and coma at higher doses — outcomes are unpredictable batch-to-batch.</div>
       <div class="dc-rank-foot"><span class="dc-tier t4">Tier 4</span><span class="dc-score-pill">26</span></div>
-    </article>
+    </article></a>
   </div>
 </section>
 
@@ -583,16 +583,16 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">Top 10 by research score</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank"><div class="dc-rank-num gold">1</div><div class="dc-rank-name">Creatine monohydrate</div><div class="dc-rank-fact">500+ studies and counting. Safe across age groups; effective for strength, recovery, and (per new meta-analyses) cognition.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Omega-3 (EPA/DHA)</div><div class="dc-rank-fact">Meta-analyses pool 40,000+ people. REDUCE-IT showed 25% drop in cardiac events at high-dose EPA.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Vitamin D3</div><div class="dc-rank-fact">Hundreds of trials. The most-tested fat-soluble vitamin in modern medicine.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Caffeine (standardised)</div><div class="dc-rank-fact">The most-studied ergogenic aid in sports science, period.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Psyllium husk</div><div class="dc-rank-fact">Article #92 on this site is literally called "Psyllium Husk, 420 Clinical Trials, an FDA Health Claim."</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Oat beta-glucan</div><div class="dc-rank-fact">Cochrane meta-analysis of 58 RCTs (N=3,974). LDL drops 5–10%.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Zinc</div><div class="dc-rank-fact">2024 Cochrane review pooled 34 trials and 8,500+ people for cold/immune outcomes.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Melatonin</div><div class="dc-rank-fact">Hundreds of trials across sleep, jet lag, ICU delirium, even chemo-supportive care.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Oral rehydration salts</div><div class="dc-rank-fact">Decades of WHO data. Possibly the most-studied formulation in any pharmacy.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Whey protein</div><div class="dc-rank-fact">The most-trialled protein source in sports nutrition, with strong sarcopenia evidence too.</div></article>
+    <a href="s/creatine-monohydrate.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num gold">1</div><div class="dc-rank-name">Creatine monohydrate</div><div class="dc-rank-fact">500+ studies and counting. Safe across age groups; effective for strength, recovery, and (per new meta-analyses) cognition.</div></article></a>
+    <a href="s/omega-3.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Omega-3 (EPA/DHA)</div><div class="dc-rank-fact">Meta-analyses pool 40,000+ people. REDUCE-IT showed 25% drop in cardiac events at high-dose EPA.</div></article></a>
+    <a href="s/vitamin-d3.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Vitamin D3</div><div class="dc-rank-fact">Hundreds of trials. The most-tested fat-soluble vitamin in modern medicine.</div></article></a>
+    <a href="s/caffeine.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Caffeine (standardised)</div><div class="dc-rank-fact">The most-studied ergogenic aid in sports science, period.</div></article></a>
+    <a href="s/psyllium-husk.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Psyllium husk</div><div class="dc-rank-fact">Article #92 on this site is literally called "Psyllium Husk, 420 Clinical Trials, an FDA Health Claim."</div></article></a>
+    <a href="s/oat-beta-glucan.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Oat beta-glucan</div><div class="dc-rank-fact">Cochrane meta-analysis of 58 RCTs (N=3,974). LDL drops 5–10%.</div></article></a>
+    <a href="s/zinc.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Zinc</div><div class="dc-rank-fact">2024 Cochrane review pooled 34 trials and 8,500+ people for cold/immune outcomes.</div></article></a>
+    <a href="s/melatonin.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Melatonin</div><div class="dc-rank-fact">Hundreds of trials across sleep, jet lag, ICU delirium, even chemo-supportive care.</div></article></a>
+    <a href="s/oral-rehydration-salts.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Oral rehydration salts</div><div class="dc-rank-fact">Decades of WHO data. Possibly the most-studied formulation in any pharmacy.</div></article></a>
+    <a href="s/whey-protein.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Whey protein</div><div class="dc-rank-fact">The most-trialled protein source in sports nutrition, with strong sarcopenia evidence too.</div></article></a>
   </div>
 </section>
 
@@ -610,22 +610,22 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">Efficacy ≤ 2/5</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank feat">
+    <a href="supplement.html?slug=sea-moss" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank feat">
       <div class="dc-rank-num gold">1</div>
       <div class="dc-rank-name">Sea moss (Irish moss)</div>
       <div class="dc-rank-meta">Efficacy 1/5 — the lowest possible</div>
       <div class="dc-rank-fact">Zero clinical trials in humans for any of the wellness claims. Independent testing has found iodine content as high as 47 mg per gram — over 300× the adult RDA — plus regular heavy-metal contamination.</div>
       <div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span><span class="dc-score-pill">Efficacy 1/5</span></div>
-    </article>
-    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Turkesterone / Ecdysteroids</div><div class="dc-rank-fact">Two RCTs in 2024–25 (Smith and Wilborn groups) found <b>no</b> effect on muscle mass, strength, or body fat at typical doses. The TikTok "natural anabolic" doesn't anabolize.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Fadogia agrestis</div><div class="dc-rank-fact">Zero human trials. Animal studies actually flagged testicular toxicity at the doses being recommended online.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Shilajit (Mumie)</div><div class="dc-rank-fact">A 2023 Indian government test of 73 retail samples found ~40% exceeded permissible limits for lead, arsenic, or mercury.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Tongkat ali</div><div class="dc-rank-fact">2024 RCT in healthy adult men (n=109): no measurable change in testosterone, libido, or strength versus placebo.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">NMN / NAD+ precursors</div><div class="dc-rank-fact">NMN reliably raises blood NAD+ 2–4×. But the 2025 Prokopidis meta-analysis (J Cachexia Sarcopenia Muscle) found <b>no</b> functional gains — strength, walking speed, body comp — in older adults.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Spermidine</div><div class="dc-rank-fact">The entire human longevity evidence base is a single 60-person pilot. Marketed as autophagy insurance anyway.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Urolithin A</div><div class="dc-rank-fact">One published 2024 trial. ~$60/month for proprietary "Mitopure." Premium pricing on preliminary evidence.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Lion's mane mushroom</div><div class="dc-rank-fact">2025 acute crossover RCT in young adults: no cognitive or mood benefit on standardised tests despite plausible animal data.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Apigenin</div><div class="dc-rank-fact">Popularised by longevity influencers at 50–100 mg/day. Most human trials use far lower flavonoid intakes — the dose-response isn't characterised.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article>
+    </article></a>
+    <a href="supplement.html?slug=turkesterone-ecdysteroids" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Turkesterone / Ecdysteroids</div><div class="dc-rank-fact">Two RCTs in 2024–25 (Smith and Wilborn groups) found <b>no</b> effect on muscle mass, strength, or body fat at typical doses. The TikTok "natural anabolic" doesn't anabolize.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="supplement.html?slug=fadogia-agrestis" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Fadogia agrestis</div><div class="dc-rank-fact">Zero human trials. Animal studies actually flagged testicular toxicity at the doses being recommended online.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="supplement.html?slug=shilajit" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Shilajit (Mumie)</div><div class="dc-rank-fact">A 2023 Indian government test of 73 retail samples found ~40% exceeded permissible limits for lead, arsenic, or mercury.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="s/tongkat-ali.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Tongkat ali</div><div class="dc-rank-fact">2024 RCT in healthy adult men (n=109): no measurable change in testosterone, libido, or strength versus placebo.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="supplement.html?slug=nmn-nad-precursors" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">NMN / NAD+ precursors</div><div class="dc-rank-fact">NMN reliably raises blood NAD+ 2–4×. But the 2025 Prokopidis meta-analysis (J Cachexia Sarcopenia Muscle) found <b>no</b> functional gains — strength, walking speed, body comp — in older adults.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="supplement.html?slug=spermidine" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Spermidine</div><div class="dc-rank-fact">The entire human longevity evidence base is a single 60-person pilot. Marketed as autophagy insurance anyway.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="s/urolithin-a.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Urolithin A</div><div class="dc-rank-fact">One published 2024 trial. ~$60/month for proprietary "Mitopure." Premium pricing on preliminary evidence.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="supplement.html?slug=lions-mane-mushroom" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Lion's mane mushroom</div><div class="dc-rank-fact">2025 acute crossover RCT in young adults: no cognitive or mood benefit on standardised tests despite plausible animal data.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
+    <a href="s/apigenin.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Apigenin</div><div class="dc-rank-fact">Popularised by longevity influencers at 50–100 mg/day. Most human trials use far lower flavonoid intakes — the dose-response isn't characterised.</div><div class="dc-rank-foot"><span class="dc-tier t3">Tier 3</span></div></article></a>
   </div>
 </section>
 
@@ -643,22 +643,22 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">Strong evidence, low buzz</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank feat">
+    <a href="s/oral-rehydration-salts.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank feat">
       <div class="dc-rank-num gold">1</div>
       <div class="dc-rank-name">Oral rehydration salts</div>
       <div class="dc-rank-meta">100/100 · cents per serving</div>
       <div class="dc-rank-fact">If a pharma company invented this today they'd charge $40 a bottle. Nobody markets it because nobody owns it.</div>
       <div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">100/100</span></div>
-    </article>
-    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Riboflavin (Vitamin B2) — 400 mg/day</div><div class="dc-rank-fact">Cochrane: prevents about 2 migraine days per month. Costs pennies. Most migraine sufferers have never heard of it.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Melatonin (0.1–0.5 mg)</div><div class="dc-rank-fact">The micro-dose. Quietly outperforms the 5–10 mg "knockout" gummies most retailers sell.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Sodium bicarbonate (sports)</div><div class="dc-rank-fact">Possibly the cheapest legal ergogenic in existence. Lifters and rowers who use it gain real anaerobic capacity.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">84</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">L-Carnitine</div><div class="dc-rank-fact">40 years of cardiac and fertility data. Almost never advertised because it's off-patent.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">80</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Glycine (3 g pre-bed)</div><div class="dc-rank-fact">Improves measurable sleep quality. Tastes mildly sweet. Costs almost nothing.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">78</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Niacinamide (3,000 mg/day)</div><div class="dc-rank-fact">Matches NSAIDs for knee osteoarthritis pain — and beats glucosamine head-to-head.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">74</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Lactoferrin</div><div class="dc-rank-fact">Raises haemoglobin similarly to ferrous sulphate, with virtually none of the GI upset.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">70</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Boswellia serrata</div><div class="dc-rank-fact">Topped a 2025 network meta-analysis of supplements for knee OA — beating glucosamine and chondroitin.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Calcium alpha-ketoglutarate (Ca-AKG)</div><div class="dc-rank-fact">Serum AKG drops 10× from age 30 to 80. Quietly one of the most interesting longevity compounds.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">63</span></div></article>
+    </article></a>
+    <a href="supplement.html?slug=riboflavin-400-mg-day" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Riboflavin (Vitamin B2) — 400 mg/day</div><div class="dc-rank-fact">Cochrane: prevents about 2 migraine days per month. Costs pennies. Most migraine sufferers have never heard of it.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div></article></a>
+    <a href="s/melatonin.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Melatonin (0.1–0.5 mg)</div><div class="dc-rank-fact">The micro-dose. Quietly outperforms the 5–10 mg "knockout" gummies most retailers sell.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">86</span></div></article></a>
+    <a href="s/sodium-bicarbonate.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Sodium bicarbonate (sports)</div><div class="dc-rank-fact">Possibly the cheapest legal ergogenic in existence. Lifters and rowers who use it gain real anaerobic capacity.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">84</span></div></article></a>
+    <a href="s/l-carnitine.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">L-Carnitine</div><div class="dc-rank-fact">40 years of cardiac and fertility data. Almost never advertised because it's off-patent.</div><div class="dc-rank-foot"><span class="dc-tier t1">Tier 1</span><span class="dc-score-pill">80</span></div></article></a>
+    <a href="s/glycine.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Glycine (3 g pre-bed)</div><div class="dc-rank-fact">Improves measurable sleep quality. Tastes mildly sweet. Costs almost nothing.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">78</span></div></article></a>
+    <a href="s/niacinamide.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Niacinamide (3,000 mg/day)</div><div class="dc-rank-fact">Matches NSAIDs for knee osteoarthritis pain — and beats glucosamine head-to-head.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">74</span></div></article></a>
+    <a href="s/lactoferrin.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Lactoferrin</div><div class="dc-rank-fact">Raises haemoglobin similarly to ferrous sulphate, with virtually none of the GI upset.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">70</span></div></article></a>
+    <a href="s/boswellia-serrata.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Boswellia serrata</div><div class="dc-rank-fact">Topped a 2025 network meta-analysis of supplements for knee OA — beating glucosamine and chondroitin.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span></div></article></a>
+    <a href="s/calcium-alpha-ketoglutarate.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Calcium alpha-ketoglutarate (Ca-AKG)</div><div class="dc-rank-fact">Serum AKG drops 10× from age 30 to 80. Quietly one of the most interesting longevity compounds.</div><div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">63</span></div></article></a>
   </div>
 </section>
 
@@ -908,22 +908,22 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">By drug-class count</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank feat">
+    <a href="supplement.html?slug=st-johns-wort" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank feat">
       <div class="dc-rank-num gold">1</div>
       <div class="dc-rank-name">St. John's Wort</div>
       <div class="dc-rank-meta">Interacts with at least 5 drug categories</div>
       <div class="dc-rank-fact">Warfarin, SSRIs, MAOIs, oral contraceptives, chemotherapy. The poster child for "natural ≠ inert."</div>
       <div class="dc-rank-foot"><span class="dc-tier t2">Tier 2</span><span class="dc-score-pill">5+ classes</span></div>
-    </article>
-    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Berberine</div><div class="dc-rank-fact">Statins, metformin, BP meds, diabetes drugs, antifungals. "Nature's Ozempic" picks fights with a lot of pharmacy.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Magnesium</div><div class="dc-rank-fact">Thyroid hormone, PPIs, antibiotics, benzos, sleep meds. The world's most widely used mineral is also a quiet absorption-blocker.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Omega-3 (high dose)</div><div class="dc-rank-fact">Bleeding risk on top of warfarin / DOACs / antiplatelets. Generally manageable but not zero.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Ginkgo biloba</div><div class="dc-rank-fact">Antiplatelet, anticoagulant, and seizure-threshold concerns.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">5-HTP</div><div class="dc-rank-fact">SSRIs, MAOIs, triptans — serotonin syndrome risk.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Saffron</div><div class="dc-rank-fact">Antidepressants, blood thinners, blood-pressure meds.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Melatonin</div><div class="dc-rank-fact">Seizure meds, sedatives, benzos. Effects amplify rather than just stack.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Vitamin K2</div><div class="dc-rank-fact">Warfarin antagonism — even modest K2 (MK-7) doses can drop INR meaningfully. Coordinate with the prescribing clinician before adding.</div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Calcium / Iron / Zinc</div><div class="dc-rank-fact">Chelate fluoroquinolone and tetracycline antibiotics, levothyroxine, and bisphosphonates — separate doses by 2–4 hours to keep the drug working.</div></article>
+    </article></a>
+    <a href="s/berberine.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Berberine</div><div class="dc-rank-fact">Statins, metformin, BP meds, diabetes drugs, antifungals. "Nature's Ozempic" picks fights with a lot of pharmacy.</div></article></a>
+    <a href="s/magnesium.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Magnesium</div><div class="dc-rank-fact">Thyroid hormone, PPIs, antibiotics, benzos, sleep meds. The world's most widely used mineral is also a quiet absorption-blocker.</div></article></a>
+    <a href="s/omega-3.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Omega-3 (high dose)</div><div class="dc-rank-fact">Bleeding risk on top of warfarin / DOACs / antiplatelets. Generally manageable but not zero.</div></article></a>
+    <a href="s/ginkgo-biloba.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Ginkgo biloba</div><div class="dc-rank-fact">Antiplatelet, anticoagulant, and seizure-threshold concerns.</div></article></a>
+    <a href="supplement.html?slug=5-htp" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">5-HTP</div><div class="dc-rank-fact">SSRIs, MAOIs, triptans — serotonin syndrome risk.</div></article></a>
+    <a href="s/saffron.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Saffron</div><div class="dc-rank-fact">Antidepressants, blood thinners, blood-pressure meds.</div></article></a>
+    <a href="s/melatonin.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Melatonin</div><div class="dc-rank-fact">Seizure meds, sedatives, benzos. Effects amplify rather than just stack.</div></article></a>
+    <a href="s/vitamin-k2.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Vitamin K2</div><div class="dc-rank-fact">Warfarin antagonism — even modest K2 (MK-7) doses can drop INR meaningfully. Coordinate with the prescribing clinician before adding.</div></article></a>
+    <a href="supplement.html?slug=calcium-iron-zinc" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Calcium / Iron / Zinc</div><div class="dc-rank-fact">Chelate fluoroquinolone and tetracycline antibiotics, levothyroxine, and bisphosphonates — separate doses by 2–4 hours to keep the drug working.</div></article></a>
   </div>
 </section>
 
@@ -941,22 +941,22 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <span class="dc-sec-meta">Source: NHANES &amp; IOM</span>
   </div>
   <div class="dc-rank-grid">
-    <article class="dc-rank feat">
+    <a href="supplement.html?slug=potassium" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank feat">
       <div class="dc-rank-num gold">1</div>
       <div class="dc-rank-name">Potassium</div>
       <div class="dc-rank-meta">~97% below the AI of 4,700 mg/day</div>
       <div class="dc-rank-fact">The single largest dietary gap in NHANES. Adequate potassium intake is associated with lower blood pressure, fewer strokes, and reduced kidney-stone risk — and almost no one hits the AI without deliberately eating fruit, beans, or potatoes daily.</div>
       <div class="dc-rank-foot"><span class="dc-score-pill">~97% deficient</span><span class="dc-score-pill">AI 4,700 mg</span></div>
-    </article>
-    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Fibre</div><div class="dc-rank-fact">~95% of U.S. adults fall short of the 25–38 g/day target. The single biggest lever for cholesterol, glycemic control, and colorectal-cancer risk reduction.</div><div class="dc-rank-foot"><span class="dc-score-pill">~95% deficient</span><span class="dc-score-pill">25–38 g</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Choline</div><div class="dc-rank-fact">~90% below the AI (425 mg women / 550 mg men). Critical for liver, brain, and pregnancy — added to the Nutrition Facts label in 2016 precisely because the gap is so wide.</div><div class="dc-rank-foot"><span class="dc-score-pill">~90% deficient</span><span class="dc-score-pill">≥ 425 mg</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Omega-3 (EPA + DHA)</div><div class="dc-rank-fact">~90% of U.S. adults intake less than the AHA's 250 mg/day from seafood. Supplementation is one of the few cases where pills genuinely fill a population-wide dietary hole.</div><div class="dc-rank-foot"><span class="dc-score-pill">~90% deficient</span><span class="dc-score-pill">250 mg/d (AHA)</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Vitamin K2</div><div class="dc-rank-fact">No formal RDA, but dietary survey work suggests ~75% of adults consume well below intakes associated with cardiovascular and bone benefits in observational cohorts (Rotterdam, PROSPECT).</div><div class="dc-rank-foot"><span class="dc-score-pill">~75% suboptimal</span><span class="dc-score-pill">no formal RDA</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Magnesium</div><div class="dc-rank-fact">~50% of U.S. adults below the EAR (320 mg women / 420 mg men). Implicated in blood pressure, sleep quality, and migraine prophylaxis.</div><div class="dc-rank-foot"><span class="dc-score-pill">~50% deficient</span><span class="dc-score-pill">320–420 mg</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Vitamin D</div><div class="dc-rank-fact">~42% of U.S. adults have serum 25(OH)D below 30 ng/mL — the threshold most clinical groups use for "insufficient." Higher in darker-skinned and northern-latitude populations.</div><div class="dc-rank-foot"><span class="dc-score-pill">~42% deficient</span><span class="dc-score-pill">25(OH)D &lt; 30 ng/mL</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Calcium</div><div class="dc-rank-fact">~40% of U.S. adults below the EAR (800–1,000 mg). Inadequacy is highest in adolescent girls and adults over 50 — both groups with the most to lose from low bone density.</div><div class="dc-rank-foot"><span class="dc-score-pill">~40% deficient</span><span class="dc-score-pill">1,000–1,200 mg</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Iron (women 19–50)</div><div class="dc-rank-fact">~25% of menstruating women have low iron stores; ~10% meet criteria for iron-deficiency anemia. The most common nutrient deficiency worldwide.</div><div class="dc-rank-foot"><span class="dc-score-pill">~25% deficient</span><span class="dc-score-pill">18 mg</span></div></article>
-    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Vitamin B12 (adults 50+)</div><div class="dc-rank-fact">~20% of older adults have low or borderline B12 — primarily from age-related decline in stomach acid (atrophic gastritis), not low intake. Why most clinical groups recommend B12-fortified foods or a supplement after age 50.</div><div class="dc-rank-foot"><span class="dc-score-pill">~20% deficient</span><span class="dc-score-pill">2.4 µg</span></div></article>
+    </article></a>
+    <a href="s/fibre.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Fibre</div><div class="dc-rank-fact">~95% of U.S. adults fall short of the 25–38 g/day target. The single biggest lever for cholesterol, glycemic control, and colorectal-cancer risk reduction.</div><div class="dc-rank-foot"><span class="dc-score-pill">~95% deficient</span><span class="dc-score-pill">25–38 g</span></div></article></a>
+    <a href="s/choline.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Choline</div><div class="dc-rank-fact">~90% below the AI (425 mg women / 550 mg men). Critical for liver, brain, and pregnancy — added to the Nutrition Facts label in 2016 precisely because the gap is so wide.</div><div class="dc-rank-foot"><span class="dc-score-pill">~90% deficient</span><span class="dc-score-pill">≥ 425 mg</span></div></article></a>
+    <a href="s/omega-3.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Omega-3 (EPA + DHA)</div><div class="dc-rank-fact">~90% of U.S. adults intake less than the AHA's 250 mg/day from seafood. Supplementation is one of the few cases where pills genuinely fill a population-wide dietary hole.</div><div class="dc-rank-foot"><span class="dc-score-pill">~90% deficient</span><span class="dc-score-pill">250 mg/d (AHA)</span></div></article></a>
+    <a href="s/vitamin-k2.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Vitamin K2</div><div class="dc-rank-fact">No formal RDA, but dietary survey work suggests ~75% of adults consume well below intakes associated with cardiovascular and bone benefits in observational cohorts (Rotterdam, PROSPECT).</div><div class="dc-rank-foot"><span class="dc-score-pill">~75% suboptimal</span><span class="dc-score-pill">no formal RDA</span></div></article></a>
+    <a href="s/magnesium.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Magnesium</div><div class="dc-rank-fact">~50% of U.S. adults below the EAR (320 mg women / 420 mg men). Implicated in blood pressure, sleep quality, and migraine prophylaxis.</div><div class="dc-rank-foot"><span class="dc-score-pill">~50% deficient</span><span class="dc-score-pill">320–420 mg</span></div></article></a>
+    <a href="supplement.html?slug=vitamin-d" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Vitamin D</div><div class="dc-rank-fact">~42% of U.S. adults have serum 25(OH)D below 30 ng/mL — the threshold most clinical groups use for "insufficient." Higher in darker-skinned and northern-latitude populations.</div><div class="dc-rank-foot"><span class="dc-score-pill">~42% deficient</span><span class="dc-score-pill">25(OH)D &lt; 30 ng/mL</span></div></article></a>
+    <a href="s/calcium.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Calcium</div><div class="dc-rank-fact">~40% of U.S. adults below the EAR (800–1,000 mg). Inadequacy is highest in adolescent girls and adults over 50 — both groups with the most to lose from low bone density.</div><div class="dc-rank-foot"><span class="dc-score-pill">~40% deficient</span><span class="dc-score-pill">1,000–1,200 mg</span></div></article></a>
+    <a href="s/iron.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Iron (women 19–50)</div><div class="dc-rank-fact">~25% of menstruating women have low iron stores; ~10% meet criteria for iron-deficiency anemia. The most common nutrient deficiency worldwide.</div><div class="dc-rank-foot"><span class="dc-score-pill">~25% deficient</span><span class="dc-score-pill">18 mg</span></div></article></a>
+    <a href="s/vitamin-b12.html" style="display:block;text-decoration:none;color:inherit"><article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Vitamin B12 (adults 50+)</div><div class="dc-rank-fact">~20% of older adults have low or borderline B12 — primarily from age-related decline in stomach acid (atrophic gastritis), not low intake. Why most clinical groups recommend B12-fortified foods or a supplement after age 50.</div><div class="dc-rank-foot"><span class="dc-score-pill">~20% deficient</span><span class="dc-score-pill">2.4 µg</span></div></article></a>
   </div>
 </section>
 
