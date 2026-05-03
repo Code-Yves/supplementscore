@@ -127,14 +127,14 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 }
 .dc-rank:hover{ background: rgba(31,122,107,.04) !important; }
 
-/* Rank number lives in column 1, row 1. The children below explicitly
-   set `grid-column: 2`, so we don't need the rank-num to span extra rows
-   to "claim" column 1 — `1 / span 99` was creating 99 implicit row tracks
-   that, combined with the absolute-positioned foot, were inflating each
-   card to ~1,300px on mobile. */
+/* Rank number sits in column 1 and spans every row in column 2 (max 4:
+   name, meta, fact, foot) so its 34px height is distributed across the
+   rows instead of dictating row 1's height (which would push the fact
+   down ~17px below the name). Span 4 — not 99 — so we don't create 95
+   phantom implicit rows that bloat each card to 1,300px on mobile. */
 .dc-rank-num, .dc-rank-num.gold, .dc-rank-num.silver, .dc-rank-num.bronze, .dc-rank-num.plain{
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 1 / span 4;
   align-self: start;
   position: static !important;
   width: auto !important; height: auto !important;
