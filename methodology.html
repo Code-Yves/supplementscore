@@ -37,6 +37,8 @@
     .meth-tier.t4 { background: var(--t4bg); color: var(--t4tx); }
     .meth-callout { background: rgba(31,122,107,.04); border-left: 3px solid var(--color-brand); padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 13px; }
     .meth-callout strong { color: var(--color-brand); }
+    .meth-ex { background: var(--color-background-secondary); border-radius: 8px; padding: 12px 16px; margin: 12px 0 16px; font-size: 13px; line-height: 1.55; }
+    .meth-ex strong { color: var(--color-text-primary); }
     .meth-warn { background: var(--color-warn-bg); border-left: 3px solid var(--color-warn-border); padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 13px; color: var(--color-warn-text); }
     .meth-toc { background: var(--color-background-secondary); padding: 14px 18px; border-radius: 8px; font-size: 13px; margin: 0 0 32px; }
     .meth-toc strong { display: block; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-secondary); }
@@ -107,6 +109,7 @@
   <div class="meth-toc">
     <strong>On this page</strong>
     <a href="#tiers">Tiers</a>
+    <a href="#tier-promotion">Tier promotion</a>
     <a href="#scores">Sub-scores</a>
     <a href="#sources">Source hierarchy</a>
     <a href="#funding">Funding-source policy</a>
@@ -120,7 +123,6 @@
     <strong>Deeper reads</strong>
     <a href="editorial-pipeline.html">Editorial pipeline</a>
     <a href="funder-policy.html">Funder policy</a>
-    <a href="tier-promotion-flow.html">Tier promotion flow</a>
     <a href="changed-our-mind.html">How we changed our mind</a>
     <a href="bibliography.html">Bibliography</a>
   </div>
@@ -156,7 +158,37 @@
 
   <p>Tiers are reviewed continuously (see <a href="#cadence">Review cadence</a>). When new evidence shifts the call, the supplement moves and a dated note explains why.</p>
 
-  <h2 id="scores">2. The six sub-scores</h2>
+  <h2 id="tier-promotion">2. Tier promotion flow</h2>
+  <p>How and when supplements move between tiers. Tier is a function of the composite score <em>and</em> the citation gate. A high score alone is not enough for Tier 1; a low score alone is not enough to demote from Tier 1. Both criteria have to align.</p>
+
+  <h3>The promotion ladder</h3>
+  <p>A supplement only moves between tiers when <em>both</em> conditions for the new tier are satisfied at the same time:</p>
+  <ul>
+    <li><strong>Score band.</strong> The composite must fall inside the new tier's range (T1 ≥72, T2 60–71, T3 40–59, T4 &lt;40).</li>
+    <li><strong>Citation gate (T1 only).</strong> At least one pivotal PubMed-indexed study with a public or nonprofit funder. See the <a href="funder-policy.html">funder policy</a>.</li>
+    <li><strong>Safety floor (T1 + T2 only).</strong> No active FDA / EFSA / TGA / Health Canada warning that would render the supplement inappropriate for the general adult population. Population-specific warnings (pregnancy, paediatrics, specific drug interactions) appear inline on the supplement page rather than blocking the tier.</li>
+    <li><strong>Replication (T1 only).</strong> The pivotal effect has been seen in at least two independent samples — not necessarily two trials, but two analyses that don't share a single research group's data.</li>
+  </ul>
+
+  <h3><span class="meth-tier t2">Tier 2</span> → <span class="meth-tier t1">Tier 1</span> promotion</h3>
+  <p>Triggered when a Tier 2 supplement crosses the 72-point composite threshold <em>and</em> a new pivotal public-funded study lands in the citation set <em>and</em> the replication condition is met. The promotion is logged with the triggering PMID and the recalculation reasoning.</p>
+  <div class="meth-ex"><strong>Worked example — Psyllium husk.</strong> Sat at 70 (T2) for two years on the strength of older trials. The 2024 meta-analysis (PMID 38688104) of 27 randomised trials, partially funded by the NIH NIDDK, lifted the efficacy score by enough to push the composite to 74. Replication condition was already satisfied. Promoted T2 → T1 in April 2026 with one citation as the gate-satisfying source.</div>
+
+  <h3><span class="meth-tier t1">Tier 1</span> → <span class="meth-tier t2">Tier 2</span> demotion</h3>
+  <p>Triggered when a Tier 1 supplement drops below the 72-point composite threshold (rare but possible after a meta-analysis revision), or when the citation gate is no longer satisfied (the gate-satisfying study is retracted, or re-classified after a funder disclosure correction). Demotion writes a row to the score-changes archive with the triggering reason.</p>
+  <div class="meth-ex"><strong>Worked example — a hypothetical herb.</strong> Held T1 on the strength of a 2018 RCT funded by an NIA grant. In 2025, the NIA grant disclosure was corrected to "supplemented by manufacturer in-kind product donation, manufacturer participated in protocol design." Reclassified the funder type from public to industry-mixed. The remaining public-funded evidence was insufficient to satisfy the gate alone. Demoted T1 → T2 with the funder-policy reason logged.</div>
+
+  <h3>Tier 3 / Tier 4 movement</h3>
+  <p>T3 and T4 movements happen on score change alone — no gate applies. A supplement moving from T3 to T2 does not trigger the citation gate (it only kicks in for T1). A supplement moving from T2 to T3 is logged as a routine score recalculation.</p>
+
+  <h3>Safety-driven demotion</h3>
+  <p>If a major regulator (FDA, EFSA, TGA, MHRA, Health Canada) issues a contraindication or recall, the supplement is moved to T4 within one deploy cycle regardless of efficacy score, with the regulatory citation logged. The composite score is preserved in the entry's history so the change is auditable.</p>
+  <div class="meth-ex"><strong>Worked example — kava (kava-kava).</strong> Composite efficacy and short-term safety scores would put it in T2 territory. Long-standing FDA hepatotoxicity advisory (March 2002, reaffirmed 2014) and EFSA risk assessment cap it at T4 across the whole site, with the regulatory references in the entry's safety section.</div>
+
+  <h3>How often does this happen?</h3>
+  <p>In the prior 12 months: 12 net promotions (T3→T2, T2→T1), 4 demotions, and 1 safety-driven move to T4. The full audit trail is in <code>_archive/score-changes.csv</code> and surfaced summarily on the homepage "What changed" feed.</p>
+
+  <h2 id="scores">3. The six sub-scores</h2>
   <p>Each supplement carries six 1–5 sub-scores. They roll up into the headline 0–100 score shown on the card. The sub-scores let you see <em>why</em> a supplement scores the way it does, instead of treating the headline as a black box.</p>
 
   <table>
@@ -173,7 +205,7 @@
 
   <p>The headline score is a weighted combination of these sub-scores, with efficacy and safety carrying the most weight. The exact formula is in <code>app.js</code> under <code>calcScore</code> and is open to inspection.</p>
 
-  <h2 id="sources">3. Source hierarchy</h2>
+  <h2 id="sources">4. Source hierarchy</h2>
   <p>Not all citations are equal. Where we draw on multiple sources for a single claim, the higher-tier source is given more weight in the tier call. The hierarchy below is what we use:</p>
 
   <div class="meth-pyramid">
@@ -203,7 +235,7 @@
 
   <p>PubMed sits alongside this stack as the deep-dive layer for primary studies that aren't summarized elsewhere. When you see a citation in an article carrying a small NIH ODS / EFSA / Cochrane / openFDA badge, that's the source the claim is anchored to.</p>
 
-  <h2 id="funding">4. Funding-source policy</h2>
+  <h2 id="funding">5. Funding-source policy</h2>
   <p>Industry-funded supplement trials report effect sizes ~20–30% larger on average than independently-funded ones, after controlling for design quality. We don't pretend this away.</p>
 
   <ul>
@@ -215,7 +247,7 @@
 
   <div class="meth-callout"><strong>Why 25% and not 0%:</strong> Industry-funded trials are not worthless — many are well-designed and add real evidence. We discount rather than discard. The number is a judgment call drawn from meta-research on funding bias in supplement and pharmaceutical literature; we'll revise if our own data tracking suggests a different magnitude.</div>
 
-  <h2 id="cadence">5. Review cadence</h2>
+  <h2 id="cadence">6. Review cadence</h2>
   <p>Different content carries different stakes. We review accordingly:</p>
 
   <table>
@@ -233,7 +265,7 @@
 
   <p>Each supplement card and article shows its <em>Last reviewed</em> date so you can see how fresh the call is.</p>
 
-  <h2 id="interactions">6. How interactions are modeled</h2>
+  <h2 id="interactions">7. How interactions are modeled</h2>
   <p>The interactions system is built around three pieces:</p>
 
   <h3>Pairs</h3>
@@ -249,7 +281,7 @@
 
   <p>Drug-supplement interactions are a separate parallel system, currently being built out as Phase 2 of our improvement roadmap.</p>
 
-  <h2 id="limits">7. What we don't claim</h2>
+  <h2 id="limits">8. What we don't claim</h2>
   <div class="meth-warn">
     <strong>Supplement Score is not medical advice.</strong> We summarize evidence and provide tier calls. Individual dosing, diagnosis, and treatment decisions belong to a qualified clinician who knows your specific medical history.
   </div>
@@ -265,7 +297,7 @@
 
   <p>Our tier calls are a starting point for an informed conversation with a clinician, not a substitute for one. If you take prescription medications, see a healthcare provider before starting any new supplement.</p>
 
-  <h2 id="feedback">8. Flag an error</h2>
+  <h2 id="feedback">9. Flag an error</h2>
   <p>If you see an inaccurate claim, click the <strong>Flag inaccuracy</strong> button on the affected article or supplement card. The form requires three things:</p>
   <ol>
     <li>The claim you think is wrong</li>
