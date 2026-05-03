@@ -91,6 +91,15 @@
 
     .abt-page-wrap .abt-m1-cta { margin-top: 36px; }
 
+    /* Latest data revisions — bump the .rev-* sizes; the shared rules in
+       styles.css are calibrated for the dense Articles-page footer. */
+    .abt-revisions { margin-top: 56px; padding: 24px 28px; background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: 12px; }
+    .abt-revisions-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--color-text-tertiary); margin-bottom: 16px; }
+    .abt-revisions .revs-cols { column-gap: 36px; }
+    .abt-revisions .rev-row { font-size: 12.5px; line-height: 1.55; margin-bottom: 10px; gap: 12px; }
+    .abt-revisions .rev-date { min-width: 88px; }
+    @media (max-width: 600px) { .abt-revisions { padding: 18px 20px; } }
+
     .pg-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
     .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
     .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
@@ -328,6 +337,23 @@
           <div class="abt-m1-cta-note">We'll respond within 2 business days. No newsletters — just real conversations.</div>
           <div id="contrib-success" role="status" aria-live="polite" style="display:none;font-size:12px;color:#4ade80;font-weight:700;margin-top:12px">✓ Thanks! We'll be in touch.</div>
         </div>
+      </div>
+    </section>
+
+    <!-- Latest data revisions — moved from the Articles page so it lives where the audit trail belongs -->
+    <section class="abt-revisions" id="revisions" aria-label="Latest data revisions">
+      <div class="abt-revisions-title">Latest data revisions</div>
+      <div class="revs-cols">
+        <div class="rev-row"><span class="rev-date">Apr 16, 2026</span><span class="rev-txt">Added 50 new supplements (733 total) spanning mitochondrial, vitamin E isomers, HMO prebiotics, omega-3 plant oils, and chelated mineral forms. Added 12 new sources across academic centres, systematic reviews, and specialty journals (55 total).</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 15, 2026</span><span class="rev-txt">Added 25 new supplements (653 total). Added 4 new sources: European Journal of Nutrition, Frontiers in Nutrition, International Osteoporosis Foundation, American Diabetes Association (43 total).</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 14, 2026</span><span class="rev-txt">Added 5 new sources: ClinicalTrials.gov, AHRQ, Annals of Internal Medicine, American Botanical Council, WADA (39 total).</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 11, 2026</span><span class="rev-txt">Added 50 new supplements (628 total). Added cycling/duration guidance.</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 10, 2026</span><span class="rev-txt">Updated Omega-3 description &mdash; corrected VITAL trial data attribution.</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 10, 2026</span><span class="rev-txt">Vitamin K2 drug interaction score upgraded to &ldquo;significant&rdquo; (warfarin).</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 9, 2026</span><span class="rev-txt">Added 3 new sources: BMJ, JAMA Network, FDA Database.</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 8, 2026</span><span class="rev-txt">Creatine for Brain Health article published.</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 5, 2026</span><span class="rev-txt">Sleep Stack protocol article published.</span></div>
+        <div class="rev-row"><span class="rev-date">Apr 1, 2026</span><span class="rev-txt">Improved recommendation engine for seniors &mdash; added Calcium, Phosphatidylserine.</span></div>
       </div>
     </section>
 

@@ -9,8 +9,8 @@
    Apr 29 2026 — replaces the old "Research Hub" header,
    the rotating-pattern hero carousel, and the dropdown filter.
    ============================================================ */
-#research-view .articles-hdr,
-#research-view #hero{ display: none !important; }
+#research-view .articles-hdr{ display: none !important; }
+/* #research-view #hero re-enabled 2026-05-03 with Variant 4 redesign */
 
 .rs-hero{
   padding: 18px 24px 28px;
