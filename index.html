@@ -5,6 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>document.documentElement.setAttribute('data-theme','light');</script>
 <script>
+/* Anti-flash for cross-page tab arrivals (e.g. clicking "Articles" on
+   discover.html navigates to index.html#research). Without this, the body
+   paints with the default #supplements-view visible before app.js's switchTab
+   runs, briefly flashing the Index landing. Run synchronously in <head>:
+     1. Read the hash.
+     2. If it's a known tab-hash, set an attribute on <html> that the rules
+        below key on, swapping default-view visibility before first paint.
+   The attribute is removed by index.js once switchTab has taken over, so
+   subsequent in-page tab clicks behave normally. */
+(function(){
+  var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+  if (h === 'research' || h === 'about') {
+    document.documentElement.setAttribute('data-pre-tab', h);
+  }
+})();
+</script>
+<style id="ss-pre-tab-style">
+  /* View-container swap: hide the default supplements-view and reveal the
+     destination view from first paint. */
+  html[data-pre-tab="research"] #supplements-view { display: none !important; }
+  html[data-pre-tab="research"] #research-view    { display: block !important; }
+  html[data-pre-tab="about"]    #supplements-view { display: none !important; }
+  html[data-pre-tab="about"]    #about-view       { display: block !important; }
+
+  /* Nav-tab active-state swap. The "Index" tab has class="active" hardcoded
+     on the element, so without this override the green pill briefly sits on
+     Index before app.js's switchTab moves it. Mirrors .site-nav-tab.active
+     and .site-nav-tab base styles in styles.css so the visual is identical
+     to the post-switchTab state. */
+  html[data-pre-tab="research"] #tab-supplements,
+  html[data-pre-tab="about"]    #tab-supplements {
+    background: none !important;
+    color: var(--color-text-secondary) !important;
+    box-shadow: none !important;
+  }
+  html[data-pre-tab="research"] #tab-research,
+  html[data-pre-tab="about"]    #tab-about {
+    background: var(--color-brand) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 6px rgba(31,122,107,.20) !important;
+  }
+</style>
+<script>
 /* Scroll preservation across navigations.
    When the user clicks a footer link (Methodology, About, Privacy, etc.) and
    then closes that page via the X button to return here, we want to land them
@@ -150,7 +193,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260502a">
+<link rel="stylesheet" href="styles.css?v=20260503a">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <link rel="stylesheet" href="index.css?v=20260501a">
@@ -961,7 +1004,7 @@
       </nav>
     </div></div>
 
-<script src="index.js?v=20260501a" defer></script>
+<script src="index.js?v=20260503a" defer></script>
 
     <!-- HERO CAROUSEL -->
     <div class="hero" id="hero">
@@ -16192,14 +16235,52 @@
 </div>
 </div><!-- end about-view -->
 
-<footer class="footer">
-  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--color-text-tertiary);vertical-align:middle;margin-right:4px"><use href="#ss-logo"/></svg>
-  Evidence-Based Supplement Reference · 758 supplements · 27,000+ studies referenced · 2024–2026 data<br>
-  Not a substitute for personalized medical advice. Always consult a clinician before changing your supplement regimen.<br><br>
-  <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:8px">Methodology</strong>
-  <a href="methodology.html" class="link-btn" style="margin-right:6px">How scores work</a> · <a href="editorial-pipeline.html" class="link-btn" style="margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" class="link-btn" style="margin-right:6px">Funder policy</a> · <a href="tier-promotion-flow.html" class="link-btn" style="margin-right:6px">Tier promotion</a> · <a href="changed-our-mind.html" class="link-btn" style="margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" class="link-btn" style="margin-right:6px">Bibliography</a><br>
-  <strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:8px">Site</strong>
-  <a href="about.html" class="link-btn" style="margin-right:6px">About</a> · <a href="privacy.html" class="link-btn" style="margin-right:6px">Privacy</a> · <a href="terms.html" class="link-btn" style="margin-right:6px">Terms</a> · <a href="accessibility.html" class="link-btn" style="margin-right:6px">Accessibility</a> · <a href="glossary.html" class="link-btn" style="margin-right:6px">Glossary</a> · <button type="button" id="cta-email" class="link-btn" onclick="decodeContact(event)">Contact</button>
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer-inner">
+    <div class="site-footer-grid">
+      <div>
+        <div class="site-footer-brand-row">
+          <span class="site-footer-leaf" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+          </span>
+          <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
+        </div>
+        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
+        <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
+      </div>
+      <div>
+        <div class="site-footer-h">Methodology</div>
+        <div class="site-footer-col">
+          <a href="methodology.html">How scores work</a>
+          <a href="editorial-pipeline.html">Editorial pipeline</a>
+          <a href="funder-policy.html">Funder policy</a>
+          <a href="tier-promotion-flow.html">Tier promotion</a>
+          <a href="changed-our-mind.html">Changed our mind</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Browse</div>
+        <div class="site-footer-col">
+          <a href="condition/index.html">Conditions</a>
+          <a href="sx/index.html">By symptom</a>
+          <a href="compare/index.html">Comparisons</a>
+          <a href="bibliography.html">Bibliography</a>
+          <a href="glossary.html">Glossary</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Site</div>
+        <div class="site-footer-col">
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="accessibility.html">Accessibility</a>
+          <a href="search.html">Search</a>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+  </div>
 </footer>
 </div>
 </div>

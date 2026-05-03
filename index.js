@@ -387,6 +387,11 @@ if (document.querySelector('.article-list')) { reorderArticles(); initArticleLoa
     if (typeof switchTab !== 'function') return false;
     var h = (location.hash || '').replace(/^#/, '').toLowerCase();
     switchTab(allowed[h] ? h : 'supplements');
+    // Drop the anti-flash override now that switchTab has set inline display
+    // rules on the views. Leaving it in place would block in-page tab clicks
+    // (e.g. Index → Articles → Index) since the !important rule beats the
+    // empty inline style switchTab uses for the active tab.
+    document.documentElement.removeAttribute('data-pre-tab');
     return true;
   }
   if(!applyHash()){

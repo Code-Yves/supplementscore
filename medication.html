@@ -137,8 +137,7 @@
     + ((m.avoid||[]).length===0 && (m.caution||[]).length===0 && (m.extra||[]).length===0
         ? '<div class="dt-card"><div class="dt-empty">No supplement interactions on file for this class.</div></div>' : '')
     + '<div id="dt-mol-slot"></div>'
-    + '<p class="dt-disclaim">Educational reference, not medical advice. Confirm any supplement change with your prescriber.</p>'
-    + '<div class="dt-disclaim" style="font-size:11.5px;line-height:1.7;text-align:center;margin-top:8px"><strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Methodology</strong><a href="methodology.html" style="color:inherit;text-decoration:underline;margin-right:6px">Scoring</a> · <a href="editorial-pipeline.html" style="color:inherit;text-decoration:underline;margin-right:6px">Editorial pipeline</a> · <a href="funder-policy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Funder policy</a> · <a href="changed-our-mind.html" style="color:inherit;text-decoration:underline;margin-right:6px">How we changed our mind</a> · <a href="bibliography.html" style="color:inherit;text-decoration:underline;margin-right:6px">Bibliography</a><br><strong style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-right:6px">Site</strong><a href="about.html" style="color:inherit;text-decoration:underline;margin-right:6px">About</a> · <a href="privacy.html" style="color:inherit;text-decoration:underline;margin-right:6px">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:underline;margin-right:6px">Terms</a> · <a href="accessibility.html" style="color:inherit;text-decoration:underline">Accessibility</a></div>';
+    + '<p class="dt-disclaim">Educational reference, not medical advice. Confirm any supplement change with your prescriber.</p>';
 
   // ── Per-molecule detail layer (Direction C, 2026-05-02) ───────────────
   // Loads /data/meds-detail.json and surfaces specific molecules where the
@@ -212,5 +211,52 @@
   .mol-ov-r{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55}
   .mol-ev{color:var(--color-text-tertiary);font-style:italic}
 </style>
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer-inner">
+    <div class="site-footer-grid">
+      <div>
+        <div class="site-footer-brand-row">
+          <span class="site-footer-leaf" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+          </span>
+          <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
+        </div>
+        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
+        <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
+      </div>
+      <div>
+        <div class="site-footer-h">Methodology</div>
+        <div class="site-footer-col">
+          <a href="methodology.html">How scores work</a>
+          <a href="editorial-pipeline.html">Editorial pipeline</a>
+          <a href="funder-policy.html">Funder policy</a>
+          <a href="tier-promotion-flow.html">Tier promotion</a>
+          <a href="changed-our-mind.html">Changed our mind</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Browse</div>
+        <div class="site-footer-col">
+          <a href="condition/index.html">Conditions</a>
+          <a href="sx/index.html">By symptom</a>
+          <a href="compare/index.html">Comparisons</a>
+          <a href="bibliography.html">Bibliography</a>
+          <a href="glossary.html">Glossary</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Site</div>
+        <div class="site-footer-col">
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="accessibility.html">Accessibility</a>
+          <a href="search.html">Search</a>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+  </div>
+</footer>
 </body>
 </html>
