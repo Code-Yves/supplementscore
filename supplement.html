@@ -220,7 +220,6 @@ body.is-modal .det-jump{top:0}
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
       <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Articles</a>
-      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab site-nav-tab-icon" href="index.html#profile" style="text-decoration:none" aria-label="Profile" title="Profile"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 4-8 8-8s8 3 8 8z"/></svg></a>
     </div>
   </div>
@@ -229,6 +228,7 @@ body.is-modal .det-jump{top:0}
 <main class="det-wrap" id="det-root"></main>
 
 <script src="data.js?v=20260418m"></script>
+<script src="a/manifest.js?v=20260502a"></script>
 <script src="search-index.js?v=20260429a"></script>
 <script src="nav-search.js?v=20260429a"></script>
 <script>
@@ -308,6 +308,8 @@ body.is-modal .det-jump{top:0}
   var slug = (p.get('slug') || '').trim();
   var root = document.getElementById('det-root');
   if (p.get('modal') === '1') document.body.classList.add('is-modal');
+  /* window.__ART_MANIFEST is set synchronously by a/manifest.js (loaded above)
+     so the Sources & further reading renderer below can use it immediately. */
 
   if (!slug){
     var sampleSlugs = [
@@ -415,10 +417,18 @@ body.is-modal .det-jump{top:0}
 
   var sourcesHtml = '';
   if (artiles.length){
+    /* Article URL resolution — use the prebuilt /a/manifest.json mapping
+       (id → filename) for accuracy. The manifest is generated at build time
+       from the actual /a/ filenames, so it stays correct even when slugify
+       rules drift between the extract script and the runtime JS. Falls back
+       to the lite viewer (article.html?id=N) for any id not in the manifest. */
     sourcesHtml = '<div class="det-sources" id="det-sources"><div class="det-sources-h">Sources &amp; further reading</div><div class="det-sources-grid">'
       + artiles.map(function(a){
           var readTime = a.m ? (a.m + ' min') : '';
-          return '<a href="'+escAttr(window.SS.urlFor('article', a.id))+'">'
+          var manifest = window.__ART_MANIFEST || {};
+          var fileName = manifest[a.id] || manifest[String(a.id)];
+          var artUrl = fileName ? ('a/' + fileName) : window.SS.urlFor('article', a.id);
+          return '<a href="'+escAttr(artUrl)+'">'
             + '<span class="det-art-left">'
             +   ART_ICON
             +   '<span class="det-art-title">'+escHtml(a.t)+'</span>'

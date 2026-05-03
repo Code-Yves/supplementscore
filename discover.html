@@ -174,7 +174,6 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .s-hidden   .ico{ color: #065F56; background: var(--t1bg); }
 .s-recalls  .ico{ color: #5C0E0E; background: var(--t4bg); }
 .s-never    .ico{ color: #5C0E0E; background: var(--t4bg); }
-.s-surprise .ico{ color: #176258; background: var(--dc-accent-soft); }
 .s-money    .ico{ color: #7A5300; background: var(--t3bg); }
 .s-wild     .ico{ color: #176258; background: var(--dc-accent-soft); }
 .s-interact .ico{ color: #5C0E0E; background: var(--t4bg); }
@@ -237,14 +236,17 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 .dc-vs-foot .lab{ font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dc-accent); flex-shrink: 0; padding-top: 2px; }
 .dc-vs-foot strong{ color: var(--color-text-primary); font-weight: 600; }
 @media (max-width: 720px){
-  .dc-vs-head{ grid-template-columns: 1fr; }
-  .dc-vs-head > div{ border-right: 0; }
-  .dc-vs-head > div:first-child{ border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .dc-vs-rows{ grid-template-columns: 1fr; }
-  .dc-vs-col + .dc-vs-col{ border-left: 0; border-top: 0.5px solid var(--color-border-tertiary); }
+  /* Flatten head + rows so header pills sit directly above their own column */
+  .dc-vs > .dc-vs-head,
+  .dc-vs > .dc-vs-rows{ display: contents; }
+  .dc-vs-head > div{ border-right: 0; padding: 12px 16px; }
+  .dc-vs-head .take{ order: 1; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .dc-vs-rows > .dc-vs-col:nth-child(1){ order: 2; }
+  .dc-vs-head .avoid{ order: 3; border-top: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .dc-vs-rows > .dc-vs-col:nth-child(2){ order: 4; }
+  .dc-vs-col + .dc-vs-col{ border-left: 0; border-top: 0; }
+  .dc-vs-foot{ order: 5; padding: 12px 16px; flex-direction: column; gap: 6px; }
   .dc-vs-row{ padding: 10px 16px; }
-  .dc-vs-head > div{ padding: 12px 16px; }
-  .dc-vs-foot{ padding: 12px 16px; flex-direction: column; gap: 6px; }
 }
 
 /* ---------- Tier-mix / deficiency bar chart ---------- */
@@ -396,7 +398,6 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab active" href="discover.html" aria-current="page" style="text-decoration:none">Discover</a>
       <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Articles</a>
-      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab site-nav-tab-icon" href="index.html#profile" style="text-decoration:none" aria-label="Profile" title="Profile"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 4-8 8-8s8 3 8 8z"/></svg></a>
     </div>
   </div>
@@ -410,7 +411,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 
   <div class="dc-hero-callout">
     <span class="pill">New</span>
-    <span>15 condition <a href="condition/index.html">deep-dive protocols</a> · 5 <a href="compare/index.html">comparison guides</a></span>
+    <span>15 condition <a href="condition/index.html">deep-dive protocols</a></span>
   </div>
 </section>
 
@@ -418,7 +419,6 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <div class="dc-toc-wrap"><nav class="dc-toc" aria-label="Sections">
   <div class="dc-toc-col">
     <div class="dc-toc-col-h">Rankings</div>
-    <a href="#tier-mix">Full tier breakdown</a>
     <a href="#safest">Safest</a>
     <a href="#researched">Most researched</a>
     <a href="#by-goal">By health goal</a>
@@ -436,55 +436,13 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <div class="dc-toc-col-h">Curiosities</div>
     <a href="#overhyped">Overhyped</a>
     <a href="#hidden">Hidden gems</a>
-    <a href="#surprises">Counterintuitive findings</a>
     <a href="#deficiency">Deficiency map</a>
     <a href="#wild">Strange but true</a>
   </div>
 </nav></div>
 
 <!-- ============================================================
-     1. Tier mix overview
-     ============================================================ -->
-<section class="dc-section s-research" id="tier-mix">
-  <div class="dc-sec-head">
-    <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M7 21V13"/><path d="M12 21V8"/><path d="M17 21V4"/></svg></span>Only 4% hold up under strong evidence</h2>
-      <div class="dc-sec-sub">Of <b>733 supplements</b> catalogued, just <b>29</b> earn a Tier 1 rating from gold-standard trials. Another <b>12%</b> are flagged risky or avoid — leaving the remaining <b>84%</b> in the messy "promising" or "trending" middle.</div>
-    </div>
-    <span class="dc-sec-meta">n = 733</span>
-  </div>
-  <div class="dc-tierbar">
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label"><span class="dc-tier t1">Tier 1</span><span class="nm">Strong</span></div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t1" style="width:4%"></div></div>
-      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">29</div><div class="dc-tierbar-pct">4.0%</div></div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label"><span class="dc-tier t2">Tier 2</span><span class="nm">Promising</span></div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t2" style="width:40.7%"></div></div>
-      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">298</div><div class="dc-tierbar-pct">40.7%</div></div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label"><span class="dc-tier t3">Tier 3</span><span class="nm">Trending</span></div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:43.2%"></div></div>
-      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">317</div><div class="dc-tierbar-pct">43.2%</div></div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label"><span class="dc-tier t4">Tier 4</span><span class="nm">Avoid</span></div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:12.1%"></div></div>
-      <div class="dc-tierbar-stat"><div class="dc-tierbar-num">89</div><div class="dc-tierbar-pct">12.1%</div></div>
-    </div>
-    <div class="dc-tierbar-foot">
-      <span class="lab">Takeaway</span>
-      <span>Pick 100 random supplements off any shelf and roughly <strong>4 will have strong evidence</strong>, <strong>12 will be actively risky</strong>, and the other 84 land somewhere on the spectrum from "promising in some populations" to "trending without proof."</span>
-    </div>
-  </div>
-</section>
-
-<div class="dc-divider"><hr></div>
-
-<!-- ============================================================
-     2. Safest
+     1. Safest
      ============================================================ -->
 <section class="dc-section s-safe" id="safest">
   <div class="dc-sec-head">
@@ -804,93 +762,6 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <div class="dc-divider"><hr></div>
 
 <!-- ============================================================
-     7. Recalls / FDA warnings
-     ============================================================ -->
-<section class="dc-section s-recalls" id="recalls">
-  <div class="dc-sec-head">
-    <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 7H4c0-1 2-2 2-7z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span>Recent recalls &amp; FDA warnings</h2>
-      <div class="dc-sec-sub">A roll-call of products the FDA, EFSA, WHO, or national regulators have flagged. Several are still legally on shelves through loopholes.</div>
-    </div>
-  </div>
-  <div class="dc-recalls-grid">
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2004</span></div>
-      <div class="dc-rc-title">Ephedra deaths before the ban</div>
-      <div class="dc-rc-body">FDA pulled ephedra after documented deaths. Bitter-orange synephrine and its analogues moved into the space within months.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">155</span><span class="dc-rc-lbl">documented deaths</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">ongoing</span></div>
-      <div class="dc-rc-title">Kratom-linked deaths in FDA review</div>
-      <div class="dc-rc-body">Mitragyna speciosa still sold in head shops and gas stations. Multiple federal ban attempts have stalled. Activates opioid receptors.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">36</span><span class="dc-rc-lbl">deaths in FDA review</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">EFSA</span><span class="dc-rc-date">2018</span></div>
-      <div class="dc-rc-title">Green-tea extract hepatotoxic threshold</div>
-      <div class="dc-rc-body">EFSA flagged doses ≥ 800 mg EGCG/day as liver-toxic. Now the leading herbal cause of drug-induced liver injury in the U.S. registry.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">800 <small>mg</small></span><span class="dc-rc-lbl">EGCG/day threshold</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2020</span></div>
-      <div class="dc-rc-title">Vinpocetine — ruled a drug, not a supplement</div>
-      <div class="dc-rc-body">FDA's 2020 final guidance: vinpocetine is a drug — not safe in pregnancy. Still sold openly under "nootropic" labels.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">2020</span><span class="dc-rc-lbl">final FDA guidance</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">Case reports</span><span class="dc-rc-date">2023–24</span></div>
-      <div class="dc-rc-title">Melanoma cases linked to Melanotan II</div>
-      <div class="dc-rc-body">Rapid-growth melanomas documented in users of injected "tanning peptides." Sold through gym black markets and online.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">3</span><span class="dc-rc-lbl">published melanoma cases</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2013</span></div>
-      <div class="dc-rc-title">DMAA banned from pre-workouts</div>
-      <div class="dc-rc-body">Banned after deaths and cardiac events. Analogues like DMHA, octodrine, and 2-aminoisoheptane keep reappearing under new names.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">2013</span><span class="dc-rc-lbl">ban enacted</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">enforcement</span></div>
-      <div class="dc-rc-title">Colloidal silver — permanent disfigurement</div>
-      <div class="dc-rc-body">No safe or effective use. Argyria — permanent blue-grey skin discolouration — has no treatment. Silver granules deposited in the dermis.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">∞</span><span class="dc-rc-lbl">irreversible</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">Clinical</span><span class="dc-rc-date">ongoing</span></div>
-      <div class="dc-rc-title">Phenibut: dependence in days, not weeks</div>
-      <div class="dc-rc-body">Daily use causes physical dependence in as few as 3–5 days. Withdrawal includes anxiety, insomnia, and seizures. Not approved in the U.S. or EU.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">3–5 <small>days</small></span><span class="dc-rc-lbl">dependence window</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">State actions</span><span class="dc-rc-date">ongoing</span></div>
-      <div class="dc-rc-title">Tianeptine — "Gas station heroin"</div>
-      <div class="dc-rc-body">An atypical antidepressant sold in supplement packaging. Banned in 11 states by 2024 after overdose clusters. Opioid-like withdrawal.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">11</span><span class="dc-rc-lbl">U.S. states banned it</span></div>
-    </article>
-
-    <article class="dc-rc">
-      <div class="dc-rc-top"><span class="dc-rc-badge">BfArM</span><span class="dc-rc-date">2008</span></div>
-      <div class="dc-rc-title">Greater celandine pulled in Germany</div>
-      <div class="dc-rc-body">Authorization withdrawn after benefit–risk review of liver-injury cases. Still legal in many other markets — including the U.S.</div>
-      <div class="dc-rc-stat"><span class="dc-rc-num">2008</span><span class="dc-rc-lbl">authorization withdrawn</span></div>
-    </article>
-
-  </div>
-</section>
-
-<div class="dc-divider"><hr></div>
-
-<!-- ============================================================
      8. Things never to do
      ============================================================ -->
 <section class="dc-section s-never" id="never">
@@ -1005,33 +876,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <div class="dc-divider"><hr></div>
 
 <!-- ============================================================
-     9. Biggest surprises
-     ============================================================ -->
-<section class="dc-section s-surprise" id="surprises">
-  <div class="dc-sec-head">
-    <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.7 1.5 2.7v.4h4v-.4c0-1 .6-2 1.5-2.7A6 6 0 0 0 12 3z"/><path d="M10 19h4"/><path d="M11 22h2"/></svg></span>The biggest surprises in 27,000 studies</h2>
-      <div class="dc-sec-sub">Findings that flip "common knowledge" on its head. The trial data didn't read the marketing copy.</div>
-    </div>
-  </div>
-  <div class="dc-fact-grid">
-    <article class="dc-fact"><div class="dc-fact-num">0.3<small> mg</small></div><div class="dc-fact-title">Often beats 10 mg melatonin</div><div class="dc-fact-body">Zhdanova's MIT studies found 0.1–0.3 mg matches natural pineal peaks (≈ 60 pg/mL). Higher retail doses overshoot and cause next-day grogginess and tolerance.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">2024</div><div class="dc-fact-title">Cochrane reviews killed saw palmetto</div><div class="dc-fact-body">Tacklind's Cochrane reviews (2002, 2009, 2012, 2024 update) all conclude: no better than placebo for BPH symptoms. The supplement aisle hasn't caught up.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">3,000<small> mg</small></div><div class="dc-fact-title">Niacinamide ≈ NSAIDs for knee OA</div><div class="dc-fact-body">Jonas 1996: 3,000 mg/day matched NSAIDs for pain and reduced joint inflammation markers. It also outperforms glucosamine head-to-head — at a fraction of the price.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">2024</div><div class="dc-fact-title">D-mannose for UTIs collapsed</div><div class="dc-fact-body">The MERIT trial (BMJ 2024, n=598) found D-mannose no better than placebo at preventing recurrent UTIs. A decade of confident recommendations, reversed.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">27%</div><div class="dc-fact-title">Cranberry actually works for UTIs</div><div class="dc-fact-body">2024 Cochrane review: 50 trials, 8,857 people, 27% relative-risk reduction in recurrent UTIs. The "myth" turned out to be true.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">~1%</div><div class="dc-fact-title">Resveratrol's oral bioavailability</div><div class="dc-fact-body">A decade of failed promises in one number: ~1% reaches the bloodstream intact. Most of an oral dose is glucuronidated by the gut wall before it ever circulates.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">2–4×</div><div class="dc-fact-title">NMN raises NAD+ — but not function</div><div class="dc-fact-body">NMN reliably raises blood NAD+ 2–4×. The 2025 Prokopidis meta-analysis (J Cachexia Sarcopenia Muscle): no functional gains — strength, walking speed, body composition — in older adults.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">0.88<small> kg</small></div><div class="dc-fact-title">Garcinia cambogia's "weight loss"</div><div class="dc-fact-body">Onakpoya 2011 meta-analysis: 0.88 kg more weight loss than placebo over 12 weeks. The authors' verdict: "clinically insignificant."</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">2020</div><div class="dc-fact-title">Echinacea Cochrane review was retired</div><div class="dc-fact-body">The 2014 Karsch-Völk review was withdrawn in 2020 due to outdated methodology, with no replacement. The evidence base quietly vanished.</div></article>
-    <article class="dc-fact"><div class="dc-fact-num">↑</div><div class="dc-fact-title">Elderberry may <i>extend</i> flu in kids</div><div class="dc-fact-body">Macknin 2020 RCT (J Gen Intern Med, n=87) found a non-significant trend toward <i>longer</i> illness in pediatric flu — the opposite of marketing claims.</div></article>
-  </div>
-</section>
-
-<div class="dc-divider"><hr></div>
-
-<!-- ============================================================
-     10. Expensive vs cheap
+     9. Expensive vs cheap
      ============================================================ -->
 <section class="dc-section s-money" id="money">
   <div class="dc-sec-head">
@@ -1109,69 +954,33 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
 <div class="dc-divider"><hr></div>
 
 <!-- ============================================================
-     11b. The deficiency map (US adults below adequate intake)
+     11b. Top 10 supplements people are deficient in
      ============================================================ -->
 <section class="dc-section s-defic" id="deficiency">
   <div class="dc-sec-head">
     <div class="dc-sec-titlewrap">
-      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/><path d="M3 6l5 4 4-3 8-3"/><path d="M16 4h4v4"/></svg></span>The deficiency map</h2>
-      <div class="dc-sec-sub">Estimated share of U.S. adults below the EAR / AI for nutrients people most often supplement. Numbers from NHANES, IOM, and AHA position statements.</div>
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/><path d="M3 6l5 4 4-3 8-3"/><path d="M16 4h4v4"/></svg></span>Top 10 supplements people are deficient in</h2>
+      <div class="dc-sec-sub">Ranked by share of U.S. adults below the EAR / AI. Most "supplements that work" are correcting an actual gap in the diet — long before exotic longevity stacks come into the picture. Numbers from NHANES, IOM, and AHA position statements.</div>
     </div>
     <span class="dc-sec-meta">Source: NHANES &amp; IOM</span>
   </div>
-  <div class="dc-tierbar">
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Fibre</div>
-      <div class="dc-tierbar-dose">25–38 g</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:95%"></div></div>
-      <div class="dc-tierbar-pct">~95%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Choline</div>
-      <div class="dc-tierbar-dose">≥ 425 mg</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:90%"></div></div>
-      <div class="dc-tierbar-pct">~90%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Omega-3 (EPA+DHA)</div>
-      <div class="dc-tierbar-dose">250 mg/d (AHA)</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t4" style="width:90%"></div></div>
-      <div class="dc-tierbar-pct">~90%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Vitamin K2</div>
-      <div class="dc-tierbar-dose">no formal RDA</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:75%"></div></div>
-      <div class="dc-tierbar-pct">~75%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Magnesium</div>
-      <div class="dc-tierbar-dose">320–420 mg</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:50%"></div></div>
-      <div class="dc-tierbar-pct">~50%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Vitamin D</div>
-      <div class="dc-tierbar-dose">25(OH)D &lt; 30 ng/mL</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t3" style="width:42%"></div></div>
-      <div class="dc-tierbar-pct">~42%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">Iron (women 19–50)</div>
-      <div class="dc-tierbar-dose">18 mg</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t2" style="width:25%"></div></div>
-      <div class="dc-tierbar-pct">~25%</div>
-    </div>
-    <div class="dc-tierbar-row">
-      <div class="dc-tierbar-label">B12 (adults 50+)</div>
-      <div class="dc-tierbar-dose">2.4 µg</div>
-      <div class="dc-tierbar-track"><div class="dc-tierbar-fill t2" style="width:20%"></div></div>
-      <div class="dc-tierbar-pct">~20%</div>
-    </div>
-  </div>
-  <div class="dc-fact" style="margin-top:18px">
-    <div class="dc-fact-title">What this map means</div>
-    <div class="dc-fact-body">Most "supplements that work" are correcting an actual gap in the diet. The bigger the bar, the more likely a typical adult would benefit from food-first changes <i>or</i> a low-dose supplement — long before exotic longevity stacks come into the picture.</div>
+  <div class="dc-rank-grid">
+    <article class="dc-rank feat">
+      <div class="dc-rank-num gold">1</div>
+      <div class="dc-rank-name">Potassium</div>
+      <div class="dc-rank-meta">~97% below the AI of 4,700 mg/day</div>
+      <div class="dc-rank-fact">The single largest dietary gap in NHANES. Adequate potassium intake is associated with lower blood pressure, fewer strokes, and reduced kidney-stone risk — and almost no one hits the AI without deliberately eating fruit, beans, or potatoes daily.</div>
+      <div class="dc-rank-foot"><span class="dc-score-pill">~97% deficient</span><span class="dc-score-pill">AI 4,700 mg</span></div>
+    </article>
+    <article class="dc-rank"><div class="dc-rank-num silver">2</div><div class="dc-rank-name">Fibre</div><div class="dc-rank-fact">~95% of U.S. adults fall short of the 25–38 g/day target. The single biggest lever for cholesterol, glycemic control, and colorectal-cancer risk reduction.</div><div class="dc-rank-foot"><span class="dc-score-pill">~95% deficient</span><span class="dc-score-pill">25–38 g</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num bronze">3</div><div class="dc-rank-name">Choline</div><div class="dc-rank-fact">~90% below the AI (425 mg women / 550 mg men). Critical for liver, brain, and pregnancy — added to the Nutrition Facts label in 2016 precisely because the gap is so wide.</div><div class="dc-rank-foot"><span class="dc-score-pill">~90% deficient</span><span class="dc-score-pill">≥ 425 mg</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">4</div><div class="dc-rank-name">Omega-3 (EPA + DHA)</div><div class="dc-rank-fact">~90% of U.S. adults intake less than the AHA's 250 mg/day from seafood. Supplementation is one of the few cases where pills genuinely fill a population-wide dietary hole.</div><div class="dc-rank-foot"><span class="dc-score-pill">~90% deficient</span><span class="dc-score-pill">250 mg/d (AHA)</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">5</div><div class="dc-rank-name">Vitamin K2</div><div class="dc-rank-fact">No formal RDA, but dietary survey work suggests ~75% of adults consume well below intakes associated with cardiovascular and bone benefits in observational cohorts (Rotterdam, PROSPECT).</div><div class="dc-rank-foot"><span class="dc-score-pill">~75% suboptimal</span><span class="dc-score-pill">no formal RDA</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">6</div><div class="dc-rank-name">Magnesium</div><div class="dc-rank-fact">~50% of U.S. adults below the EAR (320 mg women / 420 mg men). Implicated in blood pressure, sleep quality, and migraine prophylaxis.</div><div class="dc-rank-foot"><span class="dc-score-pill">~50% deficient</span><span class="dc-score-pill">320–420 mg</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">7</div><div class="dc-rank-name">Vitamin D</div><div class="dc-rank-fact">~42% of U.S. adults have serum 25(OH)D below 30 ng/mL — the threshold most clinical groups use for "insufficient." Higher in darker-skinned and northern-latitude populations.</div><div class="dc-rank-foot"><span class="dc-score-pill">~42% deficient</span><span class="dc-score-pill">25(OH)D &lt; 30 ng/mL</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">8</div><div class="dc-rank-name">Calcium</div><div class="dc-rank-fact">~40% of U.S. adults below the EAR (800–1,000 mg). Inadequacy is highest in adolescent girls and adults over 50 — both groups with the most to lose from low bone density.</div><div class="dc-rank-foot"><span class="dc-score-pill">~40% deficient</span><span class="dc-score-pill">1,000–1,200 mg</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">9</div><div class="dc-rank-name">Iron (women 19–50)</div><div class="dc-rank-fact">~25% of menstruating women have low iron stores; ~10% meet criteria for iron-deficiency anemia. The most common nutrient deficiency worldwide.</div><div class="dc-rank-foot"><span class="dc-score-pill">~25% deficient</span><span class="dc-score-pill">18 mg</span></div></article>
+    <article class="dc-rank"><div class="dc-rank-num plain">10</div><div class="dc-rank-name">Vitamin B12 (adults 50+)</div><div class="dc-rank-fact">~20% of older adults have low or borderline B12 — primarily from age-related decline in stomach acid (atrophic gastritis), not low intake. Why most clinical groups recommend B12-fortified foods or a supplement after age 50.</div><div class="dc-rank-foot"><span class="dc-score-pill">~20% deficient</span><span class="dc-score-pill">2.4 µg</span></div></article>
   </div>
 </section>
 
@@ -1198,6 +1007,93 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
     <article class="dc-fact"><div class="dc-fact-num">100</div><div class="dc-fact-title">The only perfect score in the database</div><div class="dc-fact-body">Oral rehydration salts (WHO formula). The next-highest scorer is 4 points behind. By any reasonable measure, the highest-evidence "supplement" in the world.</div></article>
     <article class="dc-fact"><div class="dc-fact-num">22</div><div class="dc-fact-title">The lowest score in the database</div><div class="dc-fact-body">Greater celandine — withdrawn by Germany's BfArM in 2008 after a benefit–risk review of liver-injury cases. 78 points below the top of the chart.</div></article>
     <article class="dc-fact"><div class="dc-fact-num">∞</div><div class="dc-fact-title">Argyria is forever</div><div class="dc-fact-body">Colloidal silver permanently turns skin blue-grey. The colour is silver granules deposited in the dermis. There is no treatment, only avoidance.</div></article>
+  </div>
+</section>
+
+<div class="dc-divider"><hr></div>
+
+<!-- ============================================================
+     14. Recalls / FDA warnings (moved to bottom)
+     ============================================================ -->
+<section class="dc-section s-recalls" id="recalls">
+  <div class="dc-sec-head">
+    <div class="dc-sec-titlewrap">
+      <h2 class="dc-sec-title"><span class="ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 7H4c0-1 2-2 2-7z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span>Recent recalls &amp; FDA warnings</h2>
+      <div class="dc-sec-sub">A roll-call of products the FDA, EFSA, WHO, or national regulators have flagged. Several are still legally on shelves through loopholes.</div>
+    </div>
+  </div>
+  <div class="dc-recalls-grid">
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2004</span></div>
+      <div class="dc-rc-title">Ephedra deaths before the ban</div>
+      <div class="dc-rc-body">FDA pulled ephedra after documented deaths. Bitter-orange synephrine and its analogues moved into the space within months.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">155</span><span class="dc-rc-lbl">documented deaths</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">ongoing</span></div>
+      <div class="dc-rc-title">Kratom-linked deaths in FDA review</div>
+      <div class="dc-rc-body">Mitragyna speciosa still sold in head shops and gas stations. Multiple federal ban attempts have stalled. Activates opioid receptors.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">36</span><span class="dc-rc-lbl">deaths in FDA review</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">EFSA</span><span class="dc-rc-date">2018</span></div>
+      <div class="dc-rc-title">Green-tea extract hepatotoxic threshold</div>
+      <div class="dc-rc-body">EFSA flagged doses ≥ 800 mg EGCG/day as liver-toxic. Now the leading herbal cause of drug-induced liver injury in the U.S. registry.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">800 <small>mg</small></span><span class="dc-rc-lbl">EGCG/day threshold</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2020</span></div>
+      <div class="dc-rc-title">Vinpocetine — ruled a drug, not a supplement</div>
+      <div class="dc-rc-body">FDA's 2020 final guidance: vinpocetine is a drug — not safe in pregnancy. Still sold openly under "nootropic" labels.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">2020</span><span class="dc-rc-lbl">final FDA guidance</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">Case reports</span><span class="dc-rc-date">2023–24</span></div>
+      <div class="dc-rc-title">Melanoma cases linked to Melanotan II</div>
+      <div class="dc-rc-body">Rapid-growth melanomas documented in users of injected "tanning peptides." Sold through gym black markets and online.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">3</span><span class="dc-rc-lbl">published melanoma cases</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">2013</span></div>
+      <div class="dc-rc-title">DMAA banned from pre-workouts</div>
+      <div class="dc-rc-body">Banned after deaths and cardiac events. Analogues like DMHA, octodrine, and 2-aminoisoheptane keep reappearing under new names.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">2013</span><span class="dc-rc-lbl">ban enacted</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">FDA</span><span class="dc-rc-date">enforcement</span></div>
+      <div class="dc-rc-title">Colloidal silver — permanent disfigurement</div>
+      <div class="dc-rc-body">No safe or effective use. Argyria — permanent blue-grey skin discolouration — has no treatment. Silver granules deposited in the dermis.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">∞</span><span class="dc-rc-lbl">irreversible</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">Clinical</span><span class="dc-rc-date">ongoing</span></div>
+      <div class="dc-rc-title">Phenibut: dependence in days, not weeks</div>
+      <div class="dc-rc-body">Daily use causes physical dependence in as few as 3–5 days. Withdrawal includes anxiety, insomnia, and seizures. Not approved in the U.S. or EU.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">3–5 <small>days</small></span><span class="dc-rc-lbl">dependence window</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">State actions</span><span class="dc-rc-date">ongoing</span></div>
+      <div class="dc-rc-title">Tianeptine — "Gas station heroin"</div>
+      <div class="dc-rc-body">An atypical antidepressant sold in supplement packaging. Banned in 11 states by 2024 after overdose clusters. Opioid-like withdrawal.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">11</span><span class="dc-rc-lbl">U.S. states banned it</span></div>
+    </article>
+
+    <article class="dc-rc">
+      <div class="dc-rc-top"><span class="dc-rc-badge">BfArM</span><span class="dc-rc-date">2008</span></div>
+      <div class="dc-rc-title">Greater celandine pulled in Germany</div>
+      <div class="dc-rc-body">Authorization withdrawn after benefit–risk review of liver-injury cases. Still legal in many other markets — including the U.S.</div>
+      <div class="dc-rc-stat"><span class="dc-rc-num">2008</span><span class="dc-rc-lbl">authorization withdrawn</span></div>
+    </article>
+
   </div>
 </section>
 

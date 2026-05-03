@@ -119,7 +119,6 @@
       <a class="site-nav-tab" href="index.html" style="text-decoration:none">Index</a>
       <a class="site-nav-tab" href="discover.html" style="text-decoration:none">Discover</a>
       <a class="site-nav-tab" href="index.html#research" style="text-decoration:none">Articles</a>
-      <a class="site-nav-tab" href="index.html#about" style="text-decoration:none">About</a>
       <a class="site-nav-tab site-nav-tab-icon" href="index.html#profile" style="text-decoration:none" aria-label="Profile" title="Profile"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 4-8 8-8s8 3 8 8z"/></svg></a>
     </div>
   </div>
@@ -145,6 +144,7 @@
 </main>
 
 <script src="data.js?v=20260418m"></script>
+<script src="a/manifest.js?v=20260502a"></script>
 <script src="search-index.js?v=20260429a"></script>
 <script src="nav-search.js?v=20260429a"></script>
 <script src="supplement-modal.js?v=20260429a" defer></script>
@@ -155,6 +155,8 @@
 
   var p = new URLSearchParams(location.search);
   var q = (p.get('q') || '').trim();
+  /* window.__ART_MANIFEST is set synchronously by a/manifest.js (loaded above)
+     so article search results can link directly to the full /a/ pages. */
   var titleEl = document.getElementById('sr-title');
   var metaEl  = document.getElementById('sr-meta');
   var bodyEl  = document.getElementById('sr-body');
@@ -252,7 +254,11 @@
   }
   function artCard(item){
     var a = item.ref;
-    var url = window.SS.urlFor('article', item.id);
+    /* Prefer the prebuilt manifest mapping id → /a/<filename> for accuracy.
+       Falls back to the lite article.html?id=N viewer if the id is missing. */
+    var manifest = window.__ART_MANIFEST || {};
+    var fileName = manifest[item.id] || manifest[String(item.id)];
+    var url = fileName ? ('a/' + fileName) : window.SS.urlFor('article', item.id);
     var cat = (a.c || 'article').toLowerCase();
     return '<a class="sr-card" href="' + url + '">'
       + '<div class="sr-card-row"><div class="sr-card-name">' + escapeHtml(a.t) + '</div>'
