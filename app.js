@@ -2908,6 +2908,29 @@ var SX_LABELS = {
   Bone:'Bone / Calcium',Hormone:'Hormonal balance',Liver:'Liver',Eye:'Eye / Vision',
   Pregnancy:'Pregnancy / Fertility',Kids:'Kids / Pediatric'
 };
+/* Per-symptom banner copy. Each entry feeds the filter banner: a one-line
+   subtitle replaces the previous generic "Filtered to supplements with
+   evidence..." placeholder so the description actually informs. */
+var SX_META = {
+  Sleep:{desc:'Supplements with trial evidence for falling asleep faster, staying asleep, or improving sleep architecture. Most useful when paired with consistent sleep hygiene — never a replacement for it.',icon:'<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>'},
+  Anxiety:{desc:'Adaptogens, amino acids, and minerals shown to lower subjective stress, salivary cortisol, or generalized anxiety symptoms. Effects are typically modest; persistent anxiety warrants clinical care.',icon:'<circle cx="12" cy="12" r="10"/><path d="M8 15s1.5-2 4-2 4 2 4 2M9 9h.01M15 9h.01"/>'},
+  Mood:{desc:'Supplements with RCT evidence for reducing depressive symptoms or supporting day-to-day mood. Adjunct to therapy or medication, not a replacement — coordinate with your clinician.',icon:'<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>'},
+  Cognition:{desc:'Nutrients and nootropics with measurable effects on attention, working memory, processing speed, or long-term cognitive resilience. Effects are modest; sleep, exercise, and cardiovascular health still dominate.',icon:'<path d="M12 2a4 4 0 00-4 4v14a3 3 0 006 0v-3a3 3 0 013-3h1a4 4 0 000-8 4 4 0 00-4-4z"/>'},
+  Cardio:{desc:'Compounds shown to lower LDL cholesterol, blood pressure, triglycerides, or cardiovascular event risk. Several here carry an FDA-authorized health claim — rare for supplements.',icon:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/>'},
+  Glucose:{desc:'Supplements with RCT evidence for lowering fasting glucose, post-meal spikes, or HbA1c. Most useful for prediabetes and metabolic syndrome — not a substitute for metformin or GLP-1 medications.',icon:'<path d="M5 6h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="M12 15s-2 0-2-2 2-2 2-4 2 2 2 4-2 2-2 2z"/>'},
+  Joint:{desc:'Supplements that reduce stiffness, ease osteoarthritis pain, or slow cartilage breakdown. Effects are typically modest — best paired with progressive strength training.',icon:'<circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M9 9l6 6"/>'},
+  Gut:{desc:'Strain-specific probiotics, soluble and insoluble fibres, and digestive aids with evidence for IBS, regularity, gut-barrier function, or microbiome diversity. Strain matters — generic "probiotic" doesn\'t.',icon:'<path d="M5 12c0-4 3-7 7-7s7 3 7 7-3 7-7 7c-3 0-5-2-5-5s1-4 3-4 3 1 3 2-.5 1.5-1 1.5"/>'},
+  Immunity:{desc:'Compounds shown to reduce the frequency, severity, or duration of upper respiratory infections — plus support baseline immune resilience. Vitamin D status matters more than any single supplement here.',icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>'},
+  Skin:{desc:'Nutrients and bioactives with evidence for skin elasticity, hydration, photoprotection, hair quality, and nail strength — from the inside out. Topical care still does most of the heavy lifting.',icon:'<path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>'},
+  Energy:{desc:'Mitochondrial cofactors, B-vitamins, and adaptogens with evidence for reducing chronic fatigue and supporting sustained physical and mental energy. Rule out iron, B12, and thyroid deficiency first.',icon:'<path d="M13 2L3 14h7l-2 8L20 10h-7l2-8z"/>'},
+  Performance:{desc:'The most-studied category in the database. Evidence-graded for muscle hypertrophy, strength gains, endurance, power output, and post-exercise recovery. Creatine leads the field.',icon:'<path d="M6.5 6.5l11 11M21 21l-1.5-1.5M3 3l1.5 1.5M18 22l4-4M6 2l-4 4M14.5 4l-2.5 2.5M7.5 14l-2.5 2.5"/>'},
+  Bone:{desc:'Critical for post-menopausal women, older adults, and anyone with low bone density. Best paired with weight-bearing exercise and adequate dietary protein — supplements alone are not enough.',icon:'<path d="M17 10L8.5 1.5A4 4 0 002 6l.5.5a4 4 0 000 5.5L7 16.5a4 4 0 005.5 0l.5.5a4 4 0 005.5 0 4 4 0 000-5.5z"/>'},
+  Hormone:{desc:'Adaptogens, herbs, and nutrients with evidence for testosterone, estrogen, thyroid, or HPA-axis regulation. Effects are modest and highly individual — get bloodwork before chasing symptoms.',icon:'<path d="M21 2v6h-6M3 12a9 9 0 0115-6.7L21 8M3 22v-6h6M21 12a9 9 0 01-15 6.7L3 16"/>'},
+  Liver:{desc:'Compounds with evidence for protecting liver enzymes, supporting NAFLD, and reducing oxidative damage. Important caveat: several popular &ldquo;liver&rdquo; herbs are actually hepatotoxic — read safety notes carefully.',icon:'<path d="M2 12c0-5 4-9 10-9s10 4 10 9c0 4-3 7-7 8l-3 2v-3c-6 0-10-3-10-7z"/>'},
+  Eye:{desc:'Carotenoids, omega-3s, and antioxidants with evidence for retinal health, macular degeneration prevention (AREDS-2 formula), and protection against oxidative damage to the lens.',icon:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'},
+  Pregnancy:{desc:'Evidence-graded supplements for fetal development, maternal nutrient status, and fertility. Always coordinate with an OB or reproductive endocrinologist before starting anything new — some common supplements are contraindicated.',icon:'<circle cx="12" cy="5" r="3"/><path d="M8 22v-7c0-3 2-5 4-5s4 2 4 5v7"/><circle cx="15" cy="15" r="3"/>'},
+  Kids:{desc:'Supplements with pediatric safety data and dosing — covers common childhood deficiencies (iron, vitamin D), growth support, and developmental nutrients. Always consult a pediatrician before supplementing children.',icon:'<circle cx="12" cy="9" r="3.5"/><path d="M5 21v-2a7 7 0 0114 0v2"/>'}
+};
 function _sxPick(v){
   var keys=SX_KEYWORDS[v]||[];var label=SX_LABELS[v]||v;
   _ddLabel('sx-filter',label);_ddActive('sx-filter');
@@ -2921,10 +2944,12 @@ function _sxPick(v){
   }).map(function(s){return Object.assign({},s,{_sc:calcScore(s)});})
     .sort(function(a,b){return b._sc-a._sc;});
   var rowLimit=20;var hasMore=items.length>rowLimit;
-  var icon='<circle cx="12" cy="12" r="10"/>';
+  var m=(typeof SX_META!=='undefined'&&SX_META[v])||{};
+  var icon=m.icon||'<circle cx="12" cy="12" r="10"/>';
+  var defaultDesc='Filtered to supplements with evidence for this symptom or goal. Use as a research starting point — talk to a clinician before changing your regimen.';
   var banner=_filterBanner('Supplements for <b>'+label+'</b>',
     items.length+' supplement'+(items.length===1?'':'s'),
-    'Filtered to supplements with evidence for this symptom or goal. Use as a research starting point — talk to a clinician before changing your regimen.',
+    m.desc||defaultDesc,
     icon);
   var html=items.length
     ? '<div class="tier-sec">'+banner+'<div class="scards">'+items.map(function(s,i){return renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'');}).join('')+'</div>'+(hasMore?_loadMoreBtn('sx',items.length,rowLimit):'')+'</div>'
