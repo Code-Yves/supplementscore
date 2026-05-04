@@ -36,136 +36,19 @@
   line-height: 1.55;
 }
 
-.rs-search{
-  max-width: 560px; margin: 0 auto;
-  position: relative;
-}
-.rs-search input{
-  width: 100%; padding: 13px 60px 13px 44px;
-  font-family: inherit; font-size: 14.5px;
-  background: var(--color-background-primary);
-  border: 0.5px solid var(--color-border-secondary);
-  color: var(--color-text-primary); outline: 0;
-  transition: border-color .15s, box-shadow .15s;
-  border-radius: 0;
-}
-.rs-search input:focus{
-  border-color: var(--color-text-primary);
-  box-shadow: inset 0 -1px 0 0 var(--color-text-primary);
-}
-.rs-search input::placeholder{
-  color: var(--color-text-tertiary); font-style: italic;
-}
-.rs-search .ico{
-  position: absolute; left: 16px; top: 50%;
-  transform: translateY(-50%);
-  width: 16px; height: 16px;
-  color: var(--color-text-tertiary);
-  pointer-events: none;
-}
-.rs-search .clear{
-  position: absolute; right: 14px; top: 50%;
-  transform: translateY(-50%);
-  width: 22px; height: 22px;
-  border: 0; background: var(--color-background-secondary);
-  border-radius: 50%; color: var(--color-text-secondary);
-  font-size: 14px; cursor: pointer;
-  display: none; align-items: center; justify-content: center;
-  padding: 0;
-}
-.rs-search .clear.vis{ display: flex; }
+/* Note: active .rs-search styling lives in the toolbar block further down. */
 
-.rs-cat-sticky{
-  position: sticky;
-  top: 70px;
-  z-index: 14;
-  background: var(--color-background-secondary);
-  border-top: 0.5px solid var(--color-border-tertiary);
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-  margin: 8px -1rem 24px;
-  width: calc(100% + 2rem);
-}
-.rs-cat-wrap{
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.rs-cat{
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-}
-.rs-cat a{
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 5px; padding: 18px 6px 16px;
-  border-left: 0.5px solid var(--color-border-tertiary);
-  text-decoration: none; color: inherit;
-  cursor: pointer; transition: background .12s;
-  position: relative; background: transparent;
-}
-.rs-cat a:first-child{ border-left: 0; }
-.rs-cat a:hover{ background: var(--color-background-primary); }
-.rs-cat a.on::after{
-  content: ""; position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 2px; background: var(--color-text-primary);
-}
-.rs-cat .lbl{
-  font-size: 10.5px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--color-text-secondary);
-  text-align: center; line-height: 1.2;
-  white-space: nowrap;
-}
-.rs-cat .n{
-  font-size: 13px; font-weight: 600;
-  color: var(--color-text-primary);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0;
-}
-.rs-cat a:hover .lbl,
-.rs-cat a.on .lbl{ color: var(--color-text-primary); }
+/* Per-category label colors — apply to the option labels inside the toolbar
+   dropdown panel. Layout/positioning of the panel and its options lives in
+   the .rs-toolbar / .rs-cat-dd-panel block further down. */
+.rs-cat a[data-cat="guide"] .lbl        { color: var(--t2c) }
+.rs-cat a[data-cat="breakthrough"] .lbl { color: var(--t1c) }
+.rs-cat a[data-cat="kids"] .lbl         { color: var(--color-brand) }
+.rs-cat a[data-cat="myth"] .lbl         { color: var(--t3c) }
+.rs-cat a[data-cat="safety"] .lbl       { color: var(--t4c) }
 
-/* Per-category tints */
-.rs-cat a[data-cat="guide"]{ background:color-mix(in srgb,var(--t2c) 7%,transparent) }
-.rs-cat a[data-cat="guide"] .lbl,.rs-cat a[data-cat="guide"] .n{ color:var(--t2c) }
-.rs-cat a[data-cat="guide"]:hover{ background:color-mix(in srgb,var(--t2c) 12%,transparent) }
-.rs-cat a[data-cat="guide"].on::after{ background:var(--t2c) }
-
-.rs-cat a[data-cat="breakthrough"]{ background:color-mix(in srgb,var(--t1c) 7%,transparent) }
-.rs-cat a[data-cat="breakthrough"] .lbl,.rs-cat a[data-cat="breakthrough"] .n{ color:var(--t1c) }
-.rs-cat a[data-cat="breakthrough"]:hover{ background:color-mix(in srgb,var(--t1c) 12%,transparent) }
-.rs-cat a[data-cat="breakthrough"].on::after{ background:var(--t1c) }
-
-.rs-cat a[data-cat="kids"]{ background:color-mix(in srgb,var(--color-brand) 7%,transparent) }
-.rs-cat a[data-cat="kids"] .lbl,.rs-cat a[data-cat="kids"] .n{ color:var(--color-brand) }
-.rs-cat a[data-cat="kids"]:hover{ background:color-mix(in srgb,var(--color-brand) 12%,transparent) }
-.rs-cat a[data-cat="kids"].on::after{ background:var(--color-brand) }
-
-.rs-cat a[data-cat="myth"]{ background:color-mix(in srgb,var(--t3c) 7%,transparent) }
-.rs-cat a[data-cat="myth"] .lbl,.rs-cat a[data-cat="myth"] .n{ color:var(--t3c) }
-.rs-cat a[data-cat="myth"]:hover{ background:color-mix(in srgb,var(--t3c) 12%,transparent) }
-.rs-cat a[data-cat="myth"].on::after{ background:var(--t3c) }
-
-.rs-cat a[data-cat="safety"]{ background:color-mix(in srgb,var(--t4c) 7%,transparent) }
-.rs-cat a[data-cat="safety"] .lbl,.rs-cat a[data-cat="safety"] .n{ color:var(--t4c) }
-.rs-cat a[data-cat="safety"]:hover{ background:color-mix(in srgb,var(--t4c) 12%,transparent) }
-.rs-cat a[data-cat="safety"].on::after{ background:var(--t4c) }
-
-@media (max-width: 900px){
-  .rs-cat{ grid-template-columns: repeat(3, 1fr); }
-  .rs-cat a{ border-left: 0.5px solid var(--color-border-tertiary); border-top: 0.5px solid var(--color-border-tertiary); }
-  .rs-cat a:nth-child(3n+1){ border-left: 0; }
-  .rs-cat a:nth-child(-n+3){ border-top: 0; }
-}
 @media (max-width: 600px){
-  .rs-cat{ grid-template-columns: repeat(2, 1fr); }
-  .rs-cat a:nth-child(3n+1){ border-left: 0.5px solid var(--color-border-tertiary); }
-  .rs-cat a:nth-child(2n+1){ border-left: 0; }
-  .rs-cat a:nth-child(-n+3){ border-top: 0.5px solid var(--color-border-tertiary); }
-  .rs-cat a:nth-child(-n+2){ border-top: 0; }
   .rs-hero{ padding: 32px 18px 24px; }
-  /* On mobile the nav sticks at top:0 (~60px tall), not top:32px */
-  .rs-cat-sticky{ top: 60px; }
 }
 
 /* ============================================================
@@ -330,7 +213,10 @@
   line-height: 1.55;
 }
 .ix-sources{
-  max-width: 640px; margin: 0 auto 0;
+  /* Was 640px when the strip was a wrap-flex of inline logos. The new
+     5-col grid needs ~860px; bumping this wrapper to 900px gives it
+     room without affecting the rest of the hero centering. */
+  max-width: 900px; margin: 0 auto 0;
   padding: 6px 20px;
 }
 .ix-sources-label{
@@ -338,26 +224,113 @@
   text-transform: uppercase; color: var(--color-text-tertiary);
   text-align: center; margin-bottom: 8px;
 }
+/* ============================================================
+   Source-logos strip
+   ------------------------------------------------------------
+   10 source marks rendered as a perfect 5×2 CSS Grid so every cell
+   is the same width. Each logo centers within its cell, which gives
+   visually-even spacing regardless of how wide each individual SVG is.
+
+   Tone is unified via `filter: brightness(0)` — this forces every
+   non-transparent pixel to pure black, neutralizing the original
+   colour palettes (WHO blue, NIH red runner, Stanford red, PubMed
+   blue) that previously washed out under grayscale().
+
+   Per-logo CSS height overrides compensate for each SVG's internal
+   padding so the *visible* glyph size is consistent across all 10
+   marks even though the bounding-box heights differ.
+   ============================================================ */
 .ix-sources-logos{
-  display: flex; flex-wrap: wrap; align-items: center;
-  justify-content: center; gap: 8px 22px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  justify-items: center;
+  /* Tight spacing per design feedback. 12px column-gap with 800px
+     max-width → ~150px per cell, still fits Johns Hopkins (~147px
+     wide at 22px height) without compressing. */
+  column-gap: 12px;
+  row-gap: 14px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .ix-sources-logos img{
-  filter: grayscale(1) contrast(1.3) opacity(0.5);
-  transition: filter .15s;
+  /* Baseline height — overridden per-logo below for visual parity. */
+  height: 22px;
+  width: auto;
+  max-width: 100%;
+  /* brightness(0) → pure black silhouette (kills original colour);
+     opacity(0.42) → subtle mid-grey tone, lets the headline carry the
+     hero rather than the logo strip competing for attention. */
+  filter: brightness(0) opacity(0.42);
+  transition: filter .15s, opacity .15s;
   object-fit: contain;
+  display: block;
 }
-.ix-sources-logos img:hover{ filter: grayscale(1) contrast(1.3) opacity(0.75); }
+.ix-sources-logos img:hover{
+  filter: brightness(0) opacity(0.72);
+}
+
+/* ------------------------------------------------------------
+   Per-logo height tuning.
+   Heights below were validated by actually rendering each SVG with
+   cairosvg and visually comparing — not just guessing from viewBox math.
+   ------------------------------------------------------------
+   SVG              chosen px   why
+   --------------   ---------   ----------------------------------------
+   NIH              28          figure-style mark with internal padding
+   The Lancet       15          small-caps fills ~95% of viewBox
+   Stanford         18          text fills more of viewBox than wordmarks
+   Everyone else    22          baseline — Cochrane / Harvard / JHU /
+                                NEJM / FDA / PubMed / WHO all render
+                                at compatible visible glyph heights
+                                here. WHO's emblem + 2-line wordmark
+                                fits the same 22px vertical footprint.
+   ------------------------------------------------------------ */
+.ix-sources-logos img[alt="NIH"]{           height: 28px; }
+.ix-sources-logos img[alt="The Lancet"]{    height: 15px; }
+.ix-sources-logos img[alt="Stanford"]{      height: 18px; }
+/* All others use the 22px baseline. */
+
+/* "View all 51 other sources" — spans all 5 grid columns and sits
+   on its own row directly under the logo grid. */
+.ix-sources-logos > .ix-sources-more{
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+
+/* Mobile: collapse to a 2-column grid so the marks stay legible
+   on narrow viewports rather than crushing into 5 tiny columns. */
+@media (max-width: 600px){
+  .ix-sources-logos{
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 14px;
+    row-gap: 12px;
+    max-width: 340px;
+  }
+}
 .ix-sources-more{
-  font-family: inherit; font-size: 11.5px; font-weight: 600; letter-spacing: .01em;
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border-secondary);
-  border-radius: 8px; padding: 4px 10px;
+  font-family: inherit; font-size: 12.5px; font-weight: 400; letter-spacing: .01em;
+  color: var(--color-text-tertiary);
+  border: 0; background: transparent;
+  padding: 4px 14px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   white-space: nowrap; align-self: center;
-  cursor: pointer; background: var(--color-background-primary);
-  transition: border-color .15s, color .15s;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  transition: color .15s, border-color .15s;
 }
-.ix-sources-more:hover{ border-color: var(--color-border-primary); color: var(--color-text-primary); }
+.ix-sources-more:hover{
+  color: var(--color-brand);
+  border-bottom-color: var(--color-brand);
+}
+.ix-sources-more-arrow{
+  width: 13px; height: 13px;
+  flex: 0 0 auto;
+  transform: translateY(.5px);
+  transition: transform .15s;
+}
+.ix-sources-more:hover .ix-sources-more-arrow{ transform: translate(2px, .5px); }
 
 /* Sticky search bar */
 #ix-sticky-bar{
@@ -382,6 +355,32 @@
 .ix-search-sticky{ max-width: 560px; margin: 0 auto; }
 @media(max-width: 600px){
   #ix-sticky-bar{ top: 62px; padding: 7px 14px 3px; }
+}
+
+/* "Filter by:" inline label — injected by initAllTab() as the first
+   child of the .sfbar flex row, mirroring the existing "Sort:" prefix
+   on the right side of the same row. Same visual weight, same color
+   token, same vertical alignment — so the row reads as a balanced
+   "Filter by [pills] … Sort: [chip]" pair. */
+.sfbar-filter-by{
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--color-text-tertiary);
+  font-size: 13px; font-weight: 500;
+  padding: 0 6px 0 2px;
+  white-space: nowrap;
+  user-select: none;
+  flex: 0 0 auto;
+}
+.sfbar-filter-by-ico{
+  width: 14px; height: 14px;
+  color: var(--color-text-tertiary);
+  flex: 0 0 auto;
+}
+@media(max-width: 560px){
+  /* On narrow screens the icon is enough — drop the label text to keep
+     the pill row from wrapping awkwardly. */
+  .sfbar-filter-by{ font-size: 0; padding: 0 2px; gap: 0; }
+  .sfbar-filter-by-ico{ width: 16px; height: 16px; }
 }
 
 /* Filter/sort sticky bar */
@@ -607,12 +606,6 @@
 }
 #rs-search-input::placeholder{color:var(--color-text-tertiary);font-weight:500}
 #rs-search-input::-webkit-search-cancel-button{display:none}
-.rs-search-clear{
-  /* Visual clear-button removed per design — kept in DOM only so the
-     existing JS handlers (input.addEventListener, hidden toggles) keep
-     working without null-guarding. Use Esc to clear the input. */
-  display:none !important;
-}
 
 /* Typeahead dropdown */
 .rs-search-ac{

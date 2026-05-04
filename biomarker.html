@@ -12,17 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260502a">
+<link rel="stylesheet" href="styles.css?v=20260504a">
 <style>
-.dt-wrap{max-width:880px;margin:0 auto;padding:24px}
-.dt-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);transition:all .15s;margin:18px 0 14px}
-.dt-back:hover{background:rgba(31,122,107,.06);border-color:var(--color-brand);color:var(--color-brand)}
-.dt-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:#2A4A8E;margin-bottom:6px}
-.dt-h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1px;margin:0 0 6px;color:var(--color-text-primary);line-height:1.1}
-.dt-tag{font-size:14.5px;color:var(--color-text-secondary);margin-bottom:18px;line-height:1.55}
-.dt-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-top:14px}
-.dt-card h2{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 12px}
-
+/* Biomarker-page-only: blue eyebrow + reference-range bar + sup-list variants. */
+.dt-eyebrow{color:#2A4A8E}
 .range-bar{height:42px;border-radius:10px;background:linear-gradient(90deg,#FCA5A5 0%,#FCA5A5 18%,#FDE68A 18%,#FDE68A 32%,#86EFAC 32%,#86EFAC 60%,#FDE68A 60%,#FDE68A 78%,#FCA5A5 78%);position:relative;overflow:hidden;border:1px solid var(--color-border-tertiary)}
 .range-bar::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(0,0,0,.03) 100%);border-radius:inherit}
 .range-ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-top:6px;font-variant-numeric:tabular-nums}
@@ -35,8 +28,6 @@
 .sup-list a.name:hover{color:var(--color-brand)}
 .sup-list .dose{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
 .sup-list .note{font-size:12px;color:var(--color-text-tertiary);margin-top:3px}
-
-.dt-disclaim{margin:32px 0 24px;font-size:12px;color:var(--color-text-tertiary);text-align:center;line-height:1.55}
 </style>
   <link rel="canonical" href="https://supplementscore.org/biomarker.html">
   <meta property="og:title" content="Biomarkers | SupplementScore">
@@ -79,7 +70,7 @@
 <body>
 <div class="beta-bar" role="status" aria-live="polite">
   <span class="beta-bar-pulse" aria-hidden="true"></span>
-  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-live"><span class="beta-bar-num" id="ss-live-count">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
   <span class="beta-bar-sep" aria-hidden="true">·</span>
   <span class="beta-bar-tag">Actively refining for accuracy</span>
 </div>
@@ -98,10 +89,10 @@
   </div>
 </nav>
 <main class="dt-wrap" id="dt-root"></main>
-<script src="data.js?v=20260418m"></script>
-<script src="search-index.js?v=20260429a"></script>
-<script src="nav-search.js?v=20260429a"></script>
-<script src="supplement-modal.js?v=20260429a" defer></script>
+<script src="data.js?v=20260504a"></script>
+<script src="search-index.js?v=20260504a"></script>
+<script src="nav-search.js?v=20260504a"></script>
+<script src="supplement-modal.js?v=20260504a" defer></script>
 <script>
 (function(){
   function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]});}

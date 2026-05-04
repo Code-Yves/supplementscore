@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260502a">
+  <link rel="stylesheet" href="../styles.css?v=20260504a">
   <link rel="stylesheet" href="print.css" media="print">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
@@ -24,10 +24,6 @@
   <style>
     body{background:var(--color-background-primary);color:var(--color-text-primary)}
     .ca-wrap{max-width:780px;margin:0 auto;padding:32px 22px 64px;line-height:1.7}
-    .ca-close{position:fixed;top:18px;right:18px;width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;z-index:50;transition:background .15s,color .15s,border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-    .ca-close:hover{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
-    .ca-close:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
-    .ca-wrap{padding-top:64px}
     .ca-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
     .ca-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
     .ca-meta{font-size:13px;color:var(--color-text-tertiary);margin-bottom:30px;border-bottom:1px solid var(--color-border-tertiary);padding-bottom:18px}
@@ -74,9 +70,9 @@
 </head>
 <body>
 <main class="ca-wrap">
-  <button type="button" class="ca-close" aria-label="Close and go back" onclick="if(history.length&gt;1){history.back()}else{location.href='index.html'}">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  </button>
+  <a href="index.html" class="pg-close-fab" onclick="event.preventDefault();var stack=[];try{stack=JSON.parse(sessionStorage.getItem('ss-art-stack')||'[]');if(!Array.isArray(stack))stack=[];}catch(_){stack=[];}if(stack.length){var prev=stack.pop();try{sessionStorage.setItem('ss-art-stack',JSON.stringify(stack));}catch(_){}try{sessionStorage.setItem('ss-art-skip-push','1');}catch(_){}location.href=prev;return;}var o=null;try{o=sessionStorage.getItem('ss-art-origin');}catch(_){}if(o){try{sessionStorage.removeItem('ss-art-origin');}catch(_){}location.href=o;return;}if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='index.html';}" aria-label="Close and return">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </a>
 
   <div class="ca-kicker">Condition deep-dive · 7 min read · Honest about evidence</div>
   <h1>Hangover prevention and recovery — what actually works</h1>

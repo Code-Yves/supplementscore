@@ -171,63 +171,21 @@ const ARTICLE_CAT_LABELS={all:'All Articles',guide:'Guides',breakthrough:'Breakt
 function filterArticles(cat, shouldScroll) {
   if(shouldScroll === undefined) shouldScroll = true;
   window._articleCategoryFilter = cat || 'all';
-  // Update dropdown items active state
-  document.querySelectorAll('.articles-dd-item').forEach(p => {
-    p.classList.toggle('active', p.dataset.cat === window._articleCategoryFilter);
-  });
-  // Update dropdown button label + count (legacy hidden dropdown)
-  const labelEl = document.getElementById('articles-dd-label');
-  const countEl = document.getElementById('articles-dd-count');
-  if(labelEl) labelEl.textContent = ARTICLE_CAT_LABELS[window._articleCategoryFilter] || 'All Articles';
-  if(countEl){
-    if(window._articleCategoryFilter === 'all'){
-      const tot = document.querySelector('[data-total-count]');
-      countEl.textContent = tot ? tot.textContent : '0';
-    } else {
-      const src = document.querySelector('.articles-dd-item[data-cat="'+window._articleCategoryFilter+'"] .articles-dd-item-count');
-      countEl.textContent = src ? src.textContent : '0';
-    }
-  }
-  // Sync the new compact toolbar dropdown — mark active option, mirror to button
+  // Sync the compact toolbar dropdown — mark active option, mirror to button
   document.querySelectorAll('.rs-cat-dd-panel a').forEach(function(a){
     a.classList.toggle('on', a.getAttribute('data-cat') === window._articleCategoryFilter);
   });
   if (typeof rsCatDdSync === 'function') rsCatDdSync();
-  // Close dropdown
-  const dd = document.getElementById('articles-dd');
-  if(dd) dd.classList.remove('open');
   if (typeof rsCatDdClose === 'function') rsCatDdClose();
   applyArticleFilter();
   // Scroll to the toolbar so it sits at the top of the viewport and the first article appears fully below it
   if(shouldScroll){
-    const toolbar = document.querySelector('.rs-toolbar') || document.querySelector('.articles-filter-row');
+    const toolbar = document.querySelector('.rs-toolbar');
     if(toolbar){
       const y = toolbar.getBoundingClientRect().top + window.pageYOffset - 72;
       window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
     }
   }
-}
-function toggleArticlesDropdown(e){
-  if(e){e.stopPropagation();}
-  const dd = document.getElementById('articles-dd');
-  if(dd) dd.classList.toggle('open');
-}
-document.addEventListener('click', function(e){
-  const dd = document.getElementById('articles-dd');
-  if(dd && dd.classList.contains('open') && !dd.contains(e.target)){
-    dd.classList.remove('open');
-  }
-});
-function searchArticles(query) {
-  window._articleSearchQuery = (query || '').trim().toLowerCase();
-  const clr = document.getElementById('articles-search-clear');
-  if (clr) clr.style.display = window._articleSearchQuery ? '' : 'none';
-  applyArticleFilter();
-}
-function clearArticleSearch() {
-  const inp = document.getElementById('articles-search-input');
-  if (inp) inp.value = '';
-  searchArticles('');
 }
 function applyArticleFilter() {
   const cat = window._articleCategoryFilter || 'all';
@@ -385,94 +343,22 @@ function initCatCardCounts(){
   document.querySelectorAll('[data-cat-count]').forEach(el=>{
     el.textContent=counts[el.dataset.catCount]||0;
   });
-  // Total for "All Articles" badge in the filter dropdown
+  // Total — populates [data-total-count] in the toolbar dropdown's "All" option,
+  // which the dropdown sync function then mirrors onto the trigger button.
   const total=Object.values(counts).reduce((a,b)=>a+b,0);
   document.querySelectorAll('[data-total-count]').forEach(el=>{el.textContent=total;});
-  const ddCount=document.getElementById('articles-dd-count');
-  if(ddCount && (!window._articleCategoryFilter || window._articleCategoryFilter==='all')){
-    ddCount.textContent=total;
-  }
+  if (typeof rsCatDdSync === 'function') rsCatDdSync();
 }
 if (document.querySelector('.article-list')) { reorderArticles(); initArticleLoadMore(); initCatCardCounts(); }
-/* Category hero rotating carousel */
-(function(){
-  const hero=document.getElementById('cat-hero');
-  if(!hero) return;
-  const SLIDES=hero.querySelectorAll('.cat-hero-slide');
-  const BGS=hero.querySelectorAll('.cat-hero-bg');
-  const counterEl=document.getElementById('cat-hero-current');
-  const TOTAL=SLIDES.length;
-  if(!TOTAL) return;
-  let current=0, timer;
-  function go(i){
-    current=i;
-    SLIDES.forEach((s,idx)=>s.classList.toggle('active',idx===i));
-    BGS.forEach((b,idx)=>b.classList.toggle('active',idx===i));
-    if(counterEl) counterEl.textContent=i+1;
-  }
-  function reset(){clearInterval(timer);timer=setInterval(()=>go((current+1)%TOTAL),4000);}
-  window.catHeroNext=function(){go((current+1)%TOTAL);reset();};
-  window.catHeroPrev=function(){go((current-1+TOTAL)%TOTAL);reset();};
-  hero.addEventListener('click',(e)=>{
-    if(e.target.closest('.cat-hero-nav')) return;
-    const cat=SLIDES[current].dataset.cat;
-    if(typeof catCardClick==='function') catCardClick(cat);
-  });
-  hero.addEventListener('mouseenter',()=>clearInterval(timer));
-  hero.addEventListener('mouseleave',reset);
-  reset();
-})();
-// Clear any browser autofill value that persisted in the search input on page load
-(function(){
-  const si = document.getElementById('articles-search-input');
-  if(!si) return;
-  const clear = () => { if(si.value) { si.value=''; if(typeof searchArticles==='function') searchArticles(''); } };
-  // Run multiple times to catch lazy autofill (Chrome/Safari/Firefox differ)
-  clear();
-  requestAnimationFrame(clear);
-  setTimeout(clear, 50);
-  setTimeout(clear, 250);
-  setTimeout(clear, 600);
-  setTimeout(clear, 1200);
-  // Also clear on first focus in case the browser fills on focus
-  si.addEventListener('focus', function once(){ clear(); si.removeEventListener('focus', once); });
-})();
+/* Category-hero rotating carousel removed — markup #cat-hero no longer exists. */
 
 /* ===== Block 3 (from line 17014, 3 lines) ===== */
 /* Dark mode disabled site-wide — theme is forced to light at the top of <head>.
    The theme toggle button is kept hidden in markup; this stub is a no-op kept
    only so any older cached link to it doesn't error. */
 
-/* ===== Block 4 (from line 17019, 51 lines) ===== */
-/* Live counter for the top banner — gives the bar a subtle "always updating" feel.
-   Base count anchored to a known epoch (in studies/72h). The displayed number
-   drifts up at the long-run rate of new reviews so refreshes a day later look
-   plausibly larger, with small idle ticks while the page is open. */
-(function(){
-  var el = document.getElementById('ss-live-count');
-  if(!el) return;
-  // Anchor: 1247 studies as of 2026-04-27 12:00 UTC. ~14 studies/hour rate.
-  var EPOCH = Date.UTC(2026, 3, 27, 12, 0, 0); // month is 0-indexed
-  var BASE  = 1247;
-  var RATE_PER_HOUR = 14;
-  function fmt(n){ return n.toLocaleString('en-US'); }
-  function currentCount(){
-    var hours = (Date.now() - EPOCH) / 3600000;
-    return Math.max(BASE, Math.round(BASE + hours * RATE_PER_HOUR));
-  }
-  var n = currentCount();
-  el.textContent = fmt(n);
-  // Idle drift: while the tab is open, occasionally bump by 1 so the user can
-  // see the number breathe. Pauses when the tab is hidden.
-  setInterval(function(){
-    if(document.hidden) return;
-    if(Math.random() < 0.35){
-      n += 1;
-      el.textContent = fmt(n);
-    }
-  }, 9000);
-})();
-/* (Nav search submit is handled by nav-search.js, which routes to search.html?q=…) */
+/* Live-counter ticker moved to nav-search.js so every page that loads it
+   gets the same animation behavior. (Nav search submit is also handled there.) */
 
 /* Tab routing on load.
    - With no hash (or an unrecognized one) → force the Index tab.
@@ -860,7 +746,6 @@ if (typeof renderAll === 'function') {
   var input=document.getElementById('rs-search-input');
   if(!input)return;
   var ac=document.getElementById('rs-search-ac');
-  var clearBtn=document.getElementById('rs-search-clear');
   var noResults=document.getElementById('articles-no-results');
 
   /* Build index from .article-card elements */
@@ -955,7 +840,6 @@ if (typeof renderAll === 'function') {
   input.addEventListener('input',function(){
     var q=input.value.trim();
     lastQuery=q;
-    clearBtn.hidden=!q;
     clearTimeout(debounceTimer);
     debounceTimer=setTimeout(function(){
       filterCards(q);
@@ -980,7 +864,7 @@ if (typeof renderAll === 'function') {
       var pick=activeIdx>=0?items[activeIdx]:items[0];
       if(pick){e.preventDefault();var id=parseInt(pick.getAttribute('data-id'),10);if(typeof window.showArticle==='function')window.showArticle(id);hideAc();input.blur();}
     } else if(e.key==='Escape'){
-      if(!ac.hidden){hideAc();}else if(input.value){input.value='';clearBtn.hidden=true;filterCards('');}
+      if(!ac.hidden){hideAc();}else if(input.value){input.value='';filterCards('');}
     }
   });
 
@@ -996,10 +880,6 @@ if (typeof renderAll === 'function') {
     hideAc();input.blur();
   });
 
-  /* Clear button */
-  clearBtn.addEventListener('click',function(){
-    input.value='';lastQuery='';clearBtn.hidden=true;filterCards('');hideAc();input.focus();
-  });
 
   /* Click outside hides dropdown */
   document.addEventListener('click',function(e){

@@ -193,10 +193,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260503a">
+<link rel="stylesheet" href="styles.css?v=20260504a">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260503b">
+<link rel="stylesheet" href="index.css?v=20260504a">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -405,19 +405,20 @@
   <div class="ix-sources">
     <div class="ix-sources-label">Sources from</div>
     <div class="ix-sources-logos">
-      <img src="source-logos/nih.svg"       alt="NIH"           height="30">
-      <img src="source-logos/cochrane.svg"  alt="Cochrane"      height="17">
-      <img src="source-logos/pubmed.svg"    alt="PubMed"        height="22">
-      <img src="source-logos/who.svg"       alt="WHO"           height="22">
-      <img src="source-logos/fda.svg"       alt="FDA"           height="22">
-      <img src="source-logos/efsa.svg"      alt="EFSA"          height="17">
-      <img src="source-logos/cdc.svg"       alt="CDC"           height="22">
-      <img src="source-logos/harvard.svg"   alt="Harvard"       height="17">
-      <img src="source-logos/jhu.svg"       alt="Johns Hopkins" height="16">
-      <img src="source-logos/lancet.svg"    alt="The Lancet"    height="14">
-      <img src="source-logos/nejm.svg"      alt="NEJM"          height="22">
-      <img src="source-logos/stanford.svg"  alt="Stanford"      height="19">
-      <button class="ix-sources-more" onclick="document.getElementById('sources-modal').classList.add('open')" aria-haspopup="dialog">+49 more</button>
+      <img src="source-logos/nih.svg"       alt="NIH">
+      <img src="source-logos/cochrane.svg"  alt="Cochrane">
+      <img src="source-logos/pubmed.svg"    alt="PubMed">
+      <img src="source-logos/who.svg"       alt="WHO">
+      <img src="source-logos/fda.svg"       alt="FDA">
+      <img src="source-logos/harvard.svg"   alt="Harvard">
+      <img src="source-logos/jhu.svg"       alt="Johns Hopkins">
+      <img src="source-logos/lancet.svg"    alt="The Lancet">
+      <img src="source-logos/nejm.svg"      alt="NEJM">
+      <img src="source-logos/stanford.svg"  alt="Stanford">
+      <button class="ix-sources-more" onclick="document.getElementById('sources-modal').classList.add('open')" aria-haspopup="dialog">
+        <span>View all 51 other sources</span>
+        <svg class="ix-sources-more-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
 </section>
@@ -1423,24 +1424,12 @@
       <div class="rs-search">
         <svg class="rs-search-ico" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input id="rs-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search 241 articles…" aria-label="Search articles" aria-controls="rs-search-ac" aria-expanded="false">
-        <button type="button" class="rs-search-clear" id="rs-search-clear" aria-label="Clear search" hidden>×</button>
         <div class="rs-search-ac" id="rs-search-ac" role="listbox" hidden></div>
       </div>
 
     </div>
 
-<script src="index.js?v=20260503b" defer></script>
-
-    <!-- Old filter row replaced by .rs-hero search and .rs-cat bar above.
-         Hidden dropdown stub retained for any JS that might still reach for the IDs. -->
-    <div class="articles-filter-row" style="display:none" aria-hidden="true">
-      <div class="articles-dd" id="articles-dd">
-        <button type="button" class="articles-dd-btn">
-          <span class="articles-dd-label" id="articles-dd-label">All Articles</span>
-          <span class="articles-dd-count" id="articles-dd-count">0</span>
-        </button>
-      </div>
-    </div>
+<script src="index.js?v=20260504a" defer></script>
 
     <!-- NO RESULTS STATE -->
     <div id="articles-no-results" class="articles-no-results" style="display:none">
@@ -16395,12 +16384,12 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 </div>
 </main>
 <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-<script src="data.js?v=20260418m"></script>
-<script src="app.js?v=20260418m"></script>
-<script src="pdf-export.js?v=20260501a"></script>
-<script src="search-index.js?v=20260429a"></script>
-<script src="nav-search.js?v=20260429a" defer></script>
-<script src="supplement-modal.js?v=20260429a" defer></script>
+<script src="data.js?v=20260504a"></script>
+<script src="app.js?v=20260504a"></script>
+<script src="pdf-export.js?v=20260504a"></script>
+<script src="search-index.js?v=20260504a"></script>
+<script src="nav-search.js?v=20260504a" defer></script>
+<script src="supplement-modal.js?v=20260504a" defer></script>
 
 <!-- Sources modal -->
 <div id="sources-modal" role="dialog" aria-modal="true" aria-labelledby="src-modal-title">

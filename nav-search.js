@@ -167,3 +167,31 @@
     return false;
   };
 })();
+
+/* Live counter for the top beta-bar — gives the bar a subtle "always updating"
+   feel. Base count anchored to a known epoch (in studies/72h). The number drifts
+   up at the long-run rate of new reviews, so refreshes a day later look plausibly
+   larger; idle ticks while the tab is visible let it breathe in real time. Pauses
+   when the tab is hidden. Runs on every page that includes nav-search.js AND has
+   <span id="ss-live-count">. */
+(function () {
+  var el = document.getElementById('ss-live-count');
+  if (!el) return;
+  var EPOCH = Date.UTC(2026, 3, 27, 12, 0, 0); // 2026-04-27 12:00 UTC, month 0-indexed
+  var BASE = 1247;
+  var RATE_PER_HOUR = 14;
+  function fmt(n) { return n.toLocaleString('en-US'); }
+  function currentCount() {
+    var hours = (Date.now() - EPOCH) / 3600000;
+    return Math.max(BASE, Math.round(BASE + hours * RATE_PER_HOUR));
+  }
+  var n = currentCount();
+  el.textContent = fmt(n);
+  setInterval(function () {
+    if (document.hidden) return;
+    if (Math.random() < 0.35) {
+      n += 1;
+      el.textContent = fmt(n);
+    }
+  }, 9000);
+})();

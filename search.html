@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260502a">
+<link rel="stylesheet" href="styles.css?v=20260504a">
 <style>
 .sr-wrap{max-width:1100px;margin:0 auto;padding:24px}
 .sr-header{padding:24px 0 16px}
@@ -104,7 +104,7 @@
 
 <div class="beta-bar" role="status" aria-live="polite">
   <span class="beta-bar-pulse" aria-hidden="true"></span>
-  <span class="beta-bar-live"><span class="beta-bar-num">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
+  <span class="beta-bar-live"><span class="beta-bar-num" id="ss-live-count">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
   <span class="beta-bar-sep" aria-hidden="true">·</span>
   <span class="beta-bar-tag">Actively refining for accuracy</span>
 </div>
@@ -222,11 +222,11 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 </script>
 </footer>
 
-<script src="data.js?v=20260418m"></script>
-<script src="a/manifest.js?v=20260502a"></script>
-<script src="search-index.js?v=20260429a"></script>
-<script src="nav-search.js?v=20260429a"></script>
-<script src="supplement-modal.js?v=20260429a" defer></script>
+<script src="data.js?v=20260504a"></script>
+<script src="a/manifest.js?v=20260504a"></script>
+<script src="search-index.js?v=20260504a"></script>
+<script src="nav-search.js?v=20260504a"></script>
+<script src="supplement-modal.js?v=20260504a" defer></script>
 <script>
 (function(){
   function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]});}

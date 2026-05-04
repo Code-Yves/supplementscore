@@ -76,12 +76,10 @@ function dots(n,tp){return Array.from({length:5},(_,i)=>`<div class="rt-dot ${i<
 function rHtml(e,s,r,o,c,d){return`<div class="rt-section">${e!=null?`<div class="rt-row"><span class="rt-lbl">Efficacy</span><div class="rt-dots">${dots(e,'e')}</div><span class="rt-text">${EL[e]||''}</span></div>`:''}${s!=null?`<div class="rt-row"><span class="rt-lbl">Safety</span><div class="rt-dots">${dots(s,s<=2?'d':'s')}</div><span class="rt-text">${SL[s]||''}</span></div>`:''}${r!=null?`<div class="rt-row"><span class="rt-lbl">Research</span><div class="rt-dots">${dots(r,r<=2?'d':'e')}</div><span class="rt-text">${RL[r]||''}</span></div>`:''}${o!=null?`<div class="rt-row"><span class="rt-lbl">Onset</span><div class="rt-dots">${dots(o,o<=2?'d':'s')}</div><span class="rt-text">${OL[o]||''}</span></div>`:''}${c!=null?`<div class="rt-row"><span class="rt-lbl">Value</span><div class="rt-dots">${dots(c,c<=2?'d':'e')}</div><span class="rt-text">${CL[c]||''}</span></div>`:''}${d!=null?`<div class="rt-row"><span class="rt-lbl">Interact.</span><div class="rt-dots">${dots(d,d<=2?'d':'s')}</div><span class="rt-text">${DL[d]||''}</span></div>`:''}</div>`;}
 
 function toggleSrcSidebar(){const d=document.getElementById('src-detail2');if(!d)return;const open=d.classList.toggle('open');const chv=document.getElementById('chv2');if(chv)chv.classList.toggle('open',open);const sml=document.getElementById('sml2');if(sml)sml.textContent=open?'Hide sources':'More info on sources';}
-function toggleMeth(){const d=document.getElementById('meth-body');if(!d)return;const open=d.classList.toggle('open');const chv=document.getElementById('meth-chv');if(chv)chv.classList.toggle('open',open);}
 function decodeContact(e){e.preventDefault();const p=['yvese','ggleston','@','gm','ail','.com'];window.location.href='mai'+'lto:'+p.join('');}
 // Minimal email format validator — accepts nearly anything with a local@domain.tld shape.
 function isValidEmail(s){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);}
 function submitContrib(){const inp=document.getElementById('contrib-email');if(!inp)return;const email=inp.value.trim();if(!isValidEmail(email)){inp.style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.abt-cta-email button');if(!btn)return;btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'contributor',date:new Date().toISOString()})}).then(r=>{if(r.ok){const form=document.querySelector('.abt-cta-email');if(form)form.style.display='none';const ok=document.getElementById('contrib-success');if(ok)ok.style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(err=>{console.warn('[SupplementScore] contrib submission failed',err);btn.textContent='Try again';btn.disabled=false;});}
-function submitEarlyAccess(){const inp=document.getElementById('ea-email');if(!inp)return;const email=inp.value.trim();if(!isValidEmail(email)){inp.style.borderColor='var(--t4c)';return;}const btn=document.querySelector('.ea-btn');if(!btn)return;btn.textContent='Sending...';btn.disabled=true;fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,source:'early-access',date:new Date().toISOString()})}).then(r=>{if(r.ok){const form=document.getElementById('ea-form');if(form)form.style.display='none';const ok=document.getElementById('ea-success');if(ok)ok.style.display='block';}else{btn.textContent='Try again';btn.disabled=false;}}).catch(err=>{console.warn('[SupplementScore] early-access submission failed',err);btn.textContent='Try again';btn.disabled=false;});}
 function ageGroup(a){if(a<26)return'Young adult (18–25)';if(a<31)return'Young adult (26–30)';if(a<46)return'Adult (31–45)';if(a<61)return'Middle-aged adult (46–60)';if(a<76)return'Senior adult (61–75)';return'Older adult (76+)';}
 function updAge(v){const el=document.getElementById('age-grp');if(el)el.textContent=ageGroup(parseInt(v));}
 function stepAge(d){const el=document.getElementById('asl');if(!el)return;let v=parseInt(el.value||35)+d;v=Math.max(18,Math.min(90,v));el.value=v;updAge(v);}
@@ -1646,36 +1644,8 @@ async function sendPlanEmail(){
 
 function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 function hl(t,q){if(!q)return t;const eq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return t.replace(new RegExp(`(${eq})`,'gi'),'<mark>$1</mark>');}
-function onSearch(q){q=q.trim();const clr=document.getElementById('gs-clr'),res=document.getElementById('gs-res'),mui=document.getElementById('main-ui');if(clr)clr.classList.toggle('vis',q.length>0);if(!q){if(res)res.classList.remove('vis');if(mui)mui.style.display='';return;}const ql=q.toLowerCase();const hits=S.filter(s=>[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(ql)));if(mui)mui.style.display='none';if(res)res.classList.add('vis');const safeQ=escHtml(q);const _gm=document.getElementById('gs-meta');if(_gm)_gm.innerHTML=hits.length?`<b>${hits.length}</b> supplement${hits.length!==1?'s':''} found for "<b>${safeQ}</b>"`:`No results for "<b>${safeQ}</b>"`;const _gc=document.getElementById('gs-cards');if(_gc)_gc.innerHTML=hits.length?'<div class="scards">'+hits.map(s=>renderCard(s,'')).join('')+'</div>':'<div style="text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px">Try a different name, ingredient, or health goal.</div>';}
-function clearSearch(){const i=document.getElementById('gs-inp');if(!i)return;i.value='';onSearch('');}
-let acIdx=-1;
-function showAc(q){
-  const ac=document.getElementById('gs-ac');if(!ac)return;
-  q=String(q||'').trim();
-  let hits;let header='';
-  if(q.length===0){
-    // No query — show the 8 highest-scoring supplements as a "popular" suggestion list.
-    hits=S.slice().sort((a,b)=>calcScore(b)-calcScore(a)).slice(0,8);
-    header='<div class="gs-ac-hdr">Popular supplements</div>';
-  } else {
-    const ql=q.toLowerCase();
-    hits=S.filter(s=>s.n.toLowerCase().includes(ql)).slice(0,8);
-  }
-  if(!hits.length){ac.classList.remove('vis');acIdx=-1;return;}
-  ac.innerHTML=header+hits.map((s,i)=>`<div class="gs-ac-item${i===acIdx?' active':''}" onmousedown="pickAc('${escAttrJs(s.n)}')"><span>${escHtml(s.n)}</span><span class="gs-ac-tag">${escHtml((s.tag||'').split(' \u00b7 ')[0])}</span></div>`).join('');
-  ac.classList.add('vis');
-}
-function pickAc(name){const inp=document.getElementById('gs-inp');if(inp)inp.value=name;const _ac=document.getElementById('gs-ac');if(_ac)_ac.classList.remove('vis');acIdx=-1;onSearch(name);}
-function hideAc(){setTimeout(()=>{const _ac=document.getElementById('gs-ac');if(_ac)_ac.classList.remove('vis');},150);}
-function debounce(fn,ms){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn.apply(this,args),ms);};}
-const _gsInp=document.getElementById('gs-inp');
-if(_gsInp){
-  const _debouncedShowAc=debounce(v=>showAc(v),160);
-  _gsInp.addEventListener('input',e=>{_debouncedShowAc(e.target.value.trim());});
-  _gsInp.addEventListener('focus',e=>{showAc(e.target.value.trim());});
-  _gsInp.addEventListener('blur',hideAc);
-  _gsInp.addEventListener('keydown',e=>{const ac=document.getElementById('gs-ac');if(!ac){if(e.key==='Enter'){e.preventDefault();onSearch(e.target.value);}return;}const items=ac.classList.contains('vis')?ac.querySelectorAll('.gs-ac-item'):[];if(e.key==='ArrowDown'&&items.length){e.preventDefault();acIdx=Math.min(acIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='ArrowUp'&&items.length){e.preventDefault();acIdx=Math.max(acIdx-1,0);items.forEach((it,i)=>it.classList.toggle('active',i===acIdx));}else if(e.key==='Enter'){e.preventDefault();if(acIdx>=0&&items[acIdx]){pickAc(items[acIdx].querySelector('span').textContent);}else{ac.classList.remove('vis');onSearch(e.target.value);}}else if(e.key==='Escape'){ac.classList.remove('vis');acIdx=-1;}});
-}else{console.warn('[SupplementScore] search input #gs-inp not found');}
+/* Generic-search (#gs-inp) listener cluster removed — markup gone since
+   the index hero redesign. Site-wide search lives in nav-search.js. */
 let af='az';
 function match(s,q){if(!q)return true;const l=q.toLowerCase();return[s.n,s.tag,s.desc,s.dose].some(x=>x&&x.toLowerCase().includes(l));}
 function toggleCard(btn){const inner=btn.closest('.sc-inner');const wrap=inner.querySelector('.sc-expand');const chv=btn.querySelector('.sc-toggle-chv');const isOpen=wrap.classList.toggle('open');chv.classList.toggle('open');btn.querySelector('span:first-child').textContent=isOpen?'Less':'More';const preview=inner.querySelector('.sc-desc-preview');if(preview)preview.style.display=isOpen?'none':'';const chip=inner.querySelector('.art-chip');if(chip)chip.style.display=isOpen?'none':'';}
