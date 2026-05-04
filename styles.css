@@ -1810,8 +1810,10 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   padding:22px 0 20px;
   margin-bottom:18px;
 }
+/* Same max-width and zero side padding as .site-footer-inner so the
+   contributor block lines up with the brand/link grid below it. */
 .site-footer-contrib-inner{
-  max-width:1200px;margin:0 auto;padding:0 1rem;
+  max-width:1200px;margin:0 auto;padding:0;
   display:grid;grid-template-columns:1fr 240px;gap:32px;align-items:center;
 }
 .site-footer-contrib-text{min-width:0}
@@ -1822,8 +1824,10 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .site-footer-contrib-title{
   font-size:19px;font-weight:600;color:#F8F4ED;line-height:1.25;margin-bottom:6px;
 }
+/* Let the description fill its grid column instead of capping at 480px,
+   which was leaving a ~450px empty gap between the text and the form. */
 .site-footer-contrib-desc{
-  font-size:13px;line-height:1.55;color:rgba(248,244,237,.72);max-width:480px;
+  font-size:13px;line-height:1.55;color:rgba(248,244,237,.72);
 }
 .site-footer-contrib-form{display:flex;flex-direction:column;gap:8px;width:240px}
 .site-footer-contrib-form input{
