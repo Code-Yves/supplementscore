@@ -716,7 +716,24 @@ a.site-nav-tab{
 }
 .site-nav-tab.site-nav-tab-icon.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab.site-nav-tab-icon svg{display:block}
-@media(max-width:600px){.beta-bar{position:relative}.site-nav{top:0}.sticky-bar{top:36px}.az-letter-bar{top:54px}}
+@media(max-width:600px){
+  .beta-bar{position:relative}
+  /* Site nav sticks to top of viewport. Make it position:fixed for full
+     reliability across mobile browsers (sticky can break with weird parent
+     overflow chains on iOS Safari). */
+  .site-nav{position:fixed;top:0;left:0;right:0;width:100%;margin:0;padding:6px 12px;height:48px;background:var(--color-background-secondary);z-index:20}
+  /* Push the rest of the page down so the fixed nav doesn't cover content. */
+  body{padding-top:48px}
+  /* Hide the standalone sticky search bar on mobile — it leaves a 60px
+     gap between the nav and the filter chips where scrolling content
+     leaks through. The hero search at the top of the page is sufficient
+     on mobile (small screens, less scrolling). */
+  #ix-sticky-bar{display:none !important}
+  /* Pin the filter chip bar directly under the nav so there's no gap
+     where page content can show through during scroll. */
+  .sticky-bar{top:48px;background:var(--color-background-secondary);z-index:15}
+  .az-letter-bar{top:96px}    /* nav 48 + filter ~48 */
+}
 /* Mobile flicker mitigations:
    - Reduce backdrop-filter blur (very expensive on iOS Safari and re-rasterises every scroll frame).
    - Suppress sticky :hover transforms after touch.
