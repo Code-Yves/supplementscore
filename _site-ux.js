@@ -34,12 +34,11 @@
   + '.ssux-lang button:hover:not(.on){color:#155b50}'
   + '.ssux-lang button[disabled]{opacity:.45;cursor:not-allowed}'
   + '@media(max-width:600px){.ssux-lang{top:auto;bottom:74px;right:14px}.ssux-top{bottom:128px}}'
-    /* Language row — sits inside the Browse footer column, matches the
-       other footer links (same font/size/color), with separator dots. */
-  + '.ssux-lang-foot{font-family:inherit;font-size:13.5px;line-height:1.4;'
-  + 'color:rgba(248,244,237,.94);margin-top:5px;padding-top:8px;'
-  + 'border-top:1px solid rgba(248,244,237,.10);display:block}'
-  + '.ssux-lang-foot a{color:rgba(248,244,237,.94);text-decoration:none;transition:color .12s}'
+    /* Language row — sits in the brand column directly under the © line.
+       Matches .site-footer-meta: 11px, same color, no border. */
+  + '.ssux-lang-foot{font-family:inherit;font-size:11px;line-height:1.4;'
+  + 'color:rgba(248,244,237,.55);margin-top:8px}'
+  + '.ssux-lang-foot a{color:rgba(248,244,237,.78);text-decoration:none;font-weight:600;transition:color .12s}'
   + '.ssux-lang-foot a:hover{color:#F8F4ED;text-decoration:underline;text-underline-offset:3px}'
   + '.ssux-lang-foot .on{color:#F8F4ED;font-weight:700}'
     /* sticky TOC for /a/ articles */
@@ -223,17 +222,12 @@
       document.head.appendChild(link);
     });
 
-    /* Preferred placement: append a small inline row to the Browse column
-       in the site footer. Falls back to floating top-right pill on pages
-       with no .site-footer (e.g. /a/ static articles, /condition/ deep
-       dives, /fr/ landing). */
-    var browseHeader = null;
-    var headers = document.querySelectorAll('.site-footer-h');
-    for (var i = 0; i < headers.length; i++){
-      if (/browse/i.test(headers[i].textContent || '')){ browseHeader = headers[i]; break; }
-    }
-    var browseCol = browseHeader ? browseHeader.parentElement.querySelector('.site-footer-col') : null;
-    if (browseCol){
+    /* Preferred placement: a small inline row in the brand column,
+       directly under the "© 2026 · CC-BY 4.0" meta line. Falls back to
+       the floating top-right pill on pages with no .site-footer (e.g.
+       /a/ static articles, /condition/ deep dives, /fr/ landing). */
+    var copyMeta = document.querySelector('.site-footer-meta');
+    if (copyMeta){
       var row = document.createElement('div');
       row.className = 'ssux-lang-foot';
       row.setAttribute('aria-label','Language');
@@ -247,13 +241,15 @@
           row.appendChild(span);
         } else {
           var a = document.createElement('a');
-          a.href = langPathOrLanding(L.k) + location.hash;
+          /* Use absolute URL so the link works regardless of the page's
+             relative depth (e.g. /a/foo.html or /condition/bar.html). */
+          a.href = location.origin + langPathOrLanding(L.k);
           a.textContent = L.l;
           a.setAttribute('hreflang', L.k);
           row.appendChild(a);
         }
       });
-      browseCol.appendChild(row);
+      copyMeta.parentNode.insertBefore(row, copyMeta.nextSibling);
       return;
     }
 
