@@ -623,6 +623,58 @@
             </div>
           </div>
 
+          <!-- Health Status (Plan B1 — kidney/liver/allergies) -->
+          <div class="pf-section pf-open" id="pf-sec-health">
+            <div class="pf-sec-header">
+              <span class="pf-sec-left">Health status <span class="pf-sec-count" id="pf-count-health">optional</span></span>
+            </div>
+            <div class="pf-sec-body">
+              <div style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin-bottom:10px">
+                Used to filter and dose-adjust recommendations for safety. Most people leave these on "normal".
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <!-- Kidney function -->
+                <div>
+                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Kidney function</label>
+                  <select id="kidney-fn" onchange="onHealthChange()" style="width:100%;padding:8px 10px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary)">
+                    <option value="normal">Normal</option>
+                    <option value="mild">Mild impairment (eGFR 60-89)</option>
+                    <option value="moderate">Moderate (CKD stage 3, eGFR 30-59)</option>
+                    <option value="severe">Severe (CKD stage 4-5 / dialysis)</option>
+                  </select>
+                </div>
+                <!-- Liver function -->
+                <div>
+                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Liver function</label>
+                  <select id="liver-fn" onchange="onHealthChange()" style="width:100%;padding:8px 10px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary)">
+                    <option value="normal">Normal</option>
+                    <option value="impaired">Mildly elevated enzymes / fatty liver</option>
+                    <option value="cirrhosis">Cirrhosis / advanced disease</option>
+                  </select>
+                </div>
+                <!-- Diet pattern (Plan B1 round 2) -->
+                <div>
+                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Diet pattern (filters animal-derived / FODMAP-rich items)</label>
+                  <div class="med-chips" id="diet-chips"></div>
+                </div>
+                <!-- Allergies -->
+                <div>
+                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Food allergies (excludes affected supplements)</label>
+                  <div class="med-chips" id="allergy-chips"></div>
+                </div>
+                <!-- Smoking -->
+                <div>
+                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Smoking</label>
+                  <select id="smoking-status" onchange="onHealthChange()" style="width:100%;padding:8px 10px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary)">
+                    <option value="never">Never smoked</option>
+                    <option value="former">Former smoker</option>
+                    <option value="current">Current smoker</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Medications -->
           <div class="pf-section pf-open" id="pf-sec-meds">
             <div class="pf-sec-header">
@@ -1050,7 +1102,7 @@
           <path d="M0,250 C160,245 280,210 420,180 C560,150 680,160 820,125 C940,95 1020,85 1100,55" fill="none" stroke="url(#lineE1)" stroke-width="1.5"/>
         </svg>
       </div>
-      <div class="hero-counter"><span id="hero-current">1</span> / 21</div>
+      <div class="hero-counter" id="hero-current">1 / 21</div>
 
       <div class="hero-slide active" onclick="showArticle(92)">
         <div class="hero-slide-top">

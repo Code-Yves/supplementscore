@@ -787,7 +787,7 @@ a.site-nav-tab{
 .hero-progress-fill{position:absolute;left:0;top:0;height:100%;width:0;background:#E8967A;border-radius:0 2px 2px 0;transform-origin:left center}
 .hero-progress-fill.run{animation:heroProgressFill 6s linear forwards}
 @keyframes heroProgressFill{from{width:0}to{width:100%}}
-@media(max-width:600px){.hero{height:auto;min-height:420px}.hero-slide{inset:24px 24px 96px 24px}.hero-slide-headline{font-size:21px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:12px}.hero-arrow{width:36px;height:36px}.hero-counter{top:18px;right:18px;font-size:10px}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
+@media(max-width:600px){.hero{height:auto;min-height:460px}.hero-slide{inset:54px 20px 96px 20px}.hero-slide-headline{font-size:20px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:12px}.hero-arrow{width:36px;height:36px}.hero-counter{top:14px;right:16px;left:16px;text-align:right;font-size:10px}.hero-counter::before{content:'PICK · '}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
 /* Legacy .articles-filter-row + .articles-dd-* + .articles-search-* styles removed
    along with the toolbar redesign (now lives in index.css under .rs-toolbar). */
 .articles-no-results{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:var(--color-background-secondary);border:1px dashed var(--color-border-tertiary);border-radius:12px;margin-bottom:12px}
