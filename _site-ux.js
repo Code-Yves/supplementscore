@@ -180,12 +180,18 @@
     if ((LANG_INDEX[lang] || []).indexOf(enPath) !== -1) return direct;
     return null;
   }
-  /* Same as langPathForCurrent but never returns null — falls back to the
-     language's landing page so the footer link is always clickable. */
-  function langPathOrLanding(lang){
-    var p = langPathForCurrent(lang);
-    if (p) return p;
-    return lang === 'en' ? '/landing.html' : '/' + lang + '/landing.html';
+  /* Language link target: always go to that language's INDEX page (the
+     supplement directory), never the marketing landing page. The user
+     explicitly asked for this — clicking a language link should land you
+     on the directory in that language so you can browse from there.
+       EN → /index.html
+       FR → /fr/index.html
+       ES → /es/index.html
+     /fr/index.html and /es/index.html exist as light wrappers that load
+     the main directory with a translated "directory currently EN-only"
+     banner; build proper translated directories over time. */
+  function langIndexPath(lang){
+    return lang === 'en' ? '/index.html' : '/' + lang + '/index.html';
   }
   /* Convert a repo-absolute path (e.g. '/fr/landing.html') to a path that
      resolves correctly from the CURRENT page, regardless of whether the
@@ -262,7 +268,7 @@
         } else {
           var a = document.createElement('a');
           /* Repo-relative path so the link works on file:// AND https:// */
-          a.href = langRelPath(langPathOrLanding(L.k));
+          a.href = langRelPath(langIndexPath(L.k));
           a.textContent = L.l;
           a.setAttribute('hreflang', L.k);
           row.appendChild(a);
@@ -285,7 +291,7 @@
       b.setAttribute('aria-label', L.l + (cur === L.k ? ' (current)' : ''));
       if (cur === L.k) b.className = 'on';
       if (cur !== L.k){
-        var target = langRelPath(langPathOrLanding(L.k));
+        var target = langRelPath(langIndexPath(L.k));
         b.addEventListener('click', function(){location.href = target;});
       }
       box.appendChild(b);

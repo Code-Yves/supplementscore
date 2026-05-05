@@ -7,7 +7,7 @@
  * so users always get fresh data within one navigation.
  */
 
-const CACHE_VERSION = 'v2026-05-04-langRel';
+const CACHE_VERSION = 'v2026-05-05-langIdx';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
