@@ -604,10 +604,16 @@ if (typeof renderAll === 'function') {
   var heroInput   = document.getElementById('ix-hero-search');
   if(!heroForm || !stickyBar) return;
 
-  var NAV_TOP = window.innerWidth <= 600 ? 62 : 90;
+  // On mobile (<=600px) the sticky search bar is hidden via CSS and the
+  // filter chip bar is pinned directly under the nav (top:48px) by the
+  // styles.css media query. The JS dynamic top calculation only runs on
+  // desktop where the sticky search bar shows/hides as the hero scrolls.
+  var IS_MOBILE = window.innerWidth <= 600;
+  var NAV_TOP = IS_MOBILE ? 48 : 90;
 
   function setFilterTop(searchVisible) {
     if(!filterBar) return;
+    if(IS_MOBILE) return;  // CSS handles the mobile case
     if(searchVisible) {
       // sticky search is showing — measure its rendered height and offset
       var h = stickyBar.getBoundingClientRect().height || 67;
@@ -640,9 +646,13 @@ if (typeof renderAll === 'function') {
   heroInput.addEventListener('input', function(){ stickyInput.value = heroInput.value; });
   stickyInput.addEventListener('input', function(){ heroInput.value = stickyInput.value; });
 
-  // Recalc on resize
+  // Recalc on resize / orientation change so the desktop/mobile branch
+  // and NAV_TOP stay in sync. Without re-checking IS_MOBILE here, a
+  // landscape→portrait flip below 600px would still run the desktop
+  // top-calculation path.
   window.addEventListener('resize', function(){
-    NAV_TOP = window.innerWidth <= 600 ? 62 : 90;
+    IS_MOBILE = window.innerWidth <= 600;
+    NAV_TOP = IS_MOBILE ? 48 : 90;
   });
 
   // Hide sticky search bar when navigating away from the Index tab
