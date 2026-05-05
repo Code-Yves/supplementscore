@@ -68,6 +68,22 @@
   + '.ssux-handout:hover{background:rgba(31,122,107,.16)}'
   + '.ssux-handout svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     /* print-only optimized layout (clinician handout uses window.print()) */
+    /* breadcrumbs */
+  + '.ssux-bc{font-family:\'Mona Sans\',inherit;font-size:11.5px;color:rgba(15,23,22,.55);'
+  + 'padding:8px 4px 14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;letter-spacing:.005em;line-height:1.4}'
+  + '.ssux-bc a{color:rgba(15,23,22,.55);text-decoration:none;transition:color .12s}'
+  + '.ssux-bc a:hover{color:#155b50}'
+  + '.ssux-bc-sep{color:rgba(15,23,22,.32);font-weight:300;padding:0 2px}'
+  + '.ssux-bc-cur{color:rgba(15,23,22,.85);font-weight:600}'
+  + '@media(max-width:600px){.ssux-bc{font-size:11px;padding:6px 4px 10px}.ssux-bc a,.ssux-bc-cur{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}'
+    /* PubMed badge */
+  + '.ssux-pmbadge{display:inline-flex;align-items:center;gap:5px;'
+  + 'background:rgba(31,122,107,.10);color:#155b50;padding:3px 9px;border-radius:999px;'
+  + 'font-family:\'Mona Sans\',inherit;font-size:11px;font-weight:600;letter-spacing:.005em;text-decoration:none;line-height:1.2;'
+  + 'border:1px solid rgba(31,122,107,.16);transition:background .12s}'
+  + '.ssux-pmbadge:hover{background:rgba(31,122,107,.18)}'
+  + '.ssux-pmbadge svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}'
+  + '.ssux-pmbadge strong{font-weight:800;font-variant-numeric:tabular-nums}'
   + '@media print{'
   + '  .ssux-top,.ssux-rp,.ssux-lang,.ssux-toc,.ssux-recent,.ssux-handout,'
   + '  .site-nav,.site-footer,.beta-bar,.pg-close-fab,.art-modal,.dc-fact-hero,'
@@ -351,6 +367,154 @@
     target.insertBefore(btn, target.firstChild);
   }
 
+  /* ---------- Breadcrumbs on detail pages ---------- */
+  /* Renders a small "Home › Section › Title" trail just below the nav.
+     Inferred from the URL path; doesn't require markup changes. */
+  function initBreadcrumbs(){
+    var p = location.pathname;
+    /* Skip non-detail pages */
+    var crumbs = inferCrumbs(p);
+    if (!crumbs) return;
+    if (document.querySelector('.ssux-bc')) return;
+    var anchor = document.querySelector('main, .ar-wrap, body > div:first-of-type');
+    if (!anchor) return;
+    var nav = document.createElement('nav');
+    nav.className = 'ssux-bc';
+    nav.setAttribute('aria-label','Breadcrumb');
+    nav.innerHTML = crumbs.map(function(c, i){
+      var sep = i > 0 ? '<span class="ssux-bc-sep">›</span>' : '';
+      return sep + (c.href
+        ? '<a href="'+c.href+'">'+escapeHtml(c.label)+'</a>'
+        : '<span class="ssux-bc-cur">'+escapeHtml(c.label)+'</span>');
+    }).join('');
+    anchor.insertBefore(nav, anchor.firstChild);
+  }
+  function inferCrumbs(p){
+    var sp = new URLSearchParams(location.search);
+    /* /a/<slug>.html */
+    if (/^\/a\//.test(p)){
+      var title = (document.querySelector('h1')||{}).textContent || 'Article';
+      return [
+        {label:'Home', href:'/'},
+        {label:'Articles', href:'/index.html#research'},
+        {label:title.trim()}
+      ];
+    }
+    /* /condition/<slug>.html */
+    if (/^\/condition\//.test(p) && !/index\.html?$/.test(p)){
+      var t = (document.querySelector('h1')||{}).textContent || 'Condition';
+      return [
+        {label:'Home', href:'/'},
+        {label:'Conditions', href:'/condition/index.html'},
+        {label:t.trim()}
+      ];
+    }
+    /* /sx/<slug>.html */
+    if (/^\/sx\//.test(p) && !/index\.html?$/.test(p)){
+      var t2 = (document.querySelector('h1')||{}).textContent || 'Symptom';
+      return [
+        {label:'Home', href:'/'},
+        {label:'By symptom', href:'/sx/index.html'},
+        {label:t2.trim()}
+      ];
+    }
+    /* /for/<demo>.html */
+    if (/^\/for\//.test(p)){
+      var t3 = (document.querySelector('h1')||{}).textContent || 'For';
+      return [
+        {label:'Home', href:'/'},
+        {label:'For', href:'/index.html#supplements'},
+        {label:t3.trim()}
+      ];
+    }
+    /* /compare/<slug>.html */
+    if (/^\/compare\//.test(p) && !/index\.html?$/.test(p)){
+      var t4 = (document.querySelector('h1')||{}).textContent || 'Compare';
+      return [
+        {label:'Home', href:'/'},
+        {label:'Comparisons', href:'/compare/index.html'},
+        {label:t4.trim()}
+      ];
+    }
+    /* supplement.html?slug=...  (only when not in iframe) */
+    if (p.indexOf('/supplement.html') !== -1 && sp.get('modal') !== '1'){
+      var slug = sp.get('slug') || '';
+      var name = (document.querySelector('h1')||{}).textContent || slug.replace(/-/g,' ');
+      return [
+        {label:'Home', href:'/'},
+        {label:'Index', href:'/index.html#supplements'},
+        {label:name.trim()}
+      ];
+    }
+    return null;
+  }
+
+  /* ---------- PubMed live citation count badge ---------- */
+  /* Adds a small "Cited in N PubMed papers · last new study <date>" pill to
+     supplement modals and /a/ articles. Cached in localStorage for 7 days
+     to stay well under PubMed's 3-req/sec rate limit. */
+  var PM_TTL = 7 * 24 * 3600 * 1000;
+  function pubmedBadge(query, mountEl){
+    if (!query || !mountEl) return;
+    if (mountEl.querySelector('.ssux-pmbadge')) return;
+    var key = 'ss-pmcount:' + query.toLowerCase();
+    var cached = null;
+    try {
+      var raw = localStorage.getItem(key);
+      if (raw) cached = JSON.parse(raw);
+    } catch(_){}
+    if (cached && (Date.now() - (cached.t||0)) < PM_TTL){
+      renderBadge(mountEl, cached);
+      return;
+    }
+    var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi'
+      + '?db=pubmed&term=' + encodeURIComponent(query)
+      + '&retmode=json&retmax=1&sort=date';
+    fetch(url).then(function(r){return r.ok ? r.json() : null;}).then(function(j){
+      if (!j || !j.esearchresult) return;
+      var c = parseInt(j.esearchresult.count || '0', 10);
+      var topId = (j.esearchresult.idlist||[])[0] || null;
+      var data = {count:c, topId:topId, t:Date.now()};
+      try { localStorage.setItem(key, JSON.stringify(data)); } catch(_){}
+      renderBadge(mountEl, data);
+    }).catch(function(){});
+  }
+  function renderBadge(mount, data){
+    if (!data || !data.count) return;
+    var pretty = data.count > 999 ? Math.round(data.count/1000) + 'k' : data.count;
+    var url = data.topId
+      ? 'https://pubmed.ncbi.nlm.nih.gov/' + data.topId + '/'
+      : 'https://pubmed.ncbi.nlm.nih.gov/?term=' + encodeURIComponent(mount.dataset.pmq||'');
+    var el = document.createElement('a');
+    el.className = 'ssux-pmbadge';
+    el.target = '_blank';
+    el.rel = 'noopener noreferrer';
+    el.href = url;
+    el.title = data.count.toLocaleString() + ' papers indexed in PubMed';
+    el.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>'
+      + '<span><strong>' + pretty + '</strong> on PubMed</span>';
+    mount.appendChild(el);
+  }
+  /* Hook: app.js can call this when it opens the supplement modal */
+  window.ssPubMedBadgeFor = pubmedBadge;
+  /* Also auto-attach on /a/ article pages where the H1 is the supplement title */
+  function initPubMedOnArticle(){
+    if (!/\/a\//.test(location.pathname)) return;
+    var h1 = document.querySelector('h1');
+    var meta = document.querySelector('.ar-meta');
+    if (!h1 || !meta) return;
+    /* Try to extract a sensible PubMed query from the H1 */
+    var title = (h1.textContent||'').trim();
+    var m = title.split(/[:—–\-]/)[0].trim();
+    if (m.length < 3) return;
+    var mount = document.createElement('span');
+    mount.className = 'ssux-pmbadge-mount';
+    mount.dataset.pmq = m;
+    meta.appendChild(document.createTextNode(' '));
+    meta.appendChild(mount);
+    pubmedBadge(m, mount);
+  }
+
   function boot(){
     initBackToTop();
     initReadingProgress();
@@ -359,6 +523,8 @@
     initStickyToc();
     initRecentlyViewedStrip();
     initClinicianHandout();
+    initBreadcrumbs();
+    initPubMedOnArticle();
   }
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', boot);
