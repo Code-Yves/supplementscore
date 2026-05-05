@@ -34,6 +34,13 @@
   + '.ssux-lang button:hover:not(.on){color:#155b50}'
   + '.ssux-lang button[disabled]{opacity:.45;cursor:not-allowed}'
   + '@media(max-width:600px){.ssux-lang{top:auto;bottom:74px;right:14px}.ssux-top{bottom:128px}}'
+    /* Footer-anchored language row — small text, sits just above the legal line */
+  + '.ssux-lang-foot{font-family:\'Mona Sans\',inherit;font-size:11px;letter-spacing:.04em;text-transform:uppercase;'
+  + 'color:rgba(248,244,237,.50);text-align:center;margin-top:8px;padding-bottom:6px;line-height:1.6}'
+  + '.ssux-lang-foot a{color:rgba(248,244,237,.78);text-decoration:none;font-weight:600;transition:color .12s}'
+  + '.ssux-lang-foot a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}'
+  + '.ssux-lang-foot .on{color:#fff;font-weight:800;border-bottom:1.5px solid rgba(248,244,237,.55);padding-bottom:1px}'
+  + '.ssux-lang-foot .off{color:rgba(248,244,237,.30);cursor:not-allowed}'
     /* sticky TOC for /a/ articles */
   + '.ssux-toc{position:fixed;top:90px;right:18px;z-index:60;width:230px;'
   + 'background:rgba(248,244,237,.96);border:1px solid rgba(31,122,107,.16);border-radius:14px;'
@@ -186,17 +193,71 @@
     return 'en';
   }
   function initLangSwitcher(){
-    if (document.querySelector('.ssux-lang')) return;
+    if (document.querySelector('.ssux-lang') || document.querySelector('.ssux-lang-foot')) return;
     /* Don't render on iframe-embedded pages (supplement-modal.js loads
        supplement.html in an iframe; we don't want a duplicate switcher). */
     var sp = new URLSearchParams(location.search);
     if (sp.get('modal') === '1') return;
+
+    var langs = [{k:'en',l:'EN'},{k:'fr',l:'FR'},{k:'es',l:'ES'}];
+    var cur = currentLang();
+
+    /* Always emit hreflang link tags so search engines and assistive tech
+       know about the alternate URLs. Only emit for languages that actually
+       exist for this page. */
+    ['en','fr','es'].forEach(function(k){
+      var t = langPathForCurrent(k);
+      if (!t) return;
+      var link = document.createElement('link');
+      link.rel = 'alternate';
+      link.setAttribute('hreflang', k);
+      link.href = location.origin + t;
+      document.head.appendChild(link);
+    });
+
+    /* Preferred placement: a tiny inline row inside the existing site
+       footer. Falls back to the floating top-right pill on pages that
+       have no .site-footer (e.g. /a/ static pages, /condition/* deep
+       dives, /fr/* pages). */
+    var footBottom = document.querySelector('.site-footer-bottom');
+    if (footBottom){
+      var row = document.createElement('div');
+      row.className = 'ssux-lang-foot';
+      row.setAttribute('aria-label','Language');
+      row.appendChild(document.createTextNode('Language: '));
+      langs.forEach(function(L, idx){
+        if (idx > 0) row.appendChild(document.createTextNode(' · '));
+        var target = langPathForCurrent(L.k);
+        if (cur === L.k){
+          var span = document.createElement('span');
+          span.className = 'on';
+          span.textContent = L.l;
+          span.setAttribute('aria-current','true');
+          row.appendChild(span);
+        } else if (target){
+          var a = document.createElement('a');
+          a.href = target + location.hash;
+          a.textContent = L.l;
+          a.setAttribute('hreflang', L.k);
+          row.appendChild(a);
+        } else {
+          var s = document.createElement('span');
+          s.className = 'off';
+          s.textContent = L.l;
+          s.title = L.k.toUpperCase() + ' translation coming soon';
+          row.appendChild(s);
+        }
+      });
+      footBottom.parentNode.insertBefore(row, footBottom);
+      return;
+    }
+
+    /* Fallback: floating top-right pill (kept identical to the original
+       behavior so detail pages without a .site-footer still get a switcher). */
     var box = document.createElement('div');
     box.className = 'ssux-lang';
     box.setAttribute('role','group');
     box.setAttribute('aria-label','Language');
-    var langs = [{k:'en',l:'EN'},{k:'fr',l:'FR'},{k:'es',l:'ES'}];
-    var cur = currentLang();
     langs.forEach(function(L){
       var b = document.createElement('button');
       b.type = 'button';
@@ -213,18 +274,6 @@
       box.appendChild(b);
     });
     document.body.appendChild(box);
-    /* hreflang link tags so search engines and assistive tech know about
-       the alternate URLs. Only emit for languages that actually exist for
-       this page. */
-    ['en','fr','es'].forEach(function(k){
-      var t = langPathForCurrent(k);
-      if (!t) return;
-      var link = document.createElement('link');
-      link.rel = 'alternate';
-      link.setAttribute('hreflang', k);
-      link.href = location.origin + t;
-      document.head.appendChild(link);
-    });
   }
 
   /* ---------- pause hero auto-rotation on focus-within ---------- */
