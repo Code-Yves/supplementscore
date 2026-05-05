@@ -717,20 +717,26 @@ a.site-nav-tab{
 .site-nav-tab.site-nav-tab-icon.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab.site-nav-tab-icon svg{display:block}
 @media(max-width:600px){
-  .beta-bar{position:relative}
-  /* Site nav sticks to top of viewport. Make it position:fixed for full
-     reliability across mobile browsers (sticky can break with weird parent
-     overflow chains on iOS Safari). */
-  .site-nav{position:fixed;top:0;left:0;right:0;width:100%;margin:0;padding:6px 12px;height:48px;background:var(--color-background-secondary);z-index:20}
+  /* Hide the green 'X studies reviewed in last 72h' ticker on mobile.
+     Desktop nice-to-have, phone screen-real-estate hog. Also it was
+     getting clipped by the fixed nav above. */
+  .beta-bar{display:none !important}
+  /* Site nav sticks to top of viewport. position:fixed for iOS Safari
+     reliability (sticky can break with weird parent overflow chains). */
+  .site-nav{position:fixed;top:0;left:0;right:0;width:100%;margin:0;padding:6px 12px;height:48px;background:var(--color-background-secondary);z-index:30;box-shadow:0 1px 0 rgba(15,91,80,.08),0 4px 8px -6px rgba(15,91,80,.18);overflow:hidden}
+  /* Force the inner pill to stay strictly inside the 48px strip so its
+     drop-shadow doesn't bleed into the page content area below. */
+  .site-nav .site-nav-inner{width:100%;height:100%;position:relative;background:transparent}
   /* Push the rest of the page down so the fixed nav doesn't cover content. */
-  body{padding-top:48px}
+  body{padding-top:48px !important}
   /* Hide the standalone sticky search bar on mobile — it leaves a 60px
      gap between the nav and the filter chips where scrolling content
      leaks through. The hero search at the top of the page is sufficient
      on mobile (small screens, less scrolling). */
   #ix-sticky-bar{display:none !important}
   /* Pin the filter chip bar directly under the nav so there's no gap
-     where page content can show through during scroll. */
+     where page content can show through during scroll. Solid bg + z-index
+     just under the nav so nothing leaks through. */
   .sticky-bar{top:48px;background:var(--color-background-secondary);z-index:15}
   .az-letter-bar{top:96px}    /* nav 48 + filter ~48 */
 }
