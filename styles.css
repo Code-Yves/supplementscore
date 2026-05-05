@@ -734,7 +734,12 @@ a.site-nav-tab{
   .site-nav-tab:hover{background:transparent!important;color:var(--color-text-secondary)!important;}
   .site-nav-tab.active:hover{background:var(--color-brand)!important;color:#fff!important;}
 }
-@media(max-width:420px){.site-nav-tab{min-height:36px;padding:6px 12px;font-size:11.5px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}}
+@media(max-width:420px){.site-nav-tab{min-height:36px;padding:6px 12px;font-size:11.5px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}
+  /* The icon variant must stay a circle — override the text-tab mobile padding
+     and grow it to match the new 36px row height so the avatar slot doesn't
+     squish into a tall pill. */
+  .site-nav-tab.site-nav-tab-icon{width:36px;height:36px;min-height:0;padding:0;flex-shrink:0}
+}
 
 /* ── Articles section ── */
 .articles-section{max-width:1200px;margin:0 auto;padding:1.5rem 1rem 1.25rem}

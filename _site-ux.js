@@ -187,6 +187,26 @@
     if (p) return p;
     return lang === 'en' ? '/landing.html' : '/' + lang + '/landing.html';
   }
+  /* Convert a repo-absolute path (e.g. '/fr/landing.html') to a path that
+     resolves correctly from the CURRENT page, regardless of whether the
+     site is being viewed via http(s) or file://. We compute depth based on
+     where we are relative to the repo root.
+       /sources.html              → depth 0 → 'fr/landing.html'
+       /a/foo.html                → depth 1 → '../fr/landing.html'
+       /fr/condition/bar.html     → depth 2 → '../../landing.html'
+     For file:// URLs we anchor on the literal '/supplementscore-repo/'
+     directory name in the path. */
+  function langRelPath(targetAbsPath){
+    var here = location.pathname;
+    var REPO = '/supplementscore-repo/';
+    var anchorIdx = here.indexOf(REPO);
+    var afterRepo = anchorIdx >= 0
+      ? here.substring(anchorIdx + REPO.length)
+      : here.replace(/^\//,'');
+    var depth = (afterRepo.match(/\//g) || []).length;
+    var prefix = depth === 0 ? '' : new Array(depth + 1).join('../');
+    return prefix + targetAbsPath.replace(/^\//,'');
+  }
   function enPathFromCurrent(){
     /* Strip a leading /fr/ or /es/ from the current path so we know the EN equivalent. */
     var p = location.pathname;
@@ -241,9 +261,8 @@
           row.appendChild(span);
         } else {
           var a = document.createElement('a');
-          /* Use absolute URL so the link works regardless of the page's
-             relative depth (e.g. /a/foo.html or /condition/bar.html). */
-          a.href = location.origin + langPathOrLanding(L.k);
+          /* Repo-relative path so the link works on file:// AND https:// */
+          a.href = langRelPath(langPathOrLanding(L.k));
           a.textContent = L.l;
           a.setAttribute('hreflang', L.k);
           row.appendChild(a);
@@ -265,12 +284,9 @@
       b.textContent = L.l;
       b.setAttribute('aria-label', L.l + (cur === L.k ? ' (current)' : ''));
       if (cur === L.k) b.className = 'on';
-      var target = langPathForCurrent(L.k);
-      if (!target){
-        b.disabled = true;
-        b.title = L.k.toUpperCase() + ' translation coming soon';
-      } else if (cur !== L.k) {
-        b.addEventListener('click', function(){location.href = target + location.hash;});
+      if (cur !== L.k){
+        var target = langRelPath(langPathOrLanding(L.k));
+        b.addEventListener('click', function(){location.href = target;});
       }
       box.appendChild(b);
     });
