@@ -34,13 +34,14 @@
   + '.ssux-lang button:hover:not(.on){color:#155b50}'
   + '.ssux-lang button[disabled]{opacity:.45;cursor:not-allowed}'
   + '@media(max-width:600px){.ssux-lang{top:auto;bottom:74px;right:14px}.ssux-top{bottom:128px}}'
-    /* Footer-anchored language row — small text, sits just above the legal line */
-  + '.ssux-lang-foot{font-family:\'Mona Sans\',inherit;font-size:11px;letter-spacing:.04em;text-transform:uppercase;'
-  + 'color:rgba(248,244,237,.50);text-align:center;margin-top:8px;padding-bottom:6px;line-height:1.6}'
-  + '.ssux-lang-foot a{color:rgba(248,244,237,.78);text-decoration:none;font-weight:600;transition:color .12s}'
-  + '.ssux-lang-foot a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}'
-  + '.ssux-lang-foot .on{color:#fff;font-weight:800;border-bottom:1.5px solid rgba(248,244,237,.55);padding-bottom:1px}'
-  + '.ssux-lang-foot .off{color:rgba(248,244,237,.30);cursor:not-allowed}'
+    /* Language row — sits inside the Browse footer column, matches the
+       other footer links (same font/size/color), with separator dots. */
+  + '.ssux-lang-foot{font-family:inherit;font-size:13.5px;line-height:1.4;'
+  + 'color:rgba(248,244,237,.94);margin-top:5px;padding-top:8px;'
+  + 'border-top:1px solid rgba(248,244,237,.10);display:block}'
+  + '.ssux-lang-foot a{color:rgba(248,244,237,.94);text-decoration:none;transition:color .12s}'
+  + '.ssux-lang-foot a:hover{color:#F8F4ED;text-decoration:underline;text-underline-offset:3px}'
+  + '.ssux-lang-foot .on{color:#F8F4ED;font-weight:700}'
     /* sticky TOC for /a/ articles */
   + '.ssux-toc{position:fixed;top:90px;right:18px;z-index:60;width:230px;'
   + 'background:rgba(248,244,237,.96);border:1px solid rgba(31,122,107,.16);border-radius:14px;'
@@ -176,9 +177,16 @@
   function langPathForCurrent(lang){
     if (lang === 'en') return enPathFromCurrent();
     var enPath = enPathFromCurrent();
-    var translated = '/' + lang + enPath;
-    if ((LANG_INDEX[lang] || []).indexOf(enPath) !== -1) return translated;
+    var direct = '/' + lang + enPath;
+    if ((LANG_INDEX[lang] || []).indexOf(enPath) !== -1) return direct;
     return null;
+  }
+  /* Same as langPathForCurrent but never returns null — falls back to the
+     language's landing page so the footer link is always clickable. */
+  function langPathOrLanding(lang){
+    var p = langPathForCurrent(lang);
+    if (p) return p;
+    return lang === 'en' ? '/landing.html' : '/' + lang + '/landing.html';
   }
   function enPathFromCurrent(){
     /* Strip a leading /fr/ or /es/ from the current path so we know the EN equivalent. */
@@ -215,40 +223,37 @@
       document.head.appendChild(link);
     });
 
-    /* Preferred placement: a tiny inline row inside the existing site
-       footer. Falls back to the floating top-right pill on pages that
-       have no .site-footer (e.g. /a/ static pages, /condition/* deep
-       dives, /fr/* pages). */
-    var footBottom = document.querySelector('.site-footer-bottom');
-    if (footBottom){
+    /* Preferred placement: append a small inline row to the Browse column
+       in the site footer. Falls back to floating top-right pill on pages
+       with no .site-footer (e.g. /a/ static articles, /condition/ deep
+       dives, /fr/ landing). */
+    var browseHeader = null;
+    var headers = document.querySelectorAll('.site-footer-h');
+    for (var i = 0; i < headers.length; i++){
+      if (/browse/i.test(headers[i].textContent || '')){ browseHeader = headers[i]; break; }
+    }
+    var browseCol = browseHeader ? browseHeader.parentElement.querySelector('.site-footer-col') : null;
+    if (browseCol){
       var row = document.createElement('div');
       row.className = 'ssux-lang-foot';
       row.setAttribute('aria-label','Language');
-      row.appendChild(document.createTextNode('Language: '));
       langs.forEach(function(L, idx){
         if (idx > 0) row.appendChild(document.createTextNode(' · '));
-        var target = langPathForCurrent(L.k);
         if (cur === L.k){
           var span = document.createElement('span');
           span.className = 'on';
           span.textContent = L.l;
           span.setAttribute('aria-current','true');
           row.appendChild(span);
-        } else if (target){
+        } else {
           var a = document.createElement('a');
-          a.href = target + location.hash;
+          a.href = langPathOrLanding(L.k) + location.hash;
           a.textContent = L.l;
           a.setAttribute('hreflang', L.k);
           row.appendChild(a);
-        } else {
-          var s = document.createElement('span');
-          s.className = 'off';
-          s.textContent = L.l;
-          s.title = L.k.toUpperCase() + ' translation coming soon';
-          row.appendChild(s);
         }
       });
-      footBottom.parentNode.insertBefore(row, footBottom);
+      browseCol.appendChild(row);
       return;
     }
 
