@@ -226,6 +226,13 @@
     return 'en';
   }
   function initLangSwitcher(){
+    /* TEMPORARILY HIDDEN — 2026-05-05.
+       Per user: hide the language options until the FR/ES translations
+       are complete enough to be advertised site-wide. The /fr/ and /es/
+       URL trees still exist and the pages still work if linked
+       directly; we just don't surface the switcher in the UI yet.
+       To re-enable: delete this early-return line. */
+    return;
     if (document.querySelector('.ssux-lang') || document.querySelector('.ssux-lang-foot')) return;
     /* Don't render on iframe-embedded pages (supplement-modal.js loads
        supplement.html in an iframe; we don't want a duplicate switcher). */
