@@ -1888,3 +1888,29 @@ html.is-embedded .pg-close-fab{display:none}
 .dt-tier-t4{background:var(--t4bg);color:var(--t4tx)}
 .dt-empty{font-size:13px;color:var(--color-text-tertiary);font-style:italic}
 .dt-disclaim{margin:32px 0 24px;font-size:12px;color:var(--color-text-tertiary);text-align:center;line-height:1.55}
+
+/* ============================================================
+   Pull-quote callout for /a/ articles. Apply by wrapping a
+   sentence in <blockquote class="ar-pullquote">...</blockquote>.
+   Auto-styled with a coral accent bar and oversized text.
+   ============================================================ */
+.ar-pullquote{
+  font-family:'Mona Sans','Plus Jakarta Sans',inherit;
+  font-weight:600;font-size:21px;line-height:1.35;letter-spacing:-.01em;
+  color:var(--color-text-primary,#0E1B19);
+  border-left:3px solid #E8967A;
+  padding:14px 0 14px 22px;
+  margin:28px 0 28px;
+  max-width:680px;
+}
+.ar-pullquote::before{
+  content:'';display:block;font-family:inherit;font-weight:900;font-size:0;
+}
+.ar-pullquote cite{
+  display:block;font-style:normal;font-family:inherit;font-weight:600;
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--color-text-tertiary,#7A8682);margin-top:10px;
+}
+@media(max-width:680px){
+  .ar-pullquote{font-size:18px;padding-left:16px;margin:22px 0}
+}
