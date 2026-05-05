@@ -160,7 +160,11 @@
       '/condition/anxiety-stack.html',
       '/condition/pcos-protocol.html'
     ],
-    es: [] /* Spanish translations not yet shipped */
+    es: [
+      '/landing.html',
+      '/condition/anxiety-stack.html',
+      '/condition/pcos-protocol.html'
+    ]
   };
   function langPathForCurrent(lang){
     if (lang === 'en') return enPathFromCurrent();
