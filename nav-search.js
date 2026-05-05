@@ -107,6 +107,7 @@
     if (el) el.scrollIntoView({ block: 'nearest' });
   }
 
+  var plausibleTimer = null;
   input.addEventListener('input', function () {
     var q = input.value.trim();
     if (q === lastQ) return;
@@ -114,6 +115,12 @@
     clearTimeout(debounceTimer);
     if (!q) { close(); return; }
     debounceTimer = setTimeout(function () { render(q); }, 70);
+    /* Plausible 'Site search' — debounced 1.2s after typing stops so we
+       only log completed queries, not every keystroke. */
+    clearTimeout(plausibleTimer);
+    if (q.length >= 3) plausibleTimer = setTimeout(function () {
+      try { if (typeof window.plausible === 'function') window.plausible('Site search', {props:{query:q.toLowerCase(),results:String(items.length)}}); } catch(_){}
+    }, 1200);
   });
 
   input.addEventListener('focus', function () {

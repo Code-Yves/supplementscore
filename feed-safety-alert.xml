@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>SupplementScore — Safety Alerts</title>
+  <link>https://supplementscore.org/discover.html</link>
+  <atom:link href="https://supplementscore.org/feed-safety-alert.xml" rel="self" type="application/rss+xml" />
+  <description>Recalls, warnings, and supplements that have caused real harm.</description>
+  <language>en</language>
+  <lastBuildDate>Tue, 05 May 2026 17:48:51 +0000</lastBuildDate>
+  <generator>SupplementScore static-site build</generator>
+  <item>
+    <title>SARMs: The Illegal Supplements in Your Gym</title>
+    <link>https://supplementscore.org/a/sarms-the-illegal-supplements-in-your-gym.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/sarms-the-illegal-supplements-in-your-gym.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>Selective androgen receptor modulators (SARMs) are drug compounds first developed to treat muscle loss and bone disease. The plan was to get the muscle-bui…</description>
+  </item>
+  <item>
+    <title>Ashwagandha and Thyroid: A Hidden Risk</title>
+    <link>https://supplementscore.org/a/ashwagandha-and-thyroid-a-hidden-risk.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/ashwagandha-and-thyroid-a-hidden-risk.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>Ashwagandha (Withania somnifera) is one of the most popular adaptogens on the market, marketed for stress, cortisol, energy, and general wellbeing. It has …</description>
+  </item>
+  <item>
+    <title>5 Supplements That Can Dangerously Interact With Common Medications</title>
+    <link>https://supplementscore.org/a/5-supplements-that-can-dangerously-interact-with-common-medications.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/5-supplements-that-can-dangerously-interact-with-common-medications.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>A common belief about dietary supplements is that "natural" means safe — and that supplements will not affect prescription drugs. Neither is true. Suppleme…</description>
+  </item>
+  <item>
+    <title>The Supplement Industry's Dirty Secret: Third-Party Testing Results</title>
+    <link>https://supplementscore.org/a/the-supplement-industry-s-dirty-secret-third-party-testing-results.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/the-supplement-industry-s-dirty-secret-third-party-testing-results.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>The supplement industry operates under a regulatory framework that would be unacceptable in any other category of health product. Unlike pharmaceuticals, d…</description>
+  </item>
+  <item>
+    <title>The Dangers of Buying Supplements on Amazon</title>
+    <link>https://supplementscore.org/a/the-dangers-of-buying-supplements-on-amazon.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/the-dangers-of-buying-supplements-on-amazon.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>By most industry estimates, Amazon now accounts for roughly 30–40% of all U.S. dietary supplement sales — the single largest point of purchase in the categ…</description>
+  </item>
+  <item>
+    <title>Raw Thyroid Glandulars: The Dangerous Supplement Trend</title>
+    <link>https://supplementscore.org/a/raw-thyroid-glandulars-the-dangerous-supplement-trend.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/raw-thyroid-glandulars-the-dangerous-supplement-trend.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>Raw desiccated thyroid glandular supplements are made from freeze-dried or dried animal thyroid tissue, usually from cattle or pigs. They are sold over the…</description>
+  </item>
+  <item>
+    <title>Herbal Supplements and Liver Damage: A Growing Concern</title>
+    <link>https://supplementscore.org/a/herbal-supplements-and-liver-damage-a-growing-concern.html</link>
+    <guid isPermaLink="true">https://supplementscore.org/a/herbal-supplements-and-liver-damage-a-growing-concern.html</guid>
+    <pubDate>Sat, 02 May 2026 22:06:35 +0000</pubDate>
+    <description>Drug-induced liver injury (DILI) from herbal and dietary supplements has become a serious and growing clinical problem. The U.S. Drug-Induced Liver Injury …</description>
+  </item>
+</channel>
+</rss>

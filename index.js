@@ -836,7 +836,7 @@ if (typeof renderAll === 'function') {
     if(noResults)noResults.style.display=anyVisible?'none':'';
   }
 
-  var debounceTimer;
+  var debounceTimer, plausibleTimer;
   input.addEventListener('input',function(){
     var q=input.value.trim();
     lastQuery=q;
@@ -845,6 +845,12 @@ if (typeof renderAll === 'function') {
       filterCards(q);
       if(q){renderAc(search(q),q);}else{hideAc();}
     },80);
+    /* Plausible 'Article search' — debounced 1.2s after typing stops so we
+       only log completed queries, not every keystroke. */
+    clearTimeout(plausibleTimer);
+    if(q.length>=3){plausibleTimer=setTimeout(function(){
+      try{if(typeof window.plausible==='function')window.plausible('Article search',{props:{query:q.toLowerCase(),results:String(search(q).length)}});}catch(_){}
+    },1200);}
   });
 
   input.addEventListener('keydown',function(e){
