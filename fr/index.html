@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SupplementScore — Index des compléments (français)</title>
-<meta name="description" content="Index complet des compléments alimentaires. La traduction française est en cours — l'index principal est actuellement en anglais.">
-<meta name="robots" content="noindex, follow">
+<meta name="description" content="Référence à but non lucratif basée sur les preuves. 758 compléments évalués sur 6 dimensions à partir de 27 000+ études révisées par les pairs. Aucun parrainage, aucun produit en vente.">
+<meta name="robots" content="index, follow">
 <link rel="canonical" href="https://supplementscore.org/fr/index.html">
 
 <link rel="alternate" hreflang="en" href="https://supplementscore.org/index.html">
@@ -16,65 +16,279 @@
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 
-<!-- Auto-redirect to the main EN directory after a short pause so users
-     who landed here see the FR banner first, then continue browsing. -->
-<meta http-equiv="refresh" content="2;url=../index.html">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=20260505b">
 
 <style>
-  :root{
-    --color-brand:#1F7A6B; --color-brand-hover:#176054;
-    --color-cream:#F8F4ED; --color-coral:#E8967A;
-    --color-text:#0A3A33; --color-text-secondary:#3D5C57;
-    --color-text-tertiary:#6B8581;
+  /* Page-local layout — minimal so the page works without app.js / index.js. */
+  body{ background:var(--color-background-primary,#F8F4ED); color:var(--color-text,#0A3A33); padding:0 0 4rem; }
+
+  /* Nav row */
+  .frnav{ max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; gap:14px; }
+  .frnav-mark{ display:inline-flex; align-items:center; gap:8px; font-family:'Mona Sans',sans-serif; font-weight:700; font-size:16px; color:var(--color-brand,#1F7A6B); text-decoration:none; }
+  .frnav-mark svg{ width:24px; height:24px; }
+  .frnav-tabs{ display:flex; gap:6px; margin-left:auto; background:rgba(15,23,22,.05); border-radius:999px; padding:4px; }
+  .frnav-tab{ padding:8px 16px; border-radius:999px; font-family:'Mona Sans',sans-serif; font-weight:600; font-size:13px; color:var(--color-text-secondary,#3D5C57); text-decoration:none; transition:background .12s,color .12s; }
+  .frnav-tab.on{ background:var(--color-brand,#1F7A6B); color:#fff; }
+  .frnav-tab:hover:not(.on){ background:rgba(31,122,107,.10); color:var(--color-brand,#1F7A6B); }
+  .frnav-tab .ent{ opacity:.55; font-weight:500; font-size:11px; margin-left:4px; }
+
+  /* Hero */
+  .frhero{ max-width:1180px; margin:24px auto 0; padding:48px 32px 56px; background:linear-gradient(135deg,#1F7A6B 0%,#155b50 100%); border-radius:24px; color:#F8F4ED; position:relative; overflow:hidden; }
+  .frhero-eyebrow{ font-family:'Mona Sans',sans-serif; font-weight:700; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:rgba(248,244,237,.65); margin-bottom:14px; }
+  .frhero h1{ font-family:'Mona Sans',sans-serif; font-weight:800; font-size:44px; line-height:1.1; letter-spacing:-.015em; margin:0 0 18px; max-width:720px; }
+  .frhero-lede{ font-size:17px; line-height:1.55; color:rgba(248,244,237,.85); max-width:680px; margin:0 0 28px; }
+  .frhero-stats{ display:flex; gap:36px; flex-wrap:wrap; padding-top:24px; border-top:1px solid rgba(248,244,237,.18); }
+  .frhero-stat{ font-family:'Mona Sans',sans-serif; }
+  .frhero-stat-n{ font-size:34px; font-weight:800; line-height:1; letter-spacing:-.02em; color:#fff; font-variant-numeric:tabular-nums; }
+  .frhero-stat-l{ font-size:12px; font-weight:500; letter-spacing:.04em; color:rgba(248,244,237,.7); margin-top:6px; text-transform:uppercase; }
+
+  /* Search bar */
+  .frsearch{ max-width:780px; margin:24px auto 0; padding:0 24px; }
+  .frsearch-form{ display:flex; gap:0; background:#fff; border:1.5px solid rgba(31,122,107,.18); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,91,80,.08); }
+  .frsearch-input{ flex:1; padding:16px 20px; font-family:inherit; font-size:15px; border:0; background:transparent; outline:none; color:var(--color-text,#0A3A33); }
+  .frsearch-input::placeholder{ color:var(--color-text-tertiary,#6B8581); }
+  .frsearch-btn{ padding:0 24px; background:var(--color-brand,#1F7A6B); color:#fff; border:0; font-family:'Mona Sans',sans-serif; font-weight:600; font-size:14px; cursor:pointer; transition:background .12s; }
+  .frsearch-btn:hover{ background:var(--color-brand-hover,#155b50); }
+  .frsearch-note{ font-size:12px; color:var(--color-text-tertiary,#6B8581); text-align:center; margin-top:10px; line-height:1.5; }
+
+  /* Section base */
+  .frsec{ max-width:1180px; margin:48px auto 0; padding:0 24px; }
+  .frsec-eyebrow{ font-family:'Mona Sans',sans-serif; font-weight:700; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--color-text-tertiary,#6B8581); margin-bottom:8px; }
+  .frsec-h{ font-family:'Mona Sans',sans-serif; font-weight:800; font-size:28px; line-height:1.2; letter-spacing:-.01em; color:var(--color-text,#0A3A33); margin:0 0 6px; }
+  .frsec-sub{ font-size:14px; line-height:1.55; color:var(--color-text-secondary,#3D5C57); margin:0 0 20px; max-width:620px; }
+
+  /* Featured cards (translated content) */
+  .frfeat{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+  .frfeat-card{ background:#fff; border:1px solid rgba(31,122,107,.16); border-radius:16px; padding:24px 22px; text-decoration:none; color:inherit; transition:transform .15s,box-shadow .15s; display:block; }
+  .frfeat-card:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(15,91,80,.12); }
+  .frfeat-card-tag{ display:inline-block; padding:3px 10px; background:rgba(31,122,107,.10); color:var(--color-brand,#1F7A6B); border-radius:999px; font-family:'Mona Sans',sans-serif; font-weight:700; font-size:10px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; }
+  .frfeat-card h3{ font-family:'Mona Sans',sans-serif; font-weight:700; font-size:18px; line-height:1.3; letter-spacing:-.005em; color:var(--color-text,#0A3A33); margin:0 0 8px; }
+  .frfeat-card p{ font-size:14px; line-height:1.55; color:var(--color-text-secondary,#3D5C57); margin:0; }
+  .frfeat-card-arrow{ font-family:'Mona Sans',sans-serif; font-weight:600; font-size:13px; color:var(--color-brand,#1F7A6B); margin-top:14px; display:inline-block; }
+
+  /* Category chips */
+  .frcat{ display:flex; flex-wrap:wrap; gap:10px; }
+  .frcat-chip{ display:inline-flex; align-items:center; gap:8px; padding:10px 16px; background:#fff; border:1px solid rgba(31,122,107,.18); border-radius:999px; text-decoration:none; color:var(--color-text-secondary,#3D5C57); font-family:'Mona Sans',sans-serif; font-weight:600; font-size:13px; transition:background .12s,border-color .12s,color .12s; }
+  .frcat-chip:hover{ background:rgba(31,122,107,.08); border-color:var(--color-brand,#1F7A6B); color:var(--color-brand,#1F7A6B); }
+  .frcat-chip-en{ font-size:10px; opacity:.55; font-weight:500; }
+
+  /* Top supplements list (preview, links to EN detail) */
+  .frtop{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
+  .frtop-row{ display:flex; align-items:center; gap:14px; padding:14px 18px; background:#fff; border:1px solid rgba(31,122,107,.14); border-radius:12px; text-decoration:none; color:inherit; transition:background .12s,border-color .12s; }
+  .frtop-row:hover{ background:rgba(31,122,107,.04); border-color:rgba(31,122,107,.28); }
+  .frtop-score{ font-family:'Mona Sans',sans-serif; font-weight:800; font-size:18px; color:var(--color-brand,#1F7A6B); font-variant-numeric:tabular-nums; min-width:32px; }
+  .frtop-name{ font-family:'Mona Sans',sans-serif; font-weight:600; font-size:14px; color:var(--color-text,#0A3A33); }
+  .frtop-cat{ font-size:11px; color:var(--color-text-tertiary,#6B8581); margin-top:2px; }
+
+  /* Browse all CTA */
+  .frbrowse{ max-width:780px; margin:32px auto 0; padding:24px 28px; background:rgba(31,122,107,.06); border:1px dashed rgba(31,122,107,.28); border-radius:16px; text-align:center; }
+  .frbrowse h3{ font-family:'Mona Sans',sans-serif; font-weight:700; font-size:18px; margin:0 0 8px; color:var(--color-text,#0A3A33); }
+  .frbrowse p{ font-size:14px; color:var(--color-text-secondary,#3D5C57); margin:0 0 16px; line-height:1.55; }
+  .frbrowse .cta{ display:inline-block; padding:12px 24px; background:var(--color-brand,#1F7A6B); color:#fff; border-radius:10px; font-family:'Mona Sans',sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background .12s; }
+  .frbrowse .cta:hover{ background:var(--color-brand-hover,#155b50); }
+  .frbrowse-en-note{ font-size:11px; color:var(--color-text-tertiary,#6B8581); margin-top:10px; }
+
+  /* Translation note */
+  .frnote{ max-width:780px; margin:24px auto 0; padding:18px 22px; background:rgba(232,150,122,.10); border-left:3px solid var(--color-coral,#E8967A); border-radius:0 12px 12px 0; font-size:13.5px; line-height:1.55; color:var(--color-text-secondary,#3D5C57); }
+  .frnote strong{ color:var(--color-text,#0A3A33); }
+  .frnote a{ color:var(--color-brand,#1F7A6B); text-decoration:underline; text-underline-offset:2px; }
+
+  /* Footer */
+  .frfoot{ max-width:1180px; margin:64px auto 0; padding:32px 24px; background:#0A3A33; color:rgba(248,244,237,.8); border-radius:16px; }
+  .frfoot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:36px; margin-bottom:24px; }
+  .frfoot-brand-mark{ font-family:'Mona Sans',sans-serif; font-weight:800; font-size:18px; color:#F8F4ED; margin-bottom:10px; }
+  .frfoot-brand-desc{ font-size:13px; line-height:1.55; color:rgba(248,244,237,.65); margin-bottom:14px; }
+  .frfoot-h{ font-family:'Mona Sans',sans-serif; font-weight:700; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:rgba(248,244,237,.5); margin-bottom:12px; }
+  .frfoot-col{ display:flex; flex-direction:column; gap:8px; }
+  .frfoot-col a{ color:rgba(248,244,237,.78); text-decoration:none; font-size:13px; transition:color .12s; }
+  .frfoot-col a:hover{ color:#F8F4ED; }
+  .frfoot-meta{ padding-top:20px; border-top:1px solid rgba(248,244,237,.12); font-size:11.5px; color:rgba(248,244,237,.5); line-height:1.5; }
+  .frfoot-meta a{ color:rgba(248,244,237,.7); text-decoration:none; }
+  .frfoot-lang{ font-size:11px; color:rgba(248,244,237,.55); margin-top:8px; }
+  .frfoot-lang a{ color:rgba(248,244,237,.78); text-decoration:none; font-weight:600; }
+  .frfoot-lang .on{ color:#F8F4ED; font-weight:700; }
+
+  @media(max-width:760px){
+    .frhero{ padding:32px 22px 36px; margin:14px 14px 0; border-radius:18px; }
+    .frhero h1{ font-size:30px; }
+    .frhero-lede{ font-size:15px; }
+    .frhero-stat-n{ font-size:26px; }
+    .frhero-stats{ gap:22px; }
+    .frnav{ padding:12px 14px; flex-wrap:wrap; }
+    .frnav-tabs{ width:100%; margin-left:0; justify-content:center; }
+    .frsec{ margin-top:32px; padding:0 14px; }
+    .frsec-h{ font-size:22px; }
+    .frfoot{ margin-left:14px; margin-right:14px; }
+    .frfoot-grid{ grid-template-columns:1fr; gap:24px; }
   }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--color-cream);color:var(--color-text);font-family:'Mona Sans','Plus Jakarta Sans',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:560px;margin:0 auto;padding:80px 24px;text-align:center}
-  .mark{display:inline-flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:var(--color-brand);text-decoration:none;margin-bottom:32px}
-  .mark svg{width:28px;height:28px}
-  h1{font-family:'Mona Sans',sans-serif;font-weight:700;font-size:28px;line-height:1.25;margin:0 0 14px;letter-spacing:-0.01em}
-  p{font-size:15px;line-height:1.6;color:var(--color-text-secondary);margin:0 0 18px}
-  .cta{display:inline-block;padding:11px 22px;background:var(--color-brand);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;margin:6px 4px}
-  .cta:hover{background:var(--color-brand-hover)}
-  .cta.secondary{background:transparent;color:var(--color-brand);border:1.5px solid var(--color-brand)}
-  .meta{font-size:12px;color:var(--color-text-tertiary);margin-top:36px}
-  .meta a{color:var(--color-text-tertiary)}
-  .lang-row{font-size:12px;color:var(--color-text-tertiary);margin-bottom:18px}
-  .lang-row a{color:var(--color-brand);text-decoration:none;font-weight:600}
-  .lang-row .on{color:var(--color-text);font-weight:700}
 </style>
+
+<script defer src="../_site-ux.js?v=20260505b"></script>
 </head>
 <body>
-  <div class="wrap">
-    <a class="mark" href="landing.html">
-      <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1F7A6B"/><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z" fill="#F8F4ED"/><path d="M5 19C9 15 13 11 19 5" stroke="#1F7A6B" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
-      SupplementScore<span style="color:var(--color-text-tertiary);font-weight:500">.org</span>
-    </a>
 
-    <div class="lang-row">
-      <a href="../index.html" hreflang="en">EN</a> ·
-      <span class="on" aria-current="true">FR</span> ·
-      <a href="../es/index.html" hreflang="es">ES</a>
+<!-- ========== Nav ========== -->
+<nav class="frnav" aria-label="Navigation principale">
+  <a class="frnav-mark" href="landing.html">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="6" fill="#1F7A6B"/><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z" fill="#F8F4ED"/><path d="M5 19C9 15 13 11 19 5" stroke="#1F7A6B" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+    SupplementScore<span style="color:var(--color-text-tertiary,#6B8581);font-weight:500">.org</span>
+  </a>
+  <div class="frnav-tabs" role="tablist">
+    <a href="index.html" class="frnav-tab on" role="tab" aria-current="page">Index</a>
+    <a href="../discover.html" class="frnav-tab" role="tab">Découvrir<span class="ent">EN</span></a>
+    <a href="../index.html#research" class="frnav-tab" role="tab">Articles<span class="ent">EN</span></a>
+  </div>
+</nav>
+
+<!-- ========== Hero ========== -->
+<section class="frhero">
+  <div class="frhero-eyebrow">L'index des compléments</div>
+  <h1>Trouvez le bon complément à partir des preuves, pas du marketing.</h1>
+  <p class="frhero-lede">Référence non commerciale et indépendante. Chaque complément est évalué sur 6 dimensions à partir d'études cliniques révisées par les pairs — sans parrainage, sans affiliation, sans produit à vendre.</p>
+  <div class="frhero-stats">
+    <div class="frhero-stat">
+      <div class="frhero-stat-n">758</div>
+      <div class="frhero-stat-l">Compléments évalués</div>
     </div>
-
-    <h1>Index des compléments</h1>
-    <p>La traduction française du site est en cours. L'index complet (758 compléments, recherche, filtres) est actuellement disponible en anglais — vous y êtes redirigé automatiquement dans quelques secondes.</p>
-    <p>Les pages déjà traduites en français : <a href="landing.html">accueil</a>, <a href="condition/anxiety-stack.html">protocole anti-anxiété</a>, <a href="condition/pcos-protocol.html">protocole SOPK</a>.</p>
-
-    <div>
-      <a class="cta" href="../index.html">Aller à l'index (anglais) →</a>
-      <a class="cta secondary" href="landing.html">Retour à l'accueil</a>
+    <div class="frhero-stat">
+      <div class="frhero-stat-n">27 142</div>
+      <div class="frhero-stat-l">Études référencées</div>
     </div>
-
-    <div class="meta">
-      &copy; 2026 SupplementScore · Référence à but non lucratif ·
-      <a href="../methodology.html">Méthodologie</a> ·
-      <a href="../about.html">À propos</a>
+    <div class="frhero-stat">
+      <div class="frhero-stat-n">0</div>
+      <div class="frhero-stat-l">Parrainage ou affiliation</div>
     </div>
   </div>
+</section>
+
+<!-- ========== Search ========== -->
+<form class="frsearch" action="../index.html" method="get" role="search">
+  <div class="frsearch-form">
+    <input type="search" name="q" class="frsearch-input" placeholder="Rechercher un complément (ex : magnésium, créatine, ashwagandha…)" aria-label="Rechercher un complément">
+    <button type="submit" class="frsearch-btn">Rechercher</button>
+  </div>
+  <p class="frsearch-note">La recherche utilise actuellement l'index complet (en anglais). Les noms latins et anglais des compléments fonctionnent mieux.</p>
+</form>
+
+<!-- ========== Featured: French content ========== -->
+<section class="frsec">
+  <div class="frsec-eyebrow">Traduit en français</div>
+  <h2 class="frsec-h">Protocoles disponibles en français</h2>
+  <p class="frsec-sub">Les guides ci-dessous sont entièrement traduits. Le reste de la bibliothèque (compléments individuels, conditions, articles) est encore en anglais — la traduction se fait progressivement.</p>
+  <div class="frfeat">
+    <a href="condition/anxiety-stack.html" class="frfeat-card">
+      <span class="frfeat-card-tag">Condition</span>
+      <h3>Le protocole anti-anxiété 2026</h3>
+      <p>Cinq couches pour gérer l'anxiété quotidienne — magnésium, L-théanine, ashwagandha, safran, glycine. Doses, preuves, interactions médicamenteuses.</p>
+      <span class="frfeat-card-arrow">Lire le protocole →</span>
+    </a>
+    <a href="condition/pcos-protocol.html" class="frfeat-card">
+      <span class="frfeat-card-tag">Condition</span>
+      <h3>Protocole SOPK — preuves 2025</h3>
+      <p>Quatre compléments avec un vrai soutien d'essais randomisés : inositol, vitamine D, berbérine, menthe verte. Mécanismes, doses, monitoring.</p>
+      <span class="frfeat-card-arrow">Lire le protocole →</span>
+    </a>
+    <a href="landing.html" class="frfeat-card">
+      <span class="frfeat-card-tag">Présentation</span>
+      <h3>Notre méthodologie de scoring</h3>
+      <p>Comment chaque complément est évalué sur 6 dimensions. Pourquoi nous publions, qui nous sommes, comment nous restons sans biais commercial.</p>
+      <span class="frfeat-card-arrow">En savoir plus →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ========== Categories ========== -->
+<section class="frsec">
+  <div class="frsec-eyebrow">Parcourir par objectif</div>
+  <h2 class="frsec-h">Les catégories les plus consultées</h2>
+  <p class="frsec-sub">Cliquez sur une catégorie pour ouvrir la liste correspondante dans l'index complet.</p>
+  <div class="frcat">
+    <a href="../index.html#supplements" class="frcat-chip">Sommeil <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Performance physique <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Cognition &amp; concentration <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Stress &amp; humeur <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Métabolique &amp; glycémie <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Immunité <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Articulation &amp; tissu conjonctif <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Peau &amp; cheveux <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Santé hormonale <span class="frcat-chip-en">EN</span></a>
+    <a href="../index.html#supplements" class="frcat-chip">Santé digestive <span class="frcat-chip-en">EN</span></a>
+  </div>
+</section>
+
+<!-- ========== Top supplements ========== -->
+<section class="frsec">
+  <div class="frsec-eyebrow">Les mieux notés</div>
+  <h2 class="frsec-h">Top 10 des compléments par score composite</h2>
+  <p class="frsec-sub">Score sur 100, calculé à partir de la qualité des preuves, de la sécurité, de l'effet ressenti, des interactions et du rapport coût-efficacité. Cliquez pour ouvrir la fiche détaillée (en anglais).</p>
+  <div class="frtop">
+    <a href="../supplement.html?slug=creatine-monohydrate" class="frtop-row"><span class="frtop-score">96</span><div><div class="frtop-name">Créatine monohydrate</div><div class="frtop-cat">Performance · Cognition</div></div></a>
+    <a href="../supplement.html?slug=vitamin-d3" class="frtop-row"><span class="frtop-score">92</span><div><div class="frtop-name">Vitamine D3</div><div class="frtop-cat">Os · Immunité</div></div></a>
+    <a href="../supplement.html?slug=omega-3" class="frtop-row"><span class="frtop-score">90</span><div><div class="frtop-name">Oméga-3 (EPA + DHA)</div><div class="frtop-cat">Cardio · Inflammation</div></div></a>
+    <a href="../supplement.html?slug=magnesium-glycinate" class="frtop-row"><span class="frtop-score">88</span><div><div class="frtop-name">Magnésium (glycinate)</div><div class="frtop-cat">Sommeil · Cognition</div></div></a>
+    <a href="../supplement.html?slug=l-theanine" class="frtop-row"><span class="frtop-score">85</span><div><div class="frtop-name">L-théanine</div><div class="frtop-cat">Stress · Concentration</div></div></a>
+    <a href="../supplement.html?slug=ashwagandha" class="frtop-row"><span class="frtop-score">84</span><div><div class="frtop-name">Ashwagandha (KSM-66)</div><div class="frtop-cat">Stress · Sommeil</div></div></a>
+    <a href="../supplement.html?slug=zinc" class="frtop-row"><span class="frtop-score">82</span><div><div class="frtop-name">Zinc (bisglycinate)</div><div class="frtop-cat">Immunité · Hormones</div></div></a>
+    <a href="../supplement.html?slug=curcumin" class="frtop-row"><span class="frtop-score">80</span><div><div class="frtop-name">Curcumine (BCM-95)</div><div class="frtop-cat">Inflammation · Articulation</div></div></a>
+    <a href="../supplement.html?slug=berberine" class="frtop-row"><span class="frtop-score">79</span><div><div class="frtop-name">Berbérine</div><div class="frtop-cat">Glycémie · Métabolique</div></div></a>
+    <a href="../supplement.html?slug=collagen-peptides" class="frtop-row"><span class="frtop-score">75</span><div><div class="frtop-name">Peptides de collagène</div><div class="frtop-cat">Peau · Articulation</div></div></a>
+  </div>
+  <div class="frbrowse-en-note" style="margin-top:14px;text-align:center;font-size:11px;color:var(--color-text-tertiary,#6B8581);">Les fiches détaillées sont en anglais. Les noms français ci-dessus sont fournis pour faciliter la recherche.</div>
+</section>
+
+<!-- ========== Browse all CTA ========== -->
+<div class="frbrowse">
+  <h3>Parcourir les 758 compléments</h3>
+  <p>L'index complet avec recherche, filtres (objectif, âge, sexe, symptôme), tri et fiches détaillées est disponible dans la version anglaise du site.</p>
+  <a href="../index.html" class="cta">Ouvrir l'index complet →</a>
+  <div class="frbrowse-en-note">Le contenu est en anglais. La traduction française se fait progressivement.</div>
+</div>
+
+<!-- ========== Translation note ========== -->
+<aside class="frnote">
+  <strong>Note sur la traduction.</strong> SupplementScore.org est traduit progressivement vers le français.
+  Sont actuellement disponibles : la page d'accueil, deux protocoles par condition (anxiété, SOPK), et cette page d'index.
+  Le reste de la bibliothèque (758 compléments, articles, méthodologie, conditions) est encore en anglais.
+  Pour contribuer à la traduction française, contactez-nous via la <a href="../about.html">page À propos</a>.
+</aside>
+
+<!-- ========== Footer ========== -->
+<footer class="frfoot">
+  <div class="frfoot-grid">
+    <div>
+      <div class="frfoot-brand-mark">SupplementScore.org</div>
+      <p class="frfoot-brand-desc">Référence à but non lucratif sur les compléments alimentaires, basée sur les preuves. 100% indépendant — aucun parrainage, aucun affilié, aucun produit en vente.</p>
+      <div class="site-footer-meta" style="font-size:11px;color:rgba(248,244,237,.55)">&copy; 2026 SupplementScore · CC-BY 4.0 · Référence éducative, pas un avis médical.</div>
+      <!-- _site-ux.js will inject the EN · FR · ES switcher here as a sibling of .site-footer-meta -->
+    </div>
+    <div>
+      <div class="frfoot-h">Site</div>
+      <div class="frfoot-col">
+        <a href="landing.html">Accueil</a>
+        <a href="index.html">Index des compléments</a>
+        <a href="condition/anxiety-stack.html">Protocole anti-anxiété</a>
+        <a href="condition/pcos-protocol.html">Protocole SOPK</a>
+      </div>
+    </div>
+    <div>
+      <div class="frfoot-h">À propos (anglais)</div>
+      <div class="frfoot-col">
+        <a href="../methodology.html">Méthodologie</a>
+        <a href="../about.html">À propos</a>
+        <a href="../editorial-board.html">Comité éditorial</a>
+        <a href="../sources.html">Sources de référence</a>
+        <a href="../privacy.html">Confidentialité</a>
+        <a href="../terms.html">Conditions</a>
+      </div>
+    </div>
+  </div>
+  <div class="frfoot-meta">
+    Référence éducative, pas un avis médical. Consultez toujours un professionnel de santé qualifié avant de modifier votre routine de compléments — particulièrement si vous prenez des médicaments, êtes enceinte, allaitez ou avez une condition médicale.
+  </div>
+</footer>
+
 </body>
 </html>
