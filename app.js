@@ -72,6 +72,392 @@ function renderMedChips(){const el=document.getElementById('med-chips');if(!el)r
 function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();updatePfCounts();}
 function updateMedNote(){const n=document.getElementById('med-note');if(!n)return;if(selectedMeds.size===0){n.style.display='none';return;}n.style.display='block';const avoidAll=new Set(),cautionAll=new Set(),extraAll=new Set();selectedMeds.forEach(k=>{const m=MEDS[k];if(!m)return;m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>cautionAll.add(x));m.extra.forEach(x=>extraAll.add(x));});n.innerHTML=`${avoidAll.size>0?'⚠ Will exclude: '+[...avoidAll].join(', ')+'. ':''}${cautionAll.size>0?'⚡ Will flag cautions on: '+[...cautionAll].join(', ')+'. ':''}${extraAll.size>0?'✚ Will add: '+[...extraAll].join(', ')+'.':''}`;}
 function getMedInteractions(){const avoidAll=new Set(),cautionMap={},extraAll=new Set(),notes=[];selectedMeds.forEach(k=>{const m=MEDS[k];if(!m)return;m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>{if(!cautionMap[x])cautionMap[x]=[];cautionMap[x].push(m.label);});m.extra.forEach(x=>extraAll.add(x));notes.push({med:m.label,note:m.note});});return{avoid:avoidAll,caution:cautionMap,extra:[...extraAll],notes};}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Plan B3 — Form preferences. Maps a generic supplement recommendation
+   to the optimal form variant given the user's profile. The augmentation
+   pass walks each `recs` entry and annotates _preferredForm + _formReason.
+   Order matters: first matching variant wins. Use `default: true` to
+   provide a fallback when no specific test fires.
+   ────────────────────────────────────────────────────────────────────────── */
+const FORM_PREFERENCES = {
+  'Vitamin B12': [
+    {form:'Methylcobalamin (high-dose neurological)',
+     test:({meds, conds})=> [...meds].some(k=>['ssri','tricyclic','atypical_antidep'].includes(k)) || conds.has('depression') || conds.has('neuropathy'),
+     reason:'methylcobalamin is preferred for neurological / mood contexts (active form, crosses BBB)'},
+    {form:'Hydroxocobalamin',
+     test:({meds, conds})=> [...meds].some(k=>['ppi','h2_blocker','metformin'].includes(k)) || conds.has('celiac'),
+     reason:'hydroxocobalamin is more absorbable when gastric acid is reduced (PPI/H2 blocker/metformin/atrophic gastritis/celiac)'},
+    {form:'Adenosylcobalamin (active B12, mitochondrial)',
+     test:({conds})=> conds.has('cfs') || conds.has('fibromyalgia'),
+     reason:'adenosylcobalamin is the mitochondrial-active B12 form; useful in fatigue / mitochondrial protocols'},
+    {form:'Methylcobalamin (high-dose neurological)', default:true,
+     reason:'methylcobalamin is the preferred active form for most adults; superior to cyanocobalamin in absorption and tissue retention'}
+  ],
+  'Folate (5-MTHF)': [
+    // Already the active form — the legacy recommendation might use 'Folic acid (synthetic)'
+    {form:'Folate (5-MTHF)', default:true,
+     reason:'5-MTHF (methylfolate) is the active form, preferable to folic acid for everyone, essential for MTHFR variants'}
+  ],
+  'Folic acid (synthetic)': [
+    {form:'Folate (5-MTHF)', default:true,
+     reason:'5-MTHF is preferred over synthetic folic acid — works regardless of MTHFR status, no unmetabolized folic acid risk'}
+  ],
+  'Magnesium': [
+    {form:'Magnesium glycinate',
+     test:({conds})=> conds.has('insomnia') || conds.has('anxiety') || conds.has('rheumatoid_arthritis'),
+     reason:'glycinate is best-tolerated, supports sleep + anxiety + minimal laxative effect'},
+    {form:'Magnesium citrate',
+     test:({conds})=> conds.has('ibs_c') || conds.has('kidney_stones'),
+     reason:'citrate is preferred for constipation relief and prevents calcium-oxalate stones'},
+    {form:'Magnesium L-threonate',
+     test:({conds})=> conds.has('cfs') || conds.has('long_covid') || conds.has('adhd'),
+     reason:'L-threonate crosses the blood-brain barrier — preferred for cognitive/CNS endpoints'},
+    {form:'Magnesium taurate',
+     test:({conds})=> conds.has('atrial_fibrillation') || conds.has('heart_failure') || conds.has('bp'),
+     reason:'taurate has cardiovascular evidence (ratio with taurine supports cardiac rhythm and BP)'},
+    {form:'Magnesium glycinate', default:true,
+     reason:'glycinate is the most-recommended general-purpose form — well-tolerated and high-bioavailability'}
+  ],
+  'Iron': [
+    {form:'Ferrous bisglycinate (gentle iron)', default:true,
+     reason:'bisglycinate is gentler on the gut than ferrous sulfate and has comparable absorption — preferred for chronic dosing'}
+  ],
+  'Calcium': [
+    {form:'Calcium hydroxyapatite (MCHC)',
+     test:({conds})=> conds.has('osteoporosis'),
+     reason:'MCHC carries the protein matrix bone needs — small advantage in osteoporosis protocols vs carbonate/citrate'},
+    {form:'Calcium carbonate/citrate (bone health)',
+     test:({meds})=> [...meds].some(k=>['ppi','h2_blocker'].includes(k)),
+     reason:'citrate (over carbonate) is preferred when gastric acid is suppressed (PPI/H2 blocker)'},
+    {form:'Calcium carbonate/citrate (bone health)', default:true,
+     reason:'standard well-tolerated forms — take with food for absorption'}
+  ],
+  'Curcumin (bioavailable form)': [
+    {form:'Curcumin Meriva (phytosome)', default:true,
+     reason:'phytosome (Meriva) and similar branded forms have ~30× the bioavailability of plain curcumin extract'}
+  ],
+  'CoQ10 (Ubiquinol)': [
+    // Already the better form — leave default.
+    {form:'CoQ10 (Ubiquinol)', default:true,
+     reason:'ubiquinol is the reduced/active form; preferred over ubiquinone in older adults (>40) and those with statin myopathy'}
+  ],
+  'Selenium': [
+    {form:'Selenium', default:true,
+     reason:'selenomethionine is the standard form; cap at 200 mcg/day to avoid selenosis'}
+  ],
+  'Zinc': [
+    {form:'Zinc bisglycinate',
+     test:({conds})=> conds.has('gut') || conds.has('ibs_d') || conds.has('ibd_uc') || conds.has('ibd_crohn'),
+     reason:'bisglycinate is gentlest on a sensitive gut'},
+    {form:'Zinc carnosine',
+     test:({conds})=> conds.has('gerd') || conds.has('gut'),
+     reason:'zinc-carnosine has specific evidence for gastric mucosal healing'},
+    {form:'Zinc bisglycinate', default:true,
+     reason:'bisglycinate is well-tolerated and high-bioavailability for general use'}
+  ]
+};
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Plan B2/B5/B6 — Profile accuracy augmentation pass (added 2026-05-04).
+   Runs after the demographic/goal/condition/bloodwork composition layers but
+   before final render. Three jobs:
+     1. CONDITION-AWARE FILTERING — uses the new CONDITIONS schema fields
+        (supps_avoid, supps_caution, dose_modifiers) added in Plan A2.
+     2. DRUG-PAIR FILTERING — uses DRUG_INTERACTIONS.pairs explicit severity
+        (avoid|caution|extra) layered on top of class-level med-interaction
+        filtering. Catches per-molecule overrides the class layer misses.
+     3. CONFIDENCE LABELS — assigns A/B/C confidence based on tier-quality
+        plus the number of supporting layers (biomarkers, conditions, goals).
+   Each pass mutates the recs[] array in place and returns a `blocked` array
+   of removed items so the UI can surface "removed because..." entries.
+   Backward-compatible: skips silently if new schema fields aren't present.
+   ────────────────────────────────────────────────────────────────────────── */
+function profileAugmentationPass(recs, opts){
+  opts = opts || {};
+  const blocked = [];
+  const _suppByName = (typeof window!=='undefined' && window._suppByName) || (typeof globalThis!=='undefined' && globalThis._suppByName);
+
+  // ── Pass 0: Health Status (Plan B1) — derive implied conditions from
+  // kidney/liver inputs WITHOUT mutating the global selectedConds Set
+  // (mutating it leaks state across renders and pollutes the chips UI).
+  // Instead we build a *local* effective-conds set used only here.
+  const health = (typeof getHealthStatus === 'function') ? getHealthStatus() : null;
+  const _impliedConds = new Set();
+  if(health && typeof CONDITIONS !== 'undefined'){
+    if(health.kidney === 'moderate' && CONDITIONS.ckd_stage_3) _impliedConds.add('ckd_stage_3');
+    if(health.kidney === 'severe' && CONDITIONS.ckd_stage_4_5) _impliedConds.add('ckd_stage_4_5');
+    if(health.liver === 'cirrhosis' && CONDITIONS.liver) _impliedConds.add('liver');
+    if(health.liver === 'impaired' && CONDITIONS.nafld) _impliedConds.add('nafld');
+  }
+  const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ..._impliedConds]);
+
+  // ── Pass A: Allergy hard-filter (Plan B1) — remove supps matching allergen patterns ──
+  if(health && health.allergies && health.allergies.length && typeof ALLERGY_TO_SUPP_PATTERNS !== 'undefined'){
+    const allergyMatchers = [];
+    health.allergies.forEach(a => {
+      (ALLERGY_TO_SUPP_PATTERNS[a]||[]).forEach(re => allergyMatchers.push({re, allergy:a}));
+    });
+    for(let i = recs.length - 1; i >= 0; i--){
+      const r = recs[i];
+      const hit = allergyMatchers.find(m => m.re.test(r.n));
+      if(hit){
+        blocked.push({
+          n: r.n,
+          reason: `allergy: contains ${hit.allergy}`,
+          sourcedBy: 'allergy',
+          allergy: hit.allergy
+        });
+        recs.splice(i, 1);
+      }
+    }
+  }
+
+  // ── Pass A2: Diet-pattern filter (Plan B1 round 2) ──
+  if(health && health.diets && health.diets.length && typeof DIET_TO_SUPP_PATTERNS !== 'undefined'){
+    const dietMatchers = [];
+    health.diets.forEach(d => {
+      const cfg = DIET_TO_SUPP_PATTERNS[d];
+      if(!cfg || !cfg.avoid) return;
+      cfg.avoid.forEach(re => dietMatchers.push({re, diet: d, reason: cfg.reason}));
+    });
+    for(let i = recs.length - 1; i >= 0; i--){
+      const r = recs[i];
+      const hit = dietMatchers.find(m => m.re.test(r.n));
+      if(hit){
+        blocked.push({
+          n: r.n,
+          reason: `diet (${hit.diet}): ${hit.reason}`,
+          sourcedBy: 'diet',
+          diet: hit.diet
+        });
+        recs.splice(i, 1);
+      }
+    }
+  }
+
+  // ── Pass B: Smoking-specific filters (Plan B1) ──
+  if(health && health.smoking === 'current'){
+    // β-carotene + current smokers → CARET trial showed harm
+    for(let i = recs.length - 1; i >= 0; i--){
+      const r = recs[i];
+      if(/^beta-carotene/i.test(r.n)){
+        blocked.push({
+          n: r.n,
+          reason: 'current smoker — beta-carotene supplementation increased lung-cancer mortality in the CARET trial',
+          sourcedBy: 'smoking',
+          source: 'CARET trial / NEJM 1996'
+        });
+        recs.splice(i, 1);
+      }
+    }
+  }
+
+  // ── Pass 1: Condition-aware caution/avoid (Plan A2 schema) ──
+  // For each effective condition (selected + health-implied), gather
+  // supps_avoid and supps_caution. Apply.
+  const condAvoidMap = {};   // suppName -> [condition labels]
+  const condCautionMap = {}; // suppName -> [{cond, dose_modifier?}]
+  const condDoseModifiers = {};
+  if(typeof CONDITIONS !== 'undefined'){
+    effectiveConds.forEach(k => {
+      const c = CONDITIONS[k];
+      if(!c) return;
+      (c.supps_avoid||[]).forEach(n => {
+        condAvoidMap[n] = condAvoidMap[n] || [];
+        condAvoidMap[n].push(c.label);
+      });
+      (c.supps_caution||[]).forEach(n => {
+        condCautionMap[n] = condCautionMap[n] || [];
+        condCautionMap[n].push({cond: c.label, key: k});
+      });
+      if(c.dose_modifiers){
+        Object.entries(c.dose_modifiers).forEach(([n, mod]) => {
+          condDoseModifiers[n] = condDoseModifiers[n] || [];
+          condDoseModifiers[n].push({cond: c.label, modifier: mod});
+        });
+      }
+    });
+  }
+
+  // Filter avoid (remove + log)
+  const beforeLen = recs.length;
+  for(let i = recs.length - 1; i >= 0; i--){
+    const r = recs[i];
+    if(condAvoidMap[r.n]){
+      blocked.push({
+        n: r.n,
+        reason: `condition: avoid in ${condAvoidMap[r.n].join(' & ')}`,
+        sourcedBy: 'condition_avoid',
+        labels: condAvoidMap[r.n]
+      });
+      recs.splice(i, 1);
+    }
+  }
+
+  // Mark caution (annotate but don't remove)
+  recs.forEach(r => {
+    if(condCautionMap[r.n]){
+      r._condCautions = condCautionMap[r.n];
+      // If supp was 'essential' or 'recommended', demote to 'consider' (severity-aware)
+      if(r.p === 'essential') r.p = 'recommended';
+      else if(r.p === 'recommended') r.p = 'consider';
+    }
+    if(condDoseModifiers[r.n]){
+      r._doseModifiers = condDoseModifiers[r.n];
+    }
+  });
+
+  // ── Pass 2: Drug-pair explicit severity (DRUG_INTERACTIONS.pairs) ──
+  // Use selectedDrugs if present; otherwise infer from selectedMeds class names.
+  if(typeof DRUG_INTERACTIONS !== 'undefined' && DRUG_INTERACTIONS.pairs){
+    const userDrugs = new Set();
+    if(typeof selectedDrugs !== 'undefined'){
+      [...selectedDrugs].forEach(d => {
+        const k = (typeof resolveDrugKey === 'function') ? resolveDrugKey(d) : (String(d).toLowerCase());
+        if(k) userDrugs.add(k);
+      });
+    }
+    // Build pair lookup: drugKey -> { suppName -> {severity, mechanism, source} }
+    const drugSuppMap = {};
+    if(userDrugs.size > 0){
+      DRUG_INTERACTIONS.pairs.forEach(p => {
+        if(userDrugs.has(p.drug)){
+          if(!drugSuppMap[p.supp]) drugSuppMap[p.supp] = [];
+          drugSuppMap[p.supp].push(p);
+        }
+      });
+    }
+
+    // Apply per-rec
+    for(let i = recs.length - 1; i >= 0; i--){
+      const r = recs[i];
+      const conflicts = drugSuppMap[r.n];
+      if(!conflicts || !conflicts.length) continue;
+      // Find the worst severity
+      const worst = conflicts.reduce((acc, c) => {
+        const order = {avoid:3, caution:2, extra:1};
+        return (order[c.severity]||0) > (order[acc.severity]||0) ? c : acc;
+      });
+      if(worst.severity === 'avoid'){
+        blocked.push({
+          n: r.n,
+          reason: `drug interaction: ${worst.mechanism}`,
+          sourcedBy: 'drug_avoid',
+          drug: worst.drug,
+          mechanism: worst.mechanism,
+          source: worst.source
+        });
+        recs.splice(i, 1);
+      } else if(worst.severity === 'caution'){
+        r._drugPairCautions = conflicts.filter(c => c.severity !== 'extra');
+        // Demote one bucket
+        if(r.p === 'essential') r.p = 'recommended';
+        else if(r.p === 'recommended') r.p = 'consider';
+      }
+      // 'extra' severity is informational — annotate without demoting
+      if(worst.severity === 'extra' || conflicts.some(c => c.severity === 'extra')){
+        r._drugPairExtras = conflicts.filter(c => c.severity === 'extra');
+      }
+    }
+  }
+
+  // ── Pass 2.5: Form selection (Plan B3) ──
+  // For "generic parent" recs (e.g., 'Vitamin B12', 'Magnesium', 'Iron'),
+  // suggest the optimal form variant given the user's profile inputs.
+  // We DON'T replace the rec — we annotate _preferredForm + _formReason so the
+  // card can surface "Best form for your profile: X" without disrupting the
+  // existing dose-recommendation logic which is keyed on the generic name.
+  if(typeof FORM_PREFERENCES !== 'undefined'){
+    recs.forEach(r => {
+      const variants = FORM_PREFERENCES[r.n];
+      if(!variants) return;
+      // Walk variants in order; first match wins.
+      for(const v of variants){
+        const ok = (typeof v.test === 'function') ? v.test({health, conds: effectiveConds, meds: typeof selectedMeds!=='undefined'?selectedMeds:new Set()}) : !!v.default;
+        if(ok){
+          r._preferredForm = v.form;
+          r._formReason = v.reason;
+          break;
+        }
+      }
+    });
+  }
+
+  // ── Pass 3: Confidence label (A/B/C) ──
+  // A: high tier evidence (e+r ≥ 8) AND ≥2 layers support OR critical biomarker
+  // B: e+r ≥ 6, single supportive layer
+  // C: preliminary or extrapolated
+  recs.forEach(r => {
+    const e = r.e || 0;
+    const sr = r.r || 0;  // research field
+    const evScore = e + sr;
+    const layerCount = (r._goalExtra ? 1 : 0) + (r._condExtra ? 1 : 0) + (r._bwExtra ? 1 : 0) + (r.tf ? 1 : 0);
+    let conf = 'C';
+    if(evScore >= 8 && (layerCount >= 2 || (r._bwTriggers && r._bwTriggers.some(t => t.status === 'critical')))){
+      conf = 'A';
+    } else if(evScore >= 6 && layerCount >= 1){
+      conf = 'B';
+    } else if(evScore >= 6){
+      conf = 'B';
+    }
+    // Demote confidence if any caution flag
+    if(r._condCautions || r._drugPairCautions){
+      conf = (conf === 'A') ? 'B' : conf;
+    }
+    r._confidence = conf;
+  });
+
+  return blocked;
+}
+
+/* Plan B5 — render the "blocked / removed" mini-section above the recommendations.
+   Surfaces items that the augmentation pass dropped, with reason + source.
+   Idempotent: renders nothing when blocked is empty; replaces existing render otherwise. */
+function renderBlockedItems(blocked){
+  if(typeof document === 'undefined') return;
+  const containerId = 'profile-blocked-mini';
+  let el = document.getElementById(containerId);
+  if(!blocked || !blocked.length){
+    if(el) el.remove();
+    return;
+  }
+  // Group by reason source for cleaner display
+  const byKind = {};
+  blocked.forEach(b => {
+    const kind = b.sourcedBy || 'other';
+    byKind[kind] = byKind[kind] || [];
+    byKind[kind].push(b);
+  });
+  const kindLabels = {
+    'condition_avoid': 'Avoided due to your conditions',
+    'drug_avoid': 'Avoided due to drug interactions',
+    'other': 'Removed'
+  };
+  const html = `
+    <div id="${containerId}" style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:12px 14px;margin:10px 0">
+      <div style="font-weight:700;font-size:12px;color:#92400E;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">⚠ ${blocked.length} supplement${blocked.length===1?'':'s'} removed for safety</div>
+      ${Object.entries(byKind).map(([k, items]) => `
+        <div style="margin-top:6px">
+          <div style="font-size:11px;color:#78350F;font-weight:600;margin-bottom:3px">${kindLabels[k]||k}</div>
+          ${items.map(b => `
+            <div style="font-size:12px;color:#451A03;padding:4px 0">
+              <b>${b.n}</b> — ${b.reason}
+              ${b.source ? `<span style="color:#92400E;font-size:10px"> · ${b.source}</span>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `).join('')}
+      <div style="font-size:10px;color:#78350F;margin-top:8px;font-style:italic">These supplements would conflict with your stated conditions or medications. Talk to your prescriber if you have questions.</div>
+    </div>
+  `;
+  // Insert right before the essentials section (or fall back to res-sh)
+  const anchor = document.getElementById('ess-sec') || document.getElementById('res-chips')?.parentElement;
+  if(anchor && anchor.parentElement){
+    if(el) el.outerHTML = html;
+    else anchor.insertAdjacentHTML('beforebegin', html);
+  }
+}
 function dots(n,tp){return Array.from({length:5},(_,i)=>`<div class="rt-dot ${i<n?'on-'+tp:''}"></div>`).join('');}
 function rHtml(e,s,r,o,c,d){return`<div class="rt-section">${e!=null?`<div class="rt-row"><span class="rt-lbl">Efficacy</span><div class="rt-dots">${dots(e,'e')}</div><span class="rt-text">${EL[e]||''}</span></div>`:''}${s!=null?`<div class="rt-row"><span class="rt-lbl">Safety</span><div class="rt-dots">${dots(s,s<=2?'d':'s')}</div><span class="rt-text">${SL[s]||''}</span></div>`:''}${r!=null?`<div class="rt-row"><span class="rt-lbl">Research</span><div class="rt-dots">${dots(r,r<=2?'d':'e')}</div><span class="rt-text">${RL[r]||''}</span></div>`:''}${o!=null?`<div class="rt-row"><span class="rt-lbl">Onset</span><div class="rt-dots">${dots(o,o<=2?'d':'s')}</div><span class="rt-text">${OL[o]||''}</span></div>`:''}${c!=null?`<div class="rt-row"><span class="rt-lbl">Value</span><div class="rt-dots">${dots(c,c<=2?'d':'e')}</div><span class="rt-text">${CL[c]||''}</span></div>`:''}${d!=null?`<div class="rt-row"><span class="rt-lbl">Interact.</span><div class="rt-dots">${dots(d,d<=2?'d':'s')}</div><span class="rt-text">${DL[d]||''}</span></div>`:''}</div>`;}
 
@@ -148,17 +534,202 @@ function renderSuppStackAlerts(recs){
   const box=document.getElementById('supp-alert-box');
   if(box)box.innerHTML='';
 }
+/* ──────────────────────────────────────────────────────────────────────────
+   Plan B4 — Personalized dose calculators. Each entry maps a supplement
+   name (or normalized parent name) to a function that takes profile inputs
+   and returns either { dose: 'string', basis: 'why' } or null.
+   The function `getPersonalizedDose(r)` is the single entry point.
+   Kidney/liver caps are applied AFTER the base calculation so they always win.
+   ────────────────────────────────────────────────────────────────────────── */
+const DOSE_CALCULATORS = {
+  'Creatine monohydrate': (p) => {
+    if(!p.wtKg) return null;
+    let mg = Math.round(p.wtKg * 70);  // 0.07 g/kg = 70 mg/kg
+    mg = Math.max(3000, Math.min(5000, mg));
+    return {dose: `${(mg/1000).toFixed(1)} g/day`, basis: `${(mg/p.wtKg).toFixed(0)} mg/kg × your weight`};
+  },
+  'Whey protein': (p) => {
+    if(!p.wtKg) return null;
+    let g = Math.round(p.wtKg * 0.4);
+    g = Math.max(20, Math.min(50, g));
+    return {dose: `${g} g per serving (1-2× daily)`, basis: '0.4 g/kg per serving × your weight'};
+  },
+  'Sodium bicarbonate (sports)': (p) => {
+    if(!p.wtKg) return null;
+    let g = Math.round(p.wtKg * 0.25);
+    g = Math.max(15, Math.min(25, g));
+    return {dose: `${g} g 60-90 min pre-exercise`, basis: '0.25 g/kg × your weight'};
+  },
+  'Vitamin D3': (p) => {
+    let iu = 1000;
+    const reasons = [];
+    // BMI bump
+    if(p.bmi && p.bmi >= 30){ iu += 1000; reasons.push('higher BMI'); }
+    // Smoker bump
+    if(p.smoking === 'current'){ iu += 1000; reasons.push('smoker'); }
+    // Older adults
+    if(p.age >= 65){ iu += 1000; reasons.push('age 65+'); }
+    // Lab-driven boost (if 25-OH-D deficient)
+    if(p.labs && p.labs.vitD != null){
+      if(p.labs.vitD < 20){ iu = Math.max(iu, 4000); reasons.push('25-OH-D <20 ng/mL'); }
+      else if(p.labs.vitD < 30){ iu = Math.max(iu, 2000); reasons.push('25-OH-D <30 ng/mL'); }
+    }
+    // Pregnancy/breastfeeding
+    if(p.sex === 'fp'){ iu = Math.max(iu, 2000); reasons.push('pregnancy'); }
+    // CKD cap (active form may be needed; supplemental D is capped lower)
+    if(p.kidney === 'severe'){ return {dose: 'Per nephrologist (often calcitriol)', basis: 'severe kidney impairment'}; }
+    if(p.kidney === 'moderate'){ iu = Math.min(iu, 2000); reasons.push('CKD stage 3 cap'); }
+    iu = Math.min(iu, 5000);  // general UL above which physician supervision warranted
+    return {dose: `${iu.toLocaleString()} IU/day with a fatty meal`, basis: reasons.length ? `${reasons.join(', ')}` : 'baseline'};
+  },
+  'Magnesium': (p) => {
+    if(!p.wtKg) return {dose: '300-400 mg elemental/day', basis: 'general adult dose'};
+    let mg = Math.round(p.wtKg * 4);  // 4 mg/kg/day elemental
+    mg = Math.max(200, Math.min(600, mg));
+    if(p.kidney === 'severe') return {dose: 'AVOID supplemental magnesium', basis: 'severe kidney impairment'};
+    if(p.kidney === 'moderate'){ mg = Math.min(mg, 250); return {dose: `${mg} mg elemental/day`, basis: 'CKD stage 3 cap (max 250 mg)'}; }
+    return {dose: `${mg} mg elemental/day`, basis: '4 mg/kg × your weight'};
+  },
+  'Iron': (p) => {
+    // RDA targets, only suggest if labs flag deficiency or sex-driven default
+    if(p.labs && p.labs.ferritin != null && p.labs.ferritin < 30){
+      return {dose: '30-60 mg ferrous bisglycinate every other day, with vitamin C, away from coffee/tea/calcium', basis: `ferritin ${p.labs.ferritin} ng/mL — alternate-day dosing improves absorption (Stoffel 2017)`};
+    }
+    if(p.sex === 'f' && p.age >= 18 && p.age <= 50) return {dose: '18 mg/day RDA via diet first; supplement only if ferritin <30 ng/mL', basis: 'premenopausal female RDA'};
+    if(p.sex === 'fp') return {dose: '27 mg/day (prenatal RDA)', basis: 'pregnancy'};
+    if(p.sex === 'm') return {dose: '8 mg/day RDA — supplement only if ferritin <30', basis: 'adult male RDA — overshooting raises CV risk'};
+    return null;
+  },
+  'Omega-3 (EPA/DHA)': (p) => {
+    let g = 1;
+    const reasons = [];
+    if(p.conds.has('depression')){ g = 2; reasons.push('depression — EPA-dominant'); }
+    if(p.conds.has('rheumatoid_arthritis')){ g = 2.5; reasons.push('RA'); }
+    if(p.labs && p.labs.triglycerides != null && p.labs.triglycerides > 200){ g = Math.max(g, 3); reasons.push('elevated triglycerides'); }
+    if(p.conds.has('atrial_fibrillation')){ g = Math.min(g, 1); reasons.push('AFib — cap below 2 g (high-dose AF signal in REDUCE-IT/STRENGTH)'); }
+    if(p.kidney === 'severe' || p.liver === 'cirrhosis'){ g = Math.min(g, 1.5); }
+    return {dose: `${g} g/day combined EPA + DHA, with a fatty meal`, basis: reasons.length ? reasons.join(', ') : 'baseline cardiovascular dose'};
+  },
+  'Choline': (p) => {
+    if(p.sex === 'fp') return {dose: '450 mg/day (pregnancy AI)', basis: 'pregnancy AI per IOM'};
+    if(p.sex === 'f') return {dose: '425 mg/day (female AI)', basis: 'female AI per IOM'};
+    if(p.sex === 'm') return {dose: '550 mg/day (male AI)', basis: 'male AI per IOM'};
+    return null;
+  },
+  'Vitamin C (moderate dose)': (p) => {
+    let mg = (p.sex === 'f') ? 75 : 90;
+    const reasons = [];
+    if(p.smoking === 'current'){ mg += 35; reasons.push('smoker (+35 mg)'); }
+    if(p.kidney === 'severe') return {dose: 'AVOID — kidney stones / oxalate accumulation risk', basis: 'severe kidney impairment'};
+    if(p.kidney === 'moderate'){ mg = Math.min(mg, 250); reasons.push('CKD stage 3 cap'); }
+    if(p.conds.has('kidney_stones')){ mg = Math.min(mg, 250); reasons.push('history of stones'); }
+    return {dose: `${mg}-500 mg/day in divided doses with food`, basis: reasons.length ? reasons.join(', ') : 'RDA baseline'};
+  },
+  'Selenium': (p) => {
+    let mcg = 100;
+    const reasons = ['general supplementation'];
+    if(p.conds.has('hashimotos')){ mcg = 200; reasons.push('Hashimoto\'s — TPO antibody reduction protocol'); }
+    if(p.conds.has('graves')){ mcg = 200; reasons.push('Graves — supports TPO + GTH balance'); }
+    mcg = Math.min(mcg, 200);  // hard cap to avoid selenosis
+    return {dose: `${mcg} mcg/day selenomethionine`, basis: reasons.join(', ') + '; UL is 400 mcg'};
+  },
+  'Zinc': (p) => {
+    let mg = (p.sex === 'f') ? 8 : 11;
+    const reasons = [(p.sex === 'f' ? 'female' : 'male') + ' RDA'];
+    if(p.sex === 'fp'){ mg = 12; reasons[0] = 'pregnancy RDA'; }
+    if(p.smoking === 'current') reasons.push('smoker');
+    if(mg >= 25) reasons.push('add 1-2 mg copper');
+    return {dose: `${mg}-25 mg/day with food (split if dose >25)`, basis: reasons.join(', ') + '; UL is 40 mg'};
+  },
+  'CoQ10 (Ubiquinol)': (p) => {
+    let mg = 100;
+    const reasons = [];
+    if([...p.meds].some(k=>['statin'].includes(k))){ mg = 200; reasons.push('on statin (CoQ10 depletion)'); }
+    if(p.conds.has('heart_failure')){ mg = 300; reasons.push('heart failure (Q-SYMBIO trial dose)'); }
+    if(p.conds.has('migraine')){ mg = Math.max(mg, 100); reasons.push('migraine prophylaxis'); }
+    if(p.age >= 50){ reasons.push('age 50+ — ubiquinol form preferred'); }
+    return {dose: `${mg} mg/day ubiquinol with a fatty meal`, basis: reasons.length ? reasons.join(', ') : 'baseline'};
+  },
+  'NAC (N-Acetyl Cysteine)': (p) => {
+    let mg = 600;
+    const reasons = ['baseline antioxidant dose'];
+    if(p.conds.has('long_covid') || p.conds.has('cfs')){ mg = 1200; reasons[0] = 'long COVID / CFS protocol'; }
+    if(p.conds.has('ptsd')){ mg = 1200; reasons[0] = 'PTSD trial dose'; }
+    if(p.liver === 'cirrhosis'){ mg = Math.min(mg, 600); reasons.push('liver cap'); }
+    return {dose: `${mg} mg/day in divided doses (BID)`, basis: reasons.join(', ')};
+  },
+  'Citrulline (L-citrulline, pure form)': (p) => {
+    if(!p.wtKg) return {dose: '6-8 g pre-exercise', basis: 'general performance dose'};
+    let g = Math.round(p.wtKg * 0.1 * 10) / 10;  // 0.1 g/kg
+    g = Math.max(6, Math.min(10, g));
+    return {dose: `${g} g 30-60 min pre-exercise`, basis: '0.1 g/kg × your weight (Pérez-Guisado 2010)'};
+  },
+  'Beta-Alanine': (p) => {
+    if(!p.wtKg) return {dose: '3.2-6.4 g/day in split doses', basis: 'general performance dose'};
+    let mg = Math.round(p.wtKg * 65);  // 65 mg/kg
+    mg = Math.max(3200, Math.min(6400, mg));
+    return {dose: `${(mg/1000).toFixed(1)} g/day in 4 split doses (avoid paresthesia)`, basis: '65 mg/kg/day, split-dosed'};
+  },
+  'Caffeine (standardised)': (p) => {
+    if(!p.wtKg) return {dose: '100-200 mg pre-exercise; cap 400 mg/day total', basis: 'general performance dose'};
+    let mgLow = Math.round(p.wtKg * 3);
+    let mgHigh = Math.round(p.wtKg * 6);
+    mgHigh = Math.min(mgHigh, 400);
+    return {dose: `${mgLow}-${mgHigh} mg pre-exercise (cap 400 mg/day)`, basis: '3-6 mg/kg × your weight'};
+  },
+  'Folate (5-MTHF)': (p) => {
+    let mcg = 400;
+    const reasons = ['baseline RDA'];
+    if(p.sex === 'fp'){ mcg = 600; reasons[0] = 'pregnancy RDA'; }
+    if(p.conds.has('female_fertility') || p.conds.has('male_fertility')){ mcg = Math.max(mcg, 800); reasons.push('preconception (start ≥3 months pre-TTC)'); }
+    if([...p.meds].some(k=>['mood_stabilizer','seizure'].includes(k))){ mcg = Math.max(mcg, 800); reasons.push('on anticonvulsant — depletion offset'); }
+    return {dose: `${mcg} mcg/day 5-MTHF with food`, basis: reasons.join(', ')};
+  },
+  'Vitamin B12': (p) => {
+    let mcg = 250;
+    const reasons = ['baseline'];
+    if(p.age >= 50){ mcg = 500; reasons[0] = 'age 50+ (atrophic gastritis)'; }
+    if([...p.meds].some(k=>['ppi','h2_blocker','metformin'].includes(k))){ mcg = 1000; reasons.push('on PPI/H2-blocker/metformin (depletion)'); }
+    if(p.labs && p.labs.b12 != null && p.labs.b12 < 300){ mcg = 2000; reasons.push(`B12 ${p.labs.b12} pg/mL — sublingual or IM`); }
+    if(p.labs && p.labs.mma != null && p.labs.mma > 270){ mcg = Math.max(mcg, 1000); reasons.push(`elevated MMA — functional B12 deficiency`); }
+    return {dose: `${mcg.toLocaleString()} mcg/day sublingual or oral`, basis: reasons.join(', ')};
+  }
+};
+function getPersonalizedDose(r){
+  const wt = parseFloat(document.getElementById('prof-weight')?.value) || 0;
+  const ht_ft = parseInt(document.getElementById('prof-height-ft')?.value) || 0;
+  const ht_in = parseInt(document.getElementById('prof-height-in')?.value) || 0;
+  const ageVal = parseInt(document.getElementById('asl')?.value) || 0;
+  const wtKg = wt > 0 ? wt * 0.453592 : 0;
+  const htInTotal = (ht_ft * 12) + ht_in;
+  const bmi = (wtKg > 0 && htInTotal > 0) ? (wtKg / Math.pow(htInTotal * 0.0254, 2)) : 0;
+  const labs = {};
+  if(typeof bloodWork !== 'undefined' && bloodWork){
+    for(const [k, v] of Object.entries(bloodWork)){ labs[k] = v.value || v; }
+  }
+  const profile = {
+    age: ageVal,
+    sex: typeof sex !== 'undefined' ? sex : '',
+    wtKg, bmi,
+    kidney: (document.getElementById('kidney-fn')?.value) || 'normal',
+    liver: (document.getElementById('liver-fn')?.value) || 'normal',
+    smoking: (document.getElementById('smoking-status')?.value) || 'never',
+    conds: typeof selectedConds !== 'undefined' ? selectedConds : new Set(),
+    meds: typeof selectedMeds !== 'undefined' ? selectedMeds : new Set(),
+    labs
+  };
+  const calc = DOSE_CALCULATORS[r.n] || DOSE_CALCULATORS[r._preferredForm];
+  if(!calc) return null;
+  try { return calc(profile); }
+  catch(e){ console.warn('Dose calc failed for', r.n, e); return null; }
+}
+// Backward-compatible wrapper — old getWeightDose() returned a string. Keep that
+// shape but route through the new system. Card UI renders this in the existing
+// "📏 Your dose:" callout.
 function getWeightDose(r){
-  const wt=parseFloat(document.getElementById('prof-weight')?.value)||0;
-  if(!wt)return null;
-  const wtKg=wt*0.453592;
-  // Weight-based supplements
-  const wbDoses={'Creatine monohydrate':{perKg:0.07,unit:'g',min:3,max:5,note:'daily'},'Whey protein':{perKg:0.4,unit:'g',min:20,max:50,note:'per serving'},'Sodium bicarbonate (sports)':{perKg:0.25,unit:'g',min:15,max:25,note:'pre-exercise'}};
-  const wb=wbDoses[r.n];
-  if(!wb)return null;
-  const dose=Math.round(wtKg*wb.perKg);
-  const clamped=Math.max(wb.min,Math.min(wb.max,dose));
-  return clamped+wb.unit+' '+wb.note+' (based on your weight)';
+  const result = getPersonalizedDose(r);
+  if(!result) return null;
+  return result.dose + (result.basis ? ` — ${result.basis}` : '');
 }
 const _svgIcons={
   morning:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
@@ -275,17 +846,31 @@ function renderRecCard(r,mi){
   const medExtraNote=r._medExtra?'<span class="warn-badge">+ from your meds</span>':'';
   const goalExtraNote=r._goalExtra?'<span class="warn-badge" style="background:var(--t2bg);color:var(--t2tx)">+ from your goals</span>':'';
   const condExtraNote=r._condExtra?'<span class="warn-badge" style="background:var(--t1bg);color:var(--t1tx)">+ from your conditions</span>':'';
+  // Plan B6 — Confidence label (A/B/C) — surfaces evidence quality + profile match strength
+  const conf=r._confidence||'';
+  const confColors={A:['#DCFCE7','#15803D'],B:['#DBEAFE','#1D4ED8'],C:['#FEF3C7','#A16207']};
+  const confTitle={A:'Strong, profile-matched (multiple RCTs/meta + your inputs reinforce)',B:'Solid evidence; less personalised',C:'Preliminary or extrapolated; talk to a clinician'};
+  const confBadge=conf?`<span class="warn-badge" title="${confTitle[conf]||''}" style="background:${(confColors[conf]||['','#666'])[0]};color:${(confColors[conf]||['','#666'])[1]};font-weight:700">${conf}</span>`:'';
+  // Plan B2 — Caution chip when condition or drug-pair caution applies
+  const condCautionBadge=r._condCautions?`<span class="warn-badge" title="Caution from: ${r._condCautions.map(c=>c.cond).join(', ')}" style="background:#FEF3C7;color:#92400E">⚠ condition caution</span>`:'';
+  const drugCautionBadge=r._drugPairCautions?`<span class="warn-badge" title="Drug-pair caution: ${r._drugPairCautions.map(c=>c.mechanism).join('; ')}" style="background:#FEE2E2;color:#991B1B">⚠ drug pair</span>`:'';
+  // Plan B2 — Dose-modifier callout (e.g., "Vitamin C: cap 250 mg in CKD stage 3")
+  const doseModNote=r._doseModifiers?`<div style="font-size:11px;color:#92400E;background:#FEF3C7;padding:5px 9px;border-radius:6px;margin-top:4px;border:0.5px solid #FCD34D">⚠ <b>Dose adjusted for:</b> ${r._doseModifiers.map(m=>`${m.cond} — ${m.modifier}`).join('; ')}</div>`:'';
+  // Plan B3 — Preferred form callout (only shown when the form differs from the rec name)
+  const formNote=(r._preferredForm && r._preferredForm !== r.n)?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:5px 9px;border-radius:6px;margin-top:4px;border:0.5px solid rgba(13,148,136,.3)">💡 <b>Best form for you:</b> ${r._preferredForm} <span style="opacity:.85;font-style:italic">— ${r._formReason}</span></div>`:'';
   // Score
   const sup=_suppByName.get(r.n);
   const sc=sup?calcScore(sup):0;
   const scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';
-  // Weight-based dose
-  const wDose=getWeightDose(r);
+  // Weight-based / personalized dose (Plan B4)
+  const personalDose=getPersonalizedDose(r);
+  const wDose=personalDose?personalDose.dose:null;
+  const wDoseBasis=personalDose?personalDose.basis:null;
   // Timing
   const timing=getTimingLabel(r);
   // Tips
   const tips=sup?.tips||'';
-  return`<div class="rc${hasWarn?' has-warn':''}" style="display:flex;gap:0;overflow:hidden;padding:0"><div style="width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;flex-shrink:0;background:${scCls==='score-high'?'linear-gradient(180deg,var(--t1c),#0F766E)':scCls==='score-mid'?'linear-gradient(180deg,var(--t2c),#3B5FC0)':scCls==='score-low'?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)'};border-radius:10px 0 0 10px"><span style="font-size:18px;font-weight:700;color:#fff;line-height:1">${sc}</span><span style="font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-top:2px">Score</span></div><div style="flex:1;padding:.75rem .9rem"><div class="rc-top"><span class="rc-name">${r.n}</span>${r.tf?'<span class="tfirst">test first</span>':''}${medExtraNote}${goalExtraNote}${condExtraNote}</div><div class="rc-why">${r.why}</div>${warnHtml}${timing?`<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:5px 9px;border-radius:6px;border:0.5px solid var(--color-border-tertiary)">${timing.icon}<b>${timing.time}</b></div>`:''}<div class="rc-dose"><b>Dose:</b> ${r.dose}</div>${wDose?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:4px 9px;border-radius:6px;margin-top:4px">📏 <b>Your dose:</b> ${wDose}</div>`:''} ${tips?`<div style="font-size:10px;color:var(--color-text-tertiary);margin-top:5px;font-style:italic">${tips}</div>`:''}</div></div>`;
+  return`<div class="rc${hasWarn?' has-warn':''}" style="display:flex;gap:0;overflow:hidden;padding:0"><div style="width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;flex-shrink:0;background:${scCls==='score-high'?'linear-gradient(180deg,var(--t1c),#0F766E)':scCls==='score-mid'?'linear-gradient(180deg,var(--t2c),#3B5FC0)':scCls==='score-low'?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)'};border-radius:10px 0 0 10px"><span style="font-size:18px;font-weight:700;color:#fff;line-height:1">${sc}</span><span style="font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-top:2px">Score</span></div><div style="flex:1;padding:.75rem .9rem"><div class="rc-top"><span class="rc-name">${r.n}</span>${r.tf?'<span class="tfirst">test first</span>':''}${confBadge}${medExtraNote}${goalExtraNote}${condExtraNote}${condCautionBadge}${drugCautionBadge}</div><div class="rc-why">${r.why}</div>${warnHtml}${timing?`<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:5px 9px;border-radius:6px;border:0.5px solid var(--color-border-tertiary)">${timing.icon}<b>${timing.time}</b></div>`:''}<div class="rc-dose"><b>Dose:</b> ${r.dose}</div>${formNote}${doseModNote}${wDose?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:5px 9px;border-radius:6px;margin-top:4px;border:0.5px solid rgba(13,148,136,.25)">📏 <b>Your dose:</b> ${wDose}${wDoseBasis?`<div style="font-size:10px;color:var(--t1tx);opacity:.85;font-style:italic;margin-top:2px">Why: ${wDoseBasis}</div>`:''}</div>`:''} ${tips?`<div style="font-size:10px;color:var(--color-text-tertiary);margin-top:5px;font-style:italic">${tips}</div>`:''}</div></div>`;
 }
 function renderPriSection(prefix,items,mkC){
   const el=document.getElementById(prefix+'-cards');
@@ -1052,6 +1637,11 @@ function _showRecs(){
   goalSupps.forEach(n=>{if(!mi.avoid.has(n)&&!hiddenSupps.has(n)&&!recs.find(r=>r.n===n)){const s=_suppByName.get(n);if(s){const matchedGoals=[...selectedGoals].filter(k=>GOALS[k]&&GOALS[k].supps.includes(n)).map(k=>GOALS[k].label);const goalStr=matchedGoals.length?matchedGoals.join(' & '):'your selected goals';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Matches your "${goalStr}" goal.`,dose:s.dose,_goalExtra:true});}}});
   condSupps.forEach(n=>{if(!mi.avoid.has(n)&&!hiddenSupps.has(n)&&!recs.find(r=>r.n===n)){const s=_suppByName.get(n);if(s){const matchedConds=[...selectedConds].filter(k=>CONDITIONS[k]&&CONDITIONS[k].supps.includes(n)).map(k=>CONDITIONS[k].label);const condStr=matchedConds.length?matchedConds.join(' & '):'your selected conditions';recs.push({n:s.n,p:'consider',tier:s.t,tf:false,e:s.e,s:s.s,why:`Recommended for ${condStr}.`,dose:s.dose,_condExtra:true});}}});
 
+  // Plan B2/B5/B6 — apply condition-aware caution/avoid, drug-pair severity,
+  // and confidence labeling. Mutates recs[] in place; returns blocked items.
+  const _profileBlocked = profileAugmentationPass(recs);
+  if(typeof window !== 'undefined') window._profileBlocked = _profileBlocked;
+
   // Blood work integration — boost supplements matching deficiencies, and credit each
   // recommendation back to the specific biomarker(s) that triggered it.
   // Direction-aware: each biomarker's supps move the marker in one direction (raise or
@@ -1171,6 +1761,10 @@ function _showRecs(){
 
   renderMedAlerts(mi);
   renderSuppStackAlerts(recs);
+
+  // Plan B5 — Render blocked/removed items mini-section so users see WHY a supp
+  // didn't make it into their recommendations (transparency > silent filtering).
+  renderBlockedItems(_profileBlocked || []);
 
   // Store recs globally for plan modal access
   _lastRecs=recs;
@@ -1698,7 +2292,27 @@ const SUPP_INTERACTIONS={
     ['Tart cherry (Montmorency)','Magnesium glycinate'],
     ['Aniracetam','Alpha-GPC'],
     ['Oxiracetam','Alpha-GPC'],
-    ['Piracetam','Alpha-GPC']
+    ['Piracetam','Alpha-GPC'],
+    // ── 2026-05-04 Plan A4 cofactor expansion ──
+    ['Magnesium','Vitamin D3'],                                        // Mg required for D3 activation
+    ['Magnesium glycinate','Vitamin D3'],
+    ['Selenium','Iodine'],                                              // Thyroid hormone synthesis
+    ['Riboflavin (Vitamin B2)','Magnesium'],                            // Migraine prophylaxis triad
+    ['Riboflavin (Vitamin B2)','CoQ10 (Ubiquinol)'],                    // Migraine prophylaxis triad
+    ['Magnesium','CoQ10 (Ubiquinol)'],                                  // Migraine + cardiac
+    ['Acetyl-L-Carnitine (ALCAR)','Alpha-Lipoic Acid (ALA)'],           // Mitochondrial stack
+    ['Alpha-Lipoic Acid (ALA)','CoQ10 (Ubiquinol)'],                    // Mitochondrial cycling
+    ['Vitamin B6 (P5P)','Vitamin B12'],                                 // Methylation cycle
+    ['Folate (5-MTHF)','Vitamin B6 (P5P)'],                             // Methylation cycle
+    ['Choline','Vitamin B12'],                                          // Methylation triad
+    ['NAC (N-Acetyl Cysteine)','Vitamin C (moderate dose)'],            // Glutathione recycling
+    ['Whey protein','Creatine monohydrate'],                            // Muscle protein synthesis
+    ['Citrulline (L-citrulline, pure form)','Pycnogenol (pine bark, branded)'], // ED stack (Stanislavov)
+    ['Saw palmetto (Serenoa repens)','Beta-sitosterol'],                // BPH stack
+    ['Saw palmetto (Serenoa repens)','Pumpkin seed oil'],               // BPH stack
+    ['Berberine','Cinnamon extract (Ceylon)'],                          // Glucose stack
+    ['L-Theanine','Caffeine (standardised)'],                           // Cognitive stack (1:2 caffeine:theanine)
+    ['Vitamin K2 (MK-7)','Magnesium']                                   // Bone matrix mineralization
   ],
   // Explicit, named caution pairs — for interactions that don't cleanly fit a group.
   cautions:[
@@ -2061,7 +2675,25 @@ const SUPP_INTERACTIONS={
     ['Phenylpiracetam (Phenotropil)','Oxiracetam','overlapping racetam class — choline depletion risk','caution'],
     ['Phenylpiracetam (Phenotropil)','Piracetam','overlapping racetam class — choline depletion risk','caution'],
     // Methyl donors overlap watch (Choline + TMG + Folate methylated + B12 methylated)
-    ['Betaine (TMG)','Methyl B12 + Methylfolate combo','large combined methyl-donor load — start low to avoid “overmethylation” in sensitive users','caution']
+    ['Betaine (TMG)','Methyl B12 + Methylfolate combo','large combined methyl-donor load — start low to avoid “overmethylation” in sensitive users','caution'],
+    // ── 2026-05-04 Plan A4 timing-conflict expansion ──
+    ['Caffeine (standardised)','Iron','tannins/polyphenols block iron absorption — separate by ≥1 h','caution'],
+    ['Caffeine (standardised)','Zinc','tannins reduce zinc absorption — separate by ≥1 h','caution'],
+    ['Caffeine (standardised)','Melatonin','caffeine half-life 5-7 h blunts melatonin onset — last caffeine 8 h before bed','caution'],
+    ['Caffeine (standardised)','Magnesium glycinate','daytime stimulant + evening calming — separate timing','caution'],
+    ['Caffeine (standardised)','Ashwagandha (KSM-66)','sympathetic activation cancels ashwagandha calming — separate by ≥4 h','caution'],
+    ['Probiotics','Berberine','antimicrobial activity reduces probiotic viability — separate by ≥4 h','caution'],
+    ['Probiotics','Oregano oil (Origanum vulgare)','antimicrobial activity reduces probiotic viability — separate by ≥4 h','caution'],
+    ['Soy isoflavones','Iodine','soy inhibits thyroid peroxidase — ensure iodine status if high-soy diet','caution'],
+    ['Vitamin B6 (P5P)','Pantothenic acid (Vitamin B5)','high-dose isolated B6 outcompetes B5 absorption — use balanced B-complex','caution'],
+    ['Niacin (Vitamin B3)','Folate (5-MTHF)','high-dose niacin (>1 g) consumes methyl groups — pair with methyl donors','caution'],
+    ['Niacin (Vitamin B3)','Vitamin B12','high-dose niacin depletes methyl pool — pair with B12','caution'],
+    ['Vitamin A (retinol, low-dose)','Vitamin D3','mutual antagonism at extreme doses — avoid simultaneous mega-doses','caution'],
+    ['Vitamin C (megadose)','Methylcobalamin (high-dose neurological)','mega-dose C may oxidize B12 in vitro — separate by ≥1 h','caution'],
+    ['Lutein + Zeaxanthin','Fasted dosing','fat-soluble — absorption 3-5× higher with fat (avoid fasted dosing)','caution'],
+    ['Yohimbe bark (Pausinystalia yohimbe)','Caffeine (standardised)','sympathomimetic stack — palpitations, hypertension','avoid'],
+    ['Bitter orange (Citrus aurantium)','Caffeine (standardised)','sympathomimetic stack — cardiovascular events','avoid'],
+    ['Yohimbe bark (Pausinystalia yohimbe)','Bitter orange (Citrus aurantium)','sympathomimetic stack — pre-workouts banned for this combo','avoid']
   ],
   // Mechanism groups — every member interacts with every other member with the stated reason/severity.
   groups:{
@@ -2190,7 +2822,24 @@ const DRUG_INTERACTIONS={
     ocp:{label:'Oral contraceptive pill',severity:'caution',supp_group:null,mechanism:"St. John's Wort and CYP3A4 inducers reduce OCP efficacy — contraception failure risk"},
     antifungal:{label:'Azole antifungals',severity:'caution',supp_group:'hepatotoxic',mechanism:'CYP-mediated drug interactions and additive hepatic load'},
     antiretroviral:{label:'HIV antiretrovirals',severity:'avoid',supp_group:null,mechanism:"St. John's Wort and CYP inducers can drop antiretroviral levels — virologic failure risk"},
-    digoxin:{label:'Digoxin',severity:'avoid',supp_group:null,mechanism:'narrow therapeutic window — many supplements (St John\'s Wort, calcium, magnesium, fiber) shift levels'}
+    digoxin:{label:'Digoxin',severity:'avoid',supp_group:null,mechanism:'narrow therapeutic window — many supplements (St John\'s Wort, calcium, magnesium, fiber) shift levels'},
+    mood_stabilizer:{label:'Mood stabilizers (lithium, valproate, lamotrigine, carbamazepine)',severity:'caution',supp_group:null,mechanism:'narrow therapeutic indices, CYP3A4 induction (carbamazepine), folate/B12 cycle disruption (valproate)'},
+    gabapentinoid:{label:'Gabapentinoids (gabapentin, pregabalin)',severity:'caution',supp_group:'sedation',mechanism:'CNS depressant additive risk; renally cleared'},
+    biologics_tnf:{label:'TNF-α inhibitors (adalimumab, infliximab, etanercept)',severity:'avoid',supp_group:'immune_stimulant',mechanism:'immune-stimulant herbs may oppose efficacy or trigger flares'},
+    jak_inhibitor:{label:'JAK inhibitors (tofacitinib, baricitinib, upadacitinib)',severity:'avoid',supp_group:'immune_stimulant',mechanism:'CYP3A4 substrates + selective immune suppression — immune-stimulants oppose efficacy'},
+    il_inhibitor:{label:'IL-17/23 inhibitors (secukinumab, ustekinumab, risankizumab)',severity:'avoid',supp_group:'immune_stimulant',mechanism:'selective immunosuppression — immune-stimulant herbs may oppose efficacy'},
+    immune_oncology:{label:'Checkpoint inhibitors (pembrolizumab, nivolumab, ipilimumab)',severity:'avoid',supp_group:'immune_stimulant',mechanism:'immune-stimulants can trigger life-threatening immune-related adverse events; antioxidants may blunt anti-tumor effect',disclaimer:'DISCUSS ALL supplements with oncologist.'},
+    anti_cgrp:{label:'Anti-CGRP migraine drugs (erenumab, fremanezumab, atogepant)',severity:'caution',supp_group:null,mechanism:'generally well tolerated; additive prophylaxis with riboflavin/Mg/CoQ10'},
+    denosumab:{label:'Denosumab (Prolia, Xgeva)',severity:'caution',supp_group:null,mechanism:'REQUIRES adequate calcium + vitamin D status to avoid severe hypocalcemia'},
+    pcsk9_inhibitor:{label:'PCSK9 inhibitors (alirocumab, evolocumab)',severity:'caution',supp_group:null,mechanism:'minimal supplement interaction; often used with statins'},
+    mineralocorticoid_antag:{label:'Mineralocorticoid antagonists (spironolactone, eplerenone)',severity:'caution',supp_group:'potassium_loss',mechanism:'K-sparing — supplemental K+ raises hyperkalemia risk; anti-androgenic effect compounded by saw palmetto'},
+    anti_androgen:{label:'Anti-androgens (bicalutamide, enzalutamide, abiraterone)',severity:'avoid',supp_group:null,mechanism:'androgen-supporting herbs (Tribulus, Tongkat ali, DHEA, fenugreek, saw palmetto) undermine prostate cancer therapy'},
+    anti_arrhythmic_other:{label:'Antiarrhythmics (amiodarone, sotalol, dronedarone, flecainide)',severity:'avoid',supp_group:null,mechanism:'narrow therapeutic index, QT prolongation; CYP3A4-inducer supplements reduce levels'},
+    heparin_lmwh:{label:'Heparin / LMWH (heparin, enoxaparin, dalteparin, fondaparinux)',severity:'avoid',supp_group:'bleed',mechanism:'bleeding additive — same supplement profile as warfarin/DOAC for antiplatelet supps'},
+    atypical_antidep:{label:'Atypical antidepressants (mirtazapine, vortioxetine, vilazodone)',severity:'avoid',supp_group:'serotonin',mechanism:'serotonergic activity — serotonin syndrome risk with 5-HTP, tryptophan, SAM-e, SJW'},
+    buspirone:{label:'Buspirone (BuSpar)',severity:'caution',supp_group:'serotonin',mechanism:'5HT1A partial agonist; CYP3A4 substrate'},
+    bisphosphonate:{label:'Bisphosphonates (alendronate, risedronate, zoledronic acid)',severity:'caution',supp_group:null,mechanism:'oral bisphosphonates have <1% bioavailability — ANY mineral or food blocks absorption',disclaimer:'Take with plain water first thing AM; no food/supplements for 30-60 min.'},
+    thyroid_suppressant:{label:'Antithyroid drugs (methimazole, propylthiouracil)',severity:'caution',supp_group:null,mechanism:'iodine and biotin interfere; selenium supportive'}
   },
   drugs:{
     // Cardiovascular — statins
@@ -2273,12 +2922,169 @@ const DRUG_INTERACTIONS={
     'phenytoin':{label:'Phenytoin',class:'seizure',brand:['Dilantin']},
     'valproate':{label:'Valproate',class:'seizure',brand:['Depakote']},
     'cyclosporine':{label:'Cyclosporine',class:'immuno'},
-    'tacrolimus':{label:'Tacrolimus',class:'immuno',brand:['Prograf']}
+    'tacrolimus':{label:'Tacrolimus',class:'immuno',brand:['Prograf']},
+    'pitavastatin':{label:'Pitavastatin',class:'statin',brand:['Livalo','Zypitamag']},
+    'ramipril':{label:'Ramipril',class:'ace_arb',brand:['Altace']},
+    'benazepril':{label:'Benazepril',class:'ace_arb',brand:['Lotensin']},
+    'candesartan':{label:'Candesartan',class:'ace_arb',brand:['Atacand']},
+    'telmisartan':{label:'Telmisartan',class:'ace_arb',brand:['Micardis']},
+    'olmesartan':{label:'Olmesartan',class:'ace_arb',brand:['Benicar']},
+    'irbesartan':{label:'Irbesartan',class:'ace_arb',brand:['Avapro']},
+    'atenolol':{label:'Atenolol',class:'bp_med',brand:['Tenormin']},
+    'propranolol':{label:'Propranolol',class:'bp_med',brand:['Inderal']},
+    'bisoprolol':{label:'Bisoprolol',class:'bp_med',brand:['Zebeta']},
+    'nebivolol':{label:'Nebivolol',class:'bp_med',brand:['Bystolic']},
+    'diltiazem':{label:'Diltiazem',class:'bp_med',brand:['Cardizem','Tiazac']},
+    'verapamil':{label:'Verapamil',class:'bp_med',brand:['Calan','Isoptin']},
+    'nifedipine':{label:'Nifedipine',class:'bp_med',brand:['Procardia']},
+    'chlorthalidone':{label:'Chlorthalidone',class:'diuretic',brand:['Hygroton']},
+    'indapamide':{label:'Indapamide',class:'diuretic',brand:['Lozol']},
+    'torsemide':{label:'Torsemide',class:'diuretic',brand:['Demadex']},
+    'bumetanide':{label:'Bumetanide',class:'diuretic',brand:['Bumex']},
+    'spironolactone':{label:'Spironolactone',class:'mineralocorticoid_antag',brand:['Aldactone']},
+    'eplerenone':{label:'Eplerenone',class:'mineralocorticoid_antag',brand:['Inspra']},
+    'triamterene':{label:'Triamterene',class:'mineralocorticoid_antag',brand:['Dyrenium']},
+    'edoxaban':{label:'Edoxaban',class:'anticoagulant',brand:['Savaysa','Lixiana']},
+    'heparin':{label:'Heparin',class:'heparin_lmwh'},
+    'enoxaparin':{label:'Enoxaparin',class:'heparin_lmwh',brand:['Lovenox']},
+    'dalteparin':{label:'Dalteparin',class:'heparin_lmwh',brand:['Fragmin']},
+    'fondaparinux':{label:'Fondaparinux',class:'heparin_lmwh',brand:['Arixtra']},
+    'ticagrelor':{label:'Ticagrelor',class:'antiplatelet',brand:['Brilinta']},
+    'prasugrel':{label:'Prasugrel',class:'antiplatelet',brand:['Effient']},
+    'dipyridamole':{label:'Dipyridamole',class:'antiplatelet',brand:['Persantine','Aggrenox']},
+    'cilostazol':{label:'Cilostazol',class:'antiplatelet',brand:['Pletal']},
+    'amiodarone':{label:'Amiodarone',class:'anti_arrhythmic_other',brand:['Cordarone','Pacerone']},
+    'sotalol':{label:'Sotalol',class:'anti_arrhythmic_other',brand:['Betapace']},
+    'dronedarone':{label:'Dronedarone',class:'anti_arrhythmic_other',brand:['Multaq']},
+    'flecainide':{label:'Flecainide',class:'anti_arrhythmic_other',brand:['Tambocor']},
+    'propafenone':{label:'Propafenone',class:'anti_arrhythmic_other',brand:['Rythmol']},
+    'dofetilide':{label:'Dofetilide',class:'anti_arrhythmic_other',brand:['Tikosyn']},
+    'glimepiride':{label:'Glimepiride',class:'sulfonylurea',brand:['Amaryl']},
+    'canagliflozin':{label:'Canagliflozin',class:'sglt2',brand:['Invokana']},
+    'ertugliflozin':{label:'Ertugliflozin',class:'sglt2',brand:['Steglatro']},
+    'dulaglutide':{label:'Dulaglutide',class:'glp1',brand:['Trulicity']},
+    'exenatide':{label:'Exenatide',class:'glp1',brand:['Byetta','Bydureon']},
+    'lixisenatide':{label:'Lixisenatide',class:'glp1',brand:['Adlyxin']},
+    'sitagliptin':{label:'Sitagliptin',class:'metformin',brand:['Januvia']},
+    'linagliptin':{label:'Linagliptin',class:'metformin',brand:['Tradjenta']},
+    'pioglitazone':{label:'Pioglitazone',class:'metformin',brand:['Actos']},
+    'vortioxetine':{label:'Vortioxetine',class:'atypical_antidep',brand:['Trintellix']},
+    'vilazodone':{label:'Vilazodone',class:'atypical_antidep',brand:['Viibryd']},
+    'mirtazapine':{label:'Mirtazapine',class:'atypical_antidep',brand:['Remeron']},
+    'buspirone':{label:'Buspirone',class:'buspirone',brand:['BuSpar']},
+    'phenelzine':{label:'Phenelzine',class:'maoi',brand:['Nardil']},
+    'tranylcypromine':{label:'Tranylcypromine',class:'maoi',brand:['Parnate']},
+    'selegiline':{label:'Selegiline',class:'maoi',brand:['Eldepryl','Emsam']},
+    'nortriptyline':{label:'Nortriptyline',class:'tricyclic',brand:['Pamelor']},
+    'imipramine':{label:'Imipramine',class:'tricyclic',brand:['Tofranil']},
+    'desipramine':{label:'Desipramine',class:'tricyclic',brand:['Norpramin']},
+    'doxepin':{label:'Doxepin',class:'tricyclic',brand:['Silenor']},
+    'fluvoxamine':{label:'Fluvoxamine',class:'ssri',brand:['Luvox']},
+    'milnacipran':{label:'Milnacipran',class:'ssri',brand:['Savella']},
+    'desvenlafaxine':{label:'Desvenlafaxine',class:'ssri',brand:['Pristiq']},
+    'lamotrigine':{label:'Lamotrigine',class:'mood_stabilizer',brand:['Lamictal']},
+    'carbamazepine':{label:'Carbamazepine',class:'mood_stabilizer',brand:['Tegretol','Carbatrol']},
+    'oxcarbazepine':{label:'Oxcarbazepine',class:'mood_stabilizer',brand:['Trileptal']},
+    'levetiracetam':{label:'Levetiracetam',class:'seizure',brand:['Keppra']},
+    'topiramate':{label:'Topiramate',class:'seizure',brand:['Topamax','Trokendi']},
+    'lacosamide':{label:'Lacosamide',class:'seizure',brand:['Vimpat']},
+    'pregabalin':{label:'Pregabalin',class:'gabapentinoid',brand:['Lyrica']},
+    'diazepam':{label:'Diazepam',class:'benzo',brand:['Valium']},
+    'temazepam':{label:'Temazepam',class:'benzo',brand:['Restoril']},
+    'midazolam':{label:'Midazolam',class:'benzo',brand:['Versed']},
+    'zaleplon':{label:'Zaleplon',class:'z_drug',brand:['Sonata']},
+    'suvorexant':{label:'Suvorexant',class:'z_drug',brand:['Belsomra']},
+    'ramelteon':{label:'Ramelteon',class:'z_drug',brand:['Rozerem']},
+    'celecoxib':{label:'Celecoxib',class:'nsaid',brand:['Celebrex']},
+    'diclofenac':{label:'Diclofenac',class:'nsaid',brand:['Voltaren']},
+    'meloxicam':{label:'Meloxicam',class:'nsaid',brand:['Mobic']},
+    'indomethacin':{label:'Indomethacin',class:'nsaid',brand:['Indocin']},
+    'morphine':{label:'Morphine',class:'opioid',brand:['MS Contin']},
+    'hydrocodone':{label:'Hydrocodone',class:'opioid',brand:['Vicodin','Norco']},
+    'fentanyl':{label:'Fentanyl',class:'opioid',brand:['Duragesic']},
+    'hydromorphone':{label:'Hydromorphone',class:'opioid',brand:['Dilaudid']},
+    'codeine':{label:'Codeine',class:'opioid'},
+    'buprenorphine':{label:'Buprenorphine',class:'opioid',brand:['Suboxone','Subutex']},
+    'clarithromycin':{label:'Clarithromycin',class:'antibiotic',brand:['Biaxin']},
+    'erythromycin':{label:'Erythromycin',class:'antibiotic',brand:['Eryped','E.E.S.']},
+    'levofloxacin':{label:'Levofloxacin',class:'antibiotic',brand:['Levaquin']},
+    'moxifloxacin':{label:'Moxifloxacin',class:'antibiotic',brand:['Avelox']},
+    'sulfamethoxazole':{label:'Sulfamethoxazole/Trimethoprim',class:'antibiotic',brand:['Bactrim','Septra']},
+    'nitrofurantoin':{label:'Nitrofurantoin',class:'antibiotic',brand:['Macrobid','Macrodantin']},
+    'metronidazole':{label:'Metronidazole',class:'antibiotic',brand:['Flagyl']},
+    'itraconazole':{label:'Itraconazole',class:'antifungal',brand:['Sporanox']},
+    'voriconazole':{label:'Voriconazole',class:'antifungal',brand:['Vfend']},
+    'posaconazole':{label:'Posaconazole',class:'antifungal',brand:['Noxafil']},
+    'terbinafine':{label:'Terbinafine',class:'antifungal',brand:['Lamisil']},
+    'rabeprazole':{label:'Rabeprazole',class:'ppi',brand:['AcipHex']},
+    'dexlansoprazole':{label:'Dexlansoprazole',class:'ppi',brand:['Dexilant']},
+    'hydrocortisone':{label:'Hydrocortisone',class:'cortico',brand:['Cortef']},
+    'dexamethasone':{label:'Dexamethasone',class:'cortico',brand:['Decadron']},
+    'methylprednisolone':{label:'Methylprednisolone',class:'cortico',brand:['Medrol']},
+    'mycophenolate':{label:'Mycophenolate',class:'immuno',brand:['CellCept','Myfortic']},
+    'azathioprine':{label:'Azathioprine',class:'immuno',brand:['Imuran']},
+    'sirolimus':{label:'Sirolimus',class:'immuno',brand:['Rapamune']},
+    'everolimus':{label:'Everolimus',class:'immuno',brand:['Afinitor','Zortress']},
+    'methotrexate':{label:'Methotrexate',class:'chemo',brand:['Trexall','Otrexup']},
+    'hydroxychloroquine':{label:'Hydroxychloroquine',class:'chemo',brand:['Plaquenil']},
+    'sulfasalazine':{label:'Sulfasalazine',class:'chemo',brand:['Azulfidine']},
+    'adalimumab':{label:'Adalimumab',class:'biologics_tnf',brand:['Humira']},
+    'infliximab':{label:'Infliximab',class:'biologics_tnf',brand:['Remicade']},
+    'etanercept':{label:'Etanercept',class:'biologics_tnf',brand:['Enbrel']},
+    'certolizumab':{label:'Certolizumab',class:'biologics_tnf',brand:['Cimzia']},
+    'golimumab':{label:'Golimumab',class:'biologics_tnf',brand:['Simponi']},
+    'tofacitinib':{label:'Tofacitinib',class:'jak_inhibitor',brand:['Xeljanz']},
+    'baricitinib':{label:'Baricitinib',class:'jak_inhibitor',brand:['Olumiant']},
+    'upadacitinib':{label:'Upadacitinib',class:'jak_inhibitor',brand:['Rinvoq']},
+    'ruxolitinib':{label:'Ruxolitinib',class:'jak_inhibitor',brand:['Jakafi']},
+    'secukinumab':{label:'Secukinumab',class:'il_inhibitor',brand:['Cosentyx']},
+    'ixekizumab':{label:'Ixekizumab',class:'il_inhibitor',brand:['Taltz']},
+    'ustekinumab':{label:'Ustekinumab',class:'il_inhibitor',brand:['Stelara']},
+    'risankizumab':{label:'Risankizumab',class:'il_inhibitor',brand:['Skyrizi']},
+    'guselkumab':{label:'Guselkumab',class:'il_inhibitor',brand:['Tremfya']},
+    'tildrakizumab':{label:'Tildrakizumab',class:'il_inhibitor',brand:['Ilumya']},
+    'pembrolizumab':{label:'Pembrolizumab',class:'immune_oncology',brand:['Keytruda']},
+    'nivolumab':{label:'Nivolumab',class:'immune_oncology',brand:['Opdivo']},
+    'ipilimumab':{label:'Ipilimumab',class:'immune_oncology',brand:['Yervoy']},
+    'atezolizumab':{label:'Atezolizumab',class:'immune_oncology',brand:['Tecentriq']},
+    'durvalumab':{label:'Durvalumab',class:'immune_oncology',brand:['Imfinzi']},
+    'erenumab':{label:'Erenumab',class:'anti_cgrp',brand:['Aimovig']},
+    'fremanezumab':{label:'Fremanezumab',class:'anti_cgrp',brand:['Ajovy']},
+    'galcanezumab':{label:'Galcanezumab',class:'anti_cgrp',brand:['Emgality']},
+    'eptinezumab':{label:'Eptinezumab',class:'anti_cgrp',brand:['Vyepti']},
+    'atogepant':{label:'Atogepant',class:'anti_cgrp',brand:['Qulipta']},
+    'rimegepant':{label:'Rimegepant',class:'anti_cgrp',brand:['Nurtec']},
+    'ubrogepant':{label:'Ubrogepant',class:'anti_cgrp',brand:['Ubrelvy']},
+    'denosumab':{label:'Denosumab',class:'denosumab',brand:['Prolia','Xgeva']},
+    'alendronate':{label:'Alendronate',class:'bisphosphonate',brand:['Fosamax']},
+    'risedronate':{label:'Risedronate',class:'bisphosphonate',brand:['Actonel']},
+    'zoledronic_acid':{label:'Zoledronic acid',class:'bisphosphonate',brand:['Reclast','Zometa']},
+    'ibandronate':{label:'Ibandronate',class:'bisphosphonate',brand:['Boniva']},
+    'alirocumab':{label:'Alirocumab',class:'pcsk9_inhibitor',brand:['Praluent']},
+    'evolocumab':{label:'Evolocumab',class:'pcsk9_inhibitor',brand:['Repatha']},
+    'inclisiran':{label:'Inclisiran',class:'pcsk9_inhibitor',brand:['Leqvio']},
+    'bicalutamide':{label:'Bicalutamide',class:'anti_androgen',brand:['Casodex']},
+    'enzalutamide':{label:'Enzalutamide',class:'anti_androgen',brand:['Xtandi']},
+    'apalutamide':{label:'Apalutamide',class:'anti_androgen',brand:['Erleada']},
+    'abiraterone':{label:'Abiraterone',class:'anti_androgen',brand:['Zytiga']},
+    'darolutamide':{label:'Darolutamide',class:'anti_androgen',brand:['Nubeqa']},
+    'flutamide':{label:'Flutamide',class:'anti_androgen',brand:['Eulexin']},
+    'finasteride':{label:'Finasteride',class:'anti_androgen',brand:['Propecia','Proscar']},
+    'dutasteride':{label:'Dutasteride',class:'anti_androgen',brand:['Avodart']},
+    'methimazole':{label:'Methimazole',class:'thyroid_suppressant',brand:['Tapazole']},
+    'propylthiouracil':{label:'Propylthiouracil',class:'thyroid_suppressant'},
+    'efavirenz':{label:'Efavirenz',class:'antiretroviral',brand:['Sustiva']},
+    'ritonavir':{label:'Ritonavir',class:'antiretroviral',brand:['Norvir']},
+    'dolutegravir':{label:'Dolutegravir',class:'antiretroviral',brand:['Tivicay']},
+    'tenofovir':{label:'Tenofovir',class:'antiretroviral',brand:['Viread']},
+    'atomoxetine':{label:'Atomoxetine',class:'tricyclic',brand:['Strattera']},
+    'methylphenidate':{label:'Methylphenidate',class:'ssri',brand:['Ritalin','Concerta']},
+    'dextroamphetamine':{label:'Dextroamphetamine',class:'ssri',brand:['Adderall','Vyvanse']}
   },
   // Drug-specific overrides — the class-level rule isn't sharp enough.
   pairs:[
     {drug:'warfarin',supp:'Vitamin K2 (MK-7)',severity:'avoid',mechanism:'direct antagonism — K2 reduces warfarin efficacy and destabilizes INR',evidence:'A',source:'FDA label (Coumadin) + DrugBank DB00682'},
-    {drug:'warfarin',supp:'Vitamin K1 (Phylloquinone)',severity:'avoid',mechanism:'direct antagonism — used as warfarin reversal agent',evidence:'A',source:'FDA label (Coumadin)'},
+    {drug:'warfarin',supp:'Vitamin K1 (phylloquinone)',severity:'avoid',mechanism:'direct antagonism — used as warfarin reversal agent',evidence:'A',source:'FDA label (Coumadin)'},
     {drug:'warfarin',supp:"St. John's Wort",severity:'avoid',mechanism:'CYP3A4 induction lowers warfarin levels — unstable INR',evidence:'A',source:'FDA label (Coumadin)'},
     {drug:'levothyroxine',supp:'Calcium',severity:'caution',mechanism:'reduces levothyroxine absorption ~30% — space by ≥4 h',evidence:'A',source:'FDA label (Synthroid)'},
     {drug:'levothyroxine',supp:'Iron',severity:'caution',mechanism:'reduces levothyroxine absorption — space by ≥4 h',evidence:'A',source:'FDA label (Synthroid)'},
@@ -2290,7 +3096,7 @@ const DRUG_INTERACTIONS={
     {drug:'atorvastatin',supp:'CoQ10 (Ubiquinol)',severity:'extra',mechanism:'statins deplete CoQ10 — ubiquinol supplementation clinically supported',evidence:'B',source:'NCCIH'},
     {drug:'rosuvastatin',supp:'CoQ10 (Ubiquinol)',severity:'extra',mechanism:'statins deplete CoQ10 — ubiquinol supplementation clinically supported',evidence:'B',source:'NCCIH'},
     {drug:'sertraline',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — direct precursor stacking on SSRI activity',evidence:'A',source:'FDA label (Zoloft)'},
-    {drug:'sertraline',supp:'Tryptophan',severity:'avoid',mechanism:'serotonin syndrome — precursor stacking on SSRI activity',evidence:'A',source:'FDA label'},
+    {drug:'sertraline',supp:'Tryptophan (L-tryptophan)',severity:'avoid',mechanism:'serotonin syndrome — precursor stacking on SSRI activity',evidence:'A',source:'FDA label'},
     {drug:'sertraline',supp:"St. John's Wort",severity:'avoid',mechanism:'serotonin syndrome — additive serotonergic plus CYP3A4 induction',evidence:'A',source:'FDA label'},
     {drug:'fluoxetine',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — direct precursor stacking',evidence:'A',source:'FDA label (Prozac)'},
     {drug:'levonorgestrel',supp:"St. John's Wort",severity:'avoid',mechanism:'CYP3A4 induction reduces oral contraceptive efficacy — contraception failure risk',evidence:'A',source:'FDA boxed warning'},
@@ -2308,7 +3114,124 @@ const DRUG_INTERACTIONS={
     {drug:'doxycycline',supp:'Calcium',severity:'caution',mechanism:'tetracycline-mineral chelation — space by ≥2 h',evidence:'A',source:'FDA label'},
     {drug:'ibuprofen',supp:'Probiotics',severity:'extra',mechanism:'long-term NSAID use depletes gut lining — probiotics may help',evidence:'B',source:'multiple RCTs'},
     {drug:'furosemide',supp:'Potassium citrate',severity:'extra',mechanism:'loop diuretics waste potassium — supplementation often clinically indicated',evidence:'A',source:'standard of care'},
-    {drug:'furosemide',supp:'Magnesium',severity:'extra',mechanism:'loop diuretics waste magnesium — supplementation often indicated',evidence:'A',source:'standard of care'}
+    {drug:'furosemide',supp:'Magnesium',severity:'extra',mechanism:'loop diuretics waste magnesium — supplementation often indicated',evidence:'A',source:'standard of care'},
+    {drug:'apixaban',supp:'St. John\'s Wort',severity:'avoid',mechanism:'CYP3A4 + P-gp induction lowers apixaban — stroke/embolism risk',evidence:'A',source:'FDA label (Eliquis)'},
+    {drug:'apixaban',supp:'Vitamin K2 (MK-7)',severity:'caution',mechanism:'unlike warfarin, DOACs are NOT vitamin-K-dependent — but bleeding additive concern at high doses',evidence:'C',source:'DrugBank DB06605'},
+    {drug:'apixaban',supp:'Omega-3 (high dose)',severity:'caution',mechanism:'additive antiplatelet effect — bleeding risk at >3 g/day EPA+DHA',evidence:'B',source:'NEJM REDUCE-IT post hoc'},
+    {drug:'apixaban',supp:'Ginkgo biloba',severity:'caution',mechanism:'antiplatelet effect additive — bleeding risk',evidence:'B',source:'FDA label + case reports'},
+    {drug:'apixaban',supp:'Aged garlic extract (Kyolic)',severity:'caution',mechanism:'mild antiplatelet — additive bleeding',evidence:'B',source:'NCCIH'},
+    {drug:'apixaban',supp:'Nattokinase',severity:'caution',mechanism:'fibrinolytic enzyme — bleeding additive',evidence:'B',source:'case reports'},
+    {drug:'apixaban',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'mild antiplatelet at high doses + CYP3A4 modulation',evidence:'C',source:'case reports'},
+    {drug:'rivaroxaban',supp:'St. John\'s Wort',severity:'avoid',mechanism:'CYP3A4 + P-gp induction lowers rivaroxaban — embolism risk',evidence:'A',source:'FDA label (Xarelto)'},
+    {drug:'rivaroxaban',supp:'Omega-3 (high dose)',severity:'caution',mechanism:'additive antiplatelet — bleeding risk',evidence:'B',source:'clinical reports'},
+    {drug:'rivaroxaban',supp:'Ginkgo biloba',severity:'caution',mechanism:'antiplatelet additive — bleeding risk',evidence:'B',source:'case reports'},
+    {drug:'rivaroxaban',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'high-dose curcumin has antiplatelet effect — bleeding additive',evidence:'C',source:'case reports'},
+    {drug:'rivaroxaban',supp:'Vitamin K2 (MK-7)',severity:'caution',mechanism:'DOACs are NOT vitamin-K-dependent (unlike warfarin), but minor concern at high doses',evidence:'C',source:'DrugBank'},
+    {drug:'dabigatran',supp:'St. John\'s Wort',severity:'avoid',mechanism:'P-gp induction lowers dabigatran levels — stroke/embolism risk',evidence:'A',source:'FDA label (Pradaxa)'},
+    {drug:'dabigatran',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'P-gp inhibition can RAISE dabigatran levels — bleeding risk',evidence:'C',source:'PK studies'},
+    {drug:'dabigatran',supp:'Ginkgo biloba',severity:'caution',mechanism:'antiplatelet additive',evidence:'B',source:'case reports'},
+    {drug:'aspirin',supp:'Ginkgo biloba',severity:'avoid',mechanism:'both inhibit platelets — multiple case reports of bleeding (intracranial)',evidence:'B',source:'case reports + meta-analysis'},
+    {drug:'aspirin',supp:'Omega-3 (high dose)',severity:'caution',mechanism:'additive antiplatelet — bleeding risk at >3 g/day',evidence:'B',source:'AHA guidance'},
+    {drug:'aspirin',supp:'Vitamin E (mixed tocopherols)',severity:'caution',mechanism:'high-dose vitamin E has antiplatelet effect',evidence:'B',source:'case reports'},
+    {drug:'aspirin',supp:'Aged garlic extract (Kyolic)',severity:'caution',mechanism:'antiplatelet additive',evidence:'B',source:'NCCIH'},
+    {drug:'clopidogrel',supp:'St. John\'s Wort',severity:'avoid',mechanism:'CYP-mediated activation of clopidogrel is unpredictable with SJW — risk of antiplatelet failure',evidence:'A',source:'FDA label (Plavix)'},
+    {drug:'clopidogrel',supp:'Omega-3 (high dose)',severity:'caution',mechanism:'additive antiplatelet — bleeding risk at high dose',evidence:'B',source:'clinical reports'},
+    {drug:'clopidogrel',supp:'Ginkgo biloba',severity:'avoid',mechanism:'both inhibit platelets — bleeding additive',evidence:'B',source:'case reports'},
+    {drug:'atorvastatin',supp:'St. John\'s Wort',severity:'caution',mechanism:'CYP3A4 induction lowers atorvastatin levels — reduced LDL effect',evidence:'B',source:'FDA label'},
+    {drug:'atorvastatin',supp:'Black pepper extract (piperine)',severity:'caution',mechanism:'CYP3A4 inhibition raises atorvastatin levels — myopathy risk',evidence:'C',source:'PK studies'},
+    {drug:'atorvastatin',supp:'Red yeast rice',severity:'avoid',mechanism:'contains lovastatin — direct redundancy + additive myopathy/hepatotoxicity',evidence:'A',source:'FDA + clinical pharmacology'},
+    {drug:'atorvastatin',supp:'Niacin (Vitamin B3)',severity:'caution',mechanism:'high-dose niacin + statin raises myopathy and hepatotoxicity risk',evidence:'B',source:'AIM-HIGH trial'},
+    {drug:'simvastatin',supp:'Niacin (Vitamin B3)',severity:'caution',mechanism:'AIM-HIGH and HPS2-THRIVE: combination raises adverse events without CV benefit',evidence:'A',source:'NEJM AIM-HIGH'},
+    {drug:'simvastatin',supp:'Berberine',severity:'caution',mechanism:'additive lipid-lowering + CYP3A4 inhibition by berberine',evidence:'B',source:'PK studies'},
+    {drug:'simvastatin',supp:'Red yeast rice',severity:'avoid',mechanism:'redundant HMG-CoA reductase inhibition + hepatotoxicity additive',evidence:'A',source:'FDA'},
+    {drug:'simvastatin',supp:'St. John\'s Wort',severity:'caution',mechanism:'CYP3A4 induction lowers simvastatin',evidence:'B',source:'FDA label'},
+    {drug:'rosuvastatin',supp:'Niacin (Vitamin B3)',severity:'caution',mechanism:'additive risk of myopathy/hepatotoxicity at high niacin doses',evidence:'B',source:'trial data'},
+    {drug:'rosuvastatin',supp:'Berberine',severity:'caution',mechanism:'additive lipid-lowering — generally safe but monitor',evidence:'B',source:'clinical reports'},
+    {drug:'pravastatin',supp:'CoQ10 (Ubiquinol)',severity:'extra',mechanism:'statins deplete CoQ10 — supplementation supports muscle symptom relief',evidence:'B',source:'NCCIH + RCTs'},
+    {drug:'lovastatin',supp:'Red yeast rice',severity:'avoid',mechanism:'red yeast rice IS lovastatin (monacolin K) — redundant + dangerous',evidence:'A',source:'FDA'},
+    {drug:'fluoxetine',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome — additive serotonergic plus CYP induction',evidence:'A',source:'FDA label'},
+    {drug:'fluoxetine',supp:'S-Adenosylmethionine (SAMe)',severity:'avoid',mechanism:'serotonin syndrome reports',evidence:'B',source:'case reports'},
+    {drug:'fluoxetine',supp:'Saffron (Crocus sativus)',severity:'caution',mechanism:'saffron has serotonergic activity at clinical doses — additive risk',evidence:'B',source:'meta-analysis'},
+    {drug:'citalopram',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — direct precursor',evidence:'A',source:'FDA'},
+    {drug:'citalopram',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'citalopram',supp:'Tryptophan (L-tryptophan)',severity:'avoid',mechanism:'serotonin syndrome — precursor',evidence:'A',source:'FDA'},
+    {drug:'escitalopram',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'escitalopram',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'escitalopram',supp:'Saffron (Crocus sativus)',severity:'caution',mechanism:'additive serotonergic activity',evidence:'B',source:'trial reports'},
+    {drug:'paroxetine',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'paroxetine',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'venlafaxine',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — venlafaxine is SNRI',evidence:'A',source:'FDA'},
+    {drug:'venlafaxine',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'duloxetine',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'duloxetine',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'bupropion',supp:'St. John\'s Wort',severity:'caution',mechanism:'both lower seizure threshold',evidence:'B',source:'FDA label'},
+    {drug:'bupropion',supp:'5-HTP',severity:'caution',mechanism:'theoretical serotonergic interaction',evidence:'C',source:'case reports'},
+    {drug:'trazodone',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome — trazodone is serotonergic',evidence:'B',source:'FDA'},
+    {drug:'trazodone',supp:'Melatonin',severity:'caution',mechanism:'additive sedation',evidence:'B',source:'FDA label'},
+    {drug:'levothyroxine',supp:'Soy isoflavones',severity:'caution',mechanism:'reduces levothyroxine absorption — separate by ≥4 h',evidence:'A',source:'FDA label'},
+    {drug:'levothyroxine',supp:'Biotin (high-dose)',severity:'caution',mechanism:'interferes with TSH/T4 lab assays — pause biotin 72 h before testing',evidence:'A',source:'FDA safety communication'},
+    {drug:'levothyroxine',supp:'Selenium',severity:'extra',mechanism:'selenium supports T4→T3 conversion via deiodinases',evidence:'B',source:'NIH ODS'},
+    {drug:'levothyroxine',supp:'Iodine',severity:'caution',mechanism:'can suppress thyroid hormone production in autoimmune thyroid disease',evidence:'B',source:'endocrinology guidance'},
+    {drug:'levothyroxine',supp:'Vitamin C (moderate dose)',severity:'caution',mechanism:'slight reduction in levothyroxine absorption (5%) — mostly clinically negligible',evidence:'C',source:'PK studies'},
+    {drug:'metformin',supp:'Berberine',severity:'caution',mechanism:'additive hypoglycemic effect — monitor glucose closely',evidence:'B',source:'meta-analysis'},
+    {drug:'metformin',supp:'Alpha-Lipoic Acid (ALA)',severity:'caution',mechanism:'additive hypoglycemic effect (mild)',evidence:'B',source:'clinical studies'},
+    {drug:'metformin',supp:'Cinnamon extract (Ceylon)',severity:'caution',mechanism:'mild additive hypoglycemic effect',evidence:'B',source:'meta-analyses'},
+    {drug:'metformin',supp:'Folate (5-MTHF)',severity:'extra',mechanism:'long-term metformin reduces folate via MTHFR pathway disruption',evidence:'B',source:'PubMed'},
+    {drug:'glipizide',supp:'Berberine',severity:'caution',mechanism:'additive hypoglycemia — sulfonylurea + berberine higher risk',evidence:'B',source:'clinical reports'},
+    {drug:'glipizide',supp:'Bitter melon (Momordica charantia)',severity:'caution',mechanism:'additive hypoglycemia',evidence:'B',source:'case reports'},
+    {drug:'glyburide',supp:'Berberine',severity:'caution',mechanism:'additive hypoglycemia',evidence:'B',source:'clinical reports'},
+    {drug:'insulin',supp:'Berberine',severity:'caution',mechanism:'additive hypoglycemia — monitor',evidence:'B',source:'clinical reports'},
+    {drug:'insulin',supp:'Chromium picolinate',severity:'caution',mechanism:'may reduce insulin requirement modestly — monitor glucose',evidence:'B',source:'meta-analysis'},
+    {drug:'semaglutide',supp:'Berberine',severity:'caution',mechanism:'additive glucose-lowering and GI effects',evidence:'C',source:'clinical reports'},
+    {drug:'semaglutide',supp:'Vitamin B12',severity:'extra',mechanism:'appetite suppression may reduce dietary B12 — monitor',evidence:'C',source:'clinical observation'},
+    {drug:'omeprazole',supp:'Calcium',severity:'caution',mechanism:'PPI reduces gastric acid needed for calcium carbonate dissolution — switch to citrate or supplement',evidence:'A',source:'FDA + endocrinology guidance'},
+    {drug:'omeprazole',supp:'Iron',severity:'caution',mechanism:'PPI reduces gastric acid needed for non-heme iron absorption',evidence:'A',source:'NIH ODS'},
+    {drug:'esomeprazole',supp:'Magnesium',severity:'extra',mechanism:'chronic PPIs deplete Mg — supplementation often needed',evidence:'A',source:'FDA safety communication'},
+    {drug:'esomeprazole',supp:'Vitamin B12',severity:'extra',mechanism:'chronic PPI reduces gastric acid needed for B12 cleavage',evidence:'A',source:'NIH ODS'},
+    {drug:'pantoprazole',supp:'Vitamin B12',severity:'extra',mechanism:'chronic PPI reduces B12 absorption',evidence:'A',source:'NIH ODS'},
+    {drug:'pantoprazole',supp:'Magnesium',severity:'extra',mechanism:'chronic PPI depletes Mg',evidence:'A',source:'FDA'},
+    {drug:'amlodipine',supp:'St. John\'s Wort',severity:'caution',mechanism:'CYP3A4 induction lowers amlodipine — reduced BP control',evidence:'B',source:'FDA label'},
+    {drug:'amlodipine',supp:'Black pepper extract (piperine)',severity:'caution',mechanism:'CYP3A4 inhibition raises amlodipine levels',evidence:'C',source:'PK studies'},
+    {drug:'losartan',supp:'Potassium supplementation (clinical)',severity:'caution',mechanism:'ARBs raise serum K — potassium supplementation can cause hyperkalemia',evidence:'A',source:'FDA label'},
+    {drug:'valsartan',supp:'Potassium supplementation (clinical)',severity:'caution',mechanism:'ARBs raise K — additive hyperkalemia',evidence:'A',source:'FDA label'},
+    {drug:'lisinopril',supp:'Zinc',severity:'extra',mechanism:'ACE inhibitors increase urinary zinc — supplementation may reduce taste loss',evidence:'B',source:'PubMed'},
+    {drug:'lisinopril',supp:'Potassium supplementation (clinical)',severity:'caution',mechanism:'ACE inhibitors raise K — additive hyperkalemia',evidence:'A',source:'FDA label'},
+    {drug:'hydrochlorothiazide',supp:'Magnesium',severity:'extra',mechanism:'thiazides waste Mg — supplementation indicated',evidence:'A',source:'standard of care'},
+    {drug:'hydrochlorothiazide',supp:'Potassium supplementation (clinical)',severity:'extra',mechanism:'thiazides waste K — supplementation indicated',evidence:'A',source:'standard of care'},
+    {drug:'furosemide',supp:'Vitamin B1 (Thiamine)',severity:'extra',mechanism:'loop diuretics waste thiamine — refeeding/Wernicke risk',evidence:'B',source:'clinical guidance'},
+    {drug:'phenytoin',supp:'Calcium',severity:'extra',mechanism:'phenytoin accelerates vitamin D metabolism → reduces Ca absorption',evidence:'A',source:'NIH ODS'},
+    {drug:'valproate',supp:'Folate (5-MTHF)',severity:'extra',mechanism:'valproate depletes folate — pregnancy NTDs',evidence:'A',source:'FDA label'},
+    {drug:'valproate',supp:'Glycine',severity:'caution',mechanism:'additive hyperammonemia risk',evidence:'C',source:'case reports'},
+    {drug:'gabapentin',supp:'Magnesium',severity:'caution',mechanism:'additive sedation; magnesium reduces gabapentin absorption — separate by ≥2 h',evidence:'B',source:'FDA label'},
+    {drug:'gabapentin',supp:'Melatonin',severity:'caution',mechanism:'additive sedation',evidence:'B',source:'sedation profile'},
+    {drug:'ciprofloxacin',supp:'Magnesium',severity:'caution',mechanism:'divalent cation chelation reduces ciprofloxacin absorption — separate by ≥2 h',evidence:'A',source:'FDA label'},
+    {drug:'ciprofloxacin',supp:'Zinc',severity:'caution',mechanism:'chelation — separate by ≥2 h',evidence:'A',source:'FDA label'},
+    {drug:'doxycycline',supp:'Iron',severity:'caution',mechanism:'tetracycline-iron chelation — separate by ≥2 h',evidence:'A',source:'FDA label'},
+    {drug:'doxycycline',supp:'Zinc',severity:'caution',mechanism:'chelation',evidence:'A',source:'FDA label'},
+    {drug:'doxycycline',supp:'Magnesium',severity:'caution',mechanism:'chelation',evidence:'A',source:'FDA label'},
+    {drug:'azithromycin',supp:'Magnesium',severity:'caution',mechanism:'hypomagnesemia worsens QT prolongation risk with macrolides — keep Mg replete',evidence:'B',source:'FDA'},
+    {drug:'amoxicillin',supp:'Probiotics',severity:'extra',mechanism:'co-administration reduces antibiotic-associated diarrhea — separate by ≥2 h',evidence:'A',source:'Cochrane'},
+    {drug:'prednisone',supp:'Magnesium',severity:'extra',mechanism:'chronic steroids waste magnesium',evidence:'B',source:'clinical observation'},
+    {drug:'prednisone',supp:'Vitamin K2 (MK-7)',severity:'extra',mechanism:'steroid-induced bone loss — K2 supports bone matrix',evidence:'B',source:'ACR osteoporosis guidance'},
+    {drug:'prednisone',supp:'Probiotics',severity:'extra',mechanism:'steroid-induced gut dysbiosis',evidence:'C',source:'observational'},
+    {drug:'zolpidem',supp:'Melatonin',severity:'caution',mechanism:'additive sedation',evidence:'B',source:'sedation profile'},
+    {drug:'zolpidem',supp:'Valerian root',severity:'caution',mechanism:'additive sedation — increases morning grogginess',evidence:'B',source:'clinical reports'},
+    {drug:'zolpidem',supp:'Kava (high-dose/extract)',severity:'avoid',mechanism:'additive CNS depression — respiratory risk',evidence:'B',source:'FDA'},
+    {drug:'alprazolam',supp:'Kava (high-dose/extract)',severity:'avoid',mechanism:'additive CNS depression',evidence:'A',source:'FDA'},
+    {drug:'alprazolam',supp:'Valerian root',severity:'caution',mechanism:'additive sedation',evidence:'B',source:'NCCIH'},
+    {drug:'lorazepam',supp:'Kava (high-dose/extract)',severity:'avoid',mechanism:'additive CNS depression',evidence:'A',source:'FDA'},
+    {drug:'clonazepam',supp:'Kava (high-dose/extract)',severity:'avoid',mechanism:'additive CNS depression',evidence:'A',source:'FDA'},
+    {drug:'tramadol',supp:'5-HTP',severity:'avoid',mechanism:'serotonin syndrome — tramadol has SNRI activity',evidence:'A',source:'FDA'},
+    {drug:'tramadol',supp:'St. John\'s Wort',severity:'avoid',mechanism:'serotonin syndrome',evidence:'A',source:'FDA'},
+    {drug:'tramadol',supp:'Saffron (Crocus sativus)',severity:'caution',mechanism:'additive serotonergic',evidence:'B',source:'trial data'},
+    {drug:'ibuprofen',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'both mildly antiplatelet — monitor in elderly/anticoagulated',evidence:'C',source:'clinical observation'},
+    {drug:'ibuprofen',supp:'Omega-3 (high dose)',severity:'caution',mechanism:'both antiplatelet at high doses — bleeding risk',evidence:'B',source:'clinical observation'},
+    {drug:'cyclosporine',supp:'Echinacea purpurea',severity:'avoid',mechanism:'immune-stimulant opposes cyclosporine mechanism — transplant rejection theoretical',evidence:'C',source:'NCCIH'},
+    {drug:'cyclosporine',supp:'Astragalus (Astragalus membranaceus)',severity:'avoid',mechanism:'immune-stimulant — opposes mechanism',evidence:'C',source:'NCCIH'},
+    {drug:'cyclosporine',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'P-gp inhibition raises cyclosporine levels',evidence:'B',source:'PK studies'},
+    {drug:'cyclosporine',supp:'Black pepper extract (piperine)',severity:'caution',mechanism:'CYP3A4 inhibition raises cyclosporine',evidence:'B',source:'PK studies'},
+    {drug:'tacrolimus',supp:'Echinacea purpurea',severity:'avoid',mechanism:'opposes immunosuppression',evidence:'C',source:'NCCIH'},
+    {drug:'tacrolimus',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'P-gp + CYP3A4 inhibition raises tacrolimus levels',evidence:'B',source:'PK studies'}
   ]
 };
 // ── Build lookup structures ──
@@ -3060,6 +3983,137 @@ function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el
 function toggleGoal(k){selectedGoals.has(k)?selectedGoals.delete(k):selectedGoals.add(k);renderGoalChips();updatePfCounts();}
 function getGoalSupps(){const s=new Set();selectedGoals.forEach(k=>{const g=GOALS[k];if(g&&Array.isArray(g.supps))g.supps.forEach(n=>s.add(n));});return s;}
 
+/* ──────────────────────────────────────────────────────────────────────────
+   Plan B1 — Health Status inputs (kidney function, liver function, allergies,
+   smoking). These feed profileAugmentationPass to filter/demote recs.
+   Persisted via saveProfile / loadProfile on existing localStorage keys.
+   ────────────────────────────────────────────────────────────────────────── */
+const ALLERGY_OPTIONS = [
+  {key:'fish', label:'Fish'},
+  {key:'shellfish', label:'Shellfish'},
+  {key:'soy', label:'Soy'},
+  {key:'dairy', label:'Dairy / lactose'},
+  {key:'gluten', label:'Gluten / wheat'},
+  {key:'eggs', label:'Eggs'},
+  {key:'tree_nuts', label:'Tree nuts'},
+  {key:'mushroom', label:'Mushroom'},
+  {key:'bee', label:'Bee products (royal jelly, propolis)'}
+];
+let selectedAllergies = new Set();
+
+// Plan B1 round 2 — Diet pattern (multi-select)
+const DIET_OPTIONS = [
+  {key:'vegan', label:'Vegan'},
+  {key:'vegetarian', label:'Vegetarian'},
+  {key:'pescatarian', label:'Pescatarian'},
+  {key:'keto', label:'Keto / low-carb'},
+  {key:'low_fodmap', label:'Low-FODMAP'},
+  {key:'halal', label:'Halal'},
+  {key:'kosher', label:'Kosher'},
+  {key:'mediterranean', label:'Mediterranean'}
+];
+let selectedDiets = new Set();
+function renderDietChips(){
+  const el=document.getElementById('diet-chips');
+  if(!el)return;
+  el.innerHTML = DIET_OPTIONS.map(d => `<div class="med-chip ${selectedDiets.has(d.key)?'on':''}" onclick="toggleDiet('${escAttrJs(d.key)}')">${escHtml(d.label)}</div>`).join('');
+}
+function toggleDiet(k){
+  selectedDiets.has(k) ? selectedDiets.delete(k) : selectedDiets.add(k);
+  renderDietChips();
+  updatePfCounts();
+  onHealthChange();
+}
+
+// Diet → supplement-name patterns. Used by profileAugmentationPass to filter
+// or demote based on user's diet selection.
+const DIET_TO_SUPP_PATTERNS = {
+  vegan: {
+    avoid: [
+      /^cod liver oil/i, /^krill oil/i, /^calamari oil/i, /^fish oil/i,
+      /^omega-3 \(EPA\/DHA\)|^omega-3 \(high dose\)|^omega-3 DHA-dominant|^omega-3 triglyceride/i,
+      /^whey protein|^casein protein|^colostrum \(bovine\)|bovine colostrum|^bone broth protein/i,
+      /^beef organ|^desiccated beef/i,
+      /^royal jelly|^bee pollen|^bee propolis|^propolis/i,
+      /^pancreatin|porcine|gelatin/i,
+      /^lactoferrin/i,
+      /^collagen peptides|^collagen for muscle|^collagen type|^collagen \+/i
+    ],
+    reason: 'animal-derived'
+  },
+  vegetarian: {
+    avoid: [
+      /^cod liver oil/i, /^krill oil/i, /^calamari oil/i, /^fish oil/i,
+      /^omega-3 \(EPA\/DHA\)|^omega-3 \(high dose\)|^omega-3 DHA-dominant|^omega-3 triglyceride/i,
+      /^pancreatin|porcine/i
+    ],
+    reason: 'fish/animal-derived'
+  },
+  low_fodmap: {
+    avoid: [
+      /^inulin \/ FOS|^FOS$|^inulin/i,
+      /^GOS|^galacto-oligosaccharide/i,
+      /^XOS|^xylo-oligosaccharide/i,
+      /^acacia fiber/i  // soluble but mild fermentation
+    ],
+    reason: 'high-FODMAP / fermentable'
+  },
+  keto: {
+    // Keto is mostly an additive context — boost MCT/electrolytes — not a hard filter.
+    // We add nothing here; the diet pattern adds rather than removes.
+  },
+  halal: {
+    avoid: [
+      /gelatin|porcine|pancreatin/i
+    ],
+    reason: 'pork-derived / gelatin (non-halal)'
+  },
+  kosher: {
+    avoid: [
+      /porcine|pancreatin/i
+    ],
+    reason: 'pork-derived (non-kosher)'
+  }
+};
+function renderAllergyChips(){
+  const el=document.getElementById('allergy-chips');
+  if(!el)return;
+  el.innerHTML = ALLERGY_OPTIONS.map(a => `<div class="med-chip ${selectedAllergies.has(a.key)?'on':''}" onclick="toggleAllergy('${escAttrJs(a.key)}')">${escHtml(a.label)}</div>`).join('');
+}
+function toggleAllergy(k){
+  selectedAllergies.has(k) ? selectedAllergies.delete(k) : selectedAllergies.add(k);
+  renderAllergyChips();
+  updatePfCounts();
+  onHealthChange();
+}
+function onHealthChange(){
+  // Hook for save-on-change. The actual augmentation reads the DOM at recommendation time.
+  if(typeof saveProfile === 'function') try{saveProfile();}catch(_){}
+}
+
+// Allergen → supplement-name heuristics. Used by profileAugmentationPass.
+const ALLERGY_TO_SUPP_PATTERNS = {
+  fish: [/cod liver|krill|calamari|fish oil|^omega-3 \(EPA\/DHA\)|^omega-3 \(high dose\)/i],
+  shellfish: [/krill|glucosamine \(sulfate, shellfish/i],
+  soy: [/^soy isoflavones|tocotrienol.*annatto/i],  // most soy lecithin is fine
+  dairy: [/whey protein|casein protein|colostrum|dairy/i],
+  gluten: [/wheatgrass|barley grass/i],
+  eggs: [/egg(?:shell|white|yolk)/i],
+  tree_nuts: [/walnut|almond|hazelnut/i],
+  mushroom: [/reishi|cordyceps|chaga|maitake|shiitake|turkey tail|psk|psp|ahcc|tremella|lion'?s mane|mushroom/i],
+  bee: [/royal jelly|bee pollen|bee propolis|propolis/i]
+};
+
+function getHealthStatus(){
+  return {
+    kidney: (typeof document!=='undefined' && document.getElementById('kidney-fn')?.value) || 'normal',
+    liver: (typeof document!=='undefined' && document.getElementById('liver-fn')?.value) || 'normal',
+    smoking: (typeof document!=='undefined' && document.getElementById('smoking-status')?.value) || 'never',
+    allergies: [...selectedAllergies],
+    diets: typeof selectedDiets !== 'undefined' ? [...selectedDiets] : []
+  };
+}
+
 /* ── BMI calculator ── */
 function calcBMI(){
   const ft=parseInt(document.getElementById('prof-height-ft')?.value)||0;
@@ -3078,7 +4132,13 @@ function calcBMI(){
 function saveProfile(){
   const profile={age:document.getElementById('asl').value,sex:sex,meds:[...selectedMeds],conds:[...selectedConds],goals:[...selectedGoals],
     heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
-    bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined};
+    bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
+    // Plan B1 — Health Status fields
+    kidney_fn:document.getElementById('kidney-fn')?.value||'normal',
+    liver_fn:document.getElementById('liver-fn')?.value||'normal',
+    smoking:document.getElementById('smoking-status')?.value||'never',
+    allergies:[...selectedAllergies],
+    diets:[...selectedDiets]};
   lsSet('ss-profile',JSON.stringify(profile));
 }
 
@@ -3119,6 +4179,20 @@ function loadProfile(){
     if(Array.isArray(p.meds)){selectedMeds=new Set(p.meds.filter(k=>MEDS&&MEDS[k]));renderMedChips();}
     if(Array.isArray(p.conds)){selectedConds=new Set(p.conds.filter(k=>CONDITIONS&&CONDITIONS[k]));renderCondChips();}
     if(Array.isArray(p.goals)){selectedGoals=new Set(p.goals.filter(k=>GOALS&&GOALS[k]));renderGoalChips();}
+    // Plan B1 — restore Health Status
+    if(p.kidney_fn){const el=document.getElementById('kidney-fn');if(el)el.value=p.kidney_fn;}
+    if(p.liver_fn){const el=document.getElementById('liver-fn');if(el)el.value=p.liver_fn;}
+    if(p.smoking){const el=document.getElementById('smoking-status');if(el)el.value=p.smoking;}
+    if(Array.isArray(p.allergies)){
+      const validKeys=new Set(ALLERGY_OPTIONS.map(a=>a.key));
+      selectedAllergies=new Set(p.allergies.filter(k=>validKeys.has(k)));
+      renderAllergyChips();
+    }
+    if(Array.isArray(p.diets)){
+      const validDiets=new Set(DIET_OPTIONS.map(d=>d.key));
+      selectedDiets=new Set(p.diets.filter(k=>validDiets.has(k)));
+      renderDietChips();
+    }
     if(p.heightFt){const el=document.getElementById('prof-height-ft');if(el)el.value=p.heightFt;}
     if(p.heightIn){const el=document.getElementById('prof-height-in');if(el)el.value=p.heightIn;}
     if(p.weight){const el=document.getElementById('prof-weight');if(el)el.value=p.weight;}
@@ -3254,6 +4328,8 @@ function updatePfCounts(){
 renderMedChips();
 renderCondChips();
 renderGoalChips();
+renderAllergyChips();   // Plan B1
+renderDietChips();      // Plan B1 round 2
 renderBwGrid();
 updatePfCounts();
 ['prof-height-ft','prof-height-in','prof-weight'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',calcBMI);});

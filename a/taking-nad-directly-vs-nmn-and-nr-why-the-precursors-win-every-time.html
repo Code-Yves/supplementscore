@@ -88,6 +88,8 @@
   try{if(!sessionStorage.getItem(OLD)&&ref.indexOf('/a/')===-1)sessionStorage.setItem(OLD,ref);}catch(_){}
 })();
 </script>
+<script>/* If rendered inside an iframe (e.g. via supplement-modal), hide the page-level close X so it doesn't stack with the outer modal's own X. */if(window.self!==window.top){document.documentElement.classList.add("is-embedded");}</script>
+  <script src="../_site-ux.js?v=20260504a" defer></script>
 </head>
 <body>
 <a href="../index.html" class="pg-close-fab" onclick="event.preventDefault();var stack=[];try{stack=JSON.parse(sessionStorage.getItem('ss-art-stack')||'[]');if(!Array.isArray(stack))stack=[];}catch(_){stack=[];}if(stack.length){var prev=stack.pop();try{sessionStorage.setItem('ss-art-stack',JSON.stringify(stack));}catch(_){}try{sessionStorage.setItem('ss-art-skip-push','1');}catch(_){}location.href=prev;return;}var o=null;try{o=sessionStorage.getItem('ss-art-origin');}catch(_){}if(o){try{sessionStorage.removeItem('ss-art-origin');}catch(_){}location.href=o;return;}if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='../index.html';}" aria-label="Close and return">

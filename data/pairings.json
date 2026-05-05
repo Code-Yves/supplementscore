@@ -1,7 +1,7 @@
 {
   "_meta": {
     "generated": "2026-04-23",
-    "last_reviewed": "2026-05-01 (full audit pass — added med-interaction & pairing coverage)",
+    "last_reviewed": "2026-05-04 (Plan A4 — added 35 cofactor/antagonism/timing/risk pairings, 10 depletions, 8 dangerous)",
     "source": "data.js (733 supplements; mod date 2026-04-24, no net add/remove vs prior 733 count)",
     "schema_version": "1.3",
     "notes": "Each pairing references supplement `n` (name) strings as they appear in `data.js`. `kind` describes WHY the pair belongs together; `strength` is 1-5 (5 = mandatory for the effect, 1 = speculative). `apart_from` lists things the supplement competes with for absorption.",
@@ -1188,6 +1188,717 @@
       "rationale": "Three different GABAergic / cooling routes converge: glycine lowers core body temp, magnesium activates GABA-A, theanine modulates inhibitory tone via alpha-waves.",
       "dose": "Mg glycinate 300-400 mg + Glycine 3 g + L-Theanine 200 mg, 30-60 min before bed.",
       "id": "p87"
+    },
+    {
+      "members": [
+        "Magnesium",
+        "Vitamin D3"
+      ],
+      "kind": "cofactor",
+      "strength": 5,
+      "goal": "Vitamin D activation",
+      "rationale": "Magnesium is a required cofactor for the hepatic and renal hydroxylases that activate vitamin D. Mg-deficient subjects show poor 25-OH-D response to D3 supplementation.",
+      "dose": "Mg 300-400 mg/day with D3 ≥1,000 IU; both with food.",
+      "id": "p88"
+    },
+    {
+      "members": [
+        "Zinc",
+        "Copper"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Long-term zinc supplementation balance",
+      "rationale": "Zinc downregulates intestinal copper absorption via metallothionein. Chronic zinc >25-30 mg/day without copper causes anemia and neuropathy.",
+      "dose": "If Zn ≥25 mg/day, add Cu 1-2 mg/day. Optimal ratio ~8-15:1 Zn:Cu.",
+      "optimal_ratio": "Zn:Cu 10:1",
+      "id": "p89"
+    },
+    {
+      "members": [
+        "Iron",
+        "Vitamin C (moderate dose)"
+      ],
+      "kind": "absorption-enhancer",
+      "strength": 5,
+      "goal": "Non-heme iron absorption",
+      "rationale": "Ascorbate reduces ferric to ferrous iron in the gut, increasing absorption ~2-3×. Especially helpful with plant-based iron sources.",
+      "dose": "Iron 30-60 mg + Vitamin C 100-250 mg, taken together on empty stomach if tolerated.",
+      "evidence_grade": "A",
+      "id": "p90"
+    },
+    {
+      "members": [
+        "Iron",
+        "Vitamin B12",
+        "Folate (5-MTHF)"
+      ],
+      "kind": "cofactor",
+      "strength": 5,
+      "goal": "Anemia recovery panel",
+      "rationale": "All three are required for normal RBC production; deficiency in any one limits the others' effect. Empirical iron without verifying B12/folate misses dimorphic anemias.",
+      "dose": "Test ferritin + B12 + folate before dosing; correct deficits per labs.",
+      "evidence_grade": "A",
+      "id": "p91"
+    },
+    {
+      "members": [
+        "Vitamin B6 (P5P)",
+        "Vitamin B12",
+        "Folate (5-MTHF)"
+      ],
+      "kind": "cofactor",
+      "strength": 5,
+      "goal": "Methylation cycle / homocysteine reduction",
+      "rationale": "All three are required cofactors in homocysteine remethylation and transsulfuration. Single-vitamin deficits will not normalize Hcy alone.",
+      "dose": "B6 25-50 mg + B12 500-1,000 mcg methylcobalamin + 5-MTHF 400-800 mcg, daily.",
+      "evidence_grade": "A",
+      "id": "p92"
+    },
+    {
+      "members": [
+        "Magnesium",
+        "Vitamin B6 (P5P)"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Magnesium uptake into cells",
+      "rationale": "B6 facilitates Mg transport into cells; combined Mg-B6 outperforms Mg alone in PMS, anxiety, and cramp endpoints in several RCTs.",
+      "dose": "Mg 300 mg + B6 25-50 mg daily.",
+      "id": "p93"
+    },
+    {
+      "members": [
+        "CoQ10 (Ubiquinol)",
+        "Vitamin E (mixed tocopherols)"
+      ],
+      "kind": "cofactor",
+      "strength": 3,
+      "goal": "Lipophilic antioxidant cycling",
+      "rationale": "Vitamin E quenches lipid peroxyl radicals; CoQ10 (and vitamin C) regenerate tocopheroxyl radicals back to active vitamin E. The pair maintains the lipid antioxidant cycle.",
+      "dose": "CoQ10 100-200 mg + mixed tocopherols 100-200 IU with fat.",
+      "id": "p94"
+    },
+    {
+      "members": [
+        "Selenium",
+        "Iodine"
+      ],
+      "kind": "cofactor",
+      "strength": 5,
+      "goal": "Thyroid hormone synthesis and conversion",
+      "rationale": "Iodine is the substrate for T3/T4; selenium is the cofactor for deiodinases that activate T4→T3 and for glutathione-peroxidase that protects the thyroid from peroxide damage.",
+      "dose": "Iodine ≤150 mcg/day (avoid in autoimmune thyroid) + Selenium 100-200 mcg selenomethionine.",
+      "evidence_grade": "A",
+      "id": "p95"
+    },
+    {
+      "members": [
+        "Calcium",
+        "Vitamin D3",
+        "Vitamin K2 (MK-7)"
+      ],
+      "kind": "cofactor",
+      "strength": 5,
+      "goal": "Bone-targeted calcium deposition",
+      "rationale": "D3 increases gut Ca absorption; K2 activates osteocalcin (bone) and MGP (vascular protection), directing Ca to bone rather than arteries. Mg is also required for D activation.",
+      "dose": "Ca ≤500 mg/dose + D3 1,000-2,000 IU + MK-7 90-200 mcg + Mg 300 mg.",
+      "evidence_grade": "B",
+      "id": "p96"
+    },
+    {
+      "members": [
+        "Choline",
+        "Vitamin B12",
+        "Folate (5-MTHF)"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Methylation triad / phosphatidylcholine synthesis",
+      "rationale": "Choline, B12, and folate share the methyl pool. Low choline status raises folate/B12 demand and vice versa. Pregnancy demands all three.",
+      "dose": "Choline 425-550 mg + B12 + folate per cycle requirements.",
+      "evidence_grade": "B",
+      "id": "p97"
+    },
+    {
+      "members": [
+        "Glycine",
+        "NAC (N-Acetyl Cysteine)"
+      ],
+      "kind": "substrate-pair",
+      "strength": 4,
+      "goal": "Glutathione synthesis (older adults)",
+      "rationale": "Glutathione = γ-glutamyl-cysteinyl-glycine. NAC supplies cysteine; glycine supplies the third amino acid. Older adults are typically deficient in BOTH substrates; supplementing one alone gives diminishing returns.",
+      "dose": "Glycine 100 mg/kg + NAC 100 mg/kg daily, divided BID.",
+      "evidence_grade": "B",
+      "id": "p98"
+    },
+    {
+      "members": [
+        "Acetyl-L-Carnitine (ALCAR)",
+        "Alpha-Lipoic Acid (ALA)",
+        "CoQ10 (Ubiquinol)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "goal": "Mitochondrial support stack",
+      "rationale": "ALCAR shuttles fatty acids into mitochondria for β-oxidation; ALA recycles antioxidants and is a mitochondrial cofactor; CoQ10 carries electrons in the ETC. The triad supports mitochondrial bioenergetics from substrate to electron transport.",
+      "dose": "ALCAR 1-2 g + ALA 600 mg + CoQ10 100-200 mg daily.",
+      "id": "p99"
+    },
+    {
+      "members": [
+        "Whey protein",
+        "Creatine monohydrate",
+        "L-Leucine (standalone)"
+      ],
+      "kind": "goal-stack",
+      "strength": 4,
+      "goal": "Muscle protein synthesis (older adults / sarcopenia)",
+      "rationale": "Whey provides the full EAA spectrum; leucine drives mTORC1 to peak; creatine provides the energetic substrate for high-power work. Older adults need ~3 g leucine to hit the synthesis threshold.",
+      "dose": "Whey 25-40 g + Creatine 3-5 g + Leucine 2-3 g around training/major meals.",
+      "id": "p100"
+    },
+    {
+      "members": [
+        "Collagen peptides",
+        "Vitamin C (moderate dose)"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Collagen synthesis cofactor",
+      "rationale": "Vitamin C is required for prolyl/lysyl hydroxylase, the enzymes that stabilize collagen triple helix. Collagen amino-acid supply without vitamin C produces under-hydroxylated, unstable collagen.",
+      "dose": "Collagen 10-20 g + Vitamin C 50-100 mg ~1 hour pre-loading-activity (Shaw 2017 protocol).",
+      "id": "p101"
+    },
+    {
+      "members": [
+        "Riboflavin (Vitamin B2)",
+        "Magnesium",
+        "CoQ10 (Ubiquinol)"
+      ],
+      "kind": "goal-stack",
+      "strength": 4,
+      "goal": "Migraine prophylaxis triad",
+      "rationale": "Each has independent evidence; the trio addresses mitochondrial energy production failure thought to underlie migraine. Riboflavin 400 mg, Mg 400-600 mg, CoQ10 100 mg each have their own RCT support.",
+      "dose": "Riboflavin 400 mg + Mg 400 mg + CoQ10 100 mg daily for ≥3 months.",
+      "id": "p102"
+    },
+    {
+      "members": [
+        "Calcium",
+        "Iron"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Avoid iron-absorption blunting",
+      "rationale": "Calcium competitively inhibits both heme and non-heme iron absorption at any dose. The effect is large enough to cause clinical iron deficiency in heavy calcium users.",
+      "dose": "Separate by ≥2 hours.",
+      "separation_hours": 2,
+      "evidence_grade": "A",
+      "id": "p103"
+    },
+    {
+      "members": [
+        "Zinc",
+        "Iron"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Avoid mutual divalent-cation competition",
+      "rationale": "Iron and zinc share intestinal divalent metal transporters. Co-dosing reduces zinc absorption by 30-50% and iron absorption by similar amounts.",
+      "dose": "Separate by ≥2 hours.",
+      "separation_hours": 2,
+      "evidence_grade": "A",
+      "id": "p104"
+    },
+    {
+      "members": [
+        "Calcium",
+        "Magnesium"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Avoid divalent-cation competition",
+      "rationale": "At doses ≥500 mg, calcium and magnesium compete for absorption transporters. Smaller doses (≤250 mg each) co-administered are less affected.",
+      "dose": "Separate doses ≥1,000 mg by ≥2 hours; smaller co-doses are fine.",
+      "separation_hours": 2,
+      "id": "p105"
+    },
+    {
+      "members": [
+        "Caffeine (standardised)",
+        "Iron"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Avoid iron blunting",
+      "rationale": "Coffee/tea polyphenols (chlorogenic acid, tannins) bind iron in the gut, reducing non-heme iron absorption by 60-90% when co-consumed. Effect persists ~1 hour after the beverage.",
+      "dose": "Separate iron from coffee/tea by ≥1 hour either side.",
+      "separation_hours": 1,
+      "evidence_grade": "A",
+      "id": "p106"
+    },
+    {
+      "members": [
+        "Caffeine (standardised)",
+        "Calcium"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 2,
+      "goal": "Modest calcium loss with high caffeine",
+      "rationale": "Each 100 mg caffeine increases urinary calcium loss by ~5 mg. Effect is small but adds up across high coffee/energy drink consumption.",
+      "dose": "If high caffeine intake, ensure adequate calcium status.",
+      "id": "p107"
+    },
+    {
+      "members": [
+        "Vitamin B6 (P5P)",
+        "Pantothenic acid (Vitamin B5)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 2,
+      "goal": "B-vitamin balance at high doses",
+      "rationale": "High-dose isolated B6 can outcompete B5 absorption when taken together. Balanced B-complex avoids this.",
+      "dose": "Use balanced B-complex rather than mega-doses of single Bs.",
+      "id": "p108"
+    },
+    {
+      "members": [
+        "Niacin (Vitamin B3)",
+        "Folate (5-MTHF)",
+        "Vitamin B12"
+      ],
+      "kind": "side-effect-offset",
+      "strength": 3,
+      "goal": "Methylation depletion offset",
+      "rationale": "High-dose niacin (≥1 g/day) consumes methyl groups for methyl-niacinamide excretion, depleting SAM-e. Adding methyl donors (folate, B12, choline) prevents the homocysteine elevation seen with chronic high-dose niacin.",
+      "dose": "If on niacin ≥1 g/day, add 5-MTHF 800 mcg + B12 1 mg + choline 500 mg.",
+      "id": "p109"
+    },
+    {
+      "members": [
+        "Soy isoflavones",
+        "Iodine"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Avoid thyroid hormone interference",
+      "rationale": "Soy isoflavones inhibit thyroid peroxidase. Iodine repletion mitigates the effect. In iodine-deficient individuals, high-soy + low-iodine diets are linked to hypothyroidism.",
+      "dose": "If consuming high soy, ensure iodine status is adequate (urine spot check).",
+      "id": "p110"
+    },
+    {
+      "members": [
+        "Levothyroxine substrate pairings (separate)",
+        "Calcium",
+        "Iron",
+        "Soy isoflavones",
+        "Magnesium",
+        "Coffee"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Levothyroxine absorption — supplement timing",
+      "rationale": "Levothyroxine absorption is blunted by minerals (Ca, Fe, Mg, Al), soy, fiber, and coffee. Separate by ≥4 hours from any of these.",
+      "dose": "Take levothyroxine 30-60 min before food/coffee; separate Ca/Fe/Mg/soy by ≥4 h.",
+      "separation_hours": 4,
+      "evidence_grade": "A",
+      "contraindications": [
+        "thyroid"
+      ],
+      "id": "p111"
+    },
+    {
+      "members": [
+        "Magnesium glycinate",
+        "Caffeine (standardised)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 2,
+      "goal": "Daytime vs evening separation",
+      "rationale": "Caffeine is renally excreted with small magnesium loss; high caffeine + Mg-deficiency state correlates with worse sleep. Take Mg evening, caffeine morning.",
+      "dose": "Mg evening; caffeine before noon.",
+      "id": "p112"
+    },
+    {
+      "members": [
+        "Probiotics",
+        "Berberine"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Avoid antimicrobial blunting of probiotic strains",
+      "rationale": "Berberine has broad-spectrum antimicrobial activity that can reduce probiotic viability when co-administered. Separate dosing windows preserves both effects.",
+      "dose": "Separate by ≥4 hours.",
+      "separation_hours": 4,
+      "id": "p113"
+    },
+    {
+      "members": [
+        "Probiotics",
+        "Oregano oil (Origanum vulgare)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Avoid antimicrobial blunting",
+      "rationale": "Carvacrol/thymol in oregano oil have antibacterial activity against probiotic strains. Separation preserves both.",
+      "dose": "Separate by ≥4 hours.",
+      "separation_hours": 4,
+      "id": "p114"
+    },
+    {
+      "members": [
+        "Caffeine (standardised)",
+        "L-Theanine"
+      ],
+      "kind": "side-effect-offset",
+      "strength": 4,
+      "goal": "Reduce caffeine-induced jitter",
+      "rationale": "L-theanine increases alpha-wave activity and blunts the sympathetic spike from caffeine without reducing the cognitive boost. The 1:2 caffeine:theanine ratio is best-studied.",
+      "dose": "Caffeine 100 mg + L-theanine 200 mg.",
+      "evidence_grade": "B",
+      "id": "p115"
+    },
+    {
+      "members": [
+        "Caffeine (standardised)",
+        "Ashwagandha (KSM-66)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 2,
+      "goal": "Effect cancellation",
+      "rationale": "Caffeine raises sympathetic tone; ashwagandha lowers it. Co-dosing tends to cancel the calming effect of ashwagandha.",
+      "dose": "If using ashwagandha for stress reduction, take it on the opposite end of the day from caffeine.",
+      "id": "p116"
+    },
+    {
+      "members": [
+        "Vitamin A (retinol, low-dose)",
+        "Vitamin D3"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 2,
+      "goal": "Avoid mutual antagonism at high doses",
+      "rationale": "At extreme doses, retinol and D3 can antagonize each other's nuclear receptor effects. At normal supplemental doses (D3 ≤2,000 IU; retinol ≤3,000 IU), this is rarely clinically meaningful.",
+      "dose": "Avoid simultaneous mega-doses; balanced AD3K formulas are fine.",
+      "id": "p117"
+    },
+    {
+      "members": [
+        "Iron",
+        "Calcium carbonate/citrate (bone health)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Iron deficit recovery while on bone protocol",
+      "rationale": "Bone-protocol calcium doses (1,000+ mg/day) heavily blunt iron absorption. Heavy menstruating women on calcium often present with iron deficiency despite oral iron.",
+      "dose": "Iron AM, fasting; calcium with lunch/dinner; separate by ≥4h.",
+      "separation_hours": 4,
+      "id": "p118"
+    },
+    {
+      "members": [
+        "Probiotics",
+        "Caffeine (standardised)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 1,
+      "goal": "Avoid heat-killed strains",
+      "rationale": "Hot beverages (≥50°C) directly damage non-spore probiotic strains. Take with cool/room-temp water.",
+      "dose": "Don't swallow probiotics with hot coffee/tea.",
+      "id": "p119"
+    },
+    {
+      "members": [
+        "Melatonin (0.1-0.5 mg physiological dose)",
+        "Caffeine (standardised)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Sleep onset",
+      "rationale": "Caffeine half-life is 5-7 hours; even afternoon coffee blunts melatonin's sleep-onset effect. Last caffeine should be ~8 hours before intended sleep.",
+      "dose": "Caffeine cutoff 14:00 if sleeping by 22:00.",
+      "separation_hours": 8,
+      "evidence_grade": "A",
+      "id": "p120"
+    },
+    {
+      "members": [
+        "Zinc",
+        "Coffee (tannins)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Avoid tannin chelation",
+      "rationale": "Tea and coffee tannins reduce zinc absorption by ~30-50% when co-consumed. Less severe than the iron interaction but real.",
+      "dose": "Separate zinc from coffee/tea by ≥1 hour.",
+      "separation_hours": 1,
+      "id": "p121"
+    },
+    {
+      "members": [
+        "Whey protein",
+        "Inulin / FOS (prebiotic fibre)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 2,
+      "goal": "Slowed protein absorption (intentional vs unintentional)",
+      "rationale": "Soluble fibre slows gastric emptying. For overnight casein-style sustained release this is fine; for fast post-workout absorption, separate them.",
+      "dose": "If post-workout fast absorption is the goal, take whey alone; otherwise co-dosing is fine.",
+      "id": "p122"
+    },
+    {
+      "members": [
+        "Bisphosphonates substrate pairings (separate)",
+        "Calcium",
+        "Iron",
+        "Magnesium",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Bisphosphonate absorption (oral)",
+      "rationale": "Oral bisphosphonates have <1% bioavailability and any mineral or food blocks them entirely. Take FIRST THING with plain water; no supplements/food/coffee for 30-60 min.",
+      "dose": "Bisphosphonate FIRST THING with water; supplements ≥60 min later.",
+      "separation_hours": 1,
+      "evidence_grade": "A",
+      "contraindications": [
+        "bisphosphonate"
+      ],
+      "id": "p123"
+    },
+    {
+      "members": [
+        "Saw palmetto (Serenoa repens)",
+        "Iron"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 1,
+      "goal": "Avoid GI upset",
+      "rationale": "Both can cause mild GI upset; co-dosing on empty stomach amplifies it. Take with food or separate.",
+      "dose": "Take with food.",
+      "id": "p124"
+    },
+    {
+      "members": [
+        "Berberine",
+        "Probiotics"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Preserve probiotic viability",
+      "rationale": "Same as berberine + probiotics caution above; separation by ≥4h preserves both effects.",
+      "dose": "Separate by ≥4 hours.",
+      "separation_hours": 4,
+      "id": "p125"
+    },
+    {
+      "members": [
+        "Methylcobalamin (high-dose neurological)",
+        "Vitamin C (megadose)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 1,
+      "goal": "Avoid B12 oxidation",
+      "rationale": "Mega-doses of vitamin C can degrade B12 in vitro; in practice, in-vivo effect at typical supplement doses is small.",
+      "dose": "Separate B12 from mega-dose vitamin C by ≥1 hour.",
+      "id": "p126"
+    },
+    {
+      "members": [
+        "Lutein + Zeaxanthin",
+        "High-fat meal"
+      ],
+      "kind": "absorption-enhancer",
+      "strength": 4,
+      "goal": "Carotenoid absorption",
+      "rationale": "Lutein and zeaxanthin are fat-soluble; absorption is 3-5× higher when co-ingested with fat (≥10 g).",
+      "dose": "Take with breakfast containing eggs/avocado/nuts.",
+      "id": "p127"
+    },
+    {
+      "members": [
+        "Omega-3 (high dose)",
+        "Ginkgo biloba",
+        "Aged garlic extract (Kyolic)",
+        "Vitamin E (mixed tocopherols)",
+        "Nattokinase"
+      ],
+      "kind": "risk-additive",
+      "strength": 5,
+      "goal": "Bleeding risk additive — AVOID stacking",
+      "rationale": "Each item has antiplatelet or fibrinolytic activity at supplement doses. Stacking 3+ adds clinically meaningful bleeding risk; combined with anticoagulants, risk becomes serious.",
+      "dose": "Limit to 1-2 of these at a time; flag any to anticoagulation clinic.",
+      "evidence_grade": "B",
+      "contraindications": [
+        "warfarin",
+        "doac",
+        "antiplatelet",
+        "heparin_lmwh"
+      ],
+      "id": "p128"
+    },
+    {
+      "members": [
+        "Kava (high-dose/extract)",
+        "Green tea extract (EGCG)",
+        "Niacin (Vitamin B3)"
+      ],
+      "kind": "risk-additive",
+      "strength": 5,
+      "goal": "Hepatotoxic risk additive — AVOID stacking",
+      "rationale": "Each can cause idiosyncratic hepatotoxicity. Stacking 2+ multiplies risk. Add alcohol or acetaminophen and risk increases further.",
+      "dose": "Avoid combining; rotate or eliminate.",
+      "evidence_grade": "B",
+      "id": "p129"
+    },
+    {
+      "members": [
+        "5-HTP",
+        "S-Adenosylmethionine (SAMe)",
+        "Saffron (Crocus sativus)",
+        "St. John's Wort"
+      ],
+      "kind": "risk-additive",
+      "strength": 5,
+      "goal": "Serotonin syndrome risk — AVOID stacking, AVOID with serotonergic Rx",
+      "rationale": "Each raises serotonin via different mechanisms. Stacking elevates risk; co-administration with SSRI/SNRI/MAOI is dangerous.",
+      "dose": "Use one at a time; never combine with serotonergic prescription drugs.",
+      "evidence_grade": "A",
+      "contraindications": [
+        "ssri",
+        "maoi",
+        "tricyclic",
+        "atypical_antidep"
+      ],
+      "id": "p130"
+    },
+    {
+      "members": [
+        "Berberine",
+        "Alpha-Lipoic Acid (ALA)",
+        "Chromium picolinate",
+        "Cinnamon extract (Ceylon)"
+      ],
+      "kind": "risk-additive",
+      "strength": 4,
+      "goal": "Hypoglycemia-additive — caution in diabetics",
+      "rationale": "Each has modest glucose-lowering effects. Stacking + insulin/sulfonylurea can cause hypoglycemia. Otherwise safe when stacked in non-diabetic prediabetes contexts under monitoring.",
+      "dose": "If on insulin/sulfonylurea, monitor glucose closely when adding any of these.",
+      "contraindications": [
+        "diabetes"
+      ],
+      "id": "p131"
+    },
+    {
+      "members": [
+        "Hibiscus sabdariffa",
+        "Olive leaf extract",
+        "Magnesium",
+        "Taurine",
+        "Dietary Nitrate / Beetroot"
+      ],
+      "kind": "risk-additive",
+      "strength": 3,
+      "goal": "Hypotension-additive — caution on antihypertensives",
+      "rationale": "Each has mild BP-lowering effect. Stacking 3+ can produce additive hypotension, especially in those already on antihypertensives.",
+      "dose": "Monitor BP; reduce antihypertensive dose only under prescriber guidance.",
+      "contraindications": [
+        "bp",
+        "ace_arb",
+        "ccb",
+        "beta_blocker",
+        "diuretic"
+      ],
+      "id": "p132"
+    },
+    {
+      "members": [
+        "Kava (high-dose/extract)",
+        "Valerian root",
+        "GABA (standalone supplement)",
+        "Glycine",
+        "Melatonin"
+      ],
+      "kind": "risk-additive",
+      "strength": 4,
+      "goal": "CNS depression additive — caution in OSA, on benzo/opioids",
+      "rationale": "Sedating supplements stack additively. Combined with benzodiazepines, opioids, alcohol, or untreated sleep apnea, the additive effect can be dangerous.",
+      "dose": "Avoid combining sedating supplements with sedating prescription drugs or alcohol.",
+      "contraindications": [
+        "benzo",
+        "opioid",
+        "sleep_rx",
+        "gabapentinoid"
+      ],
+      "id": "p133"
+    },
+    {
+      "members": [
+        "Caffeine (standardised)",
+        "Yohimbe bark (Pausinystalia yohimbe)",
+        "Bitter orange (Citrus aurantium)",
+        "Theacrine (TeaCrine)"
+      ],
+      "kind": "risk-additive",
+      "strength": 5,
+      "goal": "Sympathomimetic additive — AVOID in CV disease, AFib",
+      "rationale": "Each raises heart rate / BP / sympathetic tone via different mechanisms. Stacking causes palpitations, hypertension, and (in vulnerable individuals) arrhythmia.",
+      "dose": "Avoid combining; especially avoid in CVD, AFib, hypertension, anxiety disorders.",
+      "evidence_grade": "B",
+      "contraindications": [
+        "bp",
+        "atrial_fibrillation",
+        "ssri",
+        "maoi"
+      ],
+      "id": "p134"
+    },
+    {
+      "members": [
+        "Soy isoflavones",
+        "Red clover (Trifolium pratense)",
+        "DIM (Diindolylmethane)",
+        "Black cohosh (Cimicifuga racemosa)"
+      ],
+      "kind": "risk-additive",
+      "strength": 3,
+      "goal": "Estrogenic additive — caution in oestrogen-sensitive cancers",
+      "rationale": "Phyto-oestrogenic supplements stack. Useful in symptomatic perimenopause; risky in oestrogen-receptor-positive breast cancer history. DIM is anti-oestrogenic but in the same hormonal pathway.",
+      "dose": "Discuss with oncologist if any history of ER+ breast cancer.",
+      "contraindications": [
+        "tamoxifen",
+        "ai_aromatase"
+      ],
+      "id": "p135"
+    },
+    {
+      "members": [
+        "Saw palmetto (Serenoa repens)",
+        "Pygeum africanum",
+        "Beta-sitosterol",
+        "Pumpkin seed oil"
+      ],
+      "kind": "goal-stack",
+      "strength": 4,
+      "goal": "BPH symptom relief — additive for symptom control",
+      "rationale": "Each has small but real effect on urinary symptoms via 5-alpha reductase / inflammatory pathways. Stacking improves symptom score modestly but does NOT replace 5-ARI prescription drugs in moderate-severe BPH.",
+      "dose": "Saw palmetto 320 mg + Beta-sitosterol 60-130 mg + Pygeum 100 mg + Pumpkin seed oil 320 mg, daily.",
+      "id": "p136"
+    },
+    {
+      "members": [
+        "NAC (N-Acetyl Cysteine)",
+        "Glycine",
+        "Vitamin C (moderate dose)"
+      ],
+      "kind": "goal-stack",
+      "strength": 4,
+      "goal": "Glutathione recovery (oxidative stress / older adults)",
+      "rationale": "NAC + glycine give substrate; vitamin C recycles oxidized glutathione (GSSG → GSH). The triad is more effective than NAC alone for raising tissue glutathione.",
+      "dose": "NAC 600-1,200 mg + Glycine 3-5 g + Vitamin C 500 mg, divided BID.",
+      "id": "p137"
     }
   ],
   "medication_depletion_pairings": [
@@ -1244,6 +1955,93 @@
         "Vitamin D3"
       ],
       "reason": "Hepatic induction depletes both"
+    },
+    {
+      "med": "Loop diuretics (furosemide)",
+      "add": [
+        "Magnesium",
+        "Potassium supplementation (clinical)",
+        "Thiamine (Vitamin B1)"
+      ],
+      "reason": "Loop diuretics increase urinary loss of Mg, K, and thiamine; chronic use causes deficiency."
+    },
+    {
+      "med": "Thiazide diuretics (HCTZ)",
+      "add": [
+        "Magnesium",
+        "Potassium supplementation (clinical)",
+        "Zinc"
+      ],
+      "reason": "Thiazides cause urinary loss of Mg, K, and Zn."
+    },
+    {
+      "med": "ACE inhibitors / ARBs",
+      "add": [
+        "Zinc"
+      ],
+      "reason": "Some ACE inhibitors (captopril) increase urinary zinc; chronic use can cause taste disturbance and zinc deficiency."
+    },
+    {
+      "med": "OCPs / Combined oral contraceptives",
+      "add": [
+        "Vitamin B6 (P5P)",
+        "Folate (5-MTHF)",
+        "Vitamin B12",
+        "Magnesium",
+        "Zinc"
+      ],
+      "reason": "OCPs deplete B6, folate, B12, Mg, Zn — relevant for both contraceptive use and pre-conception planning when stopping OCPs."
+    },
+    {
+      "med": "Isoniazid (TB therapy)",
+      "add": [
+        "Vitamin B6 (P5P)"
+      ],
+      "reason": "Isoniazid is a B6 antagonist; B6 supplementation is standard to prevent peripheral neuropathy."
+    },
+    {
+      "med": "Glucocorticoids (chronic prednisone)",
+      "add": [
+        "Calcium",
+        "Vitamin D3",
+        "Magnesium",
+        "Vitamin K2 (MK-7)"
+      ],
+      "reason": "Chronic steroids cause bone loss and Ca/Mg/K losses."
+    },
+    {
+      "med": "Sulfasalazine",
+      "add": [
+        "Folate (5-MTHF)"
+      ],
+      "reason": "Sulfasalazine inhibits intestinal folate absorption."
+    },
+    {
+      "med": "Methotrexate",
+      "add": [
+        "Folate (5-MTHF)"
+      ],
+      "reason": "Methotrexate is a folate antagonist; daily folate supplementation reduces side effects without blunting therapeutic effect."
+    },
+    {
+      "med": "Long-term PPI (>1 year)",
+      "add": [
+        "Magnesium",
+        "Vitamin B12",
+        "Calcium",
+        "Iron"
+      ],
+      "reason": "Acid suppression reduces absorption of B12 (cyanocobalamin form), magnesium, calcium, and non-heme iron."
+    },
+    {
+      "med": "Cholestyramine / bile-acid sequestrants",
+      "add": [
+        "Vitamin A (retinol, low-dose)",
+        "Vitamin D3",
+        "Vitamin E (mixed tocopherols)",
+        "Vitamin K1 (phylloquinone)"
+      ],
+      "reason": "Bile-acid sequestrants reduce absorption of fat-soluble vitamins."
     }
   ],
   "avoid_pairings_absorption": [
@@ -1406,6 +2204,63 @@
         "Alcohol / benzodiazepines / opioids"
       ],
       "risk": "Respiratory depression, coma, death"
+    },
+    {
+      "members": [
+        "Methylene blue (oral)",
+        "SSRI/SNRI/MAOI/triptan/tramadol"
+      ],
+      "risk": "Fatal serotonin syndrome — methylene blue is a potent MAO-A inhibitor; FDA black-box-equivalent warning."
+    },
+    {
+      "members": [
+        "Yohimbe bark (Pausinystalia yohimbe)",
+        "MAOI"
+      ],
+      "risk": "Hypertensive crisis; banned combination in psychiatric care."
+    },
+    {
+      "members": [
+        "Ephedra analogues (synephrine)",
+        "Caffeine (standardised)",
+        "Yohimbe bark (Pausinystalia yohimbe)"
+      ],
+      "risk": "Cardiovascular events including MI, stroke, sudden cardiac death (Ephedra-caffeine combos were banned by FDA in 2004 for this reason)."
+    },
+    {
+      "members": [
+        "Phenibut",
+        "Alcohol or benzodiazepines"
+      ],
+      "risk": "Severe CNS depression, respiratory depression, coma. Phenibut also causes withdrawal seizures with abrupt cessation after chronic use."
+    },
+    {
+      "members": [
+        "Tianeptine (\"gas station heroin\")",
+        "Opioids"
+      ],
+      "risk": "Respiratory depression, opioid-like withdrawal, addiction; tianeptine has mu-opioid agonism at supra-therapeutic doses sold in supplements."
+    },
+    {
+      "members": [
+        "7-Hydroxymitragynine (concentrated kratom alkaloid)",
+        "Benzodiazepines or alcohol"
+      ],
+      "risk": "Mu-opioid + benzodiazepine combination: respiratory depression and overdose."
+    },
+    {
+      "members": [
+        "DNP (2,4-Dinitrophenol)",
+        "Anything"
+      ],
+      "risk": "DNP uncouples mitochondrial oxidative phosphorylation; lethal hyperthermia at supra-supplement doses. NOT a supplement; sold illegally for weight loss; multiple confirmed deaths annually."
+    },
+    {
+      "members": [
+        "Vitamin K2 (MK-7)",
+        "Warfarin"
+      ],
+      "risk": "Antagonizes warfarin at any meaningful dose; can drop INR rapidly and cause thrombosis. NEVER add or remove without anticoagulation-clinic supervision."
     }
   ]
 }
