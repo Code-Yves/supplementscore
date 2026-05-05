@@ -785,7 +785,7 @@ a.site-nav-tab{
 /* Coral progress bar pinned to bottom; restarts each rotation via JS */
 .hero-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(248,244,237,0.12);z-index:5;overflow:hidden}
 .hero-progress-fill{position:absolute;left:0;top:0;height:100%;width:0;background:#E8967A;border-radius:0 2px 2px 0;transform-origin:left center}
-.hero-progress-fill.run{animation:heroProgressFill 6s linear forwards}
+.hero-progress-fill.run{animation:heroProgressFill 12s linear forwards}
 @keyframes heroProgressFill{from{width:0}to{width:100%}}
 @media(max-width:600px){.hero{height:auto;min-height:460px}.hero-slide{inset:54px 20px 96px 20px}.hero-slide-headline{font-size:20px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:12px}.hero-arrow{width:36px;height:36px}.hero-counter{top:14px;right:16px;left:16px;text-align:right;font-size:10px}.hero-counter::before{content:'PICK · '}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
 /* Legacy .articles-filter-row + .articles-dd-* + .articles-search-* styles removed
@@ -1740,6 +1740,11 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
 .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 @media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}
+/* Hide the page-level close X when this page is rendered inside another
+   page's iframe-modal — the outer modal already has its own close button,
+   and showing both stacks two Xs in the corner. The .is-embedded class is
+   set by inline script in <head> when window.self !== window.top. */
+html.is-embedded .pg-close-fab{display:none}
 
 /* ============================================================
    Site footer — dark brand-teal close (added 2026-05-02)

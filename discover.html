@@ -595,7 +595,7 @@ body{ background: var(--color-background-secondary); color: var(--color-text-pri
   position: absolute; left: 0; top: 0; height: 100%; width: 0;
   background: #E8967A; border-radius: 0 2px 2px 0;
 }
-.dc-fact-progress-fill.run{ animation: dcFactProgress 7s linear forwards; }
+.dc-fact-progress-fill.run{ animation: dcFactProgress 12s linear forwards; }
 @keyframes dcFactProgress{ from{width:0} to{width:100%} }
 
 @media (max-width: 760px){
@@ -1807,7 +1807,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 
   function resetTimer(){
     clearInterval(timer);
-    timer = setInterval(function(){ idx = (idx + 1) % FACTS.length; render(idx); }, 7000);
+    timer = setInterval(function(){ idx = (idx + 1) % FACTS.length; render(idx); }, 12000);
   }
 
   /* Shuffle the starting position so refreshes don't always start with #1 */

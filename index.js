@@ -322,7 +322,7 @@ function catCardClick(cat){
   };
   function resetTimer(){
     clearInterval(timer);
-    timer=setInterval(()=>window.heroGoto((current+1)%TOTAL),6000);
+    timer=setInterval(()=>window.heroGoto((current+1)%TOTAL),12000);
   }
   rotatePattern();
   renderDots();
