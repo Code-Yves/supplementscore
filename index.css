@@ -55,9 +55,13 @@
    Toolbar — category dropdown + search on a single row
    ============================================================ */
 .rs-toolbar{
-  max-width: 1180px;
-  margin: 18px auto 22px;
-  padding: 0 24px;
+  /* Span the full content width of the parent .articles-section so the
+     toolbar (All-241 chip + search bar) aligns with the hero card above
+     and the article cards below. The parent already provides the
+     centered max-width (1200px) and side padding (1rem). */
+  max-width: none;
+  margin: 18px 0 22px;
+  padding: 0;
   display: flex;
   gap: 10px;
   align-items: stretch;
@@ -171,7 +175,10 @@
 /* Per-category color tints stay (they target [data-cat] which is unchanged) */
 
 @media (max-width: 600px){
-  .rs-toolbar{ padding: 0 16px; gap: 8px; }
+  /* Mobile: zero side padding too — .articles-section already provides
+     16px gutters via its own padding. Adding more here would push the
+     toolbar narrower than the cards above and below it. */
+  .rs-toolbar{ padding: 0; gap: 8px; }
   .rs-cat-dd-btn{ height: 44px; padding: 0 12px; font-size: 13px; }
   .rs-cat.rs-cat-dd-panel{ min-width: 220px; }
 }
