@@ -720,10 +720,11 @@ a.site-nav-tab{
    MOBILE STICKY HEADER — single source of truth (≤600px)
    ===========================================================
    Stack (top to bottom, all position:fixed, all opaque):
-     0  ─ 48px   .site-nav            (z:30)   tabs
-     48 ─ 92px   #ix-sticky-bar       (z:29)   search field
-     92 ─ 140px  #main-sticky         (z:28)   filter chips
-     140+        body content starts (body padding-top:140px)
+     0  ─ 22px   .beta-bar            (z:31)   green live-count strip
+     22 ─ 70px   .site-nav            (z:30)   tabs
+     70 ─ 114px  #ix-sticky-bar       (z:29)   search field
+     114 ─ 158px #main-sticky         (z:28)   filter chips (38px chips)
+     158+        body content starts (body padding-top:158px)
    Why fixed (not sticky):
      - .sticky-bar / #main-sticky lives deep inside .container in the
        DOM. Sticky elements are constrained to their containing block,
@@ -742,16 +743,33 @@ a.site-nav-tab{
    nav-h + search-h + filter-h. Keep them in sync.
    =========================================================== */
 @media(max-width:600px){
-  /* Hide ticker on mobile — it was clipping behind the fixed nav and
-     eating screen real estate. */
-  .beta-bar{display:none !important}
+  /* === Bar 0: green live-count strip ===
+     Per user request, restored on mobile. Compact 22px tall: only
+     shows the pulse dot + the live count. The 'tag' chips
+     ('Actively refining', 'Updated recently') are hidden on
+     ≤560px by an existing rule and remain hidden — they don't fit. */
+  .beta-bar{
+    display:flex !important;
+    position:fixed !important;
+    top:0 !important;
+    left:0 !important; right:0 !important;
+    width:100% !important;
+    margin:0 !important;
+    height:22px !important;
+    padding:0 12px !important;
+    font-size:10px !important;
+    background:var(--color-brand) !important;
+    color:rgba(255,255,255,.85) !important;
+    z-index:31 !important;
+    box-shadow:none !important;
+  }
 
   /* === Bar 1: nav === */
   /* No box-shadow / border-bottom on the nav: the cream nav strip
      blends into the cream page background, and any 1px line reads as
      a stray hairline divider at the top of the page (user feedback). */
   .site-nav{
-    position:fixed; top:0; left:0; right:0; width:100%;
+    position:fixed; top:22px; left:0; right:0; width:100%;
     margin:0; padding:6px 12px; height:48px;
     background:var(--color-background-secondary);
     z-index:30;
@@ -767,7 +785,7 @@ a.site-nav-tab{
   #ix-sticky-bar{
     display:block !important;
     position:fixed !important;
-    top:48px !important;
+    top:70px !important;            /* beta 22 + nav 48 */
     left:0; right:0; width:100%;
     margin:0;
     padding:6px 14px;
@@ -796,28 +814,29 @@ a.site-nav-tab{
   .sticky-bar,
   #main-sticky{
     position:fixed !important;
-    top:92px !important;            /* nav 48 + search 44 */
+    top:114px !important;           /* beta 22 + nav 48 + search 44 */
     left:0 !important; right:0 !important;
     width:100% !important;
     margin:0 !important;
-    padding:8px 16px !important;
+    padding:6px 14px !important;    /* tighter than before; see chip below */
     box-sizing:border-box;
     background:var(--color-background-secondary) !important;
     border-bottom:none;
     box-shadow:none;
     z-index:28 !important;
+    height:44px;                    /* fixed bar height: 6+32+6 */
   }
 
   /* === Body push-down — tab-aware ===
-     Default: 48px (just the fixed nav). Applies to every page in the
-     site AND every tab on index.html that isn't the supplements list.
-     Supplements tab only: 140px (nav + sticky search + filter chips).
+     Non-index pages: 70px (beta 22 + nav 48). Other tabs on
+     index.html match this default.
+     Supplements tab only: 158px (beta 22 + nav 48 + search 44 + filter 44).
      The class is set on <html> from the inline head script for
      first-paint correctness, and mirrored to <body> for selectors
      elsewhere that key on body.tab-*. */
-  body{ padding-top:48px !important; }
+  body{ padding-top:70px !important; }
   html.tab-supplements body,
-  body.tab-supplements{ padding-top:140px !important; }
+  body.tab-supplements{ padding-top:158px !important; }
 
   /* Belt-and-suspenders: explicitly hide the search/filter bars on
      non-supplements tabs. Their parent #supplements-view is already
@@ -834,7 +853,7 @@ a.site-nav-tab{
   }
 
   /* === A-Z bar sits below the chip bar (not part of fixed stack) === */
-  .az-letter-bar{ top:140px !important; z-index:27; }
+  .az-letter-bar{ top:158px !important; z-index:27; }
 }
 
 /* ============================================================
@@ -846,10 +865,12 @@ a.site-nav-tab{
      reads in a 64px side panel. */
   .article-side-label{ font-size:9px !important; letter-spacing:.06em !important; }
 
-  /* (#2) Filter chip dropdowns — bump to 44px touch target, more
-     breathing room in the row. */
-  .cdd-btn{ min-height:44px !important; padding:10px 14px !important; font-size:13px !important; }
-  .sfbar{ gap:10px !important; }
+  /* (#2) Filter chip dropdowns — user wants them shorter. 32px tall
+     keeps them inside the 44px-tall fixed filter bar (with 6px
+     padding above/below). Touch target is below Apple's HIG min but
+     the chips are wide and well-spaced so mis-taps are rare. */
+  .cdd-btn{ min-height:32px !important; height:32px !important; padding:6px 12px !important; font-size:13px !important; line-height:1.1 !important; }
+  .sfbar{ gap:8px !important; }
 
   /* (#3) A-Z letter buttons — 36px with at-least-8px gap so the row
      is reliably tappable. */

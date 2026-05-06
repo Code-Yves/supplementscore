@@ -7,7 +7,7 @@
  * so users always get fresh data within one navigation.
  */
 
-const CACHE_VERSION = 'v2026-05-06-noNavLine';
+const CACHE_VERSION = 'v2026-05-06-betaBar4Stack';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
