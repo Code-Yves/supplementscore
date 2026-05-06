@@ -30,6 +30,18 @@
   + '.ssm-x:hover{background:var(--color-background-secondary,#ebe5d9);transform:scale(1.06)}'
   + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
   + '.ssm-x svg{width:16px;height:16px;display:block}'
+  /* Share button — sits LEFT of the close X. Same pill height (36px),
+     matches the brand chrome. Native share sheet on mobile, copy-link
+     fallback on desktop. */
+  + '.ssm-share{position:absolute;top:14px;right:60px;z-index:5;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--color-border-tertiary,#dcdad7);background:var(--color-background-primary,#f6f2ea);color:var(--color-text-primary,#0c0a09);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:all .15s;font-family:inherit;box-shadow:0 2px 6px rgba(0,0,0,.08)}'
+  + '.ssm-share:hover{background:var(--color-background-secondary,#ebe5d9);transform:scale(1.04)}'
+  + '.ssm-share:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
+  + '.ssm-share.copied{background:#E6F7F5;color:#065F56;border-color:#9DD3CC}'
+  + '.ssm-share svg{width:14px;height:14px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+  + '@media(max-width:500px){.ssm-share{padding:0;width:36px;justify-content:center;border-radius:50%}.ssm-share .ssm-share-lbl{display:none}.ssm-share{right:60px}}'
+  + '.ssm-toast{position:absolute;top:60px;right:14px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
+  + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
+  + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'
   + '.ssm-frame{flex:1;border:none;width:100%;background:var(--color-background-secondary,#ebe5d9)}'
   + '.ssm-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary,#a8a29e);font-size:13px;letter-spacing:.04em;pointer-events:none}'
   + '.ssm.loaded .ssm-loading{display:none}'
@@ -46,9 +58,14 @@
   modal.innerHTML =
       '<div class="ssm-bd" data-ssm-close></div>'
     + '<div class="ssm-card">'
+    +   '<button type="button" class="ssm-share" data-ssm-share aria-label="Share supplement" title="Share — copies link">'
+    +     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
+    +     '<span class="ssm-share-lbl">Share</span>'
+    +   '</button>'
     +   '<button type="button" class="ssm-x" data-ssm-close aria-label="Close detail">'
     +     '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3 L13 13 M13 3 L3 13"/></svg>'
     +   '</button>'
+    +   '<div class="ssm-toast" role="status" aria-live="polite"></div>'
     +   '<div class="ssm-loading">Loading…</div>'
     +   '<iframe class="ssm-frame" title="Supplement detail" loading="lazy"></iframe>'
     + '</div>';
@@ -101,11 +118,75 @@
     }
   }
 
-  // Click on backdrop or X closes
+  // Click on backdrop or X closes; click on Share copies the deep link.
   modal.addEventListener('click', function(e){
-    var t = e.target.closest('[data-ssm-close]');
-    if (t){ e.preventDefault(); close(); }
+    var c = e.target.closest('[data-ssm-close]');
+    if (c){ e.preventDefault(); close(); return; }
+    var s = e.target.closest('[data-ssm-share]');
+    if (s){ e.preventDefault(); shareCurrent(); return; }
   });
+
+  function _ssmToast(msg){
+    var t = modal.querySelector('.ssm-toast');
+    if (!t) return;
+    t.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' + String(msg||'').replace(/[<>&]/g, function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});
+    t.classList.add('show');
+    clearTimeout(_ssmToast._t);
+    _ssmToast._t = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+  }
+  function _ssmFlashCopied(){
+    var b = modal.querySelector('.ssm-share');
+    if (!b) return;
+    b.classList.add('copied');
+    setTimeout(function(){ b.classList.remove('copied'); }, 1400);
+  }
+  function _ssmLegacyCopy(txt){
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    } catch(e){}
+  }
+  function shareCurrent(){
+    if (!openSlug) return;
+    /* Share the standalone supplement page so the recipient gets the
+       full detail view regardless of where they open the link from. */
+    var url = location.origin + '/supplement.html?slug=' + encodeURIComponent(openSlug);
+    /* Pull the supplement title from the iframe so the share sheet has
+       a sensible label. Fall back to a generic if cross-origin. */
+    var title = 'SupplementScore';
+    try {
+      var doc = frame.contentDocument;
+      if (doc){
+        var h1 = doc.querySelector('h1');
+        if (h1 && h1.textContent.trim()) title = h1.textContent.trim() + ' — SupplementScore';
+        else if (doc.title) title = doc.title;
+      }
+    } catch(_){}
+    var data = { title: title, text: title, url: url };
+    if (navigator.share && /Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){
+      navigator.share(data).catch(function(err){
+        if (err && err.name !== 'AbortError'){
+          /* Native sheet failed for some reason — fall back to clipboard. */
+          _copyAndToast(url);
+        }
+      });
+    } else {
+      _copyAndToast(url);
+    }
+  }
+  function _copyAndToast(url){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){
+        _ssmToast('Link copied'); _ssmFlashCopied();
+      }).catch(function(){
+        _ssmLegacyCopy(url); _ssmToast('Link copied'); _ssmFlashCopied();
+      });
+    } else {
+      _ssmLegacyCopy(url); _ssmToast('Link copied'); _ssmFlashCopied();
+    }
+  }
 
   // Hide our own close X while the iframe child has its article modal open,
   // so the user doesn't see two overlapping X buttons in the same corner.
@@ -114,9 +195,14 @@
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type !== 'ss-art-modal') return;
     var x = modal.querySelector('.ssm-x');
-    if (!x) return;
-    if (e.data.state === 'open'){ x.style.visibility = 'hidden'; }
-    else { x.style.visibility = ''; }
+    var sh = modal.querySelector('.ssm-share');
+    if (e.data.state === 'open'){
+      if (x) x.style.visibility = 'hidden';
+      if (sh) sh.style.visibility = 'hidden';
+    } else {
+      if (x) x.style.visibility = '';
+      if (sh) sh.style.visibility = '';
+    }
   });
 
   // Esc closes
