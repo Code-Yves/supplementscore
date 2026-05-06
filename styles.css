@@ -716,40 +716,121 @@ a.site-nav-tab{
 }
 .site-nav-tab.site-nav-tab-icon.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab.site-nav-tab-icon svg{display:block}
+/* ===========================================================
+   MOBILE STICKY HEADER — single source of truth (≤600px)
+   ===========================================================
+   Stack (top to bottom, all position:fixed, all opaque):
+     0  ─ 48px   .site-nav            (z:30)   tabs
+     48 ─ 92px   #ix-sticky-bar       (z:29)   search field
+     92 ─ 140px  #main-sticky         (z:28)   filter chips
+     140+        body content starts (body padding-top:140px)
+   Why fixed (not sticky):
+     - .sticky-bar / #main-sticky lives deep inside .container in the
+       DOM. Sticky elements are constrained to their containing block,
+       which made them unreliable as siblings scrolled past — content
+       could leak through during overflow-clip glitches on iOS Safari.
+     - Three independent fixed layers with explicit tops eliminates any
+       chance of a gap where content can show through.
+   Why !important:
+     - Both index.css and styles.css declare these elements; index.css
+       wins via load order + #id specificity. !important here pins the
+       layout to a single source of truth (this block).
+     - JS in index.js writes inline `style.top` to filterBar in some
+       flows; without !important an inline style of e.g. '48px' would
+       override our '92px' and re-introduce the gap.
+   If you need to change a height, update body padding-top to match
+   nav-h + search-h + filter-h. Keep them in sync.
+   =========================================================== */
 @media(max-width:600px){
-  /* Hide the green 'X studies reviewed in last 72h' ticker on mobile.
-     Desktop nice-to-have, phone screen-real-estate hog. Also it was
-     getting clipped by the fixed nav above. */
+  /* Hide ticker on mobile — it was clipping behind the fixed nav and
+     eating screen real estate. */
   .beta-bar{display:none !important}
-  /* Site nav sticks to top of viewport. position:fixed for iOS Safari
-     reliability (sticky can break with weird parent overflow chains). */
-  .site-nav{position:fixed;top:0;left:0;right:0;width:100%;margin:0;padding:6px 12px;height:48px;background:var(--color-background-secondary);z-index:30;box-shadow:0 1px 0 rgba(15,91,80,.08),0 4px 8px -6px rgba(15,91,80,.18);overflow:hidden}
-  /* Force the inner pill to stay strictly inside the 48px strip so its
-     drop-shadow doesn't bleed into the page content area below. */
-  .site-nav .site-nav-inner{width:100%;height:100%;position:relative;background:transparent}
-  /* Push the rest of the page down so the fixed nav doesn't cover content. */
-  body{padding-top:48px !important}
-  /* Hide the standalone sticky search bar on mobile — it leaves a 60px
-     gap between the nav and the filter chips where scrolling content
-     leaks through. The hero search at the top of the page is sufficient
-     on mobile (small screens, less scrolling). */
-  #ix-sticky-bar{display:none !important}
-  /* Pin the filter chip bar directly under the nav so there's no gap
-     where page content can show through during scroll. Solid bg + z-index
-     just under the nav so nothing leaks through. */
-  .sticky-bar{top:48px;background:var(--color-background-secondary);z-index:15}
-  .az-letter-bar{top:96px}    /* nav 48 + filter ~48 */
+
+  /* === Bar 1: nav === */
+  .site-nav{
+    position:fixed; top:0; left:0; right:0; width:100%;
+    margin:0; padding:6px 12px; height:48px;
+    background:var(--color-background-secondary);
+    z-index:30;
+    box-shadow:0 1px 0 rgba(15,91,80,.08);
+    overflow:hidden;
+  }
+  .site-nav .site-nav-inner{
+    width:100%; height:100%; position:relative; background:transparent;
+  }
+
+  /* === Bar 2: sticky search field === */
+  #ix-sticky-bar{
+    display:block !important;
+    position:fixed !important;
+    top:48px !important;
+    left:0; right:0; width:100%;
+    margin:0;
+    padding:6px 14px;
+    height:44px;
+    box-sizing:border-box;
+    background:var(--color-background-secondary) !important;
+    border-bottom:1px solid rgba(15,91,80,.06);
+    z-index:29 !important;
+    /* Override the desktop hide-by-default transform/opacity. */
+    transform:none !important;
+    opacity:1 !important;
+    pointer-events:auto !important;
+    /* Override desktop's transition that fades it in/out — on mobile
+       it's permanent, no need for a transition cost. */
+    transition:none !important;
+  }
+  /* Tighten the inner search field to fill the 44px bar nicely. */
+  #ix-sticky-bar .ix-search{ height:32px; min-height:0; }
+  /* Hide the duplicate hero search input on mobile — the sticky one
+     is always visible right below the nav. */
+  .ix-hero #ix-hero-form{ display:none; }
+
+  /* === Bar 3: filter chips === */
+  /* Use both selectors and !important so we beat #main-sticky's id
+     specificity and any inline `style.top` written by index.js. */
+  .sticky-bar,
+  #main-sticky{
+    position:fixed !important;
+    top:92px !important;            /* nav 48 + search 44 */
+    left:0 !important; right:0 !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:8px 16px !important;
+    box-sizing:border-box;
+    background:var(--color-background-secondary) !important;
+    border-bottom:1px solid rgba(15,91,80,.06);
+    box-shadow:none;
+    z-index:28 !important;
+  }
+
+  /* === Body push-down ===
+     Default: 48px (just the fixed nav). Most pages on the site only
+     have the nav as a fixed top element.
+     Index page only: 140px (nav + sticky search + filter chips).
+     Detected via :has() — well supported in modern Safari/Chrome/Firefox.
+     Fallback for very old browsers without :has() support: 48px, which
+     means the search+filter bars overlap the first 92px of content
+     on those browsers — visually imperfect but not broken. */
+  body{ padding-top:48px !important; }
+  body:has(#ix-sticky-bar){ padding-top:140px !important; }
+
+  /* === A-Z bar sits below the chip bar (not part of fixed stack) === */
+  .az-letter-bar{ top:140px !important; z-index:27; }
 }
 /* Mobile flicker mitigations:
    - Reduce backdrop-filter blur (very expensive on iOS Safari and re-rasterises every scroll frame).
    - Suppress sticky :hover transforms after touch.
-   - Promote sticky bars to their own compositor layer so they don't repaint with every frame. */
+   NOTE: previously also GPU-promoted .site-nav/.sticky-bar/.az-letter-bar
+   via will-change:transform + translateZ(0). That created a new
+   stacking context per element, which on iOS Safari let sibling page
+   content composite ON TOP of the bars during scroll — i.e. the
+   "content showing through the sticky bar" bug. Removed those
+   promotions; the explicit z-index ladder in the mobile sticky-header
+   block above is sufficient and behaves correctly. */
 @media(max-width:600px){
   .hero-counter,.hero-slide-badge,.hero-arrow,.cat-hero-kicker,.cat-hero-counter,.cat-hero-icon{
     backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-  }
-  .site-nav,.sticky-bar,.az-letter-bar,.beta-bar{
-    will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(0);
   }
 }
 @media (hover: none){

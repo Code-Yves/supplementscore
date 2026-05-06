@@ -363,21 +363,10 @@
 }
 #ix-sticky-bar[aria-hidden="false"]{ pointer-events: auto; }
 .ix-search-sticky{ max-width: 560px; margin: 0 auto; }
-@media(max-width: 600px){
-  /* Mobile: always show the sticky search bar (don't gate on JS IntersectionObserver
-     which is unreliable on iOS Safari). The hero search is hidden so there's no
-     visual duplication. */
-  #ix-sticky-bar{
-    top: 36px;       /* sit immediately under the .site-nav (h:36px on mobile) */
-    padding: 7px 14px 5px;
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-  /* Hide the hero search on mobile since the sticky version is always present.
-     Keep the hero stats + heading; just remove the duplicate input. */
-  .ix-hero #ix-hero-form{ display: none; }
-}
+/* MOBILE STICKY-SEARCH RULES MOVED to styles.css's mobile-sticky-header
+   block (search at top:48px, full-width fixed). The previous rules here
+   used top:36px assuming a 36px nav height — stale; the nav is 48px on
+   mobile now, and the consolidated block in styles.css owns this. */
 
 /* "Filter by:" inline label — injected by initAllTab() as the first
    child of the .sfbar flex row, mirroring the existing "Sort:" prefix
@@ -405,7 +394,12 @@
   .sfbar-filter-by-ico{ width: 16px; height: 16px; }
 }
 
-/* Filter/sort sticky bar */
+/* Filter/sort sticky bar — DESKTOP ONLY rules here.
+   Mobile (≤600px) is handled by the consolidated mobile-sticky-header
+   block in styles.css (fixed-position, top:92px under nav+search).
+   The previous mobile override here (top:62px) conflicted with the
+   consolidated block and was the source of the 14px gap where content
+   leaked through. Removed. */
 #main-sticky{
   position: sticky;
   top: 90px;
@@ -416,9 +410,6 @@
   width: calc(100% + 2rem);
   box-sizing: border-box;
   border-bottom: 0.5px solid var(--color-border-tertiary);
-}
-@media(max-width: 600px){
-  #main-sticky{ top: 62px; }
 }
 
 /* Sources modal */
