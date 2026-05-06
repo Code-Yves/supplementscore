@@ -54,20 +54,27 @@
   + '.ssux-toc a.on{color:#155b50;border-left-color:#1F7A6B;font-weight:600}'
   + '@media(max-width:1180px){.ssux-toc{display:none}}'
     /* recently-viewed strip */
-  + '.ssux-recent{max-width:1180px;margin:24px auto 0;padding:0 1rem}'
-  + '.ssux-recent-h{font-family:\'Mona Sans\',inherit;font-weight:700;font-size:11px;letter-spacing:.14em;'
-  + 'text-transform:uppercase;color:rgba(15,23,22,.5);margin-bottom:10px;display:flex;align-items:center;gap:8px}'
-  + '.ssux-recent-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}'
+  /* Recently-viewed strip — sits ABOVE the footer (bottom of page content,
+     not above the hero). Smaller chrome, with an actually-visible Clear pill. */
+  + '.ssux-recent{max-width:1200px;margin:36px auto 16px;padding:0 1rem}'
+  + '.ssux-recent-h{font-family:\'Mona Sans\',inherit;font-weight:700;font-size:10px;letter-spacing:.12em;'
+  + 'text-transform:uppercase;color:rgba(15,23,22,.5);margin-bottom:8px;display:flex;align-items:center;gap:10px}'
+  + '.ssux-recent-strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;flex-wrap:wrap}'
   + '.ssux-recent-strip::-webkit-scrollbar{height:4px}'
   + '.ssux-recent-strip::-webkit-scrollbar-thumb{background:rgba(31,122,107,.25);border-radius:4px}'
-  + '.ssux-recent-card{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:8px 14px;'
-  + 'background:#fff;border:1px solid rgba(31,122,107,.16);border-radius:10px;text-decoration:none;color:inherit;'
-  + 'transition:transform .12s,box-shadow .12s}'
-  + '.ssux-recent-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,91,80,.10)}'
-  + '.ssux-recent-card-name{font-size:13px;font-weight:600;color:#0E1B19;letter-spacing:-.005em;white-space:nowrap}'
-  + '.ssux-recent-card-score{font-family:\'Mona Sans\',inherit;font-weight:800;font-size:12px;color:#1F7A6B;font-variant-numeric:tabular-nums}'
-  + '.ssux-recent-clear{font-family:\'Mona Sans\',inherit;font-size:10px;color:rgba(15,23,22,.4);background:none;border:0;cursor:pointer;padding:0;margin-left:auto}'
-  + '.ssux-recent-clear:hover{color:#B14F3D}'
+  /* Compact pill: smaller padding, smaller font, less prominent. */
+  + '.ssux-recent-card{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;padding:5px 11px;'
+  + 'background:#fff;border:1px solid rgba(31,122,107,.16);border-radius:999px;text-decoration:none;color:inherit;'
+  + 'transition:border-color .12s,background .12s;line-height:1.1}'
+  + '.ssux-recent-card:hover{border-color:rgba(31,122,107,.4);background:rgba(31,122,107,.04)}'
+  + '.ssux-recent-card-name{font-size:11.5px;font-weight:600;color:#0E1B19;letter-spacing:-.005em;white-space:nowrap}'
+  + '.ssux-recent-card-score{font-family:\'Mona Sans\',inherit;font-weight:800;font-size:11px;color:#1F7A6B;font-variant-numeric:tabular-nums}'
+  /* Clear button — real bordered pill, sits inline with the header label. */
+  + '.ssux-recent-clear{font-family:\'Mona Sans\',inherit;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;'
+  + 'color:#9b3a2c;background:rgba(232,150,122,.12);border:1px solid rgba(232,150,122,.45);border-radius:999px;cursor:pointer;padding:3px 10px 3px 8px;'
+  + 'margin-left:auto;display:inline-flex;align-items:center;gap:4px;line-height:1;transition:background .12s,border-color .12s,color .12s}'
+  + '.ssux-recent-clear:hover{background:rgba(232,150,122,.22);border-color:rgba(232,150,122,.7);color:#7a2c20}'
+  + '.ssux-recent-clear svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}'
     /* clinician handout button */
   + '.ssux-handout{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;'
   + 'background:rgba(31,122,107,.10);border:1px solid rgba(31,122,107,.22);color:#155b50;'
@@ -377,10 +384,10 @@
   window.ssTrackView = recentlyViewedRecord; /* exposed for app.js to call when modal opens */
 
   function initRecentlyViewedStrip(){
-    /* Only inject on the index/discover/articles pages — i.e. pages with .site-nav */
-    var anchor = document.querySelector('.site-nav, nav.site-nav');
-    if (!anchor) return;
-    /* Don't render on iframe-embedded pages or /a/ */
+    /* Only inject on top-level pages (those with a .site-nav). Skip iframe
+       embeds and per-article static pages. */
+    var navAnchor = document.querySelector('.site-nav, nav.site-nav');
+    if (!navAnchor) return;
     var sp = new URLSearchParams(location.search);
     if (sp.get('modal') === '1') return;
     if (/\/a\//.test(location.pathname)) return;
@@ -389,8 +396,13 @@
     if (!Array.isArray(list) || list.length === 0) return;
     var box = document.createElement('div');
     box.className = 'ssux-recent';
-    var hdr = '<div class="ssux-recent-h">Recently viewed'
-      + '<button type="button" class="ssux-recent-clear" title="Clear">Clear</button></div>';
+    /* Header with prominent Clear pill (with × icon) on the right. */
+    var hdr = '<div class="ssux-recent-h">'
+      + '<span>Recently viewed</span>'
+      + '<button type="button" class="ssux-recent-clear" title="Clear recently-viewed history" aria-label="Clear recently viewed">'
+      +   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+      +   '<span>Clear</span>'
+      + '</button></div>';
     var strip = '<div class="ssux-recent-strip">';
     list.forEach(function(it){
       var href = it.slug
@@ -403,8 +415,17 @@
     });
     strip += '</div>';
     box.innerHTML = hdr + strip;
-    /* Place it right after the nav */
-    if (anchor.parentNode) anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    /* Place it just BEFORE the .site-footer (or the new dark-green
+       .frfoot/.site-footer) so it sits at the bottom of the page content
+       — not above the hero where it was eating prime real estate. */
+    var footer = document.querySelector('footer.site-footer, footer.frfoot, .site-footer, .frfoot');
+    if (footer && footer.parentNode){
+      footer.parentNode.insertBefore(box, footer);
+    } else {
+      /* Fallback: append to body. Pages with no .site-footer (e.g. /condition/
+         deep dives) still get the strip at the very end. */
+      document.body.appendChild(box);
+    }
     box.querySelector('.ssux-recent-clear').addEventListener('click', function(){
       try { localStorage.removeItem(RV_KEY); } catch(_){}
       box.remove();
