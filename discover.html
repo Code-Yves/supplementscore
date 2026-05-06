@@ -1684,6 +1684,60 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
       if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(slug); }
     });
   });
+
+  /* Make every supplement name throughout the Discover page clickable
+     so it routes to the same supplement-modal as the rank rows above.
+     Targets:
+       .dc-vs-name           — pregnancy take/avoid + cheap/pricey tables
+       .dc-goal-list li b    — By-goal grid (Sleep, Focus, Strength, etc.)
+     Approach: replace the inline element with an <a href> in place. The
+     site-wide supplement-modal.js intercepts a[href*="supplement.html?slug="]
+     and opens the iframe overlay, so we get the full detail page for free.
+
+     Skip rules:
+       - Anything that's already inside an anchor (e.g. previous run, or
+         hand-coded link).
+       - Names that don't slugify to a meaningful string (defensive). */
+  function linkify(el, label){
+    if (!el || !el.parentNode) return;
+    if (el.closest('a[href*="supplement.html?slug="]')) return;
+    var slug = slugify(label || el.textContent);
+    if (!slug) return;
+    var a = document.createElement('a');
+    a.href = 'supplement.html?slug=' + encodeURIComponent(slug);
+    a.className = (el.className ? el.className + ' ' : '') + 'dc-supp-link';
+    /* Preserve the original tag's children so styling/font is unchanged. */
+    while (el.firstChild) a.appendChild(el.firstChild);
+    /* Inherit colour and remove default underline; CSS adds an on-hover
+       underline to signal interactivity without making the page feel busy. */
+    a.style.color = 'inherit';
+    a.style.textDecoration = 'none';
+    a.setAttribute('aria-label', a.textContent.trim() + ' — view supplement detail');
+    el.parentNode.replaceChild(a, el);
+  }
+
+  /* Pregnancy + Most-expensive vs Cheapest tables. */
+  document.querySelectorAll('.dc-vs-name').forEach(function(el){
+    linkify(el, el.textContent);
+  });
+
+  /* By-goal grid — names live inside <li><b>NAME</b><span>DOSE</span></li>.
+     Linkify the <b> in place. */
+  document.querySelectorAll('.dc-goal-list li b').forEach(function(el){
+    linkify(el, el.textContent);
+  });
+})();
+/* Light interactivity styling for the linkified supplement names — no
+   layout shift, just an on-hover underline + colour cue. */
+(function(){
+  if (document.getElementById('dc-supp-link-style')) return;
+  var s = document.createElement('style');
+  s.id = 'dc-supp-link-style';
+  s.textContent = ''
+    + '.dc-supp-link{ cursor:pointer; transition:color .12s; }'
+    + '.dc-supp-link:hover{ color:var(--color-brand,#1F7A6B) !important; text-decoration:underline !important; text-underline-offset:2px; text-decoration-thickness:1px; }'
+    + '.dc-supp-link:focus-visible{ outline:2px solid var(--color-brand,#1F7A6B); outline-offset:2px; border-radius:3px; }';
+  document.head.appendChild(s);
 })();
 </script>
 
