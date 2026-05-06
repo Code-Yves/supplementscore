@@ -4445,6 +4445,17 @@ function switchTab(tab){
   }
   // Update active tab
   Object.keys(tabs).forEach(k=>{if(tabs[k])tabs[k].classList.toggle('active',k===tab);});
+  /* Reflect the active tab as a body class so mobile CSS can scope
+     things like the sticky-search/filter chrome (which only exists
+     on the supplements tab) and the body padding-top that reserves
+     space for them. Without this, body:has(#ix-sticky-bar) matches
+     on every tab even when the bars are hidden, leaving 92px of
+     empty space at the top. */
+  try {
+    document.body.className = document.body.className
+      .replace(/\btab-(supplements|research|profile|about)\b/g, '').trim();
+    document.body.classList.add('tab-' + tab);
+  } catch(_){}
   if(tab==='about'){
     const src=document.getElementById('about-content-inline');
     const tgt=document.getElementById('about-content-target');

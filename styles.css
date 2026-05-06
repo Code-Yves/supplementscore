@@ -804,20 +804,77 @@ a.site-nav-tab{
     z-index:28 !important;
   }
 
-  /* === Body push-down ===
-     Default: 48px (just the fixed nav). Most pages on the site only
-     have the nav as a fixed top element.
-     Index page only: 140px (nav + sticky search + filter chips).
-     Detected via :has() — well supported in modern Safari/Chrome/Firefox.
-     Fallback for very old browsers without :has() support: 48px, which
-     means the search+filter bars overlap the first 92px of content
-     on those browsers — visually imperfect but not broken. */
+  /* === Body push-down — tab-aware ===
+     Default: 48px (just the fixed nav). Applies to every page in the
+     site AND every tab on index.html that isn't the supplements list.
+     Supplements tab only: 140px (nav + sticky search + filter chips).
+     The class is set on <html> from the inline head script for
+     first-paint correctness, and mirrored to <body> for selectors
+     elsewhere that key on body.tab-*. */
   body{ padding-top:48px !important; }
-  body:has(#ix-sticky-bar){ padding-top:140px !important; }
+  html.tab-supplements body,
+  body.tab-supplements{ padding-top:140px !important; }
+
+  /* Belt-and-suspenders: explicitly hide the search/filter bars on
+     non-supplements tabs. Their parent #supplements-view is already
+     display:none on those tabs so this is redundant on a healthy
+     load, but it's cheap insurance against any flash-of-bars during
+     a tab transition. */
+  html:not(.tab-supplements) body #ix-sticky-bar,
+  html:not(.tab-supplements) body #main-sticky,
+  html:not(.tab-supplements) body .sticky-bar,
+  body:not(.tab-supplements) #ix-sticky-bar,
+  body:not(.tab-supplements) #main-sticky,
+  body:not(.tab-supplements) .sticky-bar{
+    display:none !important;
+  }
 
   /* === A-Z bar sits below the chip bar (not part of fixed stack) === */
   .az-letter-bar{ top:140px !important; z-index:27; }
 }
+
+/* ============================================================
+   MOBILE POLISH PASS (≤600px) — supplements to the audit findings
+   ============================================================ */
+@media(max-width:600px){
+  /* (#1) Article-card vertical category label was 5.5px — illegible.
+     Bump to 9px and lighten letter-spacing so the rotated label still
+     reads in a 64px side panel. */
+  .article-side-label{ font-size:9px !important; letter-spacing:.06em !important; }
+
+  /* (#2) Filter chip dropdowns — bump to 44px touch target, more
+     breathing room in the row. */
+  .cdd-btn{ min-height:44px !important; padding:10px 14px !important; font-size:13px !important; }
+  .sfbar{ gap:10px !important; }
+
+  /* (#3) A-Z letter buttons — 36px with at-least-8px gap so the row
+     is reliably tappable. */
+  .az-letter-btn{ width:36px !important; height:36px !important; }
+  .az-letter-bar{ gap:8px !important; }
+
+  /* (#5) Articles hero was 460px tall on mobile — eats the fold.
+     Pull it down to ~340px so the article list shows above the fold. */
+  .hero{ min-height:340px !important; }
+  .hero-slide{ inset:32px 16px 80px 16px !important; }
+
+  /* (#7) Footer contributor form input/button — 44px target. */
+  .site-footer-contrib-form input,
+  .site-footer-contrib-form button{ min-height:44px !important; }
+}
+
+/* ============================================================
+   SITE-WIDE QUALITY (all viewports)
+   ============================================================ */
+/* (#6) Anchor jumps shouldn't bury the heading under the fixed nav.
+   Apply scroll-margin-top to all heading + id-anchored elements so
+   in-page links land below the chrome. */
+:where(h1,h2,h3,h4,h5,h6,[id]){ scroll-margin-top:60px; }
+:where(html){ scroll-padding-top:60px; }
+
+/* (#9) Horizontal-scroll backstop. Several legacy elements use
+   width:calc(100% + 2rem) with negative margins to bleed full-width;
+   if any future element overshoots, clip rather than scroll. */
+html, body{ overflow-x:hidden; max-width:100vw; }
 /* Mobile flicker mitigations:
    - Reduce backdrop-filter blur (very expensive on iOS Safari and re-rasterises every scroll frame).
    - Suppress sticky :hover transforms after touch.

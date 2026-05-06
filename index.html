@@ -19,6 +19,20 @@
   if (h === 'research' || h === 'about') {
     document.documentElement.setAttribute('data-pre-tab', h);
   }
+  /* Set tab-* class on <html> from first paint so the mobile CSS rule
+     html.tab-supplements body{padding-top:140px} (which scopes the
+     fixed-header reservation) is applied before any rendering — no
+     flash of 48-then-140 padding shift on supplements arrivals.
+     <html> exists during <head> execution; <body> does not. */
+  var tab = (h === 'research' || h === 'profile' || h === 'about') ? h : 'supplements';
+  document.documentElement.classList.add('tab-' + tab);
+  /* Mirror to body once it exists, so existing body.tab-* selectors
+     in switchTab() and elsewhere keep working. */
+  function _mirrorTab(){
+    if (document.body) document.body.classList.add('tab-' + tab);
+  }
+  if (document.body) _mirrorTab();
+  else document.addEventListener('DOMContentLoaded', _mirrorTab, { once: true });
 })();
 </script>
 <style id="ss-pre-tab-style">
@@ -198,10 +212,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260506a">
+<link rel="stylesheet" href="styles.css?v=20260506b">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260506a">
+<link rel="stylesheet" href="index.css?v=20260506b">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
