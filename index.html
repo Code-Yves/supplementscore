@@ -16403,9 +16403,16 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <!-- Supplement detail modal overlay -->
 <div role="dialog" aria-modal="true" id="supp-modal" class="art-modal" onclick="if(event.target===this)closeSuppModal()">
   <div role="dialog" aria-modal="true" class="art-modal-pane" style="max-width:560px">
-    <button class="art-modal-close" onclick="closeSuppModal()" aria-label="Close">
-      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
+    <div role="dialog" aria-modal="true" class="art-modal-actions" style="position:absolute;top:10px;right:12px;display:flex;align-items:center;gap:8px;z-index:3">
+      <button id="supp-share-btn" class="art-share-btn" onclick="shareSupp()" aria-label="Share supplement" title="Share supplement">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="art-share-label">Share</span>
+      </button>
+      <button class="art-modal-close" onclick="closeSuppModal()" aria-label="Close" style="position:static">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="supp-share-toast" class="art-share-toast" role="status" aria-live="polite"></div>
     <div id="supp-modal-body" style="padding:1.5rem 2rem 2rem"></div>
   </div>
 </div>
