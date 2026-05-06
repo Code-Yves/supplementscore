@@ -747,12 +747,16 @@ a.site-nav-tab{
   .beta-bar{display:none !important}
 
   /* === Bar 1: nav === */
+  /* No box-shadow / border-bottom on the nav: the cream nav strip
+     blends into the cream page background, and any 1px line reads as
+     a stray hairline divider at the top of the page (user feedback). */
   .site-nav{
     position:fixed; top:0; left:0; right:0; width:100%;
     margin:0; padding:6px 12px; height:48px;
     background:var(--color-background-secondary);
     z-index:30;
-    box-shadow:0 1px 0 rgba(15,91,80,.08);
+    box-shadow:none;
+    border-bottom:none;
     overflow:hidden;
   }
   .site-nav .site-nav-inner{
@@ -770,7 +774,7 @@ a.site-nav-tab{
     height:44px;
     box-sizing:border-box;
     background:var(--color-background-secondary) !important;
-    border-bottom:1px solid rgba(15,91,80,.06);
+    border-bottom:none;
     z-index:29 !important;
     /* Override the desktop hide-by-default transform/opacity. */
     transform:none !important;
@@ -799,7 +803,7 @@ a.site-nav-tab{
     padding:8px 16px !important;
     box-sizing:border-box;
     background:var(--color-background-secondary) !important;
-    border-bottom:1px solid rgba(15,91,80,.06);
+    border-bottom:none;
     box-shadow:none;
     z-index:28 !important;
   }

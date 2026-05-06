@@ -45,7 +45,11 @@
   + '.ssm-frame{flex:1;border:none;width:100%;background:var(--color-background-secondary,#ebe5d9)}'
   + '.ssm-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary,#a8a29e);font-size:13px;letter-spacing:.04em;pointer-events:none}'
   + '.ssm.loaded .ssm-loading{display:none}'
-  + '@media(max-width:680px){.ssm-card{margin:0;width:100%;height:100vh;border-radius:0;border:none}}'
+  /* Full-bleed at ≤600px to match .art-modal's mobile breakpoint
+     (styles.css). Previously 680px, which left a 32px floating
+     margin on the 601-680px range while .art-modal already went
+     full-bleed there — visually inconsistent. */
+  + '@media(max-width:600px){.ssm-card{margin:0;width:100%;height:100vh;border-radius:0;border:none}.ssm-share{right:60px}.ssm-x{top:10px;right:10px}}'
   + 'body.ssm-locked{overflow:hidden}';
   document.head.appendChild(styleEl);
 
