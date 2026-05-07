@@ -405,12 +405,16 @@ body.is-modal .det-jump{top:0}
     return '<li><a href="'+escAttr(window.SS.urlFor('biomarker', b.slug))+'"><span>'+escHtml(b.name)+'</span><span class="det-ltag">Biomarker</span></a></li>';
   }, bioms.length);
 
-  // 4th cell — Trending if flagged, else Articles count or skip
+  // 4th cell — Trending only. Previously rendered an Articles cell here
+  // ('Curated reading available — see Sources below.') but the Sources
+  // section directly underneath this grid already lists the curated
+  // articles, making this filler redundant (user feedback). Drop the
+  // cell entirely when not trending — the 2x2 grid gracefully becomes a
+  // 3-cell layout (CSS .det-rel-cell:nth-last-child(-n+2) handles
+  // border math regardless of cell count).
   var fourthCellHtml = '';
   if (s.tr){
     fourthCellHtml = '<div class="det-rel-cell"><div class="det-rel-h"><span>Trending</span></div><div style="font-size:12px;line-height:1.55;color:var(--color-text-secondary)">Currently popular in wellness culture. Trending ≠ proven — see the score for actual evidence weight.</div></div>';
-  } else {
-    fourthCellHtml = '<div class="det-rel-cell"><div class="det-rel-h"><span>Articles</span><span class="cnt">'+artiles.length+'</span></div><div style="font-size:12px;line-height:1.55;color:var(--color-text-secondary)">'+(artiles.length ? 'Curated reading available — see Sources below.' : 'No articles yet on file.')+'</div></div>';
   }
 
   // Sources — subtle article icon + read time

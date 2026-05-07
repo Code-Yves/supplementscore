@@ -1827,9 +1827,24 @@ function filterSuppSearch(q){
   const dd=document.getElementById('add-supp-dropdown');
   if(!dd)return;
   q=(q||'').trim().toLowerCase();
-  // Empty query (focus with no text) → show 8 highest-scoring supplements as "popular".
+  /* Per user feedback: search must NOT show items already in the
+     user's plan ('Already on list' tag was confusing). Build the
+     exclusion set once per call. */
+  const excluded=new Set([
+    ...((_lastRecs||[]).map(r=>r.n)),
+    ...(userAddedSupps||[])
+  ]);
+  // Empty query (focus with no text) → show up to 8 highest-scoring
+  // supplements not already on the user's plan.
   if(!q){
-    const popular=S.slice().sort((a,b)=>calcScore(b)-calcScore(a)).slice(0,8);
+    const popular=S.filter(s=>!excluded.has(s.n))
+                  .sort((a,b)=>calcScore(b)-calcScore(a))
+                  .slice(0,8);
+    if(!popular.length){
+      dd.innerHTML='<div class="ac-empty">All supplements are already in your plan.</div>';
+      dd.style.display='block';
+      return;
+    }
     const recNames=new Set((_lastRecs||[]).map(r=>r.n));
     const addedNames=new Set(userAddedSupps||[]);
     dd.innerHTML='<div class="ac-hdr">Popular supplements</div>'+popular.map((s,i)=>{
@@ -1843,9 +1858,12 @@ function filterSuppSearch(q){
     dd.style.display='block';
     return;
   }
-  // Fuzzy-ish match on name or tag (category). Prefer name matches first.
+  // Fuzzy-ish match on name or tag (category) across the full 733-supp
+  // database. Prefer name matches first. Exclude anything already in
+  // the user's plan so the dropdown only offers add-able items.
   const scored=[];
   for(const s of S){
+    if(excluded.has(s.n))continue;
     const nm=s.n.toLowerCase();
     const tg=(s.tag||'').toLowerCase();
     const nmIdx=nm.indexOf(q);
@@ -1854,7 +1872,8 @@ function filterSuppSearch(q){
     else if(tgIdx>=0)scored.push({s,rank:100+tgIdx});
   }
   scored.sort((a,b)=>a.rank-b.rank);
-  const matches=scored.slice(0,8).map(x=>x.s);
+  // Bumped 8 → 12 — user wants easier access to the full database.
+  const matches=scored.slice(0,12).map(x=>x.s);
   if(!matches.length){dd.innerHTML='<div class="ac-empty">No supplements match \u201C'+escHtml(q)+'\u201D</div>';dd.style.display='block';return;}
   const recNames=new Set(_lastRecs.map(r=>r.n));
   const addedNames=new Set(userAddedSupps);
@@ -4150,7 +4169,13 @@ function calcBMI(){
 
 /* ── Profile persistence: localStorage + URL + email ── */
 function saveProfile(){
-  const profile={age:document.getElementById('asl').value,sex:sex,meds:[...selectedMeds],conds:[...selectedConds],goals:[...selectedGoals],
+  const profile={age:document.getElementById('asl').value,sex:sex,meds:[...selectedMeds],
+    /* Persist the typeahead-picked specific drugs too. Without this,
+       'Your last profile has been restored' would show '1 selected' but
+       no removable chip — the drug was internally remembered (selectedMeds
+       class) but the specific drug name was lost. */
+    drugs:(typeof selectedDrugs!=='undefined')?[...selectedDrugs]:[],
+    conds:[...selectedConds],goals:[...selectedGoals],
     heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
     // Plan B1 — Health Status fields
@@ -4197,6 +4222,14 @@ function loadProfile(){
     // have saved a med/condition/goal key that has since been removed from data.js;
     // without this filter, downstream code would do MEDS[k].avoid.forEach(...) and crash.
     if(Array.isArray(p.meds)){selectedMeds=new Set(p.meds.filter(k=>MEDS&&MEDS[k]));renderMedChips();}
+    /* Restore typeahead-picked specific drugs + render their X-removable
+       chips. Filter against the live drug catalogue so a stale payload
+       can't reference a drug key that no longer exists. */
+    if(Array.isArray(p.drugs) && typeof selectedDrugs!=='undefined'){
+      var _drugCat = (typeof DRUG_INTERACTIONS!=='undefined' && DRUG_INTERACTIONS.drugs) ? DRUG_INTERACTIONS.drugs : {};
+      selectedDrugs = new Set(p.drugs.filter(function(k){return _drugCat[k];}));
+      if(typeof renderDrugChips==='function') renderDrugChips();
+    }
     if(Array.isArray(p.conds)){selectedConds=new Set(p.conds.filter(k=>CONDITIONS&&CONDITIONS[k]));renderCondChips();}
     if(Array.isArray(p.goals)){selectedGoals=new Set(p.goals.filter(k=>GOALS&&GOALS[k]));renderGoalChips();}
     // Plan B1 — restore Health Status

@@ -75,12 +75,16 @@
   + 'margin-left:auto;display:inline-flex;align-items:center;gap:4px;line-height:1;transition:background .12s,border-color .12s,color .12s}'
   + '.ssux-recent-clear:hover{background:rgba(232,150,122,.22);border-color:rgba(232,150,122,.7);color:#7a2c20}'
   + '.ssux-recent-clear svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}'
-    /* clinician handout button */
-  + '.ssux-handout{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;'
+    /* clinician handout button — wrapped in a block so it claims its
+       own line above the article H1 (was overlapping the title because
+       the button alone was display:inline-flex). Button itself slimmed
+       per user 'button too big?' feedback. */
+  + '.ssux-handout-wrap{display:block;margin:0 0 14px 0}'
+  + '.ssux-handout{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;'
   + 'background:rgba(31,122,107,.10);border:1px solid rgba(31,122,107,.22);color:#155b50;'
-  + 'font-family:\'Mona Sans\',inherit;font-weight:600;font-size:12.5px;cursor:pointer;text-decoration:none;transition:background .12s}'
+  + 'font-family:\'Mona Sans\',inherit;font-weight:600;font-size:11px;letter-spacing:.005em;cursor:pointer;text-decoration:none;transition:background .12s;line-height:1.2}'
   + '.ssux-handout:hover{background:rgba(31,122,107,.16)}'
-  + '.ssux-handout svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+  + '.ssux-handout svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     /* print-only optimized layout (clinician handout uses window.print()) */
     /* breadcrumbs */
   + '.ssux-bc{font-family:\'Mona Sans\',inherit;font-size:11.5px;color:rgba(15,23,22,.55);'
@@ -468,7 +472,12 @@
       window.print();
     });
     /* Place it inline at the top of the article */
-    target.insertBefore(btn, target.firstChild);
+    /* Wrap in a block container so the button sits on its own line
+       above the H1 (was rendering inline, overlapping the title). */
+    var wrap = document.createElement('div');
+    wrap.className = 'ssux-handout-wrap';
+    wrap.appendChild(btn);
+    target.insertBefore(wrap, target.firstChild);
   }
 
   /* ---------- Breadcrumbs on detail pages ---------- */
