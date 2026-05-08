@@ -2046,127 +2046,92 @@ function renderSuppCards(recs,mi,bwResults){
   function cardHtml(r,tier){
     const sc=scoreFor(r);
     const sup=_suppByName.get(r.n);
-    const isSelected=selectedSupps.has(r.n);
-    const scoreBg=sc>=72?'#0D9488':sc>=60?'#4B7BE5':sc>=40?'#CA8A04':'#B91C1C';
-    const bwBadge=bwBadgeFor(r);
-    // Tags: always show efficacy, safety, tier, then categories
-    let tags='';
-    const eff=sup?sup.e:r.e;
-    const saf=sup?sup.s:r.s;
-    const rd=sup?sup.r||1:1;
-    // Inline rating row — matches the detail-page treatment (Efficacy 4\u2605 Safety 4\u2605 Research 4\u2605).
-    // No pill backgrounds; small label + bold number + teal star. Drops the old "Tier N evidence" pill
-    // in favour of a numeric Research rating drawn from the same `rd` field the detail page uses.
-    tags+=`<span class="sct-rating"><span class="sct-rating-lbl">Efficacy</span><span class="sct-rating-num">${eff}</span><span class="sct-rating-star">\u2605</span></span>`;
-    tags+=`<span class="sct-rating"><span class="sct-rating-lbl">Safety</span><span class="sct-rating-num">${saf}</span><span class="sct-rating-star">\u2605</span></span>`;
-    tags+=`<span class="sct-rating"><span class="sct-rating-lbl">Research</span><span class="sct-rating-num">${rd}</span><span class="sct-rating-star">\u2605</span></span>`;
-    // Add category tags from supplement data
-    if(sup&&sup.tag){sup.tag.split(' · ').forEach(t=>{const tt=t.trim();if(tt)tags+=`<span class="supp-card-tag sct-cat">${tt}</span>`;});}
-    if(r._userAdded)tags+=`<span class="supp-card-tag sct-added">Added by you</span>`;
-    // ── Positive pairing — surface a partner that's also in the user's stack ──
-    // Adjacent same-slot partner is preferred, cross-slot partner falls through.
-    const pairPartner=_stackPairMap.get(r.n);
-    if(pairPartner){
-      tags+=`<span class="supp-card-tag sct-pair">\u{1F517} Pairs with ${escHtml(pairPartner)}</span>`;
+    const scCls=sc>=72?'s-high':sc>=60?'s-mid':sc>=40?'s-low':'s-bad';
+    const safeId='rnc-'+r.n.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+    // Category chips (first 3 tags)
+    const chips=sup&&sup.tag?sup.tag.split(' · ').slice(0,3).map(t=>`<span class="rn-chip">${escHtml(t.trim())}</span>`).join(''):'';
+    // Summary text
+    const desc=sup?sup.desc||'':'';
+    const summaryHtml=desc?`<div class="rn-summary">${escHtml(desc.length>130?desc.slice(0,130)+'…':desc)}</div>`:'';
+    // Positive pairings in the user's stack (up to 2)
+    const positivePairs=(typeof getPairPartners==='function'?getPairPartners(r.n):[]).filter(p=>_pairSet.has(p)).slice(0,2);
+    // Negative cautions in the user's stack (up to 1)
+    const negativePairs=(typeof getSuppCautionsIn==='function')?getSuppCautionsIn(r.n,_stackNames).slice(0,1):[];
+    function pmBars(strength,neg){let s='';for(let i=1;i<=5;i++)s+=`<div class="rn-pm-bar${i<=strength?(neg?' on-warn':' on'):''}"></div>`;return`<div class="rn-pm">${s}</div>`;}
+    let pairsHtml='';
+    if(positivePairs.length||negativePairs.length){
+      const rows=[];
+      positivePairs.forEach(partner=>{
+        const details=(typeof getPairDetails==='function')?getPairDetails(r.n,partner):null;
+        const reason=details?details.reason:'Complementary combination';
+        const strength=details?details.strength:3;
+        rows.push(`<div class="rn-pair-row"><div class="rn-pair-main"><span class="rn-pair-name">${escHtml(partner)}</span><span class="rn-pair-reason">${escHtml(reason)}</span></div>${pmBars(strength,false)}<span class="rn-pair-state inplan">In your plan</span></div>`);
+      });
+      negativePairs.forEach(c=>{
+        const sev=c.severity==='avoid'?'Do not combine':'Space apart';
+        rows.push(`<div class="rn-pair-row neg"><div class="rn-pair-main"><span class="rn-pair-name">${escHtml(c.with)}</span><span class="rn-pair-reason">${escHtml(c.reason)}</span></div>${pmBars(3,true)}<span class="rn-pair-state neg-state">${sev}</span></div>`);
+      });
+      pairsHtml=`<div class="rn-pairs"><div class="rn-pairs-label">Pairs with</div>${rows.join('')}</div>`;
     }
-    // ── Supplement-supplement conflicts with items ALSO in the current stack ──
-    const stackConflicts=(typeof getSuppCautionsIn==='function')?getSuppCautionsIn(r.n,_stackNames):[];
-    let conflictBlock='';
-    if(stackConflicts.length){
-      const hasAvoid=stackConflicts.some(c=>c.severity==='avoid');
-      // Removed the top-row "Stack caution · N supps" pill — the same information is
-      // surfaced more clearly by the inline-chip "Caution with [chip] [chip]" line below.
-      // Inline-chip layout: one line per reason, with conflicting partners as chips.
-      // Drops the nested header + outer panel of the previous treatment in favour of a
-      // single tight row that reads "Caution with [Omega-3] [Curcumin] [NAC] — reason".
-      const byR={};
-      stackConflicts.forEach(c=>{if(!byR[c.reason])byR[c.reason]={severity:c.severity,partners:[]};if(!byR[c.reason].partners.includes(c.with))byR[c.reason].partners.push(c.with);});
-      const lines=Object.entries(byR).map(([reason,v])=>{
-        const sev=v.severity==='avoid'?'avoid':'caution';
-        const lead=v.severity==='avoid'?'\u26A0 Do not stack with':'\u26A0 Caution with';
-        const chips=v.partners.map(p=>`<span class="sc-conflict-chip sc-conflict-chip-${sev}">${escHtml(p)}</span>`).join('');
-        return `<div class="sc-conflict-line"><span class="sc-conflict-lead sc-conflict-lead-${sev}">${lead}</span>${chips}<span class="sc-conflict-why">\u2014 ${escHtml(reason)}</span></div>`;
-      }).join('');
-      conflictBlock=`<div class="sc-conflicts">${lines}</div>`;
-    }
-    // ── Phase 2 / Item #2: drug-supplement conflicts ──
-    // Pulls from selectedMeds (class chips) + selectedDrugs (specific drugs the user typed).
-    const drugConflicts=(typeof getAllDrugConflicts==='function')?getAllDrugConflicts(r.n,selectedMeds,Array.from(selectedDrugs||[])):[];
-    let drugConflictBlock='';
-    if(drugConflicts.length){
-      const hasAvoidDr=drugConflicts.some(c=>c.severity==='avoid');
-      const allExtra=drugConflicts.every(c=>c.severity==='extra');
-      const dTagCls=hasAvoidDr?'sct-danger':(allExtra?'sct-pair':'sct-warn');
-      const dTagLbl=hasAvoidDr?'Do not combine with':(allExtra?'\u{1F48A} Recommended with':'Drug caution');
-      const uniqDrugs=[...new Set(drugConflicts.map(c=>c.drug_label||c.drug))];
-      tags+=`<span class="supp-card-tag ${dTagCls}">⚠ ${dTagLbl} · ${uniqDrugs.length} med${uniqDrugs.length!==1?'s':''}</span>`;
-      const byM={};
-      drugConflicts.forEach(c=>{const k=c.mechanism||c.drug_label;if(!byM[k])byM[k]={severity:c.severity,drugs:[]};if(!byM[k].drugs.includes(c.drug_label||c.drug))byM[k].drugs.push(c.drug_label||c.drug);});
-      const dRows=Object.entries(byM).map(([mech,v])=>{
-        const sev=v.severity==='avoid'?'avoid':(v.severity==='extra'?'extra':'caution');
-        const sevLbl=v.severity==='avoid'?'Do not combine':v.severity==='extra'?'Often recommended':'Caution';
-        return `<div class="supp-card-conflict-row supp-card-drug-${sev}"><span class="supp-card-conflict-sev">${sevLbl}</span><span class="supp-card-conflict-reason">${escHtml(mech)}</span><span class="supp-card-conflict-with">with ${v.drugs.map(d=>escHtml(d)).join(', ')}</span></div>`;
-      }).join('');
-      const header=hasAvoidDr
-        ?'Interacts with medication(s) you take — talk to your pharmacist before combining'
-        :(allExtra
-          ?'Often clinically recommended alongside this medication — confirm with your prescriber'
-          :'Interacts with medication(s) you take');
-      drugConflictBlock=`<div class="supp-card-conflicts supp-card-drug-conflicts"><div class="supp-card-conflicts-hdr">${header}</div>${dRows}<div class="supp-card-drug-disclaimer">Not medical advice. Talk to your pharmacist or prescriber before any change.</div></div>`;
-    }
-    // Description — show full supplement desc
-    const desc=sup?sup.desc:'';
-    // Why recommended — always show
-    const why=r.why||'';
-    const whyLabel=r._userAdded?'You added this':'Why recommended';
-    // X button appears on every card. For user-added items it removes them from the "added" list; for
-    // engine recommendations it hides them so they don't keep showing up on future recalculations.
-    // The checkbox state (elsewhere) is independent — users can still simply uncheck to exclude from
-    // the exported plan while keeping the card on screen.
-    const removeBtn=`<button class="sc-remove" title="${r._userAdded?'Remove from your list':'Hide this recommendation'}" aria-label="${r._userAdded?'Remove':'Hide'} ${escAttr(r.n)}" onclick="${r._userAdded?'removeUserSupp':'hideSupp'}(this.closest('.supp-card').getAttribute('data-supp'),event)">\u00D7</button>`;
-
-    // Phase 0 / Item #9: last-reviewed date footer — small, subtle, with tooltip.
-    const lr=lastReviewedFor(r.n);
-    const lrLine=lr?`<div class="supp-card-reviewed" title="Reviewed against PubMed and listed sources every 22 days. Tier-4 safety entries are reviewed more often.">Last reviewed: ${fmtReviewDate(lr)}</div>`:'';
-    return`<div class="supp-card${isSelected?' sc-selected':''}${stackConflicts.length||drugConflicts.length?' supp-card-has-conflict':''}" data-supp="${escAttr(r.n)}" onclick="toggleSuppCard(this)"><div class="supp-card-check"></div>${removeBtn}<div class="supp-card-top"><div class="supp-card-score" style="background:${scoreBg}">${sc}</div><div class="supp-card-name">${escHtml(r.n)}</div></div><div class="supp-card-tags">${tags}${bwBadge}</div>${desc?`<div class="supp-card-desc">${escHtml(desc)}</div>`:''}${conflictBlock}${drugConflictBlock}<div class="supp-card-why"><span class="supp-card-why-label">${whyLabel}</span>${escHtml(why)}</div>${lrLine}</div>`;
+    // Drug interaction warning
+    const cList=mi.caution[r.n]||[];
+    const drugWarnHtml=cList.length?`<div class="rn-drug-warn">⚡ Caution with: ${cList.map(escHtml).join(', ')} — consult your prescriber.</div>`:'';
+    // Expanded content
+    const tips=sup&&sup.tips?sup.tips:'';
+    const doseText=r.dose||'';
+    const timing=getTimingLabel(r);
+    const timingNote=timing?` · ${timing.time}`:'';
+    const whyLabel=r._userAdded?'You added this':'Why recommended for you';
+    const expandedSecs=[
+      `<div class="rn-body-sec"><div class="rn-body-label">${whyLabel}</div><div class="rn-body-text">${escHtml(r.why||'')}</div></div>`,
+      doseText?`<div class="rn-body-sec"><div class="rn-body-label">How to take it</div><div class="rn-body-text">${escHtml(doseText)}${timingNote?`<br><span style="font-size:10.5px;color:var(--color-text-tertiary)">${escHtml(timingNote)}</span>`:''}</div></div>`:'',
+      tips?`<div class="rn-body-sec"><div class="rn-body-label">Timing &amp; tips</div><div class="rn-body-text">${escHtml(tips)}</div></div>`:'',
+    ].filter(Boolean).join('');
+    const hasArts=typeof ARTICLE_MAP!=='undefined'&&ARTICLE_MAP[r.n]&&ARTICLE_MAP[r.n].length;
+    const artsBtnHtml=hasArts?`<button class="rn-cta" onclick="rnOpenArticles(${JSON.stringify(r.n)},event)">Research articles</button>`:'';
+    return`<div class="rn-card ${scCls}" id="${safeId}" data-supp="${escAttr(r.n)}"><div class="rn-face"><div class="rn-name-row"><div class="rn-name-group"><span class="rn-name">${escHtml(r.n)}</span><span class="rn-score ${scCls}">${sc}</span></div><button class="rn-remove" onclick="rnRemove('${safeId}',event)" title="Remove ${escAttr(r.n)}">×</button></div>${chips?`<div class="rn-chips">${chips}</div>`:''}${summaryHtml}${pairsHtml}</div><button class="rn-expand" onclick="rnTog('${safeId}')"><span>See more</span> <span class="rn-chev">▾</span></button><div class="rn-body" style="display:none">${drugWarnHtml}${expandedSecs}<div class="rn-ctas"><button class="rn-cta" onclick="openSuppModal(${JSON.stringify(r.n)})">Full Supplement Card</button>${artsBtnHtml}</div></div></div>`;
   }
 
   let html='';
 
   // Added by you (user-added) — always first
   if(userAddedRecs.length){
-    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:#4B7BE5"></div> Added by you <span class="tier-sec-count">${userAddedRecs.length} supplement${userAddedRecs.length!==1?'s':''}</span></div>`;
-    html+=`<div class="supp-cards">${userAddedRecs.map(r=>cardHtml(r,'added')).join('')}</div>`;
+    html+=`<div class="rn-tier-hdr">ADDED BY YOU</div>`;
+    html+=userAddedRecs.map(r=>cardHtml(r,'added')).join('');
   }
 
   // Essential
   if(essItems.length){
-    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:var(--t1c)"></div> Essential \u2014 Take these daily <span class="tier-sec-count">${essItems.length} supplement${essItems.length!==1?'s':''}</span></div>`;
-    html+=`<div class="supp-cards">${essItems.map(r=>cardHtml(r,'essential')).join('')}</div>`;
+    html+=`<div class="rn-tier-hdr">ESSENTIAL — Take daily</div>`;
+    html+=essItems.map(r=>cardHtml(r,'essential')).join('');
   }
 
   // Recommended
   if(recItems.length){
-    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:var(--t2c)"></div> Recommended \u2014 Strong evidence <span class="tier-sec-count">${recItems.length} supplement${recItems.length!==1?'s':''}</span></div>`;
-    html+=`<div class="supp-cards">${recItems.map(r=>cardHtml(r,'recommended')).join('')}</div>`;
+    html+=`<div class="rn-tier-hdr">RECOMMENDED — Strong evidence</div>`;
+    html+=recItems.map(r=>cardHtml(r,'recommended')).join('');
   }
 
-  // Consider — show first 4, expandable
+  // Consider
   if(conItems.length){
-    html+=`<div class="tier-sec-hdr"><div class="tier-sec-dot" style="background:var(--t3c)"></div> Worth considering <span class="tier-sec-count">${conItems.length} supplement${conItems.length!==1?'s':''}</span></div>`;
-    html+=`<div class="supp-cards" id="con-cards-grid">`;
-    conItems.forEach(r=>{
-      html+=`<div>${cardHtml(r,'consider')}</div>`;
-    });
-    html+=`</div>`;
+    html+=`<div class="rn-tier-hdr">WORTH CONSIDERING</div>`;
+    html+=conItems.map(r=>cardHtml(r,'consider')).join('');
   }
 
   container.innerHTML=html;
 
-  // Show selection bar
+  // Preserve selection bar
   updateSelCount();
   const _selBar=document.getElementById('sel-bar');if(_selBar)_selBar.style.display='block';
 }
+
+
+// ── A5 Recommendation card runtime helpers ──
+function rnTog(id){const card=document.getElementById(id);if(!card)return;const body=card.querySelector('.rn-body');const chev=card.querySelector('.rn-chev');const expandBtn=card.querySelector('.rn-expand');if(!body)return;const isOpen=body.style.display!=='none';body.style.display=isOpen?'none':'block';if(chev)chev.textContent=isOpen?'▾':'▴';if(expandBtn){const lbl=expandBtn.querySelector('span:first-child');if(lbl)lbl.textContent=isOpen?'See more':'See less';}}
+let _rnUndoTimer=null;
+function rnRemove(id,ev){if(ev)ev.stopPropagation();const card=document.getElementById(id);if(!card)return;const suppName=card.dataset.supp;card.style.display='none';if(typeof selectedSupps!=='undefined')selectedSupps.delete(suppName);if(typeof updateSelCount==='function')updateSelCount();const toast=document.getElementById('rn-undo-toast');if(toast){toast.querySelector('.rn-toast-msg').textContent=suppName+' removed';toast.dataset.suppId=id;toast.dataset.suppName=suppName;card._rnCommit=false;toast.classList.add('visible');clearTimeout(_rnUndoTimer);_rnUndoTimer=setTimeout(()=>{toast.classList.remove('visible');if(card._rnCommit)return;card._rnCommit=true;if(typeof hideSupp==='function')hideSupp(suppName);},4500);}else{if(typeof hideSupp==='function')hideSupp(suppName);}}
+function rnUndoRemove(){const toast=document.getElementById('rn-undo-toast');if(!toast)return;clearTimeout(_rnUndoTimer);const id=toast.dataset.suppId;const suppName=toast.dataset.suppName;const card=document.getElementById(id);if(card){card.style.display='';card._rnCommit=true;if(typeof selectedSupps!=='undefined')selectedSupps.add(suppName);if(typeof updateSelCount==='function')updateSelCount();}toast.classList.remove('visible');}
+function rnOpenArticles(name,ev){if(ev&&ev.stopPropagation)ev.stopPropagation();if(typeof ARTICLE_MAP!=='undefined'&&ARTICLE_MAP[name]&&ARTICLE_MAP[name].length){if(typeof goArticle==='function')goArticle(ARTICLE_MAP[name][0].id);}else{if(typeof openSuppModal==='function')openSuppModal(name);}}
 
 function _getFoodInfo(name){
   const sup=_suppByName.get(name);
@@ -3255,7 +3220,68 @@ const DRUG_INTERACTIONS={
 };
 // ── Build lookup structures ──
 const _pairPartner=new Map();SUPP_INTERACTIONS.pairs.forEach(([a,b])=>{if(!_pairPartner.has(a))_pairPartner.set(a,new Set());_pairPartner.get(a).add(b);if(!_pairPartner.has(b))_pairPartner.set(b,new Set());_pairPartner.get(b).add(a);});
-function getPairPartners(name){return _pairPartner.has(name)?[..._pairPartner.get(name)]:[];}
+function getPairPartners(name){return _pairPartner.has(name)?[..._pairPartner.get(name)]:[]}
+// ── Pair details: reason + strength for A5 card pairing UI ──
+const _PAIR_DETAILS_MAP=(function(){const m=new Map();[
+  ['Vitamin D3','Vitamin K2 (MK-7)',"K2 directs calcium into bone and away from arteries — essential for D3's bone benefits",4],
+  ['Vitamin D3','Magnesium glycinate','Magnesium is required for D3 activation to its active hormone form',5],
+  ['Vitamin D3','Magnesium','Magnesium is required for D3 activation to its active hormone form',5],
+  ['Magnesium','Vitamin D3','Magnesium is required for D3 activation to its active hormone form',5],
+  ['Magnesium glycinate','Vitamin D3','Magnesium is required for D3 activation to its active hormone form',5],
+  ['Iron','Vitamin C (moderate dose)','Vitamin C converts ferric to ferrous iron, increasing absorption by up to 3×',5],
+  ['Ferrous bisglycinate (gentle iron)','Vitamin C (moderate dose)','Vitamin C enhances iron absorption by reducing it to its ferrous form',4],
+  ['CoQ10 (Ubiquinol)','Omega-3 (EPA/DHA)','Both support mitochondrial and cardiovascular function through complementary pathways',3],
+  ['Magnesium L-threonate','Glycine','Glycine provides additional calming support alongside magnesium via glycine receptors',3],
+  ['Magnesium glycinate','Glycine',"Glycine deepens sleep quality and complements magnesium's calming effects",3],
+  ['Magnesium','Glycine','Glycine supports calming and sleep via glycine receptors, complementing magnesium',3],
+  ['Glycine','L-Theanine','Both support calm and sleep via GABA-ergic pathways through distinct receptor mechanisms',4],
+  ['Glycine','NAC (N-Acetyl Cysteine)','Together they are the primary precursors for glutathione synthesis',5],
+  ['Folate (5-MTHF)','Vitamin B12','Required together for methylation; B12 deficiency traps folate in an unusable form',5],
+  ['Curcumin (bioavailable form)','Black pepper extract (piperine)','Piperine increases curcumin bioavailability by up to 2,000%',5],
+  ['Curcumin (bioavailable form)','Boswellia serrata','Complementary anti-inflammatory: curcumin (NF-κB) + boswellia (5-LOX pathway)',4],
+  ['Rhodiola rosea','Tyrosine (L-tyrosine)','Rhodiola preserves catecholamines while tyrosine replenishes dopamine precursors',4],
+  ['5-HTP','Vitamin B6 (P5P)','P5P is the essential cofactor for conversion of 5-HTP to serotonin',5],
+  ['Zinc','Copper (as glycinate)','Long-term zinc supplementation depletes copper — copper must be co-supplemented',5],
+  ['Ashwagandha (KSM-66)','L-Theanine','Ashwagandha modulates cortisol; theanine supports calm alertness — complementary stack',4],
+  ['Omega-3 (EPA/DHA)','Vitamin E (mixed tocopherols)','Vitamin E protects omega-3 fatty acids from lipid peroxidation in circulation',4],
+  ['Calcium','Vitamin D3','Vitamin D3 is required for intestinal calcium absorption — the primary cofactor',5],
+  ['Calcium','Vitamin K2 (MK-7)','K2 activates osteocalcin to direct calcium into bone rather than arteries',5],
+  ['Magnesium','Vitamin B6 (P5P)','B6 is required for magnesium uptake into cells; enhances intracellular Mg concentration',4],
+  ['Collagen peptides','Vitamin C (moderate dose)','Vitamin C is essential for collagen synthesis and cross-linking (prolyl hydroxylase cofactor)',5],
+  ['Probiotics','Fibre (general dietary)','Dietary fibre acts as prebiotic fuel for probiotic organisms to colonise and thrive',5],
+  ['Probiotics','Psyllium husk (soluble fibre)','Psyllium provides soluble fibre that feeds and sustains beneficial probiotic bacteria',4],
+  ['Lactobacillus rhamnosus GG','Fibre (general dietary)','Prebiotic fibre sustains Lactobacillus colonisation and long-term activity',4],
+  ['Myo-inositol','D-Chiro Inositol','The 40:1 ratio mimics the physiological combination optimal for insulin signalling',5],
+  ['Inositol myo-form (PCOS/metabolic)','D-Chiro Inositol','40:1 ratio mimics physiological inositol balance for PCOS metabolic support',5],
+  ['Lutein (standalone)','Zeaxanthin (standalone)','Both macular carotenoids filter blue light and reduce retinal oxidative stress synergistically',5],
+  ['L-Carnitine','CoQ10 (Ubiquinol)','Together they support mitochondrial fatty acid transport and ATP production',4],
+  ['Whey protein','L-Leucine (standalone)','Leucine is the primary anabolic trigger for mTOR and muscle protein synthesis',4],
+  ['Protein supplementation (clinical sarcopenia)','L-Leucine (standalone)','Leucine triggers mTOR activation and initiates muscle protein synthesis',5],
+  ['Nicotinamide riboside (NR)','Pterostilbene','Pterostilbene activates SIRT1 which works downstream of NAD⁺ raised by NR',4],
+  ['Elderberry (Sambucus nigra)','Zinc','Zinc provides direct antiviral and immune-modulating support alongside elderberry',3],
+  ['Tart cherry (Montmorency)','Magnesium glycinate','Both support sleep quality and muscle recovery through complementary pathways',3],
+  ['Aniracetam','Alpha-GPC','Alpha-GPC prevents choline depletion caused by racetam-class nootropics',5],
+  ['Oxiracetam','Alpha-GPC','Alpha-GPC prevents choline depletion caused by racetam-class nootropics',5],
+  ['Piracetam','Alpha-GPC','Alpha-GPC prevents choline depletion caused by racetam-class nootropics',5],
+  ['Selenium','Iodine','Selenium is essential for thyroid hormone synthesis and iodine utilisation',5],
+  ['Riboflavin (Vitamin B2)','Magnesium','Together with CoQ10, this is the evidence-based migraine prophylaxis triad',4],
+  ['Riboflavin (Vitamin B2)','CoQ10 (Ubiquinol)','Together with magnesium, this is the evidence-based migraine prophylaxis triad',4],
+  ['Magnesium','CoQ10 (Ubiquinol)','Together they support cardiac muscle energy and form the migraine prophylaxis triad',4],
+  ['Acetyl-L-Carnitine (ALCAR)','Alpha-Lipoic Acid (ALA)','Together they recycle mitochondrial energy and reduce oxidative stress (mitochondrial stack)',4],
+  ['Alpha-Lipoic Acid (ALA)','CoQ10 (Ubiquinol)','Both are redox-active and regenerate each other back to their active antioxidant forms',4],
+  ['Vitamin B6 (P5P)','Vitamin B12','Together with folate they drive the methylation cycle for homocysteine clearance',4],
+  ['Folate (5-MTHF)','Vitamin B6 (P5P)','Required together for the complete methylation cycle and homocysteine regulation',5],
+  ['Choline','Vitamin B12','Both are methyl donors; choline spares folate in the methylation cycle',4],
+  ['NAC (N-Acetyl Cysteine)','Vitamin C (moderate dose)','Vitamin C recycles glutathione that NAC helps to synthesise',4],
+  ['Whey protein','Creatine monohydrate','Creatine enhances the anabolic signalling triggered by whey protein post-exercise',4],
+  ['Citrulline (L-citrulline, pure form)','Pycnogenol (pine bark, branded)','Together they improve endothelial nitric oxide production (Stanislavov protocol)',4],
+  ['Saw palmetto (Serenoa repens)','Beta-sitosterol','Complementary mechanisms for reducing DHT and supporting prostate health (BPH stack)',4],
+  ['Saw palmetto (Serenoa repens)','Pumpkin seed oil','Both inhibit 5-alpha reductase activity and support urinary flow in BPH',3],
+  ['Berberine','Cinnamon extract (Ceylon)','Complementary insulin-sensitising mechanisms for blood glucose management',4],
+  ['L-Theanine','Caffeine (standardised)','Theanine smooths caffeine jitteriness while preserving focus enhancement (1:2 ratio)',4],
+  ['Vitamin K2 (MK-7)','Magnesium','Magnesium supports bone matrix mineralisation alongside K2-activated osteocalcin',4],
+].forEach(([a,b,reason,strength])=>{const key=[a,b].sort().join('||');if(!m.has(key))m.set(key,{reason,strength});});return m;})();
+function getPairDetails(a,b){const key=[a,b].sort().join('||');if(_PAIR_DETAILS_MAP.has(key))return{type:'synergy',..._PAIR_DETAILS_MAP.get(key)};if(typeof getSuppCautionsIn==='function'){const c=getSuppCautionsIn(a,[b]);if(c.length)return{type:'caution',reason:c[0].reason,severity:c[0].severity};}return null;}
 /* Phase 2 helpers — drug↔supplement interaction lookups.
    drugClassFor: resolves "atorvastatin" or "Lipitor" → "statin" class key.
    getDrugSuppCautions(suppName, drugList): returns conflict records {drug,severity,mechanism,source}. */
@@ -4047,7 +4073,6 @@ let wizStep = 1;
 const WIZ_TOTAL = 7;
 let wizPlanStyle = 'elaborate'; // 'simple' = top 4 | 'elaborate' = up to 20
 let wizSelectedGoals = new Set(); // WIZARD_GOALS keys
-let _wizLastFollowupGoal = null;
 
 /* Toggle a wizard goal card — updates both wizard UI and engine selectedGoals Set */
 function wizToggleGoal(key) {
@@ -4059,31 +4084,19 @@ function wizToggleGoal(key) {
   } else {
     wizSelectedGoals.add(key);
     wg.goals.forEach(g => selectedGoals.add(g));
-    _wizLastFollowupGoal = key;
   }
   _wizRenderGoalCards();
-  _wizRenderFollowup();
   updatePfCounts&&updatePfCounts();
 }
 
 function _wizRenderGoalCards() {
-  document.querySelectorAll('.wiz-goal-card').forEach(card => {
-    card.classList.toggle('wiz-goal-sel', wizSelectedGoals.has(card.dataset.goal));
+  document.querySelectorAll('.wiz-goal-card').forEach(function(card) {
+    const key = card.dataset.goal;
+    const sel = wizSelectedGoals.has(key);
+    card.classList.toggle('wiz-goal-sel', sel);
+    const fup = document.getElementById('wiz-fup-' + key);
+    if (fup) fup.style.display = sel ? 'block' : 'none';
   });
-}
-
-function _wizRenderFollowup() {
-  const wrap = document.getElementById('wiz-followup-wrap');
-  if (!wrap) return;
-  const lastGoal = _wizLastFollowupGoal && wizSelectedGoals.has(_wizLastFollowupGoal)
-    ? _wizLastFollowupGoal
-    : (wizSelectedGoals.size > 0 ? [...wizSelectedGoals][wizSelectedGoals.size - 1] : null);
-  if (!lastGoal) { wrap.style.display = 'none'; return; }
-  const wg = WIZARD_GOALS[lastGoal];
-  wrap.style.display = 'block';
-  wrap.innerHTML = '<div class="wiz-followup"><div class="wiz-followup-label">' + escHtml(wg.followup.q) + '</div><div class="wiz-followup-opts">' +
-    wg.followup.opts.map(o => '<div class="wiz-fopt" onclick="wizSelectFollowup(this)">' + escHtml(o) + '</div>').join('') +
-    '</div></div>';
 }
 
 function wizSelectFollowup(el) {
@@ -4149,31 +4162,52 @@ function wizAddMedCombo(names) {
 function applyWizPlanStyleLimit() {
   if (wizPlanStyle !== 'simple') return;
   let shown = 0;
-  const allCards = document.querySelectorAll('#supp-cards-container .supp-card');
+  // Support both old (.supp-card) and new (.rn-card) card classes
+  const allCards = document.querySelectorAll('#supp-cards-container .supp-card, #supp-cards-container .rn-card');
   allCards.forEach(function(card) {
     const keep = shown < 4;
     card.style.display = keep ? '' : 'none';
     if (keep) shown++;
   });
-  // Hide tier group headers whose cards are all hidden
-  document.querySelectorAll('#supp-cards-container .tier-sec-hdr').forEach(function(hdr) {
-    const cardGroup = hdr.nextElementSibling;
-    if (!cardGroup) return;
-    const hasVisible = [...cardGroup.querySelectorAll('.supp-card')].some(c => c.style.display !== 'none');
+  // Hide tier group headers whose cards are all hidden (both old and new class names)
+  document.querySelectorAll('#supp-cards-container .tier-sec-hdr, #supp-cards-container .rn-tier-hdr').forEach(function(hdr) {
+    // New design: cards are direct siblings of the header, not wrapped in a group div
+    let sibling = hdr.nextElementSibling;
+    let hasVisible = false;
+    while (sibling && (sibling.classList.contains('rn-card') || sibling.classList.contains('supp-card') || sibling.classList.contains('supp-cards'))) {
+      if (sibling.classList.contains('supp-cards')) {
+        hasVisible = hasVisible || [...sibling.querySelectorAll('.supp-card')].some(c => c.style.display !== 'none');
+      } else {
+        hasVisible = hasVisible || sibling.style.display !== 'none';
+      }
+      sibling = sibling.nextElementSibling;
+    }
     hdr.style.display = hasVisible ? '' : 'none';
-    if (cardGroup.classList.contains('supp-cards')) cardGroup.style.display = hasVisible ? '' : 'none';
   });
 }
 
-/* Render the 9 wizard goal cards into #wiz-goal-cards */
+/* Render the 9 wizard goal cards into #wiz-goal-cards, each with its own inline follow-up */
 function wizInit() {
   const container = document.getElementById('wiz-goal-cards');
   if (!container) return;
   container.innerHTML = Object.entries(WIZARD_GOALS).map(function([k, wg]) {
-    return '<div class="wiz-goal-card" data-goal="' + escAttr(k) + '" onclick="wizToggleGoal(\'' + escAttrJs(k) + '\')">' +
-      '<div><div class="wiz-goal-label">' + escHtml(wg.label) + '</div><div class="wiz-goal-desc">' + escHtml(wg.desc) + '</div></div>' +
-      '<div class="wiz-goal-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-      '</div>';
+    const fupHtml = wg.followup
+      ? '<div class="wiz-goal-followup" id="wiz-fup-' + escAttr(k) + '" style="display:none">' +
+          '<div class="wiz-followup">' +
+            '<div class="wiz-followup-label">' + escHtml(wg.followup.q) + '</div>' +
+            '<div class="wiz-followup-opts">' +
+              wg.followup.opts.map(function(o){ return '<div class="wiz-fopt" onclick="wizSelectFollowup(this)">' + escHtml(o) + '</div>'; }).join('') +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      : '';
+    return '<div class="wiz-goal-card-wrap">' +
+      '<div class="wiz-goal-card" data-goal="' + escAttr(k) + '" onclick="wizToggleGoal(\'' + escAttrJs(k) + '\')">' +
+        '<div><div class="wiz-goal-label">' + escHtml(wg.label) + '</div><div class="wiz-goal-desc">' + escHtml(wg.desc) + '</div></div>' +
+        '<div class="wiz-goal-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+      '</div>' +
+      fupHtml +
+    '</div>';
   }).join('');
   // Default plan to elaborate (pre-select it)
   wizSelectPlan('elaborate');

@@ -611,8 +611,7 @@
         <div class="wiz-step wiz-active" id="wiz-step-1">
           <p class="wiz-step-q">What brought you here today?</p>
           <p class="wiz-step-sub">Pick one or more goals — we'll weight your plan around them.</p>
-          <div class="wiz-goal-cards" id="wiz-goal-cards"><!-- rendered by wizInit() --></div>
-          <div id="wiz-followup-wrap" style="display:none"></div>
+          <div class="wiz-goal-cards" id="wiz-goal-cards"><!-- rendered by wizInit() — each card includes its own inline follow-up --></div>
           <!-- Hidden — engine reads selectedGoals Set, not these chips -->
           <div id="goal-chips" style="display:none" aria-hidden="true"></div>
         </div>
@@ -16600,5 +16599,10 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
   });
 }
 </script>
+<!-- A5 undo toast -->
+<div class="rn-undo-toast" id="rn-undo-toast">
+  <span class="rn-toast-msg"></span>
+  <button class="rn-undo-btn" onclick="rnUndoRemove()">Undo</button>
+</div>
 </body>
 </html>
