@@ -589,169 +589,210 @@
 
   <div id="p1" style="display:none">
     <div id="v-input">
-      <div class="pf-wrap">
-        <!-- Welcome back banner (shown when profile restored from localStorage) -->
-        <div id="welcome-back" style="display:none;align-items:center;gap:8px;padding:6px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:6px;font-size:11px">
+      <div class="wiz-wrap">
+
+        <!-- Welcome back banner -->
+        <div id="welcome-back" style="display:none;align-items:center;gap:8px;padding:6px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:10px;font-size:11px">
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t1c)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
           <span style="flex:1;color:var(--color-text-secondary)">Your last profile has been restored.</span>
           <button type="button" onclick="clearProfile()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:inherit">Start fresh</button>
         </div>
-        <!-- Hero -->
-        <div class="pf-hero">
-          <h2 class="pf-title">Your Profile</h2>
-          <p class="pf-sub">We'll build a personalized supplement plan based on your answers</p>
+
+        <!-- Progress bar -->
+        <div class="wiz-prog">
+          <div class="wiz-prog-row">
+            <span class="wiz-step-label" id="wiz-step-label">Step 1 of 7</span>
+            <span class="wiz-step-pct" id="wiz-step-pct">14%</span>
+          </div>
+          <div class="wiz-prog-track"><div class="wiz-prog-fill" id="wiz-prog-fill" style="width:14%"></div></div>
         </div>
 
-        <!-- Basics: Age, Sex, Weight -->
-        <div class="pf-basics">
-          <div class="pf-group pf-group-age">
-            <label class="pf-label">Age</label>
-            <input type="number" class="pf-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
+        <!-- STEP 1: Goals -->
+        <div class="wiz-step wiz-active" id="wiz-step-1">
+          <p class="wiz-step-q">What brought you here today?</p>
+          <p class="wiz-step-sub">Pick one or more goals — we'll weight your plan around them.</p>
+          <div class="wiz-goal-cards" id="wiz-goal-cards"><!-- rendered by wizInit() --></div>
+          <div id="wiz-followup-wrap" style="display:none"></div>
+          <!-- Hidden — engine reads selectedGoals Set, not these chips -->
+          <div id="goal-chips" style="display:none" aria-hidden="true"></div>
+        </div>
+
+        <!-- STEP 2: Plan Style -->
+        <div class="wiz-step" id="wiz-step-2">
+          <p class="wiz-step-q">How do you want your plan?</p>
+          <p class="wiz-step-sub">You can always switch later from your dashboard.</p>
+          <div class="wiz-plan-cards">
+            <div class="wiz-plan-card" data-style="simple" onclick="wizSelectPlan('simple')">
+              <div class="wiz-plan-h">Keep it simple</div>
+              <div class="wiz-plan-desc">The engine picks the 4 highest-impact supplements for your goal. No noise — just the essentials with clear doses.</div>
+              <div class="wiz-plan-feats">
+                <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Up to 4 supplements, ranked by personal fit</div>
+                <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Dose and timing for each</div>
+                <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Safety checks and medication conflicts</div>
+              </div>
+            </div>
+            <div class="wiz-plan-card" data-style="elaborate" onclick="wizSelectPlan('elaborate')">
+              <div class="wiz-plan-h">Elaborate</div>
+              <div class="wiz-plan-desc">The full ranked list — every supplement your profile supports, with evidence tiers, dosing rationale, timing, and pairings.</div>
+              <div class="wiz-plan-feats">
+                <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Up to 20 supplements ranked by evidence + personal fit</div>
+                <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Evidence tier, fit score, and dose rationale per item</div>
+                <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Timing visualizer and supplement pairings</div>
+              </div>
+            </div>
           </div>
-          <div class="pf-divider"></div>
-          <div class="pf-group pf-group-sex">
-            <label class="pf-label">Sex</label>
+        </div>
+
+        <!-- STEP 3: About You -->
+        <div class="wiz-step" id="wiz-step-3">
+          <p class="wiz-step-q">About you</p>
+          <p class="wiz-step-sub">Used to calibrate doses and filter unsuitable supplements.</p>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label" for="asl">Age</label>
+            <input type="number" class="wiz-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
+          </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label">Sex</label>
             <div class="pf-sex-pill">
               <button type="button" class="pf-sex-opt sx-btn" id="bm" onclick="pickSex('m')">Male</button>
               <button type="button" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
               <button type="button" class="pf-sex-opt sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
             </div>
           </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label" for="prof-weight"><span>Weight</span> <span class="wiz-field-opt">(optional — tightens doses by ±25%)</span></label>
+            <input type="number" class="wiz-input" id="prof-weight" placeholder="e.g. 165 lbs" oninput="calcBMI()">
+          </div>
+          <div class="errmsg" id="serr" style="display:none">Please select your biological sex to continue.</div>
         </div>
 
-        <!-- Accordion sections -->
-        <div class="pf-sections">
-          <!-- Goals -->
-          <div class="pf-section pf-open" id="pf-sec-goals">
-            <div class="pf-sec-header">
-              <span class="pf-sec-left">Goals <span class="pf-sec-count" id="pf-count-goals"></span></span>
-            </div>
-            <div class="pf-sec-body">
-              <div class="med-chips" id="goal-chips"></div>
-            </div>
-          </div>
-
-          <!-- Conditions -->
-          <div class="pf-section pf-open" id="pf-sec-conds">
-            <div class="pf-sec-header">
-              <span class="pf-sec-left">Conditions <span class="pf-sec-count" id="pf-count-conds"></span></span>
-            </div>
-            <div class="pf-sec-body">
-              <div class="med-chips" id="cond-chips"></div>
-              <!-- 2026-04-28 UX simplification: typeahead removed — every supplement-relevant condition is now a selectable pill in #cond-chips above. -->
-              <div id="cond-chips-extra" class="drug-chips" style="display:none"></div>
-            </div>
-          </div>
-
-          <!-- Health Status (Plan B1 — kidney/liver/allergies) -->
-          <div class="pf-section pf-open" id="pf-sec-health">
-            <div class="pf-sec-header">
-              <span class="pf-sec-left">Health status <span class="pf-sec-count" id="pf-count-health">optional</span></span>
-            </div>
-            <div class="pf-sec-body">
-              <div style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin-bottom:10px">
-                Used to filter and dose-adjust recommendations for safety. Most people leave these on "normal".
-              </div>
-              <div style="display:flex;flex-direction:column;gap:12px">
-                <!-- Kidney function -->
-                <div>
-                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Kidney function</label>
-                  <select id="kidney-fn" onchange="onHealthChange()" style="width:100%;padding:8px 10px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary)">
-                    <option value="normal">Normal</option>
-                    <option value="mild">Mild impairment (eGFR 60-89)</option>
-                    <option value="moderate">Moderate (CKD stage 3, eGFR 30-59)</option>
-                    <option value="severe">Severe (CKD stage 4-5 / dialysis)</option>
-                  </select>
-                </div>
-                <!-- Liver function -->
-                <div>
-                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Liver function</label>
-                  <select id="liver-fn" onchange="onHealthChange()" style="width:100%;padding:8px 10px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary)">
-                    <option value="normal">Normal</option>
-                    <option value="impaired">Mildly elevated enzymes / fatty liver</option>
-                    <option value="cirrhosis">Cirrhosis / advanced disease</option>
-                  </select>
-                </div>
-                <!-- Diet pattern (Plan B1 round 2) -->
-                <div>
-                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Diet pattern (filters animal-derived / FODMAP-rich items)</label>
-                  <div class="med-chips" id="diet-chips"></div>
-                </div>
-                <!-- Allergies -->
-                <div>
-                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Food allergies (excludes affected supplements)</label>
-                  <div class="med-chips" id="allergy-chips"></div>
-                </div>
-                <!-- Smoking -->
-                <div>
-                  <label style="font-size:12px;font-weight:600;display:block;margin-bottom:5px">Smoking</label>
-                  <select id="smoking-status" onchange="onHealthChange()" style="width:100%;padding:8px 10px;border:1px solid var(--color-border-secondary);border-radius:8px;font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary)">
-                    <option value="never">Never smoked</option>
-                    <option value="former">Former smoker</option>
-                    <option value="current">Current smoker</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Medications -->
-          <div class="pf-section pf-open" id="pf-sec-meds">
-            <div class="pf-sec-header">
-              <span class="pf-sec-left">Medications <span class="pf-sec-count" id="pf-count-meds"></span></span>
-            </div>
-            <div class="pf-sec-body">
-              <!-- Class chips, label and hint removed — search bar is the only entry point now. -->
-              <div class="drug-typeahead-wrap">
-                <div class="drug-typeahead-input-wrap">
-                  <input type="text" id="drug-typeahead-input" class="drug-typeahead-input" placeholder="Start typing a drug name (generic or brand)..." autocomplete="off" oninput="onDrugTypeaheadInput(event)" onkeydown="onDrugTypeaheadKey(event)" onfocus="onDrugTypeaheadInput(event)">
-                  <div id="drug-typeahead-list" class="drug-typeahead-list" role="listbox" aria-label="Drug suggestions"></div>
-                </div>
-                <div id="drug-chips" class="drug-chips"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Blood Work -->
-          <div class="pf-section pf-open" id="pf-sec-bw">
-            <div class="pf-sec-header">
-              <span class="pf-sec-left">Blood Work <span class="pf-sec-count" id="pf-count-bw">optional</span></span>
-            </div>
-            <div class="pf-sec-body">
-              <div style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin-bottom:10px">Upload a lab report PDF or enter biomarker values for targeted recommendations. 100% client&#8209;side &middot; nothing leaves your browser.</div>
-              <!-- Upload zone -->
-              <div id="bw-upload" class="bw-upload-zone" role="button" tabindex="0" aria-label="Upload lab report PDF" onclick="document.getElementById('bw-file').click()" onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('bw-file').click()" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="event.preventDefault();this.classList.remove('dragging');if(event.dataTransfer.files[0])handleBwUpload(event.dataTransfer.files[0])">
-                <div class="bw-upload-icon">
-                  <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3-3 3 3"/></svg>
-                </div>
-                <div style="flex:1;min-width:0">
-                  <div data-bw-primary style="font-size:12px;font-weight:600">Drop lab report PDF here</div>
-                  <div data-bw-secondary style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">or click to choose file</div>
-                </div>
-                <input type="file" id="bw-file" accept=".pdf" style="display:none" onchange="handleBwUpload(this.files[0])">
-              </div>
-              <!-- Uploaded confirmation -->
-              <div id="bw-uploaded" class="bw-uploaded-bar" style="display:none">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <span id="bw-file-name" style="font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-                <span id="bw-extracted-count" style="color:#0D9488;font-weight:500"></span>
-                <button type="button" onclick="clearBwUpload()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:inherit">Change</button>
-              </div>
-              <!-- Manual entry toggle + grid -->
-              <div style="margin-top:10px">
-                <button type="button" id="bw-manual-toggle" onclick="toggleBwManual()" style="font-size:11px;color:#1F7A6B;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;padding:0">Enter values manually &#9662;</button>
-                <div id="bw-manual" style="display:none;margin-top:10px">
-                  <div id="bw-grid" class="bw-grid"></div>
-                  <div id="bw-count" style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px;text-align:right"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <!-- STEP 4: Conditions -->
+        <div class="wiz-step" id="wiz-step-4">
+          <p class="wiz-step-q">Any conditions?</p>
+          <p class="wiz-step-sub">Tap all that apply — sorted by relevance to your goal.</p>
+          <div class="med-chips" id="cond-chips"></div>
+          <div id="cond-chips-extra" class="drug-chips" style="display:none"></div>
+          <!-- Hidden count badges used by updatePfCounts() -->
+          <span id="pf-count-conds" style="display:none"></span>
         </div>
 
-        <!-- Error + Submit -->
-        <div class="errmsg" id="serr">Please select your biological sex to continue.</div>
-        <button type="button" class="go-btn pf-submit" onclick="genRecs()">Get my supplement plan &rarr;</button>
+        <!-- STEP 5: Medications -->
+        <div class="wiz-step" id="wiz-step-5">
+          <p class="wiz-step-q">Any medications?</p>
+          <p class="wiz-step-sub">We'll filter out supplements that interact. What's in your cabinet?</p>
+          <div class="drug-typeahead-wrap">
+            <div class="drug-typeahead-input-wrap">
+              <input type="text" id="drug-typeahead-input" class="drug-typeahead-input" placeholder="Start typing a drug name (generic or brand)..." autocomplete="off" oninput="onDrugTypeaheadInput(event)" onkeydown="onDrugTypeaheadKey(event)" onfocus="onDrugTypeaheadInput(event)">
+              <div id="drug-typeahead-list" class="drug-typeahead-list" role="listbox" aria-label="Drug suggestions"></div>
+            </div>
+            <div id="drug-chips" class="drug-chips"></div>
+          </div>
+          <!-- Common combo shortcuts -->
+          <div class="wiz-med-shortcuts">
+            <div class="wiz-shortcut-label">Common combos — tap to add</div>
+            <div class="wiz-sc-card" onclick="wizAddMedCombo(['atorvastatin','lisinopril']);this.classList.add('wiz-sc-sel')">
+              <div class="wiz-sc-name">Statin + Blood pressure med</div>
+              <div class="wiz-sc-desc">e.g. atorvastatin + lisinopril / amlodipine</div>
+            </div>
+            <div class="wiz-sc-card" onclick="wizAddMedCombo(['levothyroxine']);this.classList.add('wiz-sc-sel')">
+              <div class="wiz-sc-name">Thyroid medication</div>
+              <div class="wiz-sc-desc">e.g. levothyroxine, Synthroid, Armour Thyroid</div>
+            </div>
+            <div class="wiz-sc-card" onclick="wizAddMedCombo(['sertraline']);this.classList.add('wiz-sc-sel')">
+              <div class="wiz-sc-name">Antidepressant / SSRI</div>
+              <div class="wiz-sc-desc">e.g. sertraline, escitalopram, venlafaxine</div>
+            </div>
+            <div class="wiz-sc-card" onclick="wizAddMedCombo(['warfarin']);this.classList.add('wiz-sc-sel')">
+              <div class="wiz-sc-name">Blood thinners (anticoagulants)</div>
+              <div class="wiz-sc-desc">e.g. warfarin, apixaban, rivaroxaban</div>
+            </div>
+            <div class="wiz-sc-card" onclick="wizAddMedCombo(['metformin']);this.classList.add('wiz-sc-sel')">
+              <div class="wiz-sc-name">Diabetes medication</div>
+              <div class="wiz-sc-desc">e.g. metformin, semaglutide, insulin</div>
+            </div>
+          </div>
+          <span id="pf-count-meds" style="display:none"></span>
+        </div>
+
+        <!-- STEP 6: Health Status -->
+        <div class="wiz-step" id="wiz-step-6">
+          <p class="wiz-step-q">Health status</p>
+          <p class="wiz-step-sub">Helps us filter supplements that stress the kidneys or liver.</p>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label" for="kidney-fn">Kidney function</label>
+            <select id="kidney-fn" class="wiz-select" onchange="onHealthChange()">
+              <option value="normal">Normal</option>
+              <option value="mild">Mild impairment (eGFR 60–89)</option>
+              <option value="moderate">Moderate (CKD stage 3, eGFR 30–59)</option>
+              <option value="severe">Severe (CKD stage 4–5 / dialysis)</option>
+            </select>
+          </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label" for="liver-fn">Liver function</label>
+            <select id="liver-fn" class="wiz-select" onchange="onHealthChange()">
+              <option value="normal">Normal</option>
+              <option value="impaired">Mildly elevated enzymes / fatty liver</option>
+              <option value="cirrhosis">Cirrhosis / advanced disease</option>
+            </select>
+          </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label">Diet pattern <span class="wiz-field-opt">(filters animal-derived / FODMAP items)</span></label>
+            <div class="med-chips" id="diet-chips"></div>
+          </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label">Food allergies <span class="wiz-field-opt">(excludes affected supplements)</span></label>
+            <div class="med-chips" id="allergy-chips"></div>
+          </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label" for="smoking-status">Smoking</label>
+            <select id="smoking-status" class="wiz-select" onchange="onHealthChange()">
+              <option value="never">Never smoked</option>
+              <option value="former">Former smoker</option>
+              <option value="current">Current smoker</option>
+            </select>
+          </div>
+          <span id="pf-count-health" style="display:none"></span>
+        </div>
+
+        <!-- STEP 7: Blood Work -->
+        <div class="wiz-step" id="wiz-step-7">
+          <p class="wiz-step-q">Blood work <span class="wiz-optional">(optional)</span></p>
+          <p class="wiz-step-sub">Upload a lab PDF for more precise recommendations and tighter doses. 100% client&#8209;side &middot; nothing leaves your browser.</p>
+          <div id="bw-upload" class="bw-upload-zone" role="button" tabindex="0" aria-label="Upload lab report PDF" onclick="document.getElementById('bw-file').click()" onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('bw-file').click()" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="event.preventDefault();this.classList.remove('dragging');if(event.dataTransfer.files[0])handleBwUpload(event.dataTransfer.files[0])">
+            <div class="bw-upload-icon">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3-3 3 3"/></svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div data-bw-primary style="font-size:12px;font-weight:600">Drop lab report PDF here</div>
+              <div data-bw-secondary style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">or click to choose file</div>
+            </div>
+            <input type="file" id="bw-file" accept=".pdf" style="display:none" onchange="handleBwUpload(this.files[0])">
+          </div>
+          <div id="bw-uploaded" class="bw-uploaded-bar" style="display:none">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span id="bw-file-name" style="font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+            <span id="bw-extracted-count" style="color:#0D9488;font-weight:500"></span>
+            <button type="button" onclick="clearBwUpload()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:inherit">Change</button>
+          </div>
+          <div style="margin-top:10px">
+            <button type="button" id="bw-manual-toggle" onclick="toggleBwManual()" style="font-size:11px;color:#1F7A6B;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;padding:0">Enter values manually &#9662;</button>
+            <div id="bw-manual" style="display:none;margin-top:10px">
+              <div id="bw-grid" class="bw-grid"></div>
+              <div id="bw-count" style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px;text-align:right"></div>
+            </div>
+          </div>
+          <span id="pf-count-bw" style="display:none"></span>
+        </div>
+
+        <!-- Wizard navigation (sticky) -->
+        <div class="wiz-nav">
+          <button class="wiz-back-btn-vis" id="wiz-back-btn" onclick="wizBack()">&#8592; Back</button>
+          <button class="wiz-next-btn go-btn" id="wiz-next-btn" onclick="wizNext()">Next &#8594;</button>
+        </div>
+
+        <!-- Hidden count badges consumed by updatePfCounts() -->
+        <span id="pf-count-goals" style="display:none"></span>
+
       </div>
       <div id="bmi-display" style="display:none"></div>
       <input type="hidden" id="prof-height-ft"><input type="hidden" id="prof-height-in"><input type="hidden" id="prof-weight">
@@ -5358,7 +5399,7 @@
 
   <!-- ARTICLE 4 -->
   <div class="article-full" id="article-4" style="display:none">
-    <!-- last-reviewed: 2026-04-24 -->
+    <!-- last-reviewed: 2026-05-08 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -5721,7 +5762,7 @@
 
   <!-- ARTICLE 9 -->
   <div class="article-full" id="article-9" style="display:none">
-    <!-- last-reviewed: 2026-04-24 -->
+    <!-- last-reviewed: 2026-05-08 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -6358,7 +6399,7 @@
 
   <!-- ARTICLE 17 -->
   <div class="article-full" id="article-17" style="display:none">
-    <!-- last-reviewed: 2026-04-24 -->
+    <!-- last-reviewed: 2026-05-08 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -6618,7 +6659,7 @@
 
   <!-- ARTICLE 21 -->
   <div class="article-full" id="article-21" style="display:none">
-    <!-- last-reviewed: 2026-04-24 -->
+    <!-- last-reviewed: 2026-05-08 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -7215,7 +7256,7 @@
 
   <!-- ARTICLE 29 -->
   <div class="article-full" id="article-29" style="display:none">
-    <!-- last-reviewed: 2026-04-24 -->
+    <!-- last-reviewed: 2026-05-08 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>

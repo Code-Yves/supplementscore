@@ -1146,6 +1146,66 @@ body{ overflow-x:clip; }
 .pf-submit{width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:600;margin-top:14px;background:var(--color-brand)}
 .pf-hint{text-align:center;font-size:11px;color:var(--color-text-tertiary);margin-top:8px;padding-bottom:8px}
 @media(max-width:600px){.pf-basics{flex-wrap:wrap;gap:8px}.pf-divider{display:none}.pf-group-age{width:auto;flex:1}.pf-group-weight{width:auto;flex:1}.pf-group-sex{width:100%;order:3}.pf-wrap{max-width:100%}}
+
+/* ── 7-Step Wizard ── */
+.wiz-wrap{max-width:540px;margin:0 auto}
+.wiz-prog{padding:0 0 18px}
+.wiz-prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.wiz-step-label{font-size:10.5px;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em}
+.wiz-step-pct{font-size:11px;font-weight:700;color:var(--color-brand)}
+.wiz-prog-track{height:3px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden}
+.wiz-prog-fill{height:100%;background:var(--color-brand);border-radius:3px;transition:width .3s ease}
+.wiz-step{display:none;animation:wizIn .2s ease}
+.wiz-step.wiz-active{display:block}
+@keyframes wizIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.wiz-step-q{font-size:17px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em;color:var(--color-text-primary)}
+.wiz-step-sub{font-size:12px;color:var(--color-text-tertiary);margin:0 0 16px;line-height:1.5}
+.wiz-optional{font-weight:400;font-size:13px;color:var(--color-text-tertiary)}
+.wiz-goal-cards{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.wiz-goal-card{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border:1.5px solid var(--color-border-secondary);border-radius:13px;background:var(--color-background-primary);cursor:pointer;transition:all .13s;gap:12px}
+.wiz-goal-card:hover{border-color:var(--color-brand);background:rgba(31,122,107,.025)}
+.wiz-goal-card.wiz-goal-sel{border-color:var(--color-brand);background:rgba(31,122,107,.045);box-shadow:0 0 0 2.5px rgba(31,122,107,.1)}
+.wiz-goal-label{font-size:13.5px;font-weight:700;color:var(--color-text-primary);margin-bottom:1px}
+.wiz-goal-desc{font-size:11.5px;color:var(--color-text-tertiary);line-height:1.35}
+.wiz-goal-check{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .13s;background:transparent}
+.wiz-goal-card.wiz-goal-sel .wiz-goal-check{background:var(--color-brand);border-color:var(--color-brand)}
+.wiz-goal-check svg{opacity:0;transition:opacity .13s}
+.wiz-goal-card.wiz-goal-sel .wiz-goal-check svg{opacity:1}
+.wiz-followup{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;margin-bottom:6px}
+.wiz-followup-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:9px}
+.wiz-followup-opts{display:flex;flex-wrap:wrap;gap:6px}
+.wiz-fopt{padding:6px 13px;border-radius:999px;border:1.5px solid var(--color-border-secondary);font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-primary);transition:all .13s}
+.wiz-fopt:hover{border-color:var(--color-brand)}
+.wiz-fopt.sel{background:rgba(31,122,107,.07);border-color:var(--color-brand);color:var(--color-brand);font-weight:600}
+.wiz-plan-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+.wiz-plan-card{padding:16px 18px;border:1.5px solid var(--color-border-secondary);border-radius:14px;background:var(--color-background-secondary);cursor:pointer;transition:all .14s}
+.wiz-plan-card:hover{border-color:var(--color-brand)}
+.wiz-plan-card.wiz-plan-sel{border-color:var(--color-brand);background:rgba(31,122,107,.045);box-shadow:0 0 0 3px rgba(31,122,107,.09)}
+.wiz-plan-h{font-size:15.5px;font-weight:700;margin:0 0 5px}
+.wiz-plan-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 12px}
+.wiz-plan-feats{display:flex;flex-direction:column;gap:5px}
+.wiz-plan-feat{display:flex;align-items:flex-start;gap:8px;font-size:11.5px;color:var(--color-text-secondary);line-height:1.4}
+.wiz-plan-dot{width:4px;height:4px;border-radius:50%;background:var(--color-brand);flex-shrink:0;margin-top:5px}
+.wiz-field-group{margin-bottom:16px}
+.wiz-field-label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);margin-bottom:7px}
+.wiz-field-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary);font-size:10px}
+.wiz-input{width:100%;padding:10px 13px;border:1.5px solid var(--color-border-secondary);border-radius:10px;font-size:15px;font-weight:600;background:var(--color-background-primary);color:var(--color-text-primary);font-family:inherit;outline:none;-moz-appearance:textfield}
+.wiz-input::-webkit-outer-spin-button,.wiz-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.wiz-input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.1)}
+.wiz-select{width:100%;padding:10px 13px;border:1.5px solid var(--color-border-secondary);border-radius:10px;font-size:13.5px;background:var(--color-background-primary);color:var(--color-text-primary);font-family:inherit;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
+.wiz-select:focus{border-color:var(--color-brand)}
+.wiz-med-shortcuts{margin-top:18px}
+.wiz-shortcut-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:9px}
+.wiz-sc-card{padding:11px 13px;border:1.5px solid var(--color-border-secondary);border-radius:11px;background:var(--color-background-secondary);cursor:pointer;transition:all .13s;margin-bottom:6px}
+.wiz-sc-card:hover,.wiz-sc-card.wiz-sc-sel{border-color:var(--color-brand);background:rgba(31,122,107,.04)}
+.wiz-sc-name{font-size:12.5px;font-weight:600;margin-bottom:2px}
+.wiz-sc-desc{font-size:11px;color:var(--color-text-tertiary)}
+.wiz-nav{position:sticky;bottom:0;background:linear-gradient(to top,var(--color-background-primary) 72%,transparent);padding:14px 0 22px;margin-top:20px;pointer-events:none}
+.wiz-next-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--color-brand);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-0.01em;pointer-events:all;transition:opacity .14s}
+.wiz-next-btn:hover{opacity:.87}
+.wiz-back-btn-vis{background:none;border:none;font-size:12.5px;font-weight:600;color:var(--color-text-tertiary);cursor:pointer;padding:0 0 10px;font-family:inherit;display:none;align-items:center;gap:4px;pointer-events:all}
+.wiz-back-btn-vis:hover{color:var(--color-text-primary)}
+@media(max-width:600px){.wiz-wrap{max-width:100%}}
 /* Blood work */
 .bw-upload-zone{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px dashed var(--color-border-secondary);border-radius:10px;cursor:pointer;transition:all .15s}
 .bw-upload-zone:hover{border-color:var(--color-brand);background:rgba(31,122,107,.02)}

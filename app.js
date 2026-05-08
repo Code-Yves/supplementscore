@@ -1621,7 +1621,7 @@ function genRecs(){
     const pct=Math.min((elapsed/total)*100,100);
     bar.style.width=pct+'%';
     for(let i=LOAD_STEPS.length-1;i>=0;i--){if(pct>=LOAD_STEPS[i].at){if(lt)lt.textContent=LOAD_STEPS[i].text;if(ls)ls.textContent=LOAD_STEPS[i].sub;break;}}
-    if(elapsed>=total){_genRecsRaf=null;lo.classList.remove('vis');if(btn)btn.disabled=false;_showRecs();return;}
+    if(elapsed>=total){_genRecsRaf=null;lo.classList.remove('vis');if(btn)btn.disabled=false;_showRecs();applyWizPlanStyleLimit();return;}
     _genRecsRaf=requestAnimationFrame(step);
   }
   _genRecsRaf=requestAnimationFrame(step);
@@ -4015,12 +4015,170 @@ const GOALS={
   joints:{label:'Joints',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
   recovery:{label:'Recovery',supps:['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium','Omega-3 (EPA/DHA)','Collagen peptides','Glycine']},
   libido:{label:'Libido',supps:['Maca (Lepidium meyenii)','Tongkat ali (Eurycoma longifolia)','Ashwagandha (KSM-66)','Zinc','Citrulline (L-citrulline, pure form)']},
-  heart:{label:'Heart',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']}
+  heart:{label:'Heart',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']},
+  hormonal:{label:'Hormonal',supps:['Ashwagandha (KSM-66)','Zinc','Magnesium','Selenium','Vitex agnus-castus','Myo-inositol']},
+  hair:{label:'Hair',supps:['Biotin','Zinc','Iron','Omega-3 (EPA/DHA)','Collagen peptides','Saw palmetto']}
 };
 let selectedGoals=new Set();
 function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${escAttrJs(k)}')">${escHtml(g.label)}</div>`).join('');}
 function toggleGoal(k){selectedGoals.has(k)?selectedGoals.delete(k):selectedGoals.add(k);renderGoalChips();updatePfCounts();}
 function getGoalSupps(){const s=new Set();selectedGoals.forEach(k=>{const g=GOALS[k];if(g&&Array.isArray(g.supps))g.supps.forEach(n=>s.add(n));});return s;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   7-STEP PROFILE WIZARD
+   Maps UI goal cards to engine GOALS keys. Multi-select supported — each
+   wizard goal can activate multiple engine GOALS keys simultaneously.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const WIZARD_GOALS = {
+  sleep:      {label:'Sleep',             desc:'Fall asleep faster, stay asleep longer',         goals:['sleep'],                followup:{q:"What's your main sleep issue?",  opts:["Falling asleep","Staying asleep","Both","Daytime fatigue"]}},
+  energy:     {label:'Energy & Focus',    desc:'Sharper mind, sustained energy through the day', goals:['energy','cognition'],    followup:{q:"What do you want most?",           opts:["Sustained energy","Mental clarity & focus","Both"]}},
+  mood:       {label:'Mood & Stress',     desc:'Calm anxiety, manage stress, lift mood',          goals:['mood'],                 followup:{q:"What's your main concern?",      opts:["Anxiety & worry","Stress & burnout","Low mood","All of the above"]}},
+  joints:     {label:'Joints & Recovery', desc:'Reduce pain, rebuild cartilage, recover faster', goals:['joints','recovery'],     followup:{q:"What's your main concern?",      opts:["Joint pain","Post-workout recovery","Cartilage & mobility"]}},
+  heart:      {label:'Heart & Metabolic', desc:'Blood pressure, cholesterol, blood sugar',       goals:['heart'],                 followup:{q:"What are you focusing on?",       opts:["Blood pressure","Cholesterol","Blood sugar"]}},
+  gut:        {label:'Gut Health',        desc:'Digestion, IBS, microbiome support',             goals:['gut'],                   followup:{q:"What's your main symptom?",      opts:["Bloating / gas","Irregular digestion","Microbiome support","General gut health"]}},
+  hormonal:   {label:'Hormonal Balance',  desc:'Menopause, PCOS, thyroid, testosterone',         goals:['hormonal'],              followup:{q:"What applies to you?",            opts:["Menopause / perimenopause","PCOS","Thyroid support","Testosterone & vitality"]}},
+  skin_hair:  {label:'Skin, Hair & Nails',desc:'Strengthen, restore, protect from within',      goals:['skin','hair'],           followup:{q:"What's your priority?",           opts:["Hair loss / thinning","Skin health & glow","Nail strength","All three"]}},
+  healthspan: {label:'General Healthspan',desc:'Longevity, immunity, healthy aging',             goals:['longevity','immunity'],  followup:{q:"What matters most to you?",       opts:["Longevity & healthy aging","Immune support","Cognitive health"]}}
+};
+
+/* Wizard state */
+let wizStep = 1;
+const WIZ_TOTAL = 7;
+let wizPlanStyle = 'elaborate'; // 'simple' = top 4 | 'elaborate' = up to 20
+let wizSelectedGoals = new Set(); // WIZARD_GOALS keys
+let _wizLastFollowupGoal = null;
+
+/* Toggle a wizard goal card — updates both wizard UI and engine selectedGoals Set */
+function wizToggleGoal(key) {
+  const wg = WIZARD_GOALS[key];
+  if (!wg) return;
+  if (wizSelectedGoals.has(key)) {
+    wizSelectedGoals.delete(key);
+    wg.goals.forEach(g => selectedGoals.delete(g));
+  } else {
+    wizSelectedGoals.add(key);
+    wg.goals.forEach(g => selectedGoals.add(g));
+    _wizLastFollowupGoal = key;
+  }
+  _wizRenderGoalCards();
+  _wizRenderFollowup();
+  updatePfCounts&&updatePfCounts();
+}
+
+function _wizRenderGoalCards() {
+  document.querySelectorAll('.wiz-goal-card').forEach(card => {
+    card.classList.toggle('wiz-goal-sel', wizSelectedGoals.has(card.dataset.goal));
+  });
+}
+
+function _wizRenderFollowup() {
+  const wrap = document.getElementById('wiz-followup-wrap');
+  if (!wrap) return;
+  const lastGoal = _wizLastFollowupGoal && wizSelectedGoals.has(_wizLastFollowupGoal)
+    ? _wizLastFollowupGoal
+    : (wizSelectedGoals.size > 0 ? [...wizSelectedGoals][wizSelectedGoals.size - 1] : null);
+  if (!lastGoal) { wrap.style.display = 'none'; return; }
+  const wg = WIZARD_GOALS[lastGoal];
+  wrap.style.display = 'block';
+  wrap.innerHTML = '<div class="wiz-followup"><div class="wiz-followup-label">' + escHtml(wg.followup.q) + '</div><div class="wiz-followup-opts">' +
+    wg.followup.opts.map(o => '<div class="wiz-fopt" onclick="wizSelectFollowup(this)">' + escHtml(o) + '</div>').join('') +
+    '</div></div>';
+}
+
+function wizSelectFollowup(el) {
+  el.closest('.wiz-followup-opts').querySelectorAll('.wiz-fopt').forEach(e => e.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+/* Select plan style (called from plan card clicks) */
+function wizSelectPlan(style) {
+  wizPlanStyle = style;
+  document.querySelectorAll('.wiz-plan-card').forEach(card => {
+    card.classList.toggle('wiz-plan-sel', card.dataset.style === style);
+  });
+}
+
+/* Navigation */
+function wizNext() {
+  if (wizStep >= WIZ_TOTAL) { genRecs(); return; }
+  wizStep++;
+  _wizShowStep(wizStep);
+}
+function wizBack() {
+  if (wizStep <= 1) return;
+  wizStep--;
+  _wizShowStep(wizStep);
+}
+function _wizShowStep(n) {
+  document.querySelectorAll('.wiz-step').forEach(el => el.classList.remove('wiz-active'));
+  const el = document.getElementById('wiz-step-' + n);
+  if (el) el.classList.add('wiz-active');
+  const pct = Math.round((n / WIZ_TOTAL) * 100);
+  const fill = document.getElementById('wiz-prog-fill');
+  if (fill) fill.style.width = pct + '%';
+  const lbl = document.getElementById('wiz-step-label');
+  if (lbl) lbl.textContent = 'Step ' + n + ' of ' + WIZ_TOTAL;
+  const pctEl = document.getElementById('wiz-step-pct');
+  if (pctEl) pctEl.textContent = pct + '%';
+  const backBtn = document.getElementById('wiz-back-btn');
+  if (backBtn) backBtn.style.display = n === 1 ? 'none' : 'flex';
+  const nextBtn = document.getElementById('wiz-next-btn');
+  if (nextBtn) nextBtn.textContent = n === WIZ_TOTAL ? 'Generate my plan →' : 'Next →';
+  // Lazy renders when steps become visible
+  if (n === 4) renderCondChips&&renderCondChips();
+  if (n === 6) { renderDietChips&&renderDietChips(); renderAllergyChips&&renderAllergyChips(); }
+  // Scroll step top into view
+  const wrap = document.getElementById('wiz-step-' + n);
+  if (wrap) { try { wrap.scrollIntoView({behavior:'smooth', block:'nearest'}); } catch(e){} }
+}
+
+/* Add medication combo shortcuts (searches DRUG_INTERACTIONS.drugs by name substring) */
+function wizAddMedCombo(names) {
+  names.forEach(function(name) {
+    if (typeof _drugSuggestions === 'function') {
+      const matches = _drugSuggestions(name);
+      if (matches.length > 0 && typeof addSelectedDrug === 'function') {
+        addSelectedDrug(matches[0].key);
+      }
+    }
+  });
+}
+
+/* After _showRecs renders cards, trim to top 4 if wizPlanStyle === 'simple' */
+function applyWizPlanStyleLimit() {
+  if (wizPlanStyle !== 'simple') return;
+  let shown = 0;
+  const allCards = document.querySelectorAll('#supp-cards-container .supp-card');
+  allCards.forEach(function(card) {
+    const keep = shown < 4;
+    card.style.display = keep ? '' : 'none';
+    if (keep) shown++;
+  });
+  // Hide tier group headers whose cards are all hidden
+  document.querySelectorAll('#supp-cards-container .tier-sec-hdr').forEach(function(hdr) {
+    const cardGroup = hdr.nextElementSibling;
+    if (!cardGroup) return;
+    const hasVisible = [...cardGroup.querySelectorAll('.supp-card')].some(c => c.style.display !== 'none');
+    hdr.style.display = hasVisible ? '' : 'none';
+    if (cardGroup.classList.contains('supp-cards')) cardGroup.style.display = hasVisible ? '' : 'none';
+  });
+}
+
+/* Render the 9 wizard goal cards into #wiz-goal-cards */
+function wizInit() {
+  const container = document.getElementById('wiz-goal-cards');
+  if (!container) return;
+  container.innerHTML = Object.entries(WIZARD_GOALS).map(function([k, wg]) {
+    return '<div class="wiz-goal-card" data-goal="' + escAttr(k) + '" onclick="wizToggleGoal(\'' + escAttrJs(k) + '\')">' +
+      '<div><div class="wiz-goal-label">' + escHtml(wg.label) + '</div><div class="wiz-goal-desc">' + escHtml(wg.desc) + '</div></div>' +
+      '<div class="wiz-goal-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+      '</div>';
+  }).join('');
+  // Default plan to elaborate (pre-select it)
+  wizSelectPlan('elaborate');
+  _wizShowStep(1);
+}
 
 /* ──────────────────────────────────────────────────────────────────────────
    Plan B1 — Health Status inputs (kidney function, liver function, allergies,
@@ -4176,6 +4334,7 @@ function saveProfile(){
        class) but the specific drug name was lost. */
     drugs:(typeof selectedDrugs!=='undefined')?[...selectedDrugs]:[],
     conds:[...selectedConds],goals:[...selectedGoals],
+    wizGoals:[...wizSelectedGoals],wizPlanStyle:wizPlanStyle,
     heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
     // Plan B1 — Health Status fields
@@ -4232,6 +4391,8 @@ function loadProfile(){
     }
     if(Array.isArray(p.conds)){selectedConds=new Set(p.conds.filter(k=>CONDITIONS&&CONDITIONS[k]));renderCondChips();}
     if(Array.isArray(p.goals)){selectedGoals=new Set(p.goals.filter(k=>GOALS&&GOALS[k]));renderGoalChips();}
+    if(Array.isArray(p.wizGoals)){wizSelectedGoals=new Set(p.wizGoals.filter(k=>WIZARD_GOALS&&WIZARD_GOALS[k]));_wizRenderGoalCards&&_wizRenderGoalCards();}
+    if(p.wizPlanStyle&&(p.wizPlanStyle==='simple'||p.wizPlanStyle==='elaborate')){wizPlanStyle=p.wizPlanStyle;wizSelectPlan&&wizSelectPlan(p.wizPlanStyle);}
     // Plan B1 — restore Health Status
     if(p.kidney_fn){const el=document.getElementById('kidney-fn');if(el)el.value=p.kidney_fn;}
     if(p.liver_fn){const el=document.getElementById('liver-fn');if(el)el.value=p.liver_fn;}
@@ -4385,6 +4546,7 @@ renderAllergyChips();   // Plan B1
 renderDietChips();      // Plan B1 round 2
 renderBwGrid();
 updatePfCounts();
+wizInit();              // 7-step wizard
 ['prof-height-ft','prof-height-in','prof-weight'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',calcBMI);});
 initAllTab();
 
