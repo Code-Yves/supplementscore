@@ -1183,7 +1183,9 @@ body{ overflow-x:clip; }
 .wiz-plan-card{padding:16px 18px;border:1.5px solid var(--color-border-secondary);border-radius:14px;background:var(--color-background-secondary);cursor:pointer;transition:all .14s}
 .wiz-plan-card:hover{border-color:var(--color-brand)}
 .wiz-plan-card.wiz-plan-sel{border-color:var(--color-brand);background:rgba(31,122,107,.045);box-shadow:0 0 0 3px rgba(31,122,107,.09)}
-.wiz-plan-h{font-size:15.5px;font-weight:700;margin:0 0 5px}
+.wiz-plan-h{font-size:15.5px;font-weight:700;margin:0 0 5px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wiz-plan-sel-badge{display:none;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--color-brand);padding:2px 9px;border-radius:99px;background:rgba(31,122,107,.1);flex-shrink:0}
+.wiz-plan-card.wiz-plan-sel .wiz-plan-sel-badge{display:inline-flex}
 .wiz-plan-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 12px}
 .wiz-plan-feats{display:flex;flex-direction:column;gap:5px}
 .wiz-plan-feat{display:flex;align-items:flex-start;gap:8px;font-size:11.5px;color:var(--color-text-secondary);line-height:1.4}
@@ -1191,11 +1193,17 @@ body{ overflow-x:clip; }
 .wiz-field-group{margin-bottom:16px}
 .wiz-field-label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);margin-bottom:7px}
 .wiz-field-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary);font-size:10px}
+/* Height + weight inline row */
+.wiz-hw-row{display:flex;align-items:center;gap:10px}
+.wiz-hw-group{display:flex;gap:6px;flex-shrink:0}
+.wiz-hw-input{width:72px}
+.wiz-hw-unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none}
+@media(max-width:480px){.wiz-hw-row{flex-wrap:wrap}.wiz-hw-group{flex:0 0 100%}.wiz-hw-input{flex:1}}
 .wiz-input{width:100%;padding:10px 13px;border:1.5px solid var(--color-border-secondary);border-radius:10px;font-size:15px;font-weight:600;background:var(--color-background-primary);color:var(--color-text-primary);font-family:inherit;outline:none;-moz-appearance:textfield}
 .wiz-input::-webkit-outer-spin-button,.wiz-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .wiz-input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.1)}
-.wiz-select{width:100%;padding:10px 13px;border:1.5px solid var(--color-border-secondary);border-radius:10px;font-size:13.5px;background:var(--color-background-primary);color:var(--color-text-primary);font-family:inherit;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
-.wiz-select:focus{border-color:var(--color-brand)}
+.wiz-select{width:100%;padding:10px 36px 10px 13px;border:1.5px solid var(--color-border-secondary);border-radius:10px;font-size:13.5px;background:var(--color-background-primary) url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center;color:var(--color-text-primary);font-family:inherit;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
+.wiz-select:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.1)}
 .wiz-med-shortcuts{margin-top:18px}
 .wiz-shortcut-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:9px}
 .wiz-sc-card{padding:11px 13px;border:1.5px solid var(--color-border-secondary);border-radius:11px;background:var(--color-background-secondary);cursor:pointer;transition:all .13s;margin-bottom:6px}
@@ -2231,8 +2239,8 @@ html.is-embedded .pg-close-fab{display:none}
 .rn-body-text{font-size:12px;color:var(--color-text-secondary);line-height:1.55}
 .rn-drug-warn{font-size:11px;color:var(--color-warn-text);background:var(--color-warn-bg);border:0.5px solid var(--color-warn-border);border-radius:7px;padding:6px 9px;margin-bottom:10px;line-height:1.5}
 .rn-ctas{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
-.rn-cta{flex:1;border:0.5px solid var(--color-border-tertiary);background:transparent;border-radius:8px;font-size:11px;color:var(--color-text-secondary);padding:7px 10px;cursor:pointer;transition:background .12s,border-color .12s,color .12s;text-align:center;line-height:1.4}
-.rn-cta:hover{background:var(--color-background-secondary);border-color:var(--color-border-secondary);color:var(--color-text-primary)}
+.rn-cta{flex:1;border:0.5px solid rgba(13,148,136,.3);background:rgba(13,148,136,.07);border-radius:8px;font-size:11px;color:#0D9488;padding:7px 10px;cursor:pointer;transition:background .12s,border-color .12s,color .12s;text-align:center;line-height:1.4;font-weight:500}
+.rn-cta:hover{background:rgba(13,148,136,.13);border-color:rgba(13,148,136,.5);color:#0a6b5e}
 .rn-tier-hdr{font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--color-text-tertiary);padding:14px 0 6px;margin-top:4px}
 .rn-tier-hdr:first-child{padding-top:2px;margin-top:0}
 
@@ -2241,3 +2249,10 @@ html.is-embedded .pg-close-fab{display:none}
 .rn-undo-toast.visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
 .rn-undo-btn{background:none;border:none;color:#7DD3FC;font-size:12.5px;font-weight:600;cursor:pointer;padding:0}
 .rn-undo-btn:hover{color:#BAE6FD}
+
+/* Plan card filter search */
+.rn-plan-search-wrap{position:relative}
+.rn-plan-search-inner{display:flex;align-items:center;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:9px;padding:7px 11px}
+.rn-plan-search-icon{flex-shrink:0;color:var(--color-text-tertiary)}
+.rn-plan-search-inp{flex:1;border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:inherit}
+.rn-plan-search-inp::placeholder{color:var(--color-text-tertiary)}

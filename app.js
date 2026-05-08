@@ -480,16 +480,8 @@ function pickSex(s){if(s!=='m'&&s!=='f'&&s!=='fp')return;sex=s;const bm=document
 function editP(){
   const vres=document.getElementById('v-res');if(vres)vres.style.display='none';
   const vin=document.getElementById('v-input');if(vin)vin.style.display='block';
-  // Sections are always-expanded in the current design (see styles.css comment at .pf-sec-header).
-  // The legacy collapse-all here was leaving every section locked shut with no toggle to reopen them.
-  // Force every section back to .pf-open in case any stale state lingers.
-  document.querySelectorAll('.pf-section').forEach(s=>s.classList.add('pf-open'));
-  // Change submit button text
-  const btn=document.querySelector('.pf-submit');
-  if(btn)btn.textContent='Update my supplement plan \u2192';
-  // Update hint
-  const hint=document.querySelector('.pf-hint');
-  if(hint)hint.textContent='Make changes above, then update your plan';
+  // Return to step 1 so the user can review their profile from the beginning
+  wizStep=1;if(typeof _wizShowStep==='function')_wizShowStep(1);
   // Scroll to top
   window.scrollTo(0,0);
 }
@@ -1602,7 +1594,12 @@ const LOAD_STEPS=[
 ];
 let _genRecsRaf=null;
 function genRecs(){
-  if(!sex){const serr=document.getElementById('serr');if(serr)serr.style.display='block';return;}
+  if(!sex){
+    // Navigate to step 3 where sex selection lives so the user sees the error
+    wizStep=3;if(typeof _wizShowStep==='function')_wizShowStep(3);
+    const serr=document.getElementById('serr');if(serr)serr.style.display='block';
+    return;
+  }
   // Show loading
   const btn=document.querySelector('.go-btn');if(btn)btn.disabled=true;
   const vin=document.getElementById('v-input');if(vin)vin.style.display='none';
@@ -1610,7 +1607,7 @@ function genRecs(){
   const bar=document.getElementById('load-bar');
   const lt=document.getElementById('load-text'),ls=document.getElementById('load-sub');
   if(bar)bar.style.width='0%';
-  const total=5000;
+  const total=2500;
   const start=performance.now();
   // Cancel any in-flight loader before starting a new one
   if(_genRecsRaf){cancelAnimationFrame(_genRecsRaf);_genRecsRaf=null;}
@@ -1750,10 +1747,11 @@ function _showRecs(){
   const resHd=document.getElementById('res-hd');if(resHd)resHd.textContent='Your recommendations';
   const resSh=document.getElementById('res-sh');if(resSh)resSh.textContent=`${age}-year-old ${sexLabel} \u00B7 Last updated today`;
 
-  // Banner chips
-  const essCount=recs.filter(x=>x.p==='essential').length;
-  const recCount=recs.filter(x=>x.p==='recommended').length;
-  const conCount=recs.filter(x=>x.p==='consider').length;
+  // Banner chips — use the same score≥60 filter as renderSuppCards so counts match visible cards
+  const _bannerSF=(r)=>{const s=_suppByName.get(r.n);return s?calcScore(s)>=60:true;};
+  const essCount=recs.filter(x=>x.p==='essential').length; // essentials are never score-filtered
+  const recCount=recs.filter(x=>x.p==='recommended').filter(_bannerSF).length;
+  const conCount=recs.filter(x=>x.p==='consider').filter(_bannerSF).length;
   const resChips=document.getElementById('res-chips');
   if(resChips)resChips.innerHTML=[
     {n:essCount,l:'Essential',c:'#16A34A'},{n:recCount,l:'Recommended',c:'#2563EB'},{n:conCount,l:'Consider',c:'#D97706'}
@@ -1875,8 +1873,9 @@ function filterSuppSearch(q){
   // Bumped 8 → 12 — user wants easier access to the full database.
   const matches=scored.slice(0,12).map(x=>x.s);
   if(!matches.length){dd.innerHTML='<div class="ac-empty">No supplements match \u201C'+escHtml(q)+'\u201D</div>';dd.style.display='block';return;}
-  const recNames=new Set(_lastRecs.map(r=>r.n));
-  const addedNames=new Set(userAddedSupps);
+  const recNames=new Set((_lastRecs||[]).map(r=>r.n));
+  const addedNames=new Set(userAddedSupps||[]);
+  const header='<div class="ac-hdr">Search results</div>';
   dd.innerHTML=header+matches.map((s,i)=>{
     const sc=calcScore(s);
     const scBg=sc>=72?'#0D9488':sc>=60?'#4B7BE5':sc>=40?'#CA8A04':'#B91C1C';
@@ -1891,8 +1890,8 @@ function filterSuppSearch(q){
 function hideSuppDropdown(){const dd=document.getElementById('add-supp-dropdown');if(dd){dd.style.display='none';dd.innerHTML='';}}
 
 function _flashCard(name,color){
-  const sel='.supp-card[data-supp="'+String(name).replace(/"/g,'\\"').replace(/&/g,'&amp;')+'"]';
-  const card=document.querySelector(sel);
+  const escaped=String(name).replace(/"/g,'\\"').replace(/&/g,'&amp;');
+  const card=document.querySelector('.rn-card[data-supp="'+escaped+'"]')||document.querySelector('.supp-card[data-supp="'+escaped+'"]');
   if(!card)return;
   card.scrollIntoView({behavior:'smooth',block:'center'});
   card.style.transition='box-shadow .25s';
@@ -1978,9 +1977,11 @@ function renderSuppCards(recs,mi,bwResults){
   const container=document.getElementById('supp-cards-container');
   if(!container)return;
 
+  // Filter to score >= 60 only (essential tier exempt from score cutoff — clinically warranted regardless)
+  const _scoreFilter=(r)=>{const s=_suppByName.get(r.n);return s?calcScore(s)>=60:true;};
   const essItems=recs.filter(x=>x.p==='essential');
-  const recItems=recs.filter(x=>x.p==='recommended');
-  const conItems=recs.filter(x=>x.p==='consider');
+  const recItems=recs.filter(x=>x.p==='recommended').filter(_scoreFilter);
+  const conItems=recs.filter(x=>x.p==='consider').filter(_scoreFilter);
 
   // Sort "Worth considering" from highest to lowest composite score
   const _scoreOf=n=>{const sup=_suppByName.get(n);return sup?calcScore(sup):0;};
@@ -2088,8 +2089,10 @@ function renderSuppCards(recs,mi,bwResults){
       tips?`<div class="rn-body-sec"><div class="rn-body-label">Timing &amp; tips</div><div class="rn-body-text">${escHtml(tips)}</div></div>`:'',
     ].filter(Boolean).join('');
     const hasArts=typeof ARTICLE_MAP!=='undefined'&&ARTICLE_MAP[r.n]&&ARTICLE_MAP[r.n].length;
-    const artsBtnHtml=hasArts?`<button class="rn-cta" onclick="rnOpenArticles(${JSON.stringify(r.n)},event)">Research articles</button>`:'';
-    return`<div class="rn-card ${scCls}" id="${safeId}" data-supp="${escAttr(r.n)}"><div class="rn-face"><div class="rn-name-row"><div class="rn-name-group"><span class="rn-name">${escHtml(r.n)}</span><span class="rn-score ${scCls}">${sc}</span></div><button class="rn-remove" onclick="rnRemove('${safeId}',event)" title="Remove ${escAttr(r.n)}">×</button></div>${chips?`<div class="rn-chips">${chips}</div>`:''}${summaryHtml}${pairsHtml}</div><button class="rn-expand" onclick="rnTog('${safeId}')"><span>See more</span> <span class="rn-chev">▾</span></button><div class="rn-body" style="display:none">${drugWarnHtml}${expandedSecs}<div class="rn-ctas"><button class="rn-cta" onclick="openSuppModal(${JSON.stringify(r.n)})">Full Supplement Card</button>${artsBtnHtml}</div></div></div>`;
+    const _nm2=r.n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const artsBtnHtml=hasArts?`<button class="rn-cta" onclick="rnOpenArticles('${_nm2}',event)">Research articles</button>`:'';
+        const _nm=r.n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return`<div class="rn-card ${scCls}" id="${safeId}" data-supp="${escAttr(r.n)}"><div class="rn-face"><div class="rn-name-row"><div class="rn-name-group"><span class="rn-name">${escHtml(r.n)}</span><span class="rn-score ${scCls}">${sc}</span></div><button class="rn-remove" onclick="rnRemove('${safeId}',event)" title="Remove ${escAttr(r.n)}">×</button></div>${chips?`<div class="rn-chips">${chips}</div>`:''}${summaryHtml}${pairsHtml}</div><button class="rn-expand" onclick="rnTog('${safeId}')"><span>See more</span> <span class="rn-chev">▾</span></button><div class="rn-body" style="display:none">${drugWarnHtml}${expandedSecs}<div class="rn-ctas"><button class="rn-cta" onclick="openSuppModal('${_nm}')">Full Supplement Card</button>${artsBtnHtml}</div></div></div>`;
   }
 
   let html='';
@@ -2125,6 +2128,27 @@ function renderSuppCards(recs,mi,bwResults){
   const _selBar=document.getElementById('sel-bar');if(_selBar)_selBar.style.display='block';
 }
 
+
+// ── Plan search: live-filter .rn-card elements by name/tag/desc ──
+function filterPlanCards(q){
+  q=(q||'').toLowerCase().trim();
+  const cards=document.querySelectorAll('#supp-cards-container .rn-card');
+  cards.forEach(card=>{
+    const name=(card.dataset.supp||'').toLowerCase();
+    const match=!q||name.includes(q);
+    card.style.display=match?'':'none';
+  });
+  // Hide tier headers with no visible cards below them
+  const hdrs=document.querySelectorAll('#supp-cards-container .rn-tier-hdr');
+  hdrs.forEach(hdr=>{
+    let sibling=hdr.nextElementSibling;let hasVisible=false;
+    while(sibling&&sibling.classList.contains('rn-card')){
+      if(sibling.style.display!=='none')hasVisible=true;
+      sibling=sibling.nextElementSibling;
+    }
+    hdr.style.display=hasVisible?'':'none';
+  });
+}
 
 // ── A5 Recommendation card runtime helpers ──
 function rnTog(id){const card=document.getElementById(id);if(!card)return;const body=card.querySelector('.rn-body');const chev=card.querySelector('.rn-chev');const expandBtn=card.querySelector('.rn-expand');if(!body)return;const isOpen=body.style.display!=='none';body.style.display=isOpen?'none':'block';if(chev)chev.textContent=isOpen?'▾':'▴';if(expandBtn){const lbl=expandBtn.querySelector('span:first-child');if(lbl)lbl.textContent=isOpen?'See more':'See less';}}
@@ -4115,6 +4139,19 @@ function wizSelectPlan(style) {
 /* Navigation */
 function wizNext() {
   if (wizStep >= WIZ_TOTAL) { genRecs(); return; }
+  // Step 1 soft nudge: if no goals selected, briefly show an informational note before continuing
+  if (wizStep === 1 && wizSelectedGoals.size === 0) {
+    const existing = document.getElementById('wiz-no-goal-note');
+    if (!existing) {
+      const note = document.createElement('div');
+      note.id = 'wiz-no-goal-note';
+      note.style.cssText = 'font-size:11.5px;color:#D97706;background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.18);border-radius:8px;padding:8px 12px;margin-top:4px;margin-bottom:2px;animation:wizIn .2s ease';
+      note.textContent = 'No goal selected — your plan will be based on your age & sex. You can always add goals later by editing your profile.';
+      const nav = document.querySelector('.wiz-nav');
+      if (nav) nav.parentNode.insertBefore(note, nav);
+      setTimeout(() => { if (note.parentNode) note.parentNode.removeChild(note); }, 4000);
+    }
+  }
   wizStep++;
   _wizShowStep(wizStep);
 }
@@ -4351,12 +4388,15 @@ function calcBMI(){
   const inch=parseInt(document.getElementById('prof-height-in')?.value)||0;
   const lbs=parseInt(document.getElementById('prof-weight')?.value)||0;
   const el=document.getElementById('bmi-display');
-  if(!el||!ft||!lbs)return void(el&&(el.textContent=''));
+  if(!el)return;
+  if(!ft||!lbs){el.innerHTML='';return;}
   const totalIn=ft*12+inch;
+  if(totalIn<=0){el.innerHTML='';return;}
   const bmi=(lbs*703)/(totalIn*totalIn);
-  if(bmi<10||bmi>80)return void(el.textContent='');
-  const cat=bmi<18.5?'Underweight':bmi<25?'Normal':bmi<30?'Overweight':'Obese';
-  el.textContent='BMI: '+bmi.toFixed(1)+' ('+cat+')';
+  if(bmi<10||bmi>80){el.innerHTML='';return;}
+  const cat=bmi<18.5?'Underweight':bmi<25?'Healthy weight':bmi<30?'Overweight':'Obese';
+  const clr=bmi<18.5?'#D97706':bmi<25?'#16A34A':bmi<30?'#D97706':'#DC2626';
+  el.innerHTML='BMI&nbsp;<b style="color:'+clr+'">'+bmi.toFixed(1)+'</b>&nbsp;<span style="color:var(--color-text-tertiary)">('+cat+')</span>';
 }
 
 /* ── Profile persistence: localStorage + URL + email ── */
@@ -4467,10 +4507,31 @@ function clearProfile(){
   lsRemove('ss-profile');
   const asl=document.getElementById('asl');if(asl){asl.value=35;updAge(35);}
   sex=null;
-  ['bm','bf','bp'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='sx-btn';});
+  // Fix: restore pf-sex-opt class so pill styling isn't lost after clear
+  ['bm','bf','bp'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='pf-sex-opt sx-btn';});
   selectedMeds=new Set();renderMedChips();
   selectedConds=new Set();renderCondChips();
   selectedGoals=new Set();renderGoalChips();
+  // Reset typeahead drugs
+  if(typeof selectedDrugs!=='undefined')selectedDrugs=new Set();
+  if(typeof renderDrugChips==='function')renderDrugChips();
+  const dti=document.getElementById('drug-typeahead-input');if(dti)dti.value='';
+  // Reset health-status chips
+  if(typeof selectedAllergies!=='undefined')selectedAllergies=new Set();
+  if(typeof renderAllergyChips==='function')renderAllergyChips();
+  if(typeof selectedDiets!=='undefined')selectedDiets=new Set();
+  if(typeof renderDietChips==='function')renderDietChips();
+  // Reset health status selects
+  ['kidney-fn','liver-fn','smoking-status'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  // Reset wizard state fully
+  if(typeof wizSelectedGoals!=='undefined')wizSelectedGoals=new Set();
+  if(typeof _wizRenderGoalCards==='function')_wizRenderGoalCards();
+  wizPlanStyle='elaborate';
+  if(typeof wizSelectPlan==='function')wizSelectPlan('elaborate');
+  wizStep=1;
+  if(typeof _wizShowStep==='function')_wizShowStep(1);
+  // Reset shortcut cards visual state
+  document.querySelectorAll('.wiz-sc-card.wiz-sc-sel').forEach(c=>c.classList.remove('wiz-sc-sel'));
   ['prof-height-ft','prof-height-in','prof-weight'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   bloodWork={};renderBwGrid();clearBwUpload();
   const bmi=document.getElementById('bmi-display');if(bmi)bmi.textContent='';

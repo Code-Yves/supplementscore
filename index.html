@@ -622,7 +622,7 @@
           <p class="wiz-step-sub">You can always switch later from your dashboard.</p>
           <div class="wiz-plan-cards">
             <div class="wiz-plan-card" data-style="simple" onclick="wizSelectPlan('simple')">
-              <div class="wiz-plan-h">Keep it simple</div>
+              <div class="wiz-plan-h">Keep it simple <span class="wiz-plan-sel-badge">✓ Selected</span></div>
               <div class="wiz-plan-desc">The engine picks the 4 highest-impact supplements for your goal. No noise — just the essentials with clear doses.</div>
               <div class="wiz-plan-feats">
                 <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Up to 4 supplements, ranked by personal fit</div>
@@ -631,7 +631,7 @@
               </div>
             </div>
             <div class="wiz-plan-card" data-style="elaborate" onclick="wizSelectPlan('elaborate')">
-              <div class="wiz-plan-h">Elaborate</div>
+              <div class="wiz-plan-h">Elaborate <span class="wiz-plan-sel-badge">✓ Selected</span></div>
               <div class="wiz-plan-desc">The full ranked list — every supplement your profile supports, with evidence tiers, dosing rationale, timing, and pairings.</div>
               <div class="wiz-plan-feats">
                 <div class="wiz-plan-feat"><span class="wiz-plan-dot"></span>Up to 20 supplements ranked by evidence + personal fit</div>
@@ -659,8 +659,24 @@
             </div>
           </div>
           <div class="wiz-field-group">
-            <label class="wiz-field-label" for="prof-weight"><span>Weight</span> <span class="wiz-field-opt">(optional — tightens doses by ±25%)</span></label>
-            <input type="number" class="wiz-input" id="prof-weight" placeholder="e.g. 165 lbs" oninput="calcBMI()">
+            <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — enables BMI and tightens doses by ±25%)</span></label>
+            <div class="wiz-hw-row">
+              <div class="wiz-hw-group">
+                <div style="position:relative">
+                  <input type="number" class="wiz-input wiz-hw-input" id="prof-height-ft" placeholder="5" min="3" max="7" aria-label="Height feet" oninput="calcBMI()">
+                  <span class="wiz-hw-unit">ft</span>
+                </div>
+                <div style="position:relative">
+                  <input type="number" class="wiz-input wiz-hw-input" id="prof-height-in" placeholder="10" min="0" max="11" aria-label="Height inches" oninput="calcBMI()">
+                  <span class="wiz-hw-unit">in</span>
+                </div>
+              </div>
+              <div style="position:relative;flex:1">
+                <input type="number" class="wiz-input" id="prof-weight" placeholder="165" style="padding-right:42px" oninput="calcBMI()">
+                <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none">lbs</span>
+              </div>
+            </div>
+            <div id="bmi-display" style="font-size:11px;color:var(--color-text-tertiary);margin-top:6px;min-height:16px"></div>
           </div>
           <div class="errmsg" id="serr" style="display:none">Please select your biological sex to continue.</div>
         </div>
@@ -793,8 +809,6 @@
         <span id="pf-count-goals" style="display:none"></span>
 
       </div>
-      <div id="bmi-display" style="display:none"></div>
-      <input type="hidden" id="prof-height-ft"><input type="hidden" id="prof-height-in"><input type="hidden" id="prof-weight">
       <input type="hidden" id="prof-email">
       <div id="age-grp" style="display:none"></div>
     </div>
