@@ -253,13 +253,74 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .med-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
 .med-label-opt{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary)}
 .med-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.5rem}
-.med-chip{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s;user-select:none;white-space:nowrap}
+.med-chip{padding:9px 14px;min-height:36px;font-size:13px;border-radius:20px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s;user-select:none;white-space:nowrap}
 .med-chip.on{background:var(--color-brand);color:#fff;border-color:transparent}
 .med-chip:hover:not(.on){background:var(--color-background-primary);border-color:var(--color-border-primary)}
 /* Tighter chips inside the Medications section so the 4 default chips fit on one line at 540px container width. */
 #pf-sec-meds .med-chips{gap:4px}
 #pf-sec-meds .med-chip{padding:4px 8px;font-size:10.5px}
 .med-note{font-size:11px;color:var(--color-text-tertiary);line-height:1.5;font-style:italic}
+/* Round-4 add: jump-rail — horizontal scrollable strip of 7 step pills above
+   the progress bar. Visible only after the user has advanced past step 1; the
+   _wizPaintJumpRail() renderer handles which steps are reachable. */
+.wiz-jump-rail{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 2px 12px;margin-bottom:4px}
+.wiz-jump-rail::-webkit-scrollbar{display:none}
+.wiz-jump-rail:empty{display:none}
+.wiz-jump-step{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 12px;border-radius:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-tertiary);font-size:11.5px;line-height:1.2;cursor:default;min-width:64px;user-select:none;transition:background .12s,color .12s,border-color .12s}
+.wiz-jump-step .step-n{font-size:10px;color:var(--color-text-tertiary);font-weight:600}
+.wiz-jump-step.done{cursor:pointer;color:var(--color-text-secondary);border-color:var(--color-border-secondary)}
+.wiz-jump-step.done:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.wiz-jump-step.act{background:var(--color-brand);color:#fff;border-color:var(--color-brand);font-weight:600;cursor:default}
+.wiz-jump-step.act .step-n{color:rgba(255,255,255,.78)}
+/* Round-4 add: welcome-back banner — was 11px legalese; now legible with a teal
+   left-border. Same data, twice the perceived importance. */
+.wb-banner{display:flex;align-items:center;gap:10px;padding:12px 14px;font-size:13px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:3px solid var(--color-brand);border-top:0.5px solid var(--color-border-tertiary);border-right:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary);border-radius:0 10px 10px 0;margin-bottom:14px}
+.wb-banner .wb-icon{flex-shrink:0;color:var(--color-brand)}
+.wb-banner .wb-text{flex:1;min-width:0}
+.wb-banner .wb-title{font-size:13px;font-weight:600;color:var(--color-text-primary)}
+.wb-banner .wb-sub{font-size:12px;color:var(--color-text-tertiary);margin-top:1px}
+.wb-banner .wb-action{margin-left:auto;font-size:12px;color:var(--color-brand);font-weight:600;padding:8px 12px;border-radius:8px;background:rgba(31,122,107,.08);border:0.5px solid rgba(31,122,107,.18);cursor:pointer;font-family:inherit;min-height:36px}
+.wb-banner .wb-action:hover{background:rgba(31,122,107,.14)}
+/* Round-4 add: condition-step grouping. Step 4 was a wall of 50 chips; now grouped
+   by category with collapsible "show more" per group. */
+.cond-group{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--color-background-primary)}
+.cond-group-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cond-group-name{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-primary)}
+.cond-group-count{font-size:11px;color:var(--color-text-tertiary)}
+.cond-group-body{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.cond-group-more{margin-top:8px;font-size:12px;color:var(--color-brand);font-weight:600;cursor:pointer;padding:6px 0;display:inline-block;user-select:none}
+.cond-group-more:hover{color:var(--color-brand-hover)}
+/* Round-7: prominent +N more button rendered inline with the chip set. */
+.cond-group-more-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:7px 12px;min-height:32px;
+  font-size:12px;font-weight:700;letter-spacing:.01em;
+  color:var(--color-brand);background:rgba(31,122,107,.08);
+  border:1px solid var(--color-brand);border-radius:999px;
+  font-family:inherit;cursor:pointer;
+  transition:background .12s,color .12s;
+  white-space:nowrap;
+}
+.cond-group-more-btn:hover{background:var(--color-brand);color:#fff}
+/* Round-10: condition pills tightened further to match other secondary pills
+   on the site (allergy/diet chip set, drug chips). */
+.cond-chip{padding:5px 11px;font-size:11.5px;min-height:28px;line-height:1.35}
+.cond-group-more-btn{padding:5px 11px;min-height:28px;font-size:11.5px}
+
+/* Round-8: hide the recently-viewed strip whenever the user is in the
+   Custom Profile view. The strip is a great affordance on the Index page
+   but it's noise here. */
+body.on-profile .ssux-recent{display:none !important}
+
+/* Round-8: meds-step explainer panel — gives the page presence comparable to
+   the chip-heavy steps without bringing back the combo cards. Pure info. */
+.wiz-meds-explainer{margin-top:18px;padding:16px 18px;border:0.5px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-primary)}
+.wiz-meds-explainer-h{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.wiz-meds-explainer-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.wiz-meds-explainer-list li{font-size:12.5px;line-height:1.5;color:var(--color-text-secondary);padding-left:14px;position:relative}
+.wiz-meds-explainer-list li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--color-brand);opacity:.55}
+.wiz-meds-explainer-list b{color:var(--color-text-primary);font-weight:600}
+.wiz-meds-explainer-foot{font-size:11.5px;color:var(--color-text-tertiary);margin:14px 0 0;line-height:1.4}
 /* Phase 2 / Item #2 — drug typeahead (specific medications) */
 .drug-typeahead-wrap{display:flex;flex-direction:column;gap:6px}
 .drug-typeahead-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-secondary)}
@@ -286,7 +347,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .drug-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
 .drug-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(31,122,107,.08);color:var(--color-brand);border:0.5px solid rgba(31,122,107,.25);padding:3px 4px 3px 10px;border-radius:14px;font-size:11.5px;font-weight:500}
 .drug-chip-name{padding-right:2px}
-.drug-chip-remove{background:transparent;border:none;color:var(--color-brand);font-size:14px;line-height:1;cursor:pointer;padding:0 6px;border-radius:50%;font-weight:600;font-family:inherit}
+.drug-chip-remove{background:transparent;border:none;color:var(--color-brand);font-size:14px;line-height:1;cursor:pointer;padding:7px 10px;min-width:28px;min-height:28px;border-radius:50%;font-weight:600;font-family:inherit;display:inline-flex;align-items:center;justify-content:center}
 .drug-chip-remove:hover{background:rgba(31,122,107,.15)}
 /* Phase 3 / Item #6 — form-specific evidence callout in supplement modal */
 .supp-form-note{background:rgba(202,138,4,.06);border-left:3px solid #CA8A04;padding:10px 14px;border-radius:6px;margin:14px 0}
@@ -313,7 +374,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 /* ── Supplement-supplement interaction UI ── */
 #supp-alert-box{margin-bottom:1rem}
 .supp-alert{background:#FEF2F2;border:0.5px solid rgba(220,38,38,.25);border-left:3px solid #DC2626;border-radius:10px;padding:.85rem 1rem}
-.supp-alert-clean{background:#F0FDF4;border-color:#16A34A}
+.supp-alert-clean{background:#F0FDF4;border-color:var(--color-brand)} /* round-4: token */
 .supp-alert-clean .supp-alert-hdr{color:#166534}
 .supp-alert-clean .supp-alert-sub{font-size:11px;color:#166534;margin-top:4px}
 /* Positive pairings block — warm cream with gold accent (legacy — no longer rendered, kept for back-compat) */
@@ -398,10 +459,10 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .rc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.8rem .95rem;margin-bottom:7px}
 .rc.has-warn{border-color:#F9A825}
 .rc-top{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap}
-.rc-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
-.rc-why{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:7px}
+.rc-name{font-size:17px;font-weight:500;color:var(--color-text-primary)} /* round-4: type scale */
+.rc-why{font-size:13px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:7px} /* round-4: type scale */
 .rc-warn{font-size:11px;color:var(--color-warn-text);background:var(--color-warn-bg);border:0.5px solid var(--color-warn-border);border-radius:6px;padding:5px 8px;margin-bottom:7px;line-height:1.5}
-.rc-dose{font-size:11px;padding:3px 8px;border-radius:5px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);display:inline-block}
+.rc-dose{font-size:13px;padding:3px 8px;border-radius:5px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);display:inline-block} /* round-4: type scale */
 .rc-dose b{color:var(--color-text-primary);font-weight:500}
 .disc{font-size:11px;color:var(--color-text-tertiary);line-height:1.6;padding:9px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:1rem}
 .sleep-sec{margin-bottom:1.5rem}
@@ -1046,7 +1107,7 @@ body{ overflow-x:clip; }
 
 /* ── Plan toggle switches ── */
 .plan-toggle{width:32px;height:18px;border-radius:9px;background:#d6d3d1;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s;border:none;padding:0}
-.plan-toggle.on{background:#0D9488}
+.plan-toggle.on{background:var(--color-brand)} /* round-4: token */
 .plan-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .plan-toggle.on::after{left:16px}
 .plan-item-off{opacity:.35}
@@ -1110,6 +1171,67 @@ body{ overflow-x:clip; }
 .res-banner-edit:hover{background:#F8FAFC;border-color:#94A3B8}
 @media(max-width:600px){.res-banner{flex-direction:column;align-items:flex-start;gap:14px}.res-banner-edit{width:100%;text-align:center}.res-banner-chips{flex-wrap:wrap}}
 
+/* ─── Round-5 recommendations hero ─── */
+/* Soft gradient hero card. Replaces the bare title-and-chips banner. Combines
+   Direction A's warmth with Direction C's "Live · N studies / 72h" pill. No
+   avatar, no count cards. Edit profile is brand-green and slightly smaller. */
+.rec-hero{
+  background:linear-gradient(135deg,#F1ECDF 0%,#E8F2EF 100%);
+  border-radius:18px;
+  padding:22px 24px;
+  border:0.5px solid var(--color-border-secondary);
+  position:relative;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+.rec-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 92% -10%, rgba(31,122,107,.10) 0%, transparent 38%),
+             radial-gradient(circle at 0% 105%, rgba(232,150,122,.06) 0%, transparent 42%);
+  pointer-events:none;
+}
+.rec-hero-top{display:flex;align-items:center;justify-content:space-between;gap:14px;position:relative;z-index:1;margin-bottom:8px}
+.rec-hero-eyebrow-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rec-hero-eyebrow{font-size:11px;color:var(--brand-deep,#155A50);letter-spacing:.10em;text-transform:uppercase;font-weight:700}
+/* Live-studies pill — auto-pulses to communicate the dataset is updating. */
+.rec-hero-live{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;font-weight:600;color:var(--brand-deep,#155A50);
+  background:rgba(31,122,107,.10);padding:3px 9px;border-radius:999px;
+  letter-spacing:.04em;text-transform:uppercase;
+  border:0.5px solid rgba(31,122,107,.18);
+}
+.rec-hero-live::before{
+  content:'';width:5px;height:5px;border-radius:50%;background:var(--color-brand);
+  animation:recHeroPulse 1.6s infinite;flex-shrink:0;
+}
+@keyframes recHeroPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+/* Edit profile — brand-green, smaller, with pencil icon. */
+.rec-hero-edit{
+  background:var(--color-brand);
+  border:none;border-radius:8px;
+  padding:7px 14px;
+  font-size:12px;color:#fff;font-weight:600;
+  cursor:pointer;font-family:inherit;white-space:nowrap;
+  transition:background .12s,transform .04s;
+  box-shadow:0 1px 3px rgba(31,122,107,.18);
+  display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+  min-height:32px;
+}
+.rec-hero-edit:hover{background:var(--color-brand-hover,#176258)}
+.rec-hero-edit:active{transform:translateY(1px)}
+.rec-hero-edit svg{width:11px;height:11px;flex-shrink:0}
+/* Title + sentence subtitle. */
+.rec-hero-h{font-size:24px;font-weight:700;letter-spacing:-0.018em;margin:0;color:var(--color-text-primary);line-height:1.15;position:relative;z-index:1}
+.rec-hero-sub{font-size:13.5px;color:var(--color-text-secondary);margin-top:5px;line-height:1.5;position:relative;z-index:1}
+/* Mobile fold the eyebrow row + edit button onto two lines. */
+@media(max-width:480px){
+  .rec-hero{padding:18px 18px}
+  .rec-hero-h{font-size:21px}
+  .rec-hero-top{margin-bottom:6px;flex-direction:column;align-items:flex-start;gap:8px}
+  .rec-hero-edit{align-self:stretch;justify-content:center}
+}
+
 /* Profile form — Option C minimal */
 .pf-wrap{max-width:540px;margin:0 auto}
 .pf-hero{text-align:center;padding:12px 20px 10px}
@@ -1125,9 +1247,14 @@ body{ overflow-x:clip; }
 .pf-input{width:100%;padding:8px 10px;border:1.5px solid var(--color-border-secondary);border-radius:8px;font-size:16px;font-weight:700;font-family:inherit;text-align:center;outline:none;background:var(--color-background-primary);color:var(--color-text-primary);-moz-appearance:textfield}
 .pf-input::-webkit-outer-spin-button,.pf-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .pf-input:focus{border-color:var(--color-brand)}
-.pf-sex-pill{display:flex;background:var(--color-background-secondary);border-radius:10px;padding:3px;gap:2px}
-.pf-sex-opt{flex:1;padding:8px 0;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;color:var(--color-text-tertiary);background:transparent;transition:all .15s;font-family:inherit;text-align:center}
-.pf-sex-opt:hover:not(.on-m):not(.on-f):not(.on-fp){color:var(--color-text-primary);background:rgba(31,122,107,.04)}
+/* Round-4 fix: pill background was --color-background-secondary, which equals
+   the body background — so the pill was invisible and the unselected (transparent)
+   buttons appeared as floating text. Use the lighter --color-background-primary
+   for the pill, and give each unselected button a subtle bordered background so
+   it reads as tappable. */
+.pf-sex-pill{display:flex;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:10px;padding:3px;gap:2px;width:100%}
+.pf-sex-opt{flex:1;padding:12px 14px;min-height:44px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;color:var(--color-text-secondary);background:transparent;transition:background .15s,color .15s,box-shadow .15s;font-family:inherit;text-align:center}
+.pf-sex-opt:hover:not(.on-m):not(.on-f):not(.on-fp){color:var(--color-text-primary);background:rgba(31,122,107,.06)}
 .pf-sex-opt.on-m,.pf-sex-opt.on-f,.pf-sex-opt.on-fp{background:var(--color-brand);color:#fff;box-shadow:0 2px 6px rgba(31,122,107,.25)}
 .pf-sections{display:flex;flex-direction:column;gap:8px}
 .pf-section{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px}
@@ -1164,11 +1291,13 @@ body{ overflow-x:clip; }
 .wiz-goal-cards{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
 .wiz-goal-card-wrap{display:flex;flex-direction:column}
 .wiz-goal-followup{padding:4px 2px 0}
-.wiz-goal-card{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border:1.5px solid var(--color-border-secondary);border-radius:13px;background:var(--color-background-primary);cursor:pointer;transition:all .13s;gap:12px}
+/* Round-10: shorter goal cards. Was 13px padding + larger label/desc; now
+   tighter padding so each card is visibly compact. */
+.wiz-goal-card{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--color-border-secondary);border-radius:11px;background:var(--color-background-primary);cursor:pointer;transition:all .13s;gap:12px;min-height:48px}
 .wiz-goal-card:hover{border-color:var(--color-brand);background:rgba(31,122,107,.025)}
-.wiz-goal-card.wiz-goal-sel{border-color:var(--color-brand);background:rgba(31,122,107,.045);box-shadow:0 0 0 2.5px rgba(31,122,107,.1)}
-.wiz-goal-label{font-size:13.5px;font-weight:700;color:var(--color-text-primary);margin-bottom:1px}
-.wiz-goal-desc{font-size:11.5px;color:var(--color-text-tertiary);line-height:1.35}
+.wiz-goal-card.wiz-goal-sel{border-color:var(--color-brand);background:rgba(31,122,107,.045);box-shadow:0 0 0 2px rgba(31,122,107,.1)}
+.wiz-goal-label{font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:0}
+.wiz-goal-desc{font-size:11px;color:var(--color-text-tertiary);line-height:1.35}
 .wiz-goal-check{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .13s;background:transparent}
 .wiz-goal-card.wiz-goal-sel .wiz-goal-check{background:var(--color-brand);border-color:var(--color-brand)}
 .wiz-goal-check svg{opacity:0;transition:opacity .13s}
@@ -1176,9 +1305,11 @@ body{ overflow-x:clip; }
 .wiz-followup{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;margin-bottom:6px}
 .wiz-followup-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:9px}
 .wiz-followup-opts{display:flex;flex-wrap:wrap;gap:6px}
-.wiz-fopt{padding:6px 13px;border-radius:999px;border:1.5px solid var(--color-border-secondary);font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-primary);transition:all .13s}
+.wiz-fopt{padding:10px 14px;min-height:36px;font-size:13px;border-radius:999px;border:1.5px solid var(--color-border-secondary);font-weight:500;cursor:pointer;background:var(--color-background-primary);transition:all .13s}
 .wiz-fopt:hover{border-color:var(--color-brand)}
 .wiz-fopt.sel{background:rgba(31,122,107,.07);border-color:var(--color-brand);color:var(--color-brand);font-weight:600}
+/* Round-4 add: multi-select hint after the follow-up question label. */
+.wiz-followup-hint{font-size:11px;color:var(--color-text-tertiary);font-weight:400;margin-left:6px}
 .wiz-plan-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
 .wiz-plan-card{padding:16px 18px;border:1.5px solid var(--color-border-secondary);border-radius:14px;background:var(--color-background-secondary);cursor:pointer;transition:all .14s}
 .wiz-plan-card:hover{border-color:var(--color-brand)}
@@ -1210,12 +1341,37 @@ body{ overflow-x:clip; }
 .wiz-sc-card:hover,.wiz-sc-card.wiz-sc-sel{border-color:var(--color-brand);background:rgba(31,122,107,.04)}
 .wiz-sc-name{font-size:12.5px;font-weight:600;margin-bottom:2px}
 .wiz-sc-desc{font-size:11px;color:var(--color-text-tertiary)}
-.wiz-nav{position:sticky;bottom:0;background:linear-gradient(to top,var(--color-background-secondary) 72%,transparent);padding:14px 0 22px;margin-top:20px;pointer-events:none}
-.wiz-next-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--color-brand);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-0.01em;pointer-events:all;transition:opacity .14s}
+/* Round-7: Back + Next sit on the SAME row. Back gets ~1/3 width, same pill
+   shape as Next but a quieter (outlined) variant. Sticky nav stays solid. */
+.wiz-nav{position:sticky;bottom:0;background:var(--color-background-secondary);padding:14px 0 18px;margin-top:20px;pointer-events:none;z-index:5;display:flex;gap:10px;align-items:stretch}
+.wiz-nav::before{content:'';position:absolute;left:0;right:0;top:-14px;height:14px;background:linear-gradient(to top,var(--color-background-secondary),transparent);pointer-events:none}
+.wiz-next-btn{flex:2;padding:13px;border-radius:12px;border:none;background:var(--color-brand);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-0.01em;pointer-events:all;transition:opacity .14s}
 .wiz-next-btn:hover{opacity:.87}
-.wiz-back-btn-vis{background:none;border:none;font-size:12.5px;font-weight:600;color:var(--color-text-tertiary);cursor:pointer;padding:0 0 10px;font-family:inherit;display:none;align-items:center;gap:4px;pointer-events:all}
-.wiz-back-btn-vis:hover{color:var(--color-text-primary)}
-@media(max-width:600px){.wiz-wrap{max-width:100%}}
+/* Round-10: download-prompt modal — small, centered, optional email field. */
+.dl-prompt{position:fixed;inset:0;z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px}
+.dl-prompt-bd{position:absolute;inset:0;background:rgba(15,12,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer}
+.dl-prompt-card{position:relative;width:100%;max-width:420px;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:16px;padding:24px 22px 18px;box-shadow:0 18px 50px -12px rgba(15,23,42,.30);font-family:inherit}
+.dl-prompt-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border:none;background:transparent;color:var(--color-text-tertiary);font-size:20px;line-height:1;border-radius:50%;cursor:pointer;font-family:inherit}
+.dl-prompt-x:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.dl-prompt-h{font-size:18px;font-weight:700;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 6px}
+.dl-prompt-sub{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 14px}
+.dl-prompt-input{width:100%;padding:11px 13px;border:1px solid var(--color-border-secondary);border-radius:10px;font-size:13.5px;font-family:inherit;outline:none;background:#fff;color:var(--color-text-primary);transition:border-color .14s,box-shadow .14s}
+.dl-prompt-input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.12)}
+.dl-prompt-row{display:flex;gap:8px;margin-top:14px}
+.dl-prompt-btn{flex:1;padding:11px 14px;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid transparent;transition:background .14s,color .14s,border-color .14s}
+.dl-prompt-skip{background:transparent;color:var(--color-text-secondary);border-color:var(--color-border-secondary)}
+.dl-prompt-skip:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.dl-prompt-go{background:var(--color-brand);color:#fff;border-color:var(--color-brand)}
+.dl-prompt-go:hover{background:var(--color-brand-hover,#176258);border-color:var(--color-brand-hover,#176258)}
+
+/* Round-9: Back shrunk further — text-link style, no big pill. Sits inline at
+   ~1/4 width so Next clearly dominates. */
+.wiz-back-btn-vis{flex:0 0 auto;padding:8px 14px;min-height:34px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--color-text-tertiary);font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;letter-spacing:0;pointer-events:all;display:none;align-items:center;justify-content:center;gap:4px;transition:background .14s,color .14s,border-color .14s}
+.wiz-back-btn-vis:hover{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+/* Round-4 fix: ensure the last content card always has clearance above the sticky nav. */
+.wiz-step{padding-bottom:8px}
+.wiz-step:last-of-type{padding-bottom:24px}
+@media(max-width:600px){.wiz-wrap{max-width:100%;padding-bottom:8px}.wiz-next-btn{min-height:48px}.wiz-back-btn-vis{min-height:48px}}
 /* Blood work */
 .bw-upload-zone{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px dashed var(--color-border-secondary);border-radius:10px;cursor:pointer;transition:all .15s}
 .bw-upload-zone:hover{border-color:var(--color-brand);background:rgba(31,122,107,.02)}
@@ -1458,7 +1614,8 @@ body{ overflow-x:clip; }
 .abt-cta-email input{flex:1;padding:8px 12px;border:1px solid rgba(31,122,107,.2);border-radius:8px;font-size:11px;font-family:inherit;outline:none;background:rgba(255,255,255,.7)}
 .abt-cta-email input:focus{border-color:var(--color-brand);background:#fff}
 .abt-cta-email button{padding:8px 18px;background:var(--color-brand);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
-.abt-cta-email button:hover{background:#6A1B8A}
+/* Round-7: legacy purple hover replaced with brand-darken. */
+.abt-cta-email button:hover{background:var(--color-brand-hover,#176258)}
 @media(max-width:600px){.abt-tiers-grid,.abt-feature-rows,.abt-road{grid-template-columns:1fr}.abt-mission-grid{grid-template-columns:1fr}.abt-src-grid{grid-template-columns:1fr 1fr}}
 /* Article modal overlay */
 .art-modal{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow-y:auto;padding:0 20px}
@@ -1492,13 +1649,18 @@ body{ overflow-x:clip; }
 /* ══ Add supplement (user add) ══ */
 /* Mockup 3 — search lives flush on the canvas; no card chrome around it. */
 .add-supp-card{background:transparent;border:none;border-radius:0;padding:0;margin-bottom:18px;margin-top:14px;position:relative}
+/* Round-5: small eyebrow above the search makes the "add new supplement" purpose
+   unambiguous. The search itself is for items NOT already on the plan. */
+.add-supp-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:6px}
 .add-supp-row{display:flex;align-items:center;gap:0;position:relative}
 .add-supp-icon{display:none}
-.add-supp-txt{flex:1;min-width:0}
 .add-supp-txt{display:none}
-.add-supp-input{flex:1;width:100%;border:0.5px solid #E2E8F0;border-radius:10px;padding:11px 14px 11px 38px;font-size:13px;outline:none;font-family:inherit;background:#FFFFFF;color:#0F172A;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='M21 21l-4.35-4.35'/></svg>");background-repeat:no-repeat;background-position:13px center;background-size:14px 14px}
+/* Round-5: leading "+" icon inside the input — visually communicates "add", not "filter". */
+.add-supp-icon-leading{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-brand);display:inline-flex;align-items:center;justify-content:center;pointer-events:none;width:14px;height:14px}
+.add-supp-input{flex:1;width:100%;border:0.5px solid #E2E8F0;border-radius:10px;padding:11px 14px 11px 38px;font-size:13px;outline:none;font-family:inherit;background:#FFFFFF;color:#0F172A}
 .add-supp-input::placeholder{color:#94A3B8}
-.add-supp-input:focus{border-color:#16A34A;box-shadow:0 0 0 3px rgba(22,163,74,.12)}
+.add-supp-input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.12)}
+.add-supp-input:focus + .ac-dropdown{}
 .ac-dropdown{position:absolute;left:12px;right:12px;top:calc(100% - 4px);background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.1);padding:6px;max-height:340px;overflow-y:auto;z-index:20}
 .ac-row{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer}
 .ac-row:hover,.ac-row.on{background:rgba(31,122,107,.06)}
@@ -1548,7 +1710,7 @@ body{ overflow-x:clip; }
 .sct-rating{display:inline-flex;align-items:baseline;gap:3px;font-size:10.5px;color:var(--color-text-secondary);padding:3px 0;margin-right:6px;line-height:1}
 .sct-rating-lbl{font-weight:400;letter-spacing:.005em}
 .sct-rating-num{font-weight:600;color:var(--color-text-primary);margin-left:3px;font-variant-numeric:tabular-nums}
-.sct-rating-star{color:#0D9488;font-size:10.5px;margin-left:1px}
+.sct-rating-star{color:var(--color-brand);font-size:10.5px;margin-left:1px} /* round-4: token */
 .supp-card-why{font-size:10px;color:#555;line-height:1.45;margin-top:auto;padding-top:6px;border-top:1px solid #f0eeeb}
 .supp-card-why-label{display:block;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--color-brand);margin-bottom:3px}
 /* Phase 0 / Item #9 — last-reviewed badge on supplement cards */
@@ -1594,7 +1756,8 @@ body{ overflow-x:clip; }
 .sel-bar-count{font-size:22px;font-weight:700}
 .sel-bar-label{font-size:12px;color:rgba(255,255,255,.7)}
 .sel-bar-btn{padding:12px 28px;border-radius:10px;background:var(--color-brand);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
-.sel-bar-btn:hover{background:#6A1B9A}
+/* Round-7: hover used to flash purple (legacy gate-button color). Pin to brand. */
+.sel-bar-btn:hover{background:var(--color-brand-hover,#176258)}
 /* Plan overlay modal */
 .plan-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.4);overflow-y:auto;padding:20px}
 .plan-overlay.open{display:flex;justify-content:center;align-items:flex-start}
@@ -1628,7 +1791,7 @@ body{ overflow-x:clip; }
 .plan-ep-hdr h3{font-size:14px;font-weight:700;position:relative}
 .plan-ep-hdr p{font-size:10px;opacity:.6;margin-top:2px;position:relative}
 .plan-ep-body{padding:14px 18px}
-.plan-ep-sec-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#0D9488;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.plan-ep-sec-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-brand);margin-bottom:8px;display:flex;align-items:center;gap:5px} /* round-4: token */
 .plan-ep-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .plan-ep-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #f5f4f2}
 .plan-ep-row:last-child{border-bottom:none}
@@ -1643,7 +1806,13 @@ body{ overflow-x:clip; }
 .plan-email-input{flex:1;padding:11px 14px;border-radius:10px;border:1px solid #ddd;font-size:13px;font-family:inherit;outline:none;min-width:0}
 .plan-email-input:focus{border-color:var(--color-brand)}
 .plan-footer .plan-foot-btn{text-align:center;padding:11px 20px;font-size:13px;font-weight:600;border-radius:10px;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+/* Round-4 cleanup: renamed plan-btn-dark → plan-btn-onyx (theme-neutral name).
+   Keep the legacy class as an alias so any cached HTML still renders correctly. */
+.plan-footer .plan-foot-btn.plan-btn-onyx,
 .plan-footer .plan-foot-btn.plan-btn-dark{background:#1a1a1a;color:#fff}
+/* Round-4 add: secondary action style for "Email me a copy" — single primary CTA pattern. */
+.plan-footer .plan-foot-btn.plan-btn-secondary{background:transparent;color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.plan-footer .plan-foot-btn.plan-btn-secondary:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
 .show-more-cards-btn{font-size:12px;color:var(--color-brand);border:1px solid #E9D5FF;background:#fff;border-radius:8px;padding:8px 16px;cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
 .show-more-cards-btn:hover{background:rgba(31,122,107,.03);border-color:var(--color-brand)}
 @media(max-width:600px){.supp-cards{grid-template-columns:1fr}.sel-bar-inner{border-radius:12px;padding:12px 16px}.plan-card{margin:10px auto;border-radius:16px}}
@@ -1668,7 +1837,8 @@ body{ overflow-x:clip; }
 .gate-btn{padding:11px 20px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s}
 .gate-btn:hover{background:#333}
 .gate-btn-purple{background:var(--color-brand)}
-.gate-btn-purple:hover{background:#6A1B8A}
+/* Round-7: legacy purple hover replaced with brand-darken. */
+.gate-btn-purple:hover{background:var(--color-brand-hover,#176258)}
 .gate-success{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#065F56;background:#E6F7F5;border-radius:10px;padding:10px 14px;font-weight:500;margin-bottom:8px}
 .gate-privacy{font-size:10px;color:var(--color-text-tertiary);margin:0 0 28px}
 .gate-trust{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
@@ -1984,7 +2154,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .bw-review-check{position:relative;width:18px;height:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .bw-review-check input{position:absolute;opacity:0;width:18px;height:18px;cursor:pointer;margin:0}
 .bw-review-check span{display:block;width:18px;height:18px;border-radius:5px;border:1.5px solid #CBD5E1;background:#FFFFFF;transition:all .12s}
-.bw-review-check input:checked+span{background:#16A34A;border-color:#16A34A}
+.bw-review-check input:checked+span{background:var(--color-brand);border-color:var(--color-brand)} /* round-4: token */
 .bw-review-check input:checked+span::after{content:"";position:absolute;left:6px;top:3px;width:5px;height:9px;border:solid #FFFFFF;border-width:0 2px 2px 0;transform:rotate(45deg)}
 .bw-review-info{min-width:0}
 .bw-review-name{font-size:13px;font-weight:600;color:#0F172A;letter-spacing:-.005em}
@@ -1993,15 +2163,15 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .bw-review-line mark{background:#FEF3C7;color:#92400E;font-weight:500;padding:0 2px;border-radius:2px}
 .bw-review-val{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .bw-review-input{width:88px;font-family:inherit;font-size:13px;font-weight:600;color:#0F172A;padding:8px 10px;border:0.5px solid #E2E8F0;border-radius:8px;text-align:right;background:#FFFFFF;font-variant-numeric:tabular-nums}
-.bw-review-input:focus{outline:none;border-color:#16A34A;box-shadow:0 0 0 3px rgba(22,163,74,.12)}
+.bw-review-input:focus{outline:none;border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(22,163,74,.12)} /* round-4: token */
 .bw-review-unit{font-size:11px;color:#64748B;font-weight:500;min-width:56px}
 .bw-review-foot{padding:14px 24px;border-top:0.5px solid #E5E7EB;display:flex;align-items:center;gap:10px}
 .bw-review-skip{background:none;border:none;cursor:pointer;font-family:inherit;font-size:12px;color:#64748B;padding:4px 0;text-decoration:underline;text-underline-offset:2px}
 .bw-review-skip:hover{color:#0F172A}
 .bw-review-cancel{font-family:inherit;font-size:12px;font-weight:500;color:#0F172A;background:#FFFFFF;border:0.5px solid #CBD5E1;border-radius:8px;padding:8px 16px;cursor:pointer}
 .bw-review-cancel:hover{background:#F8FAFC}
-.bw-review-confirm{font-family:inherit;font-size:12px;font-weight:500;color:#FFFFFF;background:#16A34A;border:0.5px solid #16A34A;border-radius:8px;padding:8px 18px;cursor:pointer}
-.bw-review-confirm:hover{background:#15803D;border-color:#15803D}
+.bw-review-confirm{font-family:inherit;font-size:12px;font-weight:500;color:#FFFFFF;background:var(--color-brand);border:0.5px solid var(--color-brand);border-radius:8px;padding:8px 18px;cursor:pointer} /* round-4: token */
+.bw-review-confirm:hover{background:var(--color-brand-hover);border-color:var(--color-brand-hover)} /* round-4: token */
 @media(max-width:560px){
   .bw-review-row{grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:8px 14px}
   .bw-review-val{grid-column:2/-1;justify-content:flex-end}
@@ -2197,52 +2367,135 @@ html.is-embedded .pg-close-fab{display:none}
 .rn-card.s-mid{background:rgba(37,99,235,.05);border-color:rgba(37,99,235,.18)}
 .rn-card.s-low{background:rgba(202,138,4,.05);border-color:rgba(202,138,4,.2)}
 .rn-card.s-bad{background:rgba(185,28,28,.04);border-color:rgba(185,28,28,.18)}
-.rn-face{padding:12px 12px 8px}
-.rn-name-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
-.rn-name-group{display:flex;align-items:baseline;gap:7px;min-width:0}
-.rn-name{font-size:14px;font-weight:600;color:var(--color-text-primary);line-height:1.3}
-.rn-score{font-size:14px;font-weight:400;flex-shrink:0}
-.rn-score.s-high{color:#0D9488}
-.rn-score.s-mid{color:#2563eb}
-.rn-score.s-low{color:#B45309}
-.rn-score.s-bad{color:#B91C1C}
-.rn-remove{width:22px;height:22px;border-radius:50%;border:0.5px solid var(--color-border-tertiary);background:transparent;font-size:15px;line-height:1;cursor:pointer;color:var(--color-text-tertiary);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s,border-color .15s;padding:0}
+/* Round-5 visual lift — tighter card padding rhythm and a stronger title row. */
+.rn-face{padding:14px 16px 12px}
+.rn-name-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px}
+.rn-name-group{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.rn-name{font-size:17px;font-weight:600;color:var(--color-text-primary);line-height:1.3} /* round-4: type scale */
+/* Round-5: score is now a pill — same color family as the supplement title,
+   subtle background tint so the number reads at a glance. */
+.rn-score{display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;padding:3px 9px;border-radius:999px;letter-spacing:0;line-height:1;font-variant-numeric:tabular-nums;border:0.5px solid transparent}
+.rn-score.s-high{color:var(--color-brand);background:rgba(31,122,107,.10);border-color:rgba(31,122,107,.18)}
+.rn-score.s-mid{color:#2563eb;background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.18)}
+.rn-score.s-low{color:#B45309;background:rgba(202,138,4,.09);border-color:rgba(202,138,4,.20)}
+.rn-score.s-bad{color:#B91C1C;background:rgba(185,28,28,.08);border-color:rgba(185,28,28,.18)}
+/* Round-8: bigger, darker X — was barely visible. */
+.rn-remove{width:26px;height:26px;border-radius:50%;border:1px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:16px;line-height:1;cursor:pointer;color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s,border-color .15s;padding:0;font-weight:500}
 .rn-remove:hover{background:#FEE2E2;color:#B91C1C;border-color:#FECACA}
-.rn-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
-.rn-chip{font-size:9.5px;font-weight:500;padding:2px 7px;border-radius:6px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
-.rn-summary{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:8px}
-.rn-pairs{border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;margin-top:4px}
-.rn-pairs-label{font-size:9px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--color-text-tertiary);margin-bottom:6px}
-.rn-pair-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px}
+/* Round-5: tighter, slightly larger chips — more readable + better hierarchy. */
+.rn-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.rn-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);line-height:1.4}
+.rn-summary{font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin-bottom:12px}
+/* Round-5: pairs section padding rhythm matches the rest of the card. */
+.rn-pairs{border-top:0.5px solid var(--color-border-tertiary);padding-top:10px;margin-top:4px}
+.rn-pairs-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--color-text-tertiary);margin-bottom:8px}
+.rn-pair-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:11px;padding:7px 9px;border-radius:8px;border:0.5px solid transparent}
+.rn-pair-row:not(.neg):not(.apart){background:rgba(31,122,107,.04);border-color:rgba(31,122,107,.10)}
 .rn-pair-row:last-child{margin-bottom:0}
 .rn-pair-row.neg{background:rgba(245,158,11,.08);border-radius:6px;padding:5px 7px;border:0.5px solid rgba(245,158,11,.22)}
 .rn-pair-main{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .rn-pair-name{font-weight:600;color:var(--color-text-primary);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rn-pair-reason{font-size:10px;color:var(--color-text-secondary);line-height:1.4}
-.rn-pair-row.neg .rn-pair-name{color:#92400E}
-.rn-pair-row.neg .rn-pair-reason{color:#92400E;opacity:.8}
+.rn-pair-row.neg .rn-pair-name{color:var(--color-warn-text)} /* round-4: token */
+.rn-pair-row.neg .rn-pair-reason{color:var(--color-warn-text);opacity:.8} /* round-4: token */
 .rn-pm{display:flex;gap:2px;align-items:center;flex-shrink:0}
 .rn-pm-bar{width:4px;height:11px;border-radius:2px;background:var(--color-border-tertiary)}
-.rn-pm-bar.on{background:#0D9488}
+.rn-pm-bar.on{background:var(--color-brand)} /* round-4: token */
 .rn-pm-bar.on-warn{background:#D97706}
 .rn-pair-state{font-size:9.5px;font-weight:500;padding:2px 8px;border-radius:5px;white-space:nowrap;flex-shrink:0}
 .rn-pair-state.inplan{background:#D1FAE5;color:#065F46}
 .rn-pair-state.blocked{background:#FEE2E2;color:#991B1B}
-.rn-pair-state.neg-state{background:#FEF3C7;color:#92400E}
-.rn-expand{width:100%;border:none;border-top:0.5px solid var(--color-border-tertiary);background:transparent;font-size:11.5px;color:var(--color-text-secondary);padding:8px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .12s}
-.rn-expand:hover{background:var(--color-background-secondary)}
-.rn-chev{font-size:10px;transition:transform .15s;display:inline-block}
-.rn-body{padding:12px 12px 10px;border-top:0.5px solid var(--color-border-tertiary)}
-.rn-body-sec{margin-bottom:10px}
+.rn-pair-state.neg-state{background:var(--color-warn-bg);color:var(--color-warn-text)} /* round-4: token */
+/* Round-4 add: stack-aware apart-from row — informational, not avoid. */
+.rn-pair-row.apart{background:rgba(146,64,14,.05);border-radius:6px;padding:5px 7px;border:0.5px dashed rgba(245,158,11,.32)}
+.rn-pair-row.apart .rn-pair-name{color:#A16207}
+.rn-pair-row.apart .rn-pair-reason{color:#A16207;opacity:.85}
+.rn-pair-state.apart-state{background:#FEF3C7;color:#A16207;border:0.5px dashed #FCD34D}
+/* Round-5: expand toggle is more discoverable with subtle bg + bigger hit area. */
+.rn-expand{width:100%;border:none;border-top:0.5px solid var(--color-border-tertiary);background:transparent;font-size:12px;color:var(--color-text-secondary);padding:11px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .12s,color .12s;font-family:inherit;font-weight:500;letter-spacing:0}
+.rn-expand:hover{background:rgba(31,122,107,.04);color:var(--color-text-primary)}
+.rn-chev{font-size:10px;transition:transform .18s;display:inline-block}
+.rn-card.is-open .rn-chev{transform:rotate(180deg)}
+/* Round-5: expanded body has more breathing room and a subtle inner background to
+   visually separate it from the face. */
+.rn-body{padding:14px 16px 14px;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.rn-card.s-high .rn-body{background:rgba(31,122,107,.025)}
+.rn-body-sec{margin-bottom:12px}
 .rn-body-sec:last-of-type{margin-bottom:0}
-.rn-body-label{font-size:9px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--color-text-tertiary);margin-bottom:4px}
-.rn-body-text{font-size:12px;color:var(--color-text-secondary);line-height:1.55}
-.rn-drug-warn{font-size:11px;color:var(--color-warn-text);background:var(--color-warn-bg);border:0.5px solid var(--color-warn-border);border-radius:7px;padding:6px 9px;margin-bottom:10px;line-height:1.5}
-.rn-ctas{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
-.rn-cta{flex:1;border:0.5px solid rgba(13,148,136,.3);background:rgba(13,148,136,.07);border-radius:8px;font-size:11px;color:#0D9488;padding:7px 10px;cursor:pointer;transition:background .12s,border-color .12s,color .12s;text-align:center;line-height:1.4;font-weight:500}
-.rn-cta:hover{background:rgba(13,148,136,.13);border-color:rgba(13,148,136,.5);color:#0a6b5e}
+.rn-body-label{font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:600;color:var(--color-text-tertiary);margin-bottom:5px}
+.rn-body-text{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.rn-drug-warn{font-size:12px;color:var(--color-warn-text);background:var(--color-warn-bg);border:0.5px solid var(--color-warn-border);border-radius:8px;padding:8px 11px;margin-bottom:12px;line-height:1.5}
+/* Round-5: CTAs render as one solid primary + one outline secondary. The all-muted
+   row read like decoration in the screenshot — now Full Card is the primary action. */
+.rn-ctas{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary)}
+.rn-cta{flex:1;border:0.5px solid var(--color-border-secondary);background:transparent;border-radius:9px;font-size:12px;color:var(--color-text-secondary);padding:10px 12px;cursor:pointer;transition:background .12s,border-color .12s,color .12s;text-align:center;line-height:1.4;font-weight:600;font-family:inherit;min-height:38px}
+.rn-cta:hover{background:rgba(31,122,107,.06);border-color:var(--color-brand);color:var(--color-brand)}
+.rn-cta.primary{background:var(--color-brand);border-color:var(--color-brand);color:#fff}
+.rn-cta.primary:hover{background:var(--color-brand-hover);border-color:var(--color-brand-hover);color:#fff}
 .rn-tier-hdr{font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--color-text-tertiary);padding:14px 0 6px;margin-top:4px}
 .rn-tier-hdr:first-child{padding-top:2px;margin-top:0}
+
+/* ─── Round-6: Direction B card layout ───
+   Two-column body inside .rn-face. Tier-pill next to name, fit number on the
+   right, single pair row at the bottom of the face, action buttons visible
+   without expanding. The .rn-expand toggle still reveals the long body for
+   full description + timing tips. */
+.rn-card.b-card{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:14px;margin-bottom:10px}
+.rn-card.b-card.s-high{background:rgba(31,122,107,.025);border-color:rgba(31,122,107,.18)}
+.rn-card.b-card.s-mid{background:rgba(37,99,235,.02);border-color:rgba(37,99,235,.16)}
+.rn-card.b-card.s-low{background:rgba(202,138,4,.02);border-color:rgba(202,138,4,.18)}
+.rn-card.b-card.s-bad{background:rgba(185,28,28,.02);border-color:rgba(185,28,28,.16)}
+.rn-card.b-card .rn-face{padding:14px 16px 12px}
+.b-row1{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.b-name-block{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.b-name-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.b-name{font-size:17px;font-weight:700;letter-spacing:-0.005em;line-height:1.2;color:var(--color-text-primary)}
+.b-tier-pill{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:0.5px solid;flex-shrink:0;line-height:1.3}
+.b-tier-pill.b-prio-ess{background:rgba(22,163,74,.10);color:#0E7C3F;border-color:rgba(22,163,74,.22)}
+.b-tier-pill.b-prio-rec{background:rgba(37,99,235,.10);color:#1E40AF;border-color:rgba(37,99,235,.22)}
+.b-tier-pill.b-prio-con{background:rgba(217,119,6,.10);color:#B45309;border-color:rgba(217,119,6,.22)}
+.b-tier-pill.b-prio-add{background:rgba(124,58,237,.10);color:#5B21B6;border-color:rgba(124,58,237,.22)}
+.b-tags{display:flex;gap:5px;flex-wrap:wrap}
+.b-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);line-height:1.4}
+.b-actions-top{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.b-fit{display:flex;flex-direction:column;align-items:flex-end;line-height:1}
+.b-fit-n{font-size:18px;font-weight:700;color:var(--color-text-primary);font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.b-fit-l{font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+/* Round-7: TAKE block removed → Why block runs full width. */
+.b-row2{display:block;margin-bottom:10px}
+.b-take{display:none}
+.b-block-l{font-size:10px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.b-block-v{font-size:14px;color:var(--color-text-primary);font-weight:700;line-height:1.3}
+.b-block-sub{font-size:11.5px;color:var(--color-text-tertiary);margin-top:3px;font-weight:500}
+.b-why{padding:0}
+.b-why .b-block-l{margin-bottom:6px}
+.b-why-list{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.b-why-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;background:rgba(31,122,107,.07);color:var(--color-brand-deep,#155A50);border:0.5px solid rgba(31,122,107,.16)}
+.b-summary{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55;margin:0}
+/* Single pair row at the bottom of the face */
+.b-pair{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 11px;border-radius:9px;background:rgba(31,122,107,.04);border:0.5px solid rgba(31,122,107,.10);font-size:12px;color:var(--color-text-secondary)}
+.b-pair.warn{background:rgba(180,83,9,.05);border-color:rgba(180,83,9,.20);color:#9A3412}
+.b-pair.apart{background:rgba(180,83,9,.04);border-color:rgba(180,83,9,.18);color:#9A3412;border-style:dashed}
+.b-pair.suggest{background:rgba(31,122,107,.045);border-color:rgba(31,122,107,.16);border-style:dashed}
+.b-pair-icon{flex-shrink:0;color:var(--color-brand)}
+.b-pair.warn .b-pair-icon,.b-pair.apart .b-pair-icon{color:#B45309}
+.b-pair-text{flex:1;min-width:0;line-height:1.4;font-size:11.5px}
+.b-pair-name{font-weight:700;color:var(--color-text-primary)}
+.b-pair.warn .b-pair-name,.b-pair.apart .b-pair-name{color:#9A3412}
+.b-pair-state{font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;flex-shrink:0;letter-spacing:.02em;text-transform:uppercase;background:rgba(22,163,74,.10);color:#0E7C3F;border:0.5px solid rgba(22,163,74,.20)}
+.b-pair-state.warn{background:rgba(217,119,6,.12);color:#B45309;border-color:rgba(217,119,6,.30)}
+.b-pair-state.apart{background:rgba(217,119,6,.10);color:#B45309;border:0.5px dashed rgba(217,119,6,.40)}
+/* Add button on the suggestion row */
+.b-pair-add{flex-shrink:0;font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;background:var(--color-brand);color:#fff;border:none;cursor:pointer;font-family:inherit;letter-spacing:.02em;text-transform:uppercase;transition:background .12s,transform .04s}
+.b-pair-add:hover{background:var(--color-brand-hover,#176258)}
+.b-pair-add:active{transform:translateY(1px)}
+/* Action row — Round-9: smaller, lighter. Both buttons use a soft brand tint
+   instead of the saturated solid teal so they don't dominate the card. */
+.b-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
+.b-cta{flex:1;border:0.5px solid rgba(31,122,107,.16);background:rgba(31,122,107,.04);border-radius:8px;font-size:11.5px;color:var(--color-brand-deep,#155A50);padding:7px 10px;cursor:pointer;font-weight:600;font-family:inherit;text-align:center;min-height:32px;transition:background .12s,color .12s,border-color .12s;letter-spacing:.005em}
+.b-cta:hover{background:rgba(31,122,107,.10);color:var(--color-brand);border-color:rgba(31,122,107,.30)}
+.b-cta.primary{background:rgba(31,122,107,.10);border-color:rgba(31,122,107,.22);color:var(--color-brand-deep,#155A50)}
+.b-cta.primary:hover{background:rgba(31,122,107,.16);border-color:rgba(31,122,107,.36);color:var(--color-brand-deep,#155A50)}
 
 /* Undo toast */
 .rn-undo-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(12px);background:#1e293b;color:#f1f5f9;font-size:12.5px;padding:9px 16px;border-radius:10px;display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.22)}

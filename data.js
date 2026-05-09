@@ -1078,6 +1078,45 @@ const S=[
  *   msk | endocrine | dermatology | sleep | infectious | hematologic | hepatic | other.
  */
 const CONDITIONS={
+  /* ---------- Synthetic states (injected by profileAugmentationPass) ---------- */
+  /* Round-4 fix: pregnancy hard-filter. Auto-injected when sex==='fp' so the
+     supps_avoid list prunes contraindicated supplements before recommendations
+     reach the user. Sourced from NIH ODS, ACOG, and the data.js "Don't Take"
+     pregnancy article (id 240). NOT user-selectable from the conditions chip. */
+  pregnant:{
+    label:'Pregnancy',category:'reproductive',severity:'high',icd10:['Z34'],
+    supps:['Folate (5-MTHF)','Iron','Choline','DHA-only fish oil','Iodine','Vitamin D3'],
+    supps_recommended:['Folate (5-MTHF)','Iron','Choline','DHA-only fish oil','Iodine','Vitamin D3','Magnesium','Calcium'],
+    supps_caution:['Vitamin C (high dose)','Caffeine (standardised)','L-Theanine','Probiotics'],
+    /* Hard-avoid list — known teratogens, abortifacients, and uterine stimulants.
+       Pruned by profileAugmentationPass when 'pregnant' is in effectiveConds. */
+    supps_avoid:[
+      'Vitamin A (retinol/preformed, high-dose)','Vitamin A (retinol/preformed)',
+      'Ashwagandha (KSM-66)','Rhodiola rosea','Saffron (Crocus sativus)',
+      'Kava (high-dose/extract)','Kava','Black cohosh','Blue cohosh',
+      'Pennyroyal','Yohimbe bark (Pausinystalia yohimbe)','Yohimbe',
+      "St. John's Wort",'Saw palmetto','DHEA','Pregnenolone',
+      'Tongkat ali (Eurycoma longifolia)','Maca (Lepidium meyenii)',
+      'Berberine','Goldenseal','Wormwood','Dong quai','Vitex agnus-castus',
+      'Tribulus terrestris','Fenugreek','Licorice (high dose)',
+      'Phenibut','Tianeptine ("gas station heroin")','Kratom',
+      '5-HTP','SAMe','S-Adenosylmethionine (SAMe)',
+      'Bitter orange (synephrine)','Ephedra','Senna','Aloe vera (oral)',
+      'Garcinia cambogia','Green tea extract (high-dose EGCG)',
+      'NMN / NAD+ precursors','NAD+ precursors',
+      'Beta-alanine','Citrulline (L-citrulline, pure form)','Tongkat ali',
+      'Methylene blue'
+    ],
+    dose_modifiers:{
+      'Folate (5-MTHF)':{note:'Pregnancy RDA 600 mcg DFE; start preconception.'},
+      'Iron':{note:'27 mg/day prenatal RDA; take with vitamin C, away from calcium.'},
+      'Choline':{note:'450 mg/day pregnancy RDA — most prenatals under-deliver.'},
+      'DHA-only fish oil':{note:'200–300 mg DHA/day; T2/T3 needs are higher.'},
+      'Iodine':{note:'220 mcg/day pregnancy RDA — many prenatals omit iodine.'},
+      'Vitamin D3':{note:'600 IU RDA; many guidelines suggest 1,000–2,000 IU.'}
+    },
+    monitoring:['ferritin','vit_d_25oh','tsh','b12']
+  },
   /* ---------- Original 20 (migrated to richer schema) ---------- */
   anxiety:{
     label:'Anxiety / Stress',category:'neuropsych',severity:'medium',icd10:['F41.1','F43.0'],

@@ -268,13 +268,8 @@
       <a class="site-nav-tab" id="tab-research" href="#research" style="text-decoration:none" onclick="window._tabSwitchByUser=true">Articles</a>
       <a class="site-nav-tab site-nav-tab-icon" id="tab-profile" href="#profile" style="text-decoration:none" onclick="window._tabSwitchByUser=true" aria-label="Profile" title="Profile"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 4-8 8-8s8 3 8 8z"/></svg></a>
     </div>
-    <button type="button" class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark / light mode" hidden style="display:none">
-      <span class="theme-toggle-track">
-        <svg class="theme-toggle-ico theme-toggle-ico--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
-        <svg class="theme-toggle-ico theme-toggle-ico--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        <span class="theme-toggle-thumb" aria-hidden="true"></span>
-      </span>
-    </button>
+    <!-- Round-4 cleanup: legacy dark-mode toggle removed (site is light-mode only). -->
+
   </div>
 </nav>
 <main id="main-content">
@@ -591,20 +586,28 @@
     <div id="v-input">
       <div class="wiz-wrap">
 
-        <!-- Welcome back banner -->
-        <div id="welcome-back" style="display:none;align-items:center;gap:8px;padding:6px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:10px;font-size:11px">
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t1c)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-          <span style="flex:1;color:var(--color-text-secondary)">Your last profile has been restored.</span>
-          <button type="button" onclick="clearProfile()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:inherit">Start fresh</button>
+        <!-- Welcome-back banner — Round-4 visual lift: 13 px text, 12 px padding,
+             teal left-border accent, bigger Start fresh affordance. -->
+        <div id="welcome-back" class="wb-banner" style="display:none">
+          <svg aria-hidden="true" class="wb-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          <div class="wb-text">
+            <div class="wb-title">Welcome back</div>
+            <div class="wb-sub">Your 7-step profile is restored. Pick up where you left off, or start fresh.</div>
+          </div>
+          <button type="button" class="wb-action" onclick="clearProfile()">Start fresh</button>
         </div>
 
+        <!-- Round-4 fix: jump rail — lets users jump back to any step they've reached.
+             Painted by _wizPaintJumpRail() on every step change. Hidden by default;
+             becomes visible after the user advances past step 1. -->
+        <div class="wiz-jump-rail" id="wiz-jump-rail" role="navigation" aria-label="Wizard step navigation"></div>
         <!-- Progress bar -->
         <div class="wiz-prog">
           <div class="wiz-prog-row">
             <span class="wiz-step-label" id="wiz-step-label">Step 1 of 7</span>
             <span class="wiz-step-pct" id="wiz-step-pct">14%</span>
           </div>
-          <div class="wiz-prog-track"><div class="wiz-prog-fill" id="wiz-prog-fill" style="width:14%"></div></div>
+          <div class="wiz-prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="14" id="wiz-prog-track"><div class="wiz-prog-fill" id="wiz-prog-fill" style="width:14%"></div></div>
         </div>
 
         <!-- STEP 1: Goals -->
@@ -651,11 +654,12 @@
             <input type="number" class="wiz-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
           </div>
           <div class="wiz-field-group">
-            <label class="wiz-field-label">Sex</label>
-            <div class="pf-sex-pill">
-              <button type="button" class="pf-sex-opt sx-btn" id="bm" onclick="pickSex('m')">Male</button>
-              <button type="button" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
-              <button type="button" class="pf-sex-opt sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
+            <label class="wiz-field-label" id="sex-label">Biological sex</label>
+            <!-- Round-4 a11y: radiogroup so screen readers announce "1 of 3 selected". -->
+            <div class="pf-sex-pill" role="radiogroup" aria-labelledby="sex-label">
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bm" onclick="pickSex('m')">Male</button>
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
             </div>
           </div>
           <div class="wiz-field-group">
@@ -663,16 +667,16 @@
             <div class="wiz-hw-row">
               <div class="wiz-hw-group">
                 <div style="position:relative">
-                  <input type="number" class="wiz-input wiz-hw-input" id="prof-height-ft" placeholder="5" min="3" max="7" aria-label="Height feet" oninput="calcBMI()">
+                  <input type="number" class="wiz-input wiz-hw-input" id="prof-height-ft" placeholder="5" min="3" max="7" aria-label="Height feet" oninput="calcBMI()" onblur="_clampOnBlur(this,3,7)">
                   <span class="wiz-hw-unit">ft</span>
                 </div>
                 <div style="position:relative">
-                  <input type="number" class="wiz-input wiz-hw-input" id="prof-height-in" placeholder="10" min="0" max="11" aria-label="Height inches" oninput="calcBMI()">
+                  <input type="number" class="wiz-input wiz-hw-input" id="prof-height-in" placeholder="10" min="0" max="11" aria-label="Height inches" oninput="calcBMI()" onblur="_clampOnBlur(this,0,11)">
                   <span class="wiz-hw-unit">in</span>
                 </div>
               </div>
               <div style="position:relative;flex:1">
-                <input type="number" class="wiz-input" id="prof-weight" placeholder="165" style="padding-right:42px" oninput="calcBMI()">
+                <input type="number" class="wiz-input" id="prof-weight" placeholder="165" min="70" max="600" aria-label="Weight in pounds" style="padding-right:42px" oninput="calcBMI()" onblur="_clampOnBlur(this,70,600)">
                 <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none">lbs</span>
               </div>
             </div>
@@ -702,29 +706,20 @@
             </div>
             <div id="drug-chips" class="drug-chips"></div>
           </div>
-          <!-- Common combo shortcuts -->
-          <div class="wiz-med-shortcuts">
-            <div class="wiz-shortcut-label">Common combos — tap to add</div>
-            <div class="wiz-sc-card" onclick="wizAddMedCombo(['atorvastatin','lisinopril']);this.classList.add('wiz-sc-sel')">
-              <div class="wiz-sc-name">Statin + Blood pressure med</div>
-              <div class="wiz-sc-desc">e.g. atorvastatin + lisinopril / amlodipine</div>
-            </div>
-            <div class="wiz-sc-card" onclick="wizAddMedCombo(['levothyroxine']);this.classList.add('wiz-sc-sel')">
-              <div class="wiz-sc-name">Thyroid medication</div>
-              <div class="wiz-sc-desc">e.g. levothyroxine, Synthroid, Armour Thyroid</div>
-            </div>
-            <div class="wiz-sc-card" onclick="wizAddMedCombo(['sertraline']);this.classList.add('wiz-sc-sel')">
-              <div class="wiz-sc-name">Antidepressant / SSRI</div>
-              <div class="wiz-sc-desc">e.g. sertraline, escitalopram, venlafaxine</div>
-            </div>
-            <div class="wiz-sc-card" onclick="wizAddMedCombo(['warfarin']);this.classList.add('wiz-sc-sel')">
-              <div class="wiz-sc-name">Blood thinners (anticoagulants)</div>
-              <div class="wiz-sc-desc">e.g. warfarin, apixaban, rivaroxaban</div>
-            </div>
-            <div class="wiz-sc-card" onclick="wizAddMedCombo(['metformin']);this.classList.add('wiz-sc-sel')">
-              <div class="wiz-sc-name">Diabetes medication</div>
-              <div class="wiz-sc-desc">e.g. metformin, semaglutide, insulin</div>
-            </div>
+          <!-- Round-8: small explainer panel so the page has presence comparable
+               to the chip-heavy Conditions and Health steps. Lists what gets
+               filtered, with examples — non-clickable, just informational. -->
+          <div class="wiz-meds-explainer">
+            <div class="wiz-meds-explainer-h">What we check for</div>
+            <ul class="wiz-meds-explainer-list">
+              <li><b>Blood thinners</b> — warfarin, apixaban, rivaroxaban — flagged with vitamin K2, fish oil, ginkgo, garlic, ginger, vitamin E.</li>
+              <li><b>Statins</b> — atorvastatin, rosuvastatin, simvastatin — boost CoQ10, flag red yeast rice and grapefruit-interacting items.</li>
+              <li><b>Thyroid medication</b> — levothyroxine, Synthroid — spaced from iron, calcium, magnesium.</li>
+              <li><b>Antidepressants / SSRIs</b> — sertraline, escitalopram — flagged with St. John's Wort, 5-HTP, SAMe, L-tryptophan.</li>
+              <li><b>Diabetes medication</b> — metformin, semaglutide, insulin — boost B12; flag berberine for double-effect.</li>
+              <li><b>PPIs / acid reducers</b> — omeprazole, pantoprazole — boost B12, calcium absorption notes.</li>
+            </ul>
+            <p class="wiz-meds-explainer-foot">Add only what you take regularly. Skip if none.</p>
           </div>
           <span id="pf-count-meds" style="display:none"></span>
         </div>
@@ -758,14 +753,7 @@
             <label class="wiz-field-label">Food allergies <span class="wiz-field-opt">(excludes affected supplements)</span></label>
             <div class="med-chips" id="allergy-chips"></div>
           </div>
-          <div class="wiz-field-group">
-            <label class="wiz-field-label" for="smoking-status">Smoking</label>
-            <select id="smoking-status" class="wiz-select" onchange="onHealthChange()">
-              <option value="never">Never smoked</option>
-              <option value="former">Former smoker</option>
-              <option value="current">Current smoker</option>
-            </select>
-          </div>
+          <!-- Round-7: smoking field removed. -->
           <span id="pf-count-health" style="display:none"></span>
         </div>
 
@@ -796,6 +784,22 @@
               <div id="bw-count" style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px;text-align:right"></div>
             </div>
           </div>
+          <!-- Round-9: explainer panel mirrors the Medications step. Tells the
+               user which biomarkers feed dose calibration and why this is worth
+               the extra step. Pure information, no clickable elements. -->
+          <div class="wiz-meds-explainer">
+            <div class="wiz-meds-explainer-h">What labs change in your plan</div>
+            <ul class="wiz-meds-explainer-list">
+              <li><b>Vitamin D (25-OH)</b> — sets your D3 dose. Below 20 ng/mL → 4,000 IU; below 30 → 2,000 IU; otherwise 1,000 IU maintenance.</li>
+              <li><b>Ferritin / Iron</b> — flags deficiency or overload. Below 30 ng/mL pushes iron up; above 200 stops iron suggestions.</li>
+              <li><b>Vitamin B12 / MMA</b> — low B12 or elevated MMA pushes the form to methylcobalamin and the dose up to 1,000–2,000 mcg.</li>
+              <li><b>Magnesium RBC</b> — below 4.2 mg/dL nudges magnesium glycinate higher.</li>
+              <li><b>HbA1c, fasting glucose, lipids</b> — guide berberine, omega-3 dose, and red-yeast-rice flagging.</li>
+              <li><b>TSH, fT4, fT3</b> — low thyroid signals selenium + iodine; high signals avoid extra iodine.</li>
+              <li><b>eGFR, AST/ALT</b> — auto-cap doses on supplements that stress kidneys or liver.</li>
+            </ul>
+            <p class="wiz-meds-explainer-foot">Skip if you don't have recent labs — the engine still works, it just uses population averages instead of your numbers.</p>
+          </div>
           <span id="pf-count-bw" style="display:none"></span>
         </div>
 
@@ -819,24 +823,36 @@
       <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
     </div>
     <div id="v-res" style="display:none">
-      <!-- Dashboard banner -->
-      <div class="res-banner">
-        <div class="res-banner-body">
-          <div class="res-banner-title" id="res-hd">Your recommendations</div>
-          <div class="res-banner-sub" id="res-sh"></div>
-          <div class="res-banner-chips" id="res-chips"></div>
-        </div>
-        <button type="button" class="res-banner-edit" onclick="editP()">Edit profile</button>
-      </div>
-      <!-- Add supplement to plan -->
-      <div class="add-supp-card" id="add-supp-card">
-        <div class="add-supp-row">
-          <div class="add-supp-icon" aria-hidden="true">+</div>
-          <div class="add-supp-txt">
-            <div class="add-supp-title">Add a supplement to your plan</div>
-            <div class="add-supp-sub">Search our 733-supplement database — anything you're already taking or want to consider.</div>
+      <!-- Round-5 dashboard hero — soft gradient, no avatar, no count cards.
+           Live-studies pill (was on the top page banner) lives here now.
+           Edit profile is brand-green and slightly smaller. -->
+      <div class="rec-hero">
+        <div class="rec-hero-top">
+          <div class="rec-hero-eyebrow-row">
+            <span class="rec-hero-eyebrow" id="res-eyebrow">Personalized for you · Updated today</span>
+            <span class="rec-hero-live" id="res-live">Live · 5,030 studies / 72h</span>
           </div>
-          <input type="text" class="add-supp-input" id="add-supp-search" placeholder="Search supplement or category…" autocomplete="off" aria-label="Search supplement or category to add" oninput="filterSuppSearch(this.value)" onfocus="filterSuppSearch(this.value)" onblur="setTimeout(hideSuppDropdown,180)" onkeydown="handleSearchKeydown(event)">
+          <button type="button" class="rec-hero-edit" onclick="editP()" aria-label="Edit profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="11" height="11"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            Edit profile
+          </button>
+        </div>
+        <h2 class="rec-hero-h" id="res-hd">Your plan</h2>
+        <p class="rec-hero-sub" id="res-sh"></p>
+        <!-- Hidden span retained so engine code that paints res-chips doesn't error;
+             the chips themselves are no longer rendered in the hero. -->
+        <span id="res-chips" style="display:none"></span>
+      </div>
+      <!-- Add supplement to plan — Round-5: clearer framing so the user knows
+           this search adds NEW supplements (not already on the plan) from the
+           733-supplement database. -->
+      <div class="add-supp-card" id="add-supp-card">
+        <div class="add-supp-label">Add something we missed</div>
+        <div class="add-supp-row">
+          <span class="add-supp-icon-leading" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+          <input type="text" class="add-supp-input" id="add-supp-search" placeholder="Add a supplement to your plan — search by name…" autocomplete="off" aria-label="Add a supplement to your plan from our 733-supplement database" oninput="filterSuppSearch(this.value)" onfocus="filterSuppSearch(this.value)" onblur="setTimeout(hideSuppDropdown,180)" onkeydown="handleSearchKeydown(event)">
         </div>
         <div class="ac-dropdown" id="add-supp-dropdown" style="display:none"></div>
       </div>
@@ -861,23 +877,30 @@
         <div class="sel-bar-inner">
           <div class="sel-bar-left">
             <div class="sel-bar-count" id="sel-count">0</div>
-            <div><div style="font-size:13px;font-weight:600;color:#fff">supplements selected</div><div class="sel-bar-label">Tap cards above to add or remove</div></div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Supplements Selected</div></div>
           </div>
-          <button class="sel-bar-btn" onclick="openPlanModal()">View my plan &rarr;</button>
+          <!-- Round-10: download is gated behind a small email prompt so we
+               can notify the user when their plan can be optimized based on
+               new research. Email is optional; "Skip" still triggers PDF. -->
+          <button class="sel-bar-btn" onclick="openDownloadPrompt()">↓ Download my plan</button>
         </div>
       </div>
-      <!-- Plan overlay modal -->
-      <div class="plan-overlay" id="plan-overlay">
-        <div class="plan-card">
-          <button class="plan-close-btn" onclick="closePlanModal()" aria-label="Close plan">&times;</button>
-          <div class="plan-hdr">
-            <h2>Your Daily Plan</h2>
-            <p id="plan-sub"></p>
-          </div>
-          <div class="plan-body" id="plan-body"></div>
-          <div class="plan-footer">
-            <input type="email" id="plan-email" placeholder="Enter your email" class="plan-email-input" aria-label="Email address for supplement plan">
-            <button class="plan-foot-btn plan-btn-dark" id="plan-send-btn" onclick="sendPlanEmail()">Download PDF</button>
+      <!-- Round-6: plan-overlay modal removed. The bottom bar's "Download my plan"
+           button now triggers downloadPDF() directly — no intermediate screen. -->
+
+      <!-- Round-10: tiny email prompt before download. Optional email so the
+           user can be notified when the engine refines their plan against new
+           research. "Skip" still triggers the PDF. -->
+      <div class="dl-prompt" id="dl-prompt" style="display:none" role="dialog" aria-modal="true" aria-labelledby="dl-prompt-title">
+        <div class="dl-prompt-bd" onclick="closeDownloadPrompt()"></div>
+        <div class="dl-prompt-card">
+          <button type="button" class="dl-prompt-x" onclick="closeDownloadPrompt()" aria-label="Close">&times;</button>
+          <h2 id="dl-prompt-title" class="dl-prompt-h">One quick step</h2>
+          <p class="dl-prompt-sub">Optional — only used to notify you if your plan can be optimized as new research lands. We won't email you for anything else.</p>
+          <input type="email" id="dl-prompt-email" class="dl-prompt-input" placeholder="you@example.com" autocomplete="email" aria-label="Email address (optional)">
+          <div class="dl-prompt-row">
+            <button type="button" class="dl-prompt-btn dl-prompt-skip" onclick="confirmDownloadPrompt(true)">Skip</button>
+            <button type="button" class="dl-prompt-btn dl-prompt-go" onclick="confirmDownloadPrompt(false)">Save &amp; Download</button>
           </div>
         </div>
       </div>
@@ -16520,6 +16543,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 </main>
 <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="data.js?v=20260504a"></script>
+<script src="pairings-data.js?v=20260508a"></script>
 <script src="app.js?v=20260504a"></script>
 <script src="pdf-export.js?v=20260504a"></script>
 <script src="search-index.js?v=20260504a"></script>

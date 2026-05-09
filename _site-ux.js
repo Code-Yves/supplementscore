@@ -395,6 +395,11 @@
     var sp = new URLSearchParams(location.search);
     if (sp.get('modal') === '1') return;
     if (/\/a\//.test(location.pathname)) return;
+    /* Round-7: skip the Custom Profile view — the recently-viewed strip
+       was eating space at the bottom of the wizard / dashboard. */
+    if (/^#profile/.test(location.hash || '')) return;
+    /* Also bail if the wizard or its result view is currently visible. */
+    if (document.getElementById('p1') && document.getElementById('p1').offsetParent !== null) return;
     var list = [];
     try { list = JSON.parse(localStorage.getItem(RV_KEY) || '[]'); } catch(_){}
     if (!Array.isArray(list) || list.length === 0) return;

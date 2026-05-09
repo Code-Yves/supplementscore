@@ -189,6 +189,9 @@ function profileAugmentationPass(recs, opts){
     if(health.kidney === 'severe' && CONDITIONS.ckd_stage_4_5) _impliedConds.add('ckd_stage_4_5');
     if(health.liver === 'cirrhosis' && CONDITIONS.liver) _impliedConds.add('liver');
     if(health.liver === 'impaired' && CONDITIONS.nafld) _impliedConds.add('nafld');
+    /* Round-4 fix: inject 'pregnant' synthetic condition so the hard-avoid list
+       (teratogens, abortifacients, uterine stimulants) prunes recommendations. */
+    if(typeof sex !== 'undefined' && sex === 'fp' && CONDITIONS.pregnant) _impliedConds.add('pregnant');
   }
   const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ..._impliedConds]);
 
@@ -216,10 +219,15 @@ function profileAugmentationPass(recs, opts){
   // ── Pass A2: Diet-pattern filter (Plan B1 round 2) ──
   if(health && health.diets && health.diets.length && typeof DIET_TO_SUPP_PATTERNS !== 'undefined'){
     const dietMatchers = [];
+    /* Round-4 fix: diet rules can also have a `boost` array (keto, mediterranean,
+       etc.) that flags supplements as diet-aligned. Boosts annotate the rec with
+       `_dietBoost` so the UI can credit the diet context; they don't change order. */
+    const boostMatchers = [];
     health.diets.forEach(d => {
       const cfg = DIET_TO_SUPP_PATTERNS[d];
-      if(!cfg || !cfg.avoid) return;
-      cfg.avoid.forEach(re => dietMatchers.push({re, diet: d, reason: cfg.reason}));
+      if(!cfg) return;
+      (cfg.avoid||[]).forEach(re => dietMatchers.push({re, diet: d, reason: cfg.reason}));
+      (cfg.boost||[]).forEach(re => boostMatchers.push({re, diet: d, reason: cfg.reason}));
     });
     for(let i = recs.length - 1; i >= 0; i--){
       const r = recs[i];
@@ -233,6 +241,16 @@ function profileAugmentationPass(recs, opts){
         });
         recs.splice(i, 1);
       }
+    }
+    /* Apply boost annotations to remaining recs. */
+    if(boostMatchers.length){
+      recs.forEach(function(r){
+        const m = boostMatchers.find(function(b){ return b.re.test(r.n); });
+        if(m){
+          r._dietBoost = r._dietBoost || [];
+          if(r._dietBoost.indexOf(m.diet) === -1) r._dietBoost.push(m.diet);
+        }
+      });
     }
   }
 
@@ -308,14 +326,70 @@ function profileAugmentationPass(recs, opts){
     }
   });
 
+  /* Round-4 fix: serotonergic hard-block. When the user is on any SSRI / SNRI /
+     TCA / atypical-antidepressant / MAOI / lithium / methylene-blue, prune the
+     serotonergic supplements (St. John's Wort, 5-HTP, SAMe, L-tryptophan,
+     Saffron at high dose) regardless of which condition or goal the engine
+     used to pull them in. Defensive belt-and-suspenders — the per-drug-pair
+     table already covers most pairs but a goal-driven addition (depression →
+     SAMe) can slip through if the per-pair entry is missing. */
+  const _SEROTONERGIC_SUPPS = new Set([
+    "St. John's Wort", '5-HTP', 'S-Adenosylmethionine (SAMe)',
+    'Tryptophan (L-tryptophan)', 'L-Tryptophan',
+    'Methylene blue (pharmaceutical grade)'
+  ]);
+  const _SEROTONERGIC_DRUG_CLASSES = new Set([
+    'ssri','snri','tricyclic','atypical_antidep','maoi','triptan','tramadol','dextromethorphan','linezolid','methylene_blue'
+  ]);
+  const _onSerotonergic = (function(){
+    if(typeof selectedMeds !== 'undefined'){
+      for(const k of selectedMeds){ if(_SEROTONERGIC_DRUG_CLASSES.has(k)) return true; }
+    }
+    if(typeof selectedDrugs !== 'undefined' && typeof DRUG_INTERACTIONS !== 'undefined' && DRUG_INTERACTIONS.drugs){
+      for(const dk of selectedDrugs){
+        const d = DRUG_INTERACTIONS.drugs[dk];
+        if(d && d.class && _SEROTONERGIC_DRUG_CLASSES.has(d.class)) return true;
+      }
+    }
+    return false;
+  })();
+  if(_onSerotonergic){
+    for(let i = recs.length - 1; i >= 0; i--){
+      if(_SEROTONERGIC_SUPPS.has(recs[i].n)){
+        blocked.push({
+          n: recs[i].n,
+          reason: 'serotonergic medication on board — additive serotonin-syndrome risk',
+          sourcedBy: 'serotonergic_hard_block',
+          source: 'NCCIH / FDA black-box on serotonergic stacking'
+        });
+        recs.splice(i, 1);
+      }
+    }
+  }
+
   // ── Pass 2: Drug-pair explicit severity (DRUG_INTERACTIONS.pairs) ──
-  // Use selectedDrugs if present; otherwise infer from selectedMeds class names.
+  // Round-4 fix: use BOTH selectedDrugs (typeahead) and infer from selectedMeds
+  // (legacy class-level chips). Previously this only read selectedDrugs, so a user
+  // who picked "Statin" from the class chip but never typed into the typeahead
+  // got no per-pair severity layer at all.
   if(typeof DRUG_INTERACTIONS !== 'undefined' && DRUG_INTERACTIONS.pairs){
     const userDrugs = new Set();
     if(typeof selectedDrugs !== 'undefined'){
       [...selectedDrugs].forEach(d => {
         const k = (typeof resolveDrugKey === 'function') ? resolveDrugKey(d) : (String(d).toLowerCase());
         if(k) userDrugs.add(k);
+      });
+    }
+    /* Round-4: also expand selectedMeds class keys → representative drug keys.
+       For each class, pick all drugs whose `class` matches; this lets the per-pair
+       table fire for class-only users at the cost of being slightly broader. */
+    if(typeof selectedMeds !== 'undefined' && typeof DRUG_INTERACTIONS.drugs !== 'undefined'){
+      const _drugTable = DRUG_INTERACTIONS.drugs;
+      [...selectedMeds].forEach(function(classKey){
+        Object.keys(_drugTable).forEach(function(drugKey){
+          const d = _drugTable[drugKey];
+          if(d && d.class === classKey) userDrugs.add(drugKey);
+        });
       });
     }
     // Build pair lookup: drugKey -> { suppName -> {severity, mechanism, source} }
@@ -476,14 +550,46 @@ if(_ageInput){
   updAge(_ageInput.value);
 }
 let sex=null;
-function pickSex(s){if(s!=='m'&&s!=='f'&&s!=='fp')return;sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');if(bm)bm.className='pf-sex-opt sx-btn'+(s==='m'?' on-m':'');if(bf)bf.className='pf-sex-opt sx-btn'+(s==='f'?' on-f':'');if(bp)bp.className='pf-sex-opt sx-btn'+(s==='fp'?' on-fp':'');const serr=document.getElementById('serr');if(serr)serr.style.display='none';}
+function pickSex(s){if(s!=='m'&&s!=='f'&&s!=='fp')return;sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');if(bm)bm.className='pf-sex-opt sx-btn'+(s==='m'?' on-m':'');if(bf)bf.className='pf-sex-opt sx-btn'+(s==='f'?' on-f':'');if(bp)bp.className='pf-sex-opt sx-btn'+(s==='fp'?' on-fp':'');/* Round-4 a11y: keep aria-checked in sync. */ if(bm)bm.setAttribute('aria-checked',s==='m'?'true':'false');if(bf)bf.setAttribute('aria-checked',s==='f'?'true':'false');if(bp)bp.setAttribute('aria-checked',s==='fp'?'true':'false');const serr=document.getElementById('serr');if(serr)serr.style.display='none';}
 function editP(){
   const vres=document.getElementById('v-res');if(vres)vres.style.display='none';
   const vin=document.getElementById('v-input');if(vin)vin.style.display='block';
-  // Return to step 1 so the user can review their profile from the beginning
-  wizStep=1;if(typeof _wizShowStep==='function')_wizShowStep(1);
+  /* Round-4 fix: return to the highest step the user has reached so they can
+     change one answer (e.g. kidney function on step 6) without re-walking the
+     whole wizard. The jump rail also lets them step back further if they want. */
+  const targetStep = (typeof wizMaxReached === 'number' && wizMaxReached >= 1 && wizMaxReached <= WIZ_TOTAL) ? wizMaxReached : 1;
+  wizStep = targetStep;
+  if(typeof _wizShowStep === 'function') _wizShowStep(targetStep);
   // Scroll to top
   window.scrollTo(0,0);
+}
+/* Round-4 fix: jump-rail to any step the user has reached. Renders into the
+   container with id="wiz-jump-rail" if present in the DOM. */
+function _wizJumpTo(n) {
+  if (typeof n !== 'number' || n < 1 || n > WIZ_TOTAL) return;
+  if (n > wizMaxReached) return; // can't skip ahead — only revisit
+  wizStep = n;
+  if (typeof _wizShowStep === 'function') _wizShowStep(n);
+}
+const _WIZ_STEP_LABELS = ['Goals','Plan','About','Conds','Meds','Health','Labs'];
+function _wizPaintJumpRail() {
+  const rail = document.getElementById('wiz-jump-rail');
+  if (!rail) return;
+  /* Round-4 fix: render the rail only after the user has reached step ≥ 2.
+     On step 1 (or first visit) the rail is empty — CSS :empty rule hides it. */
+  if (typeof wizMaxReached !== 'number' || wizMaxReached < 2) {
+    rail.innerHTML = '';
+    return;
+  }
+  rail.innerHTML = _WIZ_STEP_LABELS.map(function(label, i){
+    const n = i + 1;
+    const active = (n === wizStep);
+    const reached = (n <= wizMaxReached);
+    const cls = 'wiz-jump-step' + (active ? ' act' : '') + (reached ? ' done' : '');
+    const onclick = reached ? ('onclick="_wizJumpTo(' + n + ')"') : '';
+    const aria = active ? 'aria-current="step"' : (reached ? 'aria-label="Go to step ' + n + '"' : 'aria-disabled="true"');
+    return '<div class="' + cls + '" role="button" tabindex="' + (reached ? '0' : '-1') + '" ' + aria + ' ' + onclick + '><span class="step-n">' + n + '</span>' + label + '</div>';
+  }).join('');
 }
 function tbadge(t){const m=TM[t];return m&&(t==='t1'||t==='t2')?`<span class="tbadge" style="background:${m.bg};color:${m.tx}">${t==='t1'?'Tier 1':'Tier 2'}</span>`:'';}
 function getRecs(age,sx){const iF=sx==='f'||sx==='fp',isPreg=sx==='fp',repAge=iF&&age>=18&&age<=50,young=age<31,midA=age>=31&&age<46,midAged=age>=46&&age<61,senior=age>=61;const r=[];r.push({n:'Vitamin D3',p:'essential',tier:'t1',tf:true,e:4,s:4,why:'Deficiency affects ~40% of adults globally. VITAL trial: 2,000 IU/day reduced cancer mortality 17% and autoimmune disease risk significantly.',dose:'1,000–2,000 IU/day maintenance (test 25-OH-D first; 4,000 IU/day to correct deficiency)'});r.push({n:'Magnesium',p:'essential',tier:'t1',tf:false,e:4,s:5,why:'NIH ODS: ~48% of Americans fall below the EAR. Supports sleep, insulin sensitivity, cardiovascular, and cognitive health.',dose:'200–400 mg/day magnesium glycinate (sleep/CNS) or malate (energy/exercise); 30–45 min before bed for sleep support'});if(sx==='m')r.push({n:'Zinc',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'Men lose zinc through sweat at higher rates and require it for testosterone biosynthesis, immune function, and prostate health.',dose:'15–25 mg/day zinc picolinate or bisglycinate (do not exceed 40 mg/day)'});if(repAge){r.push({n:'Iron',p:'essential',tier:'t2',tf:true,e:4,s:3,why:'WHO: iron deficiency anaemia affects 24.8% of the global population, disproportionately women of reproductive age.',dose:'30–60 mg/day ferrous bisglycinate — test ferritin first'});r.push({n:'Folate (5-MTHF)',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'USPSTF Grade A. WHO: 400 mcg daily for all women of reproductive age. Neural tube defects form days 21–28 — must begin before conception.',dose:'400–600 mcg/day 5-MTHF (methylfolate), preferred over synthetic folic acid'});}if(isPreg){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'DHA is the primary structural fat in the foetal brain and retina. WHO recommends 300 mg DHA/day during pregnancy. CHILD cohort: higher maternal DHA linked to improved neurodevelopmental outcomes.',dose:'300–600 mg DHA/day (from 1–2 g EPA+DHA); choose a prenatal-formulated fish or algal oil'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Foetal skeletal mineralisation draws heavily from maternal stores. NIH: requirements increase to 1,000–1,300 mg/day during pregnancy. WHO meta-analysis: calcium supplementation reduces preeclampsia risk by 55% in low-intake populations.',dose:'500 mg elemental calcium × 2 daily with meals; space 2 hours from iron'});r.push({n:'Ginger (Zingiber officinale)',p:'recommended',tier:'t2',tf:false,e:4,s:5,why:'Cochrane meta-analysis: significant reduction in nausea and vomiting of pregnancy. First-line non-pharmacological therapy.',dose:'1–1.5 g/day in divided doses for NVP'});r.push({n:'Vitamin B6 (P5P)',p:'recommended',tier:'t2',tf:false,e:3,s:3,why:'USPSTF recommends 10–25 mg TID for nausea and vomiting of pregnancy. ACOG first-line monotherapy for mild NVP.',dose:'10–25 mg × 3 daily. Do not exceed 100 mg/day.'});r.push({n:'Choline',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: essential for foetal brain development and neural tube closure. Most prenatal vitamins do not contain adequate choline.',dose:'450–550 mg/day from food + supplementation'});r.push({n:'Iodine',p:'essential',tier:'t2',tf:false,e:4,s:3,why:'WHO: iodine requirements increase 50% during pregnancy. Deficiency is the most preventable cause of cognitive impairment in newborns.',dose:'220 mcg/day total from diet + supplementation'});}if(young){r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'ISSN Level A — most evidence-backed performance supplement. NIH ODS: strong long-term safety record. 2024 data confirmed cognitive benefits.',dose:'3–5 g/day — no loading needed'});r.push({n:'Omega-3 (EPA/DHA)',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'NIH VITAL trial (25,871 participants): 2,000 mg/day cut MI by 28% and reduced cancer mortality 17%. Building cardiovascular foundation now maximises cumulative benefit.',dose:'1–2 g/day EPA+DHA from a quality fish oil'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Reduces cortisol and stress reactivity — highly relevant during high-demand academic or work phases. Works cumulatively over 4–8 weeks.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Promotes relaxed alertness without sedation. Particularly effective for exam stress and focus during cognitive work.',dose:'100–200 mg for focus; 200–400 mg alone for calm/sleep support'});r.push({n:'Rhodiola rosea',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'2025 meta-analysis (26 RCTs): significant improvements in VO2max and time to exhaustion. Also reduces perceived mental fatigue under stress.',dose:'200–400 mg/day standardised extract; 6–8 wks on, 2–4 wks off'});}if(midA){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk begins its meaningful rise in this decade. NIH VITAL trial and 2025 meta-analysis (42 RCTs) both confirm significant CVD mortality and MI reduction.',dose:'1–2 g/day EPA+DHA. Higher (2–4 g/day) if triglycerides are elevated.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle mass declines from the early 30s at ~1% per year. Creatine with resistance training is the most evidence-backed intervention.',dose:'3–5 g/day continuously'});r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk begins rising in the 30s. Rotterdam Study: 57% reduced cardiac mortality in those with highest MK-7 intake. Pairs synergistically with Vitamin D3.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Cortisol dysregulation peaks in this career and life stage. HPA axis modulation is most clinically relevant from age 30–55.',dose:'300–600 mg/day; cycle 8–12 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports calm focus and sleep quality without dependency — particularly useful if stress is impacting sleep or daytime performance.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});if(iF)r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'2024 systematic review (46 RCTs): depression ES=−4.26, anxiety ES=−3.75. Particularly relevant for perimenopause mood changes. Non-inferior to conventional drugs.',dose:'28–30 mg/day standardised saffron extract'});}if(midAged){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk accelerates significantly in this decade. 2025 meta-analysis (42 RCTs, 176K+) and VITAL trial both confirm meaningful CVD mortality reduction.',dose:'2–4 g/day EPA+DHA — higher if cardiovascular risk factors are present'});r.push({n:'Vitamin B12',p:'recommended',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: B12 absorption requires intrinsic factor that declines with age; PPIs and metformin significantly impair uptake. Deficiency affects ~20% of adults over 50.',dose:'500–1,000 mcg/day oral cyanocobalamin. Test serum B12 and MMA.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle loss accelerates in this decade. Creatine with resistance training is the most evidence-backed strategy for preserving lean mass and cognitive function.',dose:'3–5 g/day continuously'});if(iF)r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Declining oestrogen during perimenopause sharply accelerates bone loss. MK-7 activates osteocalcin (bone calcium) and matrix Gla protein (arterial protection).',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});else r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk rises meaningfully from middle age. Rotterdam Study: 57% reduced cardiac mortality in highest MK intake group.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Lutein + Zeaxanthin',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'AMD risk begins rising now. AREDS2 trial (NIH-funded): confirmed ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'CoQ10 (Ubiquinol)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: statins block CoQ10 synthesis; mitochondrial CoQ10 declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality in heart failure.',dose:'100–200 mg/day ubiquinol with a fatty meal'});r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'Among the most evidence-backed botanicals for mood. 2024 review (46 RCTs): depression ES=−4.26. Relevant for both stress-related mood changes and sleep quality.',dose:'28–30 mg/day standardised saffron extract'});}if(senior){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD is the leading cause of death in this age group. NIH VITAL trial and 2025 meta-analysis confirm significant reductions in CV mortality, MI, and CHD.',dose:'2–4 g/day EPA+DHA. Consider icosapent ethyl if CVD diagnosed.'});r.push({n:'Vitamin B12',p:'essential',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: deficiency affects ~20% of adults over 60; absorption impaired by gastric acid decline, PPIs, and metformin. Neurological damage is progressive.',dose:'500–1,000 mcg/day oral cyanocobalamin. Discuss IM injections with GP if absorption impaired.'});r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Bone fracture and arterial calcification risk accelerate sharply after 60. K2 activates proteins that direct calcium into bone and away from arteries.',dose:'90–200 mcg/day MK-7, paired with Vitamin D3'});r.push({n:'Creatine monohydrate',p:'essential',tier:'t1',tf:false,e:5,s:5,why:'Sarcopenia is the primary driver of frailty and falls. NIH ODS: creatine with resistance training is the most evidence-backed intervention for preserving muscle and cognitive function after 60.',dose:'3–5 g/day — no loading needed. Take consistently including rest days.'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Bone mineral density declines progressively after 60. NIH ODS: most older adults do not meet the 1,200 mg/day calcium requirement from diet alone. Paired with D3 and K2 for maximum skeletal benefit.',dose:'500 mg elemental calcium × 2 daily with meals; do not take single doses above 500 mg'});r.push({n:'Lutein + Zeaxanthin',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'AMD is the leading cause of blindness in adults over 60. AREDS2 trial (NIH-funded, 4,203 participants): ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'HMB (β-Hydroxy-β-methylbutyrate)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: evidence strongest in older adults. 2025 meta-analysis (21 RCTs, 1,935 adults >50): significant improvements in lean mass.',dose:'3 g/day (1 g × 3 with meals). Allow ≥12 weeks alongside resistance exercise.'});r.push({n:'Whey protein',p:'recommended',tier:'t1',tf:false,e:4,s:5,why:'Appetite decreases with age while protein requirements increase. NIH ODS: adequate dietary protein is essential.',dose:'20–40 g/serving after resistance exercise. Target ≥1.2–1.6 g/kg body weight/day.'});r.push({n:'CoQ10 (Ubiquinol)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: CoQ10 depleted by statins and declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality (RR=0.64) in heart failure.',dose:'200–400 mg/day ubiquinol in 2 doses with fatty meals'});r.push({n:'Acetyl-L-Carnitine (ALCAR)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: L-carnitine synthesis declines with age. Multiple meta-analyses confirm significant cognitive improvement in older adults with MCI.',dose:'1,500–2,000 mg/day in 2–3 divided doses (morning and early afternoon; avoid evening)'});r.push({n:'Phosphatidylserine',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'FDA qualified health claim for cognitive decline. Multiple RCTs confirm improvements in memory, recall, and learning in older adults. Supports cortisol regulation and neuronal membrane integrity.',dose:'300–400 mg/day in 2–3 divided doses with meals; allow 4–8 weeks for full benefit'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Supports HPA axis resilience, preserves lean muscle mass, and improves sleep quality — all key concerns in older adults.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports sleep quality and calm focus without drug interactions or dependency — ideal for older adults managing multiple medications.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});}const seen=new Set();return r.filter(x=>{if(seen.has(x.n))return false;seen.add(x.n);return true;});}
@@ -536,9 +642,16 @@ function renderSuppStackAlerts(recs){
 const DOSE_CALCULATORS = {
   'Creatine monohydrate': (p) => {
     if(!p.wtKg) return null;
-    let mg = Math.round(p.wtKg * 70);  // 0.07 g/kg = 70 mg/kg
-    mg = Math.max(3000, Math.min(5000, mg));
-    return {dose: `${(mg/1000).toFixed(1)} g/day`, basis: `${(mg/p.wtKg).toFixed(0)} mg/kg × your weight`};
+    /* Round-4 fix: compute the basis label on the un-clamped weight × 70 mg/kg,
+       then label the clamp separately. Previously the basis string did
+       `(mg/p.wtKg)` AFTER clamping, which made a 30-kg edge user see
+       "100 mg/kg × your weight" because the floor (3 g) reverse-divides into
+       100 mg/kg. */
+    const rawMg = Math.round(p.wtKg * 70);
+    const mg = Math.max(3000, Math.min(5000, rawMg));
+    let basis = '70 mg/kg × your weight';
+    if (mg !== rawMg) basis += ' (clamped to safety range 3–5 g)';
+    return {dose: `${(mg/1000).toFixed(1)} g/day`, basis: basis};
   },
   'Whey protein': (p) => {
     if(!p.wtKg) return null;
@@ -699,6 +812,19 @@ function getPersonalizedDose(r){
   if(typeof bloodWork !== 'undefined' && bloodWork){
     for(const [k, v] of Object.entries(bloodWork)){ labs[k] = v.value || v; }
   }
+  /* Round-4 fix: build a unified meds Set that includes BOTH the legacy
+     class chips (selectedMeds) AND classes inferred from typeahead drugs
+     (selectedDrugs → DRUG_INTERACTIONS.drugs[k].class). Previously CoQ10/B12/
+     Folate dose-modifiers only fired for class-chip users — typeahead-only
+     users (who typed "Lipitor" or "metformin" instead of ticking "Statin")
+     were silently un-boosted. */
+  const medsCombined = new Set(typeof selectedMeds !== 'undefined' ? [...selectedMeds] : []);
+  if (typeof selectedDrugs !== 'undefined' && typeof DRUG_INTERACTIONS !== 'undefined' && DRUG_INTERACTIONS.drugs) {
+    [...selectedDrugs].forEach(function(drugKey){
+      const d = DRUG_INTERACTIONS.drugs[drugKey];
+      if (d && d.class) medsCombined.add(d.class);
+    });
+  }
   const profile = {
     age: ageVal,
     sex: typeof sex !== 'undefined' ? sex : '',
@@ -707,7 +833,7 @@ function getPersonalizedDose(r){
     liver: (document.getElementById('liver-fn')?.value) || 'normal',
     smoking: (document.getElementById('smoking-status')?.value) || 'never',
     conds: typeof selectedConds !== 'undefined' ? selectedConds : new Set(),
-    meds: typeof selectedMeds !== 'undefined' ? selectedMeds : new Set(),
+    meds: medsCombined,
     labs
   };
   const calc = DOSE_CALCULATORS[r.n] || DOSE_CALCULATORS[r._preferredForm];
@@ -739,7 +865,12 @@ if(n.includes('lutein')||n.includes('zeaxanthin'))return{pair:'Eggs (yolks are r
 if(n.includes('astaxanthin'))return{pair:'Salmon, eggs, avocado, olive oil — any fat-containing meal',avoid:'Avoid on an empty stomach.',note:'Fat-soluble carotenoid. Always take with dietary fat for meaningful absorption.'};
 if(n==='iron'||n.includes('ferrous')||(n.includes('iron')&&!n.includes('lion')))return{pair:'Vitamin C sources: orange juice, bell peppers, strawberries, broccoli',avoid:'Dairy, tea, coffee, calcium, whole grains, and legumes within 2 hours — they block iron absorption by up to 60%.',note:'Vitamin C paired with iron boosts absorption by 2–3×. Take on an empty stomach if tolerated.'};
 if(n.includes('zinc'))return{pair:'Take with a light meal. Meat, pumpkin seeds, and eggs enhance zinc absorption.',avoid:'Calcium, iron, coffee, high-phytate foods (whole grains, legumes) within 2 hours — they reduce zinc uptake.',note:'Competes with copper and iron for absorption. If taking >25 mg/day, add 1–2 mg copper.'};
-if(n.includes('magnesium'))return{pair:'Take with food to reduce GI upset. No specific pairing needed.',avoid:'Calcium, iron, and zinc in the same meal — they compete for absorption. Avoid excess alcohol.',note:'Space 2 hours from other minerals. Glycinate form is gentlest on the stomach.'};
+/* Round-4 fix: form-specific timing — oxide and citrate at high dose are
+   often used for laxative effect and work better on an empty stomach;
+   glycinate / threonate / taurate / malate are best with food. */
+if(n.includes('magnesium oxide'))return{pair:'On an empty stomach with water for laxative effect; otherwise with food.',avoid:'Calcium, iron, and zinc in the same meal — they compete for absorption.',note:'Oxide is poorly absorbed; better as a stool softener than for systemic Mg repletion. Glycinate or citrate are usually the better choice for everyday use.'};
+if(n.includes('magnesium citrate'))return{pair:'Empty stomach for laxative use; with food otherwise.',avoid:'Calcium, iron, and zinc in the same meal.',note:'Higher absorption than oxide. Doses ≥400 mg can have a laxative effect — useful for occasional constipation.'};
+if(n.includes('magnesium'))return{pair:'Take with food to reduce GI upset. Glycinate is gentlest. Space 2 h from iron / calcium / zinc / thyroid medication.',avoid:'Calcium, iron, and zinc in the same meal — they compete for absorption. Avoid excess alcohol.',note:'Glycinate form is gentlest on the stomach. L-threonate is preferred for cognitive endpoints; taurate for cardiac rhythm.'};
 if(n.includes('calcium'))return{pair:'Take with meals. Vitamin D3 and K2 enhance calcium absorption and directing to bones.',avoid:'Iron, zinc, magnesium, and thyroid medication within 2 hours. Avoid spinach/oxalates in same meal.',note:'Never exceed 500 mg per dose — absorption drops sharply above this. Split throughout the day.'};
 if(n.includes('creatine'))return{pair:'No strict food pairing needed. Some evidence suggests carbs + protein may enhance muscle uptake.',avoid:'No foods to avoid. Stay well hydrated throughout the day.',note:'Absorbs well regardless of meal timing. Consistency matters more than food pairing.'};
 if(n.includes('whey')||n.includes('casein'))return{pair:'Mix with water, milk, or blend into a smoothie. Post-workout with carbs for recovery.',avoid:'No foods to avoid. Isolate form if lactose-sensitive.',note:'Complete protein. Ideally taken within 2 hours post-exercise, but total daily protein matters more than timing.'};
@@ -1370,11 +1501,37 @@ function _showBwReviewModal(opts){
   document.addEventListener('keydown',_esc);
 }
 
+/* Round-4 fix: validate the file is a PDF before pdfjs ingestion. The HTML
+   accept=".pdf" attribute does not bind on drag-drop, so a user can drop a
+   .docx or .jpg and crash pdfjs (or worse, fall through to OCR which hangs
+   on non-image data). Two checks: extension hint + magic-bytes verification
+   ("%PDF-" at byte 0). */
+async function _isLikelyPdf(file){
+  if(!file)return false;
+  const name = (file.name || '').toLowerCase();
+  if(name.endsWith('.pdf')){
+    /* Extension says yes, double-check the magic bytes. */
+  } else if(file.type && !/pdf/i.test(file.type)){
+    return false;
+  }
+  try{
+    const head = await file.slice(0, 5).arrayBuffer();
+    const sig = new Uint8Array(head);
+    return sig[0]===0x25 && sig[1]===0x50 && sig[2]===0x44 && sig[3]===0x46 && sig[4]===0x2D;
+  }catch(e){ return false; }
+}
 async function handleBwUpload(file){
   if(!file)return;
   const uploadEl=document.getElementById('bw-upload');
   const uploadedEl=document.getElementById('bw-uploaded');
   if(!uploadEl||!uploadedEl)return;
+  /* Round-4 fix: validate file is actually a PDF before invoking pdfjs/OCR. */
+  const _isPdf = await _isLikelyPdf(file);
+  if(!_isPdf){
+    setBwUploadStatus(null);
+    alert('That file does not look like a PDF. Please upload a lab report PDF, or enter values manually below.');
+    return;
+  }
   try{
     if(typeof pdfjsLib==='undefined'){alert('PDF.js not loaded. Please enter values manually.');return;}
     setBwUploadStatus('Reading PDF text...');
@@ -1585,12 +1742,14 @@ function _toggleBwRow(rowEl){
   detail.classList.toggle('bw-list-detail-open',expanded);
 }
 
+/* Round-4 update: loader text matches the actual decision pipeline so the wait
+   feels deliberate rather than padded. */
 const LOAD_STEPS=[
-  {at:0,text:'Analyzing your profile…',sub:'Matching against 733 supplements'},
-  {at:20,text:'Checking medication interactions…',sub:'Cross-referencing drug-supplement data'},
-  {at:45,text:'Evaluating clinical evidence…',sub:'Reviewing RCTs and meta-analyses'},
-  {at:70,text:'Ranking by efficacy and safety…',sub:'Building your personalised list'},
-  {at:90,text:'Finalising recommendations…',sub:'Almost ready'}
+  {at:0, text:'Filtering 733 supplements…', sub:'Matching to your age, sex, and goals'},
+  {at:20,text:'Checking medication interactions…', sub:'Cross-referencing drug-supplement pairs'},
+  {at:45,text:'Cross-referencing your labs…', sub:'Tightening doses to your bloodwork'},
+  {at:70,text:'Ranking by personal fit…', sub:'Evidence × your profile'},
+  {at:90,text:'Finalising recommendations…', sub:'Almost ready'}
 ];
 let _genRecsRaf=null;
 function genRecs(){
@@ -1601,7 +1760,10 @@ function genRecs(){
     return;
   }
   // Show loading
-  const btn=document.querySelector('.go-btn');if(btn)btn.disabled=true;
+  // Round-4 fix: scope to the wizard's Next button by id, not the first .go-btn on the page
+  // (which on initial render is the gate-form button, not the wizard Next).
+  const btn=document.getElementById('wiz-next-btn')||document.querySelector('#p1 .go-btn');
+  if(btn)btn.disabled=true;
   const vin=document.getElementById('v-input');if(vin)vin.style.display='none';
   const lo=document.getElementById('v-loading');if(lo)lo.classList.add('vis');
   const bar=document.getElementById('load-bar');
@@ -1753,9 +1915,18 @@ function _showRecs(){
   const recCount=recs.filter(x=>x.p==='recommended').filter(_bannerSF).length;
   const conCount=recs.filter(x=>x.p==='consider').filter(_bannerSF).length;
   const resChips=document.getElementById('res-chips');
-  if(resChips)resChips.innerHTML=[
-    {n:essCount,l:'Essential',c:'#16A34A'},{n:recCount,l:'Recommended',c:'#2563EB'},{n:conCount,l:'Consider',c:'#D97706'}
-  ].map(s=>`<div class="res-chip"><div class="rc-dot" style="background:${s.c}"></div><span class="rc-num">${s.n}</span> ${s.l}</div>`).join('');
+  /* Round-5 hero: count cards removed. The hero subtitle now communicates the same
+     essentials as a single readable sentence in res-sh below. Keep res-chips empty
+     for back-compat (any code reading it still works; nothing renders). */
+  if(resChips) resChips.innerHTML = '';
+  if(resHd) resHd.textContent = 'Your plan';
+  /* Round-5 fix: extracted into _updateHeroSubtitle so add/remove paths can
+     refresh the count without re-running the whole _showRecs scoring pipeline.
+     Count = essentials + score-filtered recommended/consider + user-added
+     supplements not already in recs (matches what's visibly rendered). */
+  if(typeof _updateHeroSubtitle === 'function'){
+    _updateHeroSubtitle({ recs: recs, age: age, sexLabel: sexLabel, essCount: essCount, recCount: recCount, conCount: conCount });
+  }
 
   renderMedAlerts(mi);
   renderSuppStackAlerts(recs);
@@ -1763,6 +1934,10 @@ function _showRecs(){
   // Plan B5 — Render blocked/removed items mini-section so users see WHY a supp
   // didn't make it into their recommendations (transparency > silent filtering).
   renderBlockedItems(_profileBlocked || []);
+
+  // Round-4 fix: apply Step 1 follow-up boost/demote rules
+  // (e.g. Sleep "Falling asleep" → boost L-Theanine; "Daytime fatigue" → demote Melatonin).
+  if (typeof applyFollowupAdjustments === 'function') applyFollowupAdjustments(recs);
 
   // Store recs globally for plan modal access
   _lastRecs=recs;
@@ -1900,6 +2075,43 @@ function _flashCard(name,color){
   return card;
 }
 
+/* Round-5 fix: hero subtitle stayed stale after add/remove because _showRecs
+   wasn't re-run. This recomputes from current state (selectedGoals, _lastRecs,
+   userAddedSupps) and updates res-sh in place. Call after any plan change. */
+function _updateHeroSubtitle(opts){
+  const resSh = document.getElementById('res-sh');
+  if(!resSh) return;
+  const recsRaw = (opts && opts.recs) || (typeof _lastRecs !== 'undefined' ? _lastRecs : []);
+  if(!recsRaw) return;
+  /* Round-5 fix: drop items the user X-removed (in hiddenSupps) from the count
+     so the hero matches what's actually on screen after a removal. */
+  const recs = (typeof hiddenSupps !== 'undefined' && hiddenSupps && hiddenSupps.size)
+    ? recsRaw.filter(function(r){ return !hiddenSupps.has(r.n); })
+    : recsRaw;
+  const age = (opts && opts.age) || parseInt(document.getElementById('asl')?.value, 10) || 0;
+  const sexLabel = (opts && opts.sexLabel) || (sex === 'fp' ? 'pregnant woman' : sex === 'm' ? 'man' : 'woman');
+  const _bSF = function(r){ const s = _suppByName.get(r.n); return s ? calcScore(s) >= 60 : true; };
+  /* When opts has counts, trust them (set by _showRecs from the same recs).
+     Otherwise recompute against the hidden-filtered recs array. */
+  const ess = (opts && typeof opts.essCount === 'number') ? opts.essCount : recs.filter(function(r){ return r.p === 'essential'; }).length;
+  const rec = (opts && typeof opts.recCount === 'number') ? opts.recCount : recs.filter(function(r){ return r.p === 'recommended'; }).filter(_bSF).length;
+  const con = (opts && typeof opts.conCount === 'number') ? opts.conCount : recs.filter(function(r){ return r.p === 'consider'; }).filter(_bSF).length;
+  const userAddedExtras = (typeof userAddedSupps !== 'undefined' && Array.isArray(userAddedSupps))
+    ? userAddedSupps.filter(function(n){ return _suppByName.has(n) && !recs.find(function(r){ return r.n === n; }); }).length
+    : 0;
+  const total = ess + rec + con + userAddedExtras;
+  const goalLabels = (typeof selectedGoals !== 'undefined')
+    ? [...selectedGoals].map(function(k){ return GOALS[k] ? GOALS[k].label : ''; }).filter(Boolean)
+    : [];
+  const goalStr = goalLabels.length ? (goalLabels.slice(0,2).join(', ') + ' goals') : '';
+  const _b = '·';
+  const parts = [
+    total + ' supplement' + (total === 1 ? '' : 's') + ' ranked',
+    'for a ' + age + '-year-old ' + sexLabel
+  ];
+  if(goalStr) parts.push(goalStr);
+  resSh.textContent = parts.join(' ' + _b + ' ');
+}
 function addSuppFromSearch(name){
   const inp=document.getElementById('add-supp-search');
   // If the user had previously hidden this item, adding it via search signals they want it back.
@@ -1938,6 +2150,8 @@ function addSuppFromSearch(name){
   }
   if(inp)inp.value='';
   hideSuppDropdown();
+  /* Round-5 fix: keep the hero subtitle in sync after the user adds a supplement. */
+  if(typeof _updateHeroSubtitle === 'function') _updateHeroSubtitle();
 }
 
 function removeUserSupp(name,ev){
@@ -1947,6 +2161,8 @@ function removeUserSupp(name,ev){
   selectedSupps.delete(name);
   renderSuppCards(_lastRecs,_lastMi,_lastBwResults);
   updateSelCount();
+  /* Round-5 fix: keep the hero subtitle in sync after removal. */
+  if(typeof _updateHeroSubtitle === 'function') _updateHeroSubtitle();
 }
 
 // Returns _lastRecs combined with synthetic recs for user-added supplements,
@@ -1958,6 +2174,41 @@ function _allRecs(){
     return{n:sup.n,p:'added',tier:sup.t,tf:false,e:sup.e,s:sup.s,why:'Added by you from the supplement database.',dose:sup.dose,_userAdded:true};
   });
   return addedRecs.concat(_lastRecs);
+}
+
+/* Round-4 fix: form-collision detection. If the user has manually added a
+   specific form (e.g. "Magnesium glycinate") and the engine recommends the
+   parent class (e.g. "Magnesium"), suppress the parent so the user doesn't
+   get two cards for the same nutrient. Returns a Set of parent names to hide.
+   Built from FORM_PREFERENCES (parent → children) inverted to (child → parent). */
+let _parentByForm = null;
+function _buildParentByForm() {
+  if (_parentByForm) return _parentByForm;
+  _parentByForm = new Map();
+  if (typeof FORM_PREFERENCES === 'undefined') return _parentByForm;
+  Object.keys(FORM_PREFERENCES).forEach(function(parent){
+    const variants = FORM_PREFERENCES[parent] || [];
+    variants.forEach(function(v){
+      if (v && v.form && v.form !== parent) _parentByForm.set(v.form, parent);
+    });
+  });
+  /* Hardcoded multi-vitamin → standalone collisions. A multi already containing
+     the standalone is a duplicate (D3 + multi, etc.). These are best-guess
+     matches; expand as needed. */
+  return _parentByForm;
+}
+function _suppressedByUserForms(userAdded) {
+  const map = _buildParentByForm();
+  const suppress = new Set();
+  (userAdded || []).forEach(function(n){
+    const parent = map.get(n);
+    if (parent) suppress.add(parent);
+    /* Multivitamin → suppress the standalones it typically contains. */
+    if (/^multivitamin/i.test(n)) {
+      ['Vitamin D3','Vitamin B12','Folate (5-MTHF)','Iron','Zinc','Vitamin C (moderate dose)'].forEach(function(s){ suppress.add(s); });
+    }
+  });
+  return suppress;
 }
 
 function handleSearchKeydown(e){
@@ -1977,6 +2228,14 @@ function renderSuppCards(recs,mi,bwResults){
   const container=document.getElementById('supp-cards-container');
   if(!container)return;
 
+  /* Round-4 fix: suppress engine parent recs when the user has manually added a
+     child form (Mg glycinate user-added → suppress the engine's "Magnesium"
+     parent). Mutates the local recs array; doesn't change _lastRecs. */
+  const _suppressParents = _suppressedByUserForms(userAddedSupps);
+  if (_suppressParents.size) {
+    recs = recs.filter(function(r){ return !_suppressParents.has(r.n); });
+  }
+
   // Filter to score >= 60 only (essential tier exempt from score cutoff — clinically warranted regardless)
   const _scoreFilter=(r)=>{const s=_suppByName.get(r.n);return s?calcScore(s)>=60:true;};
   const essItems=recs.filter(x=>x.p==='essential');
@@ -1994,12 +2253,15 @@ function renderSuppCards(recs,mi,bwResults){
     return{n:sup.n,p:'added',tier:sup.t,tf:false,e:sup.e,s:sup.s,why:'Added by you from the supplement database.',dose:sup.dose,_userAdded:true};
   });
 
-  // On the first render of a freshly-generated plan, pre-select essentials/recommended/user-added.
-  // On incremental re-renders (e.g. after add/remove), preserve the user's manual check/uncheck state.
+  /* Round-7: pre-select EVERY visible card (essentials + recommended + consider
+     + user-added) so the bottom-bar count matches the hero count and the PDF
+     contains the full list. Previously consider-tier was unchecked by default,
+     producing the "20 ranked / 10 selected" mismatch the user flagged. */
   if(!_selInitialized){
     selectedSupps=new Set();
     essItems.forEach(r=>selectedSupps.add(r.n));
     recItems.forEach(r=>selectedSupps.add(r.n));
+    conItems.forEach(r=>selectedSupps.add(r.n));
     userAddedRecs.forEach(r=>selectedSupps.add(r.n));
     _selInitialized=true;
   }else{
@@ -2053,14 +2315,36 @@ function renderSuppCards(recs,mi,bwResults){
     const chips=sup&&sup.tag?sup.tag.split(' · ').slice(0,3).map(t=>`<span class="rn-chip">${escHtml(t.trim())}</span>`).join(''):'';
     // Summary text
     const desc=sup?sup.desc||'':'';
-    const summaryHtml=desc?`<div class="rn-summary">${escHtml(desc.length>130?desc.slice(0,130)+'…':desc)}</div>`:'';
-    // Positive pairings in the user's stack (up to 2)
-    const positivePairs=(typeof getPairPartners==='function'?getPairPartners(r.n):[]).filter(p=>_pairSet.has(p)).slice(0,2);
-    // Negative cautions in the user's stack (up to 1)
+    /* Round-8: sentence-safe truncation. Take 2 to 4 full sentences (no ellipsis
+       mid-thought). Falls back to the full string when it's already short. */
+    function _truncSentences(s, minSent, maxSent, softCharCap){
+      if(!s) return '';
+      const trimmed = String(s).trim();
+      if(!trimmed) return '';
+      /* Split on sentence-ending punctuation followed by whitespace. Keeps the
+         punctuation by using a lookbehind. */
+      const parts = trimmed.split(/(?<=[.!?])\s+/);
+      if(parts.length <= minSent) return trimmed;
+      let taken = parts.slice(0, minSent).join(' ');
+      for(let i = minSent; i < parts.length && i < maxSent; i++){
+        const next = (taken + ' ' + parts[i]).trim();
+        if(next.length > softCharCap) break;
+        taken = next;
+      }
+      return taken;
+    }
+    const summaryHtml=desc?`<div class="rn-summary">${escHtml(_truncSentences(desc, 2, 4, 320))}</div>`:'';
+    /* Round-4 fix: limit each card to one of each pair type (positive, caution,
+       apart-from). Two-of-each was too dense and obscured the most important
+       relationship for the user. */
+    const positivePairs=(typeof getPairPartners==='function'?getPairPartners(r.n):[]).filter(p=>_pairSet.has(p)).slice(0,1);
     const negativePairs=(typeof getSuppCautionsIn==='function')?getSuppCautionsIn(r.n,_stackNames).slice(0,1):[];
+    const apartFromPairs = (typeof getApartFromConflicts === 'function')
+      ? getApartFromConflicts(r.n, _stackNames).slice(0,1)
+      : [];
     function pmBars(strength,neg){let s='';for(let i=1;i<=5;i++)s+=`<div class="rn-pm-bar${i<=strength?(neg?' on-warn':' on'):''}"></div>`;return`<div class="rn-pm">${s}</div>`;}
     let pairsHtml='';
-    if(positivePairs.length||negativePairs.length){
+    if(positivePairs.length||negativePairs.length||apartFromPairs.length){
       const rows=[];
       positivePairs.forEach(partner=>{
         const details=(typeof getPairDetails==='function')?getPairDetails(r.n,partner):null;
@@ -2069,8 +2353,22 @@ function renderSuppCards(recs,mi,bwResults){
         rows.push(`<div class="rn-pair-row"><div class="rn-pair-main"><span class="rn-pair-name">${escHtml(partner)}</span><span class="rn-pair-reason">${escHtml(reason)}</span></div>${pmBars(strength,false)}<span class="rn-pair-state inplan">In your plan</span></div>`);
       });
       negativePairs.forEach(c=>{
-        const sev=c.severity==='avoid'?'Do not combine':'Space apart';
+        /* Round-4 fix: "Space apart" was misleading for caution-class pairs
+           (bleeding, sedation, serotonergic stacking). Use timing-vs-physiological
+           heuristic: only label as "Space apart" if the reason mentions absorption,
+           uptake, chelation, or DMT-1 competition — otherwise "Use with caution". */
+        const sev = (c.severity === 'avoid')
+          ? 'Do not combine'
+          : (/absorpt|uptake|chelat|DMT|transporter|empty stomach|hours apart|2 ?h|space/i.test(c.reason || '')
+              ? 'Space apart'
+              : 'Use with caution');
         rows.push(`<div class="rn-pair-row neg"><div class="rn-pair-main"><span class="rn-pair-name">${escHtml(c.with)}</span><span class="rn-pair-reason">${escHtml(c.reason)}</span></div>${pmBars(3,true)}<span class="rn-pair-state neg-state">${sev}</span></div>`);
+      });
+      /* Apart-from rows: distinct from "do not combine" — these CAN be combined,
+         just not in the same dose. Spacing is informational, not an avoid. */
+      apartFromPairs.forEach(function(c){
+        const reason = c.reason || 'absorption competes';
+        rows.push('<div class="rn-pair-row apart"><div class="rn-pair-main"><span class="rn-pair-name">' + escHtml(c.with) + '</span><span class="rn-pair-reason">' + escHtml(reason) + '</span></div>' + pmBars(2,true) + '<span class="rn-pair-state apart-state">Take 2h apart</span></div>');
       });
       pairsHtml=`<div class="rn-pairs"><div class="rn-pairs-label">Pairs with</div>${rows.join('')}</div>`;
     }
@@ -2083,8 +2381,20 @@ function renderSuppCards(recs,mi,bwResults){
     const timing=getTimingLabel(r);
     const timingNote=timing?` · ${timing.time}`:'';
     const whyLabel=r._userAdded?'You added this':'Why recommended for you';
+    /* Round-5: when the summary was truncated with "…", surface the full description
+       in the expanded view as a "Full description" section. For user-added supps
+       (whose r.why is just the boilerplate "Added by you …"), the full description
+       replaces the boilerplate so the expanded view earns its scroll. */
+    const descTruncated = !!(desc && desc.length > 180);
+    const fullDescSec = descTruncated
+      ? `<div class="rn-body-sec"><div class="rn-body-label">About this supplement</div><div class="rn-body-text">${escHtml(desc)}</div></div>`
+      : '';
+    const whySec = (r._userAdded && descTruncated)
+      ? '' /* skip the "Added by you" boilerplate when we already show the full desc */
+      : `<div class="rn-body-sec"><div class="rn-body-label">${whyLabel}</div><div class="rn-body-text">${escHtml(r.why||'')}</div></div>`;
     const expandedSecs=[
-      `<div class="rn-body-sec"><div class="rn-body-label">${whyLabel}</div><div class="rn-body-text">${escHtml(r.why||'')}</div></div>`,
+      fullDescSec,
+      whySec,
       doseText?`<div class="rn-body-sec"><div class="rn-body-label">How to take it</div><div class="rn-body-text">${escHtml(doseText)}${timingNote?`<br><span style="font-size:10.5px;color:var(--color-text-tertiary)">${escHtml(timingNote)}</span>`:''}</div></div>`:'',
       tips?`<div class="rn-body-sec"><div class="rn-body-label">Timing &amp; tips</div><div class="rn-body-text">${escHtml(tips)}</div></div>`:'',
     ].filter(Boolean).join('');
@@ -2092,7 +2402,136 @@ function renderSuppCards(recs,mi,bwResults){
     const _nm2=r.n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const artsBtnHtml=hasArts?`<button class="rn-cta" onclick="rnOpenArticles('${_nm2}',event)">Research articles</button>`:'';
         const _nm=r.n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return`<div class="rn-card ${scCls}" id="${safeId}" data-supp="${escAttr(r.n)}"><div class="rn-face"><div class="rn-name-row"><div class="rn-name-group"><span class="rn-name">${escHtml(r.n)}</span><span class="rn-score ${scCls}">${sc}</span></div><button class="rn-remove" onclick="rnRemove('${safeId}',event)" title="Remove ${escAttr(r.n)}">×</button></div>${chips?`<div class="rn-chips">${chips}</div>`:''}${summaryHtml}${pairsHtml}</div><button class="rn-expand" onclick="rnTog('${safeId}')"><span>See more</span> <span class="rn-chev">▾</span></button><div class="rn-body" style="display:none">${drugWarnHtml}${expandedSecs}<div class="rn-ctas"><button class="rn-cta" onclick="openSuppModal('${_nm}')">Full Supplement Card</button>${artsBtnHtml}</div></div></div>`;
+    /* ─── Round-6: Direction B layout ───────────────────────────────────────
+       Two-column face: Take (dose + timing) on the left, Why for you
+       (chips + truncated summary) on the right. Tier-pill next to the name,
+       fit number aligned right, single pair row at bottom of face, primary
+       Full-Supplement-Card button visible without expanding.
+       The "See more" expand path stays for longer copy (full description,
+       timing tips, drug-warning details).
+       ────────────────────────────────────────────────────────────────────── */
+    /* Tier pill: human-readable priority. */
+    const _prioMap = {
+      essential: { label:'Essential', cls:'b-prio-ess' },
+      recommended: { label:'Recommended', cls:'b-prio-rec' },
+      consider: { label:'Consider', cls:'b-prio-con' },
+      added: { label:'Added by you', cls:'b-prio-add' }
+    };
+    const _prio = r._userAdded ? _prioMap.added : (_prioMap[r.p] || _prioMap.consider);
+    const tierPillHtml = `<span class="b-tier-pill ${_prio.cls}">${escHtml(_prio.label)}</span>`;
+    /* Round-7: TAKE block removed. Dose info is one click away in the Full
+       Supplement Card; the rec card now reads as "what + why" only. */
+    const takeBlockHtml = '';
+    /* Why for you — chips from r._whyChips if available, else parse from r.why
+       sentence; a short summary follows. */
+    function _buildWhyChips(rec){
+      if(rec._whyChips && rec._whyChips.length) return rec._whyChips.slice(0,3);
+      const out = [];
+      if(rec._userAdded) return [];
+      /* Lightweight inference: which goal/condition matched? */
+      if(rec._goalExtra && typeof selectedGoals !== 'undefined' && GOALS){
+        const labels = [...selectedGoals]
+          .map(k => GOALS[k] && GOALS[k].label)
+          .filter(Boolean).slice(0,2);
+        labels.forEach(l => out.push(l + ' goal'));
+      }
+      if(rec._condExtra && typeof selectedConds !== 'undefined' && CONDITIONS){
+        [...selectedConds].slice(0,1).forEach(k => {
+          if(CONDITIONS[k]) out.push(CONDITIONS[k].label);
+        });
+      }
+      if(rec._bwTriggers && rec._bwTriggers.length){
+        rec._bwTriggers.slice(0, 1).forEach(t => out.push(t.name + ' ' + (t.val||'')));
+      }
+      return out.slice(0,3);
+    }
+    const _whyChips = _buildWhyChips(r);
+    const whyChipsHtml = _whyChips.length
+      ? `<div class="b-why-list">${_whyChips.map(c => `<span class="b-why-chip">${escHtml(c)}</span>`).join('')}</div>`
+      : '';
+    const whyBlockHtml = `<div class="b-why">
+        <div class="b-block-l">Why for you</div>
+        ${whyChipsHtml}
+        ${summaryHtml ? summaryHtml.replace('class="rn-summary"','class="b-summary"') : ''}
+      </div>`;
+    /* Pair row at the bottom of the face — one of: positive (in plan), caution,
+       apart-from. Same severity heuristic as before. */
+    let bottomPairHtml = '';
+    if(positivePairs.length){
+      const p = positivePairs[0];
+      const det = (typeof getPairDetails==='function') ? getPairDetails(r.n, p) : null;
+      const reason = det ? det.reason : 'Complementary combination';
+      bottomPairHtml = `<div class="b-pair">
+        <svg class="b-pair-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 12L15.5 6.5M8.5 12l7 5.5"/></svg>
+        <span class="b-pair-text"><span class="b-pair-name">${escHtml(p)}</span> — ${escHtml(reason)}</span>
+        <span class="b-pair-state in">In your plan</span>
+      </div>`;
+    } else if(negativePairs.length){
+      const c = negativePairs[0];
+      const sev = (c.severity === 'avoid')
+        ? 'Do not combine'
+        : (/absorpt|uptake|chelat|DMT|transporter|empty stomach|hours apart|2 ?h|space/i.test(c.reason || '')
+            ? 'Space apart'
+            : 'Use with caution');
+      bottomPairHtml = `<div class="b-pair warn">
+        <svg class="b-pair-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><line x1="12" y1="7" x2="12" y2="13"/><circle cx="12" cy="17" r=".7" fill="currentColor"/></svg>
+        <span class="b-pair-text"><span class="b-pair-name">${escHtml(c.with)}</span> — ${escHtml(c.reason)}</span>
+        <span class="b-pair-state warn">${escHtml(sev)}</span>
+      </div>`;
+    } else if(apartFromPairs.length){
+      const c = apartFromPairs[0];
+      bottomPairHtml = `<div class="b-pair apart">
+        <svg class="b-pair-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        <span class="b-pair-text"><span class="b-pair-name">${escHtml(c.with)}</span> — ${escHtml(c.reason || 'absorption competes')}</span>
+        <span class="b-pair-state apart">Take 2h apart</span>
+      </div>`;
+    }
+    /* Round-6: pairs-with SUGGESTION — a complementary partner that is NOT yet
+       in the user's stack. Renders below the bottom pair with an "Add" button.
+       getPairSuggestion returns at most 1 to keep the card compact. */
+    let suggestPairHtml = '';
+    if(typeof getPairSuggestion === 'function'){
+      const sug = getPairSuggestion(r.n, _stackNames);
+      if(sug && sug.partner){
+        const sugNm = sug.partner.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        suggestPairHtml = `<div class="b-pair suggest">
+          <svg class="b-pair-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span class="b-pair-text"><span class="b-pair-name">${escHtml(sug.partner)}</span> — ${escHtml(sug.reason || 'Complementary combination')}</span>
+          <button type="button" class="b-pair-add" onclick="rnAddPair('${sugNm}',event)" aria-label="Add ${escAttr(sug.partner)} to your plan">+ Add</button>
+        </div>`;
+      }
+    }
+    /* Action row — primary "Full Supplement Card" + optional Research articles. */
+    const actionsHtml = `<div class="b-actions">
+        <button class="b-cta primary" onclick="rnOpenFullSupp('${_nm}',event)">Full Supplement Card</button>
+        ${hasArts ? `<button class="b-cta" onclick="rnOpenArticles('${_nm2}',event)">Research articles</button>` : ''}
+      </div>`;
+    /* Round-7: with TAKE removed, the Why block becomes full-width; the
+       See more expand button is dropped because the same info lives on the
+       Full Supplement Card. The drug-warning still surfaces inline above the
+       Why block when there's a relevant interaction. */
+    return `<div class="rn-card b-card ${scCls}" id="${safeId}" data-supp="${escAttr(r.n)}">
+      <div class="rn-face">
+        <div class="b-row1">
+          <div class="b-name-block">
+            <div class="b-name-row">
+              <span class="b-name">${escHtml(r.n)}</span>
+              ${tierPillHtml}
+            </div>
+            ${chips ? `<div class="b-tags">${chips.replace(/class="rn-chip"/g, 'class="b-chip"')}</div>` : ''}
+          </div>
+          <div class="b-actions-top">
+            <!-- Round-8: FIT score block removed — info lives on the Full Supplement Card. -->
+            <button class="rn-remove" onclick="rnRemove('${safeId}',event)" title="Remove ${escAttr(r.n)}">×</button>
+          </div>
+        </div>
+        ${drugWarnHtml}
+        ${whyBlockHtml}
+        ${bottomPairHtml}
+        ${suggestPairHtml}
+        ${actionsHtml}
+      </div>
+    </div>`;
   }
 
   let html='';
@@ -2151,11 +2590,44 @@ function filterPlanCards(q){
 }
 
 // ── A5 Recommendation card runtime helpers ──
-function rnTog(id){const card=document.getElementById(id);if(!card)return;const body=card.querySelector('.rn-body');const chev=card.querySelector('.rn-chev');const expandBtn=card.querySelector('.rn-expand');if(!body)return;const isOpen=body.style.display!=='none';body.style.display=isOpen?'none':'block';if(chev)chev.textContent=isOpen?'▾':'▴';if(expandBtn){const lbl=expandBtn.querySelector('span:first-child');if(lbl)lbl.textContent=isOpen?'See more':'See less';}}
+function rnTog(id){
+  const card=document.getElementById(id);if(!card)return;
+  const body=card.querySelector('.rn-body');
+  const expandBtn=card.querySelector('.rn-expand');
+  if(!body)return;
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  /* Round-5: drive .is-open class so .rn-chev rotates via CSS instead of swapping
+     glyphs. Cleaner animation, single character used. */
+  card.classList.toggle('is-open', !isOpen);
+  if(expandBtn){
+    const lbl=expandBtn.querySelector('.rn-expand-label');
+    if(lbl)lbl.textContent=isOpen?'See more':'See less';
+  }
+}
 let _rnUndoTimer=null;
-function rnRemove(id,ev){if(ev)ev.stopPropagation();const card=document.getElementById(id);if(!card)return;const suppName=card.dataset.supp;card.style.display='none';if(typeof selectedSupps!=='undefined')selectedSupps.delete(suppName);if(typeof updateSelCount==='function')updateSelCount();const toast=document.getElementById('rn-undo-toast');if(toast){toast.querySelector('.rn-toast-msg').textContent=suppName+' removed';toast.dataset.suppId=id;toast.dataset.suppName=suppName;card._rnCommit=false;toast.classList.add('visible');clearTimeout(_rnUndoTimer);_rnUndoTimer=setTimeout(()=>{toast.classList.remove('visible');if(card._rnCommit)return;card._rnCommit=true;if(typeof hideSupp==='function')hideSupp(suppName);},4500);}else{if(typeof hideSupp==='function')hideSupp(suppName);}}
-function rnUndoRemove(){const toast=document.getElementById('rn-undo-toast');if(!toast)return;clearTimeout(_rnUndoTimer);const id=toast.dataset.suppId;const suppName=toast.dataset.suppName;const card=document.getElementById(id);if(card){card.style.display='';card._rnCommit=true;if(typeof selectedSupps!=='undefined')selectedSupps.add(suppName);if(typeof updateSelCount==='function')updateSelCount();}toast.classList.remove('visible');}
-function rnOpenArticles(name,ev){if(ev&&ev.stopPropagation)ev.stopPropagation();if(typeof ARTICLE_MAP!=='undefined'&&ARTICLE_MAP[name]&&ARTICLE_MAP[name].length){if(typeof goArticle==='function')goArticle(ARTICLE_MAP[name][0].id);}else{if(typeof openSuppModal==='function')openSuppModal(name);}}
+function rnRemove(id,ev){if(ev)ev.stopPropagation();const card=document.getElementById(id);if(!card)return;const suppName=card.dataset.supp;card.style.display='none';if(typeof selectedSupps!=='undefined')selectedSupps.delete(suppName);if(typeof updateSelCount==='function')updateSelCount();/* Round-5 fix: refresh hero count after the card hides. */if(typeof _updateHeroSubtitle==='function')_updateHeroSubtitle();const toast=document.getElementById('rn-undo-toast');if(toast){toast.querySelector('.rn-toast-msg').textContent=suppName+' removed';toast.dataset.suppId=id;toast.dataset.suppName=suppName;card._rnCommit=false;toast.classList.add('visible');clearTimeout(_rnUndoTimer);_rnUndoTimer=setTimeout(()=>{toast.classList.remove('visible');if(card._rnCommit)return;card._rnCommit=true;if(typeof hideSupp==='function')hideSupp(suppName);if(typeof _updateHeroSubtitle==='function')_updateHeroSubtitle();},4500);}else{if(typeof hideSupp==='function')hideSupp(suppName);if(typeof _updateHeroSubtitle==='function')_updateHeroSubtitle();}}
+function rnUndoRemove(){const toast=document.getElementById('rn-undo-toast');if(!toast)return;clearTimeout(_rnUndoTimer);const id=toast.dataset.suppId;const suppName=toast.dataset.suppName;const card=document.getElementById(id);if(card){card.style.display='';card._rnCommit=true;if(typeof selectedSupps!=='undefined')selectedSupps.add(suppName);if(typeof updateSelCount==='function')updateSelCount();}toast.classList.remove('visible');/* Round-5 fix: undoing a remove also restores the count. */if(typeof _updateHeroSubtitle==='function')_updateHeroSubtitle();}
+function rnOpenArticles(name,ev){if(ev&&ev.stopPropagation)ev.stopPropagation();if(typeof ARTICLE_MAP!=='undefined'&&ARTICLE_MAP[name]&&ARTICLE_MAP[name].length){if(typeof goArticle==='function')goArticle(ARTICLE_MAP[name][0].id);}else{if(typeof rnOpenFullSupp==='function')rnOpenFullSupp(name);}}
+
+/* Round-5 fix: "Full Supplement Card" button on a recommendation card should
+   open the same iframe-based supplement page as the Index does — not the
+   stripped-down inline modal. window.SSModal.open(slug) is exposed by
+   supplement-modal.js and loads supplement.html?slug=<slug>&modal=1. */
+function rnOpenFullSupp(name, ev){
+  if(ev && ev.stopPropagation) ev.stopPropagation();
+  if(!name) return;
+  var slug = (typeof _slcSlug === 'function')
+    ? _slcSlug(name)
+    : String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  if(window.SSModal && typeof window.SSModal.open === 'function'){
+    window.SSModal.open(slug);
+    return;
+  }
+  /* Fallback: navigate to the supplement page directly. */
+  if(slug) location.href = 'supplement.html?slug=' + encodeURIComponent(slug);
+  else if(typeof openSuppModal === 'function') openSuppModal(name);
+}
 
 function _getFoodInfo(name){
   const sup=_suppByName.get(name);
@@ -2211,11 +2683,52 @@ function openPlanModal(){
   const _ps=document.getElementById('plan-sub');if(_ps)_ps.textContent=selected.length+' supplement'+(selected.length!==1?'s':'')+' \u00B7 Personalized for your profile';
   const _po=document.getElementById('plan-overlay');if(_po)_po.classList.add('open');
   document.body.style.overflow='hidden';
+  /* Round-4 a11y: focus the close button and bind a focus trap + Esc handler. */
+  const _closeBtn = document.querySelector('#plan-overlay .plan-close-btn');
+  if(_closeBtn) try{_closeBtn.focus();}catch(_){}
+  if(typeof _bindPlanModalA11y==='function') _bindPlanModalA11y();
 }
 
 function closePlanModal(){
   const _po=document.getElementById('plan-overlay');if(_po)_po.classList.remove('open');
   document.body.style.overflow='';
+  if(typeof _unbindPlanModalA11y==='function') _unbindPlanModalA11y();
+  /* Reset the email row to its hidden default. */
+  const row = document.getElementById('plan-email-row');
+  if(row) row.style.display = 'none';
+}
+
+/* Round-4 add: secondary "Email me a copy" toggle. */
+function togglePlanEmail(){
+  const row = document.getElementById('plan-email-row');
+  if(!row) return;
+  const showing = row.style.display !== 'none' && row.style.display !== '';
+  row.style.display = showing ? 'none' : 'flex';
+  if(!showing){
+    const inp = document.getElementById('plan-email');
+    if(inp) try{inp.focus();}catch(_){}
+  }
+}
+
+/* Round-4 a11y: focus trap + Esc handler for the plan modal.
+   Cycles Tab/Shift+Tab through focusable children; Esc closes. */
+let _planModalKeyHandler = null;
+function _bindPlanModalA11y(){
+  _planModalKeyHandler = function(e){
+    const overlay = document.getElementById('plan-overlay');
+    if(!overlay || !overlay.classList.contains('open')) return;
+    if(e.key === 'Escape'){ e.preventDefault(); closePlanModal(); return; }
+    if(e.key !== 'Tab') return;
+    const focusables = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if(!focusables.length) return;
+    const first = focusables[0], last = focusables[focusables.length - 1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  };
+  document.addEventListener('keydown', _planModalKeyHandler);
+}
+function _unbindPlanModalA11y(){
+  if(_planModalKeyHandler){ document.removeEventListener('keydown', _planModalKeyHandler); _planModalKeyHandler = null; }
 }
 
 async function sendPlanEmail(){
@@ -3402,7 +3915,8 @@ function onDrugTypeaheadInput(ev){
     return;
   }
   list.style.display='block';
-  list.innerHTML=header+sugs.map((s,i)=>{
+  // Round-4 fix: `header` was undeclared in this scope (was leaking from filterSuppSearch). Use empty string.
+  list.innerHTML=sugs.map((s,i)=>{
     const cls=DRUG_INTERACTIONS.drug_groups[s.class];
     const groupLabel=cls?cls.label:'';
     return '<div class="drug-typeahead-item" role="option" data-key="'+escAttr(s.key)+'" data-idx="'+i+'" onclick="addSelectedDrug(\''+escAttrJs(s.key)+'\')"><span class="drug-ta-name">'+escHtml(s.label)+'</span>'+(groupLabel?'<span class="drug-ta-class">'+escHtml(groupLabel)+'</span>':'')+'</div>';
@@ -3482,6 +3996,98 @@ Object.entries(SUPP_INTERACTIONS.groups||{}).forEach(([gKey,g])=>{
 function getAllSuppCautions(name){return _suppCautionMap.get(name)||[];}
 // Returns all cautions for `name` where the other party is in `otherNames` (typically the user's stack).
 function getSuppCautionsIn(name,otherNames){const all=_suppCautionMap.get(name)||[];const set=new Set(otherNames||[]);return all.filter(c=>set.has(c.with));}
+
+/* Round-4 fix: stack-aware apart-from detection. Reads window.SUPP_PAIRINGS
+   (loaded from pairings-data.js) and returns any other supplement in the stack
+   that should be taken at a different time of day. Examples: Iron + Calcium
+   (calcium chelates iron), Zinc + Copper (DMT-1 competition), Iron + tea/coffee
+   (tannin-iron complexes). The pair member's apart_from list is the rule;
+   apart_from_each_other_in_time:true means BOTH members in the pair should be
+   spaced regardless of which one we're rendering for.
+
+   Returns: [{with: 'Calcium', reason: 'compete at DMT-1', spacing: '2 hours'}]
+*/
+const _APART_PAIRS = (typeof window !== 'undefined' && window.SUPP_PAIRINGS) ? window.SUPP_PAIRINGS : [];
+const _apartByName = (function(){
+  const m = new Map();
+  function add(a, b, reason) {
+    if (!m.has(a)) m.set(a, []);
+    if (!m.get(a).find(function(e){ return e.with === b; })) {
+      m.get(a).push({ with: b, reason: reason || '', spacing: '2 hours' });
+    }
+  }
+  _APART_PAIRS.forEach(function(p){
+    const members = p.members || [];
+    const apartFrom = p.apart_from || [];
+    const apartEach = !!p.apart_from_each_other_in_time;
+    /* Each member ↔ each apart_from list entry (one-way: e.g. Iron-with-Calcium) */
+    members.forEach(function(mem){
+      apartFrom.forEach(function(other){
+        const reason = p.goal || 'absorption competes';
+        add(mem, other, reason);
+        add(other, mem, reason);
+      });
+      /* When the pair itself is "take apart from each other", every pair of
+         members produces a mutual apart-from. */
+      if (apartEach && members.length >= 2) {
+        members.forEach(function(other){
+          if (other !== mem) add(mem, other, p.goal || 'compete for absorption');
+        });
+      }
+    });
+  });
+  return m;
+})();
+function getApartFromConflicts(name, otherNames) {
+  const all = _apartByName.get(name) || [];
+  const set = new Set(otherNames || []);
+  return all.filter(function(c){ return set.has(c.with); });
+}
+
+/* Round-6: pairs-with SUGGESTION. Returns at most one complementary partner
+   that is NOT yet in the user's stack — so the card can offer it as an
+   add-to-plan affordance. Skips partners that are "apart-from" antagonists
+   or in the caution map for the supplement. Prefers higher-strength pairs
+   from _PAIR_DETAILS_MAP, then falls back to getPairPartners ordering. */
+function getPairSuggestion(name, stackNames){
+  if(typeof getPairPartners !== 'function') return null;
+  const inStack = new Set(stackNames || []);
+  /* All known partners for this supplement, minus those already on the plan. */
+  const candidates = getPairPartners(name).filter(function(p){
+    if(!p || inStack.has(p)) return false;
+    /* Exclude items already filtered out for this user's profile (e.g. allergies,
+       diet, drug-pair avoid, condition avoid). _suppByName is the canonical set. */
+    if(typeof _suppByName !== 'undefined' && _suppByName && !_suppByName.has(p)) return false;
+    /* Skip if this partner is in the supplement's caution list (we don't want
+       to suggest an "in plan" pair that is actually a caution). */
+    if(typeof _suppCautionMap !== 'undefined' && _suppCautionMap.get(name)){
+      const cs = _suppCautionMap.get(name);
+      if(cs.find(function(c){ return c.with === p; })) return false;
+    }
+    return true;
+  });
+  if(!candidates.length) return null;
+  /* Pick the candidate with the strongest known reason. */
+  let best = null, bestStrength = -1;
+  candidates.forEach(function(p){
+    const det = (typeof getPairDetails === 'function') ? getPairDetails(name, p) : null;
+    const strength = det && typeof det.strength === 'number' ? det.strength : 2;
+    if(strength > bestStrength){
+      bestStrength = strength;
+      best = { partner: p, reason: det ? det.reason : 'Complementary combination', strength: strength };
+    }
+  });
+  return best;
+}
+
+/* Round-6: add a suggested partner to the user's plan. Reuses the existing
+   addSuppFromSearch path so behavior is identical to typing the supplement
+   into the search bar — flash, dropdown close, save, render. */
+function rnAddPair(name, ev){
+  if(ev && ev.stopPropagation) ev.stopPropagation();
+  if(!name) return;
+  if(typeof addSuppFromSearch === 'function') addSuppFromSearch(name);
+}
 // Back-compat single-match helper (used by the PDF renderer). Returns the first conflict it finds.
 function getSuppCaution(name,otherNames){const hits=getSuppCautionsIn(name,otherNames);return hits.length?hits[0]:null;}
 // Given a list of supplements in the stack, return array of conflict pairs (deduplicated).
@@ -3959,21 +4565,95 @@ function _catPick(v){
 }
 function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
 function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Goal');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=POP_META[key]||{};const banner=_filterBanner('Recommended for <b>'+escHtml(p.label)+'</b>',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('pop',items.length,rowLimit):''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
-function sw(n){const p1=document.getElementById('p1'),p2=document.getElementById('p2');if(p1)p1.style.display=n===1?'block':'none';if(p2)p2.style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');if(tb1){tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-pressed',n===1);}if(tb2){tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-pressed',n===2);}if(n===2&&typeof initAllTab==='function')initAllTab();}
+function sw(n){const p1=document.getElementById('p1'),p2=document.getElementById('p2');if(p1)p1.style.display=n===1?'block':'none';if(p2)p2.style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');if(tb1){tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-pressed',n===1);}if(tb2){tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-pressed',n===2);}if(n===2&&typeof initAllTab==='function')initAllTab();/* Round-8: toggle a body class so the recently-viewed strip can be hidden via CSS whenever the profile view is active. */document.body.classList.toggle('on-profile',n===1);}
 let selectedConds=new Set();
 /* 2026-04-28 UX simplification (v2): surface ALL supplement-relevant conditions as
    selectable pills — typeahead removed. Order is roughly by population prevalence so
    the most common chips render first. Anything in CONDITIONS but missing from this
    list still gets appended below by renderCondChips so we never silently drop a key. */
 const TOP_CONDS=['bp','cholesterol','anxiety','gut','inflammation','diabetes','thyroid','depression','allergy','bone','migraine','iron_def','eye','hair','liver','menopause','prostate','pcos','uti'];
+/* Round-4 fix: group conditions by `category` so Step 4 isn't a wall of 50+ chips.
+   Each category gets its own collapsible group; default to "show top 5" per group.
+   Synthetic conditions (like 'pregnant') are excluded — they're auto-injected. */
+const _COND_CATEGORY_LABELS = {
+  cardiometabolic: 'Cardiometabolic',
+  neuropsych: 'Neuropsychiatric',
+  gi: 'Gut & Liver',
+  endocrine: 'Endocrine',
+  reproductive: 'Reproductive',
+  musculoskeletal: 'Joints & Bones',
+  renal: 'Kidney',
+  immune: 'Immune & Allergy',
+  respiratory: 'Respiratory',
+  derm: 'Skin & Hair',
+  cognitive: 'Cognitive',
+  other: 'Other'
+};
+const _COND_CATEGORY_ORDER = ['cardiometabolic','neuropsych','gi','endocrine','reproductive','musculoskeletal','renal','immune','respiratory','derm','cognitive','other'];
+let _condGroupExpanded = Object.create(null); // category -> bool
+function _toggleCondGroup(cat){
+  _condGroupExpanded[cat] = !_condGroupExpanded[cat];
+  renderCondChips();
+}
 function renderCondChips(){
   const el=document.getElementById('cond-chips');if(!el)return;
-  // Render every CONDITIONS key as a pill — TOP_CONDS controls the order (most-prevalent first),
-  // any new keys added to CONDITIONS later get appended automatically so we never silently drop one.
-  const seen=new Set();
-  const ordered=[...TOP_CONDS.filter(k=>CONDITIONS[k]&&!seen.has(k)&&seen.add(k)),
-                 ...Object.keys(CONDITIONS).filter(k=>!seen.has(k))];
-  el.innerHTML=ordered.map(k=>{const c=CONDITIONS[k];return`<div class="med-chip cond-chip ${selectedConds.has(k)?'on':''}" onclick="toggleCond('${escAttrJs(k)}')">${escHtml(c.label)}</div>`;}).join('');
+  /* Build category-grouped index, but skip the auto-injected synthetic 'pregnant' entry. */
+  const groups = {};
+  Object.keys(CONDITIONS).forEach(function(k){
+    if(k==='pregnant')return; /* synthetic, never user-selectable */
+    const cat = (CONDITIONS[k] && CONDITIONS[k].category) || 'other';
+    if(!groups[cat]) groups[cat] = [];
+    groups[cat].push(k);
+  });
+  /* Order keys within each category: TOP_CONDS first (preserves prior priority),
+     then alphabetical. */
+  Object.keys(groups).forEach(function(cat){
+    groups[cat].sort(function(a,b){
+      const ai = TOP_CONDS.indexOf(a), bi = TOP_CONDS.indexOf(b);
+      if(ai !== -1 && bi !== -1) return ai - bi;
+      if(ai !== -1) return -1;
+      if(bi !== -1) return 1;
+      return (CONDITIONS[a].label || a).localeCompare(CONDITIONS[b].label || b);
+    });
+  });
+  /* Round-7: show only the most-common 3 per group by default (was 5).
+     The +N more affordance is now a real button-style chip so it's obviously
+     tappable, and pulls in the rest including the user's already-selected
+     items in the hidden tail. */
+  const _COND_TOP_VISIBLE = 3;
+  const html = _COND_CATEGORY_ORDER
+    .filter(function(cat){ return groups[cat] && groups[cat].length; })
+    .map(function(cat){
+      const keys = groups[cat];
+      const expanded = !!_condGroupExpanded[cat];
+      /* Make sure any selected-but-hidden chip pulls itself into the visible
+         set so the user can still see what they picked without expanding. */
+      let visibleKeys;
+      if(expanded || keys.length <= _COND_TOP_VISIBLE){
+        visibleKeys = keys;
+      } else {
+        const top = keys.slice(0, _COND_TOP_VISIBLE);
+        const selectedTail = keys.slice(_COND_TOP_VISIBLE).filter(function(k){ return selectedConds.has(k); });
+        visibleKeys = top.concat(selectedTail);
+      }
+      const selectedInGroup = keys.filter(function(k){ return selectedConds.has(k); }).length;
+      const chipsHtml = visibleKeys.map(function(k){
+        const c = CONDITIONS[k];
+        return '<div class="med-chip cond-chip ' + (selectedConds.has(k)?'on':'') + '" onclick="toggleCond(\'' + escAttrJs(k) + '\')">' + escHtml(c.label) + '</div>';
+      }).join('');
+      const hiddenCount = keys.length - visibleKeys.length;
+      const moreLink = (keys.length > _COND_TOP_VISIBLE)
+        ? '<button type="button" class="cond-group-more-btn" onclick="_toggleCondGroup(\'' + cat + '\')">' + (expanded ? '− Show fewer' : '+ ' + hiddenCount + ' more') + '</button>'
+        : '';
+      return '<div class="cond-group">' +
+        '<div class="cond-group-h">' +
+          '<span class="cond-group-name">' + escHtml(_COND_CATEGORY_LABELS[cat] || cat) + '</span>' +
+          '<span class="cond-group-count">' + (selectedInGroup ? selectedInGroup + ' selected · ' : '') + keys.length + ' total</span>' +
+        '</div>' +
+        '<div class="cond-group-body">' + chipsHtml + moreLink + '</div>' +
+      '</div>';
+    }).join('');
+  el.innerHTML = html;
   renderCondExtras();
 }
 /* Show selected conditions that AREN'T in TOP_CONDS as removable chips below the typeahead. */
@@ -4095,8 +4775,14 @@ const WIZARD_GOALS = {
 /* Wizard state */
 let wizStep = 1;
 const WIZ_TOTAL = 7;
-let wizPlanStyle = 'elaborate'; // 'simple' = top 4 | 'elaborate' = up to 20
+/* Round-9: no pre-select. User must explicitly pick a plan style on Step 2.
+   When still null, applyWizPlanStyleLimit() falls through and the engine
+   shows the full ranked list (same as the Elaborate path). */
+let wizPlanStyle = null;
 let wizSelectedGoals = new Set(); // WIZARD_GOALS keys
+/* Round-4 fix: track the highest step the user has reached so editP() can route
+   them back to that step instead of always restarting at 1. */
+let wizMaxReached = 1;
 
 /* Toggle a wizard goal card — updates both wizard UI and engine selectedGoals Set */
 function wizToggleGoal(key) {
@@ -4118,14 +4804,119 @@ function _wizRenderGoalCards() {
     const key = card.dataset.goal;
     const sel = wizSelectedGoals.has(key);
     card.classList.toggle('wiz-goal-sel', sel);
+    /* Round-4 a11y: keep aria-pressed in sync with visible state. */
+    card.setAttribute('aria-pressed', sel ? 'true' : 'false');
     const fup = document.getElementById('wiz-fup-' + key);
     if (fup) fup.style.display = sel ? 'block' : 'none';
   });
 }
 
+/* Round-4 fix: persist follow-up choices (multi-select) so the engine can read them.
+   wizFollowups is keyed by WIZARD_GOALS key → array of answer strings.
+   Engine consumers: applyFollowupAdjustments() boosts/demotes specific supplements
+   based on the union of rules across all selected answers per goal. */
+let wizFollowups = Object.create(null);
 function wizSelectFollowup(el) {
-  el.closest('.wiz-followup-opts').querySelectorAll('.wiz-fopt').forEach(e => e.classList.remove('sel'));
-  el.classList.add('sel');
+  const opts = el.closest('.wiz-followup-opts');
+  if (!opts) return;
+  /* Round-4 update: multi-select. Tap toggles the chip on/off; multiple per goal allowed. */
+  const fupBlock = el.closest('.wiz-goal-followup');
+  if (!fupBlock || !fupBlock.id || fupBlock.id.indexOf('wiz-fup-') !== 0) return;
+  const goalKey = fupBlock.id.slice('wiz-fup-'.length);
+  const answer = (el.textContent || '').trim();
+  if (!goalKey || !answer) return;
+  if (!Array.isArray(wizFollowups[goalKey])) wizFollowups[goalKey] = [];
+  const arr = wizFollowups[goalKey];
+  const idx = arr.indexOf(answer);
+  if (idx >= 0) {
+    arr.splice(idx, 1);
+    el.classList.remove('sel');
+    el.setAttribute('aria-checked','false');
+  } else {
+    arr.push(answer);
+    el.classList.add('sel');
+    el.setAttribute('aria-checked','true');
+  }
+  if (arr.length === 0) delete wizFollowups[goalKey];
+}
+
+/* Map (goalKey, follow-up answer) → { boost: [supp names], demote: [supp names] }.
+   Read by applyFollowupAdjustments() after the main scoring pass. */
+const FOLLOWUP_RULES = {
+  sleep: {
+    'Falling asleep':     { boost: ['L-Theanine','Glycine','Magnesium','Tart cherry (Montmorency)'], demote: [] },
+    'Staying asleep':     { boost: ['Magnesium','Glycine','Tart cherry (Montmorency)'], demote: ['Melatonin'] },
+    'Both':               { boost: ['Magnesium','Glycine','L-Theanine'], demote: [] },
+    'Daytime fatigue':    { boost: ['Vitamin D3','Iron','Vitamin B12 (methylcobalamin)','CoQ10 (Ubiquinol)'], demote: ['Melatonin'] }
+  },
+  energy: {
+    'Sustained energy':       { boost: ['CoQ10 (Ubiquinol)','Iron','Vitamin B12 (methylcobalamin)','Creatine monohydrate'], demote: [] },
+    'Mental clarity & focus': { boost: ['L-Theanine','Caffeine + L-Theanine','Bacopa monnieri','Citicoline (CDP-choline)'], demote: [] },
+    'Both':                   { boost: ['L-Theanine','CoQ10 (Ubiquinol)','Vitamin B12 (methylcobalamin)'], demote: [] }
+  },
+  mood: {
+    'Anxiety & worry':     { boost: ['L-Theanine','Ashwagandha (KSM-66)','Magnesium'], demote: [] },
+    'Stress & burnout':    { boost: ['Ashwagandha (KSM-66)','Rhodiola rosea','Magnesium'], demote: [] },
+    'Low mood':            { boost: ['Saffron (Crocus sativus)','Omega-3 (EPA/DHA)','Vitamin D3','Folate (5-MTHF)'], demote: [] },
+    'All of the above':    { boost: ['Ashwagandha (KSM-66)','Magnesium','Omega-3 (EPA/DHA)'], demote: [] }
+  },
+  joints: {
+    'Joint pain':                { boost: ['Curcumin (bioavailable form)','Boswellia serrata','Omega-3 (EPA/DHA)'], demote: [] },
+    'Post-workout recovery':     { boost: ['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium'], demote: [] },
+    'Cartilage & mobility':      { boost: ['Collagen peptides','Glucosamine sulfate','Chondroitin sulfate'], demote: [] }
+  },
+  heart: {
+    'Blood pressure':   { boost: ['Magnesium','CoQ10 (Ubiquinol)','Beetroot powder'], demote: [] },
+    'Cholesterol':      { boost: ['Omega-3 (EPA/DHA)','Berberine','Soluble fiber'], demote: [] },
+    'Blood sugar':      { boost: ['Berberine','Cinnamon (Cinnamomum cassia)','Chromium picolinate','Alpha-lipoic acid'], demote: [] }
+  },
+  gut: {
+    'Bloating / gas':         { boost: ['Probiotics','Saccharomyces boulardii','Peppermint oil (enteric-coated)'], demote: [] },
+    'Irregular digestion':    { boost: ['Psyllium husk (Plantago ovata)','Probiotics','Fibre (general dietary)'], demote: [] },
+    'Microbiome support':     { boost: ['Probiotics','Saccharomyces boulardii','Fibre (general dietary)'], demote: [] },
+    'General gut health':     { boost: ['Probiotics','Psyllium husk (Plantago ovata)'], demote: [] }
+  },
+  hormonal: {
+    'Menopause / perimenopause': { boost: ['Vitamin D3','Magnesium','Black cohosh','Soy isoflavones'], demote: [] },
+    'PCOS':                       { boost: ['Myo-inositol','Vitamin D3','Berberine'], demote: [] },
+    'Thyroid support':            { boost: ['Selenium','Zinc','Iodine'], demote: [] },
+    'Testosterone & vitality':    { boost: ['Ashwagandha (KSM-66)','Zinc','Vitamin D3','Tongkat ali (Eurycoma longifolia)'], demote: [] }
+  },
+  skin_hair: {
+    'Hair loss / thinning':       { boost: ['Iron','Zinc','Saw palmetto','Biotin'], demote: [] },
+    'Skin health & glow':         { boost: ['Collagen peptides','Astaxanthin','Vitamin C (moderate dose)','Omega-3 (EPA/DHA)'], demote: [] },
+    'Nail strength':              { boost: ['Biotin','Collagen peptides','Zinc'], demote: [] },
+    'All three':                  { boost: ['Collagen peptides','Biotin','Omega-3 (EPA/DHA)'], demote: [] }
+  },
+  healthspan: {
+    'Longevity & healthy aging':  { boost: ['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','CoQ10 (Ubiquinol)','NMN / NAD+ precursors'], demote: [] },
+    'Immune support':             { boost: ['Vitamin D3','Zinc','Vitamin C (moderate dose)'], demote: [] },
+    'Cognitive health':           { boost: ['Omega-3 (EPA/DHA)','Citicoline (CDP-choline)','Bacopa monnieri','Creatine monohydrate'], demote: [] }
+  }
+};
+
+/* Apply follow-up boosts/demotes after main scoring. Mutates `recs` in place.
+   Boost = move higher in tier-equal sort (small +5 fit nudge); demote = small -5 nudge. */
+function applyFollowupAdjustments(recs) {
+  if (!recs || !recs.length) return recs;
+  const boosts = new Set(), demotes = new Set();
+  /* Round-4 update: each goal can have MULTIPLE selected answers; union the rules. */
+  Object.keys(wizFollowups).forEach(function(goalKey) {
+    const ansList = wizFollowups[goalKey];
+    if (!Array.isArray(ansList)) return;
+    ansList.forEach(function(ans) {
+      const rules = FOLLOWUP_RULES[goalKey] && FOLLOWUP_RULES[goalKey][ans];
+      if (!rules) return;
+      (rules.boost || []).forEach(function(n) { boosts.add(n); });
+      (rules.demote || []).forEach(function(n) { demotes.add(n); });
+    });
+  });
+  if (!boosts.size && !demotes.size) return recs;
+  recs.forEach(function(r) {
+    if (boosts.has(r.n))  { r._followupBoost = true;  if (typeof r.fit === 'number') r.fit = Math.min(100, r.fit + 5); }
+    if (demotes.has(r.n)) { r._followupDemote = true; if (typeof r.fit === 'number') r.fit = Math.max(0,   r.fit - 5); }
+  });
+  return recs;
 }
 
 /* Select plan style (called from plan card clicks) */
@@ -4137,7 +4928,20 @@ function wizSelectPlan(style) {
 }
 
 /* Navigation */
+function _cancelInflightLoader() {
+  /* Round-4 fix: cancel any in-flight loader RAF on wizard navigation,
+     so an Edit-back doesn't let a stale render fall through to _showRecs(). */
+  if (typeof _genRecsRaf !== 'undefined' && _genRecsRaf) {
+    cancelAnimationFrame(_genRecsRaf);
+    _genRecsRaf = null;
+  }
+  const lo = document.getElementById('v-loading');
+  if (lo) lo.classList.remove('vis');
+  const btn = document.getElementById('wiz-next-btn');
+  if (btn) btn.disabled = false;
+}
 function wizNext() {
+  _cancelInflightLoader();
   if (wizStep >= WIZ_TOTAL) { genRecs(); return; }
   // Step 1 soft nudge: if no goals selected, briefly show an informational note before continuing
   if (wizStep === 1 && wizSelectedGoals.size === 0) {
@@ -4164,9 +4968,15 @@ function _wizShowStep(n) {
   document.querySelectorAll('.wiz-step').forEach(el => el.classList.remove('wiz-active'));
   const el = document.getElementById('wiz-step-' + n);
   if (el) el.classList.add('wiz-active');
+  if (n > wizMaxReached) wizMaxReached = n;
+  /* Round-4: paint the jump-rail (if rendered) so the active dot matches current step. */
+  if (typeof _wizPaintJumpRail === 'function') _wizPaintJumpRail();
   const pct = Math.round((n / WIZ_TOTAL) * 100);
   const fill = document.getElementById('wiz-prog-fill');
   if (fill) fill.style.width = pct + '%';
+  /* Round-4 a11y: keep aria-valuenow in sync with the visible progress. */
+  const track = document.getElementById('wiz-prog-track');
+  if (track) track.setAttribute('aria-valuenow', String(pct));
   const lbl = document.getElementById('wiz-step-label');
   if (lbl) lbl.textContent = 'Step ' + n + ' of ' + WIZ_TOTAL;
   const pctEl = document.getElementById('wiz-step-pct');
@@ -4228,26 +5038,28 @@ function wizInit() {
   const container = document.getElementById('wiz-goal-cards');
   if (!container) return;
   container.innerHTML = Object.entries(WIZARD_GOALS).map(function([k, wg]) {
+    /* Round-4 update: follow-ups are multi-select. Use role="group" + aria-checked
+       on each option (semantically a checkbox set, not a radio set). */
     const fupHtml = wg.followup
       ? '<div class="wiz-goal-followup" id="wiz-fup-' + escAttr(k) + '" style="display:none">' +
-          '<div class="wiz-followup">' +
-            '<div class="wiz-followup-label">' + escHtml(wg.followup.q) + '</div>' +
+          '<div class="wiz-followup" role="group" aria-label="' + escAttr(wg.followup.q) + '">' +
+            '<div class="wiz-followup-label">' + escHtml(wg.followup.q) + ' <span class="wiz-followup-hint">(pick any that apply)</span></div>' +
             '<div class="wiz-followup-opts">' +
-              wg.followup.opts.map(function(o){ return '<div class="wiz-fopt" onclick="wizSelectFollowup(this)">' + escHtml(o) + '</div>'; }).join('') +
+              wg.followup.opts.map(function(o){ return '<div class="wiz-fopt" role="checkbox" tabindex="0" aria-checked="false" onclick="wizSelectFollowup(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wizSelectFollowup(this);}">' + escHtml(o) + '</div>'; }).join('') +
             '</div>' +
           '</div>' +
         '</div>'
       : '';
     return '<div class="wiz-goal-card-wrap">' +
-      '<div class="wiz-goal-card" data-goal="' + escAttr(k) + '" onclick="wizToggleGoal(\'' + escAttrJs(k) + '\')">' +
+      /* Round-4 a11y: card is a button; supports keyboard activation. */
+      '<div class="wiz-goal-card" data-goal="' + escAttr(k) + '" role="button" tabindex="0" aria-pressed="false" aria-label="' + escAttr(wg.label) + '" onclick="wizToggleGoal(\'' + escAttrJs(k) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wizToggleGoal(\'' + escAttrJs(k) + '\');}">' +
         '<div><div class="wiz-goal-label">' + escHtml(wg.label) + '</div><div class="wiz-goal-desc">' + escHtml(wg.desc) + '</div></div>' +
         '<div class="wiz-goal-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
       '</div>' +
       fupHtml +
     '</div>';
   }).join('');
-  // Default plan to elaborate (pre-select it)
-  wizSelectPlan('elaborate');
+  /* Round-9: no pre-selection on Step 2 — user must pick. */
   _wizShowStep(1);
 }
 
@@ -4327,8 +5139,40 @@ const DIET_TO_SUPP_PATTERNS = {
     reason: 'high-FODMAP / fermentable'
   },
   keto: {
-    // Keto is mostly an additive context — boost MCT/electrolytes — not a hard filter.
-    // We add nothing here; the diet pattern adds rather than removes.
+    /* Round-4 fix: keto used to be a no-op even though it's listed as a diet option.
+       Now boosts MCT, electrolytes, magnesium, sodium — the supplements known to
+       prevent the "keto flu". No avoid list. */
+    boost: [
+      /^MCT oil/i,
+      /^electrolytes? /i, /^electrolyte (?:salts?|powder|blend)/i,
+      /^sodium /i, /^potassium /i,
+      /^magnesium /i,
+      /^carnitine|^L-carnitine|^acetyl-L-carnitine/i
+    ],
+    reason: 'keto / low-carb context'
+  },
+  pescatarian: {
+    /* Round-4 fix: was listed as an option but pattern was never defined.
+       Removes land-animal collagen but keeps fish-derived omega-3s. */
+    avoid: [
+      /^bovine colostrum|^colostrum \(bovine\)|^beef organ|^desiccated beef/i,
+      /^bone broth protein/i,
+      /^pancreatin|porcine|gelatin/i,
+      /^collagen peptides \(bovine\)|^collagen for muscle \(bovine\)/i
+    ],
+    reason: 'land-animal-derived'
+  },
+  mediterranean: {
+    /* Round-4 fix: additive context — boost the supplements that underwrite
+       the Mediterranean diet's evidence base (omega-3, polyphenols, olive-oil
+       antioxidants). No avoid list — diet is permissive. */
+    boost: [
+      /^omega-3 \(EPA\/DHA\)|^omega-3 \(high dose\)/i,
+      /^extra-virgin olive oil|^olive (?:leaf|polyphenol)/i,
+      /^resveratrol|^pomegranate|^quercetin/i,
+      /^vitamin D3/i
+    ],
+    reason: 'Mediterranean diet context'
   },
   halal: {
     avoid: [
@@ -4360,14 +5204,18 @@ function onHealthChange(){
 }
 
 // Allergen → supplement-name heuristics. Used by profileAugmentationPass.
+/* Round-4 fix: fish-allergy pattern was previously a strict subset of the vegan
+   diet pattern, letting through DHA-only oil, anchovy/sardine/bonito-derived
+   products, and triglyceride-form omega-3s. Broadened to catch the full fish/
+   marine-derived set. (Algal DHA is plant-derived → safe.) */
 const ALLERGY_TO_SUPP_PATTERNS = {
-  fish: [/cod liver|krill|calamari|fish oil|^omega-3 \(EPA\/DHA\)|^omega-3 \(high dose\)/i],
-  shellfish: [/krill|glucosamine \(sulfate, shellfish/i],
+  fish: [/cod liver|krill|calamari|fish oil|sardine|anchovy|bonito|sprat|mackerel|salmon oil|herring|^omega-3 \(EPA\/DHA\)|^omega-3 \(high dose\)|^omega-3 dha|omega-3 triglyceride|omega-3 (?:re-)?esterified/i],
+  shellfish: [/krill|^glucosamine \(sulfate, shellfish|chitosan/i],
   soy: [/^soy isoflavones|tocotrienol.*annatto/i],  // most soy lecithin is fine
-  dairy: [/whey protein|casein protein|colostrum|dairy/i],
+  dairy: [/whey protein|casein protein|colostrum|dairy|lactoferrin/i],
   gluten: [/wheatgrass|barley grass/i],
   eggs: [/egg(?:shell|white|yolk)/i],
-  tree_nuts: [/walnut|almond|hazelnut/i],
+  tree_nuts: [/walnut|almond|hazelnut|pecan|pistachio|cashew/i],
   mushroom: [/reishi|cordyceps|chaga|maitake|shiitake|turkey tail|psk|psp|ahcc|tremella|lion'?s mane|mushroom/i],
   bee: [/royal jelly|bee pollen|bee propolis|propolis/i]
 };
@@ -4383,20 +5231,47 @@ function getHealthStatus(){
 }
 
 /* ── BMI calculator ── */
+/* Round-5 fix: previously _clampInt mutated the input value on every oninput
+   event, so a user typing "175" had their input rewritten to "70" the moment
+   they typed the first digit "1" (1 < 70 → clamped). Now we read the value
+   without mutating during typing — bail silently on out-of-range — and only
+   snap to bounds on blur (see _clampOnBlur, wired via onblur in the inputs). */
+function _readInt(el, min, max){
+  if(!el || el.value === '' || el.value == null) return null;
+  const n = parseInt(el.value, 10);
+  if(isNaN(n)) return null;
+  if(n < min || n > max) return null;
+  return n;
+}
+function _clampOnBlur(el, min, max){
+  if(!el || el.value === '' || el.value == null) return;
+  let n = parseInt(el.value, 10);
+  if(isNaN(n)){ el.value = ''; return; }
+  if(n < min){ n = min; el.value = String(n); }
+  if(n > max){ n = max; el.value = String(n); }
+  /* Recompute BMI now that the value is in range. */
+  if(typeof calcBMI === 'function') calcBMI();
+}
 function calcBMI(){
-  const ft=parseInt(document.getElementById('prof-height-ft')?.value)||0;
-  const inch=parseInt(document.getElementById('prof-height-in')?.value)||0;
-  const lbs=parseInt(document.getElementById('prof-weight')?.value)||0;
+  const ftEl=document.getElementById('prof-height-ft');
+  const inEl=document.getElementById('prof-height-in');
+  const lbsEl=document.getElementById('prof-weight');
   const el=document.getElementById('bmi-display');
   if(!el)return;
+  /* Round-5: read without mutating. Empty / out-of-range → no BMI shown,
+     no nag — the user is mid-typing. */
+  const ft = _readInt(ftEl, 3, 7);
+  const inch = _readInt(inEl, 0, 11) || 0;
+  const lbs = _readInt(lbsEl, 70, 600);
   if(!ft||!lbs){el.innerHTML='';return;}
   const totalIn=ft*12+inch;
   if(totalIn<=0){el.innerHTML='';return;}
   const bmi=(lbs*703)/(totalIn*totalIn);
-  if(bmi<10||bmi>80){el.innerHTML='';return;}
-  const cat=bmi<18.5?'Underweight':bmi<25?'Healthy weight':bmi<30?'Overweight':'Obese';
+  if(bmi<10||bmi>80){el.innerHTML='<span style="color:var(--color-text-tertiary)">Check height/weight — values look unusual.</span>';return;}
+  /* Round-7: dropped the (Underweight/Healthy/Overweight/Obese) parenthetical
+     since users found it judgmental and unnecessary. Color-code the number itself. */
   const clr=bmi<18.5?'#D97706':bmi<25?'#16A34A':bmi<30?'#D97706':'#DC2626';
-  el.innerHTML='BMI&nbsp;<b style="color:'+clr+'">'+bmi.toFixed(1)+'</b>&nbsp;<span style="color:var(--color-text-tertiary)">('+cat+')</span>';
+  el.innerHTML='BMI&nbsp;<b style="color:'+clr+'">'+bmi.toFixed(1)+'</b>';
 }
 
 /* ── Profile persistence: localStorage + URL + email ── */
@@ -4409,6 +5284,7 @@ function saveProfile(){
     drugs:(typeof selectedDrugs!=='undefined')?[...selectedDrugs]:[],
     conds:[...selectedConds],goals:[...selectedGoals],
     wizGoals:[...wizSelectedGoals],wizPlanStyle:wizPlanStyle,
+    wizFollowups:Object.assign({},wizFollowups),
     heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
     // Plan B1 — Health Status fields
@@ -4430,6 +5306,50 @@ function loadJsPDF(){
   });
 }
 /* generatePDF moved to pdf-export.js — loaded via index.html */
+
+/* Round-10: tiny email-prompt before triggering downloadPDF. Email is optional
+   and stored locally only — the engine reads it later to notify the user if
+   their plan can be optimized based on new research. */
+function openDownloadPrompt(){
+  const m = document.getElementById('dl-prompt');
+  if(!m){ downloadPDF(); return; }
+  /* Pre-fill if we already have an email saved. */
+  try{
+    const saved = lsGet('ss-plan-notify-email');
+    const inp = document.getElementById('dl-prompt-email');
+    if(inp && saved) inp.value = saved;
+  }catch(_){}
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){
+    const inp = document.getElementById('dl-prompt-email');
+    if(inp) try{inp.focus();}catch(_){}
+  }, 30);
+  /* Esc closes; Enter on the input commits. */
+  document.addEventListener('keydown', _dlPromptKey);
+}
+function closeDownloadPrompt(){
+  const m = document.getElementById('dl-prompt');
+  if(m) m.style.display = 'none';
+  document.body.style.overflow = '';
+  document.removeEventListener('keydown', _dlPromptKey);
+}
+function _dlPromptKey(e){
+  if(e.key === 'Escape'){ e.preventDefault(); closeDownloadPrompt(); }
+  else if(e.key === 'Enter' && document.activeElement && document.activeElement.id === 'dl-prompt-email'){
+    e.preventDefault(); confirmDownloadPrompt(false);
+  }
+}
+function confirmDownloadPrompt(skip){
+  const inp = document.getElementById('dl-prompt-email');
+  const email = inp ? String(inp.value || '').trim() : '';
+  if(!skip && email && email.indexOf('@') > 0){
+    try{ lsSet('ss-plan-notify-email', email); }catch(_){}
+  }
+  closeDownloadPrompt();
+  /* Fire the actual download. */
+  if(typeof downloadPDF === 'function') downloadPDF();
+}
 
 async function downloadPDF(){
   try{await loadJsPDF();}catch(e){console.error('PDF library failed to load:',e);alert('Could not generate PDF — please check your internet connection and try again.');return;}
@@ -4466,7 +5386,34 @@ function loadProfile(){
     if(Array.isArray(p.conds)){selectedConds=new Set(p.conds.filter(k=>CONDITIONS&&CONDITIONS[k]));renderCondChips();}
     if(Array.isArray(p.goals)){selectedGoals=new Set(p.goals.filter(k=>GOALS&&GOALS[k]));renderGoalChips();}
     if(Array.isArray(p.wizGoals)){wizSelectedGoals=new Set(p.wizGoals.filter(k=>WIZARD_GOALS&&WIZARD_GOALS[k]));_wizRenderGoalCards&&_wizRenderGoalCards();}
-    if(p.wizPlanStyle&&(p.wizPlanStyle==='simple'||p.wizPlanStyle==='elaborate')){wizPlanStyle=p.wizPlanStyle;wizSelectPlan&&wizSelectPlan(p.wizPlanStyle);}
+    /* Round-4 fix: restore Step-1 follow-up answers (multi-select), validating
+       against live FOLLOWUP_RULES. Accepts both legacy string shape (single
+       answer) and the new array shape — coerces to array on read. */
+    if(p.wizFollowups && typeof p.wizFollowups==='object'){
+      wizFollowups = Object.create(null);
+      Object.keys(p.wizFollowups).forEach(function(k){
+        if(!WIZARD_GOALS[k] || !FOLLOWUP_RULES[k]) return;
+        let v = p.wizFollowups[k];
+        if (typeof v === 'string') v = [v];
+        if (!Array.isArray(v)) return;
+        const valid = v.filter(function(s){ return typeof s==='string' && FOLLOWUP_RULES[k][s]; });
+        if (valid.length) wizFollowups[k] = valid;
+      });
+      // Re-paint .sel state on any visible follow-up chips for the answers.
+      Object.keys(wizFollowups).forEach(function(k){
+        const block=document.getElementById('wiz-fup-'+k);
+        if(!block)return;
+        const set = new Set(wizFollowups[k]);
+        block.querySelectorAll('.wiz-fopt').forEach(function(el){
+          if(set.has((el.textContent||'').trim())){
+            el.classList.add('sel');
+            el.setAttribute('aria-checked','true');
+          }
+        });
+      });
+    }
+    /* Round-10: don't restore plan-style — user has to re-pick on Step 2 each
+       visit. Persisting it caused "Selected" to appear pre-checked. */
     // Plan B1 — restore Health Status
     if(p.kidney_fn){const el=document.getElementById('kidney-fn');if(el)el.value=p.kidney_fn;}
     if(p.liver_fn){const el=document.getElementById('liver-fn');if(el)el.value=p.liver_fn;}
@@ -4525,9 +5472,12 @@ function clearProfile(){
   ['kidney-fn','liver-fn','smoking-status'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
   // Reset wizard state fully
   if(typeof wizSelectedGoals!=='undefined')wizSelectedGoals=new Set();
+  if(typeof wizFollowups!=='undefined')wizFollowups=Object.create(null);
+  document.querySelectorAll('.wiz-fopt.sel').forEach(function(el){el.classList.remove('sel');});
   if(typeof _wizRenderGoalCards==='function')_wizRenderGoalCards();
-  wizPlanStyle='elaborate';
-  if(typeof wizSelectPlan==='function')wizSelectPlan('elaborate');
+  /* Round-9: clear plan-style selection too. */
+  wizPlanStyle=null;
+  document.querySelectorAll('.wiz-plan-card.wiz-plan-sel').forEach(function(el){el.classList.remove('wiz-plan-sel');});
   wizStep=1;
   if(typeof _wizShowStep==='function')_wizShowStep(1);
   // Reset shortcut cards visual state
@@ -4723,6 +5673,8 @@ function switchTab(tab){
       setDisp('p1','none');
       setDisp('profile-gate','block');
     }
+    /* Round-8: hide the recently-viewed strip on the profile flow. */
+    document.body.classList.add('on-profile');
   }else if(tab==='supplements'){
     setDisp('profile-gate','none');
     setDisp('p1','none');
@@ -4732,6 +5684,10 @@ function switchTab(tab){
     const hdr=document.querySelector('.page-header');if(hdr)hdr.style.display='';
     const evCard=document.querySelector('.ev-card');if(evCard)evCard.style.display='';
     setDisp('main-sticky','');
+    /* Round-8: re-enable the strip when leaving the profile. */
+    document.body.classList.remove('on-profile');
+  }else{
+    document.body.classList.remove('on-profile');
   }
   // Update active tab
   Object.keys(tabs).forEach(k=>{if(tabs[k])tabs[k].classList.toggle('active',k===tab);});
