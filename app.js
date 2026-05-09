@@ -5789,34 +5789,15 @@ function switchTab(tab){
   }
 }
 
-/* Profile gate: secret code or email signup */
+/* Profile gate: beta — clicking the CTA unlocks the wizard directly.
+   Previously this was an email-waitlist gate (collected addresses to a
+   Formspree endpoint). The product is now in beta with no waitlist, so
+   we just unlock and reveal #p1 immediately. */
 function handleGateSubmit(e){
-  e.preventDefault();
-  const inp=document.getElementById('gate-email');
-  if(!inp)return false;
-  const val=(inp.value||'').trim();
-  if(!val)return false;
-  // Secret unlock code
-  if(val==='12345'){
-    profileUnlocked=true;
-    const gate=document.getElementById('profile-gate');if(gate)gate.style.display='none';
-    const p1=document.getElementById('p1');if(p1)p1.style.display='block';
-    inp.value='';
-    return false;
-  }
-  // Treat as email signup — basic validation
-  if(!val.includes('@')||val.length<5){
-    inp.style.borderColor='#B91C1C';
-    inp.setAttribute('placeholder','Enter a valid email address');
-    inp.value='';
-    setTimeout(()=>{inp.style.borderColor='';inp.setAttribute('placeholder','Enter your email for early access');},2000);
-    return false;
-  }
-  // Send to Formspree (same endpoint as PDF/email reports)
-  fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:val,source:'early-access-signup',date:new Date().toISOString()})}).catch(()=>{});
-  // Show success state
-  const gateForm=document.querySelector('.gate-form');if(gateForm)gateForm.style.display='none';
-  const gateSuccess=document.getElementById('gate-success');if(gateSuccess)gateSuccess.style.display='flex';
+  if(e&&e.preventDefault)e.preventDefault();
+  profileUnlocked=true;
+  const gate=document.getElementById('profile-gate');if(gate)gate.style.display='none';
+  const p1=document.getElementById('p1');if(p1)p1.style.display='block';
   return false;
 }
 

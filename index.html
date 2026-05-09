@@ -212,10 +212,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260509k">
+<link rel="stylesheet" href="styles.css?v=20260509l">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260509k">
+<link rel="stylesheet" href="index.css?v=20260509l">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -779,16 +779,11 @@
           <div class="gate-step-text"><strong>Get your ranked plan</strong>Essential, recommended, and optional — with safety checks</div>
         </div>
       </div>
-      <!-- Form -->
+      <!-- Beta CTA — single button, no email gate. Clicking unlocks the
+           profile wizard immediately so users can start the flow. -->
       <form class="gate-form" onsubmit="return handleGateSubmit(event)">
-        <input type="text" id="gate-email" class="gate-input" placeholder="Enter your email for early access" autocomplete="email" aria-label="Email address for early access">
-        <button type="submit" class="gate-btn gate-btn-purple">Join waitlist</button>
+        <button type="submit" class="gate-btn gate-btn-purple">Get Started (beta)</button>
       </form>
-      <div id="gate-success" class="gate-success" role="status" aria-live="polite" style="display:none">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-        You're on the list! We'll email you when it launches.
-      </div>
-      <p class="gate-privacy">No spam. Unsubscribe anytime.</p>
       <!-- Trust strip -->
       <div class="gate-trust">
         <span class="gate-trust-item">733 supplements scored</span>
@@ -17123,7 +17118,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="data.js?v=20260504a"></script>
 <script src="pairings-data.js?v=20260508a"></script>
-<script src="app.js?v=20260504a"></script>
+<script src="app.js?v=20260509l"></script>
 <script src="pdf-export.js?v=20260504a"></script>
 <script src="search-index.js?v=20260504a"></script>
 <script src="nav-search.js?v=20260509i" defer></script>
