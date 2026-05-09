@@ -9,15 +9,38 @@ function generatePDF(mode){
   if(!window.jspdf)return null;
   const isSummaryOnly=(mode==='summary');
   const{jsPDF}=window.jspdf;
-  /* Round-13: iPhone-optimized page for the Summary Card.
-     - Custom 115 × 260 mm portrait page — narrow enough that an iPhone shows
-       the body text large at fit-to-width, tall enough to fit 14–20 stacked
-       supplement rows plus the interaction-notes panel without clipping.
+  /* Round-14: iPhone-optimized page for the Summary Card.
+     - Custom 115 mm-wide portrait page — narrow enough that an iPhone shows
+       the body text large at fit-to-width.
+     - Page height is COMPUTED from the user's actual plan size so we never
+       overflow the page or leave excessive blank space. Top zone + section
+       headers + N rows + interaction-notes panel + footer.
      - Margin tightened from 18 to 9 mm to maximise usable text width.
      - The Full Guide (mode!=='summary') keeps A4 — its multi-page layout
        and cover need the wider canvas. */
+  let _summaryPageHeight = 260;
+  if(isSummaryOnly){
+    /* Pre-count the user's selected supplements to size the page. _allRecs()
+       reads the same global state that the renderer uses below — defensive
+       fallback to 10 if either dependency isn't loaded yet. */
+    let _n = 10;
+    try {
+      if(typeof _allRecs === 'function' && typeof selectedSupps !== 'undefined') {
+        _n = _allRecs().filter(function(r){ return selectedSupps.has(r.n); }).length;
+      }
+    } catch(_){}
+    /* Top zone (logo + spacer): 28 mm
+       Section header tier ribbons: 3 × 7 = 21 mm
+       Supplement rows: N × 11.5 mm (matches rH below)
+       Interaction notes panel: 38 mm  (the "AVOID / CAUTION" grid at bottom)
+       Footer + page margin: 18 mm
+       → total height for N supplements. */
+    _summaryPageHeight = 28 + 21 + _n * 11.5 + 38 + 18;
+    if(_summaryPageHeight < 220) _summaryPageHeight = 220;
+    if(_summaryPageHeight > 500) _summaryPageHeight = 500;
+  }
   const doc = isSummaryOnly
-    ? new jsPDF({unit:'mm', format:[115, 260]})
+    ? new jsPDF({unit:'mm', format:[115, _summaryPageHeight]})
     : new jsPDF({unit:'mm', format:'a4'});
   const pw=doc.internal.pageSize.getWidth();
   const ph=doc.internal.pageSize.getHeight();
@@ -740,46 +763,61 @@ function generatePDF(mode){
     items.forEach((item,i)=>{
       const inPair=isPairBlock[i];
       // ── Summary card row (Round-13 stacked layout) ──────────────────────────
-      // Top line  : Supplement name (bold) + small food badge to the right
-      // Second    : Dose, muted, indented slightly. Wraps when long so phones
-      //             never have to side-scroll.
+      // Top line: Supplement name (bold) + small food badge to the right
+      // Second  : Dose, muted gray, full-width, single line with width-aware truncation.
+      // Single-line dose is intentional — keeps every row exactly the same height
+      // so the layout never collides with the next supplement on a narrow phone page.
       if(isSummaryOnly){
         const topY = y + 4;
-        // Name
+        // Truncate-to-width helper used for both name and dose.
+        const _truncW = function(txt, maxW){
+          if(doc.getTextWidth(txt) <= maxW) return txt;
+          let t = txt;
+          while(t.length > 1 && doc.getTextWidth(t + '…') > maxW) t = t.substring(0, t.length - 1);
+          return t + '…';
+        };
+        // ── Name (bold, fits with room reserved for the badge) ──
         doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
-        const _nmRaw=_winAnsiSafe(item.r.n);
-        const _availForName = TW - 22; // reserve room for badge
-        let _nm=_nmRaw;
-        while(_nm.length>4 && doc.getTextWidth(_nm)>_availForName) _nm=_nm.substring(0,_nm.length-1);
-        if(_nm!==_nmRaw) _nm=_nm.substring(0,_nm.length-1)+'…';
+        const _nmRaw = _winAnsiSafe(item.r.n);
+        // Pre-measure how much room the badge will need so the name truncates
+        // BEFORE bumping into it — the previous version used a fixed reserve
+        // which over-clipped names with no badge and under-clipped long names
+        // with a badge.
+        let _badgeReserve = 0;
+        if(item.foodCat !== 'any'){
+          const _bTxt = item.foodCat === 'with' ? 'w/ food' : 'empty stomach';
+          doc.setFont('helvetica','normal');doc.setFontSize(6);
+          _badgeReserve = doc.getTextWidth(_bTxt) + 3.4 + 3; // pill + 3mm gap
+          doc.setFont('helvetica','bold');doc.setFontSize(9);
+        }
+        const _nameMaxW = TW - _badgeReserve;
+        const _nm = _truncW(_nmRaw, _nameMaxW);
         doc.text(_nm, M, topY);
         const _nameW = doc.getTextWidth(_nm);
-        // Food badge to the right of the name
-        if(item.foodCat!=='any'){
-          const _bdgTxt = item.foodCat==='with' ? 'w/ food' : 'empty stomach';
+        // ── Food badge sitting just to the right of the name ──
+        if(item.foodCat !== 'any'){
+          const _bdgTxt = item.foodCat === 'with' ? 'w/ food' : 'empty stomach';
           doc.setFont('helvetica','normal');doc.setFontSize(6);
           const _bw = doc.getTextWidth(_bdgTxt) + 3.4;
           const _bx = M + _nameW + 3;
           const _by = topY - 3;
-          if(item.foodCat==='with'){
+          if(item.foodCat === 'with'){
             doc.setFillColor(220,252,231);doc.roundedRect(_bx,_by,_bw,3.8,1,1,'F');
             doc.setTextColor(22,101,52);
           } else {
             doc.setFillColor(243,244,246);doc.roundedRect(_bx,_by,_bw,3.8,1,1,'F');
             doc.setTextColor(107,114,128);
           }
-          doc.text(_bdgTxt, _bx+1.7, _by+2.7);
+          doc.text(_bdgTxt, _bx + 1.7, _by + 2.7);
         }
-        // Dose — wrapped onto the second line if needed.
+        // ── Dose on the second line, single line, width-aware truncation ──
         const _sd = _winAnsiSafe(item.dose.split(';')[0].trim());
         doc.setFont('helvetica','normal');doc.setFontSize(7.8);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
-        const _doseLines = doc.splitTextToSize(_sd, TW);
-        const _doseStartY = topY + 4;
-        _doseLines.slice(0,2).forEach(function(ln,i){
-          doc.text(ln, M, _doseStartY + i*3.6);
-        });
-        // Row separator
-        doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.15);doc.line(M, y+rH, pw-M, y+rH);
+        const _doseLine = _truncW(_sd, TW);
+        doc.text(_doseLine, M, topY + 4);
+        // ── Row separator at exact bottom of the row ──
+        doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.15);
+        doc.line(M, y + rH, pw - M, y + rH);
         y += rH; rowIdx++;
         return;
       }
