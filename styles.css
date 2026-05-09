@@ -752,8 +752,10 @@ body.on-profile .ssux-recent{display:none !important}
   .site-nav{height:auto}
   .site-nav-brand{display:none}
   /* Tabs (nav) pill widened twice by 15%: 50% → 57.5% → 66.1% of the row.
-     Ratio: 66.1 / 33.9 ≈ 1.952fr to 1fr. */
-  .site-nav-inner{grid-template-columns:1.952fr 1fr;align-items:center;padding:6px 10px;height:auto;gap:8px}
+     Ratio: 66.1 / 33.9 ≈ 1.952fr to 1fr.
+     min-content floor on column 2 keeps the search pill from collapsing
+     below the icon+placeholder width on narrow viewports. */
+  .site-nav-inner{grid-template-columns:1.952fr minmax(110px,1fr);align-items:center;padding:6px 10px;height:auto;gap:8px}
   /* Tabs pill height pinned to 32px so it matches the search pill's outer height.
      padding:3px + tab 24px + 1px border × 2 = 32px. */
   .site-nav-tabs{grid-column:1;justify-self:stretch;width:100%;display:flex;justify-content:space-evenly;overflow:visible;height:32px;box-sizing:border-box;padding:3px;align-items:center;}
@@ -791,6 +793,17 @@ body.on-profile .ssux-recent{display:none !important}
 }
 /* Discover page: pill is always visible (no scroll trigger needed) */
 .site-nav-search-pill--always{opacity:1 !important;transform:none !important;pointer-events:auto !important;transition:none !important;}
+/* Index page (and any page using --always-mobile): force pill visible on
+   mobile only. On desktop it still fades in on scroll. Without these
+   !important overrides, the default opacity:0 + pointer-events:none rule
+   could win against the @media-only mobile override depending on cascade,
+   which was the cause of the missing search bar on Index/Articles. */
+@media(max-width:600px){
+  .site-nav-search-pill--always-mobile{
+    opacity:1 !important;transform:none !important;
+    pointer-events:auto !important;transition:none !important;
+  }
+}
 /* Tabs are anchors on every page. Hard-reset font + box so they render
    identically regardless of element type. Pill-shaped, with a filled
    purple pill for the active tab — the active state never shifts size
