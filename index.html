@@ -212,10 +212,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260506b">
+<link rel="stylesheet" href="styles.css?v=20260509a">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260506b">
+<link rel="stylesheet" href="index.css?v=20260509a">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -272,10 +272,10 @@
     <!-- Nav search pill — on desktop fades in when hero search scrolls away.
          On mobile we force it always-visible (matching the discover page) so
          the search bar never disappears on Index/Articles tabs. -->
-    <div class="site-nav-search-pill site-nav-search-pill--always-mobile" id="nav-search-pill" aria-hidden="true">
+    <div class="site-nav-search-pill site-nav-search-pill--always-mobile" id="nav-search-pill" aria-hidden="false">
       <form role="search" action="search.html" method="GET" onsubmit="return navSearch(event)">
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
-        <input type="search" id="nav-search-inp" name="q" placeholder="Search…" autocomplete="off" aria-label="Search supplements" tabindex="-1">
+        <input type="search" id="nav-search-inp" name="q" placeholder="Search…" autocomplete="off" aria-label="Search supplements" tabindex="0">
         <div class="nav-ac" id="nav-ac" role="listbox" aria-label="Search suggestions"></div>
       </form>
     </div>
