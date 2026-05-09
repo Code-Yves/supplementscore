@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script>document.documentElement.setAttribute('data-theme','light');</script>
 <script>
 /* Anti-flash for cross-page tab arrivals (e.g. clicking "Articles" on
@@ -212,10 +212,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260509h">
+<link rel="stylesheet" href="styles.css?v=20260509j">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260509h">
+<link rel="stylesheet" href="index.css?v=20260509j">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -488,6 +488,14 @@
      desktop look. */
   var IS_MOBILE = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
   var OPACITY = IS_MOBILE ? 1.6 : 1.0;
+  /* Recompute on orientation/viewport change so the opacity boost is right
+     after a portrait↔landscape rotation or after a bfcache restore. */
+  function refreshMobileFlag(){
+    IS_MOBILE = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+    OPACITY = IS_MOBILE ? 1.6 : 1.0;
+  }
+  window.addEventListener('orientationchange', refreshMobileFlag);
+  window.addEventListener('pageshow', refreshMobileFlag);
   /* Brand teal, expressed as RGB triplet so we can vary alpha freely.
      Matches --color-brand (#1F7A6B) with a touch more saturation —
      identical to the value tuned in the mockups. */
@@ -16761,7 +16769,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <script src="app.js?v=20260504a"></script>
 <script src="pdf-export.js?v=20260504a"></script>
 <script src="search-index.js?v=20260504a"></script>
-<script src="nav-search.js?v=20260504a" defer></script>
+<script src="nav-search.js?v=20260509i" defer></script>
 <script src="supplement-modal.js?v=20260504a" defer></script>
 
 <!-- Sources modal -->

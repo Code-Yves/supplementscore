@@ -58,13 +58,13 @@
       return;
     }
     var r = window.SS.search(q, { limit: 3 });
-    var groups = ['supplement', 'condition', 'medication', 'biomarker', 'article']
+    /* Only Supplements and Articles surface in the nav search dropdown
+       (per user request). Conditions / Medications / Biomarkers are still
+       indexed for the full-page /search.html?q= results — they're just
+       not shown in the typeahead. */
+    var groups = ['supplement', 'article']
       .map(function (t) {
-        var arr = r[t === 'supplement' ? 'supplements'
-                  : t === 'condition'  ? 'conditions'
-                  : t === 'medication' ? 'medications'
-                  : t === 'biomarker'  ? 'biomarkers'
-                  : 'articles'];
+        var arr = r[t === 'supplement' ? 'supplements' : 'articles'];
         return { type: t, label: TYPE_LABEL[t], items: arr };
       })
       .filter(function (g) { return g.items.length > 0; });

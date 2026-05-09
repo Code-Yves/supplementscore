@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>13 Top 10s. 130 Supplements. The Complete Discover-Page Cheat Sheet — SupplementScore</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
   <meta name="description" content="One perfect score. One supplement that turns your skin permanently blue. One $5 capsule with more clinical evidence than every $1,500 IV combined. The 13 Top 10s on the Discover page, all in one place.">
@@ -39,7 +39,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260509h">
+  <link rel="stylesheet" href="../styles.css?v=20260509j">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
   <meta name="theme-color" content="#1F7A6B">
@@ -70,6 +70,18 @@
     .ar-foot { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
     .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
     .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
+    /* Long supplement names like "Limosilactobacillus reuteri DSM 17938"
+       can overflow narrow viewports; break-word stops them from creating
+       a horizontal scroll on iPhone. */
+    .ar-wrap{ overflow-wrap: break-word; }
+    @media (max-width: 600px){
+      .ar-wrap{ padding: 24px 18px 48px; }
+      .ar-wrap h1{ font-size: 1.7rem; letter-spacing: -.4px; }
+      .ar-wrap h2{ font-size: 1.25rem; margin-top: 36px; }
+      .ar-lede{ font-size: 1rem; }
+      .ar-toc{ font-size: 13px; padding: 14px 16px; }
+      .ar-toc a{ margin-right: 10px; }
+    }
   </style>
   <script src="../_site-ux.js?v=20260504a" defer></script>
 </head>

@@ -80,6 +80,18 @@
   margin: 0;
   /* inherits the existing .rs-search rounded-pill styling otherwise */
 }
+/* Mobile: keep the dropdown and the search on a SINGLE row (per user
+   request — search should sit beside the dropdown, not under it). The
+   240px min-width above forces the search onto its own row at narrow
+   viewports; we override to min-width:0 on mobile so flex-shrink can
+   actually do its job. flex-wrap is also locked to nowrap so the row
+   never breaks. */
+@media (max-width: 700px){
+  .rs-toolbar{flex-wrap: nowrap;}
+  .rs-toolbar .rs-search{min-width: 0; height: 44px;}
+  /* Note: input font-size stays at 16px globally on mobile (iOS-zoom
+     prevention rule in styles.css), so we don't override it here. */
+}
 
 /* Dropdown trigger (matches search-bar height/treatment) */
 .rs-cat-dd{ position: relative; flex-shrink: 0; }

@@ -669,11 +669,17 @@ if (typeof renderAll === 'function') {
     stickyInput.value = navPillInput.value;
   });
 
-  // Recalc on resize / orientation change
-  window.addEventListener('resize', function(){
+  // Recalc on resize / orientation change / bfcache restore so the
+  // mobile-vs-desktop flag is always current. Without the orientationchange
+  // and pageshow handlers, the flag stayed stuck at its first-paint value
+  // when the user rotated the iPhone or used browser back/forward.
+  function refreshMobile(){
     IS_MOBILE = window.innerWidth <= 600;
     NAV_TOP = IS_MOBILE ? 48 : 90;
-  });
+  }
+  window.addEventListener('resize', refreshMobile);
+  window.addEventListener('orientationchange', refreshMobile);
+  window.addEventListener('pageshow', refreshMobile);
 
   // Hide search UI when navigating away from the Index tab
   function onTabChange() {

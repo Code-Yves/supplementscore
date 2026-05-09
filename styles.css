@@ -824,8 +824,15 @@ body.on-profile .ssux-recent{display:none !important}
   }
   .site-nav-tabs::-webkit-scrollbar{display:none}
   /* Each tab fills an equal share of the pill width; tighter padding to fit 4 tabs */
-  .site-nav-tabs .site-nav-tab{flex:1;text-align:center;justify-content:center;padding:0 6px;letter-spacing:.01em;height:24px;min-height:0;}
+  .site-nav-tabs .site-nav-tab{flex:1;text-align:center;justify-content:center;padding:0 6px;letter-spacing:.01em;height:24px;min-height:0;position:relative;}
   .site-nav-tabs .site-nav-tab.site-nav-tab-icon{flex:0 0 24px;width:24px;height:24px;min-height:0;padding:0;border-radius:50%;}
+  /* Apple HIG ≥44pt tap target. The visible tab pill is 24px tall, but we
+     extend the hit area via a transparent ::before that overflows above
+     and below the tab so finger-taps on the nav are reliable. */
+  .site-nav-tabs .site-nav-tab::before{
+    content:"";position:absolute;left:0;right:0;
+    top:-12px;bottom:-12px; /* 24px visible + 24px extension = 48px hit */
+  }
   /* Discover tab is hidden on mobile (relocated to the footer's Browse column).
      Frees up horizontal room so Index / Research / Profile breathe in the pill. */
   .site-nav-tabs #tab-discover{display:none !important;}
@@ -986,6 +993,9 @@ a.site-nav-tab{
      shows the pulse dot + the live count. The 'tag' chips
      ('Actively refining', 'Updated recently') are hidden on
      ≤560px by an existing rule and remain hidden — they don't fit. */
+  /* iPhone notch / Dynamic Island: pad the beta-bar's TOP edge by the
+     safe-area-inset so the green strip doesn't tuck UNDER the notch.
+     Height grows by the same amount so the visible strip stays 22px. */
   .beta-bar{
     display:flex !important;
     position:fixed !important;
@@ -993,8 +1003,9 @@ a.site-nav-tab{
     left:0 !important; right:0 !important;
     width:100% !important;
     margin:0 !important;
-    height:22px !important;
-    padding:0 12px !important;
+    height:calc(22px + env(safe-area-inset-top)) !important;
+    padding:env(safe-area-inset-top) calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)) !important;
+    box-sizing:border-box !important;
     font-size:10px !important;
     background:var(--color-brand) !important;
     color:rgba(255,255,255,.85) !important;
@@ -1003,12 +1014,15 @@ a.site-nav-tab{
   }
 
   /* === Bar 1: nav === */
-  /* No box-shadow / border-bottom on the nav: the cream nav strip
-     blends into the cream page background, and any 1px line reads as
-     a stray hairline divider at the top of the page (user feedback). */
+  /* Sits directly below the beta-bar — its `top` must include the
+     safe-area-inset so it doesn't crash into the beta-bar's height. */
   .site-nav{
-    position:fixed; top:22px; left:0; right:0; width:100%;
-    margin:0; padding:6px 0; height:48px;
+    position:fixed;
+    top:calc(22px + env(safe-area-inset-top)); left:0; right:0; width:100%;
+    margin:0;
+    padding:6px env(safe-area-inset-right) 6px env(safe-area-inset-left);
+    height:48px;
+    box-sizing:border-box;
     background:var(--color-background-secondary);
     z-index:30;
     box-shadow:none;
@@ -1027,18 +1041,19 @@ a.site-nav-tab{
   .ix-hero #ix-hero-form{ display:none; }
 
   /* === Bar 3: filter chips ===
-     Sticky on mobile — pinned just below the fixed nav (beta 22 + nav 48 = 70px).
-     Uses position:sticky so it scrolls with content until it hits the nav,
-     then stays glued to the nav while the rest of the page scrolls beneath.
-     Solid background so content doesn't show through behind the chips. */
+     Sticky on mobile — pinned just below the fixed nav. The `top` includes
+     env(safe-area-inset-top) so the chips don't sit under the notch when
+     scrolled to the very top, and the value stays in lock-step with .site-nav.
+     position:sticky is OK on iOS 16+; if iOS 15 sticky-disappear bug bites,
+     we can fall back to position:fixed (commit history has the version). */
   .sticky-bar,
   #main-sticky{
     position:sticky !important;
-    top:70px !important;
+    top:calc(70px + env(safe-area-inset-top)) !important;
     left:0 !important; right:0 !important;
     width:100% !important;
     margin:0 !important;
-    padding:8px 12px !important;
+    padding:8px calc(12px + env(safe-area-inset-right)) 8px calc(12px + env(safe-area-inset-left)) !important;
     height:auto !important;
     z-index:27 !important;
     background:var(--color-background-secondary) !important;
@@ -1057,9 +1072,14 @@ a.site-nav-tab{
      The class is set on <html> from the inline head script for
      first-paint correctness, and mirrored to <body> for selectors
      elsewhere that key on body.tab-*. */
-  body{ padding-top:70px !important; }
+  /* Body padding includes safe-area-inset so the first content row sits
+     fully clear of beta-bar (22 + inset) + site-nav (48). */
+  body{ padding-top:calc(70px + env(safe-area-inset-top)) !important; }
   html.tab-supplements body,
-  body.tab-supplements{ padding-top:70px !important; }
+  body.tab-supplements{ padding-top:calc(70px + env(safe-area-inset-top)) !important; }
+  /* Bottom safe-area for the home indicator: pad the body so the last
+     content row isn't crammed against the home-indicator bar. */
+  body{ padding-bottom:env(safe-area-inset-bottom) !important; }
 
   /* Belt-and-suspenders: explicitly hide the search/filter bars on
      non-supplements tabs. Their parent #supplements-view is already
@@ -1153,13 +1173,12 @@ body{ overflow-x:clip; }
   .site-nav-tab.active:hover{background:var(--color-brand)!important;color:#fff!important;}
 }
 @media(max-width:420px){.site-nav-tab{min-height:20px;height:20px;padding:0 8px;font-size:11px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}
-  /* Icon variant — sized to match the text-tab row so the tabs pill stays the
-     same overall height as the search pill (both 32px outer). */
-  .site-nav-tab.site-nav-tab-icon{width:20px;height:20px;min-height:0;padding:0;flex-shrink:0}
-  /* In the 50/50 nav layout, text tabs inside the pill must keep tight horizontal
-     padding so all four items fit — override the generous 12px above. */
+  /* In the very-narrow layout, keep the tab horizontal padding tight so
+     INDEX / RESEARCH / PROFILE all fit in their share of the pill.
+     Note: the ≤600px block above already locks the icon-tab to flex:1 1 0
+     with !important, so we don't try to override its flex value here —
+     only the padding/height of the text tabs matters at this breakpoint. */
   .site-nav-tabs .site-nav-tab{padding:0 5px;}
-  .site-nav-tabs .site-nav-tab.site-nav-tab-icon{flex:0 0 20px;width:20px;height:20px;}
 }
 
 /* ── Articles section ── */
