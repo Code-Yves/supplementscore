@@ -749,8 +749,26 @@ body.on-profile .ssux-recent{display:none !important}
   .site-nav-search-pill .ico{width:14px;height:14px;}
   /* font-size MUST be ≥16px on mobile or iOS Safari auto-zooms the page on
      focus and visually crops the page to the right. The pill is 32px tall,
-     so 16px sits comfortably with room to spare. */
+     so 16px sits comfortably with room to spare. The PLACEHOLDER is styled
+     separately below to match the nav-tab labels (11px, uppercase, etc.) —
+     pseudo-elements don't trigger the zoom check, so the placeholder can
+     be small while the input stays at 16px. */
   .site-nav-search-pill input{font-size:16px;}
+  /* Placeholder styled to match the nav tab labels: same Plus Jakarta Sans
+     uppercase look, slightly lighter grey. When the user starts typing,
+     the input renders at 16px (normal typing experience). */
+  .site-nav-search-pill input::placeholder{
+    font: 600 11px/1 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--color-text-quaternary, rgba(15,23,42,.32));
+    opacity:1;
+  }
+  .site-nav-search-pill input::-webkit-input-placeholder{
+    font: 600 11px/1 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing:.04em;text-transform:uppercase;
+    color:var(--color-text-quaternary, rgba(15,23,42,.32));
+  }
 }
 
 /* ============================================================
@@ -797,10 +815,10 @@ body.on-profile .ssux-recent{display:none !important}
     padding:6px 8px;height:auto;gap:8px;
     width:100%;max-width:none;box-sizing:border-box;
   }
-  /* Tabs pill 60% / search pill 40% of the available row (per user request). */
+  /* Tabs pill 65% / search pill 35% of the available row (per user request). */
   .site-nav-tabs{
     grid-column:auto !important;justify-self:auto !important;
-    flex:6 1 0;min-width:0;width:auto;
+    flex:65 1 0;min-width:0;width:auto;
     display:flex;justify-content:space-evenly;overflow:visible;
     height:32px;box-sizing:border-box;padding:3px;align-items:center;
   }
@@ -837,10 +855,10 @@ body.on-profile .ssux-recent{display:none !important}
      visible tabs (INDEX, RESEARCH, PROFILE) stretch end-to-end with no
      leftover whitespace at either edge of the pill. */
   .site-nav-tabs{justify-content:space-between !important;}
-  /* Search pill is 40% of the row (tabs:search = 6:4 = 60/40). */
+  /* Search pill is 35% of the row (tabs:search = 65:35). */
   .site-nav-search-pill{
     grid-column:auto !important;justify-self:auto !important;
-    flex:4 1 0;min-width:0;width:auto;
+    flex:35 1 0;min-width:0;width:auto;
   }
 }
 
