@@ -151,6 +151,52 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://supplementscore.org/compare/creatine-vs-bcaas.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://supplementscore.org/compare/melatonin-vs-magnesium-glycinate.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://supplementscore.org/compare/coq10-vs-pqq.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://supplementscore.org/compare/vitamin-d3-vs-d2.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://supplementscore.org/compare/nac-vs-glutathione.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://supplementscore.org/condition/adhd-stack.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/adhd-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/adhd-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+  </url>
+  <url>
+    <loc>https://supplementscore.org/condition/osteoporosis-stack.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/osteoporosis-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/osteoporosis-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+  </url>
+  <url>
     <loc>https://supplementscore.org/condition/anxiety-stack.html</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>

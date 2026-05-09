@@ -2315,15 +2315,16 @@ function renderSuppCards(recs,mi,bwResults){
     const chips=sup&&sup.tag?sup.tag.split(' · ').slice(0,3).map(t=>`<span class="rn-chip">${escHtml(t.trim())}</span>`).join(''):'';
     // Summary text
     const desc=sup?sup.desc||'':'';
-    /* Round-8: sentence-safe truncation. Take 2 to 4 full sentences (no ellipsis
-       mid-thought). Falls back to the full string when it's already short. */
+    /* Round-8: sentence-safe truncation. BUGFIX (audit): replaced the
+       lookbehind regex (?<=[.!?])\s+ with a sentinel-replace approach because
+       lookbehind is not supported on Safari ≤15 and would throw at parse time. */
     function _truncSentences(s, minSent, maxSent, softCharCap){
       if(!s) return '';
       const trimmed = String(s).trim();
       if(!trimmed) return '';
-      /* Split on sentence-ending punctuation followed by whitespace. Keeps the
-         punctuation by using a lookbehind. */
-      const parts = trimmed.split(/(?<=[.!?])\s+/);
+      const SENT = '';
+      const marked = trimmed.replace(/([.!?])(\s+)/g, '$1' + SENT);
+      const parts = marked.split(SENT);
       if(parts.length <= minSent) return trimmed;
       let taken = parts.slice(0, minSent).join(' ');
       for(let i = minSent; i < parts.length && i < maxSent; i++){
@@ -4052,9 +4053,31 @@ function getApartFromConflicts(name, otherNames) {
 function getPairSuggestion(name, stackNames){
   if(typeof getPairPartners !== 'function') return null;
   const inStack = new Set(stackNames || []);
-  /* All known partners for this supplement, minus those already on the plan. */
+  /* BUGFIX (audit): also exclude partners that the user's profile has filtered
+     out (allergies, diet, drug-pair avoid, condition avoid, hidden by user).
+     Without this, a user on warfarin could be invited to add Vitamin K2 — even
+     though the engine itself filtered K2 out for safety. */
+  const blockedNames = new Set();
+  if(typeof hiddenSupps !== 'undefined' && hiddenSupps && hiddenSupps.size){
+    hiddenSupps.forEach(function(n){ blockedNames.add(n); });
+  }
+  if(typeof window !== 'undefined' && Array.isArray(window._profileBlocked)){
+    window._profileBlocked.forEach(function(b){ if(b && b.n) blockedNames.add(b.n); });
+  }
+  /* Pick up the engine's class-level avoid list (mi.avoid built from selectedMeds). */
+  if(typeof getMedInteractions === 'function'){
+    try{
+      const _mi = getMedInteractions();
+      if(_mi && _mi.avoid && typeof _mi.avoid.forEach === 'function'){
+        _mi.avoid.forEach(function(n){ blockedNames.add(n); });
+      }
+    }catch(_){}
+  }
+  /* All known partners for this supplement, minus those already on the plan
+     and minus anything the user's profile has filtered out. */
   const candidates = getPairPartners(name).filter(function(p){
     if(!p || inStack.has(p)) return false;
+    if(blockedNames.has(p)) return false;
     /* Exclude items already filtered out for this user's profile (e.g. allergies,
        diet, drug-pair avoid, condition avoid). _suppByName is the canonical set. */
     if(typeof _suppByName !== 'undefined' && _suppByName && !_suppByName.has(p)) return false;
@@ -4897,10 +4920,18 @@ const FOLLOWUP_RULES = {
 
 /* Apply follow-up boosts/demotes after main scoring. Mutates `recs` in place.
    Boost = move higher in tier-equal sort (small +5 fit nudge); demote = small -5 nudge. */
+/* BUGFIX (audit): the previous body referenced r.fit, which is never set on
+   rec objects, so the boost/demote arithmetic was a no-op. The user was told
+   follow-ups change rankings — they didn't. Now:
+     - Boosted supp NOT in recs → push it in as a 'consider' goal-extra
+       (skipping anything blocked by the user's mi.avoid / hiddenSupps).
+     - Boosted supp already in recs at 'consider' tier → promote to
+       'recommended' so it surfaces above the score-filter cutoff.
+     - Demoted supp at 'consider' tier → drop from recs entirely.
+     - Demoted supp at 'essential' / 'recommended' → bump down one tier. */
 function applyFollowupAdjustments(recs) {
-  if (!recs || !recs.length) return recs;
+  if (!recs) return recs;
   const boosts = new Set(), demotes = new Set();
-  /* Round-4 update: each goal can have MULTIPLE selected answers; union the rules. */
   Object.keys(wizFollowups).forEach(function(goalKey) {
     const ansList = wizFollowups[goalKey];
     if (!Array.isArray(ansList)) return;
@@ -4912,9 +4943,46 @@ function applyFollowupAdjustments(recs) {
     });
   });
   if (!boosts.size && !demotes.size) return recs;
-  recs.forEach(function(r) {
-    if (boosts.has(r.n))  { r._followupBoost = true;  if (typeof r.fit === 'number') r.fit = Math.min(100, r.fit + 5); }
-    if (demotes.has(r.n)) { r._followupDemote = true; if (typeof r.fit === 'number') r.fit = Math.max(0,   r.fit - 5); }
+  /* Avoid blocked names: profileAugmentationPass already trimmed mi.avoid /
+     allergy / drug-pair-avoid items from recs, but we need to re-check before
+     ADDING anything new from a boost rule. */
+  const blockedNames = new Set();
+  if (typeof hiddenSupps !== 'undefined' && hiddenSupps && hiddenSupps.size) {
+    hiddenSupps.forEach(function(n){ blockedNames.add(n); });
+  }
+  if (typeof window !== 'undefined' && Array.isArray(window._profileBlocked)) {
+    window._profileBlocked.forEach(function(b){ if(b && b.n) blockedNames.add(b.n); });
+  }
+  /* Pass 1: in-place mutation for items already in recs. */
+  for (let i = recs.length - 1; i >= 0; i--) {
+    const r = recs[i];
+    if (boosts.has(r.n)) {
+      r._followupBoost = true;
+      if (r.p === 'consider') r.p = 'recommended';
+    }
+    if (demotes.has(r.n)) {
+      r._followupDemote = true;
+      if (r.p === 'consider') {
+        recs.splice(i, 1);
+      } else if (r.p === 'recommended') {
+        r.p = 'consider';
+      } else if (r.p === 'essential') {
+        r.p = 'recommended';
+      }
+    }
+  }
+  /* Pass 2: add boosted supps that aren't on the plan yet. */
+  const recNames = new Set(recs.map(function(x){ return x.n; }));
+  boosts.forEach(function(n) {
+    if (recNames.has(n)) return;
+    if (blockedNames.has(n)) return;
+    if (typeof _suppByName === 'undefined' || !_suppByName.has(n)) return;
+    const s = _suppByName.get(n);
+    recs.push({
+      n: s.n, p: 'consider', tier: s.t, tf: false,
+      e: s.e, s: s.s, why: 'Added because of your goal follow-up answer.',
+      dose: s.dose, _goalExtra: true, _followupBoost: true
+    });
   });
   return recs;
 }
