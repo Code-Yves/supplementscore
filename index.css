@@ -17,6 +17,29 @@
   text-align: center;
   max-width: 1180px;
   margin: 0 auto 0;
+  /* Positioning context for the funnel-plot ambient background canvas
+     (.rs-hero-bg). Mirrors the .ix-hero pattern on the Index landing. */
+  position: relative;
+  overflow: hidden;
+}
+/* Funnel-plot ambient layer for the Research hero — small dot clouds in
+   inverted-triangle distributions, the visualization meta-analyses use to
+   detect publication bias. Decorative; pointer-events:none so the search
+   and category dropdown above remain fully clickable. */
+.rs-hero-bg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.rs-hero > *:not(.rs-hero-bg){
+  position: relative;
+  z-index: 1;
+}
+@media (prefers-reduced-motion: reduce){
+  .rs-hero-bg{ display: none; }
 }
 .rs-hero .eb{
   font-size: 11px; font-weight: 600;

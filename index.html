@@ -1326,11 +1326,168 @@
 
     <!-- Clean hero -->
     <section class="rs-hero">
+      <!-- Funnel-plot ambient background. Decorative; hidden under
+           prefers-reduced-motion via index.css. Animation runs in the
+           <script> further down (rs-hero funnel-plot ambient). -->
+      <canvas class="rs-hero-bg" aria-hidden="true"></canvas>
       <div class="eb">Research &amp; Insights</div>
       <h1>What the trials<br><span style="color:var(--t1c)">actually</span> show.</h1>
       <p class="lede">Evidence-based reviews, safety alerts, and deep dives into supplement science. Every article is checked against the peer-reviewed literature — no sponsors, no affiliate links, no hype.</p>
 
     </section>
+    <script>
+    /* rs-hero funnel-plot ambient.
+       ----------------------------------------------------------------
+       Two small funnel plots (the inverted-triangle scatter that
+       systematic reviews use to inspect publication bias) drift gently
+       behind the Research hero copy. Each funnel has dashed boundary
+       lines, a vertical "pooled estimate" axis, and ~50 dots drifting
+       inside the cone. Decorative only — the canvas is z-index 0 and
+       pointer-events:none, so the search/category bar below is fully
+       interactive.
+
+       Tuned to match the v5 mockup defaults:
+         SPEED   = 1.0
+         OPACITY = 1.0
+
+       Disabled by CSS for prefers-reduced-motion; animation paused via
+       IntersectionObserver while the Research view is hidden or
+       scrolled offscreen, so the index landing isn't paying for an
+       offscreen RAF loop. */
+    (function(){
+      if (typeof window === 'undefined') return;
+      if (window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var canvas = document.querySelector('.rs-hero .rs-hero-bg');
+      if (!canvas) return;
+      var ctx = canvas.getContext && canvas.getContext('2d');
+      if (!ctx) return;
+
+      var SPEED   = 1.0;
+      var OPACITY = 1.0;
+      var COLOR   = '25, 152, 126';
+      var dpr     = window.devicePixelRatio || 1;
+
+      /* Two funnels positioned to bracket the headline — one left of
+         the title block, one right. cx/cy are unit fractions of the
+         canvas; scale is a fraction of min(width, height) used to size
+         the cone. */
+      var funnels = [
+        { cx: 0.18, cy: 0.55, scale: 0.30, dots: [] },
+        { cx: 0.82, cy: 0.50, scale: 0.32, dots: [] }
+      ];
+
+      /* Generate dots biased toward the bottom of the cone (high
+         precision = wider scatter). Each dot has its own oscillation
+         phase so the cloud doesn't pulse in unison. */
+      funnels.forEach(function(f){
+        var N = 50;
+        for (var i = 0; i < N; i++){
+          var yT = Math.pow(Math.random(), 0.7);   // 0=apex, 1=base
+          var xSpread = yT * 0.9 * (Math.random() - 0.5);
+          f.dots.push({
+            x: xSpread,
+            y: yT,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.005 + Math.random() * 0.01
+          });
+        }
+      });
+
+      function resize(){
+        var rect = canvas.parentElement.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        canvas.width  = Math.round(rect.width  * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        canvas.style.width  = rect.width  + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function getSize(){
+        return { w: canvas.width / dpr, h: canvas.height / dpr };
+      }
+
+      function tick(){
+        var s = getSize();
+        ctx.clearRect(0, 0, s.w, s.h);
+
+        for (var fi = 0; fi < funnels.length; fi++){
+          var f = funnels[fi];
+          var cx = f.cx * s.w;
+          var cy = f.cy * s.h;
+          /* Cone size derived from the smaller hero dimension so the
+             funnels stay proportional on short Research heros. */
+          var sz = f.scale * Math.min(s.w, s.h);
+
+          /* Dashed funnel boundary — V-shape from apex (top) to base. */
+          ctx.setLineDash([3, 4]);
+          ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.10 * OPACITY) + ')';
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(cx,       cy - sz);
+          ctx.lineTo(cx - sz,  cy + sz);
+          ctx.moveTo(cx,       cy - sz);
+          ctx.lineTo(cx + sz,  cy + sz);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          /* Vertical "pooled estimate" axis. */
+          ctx.beginPath();
+          ctx.moveTo(cx, cy - sz);
+          ctx.lineTo(cx, cy + sz);
+          ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.12 * OPACITY) + ')';
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+
+          /* Dots — gently drifting in place via sin/cos jitter. The
+             multiplier on phase advance is small (≤0.01 per frame at
+             SPEED=1) so the motion reads as ambient, not animated. */
+          for (var i = 0; i < f.dots.length; i++){
+            var d = f.dots[i];
+            d.phase += d.speed * SPEED;
+            var x = cx + (d.x + Math.sin(d.phase) * 0.02) * sz * 2;
+            var y = cy - sz + d.y * sz * 2 + Math.sin(d.phase * 0.7) * 1;
+            ctx.beginPath();
+            ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(' + COLOR + ',' + (0.20 * OPACITY) + ')';
+            ctx.fill();
+          }
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+
+      var rafId = null;
+      function start(){ if (rafId === null) tick(); }
+      function stop(){
+        if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      /* Pause when the Research view is hidden (it starts display:none
+         on the index page) or scrolls offscreen. We watch the canvas
+         itself, not the section, so visibility tracks the actual
+         rendering state. */
+      if ('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(entries){
+          if (entries[0].isIntersecting){
+            /* Resize on visibility-gain in case the layout changed
+               while the view was hidden (e.g. tab switch). */
+            resize();
+            start();
+          } else {
+            stop();
+          }
+        }, { threshold: 0 });
+        io.observe(canvas);
+      } else {
+        start();
+      }
+    })();
+    </script>
 
     <!-- HERO CAROUSEL -->
     <div class="hero" id="hero">
