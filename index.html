@@ -407,6 +407,10 @@
 
 <!-- New Index hero (legacy trust hero above is hidden via .legacy-trust-hero) -->
 <section class="ix-hero">
+  <!-- Ambient hub & spoke background. Decorative; hidden on phones and for
+       prefers-reduced-motion via index.css. Animation logic in the
+       <script> after </section>. -->
+  <canvas class="ix-hero-bg" aria-hidden="true"></canvas>
   <div class="ix-hero-stats">
     <span class="ix-hero-stat">733 Supplements</span>
     <span class="ix-hero-stat-divider">|</span>
@@ -444,6 +448,166 @@
     </div>
   </div>
 </section>
+
+<script>
+/* ix-hero ambient background — variant A "3 hubs".
+   ----------------------------------------------------------------
+   Three hub points placed asymmetrically across the hero, each
+   slowly cycling spokes in and out, with a gentle breathing ring
+   around the hub itself. Decorative only; the canvas is z-index 0
+   and pointer-events:none, so the search input + sources block
+   render above and remain fully interactive.
+
+   Tuned to the values from the v4 mockup (variant A, defaults):
+     SPEED   = 1.0  — frame increment per RAF tick
+     OPACITY = 1.0  — multiplier on stroke/fill alpha
+   Both are hard-coded here; tune them inline if you want to dial
+   intensity up or down later.
+
+   Disabled by CSS on max-width:699px and prefers-reduced-motion.
+   Pauses via IntersectionObserver while the hero is offscreen, so
+   long sessions on the page don't burn cycles repainting nothing. */
+(function(){
+  if (typeof window === 'undefined') return;
+  /* Defensive double-check: the CSS already hides the canvas under
+     prefers-reduced-motion, but skipping the RAF loop is cleaner. */
+  if (window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var canvas = document.querySelector('.ix-hero .ix-hero-bg');
+  if (!canvas) return;
+  var ctx = canvas.getContext && canvas.getContext('2d');
+  if (!ctx) return;
+
+  var SPEED   = 1.0;
+  var OPACITY = 1.0;
+  /* Brand teal, expressed as RGB triplet so we can vary alpha freely.
+     Matches --color-brand (#1F7A6B) with a touch more saturation —
+     identical to the value tuned in the mockups. */
+  var COLOR   = '25, 152, 126';
+
+  var dpr = window.devicePixelRatio || 1;
+
+  function makeBranches(n, minLen, maxLen){
+    var arr = [];
+    for (var i = 0; i < n; i++){
+      arr.push({
+        angle: (i / n) * Math.PI * 2 + (Math.random() - 0.5) * 0.3,
+        len:   minLen + Math.random() * (maxLen - minLen),
+        delay: Math.random() * 8
+      });
+    }
+    return arr;
+  }
+
+  /* Three hubs, positions in unit-fraction space so they scale to any
+     hero height/width. Spoke counts (5/6/5) and lengths come straight
+     from variant A in the mockup. */
+  var hubs = [
+    { cx: 0.20, cy: 0.30, branches: makeBranches(5, 100, 160) },
+    { cx: 0.78, cy: 0.65, branches: makeBranches(6, 100, 160) },
+    { cx: 0.62, cy: 0.22, branches: makeBranches(5, 100, 160) }
+  ];
+
+  function resize(){
+    var rect = canvas.parentElement.getBoundingClientRect();
+    /* Guard against zero-height hero (legacy-trust-hero variants etc.) */
+    if (rect.width === 0 || rect.height === 0) return;
+    canvas.width  = Math.round(rect.width  * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    canvas.style.width  = rect.width  + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function getSize(){
+    return { w: canvas.width / dpr, h: canvas.height / dpr };
+  }
+
+  function drawHub(cx, cy, frame, scale){
+    /* Hub core — small filled dot. */
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3.5 * scale, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + COLOR + ',' + (0.32 * OPACITY) + ')';
+    ctx.fill();
+    /* Slow breathing ring — radius and alpha out-of-phase so the ring
+       fades as it expands. ~13s period at SPEED=1. */
+    var breath = (Math.sin(frame * 0.008) + 1) / 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, (3.5 + breath * 8) * scale, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.15 * OPACITY * (1 - breath)) + ')';
+    ctx.lineWidth = 0.6;
+    ctx.stroke();
+  }
+
+  function drawBranches(cx, cy, branches, frame, scale){
+    for (var i = 0; i < branches.length; i++){
+      var b = branches[i];
+      /* Each spoke has its own phase (b.delay) so the spokes around a
+         single hub don't all peak together — looks more organic. */
+      var t = ((frame * 0.002) + b.delay) % 1;
+      var alpha = Math.sin(t * Math.PI) * 0.14 * OPACITY;
+      var len = b.len * scale;
+      var ex = cx + Math.cos(b.angle) * len;
+      var ey = cy + Math.sin(b.angle) * len;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(ex, ey);
+      ctx.strokeStyle = 'rgba(' + COLOR + ',' + alpha + ')';
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+      /* Endpoint dot, slightly more opaque than its spoke. */
+      ctx.beginPath();
+      ctx.arc(ex, ey, 1.4 * scale, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + COLOR + ',' + (alpha * 2.5) + ')';
+      ctx.fill();
+    }
+  }
+
+  var frame = 0;
+  var rafId = null;
+
+  function tick(){
+    frame += SPEED;
+    var s = getSize();
+    /* Scale spoke length and hub radius with hero size. Spokes were tuned
+       for a ~600px-tall desktop hero; on a short mobile hero (~250px) the
+       same absolute lengths look cramped and clip. We map the smaller
+       canvas dimension into the range [0.55, 1.0] so mobile renders a
+       proportionally tighter version of the same composition. */
+    var dim = Math.min(s.w, s.h);
+    var scale = Math.max(0.55, Math.min(1, dim / 600));
+    ctx.clearRect(0, 0, s.w, s.h);
+    for (var i = 0; i < hubs.length; i++){
+      var h = hubs[i];
+      drawHub(h.cx * s.w, h.cy * s.h, frame, scale);
+      drawBranches(h.cx * s.w, h.cy * s.h, h.branches, frame, scale);
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function start(){ if (rafId === null) tick(); }
+  function stop(){
+    if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* Pause when the hero scrolls offscreen — saves cycles during long
+     scroll sessions on the index page. Falls back to always-on if the
+     browser lacks IntersectionObserver. */
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      if (entries[0].isIntersecting) start();
+      else stop();
+    }, { threshold: 0 });
+    io.observe(canvas);
+  } else {
+    start();
+  }
+})();
+</script>
 
 
 <svg aria-hidden="true" width="0" height="0" style="position:absolute"><defs>

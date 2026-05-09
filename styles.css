@@ -730,22 +730,37 @@ body.on-profile .ssux-recent{display:none !important}
   font-size:12px;color:var(--color-text-primary);width:100%;
 }
 .site-nav-search-pill input::placeholder{color:var(--color-text-tertiary)}
-/* Mobile: pill lives inside the nav bar, always visible — no separate sticky search row */
+/* Mobile: pill lives inside the nav bar, always visible — 50% column, fills full width */
 @media(max-width:600px){
   .site-nav-search-pill{
     opacity:1;transform:none;pointer-events:auto;transition:none;
-    grid-column:2;justify-self:end;
+    grid-column:2;justify-self:stretch;width:100%;
   }
-  .site-nav-search-pill form{width:auto;min-width:110px;max-width:150px}
+  .site-nav-search-pill form{
+    width:100%;min-width:0;max-width:none;box-sizing:border-box;
+    height:32px;
+    background:var(--color-background-secondary);
+    border:1.5px solid var(--color-border-secondary);
+    padding:0 12px 0 10px;
+  }
+  .site-nav-search-pill .ico{width:14px;height:14px;}
+  .site-nav-search-pill input{font-size:12.5px;}
 }
 
-/* Mobile: brand hidden; tabs left + search pill right in a two-column grid */
+/* Mobile: brand hidden; 50/50 grid — tabs pill and search pill share equal width */
 @media(max-width:600px){
   .site-nav{height:auto}
   .site-nav-brand{display:none}
-  .site-nav-inner{grid-template-columns:auto 1fr;align-items:center;padding:6px 12px;height:auto;gap:8px}
-  .site-nav-tabs{grid-column:1;justify-self:start;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  /* Tabs (nav) pill widened twice by 15%: 50% → 57.5% → 66.1% of the row.
+     Ratio: 66.1 / 33.9 ≈ 1.952fr to 1fr. */
+  .site-nav-inner{grid-template-columns:1.952fr 1fr;align-items:center;padding:6px 10px;height:auto;gap:8px}
+  /* Tabs pill height pinned to 32px so it matches the search pill's outer height.
+     padding:3px + tab 24px + 1px border × 2 = 32px. */
+  .site-nav-tabs{grid-column:1;justify-self:stretch;width:100%;display:flex;justify-content:space-evenly;overflow:visible;height:32px;box-sizing:border-box;padding:3px;align-items:center;}
   .site-nav-tabs::-webkit-scrollbar{display:none}
+  /* Each tab fills an equal share of the pill width; tighter padding to fit 4 tabs */
+  .site-nav-tabs .site-nav-tab{flex:1;text-align:center;justify-content:center;padding:0 6px;letter-spacing:.01em;height:24px;min-height:0;}
+  .site-nav-tabs .site-nav-tab.site-nav-tab-icon{flex:0 0 24px;width:24px;height:24px;min-height:0;padding:0;border-radius:50%;}
 }
 
 /* Universal autocomplete dropdown under the nav search */
@@ -786,7 +801,7 @@ a.site-nav-tab{
   font: 600 11px/1 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;
   display:inline-flex;align-items:center;justify-content:center;
-  height:20px;padding:0 18px;box-sizing:border-box;margin:0;
+  height:20px;padding:0 21px;box-sizing:border-box;margin:0;
   color:var(--color-text-secondary);
   border:0;border-radius:999px;
   background:none;cursor:pointer;text-decoration:none;
@@ -1018,11 +1033,14 @@ body{ overflow-x:clip; }
   .site-nav-tab:hover{background:transparent!important;color:var(--color-text-secondary)!important;}
   .site-nav-tab.active:hover{background:var(--color-brand)!important;color:#fff!important;}
 }
-@media(max-width:420px){.site-nav-tab{min-height:36px;padding:6px 12px;font-size:11.5px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}
-  /* The icon variant must stay a circle — override the text-tab mobile padding
-     and grow it to match the new 36px row height so the avatar slot doesn't
-     squish into a tall pill. */
-  .site-nav-tab.site-nav-tab-icon{width:36px;height:36px;min-height:0;padding:0;flex-shrink:0}
+@media(max-width:420px){.site-nav-tab{min-height:20px;height:20px;padding:0 8px;font-size:11px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}
+  /* Icon variant — sized to match the text-tab row so the tabs pill stays the
+     same overall height as the search pill (both 32px outer). */
+  .site-nav-tab.site-nav-tab-icon{width:20px;height:20px;min-height:0;padding:0;flex-shrink:0}
+  /* In the 50/50 nav layout, text tabs inside the pill must keep tight horizontal
+     padding so all four items fit — override the generous 12px above. */
+  .site-nav-tabs .site-nav-tab{padding:0 5px;}
+  .site-nav-tabs .site-nav-tab.site-nav-tab-icon{flex:0 0 20px;width:20px;height:20px;}
 }
 
 /* ── Articles section ── */

@@ -195,6 +195,35 @@
   margin: 0 auto 0;
   padding: 14px 24px 4px;
   text-align: center;
+  /* Provide a positioning context for the ambient hub & spoke background
+     canvas (.ix-hero-bg). overflow:hidden keeps any spokes that drift past
+     the edges from creating a horizontal scroll. */
+  position: relative;
+  overflow: hidden;
+}
+/* Ambient background animation layer.
+   Variant A "3 hubs" — sparse hub-and-spoke graph that gently breathes
+   behind the hero copy. Sits at z-index 0; all hero content is lifted to
+   z-index 1 so it always renders above the canvas. The canvas is purely
+   decorative, hence aria-hidden in the markup and pointer-events:none
+   here so it never intercepts clicks on the search input. */
+.ix-hero-bg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.ix-hero > *:not(.ix-hero-bg){
+  position: relative;
+  z-index: 1;
+}
+/* Suppress the ambient layer for users who have requested reduced motion.
+   Mobile renders the canvas too — the JS scales hub spacing and spoke
+   length proportionally to hero size so it doesn't get cramped. */
+@media (prefers-reduced-motion: reduce){
+  .ix-hero-bg{ display: none; }
 }
 .ix-hero .eb{ display: none; }
 .ix-hero-stats{
