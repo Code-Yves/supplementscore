@@ -739,30 +739,46 @@ body.on-profile .ssux-recent{display:none !important}
   .site-nav-search-pill form{
     width:100%;min-width:0;max-width:none;box-sizing:border-box;
     height:32px;
-    background:var(--color-background-secondary);
-    border:1.5px solid var(--color-border-secondary);
+    /* White fill (matches the tabs pill) — must NOT be the page background
+       color or the pill becomes invisible against the cream nav strip on
+       mobile. The teal-tinted border ties it back to the tabs pill visually. */
+    background:#fff;
+    border:1px solid var(--color-border-tertiary);
     padding:0 12px 0 10px;
   }
   .site-nav-search-pill .ico{width:14px;height:14px;}
   .site-nav-search-pill input{font-size:12.5px;}
 }
 
-/* Mobile: brand hidden; 50/50 grid — tabs pill and search pill share equal width */
+/* Mobile: brand hidden. Use flexbox (not grid) for the nav row — iOS Safari
+   sometimes mis-sizes fr-based grid templates when one of the items has its
+   own width set, which was leaving the search pill collapsed off-screen. */
 @media(max-width:600px){
   .site-nav{height:auto}
   .site-nav-brand{display:none}
-  /* Tabs (nav) pill widened twice by 15%: 50% → 57.5% → 66.1% of the row.
-     Ratio: 66.1 / 33.9 ≈ 1.952fr to 1fr.
-     min-content floor on column 2 keeps the search pill from collapsing
-     below the icon+placeholder width on narrow viewports. */
-  .site-nav-inner{grid-template-columns:1.952fr minmax(110px,1fr);align-items:center;padding:6px 10px;height:auto;gap:8px}
-  /* Tabs pill height pinned to 32px so it matches the search pill's outer height.
-     padding:3px + tab 24px + 1px border × 2 = 32px. */
-  .site-nav-tabs{grid-column:1;justify-self:stretch;width:100%;display:flex;justify-content:space-evenly;overflow:visible;height:32px;box-sizing:border-box;padding:3px;align-items:center;}
+  .site-nav-inner{
+    display:flex !important;
+    grid-template-columns:none !important;
+    flex-direction:row;align-items:center;justify-content:flex-start;
+    padding:6px 10px;height:auto;gap:8px;
+  }
+  /* Tabs pill: ~66% of the row (was 50%, widened twice by 15% per request). */
+  .site-nav-tabs{
+    grid-column:auto !important;justify-self:auto !important;
+    flex:0 1 66%;min-width:0;width:auto;
+    display:flex;justify-content:space-evenly;overflow:visible;
+    height:32px;box-sizing:border-box;padding:3px;align-items:center;
+  }
   .site-nav-tabs::-webkit-scrollbar{display:none}
   /* Each tab fills an equal share of the pill width; tighter padding to fit 4 tabs */
   .site-nav-tabs .site-nav-tab{flex:1;text-align:center;justify-content:center;padding:0 6px;letter-spacing:.01em;height:24px;min-height:0;}
   .site-nav-tabs .site-nav-tab.site-nav-tab-icon{flex:0 0 24px;width:24px;height:24px;min-height:0;padding:0;border-radius:50%;}
+  /* Search pill takes the remainder of the row. flex:1 1 0 + min-width:0
+     guarantees it gets a non-zero width even when its form is width:100%. */
+  .site-nav-search-pill{
+    grid-column:auto !important;justify-self:auto !important;
+    flex:1 1 0;min-width:110px;width:auto;
+  }
 }
 
 /* Universal autocomplete dropdown under the nav search */

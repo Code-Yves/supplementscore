@@ -482,7 +482,12 @@
   if (!ctx) return;
 
   var SPEED   = 1.0;
-  var OPACITY = 1.0;
+  /* Mobile (≤600px) gets a stronger opacity multiplier — at small scale the
+     0.14 stroke alpha disappears against the cream background on iPhone
+     Safari. 1.6× brings it back into legible range without overwhelming the
+     desktop look. */
+  var IS_MOBILE = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+  var OPACITY = IS_MOBILE ? 1.6 : 1.0;
   /* Brand teal, expressed as RGB triplet so we can vary alpha freely.
      Matches --color-brand (#1F7A6B) with a touch more saturation —
      identical to the value tuned in the mockups. */
@@ -511,15 +516,23 @@
     { cx: 0.62, cy: 0.22, branches: makeBranches(5, 100, 160) }
   ];
 
+  /* `sized` flips to true once we successfully size the canvas. iOS Safari
+     can fire the inline script before the hero parent has been laid out,
+     in which case getBoundingClientRect() returns 0×0 and the canvas keeps
+     its useless 300×150 default. We retry on every observable event until
+     we land a real size. */
+  var sized = false;
   function resize(){
     var rect = canvas.parentElement.getBoundingClientRect();
     /* Guard against zero-height hero (legacy-trust-hero variants etc.) */
-    if (rect.width === 0 || rect.height === 0) return;
+    if (rect.width === 0 || rect.height === 0) return false;
     canvas.width  = Math.round(rect.width  * dpr);
     canvas.height = Math.round(rect.height * dpr);
     canvas.style.width  = rect.width  + 'px';
     canvas.style.height = rect.height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    sized = true;
+    return true;
   }
 
   function getSize(){
@@ -538,7 +551,7 @@
     ctx.beginPath();
     ctx.arc(cx, cy, (3.5 + breath * 8) * scale, 0, Math.PI * 2);
     ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.15 * OPACITY * (1 - breath)) + ')';
-    ctx.lineWidth = 0.6;
+    ctx.lineWidth = IS_MOBILE ? 1 : 0.6;
     ctx.stroke();
   }
 
@@ -556,7 +569,7 @@
       ctx.moveTo(cx, cy);
       ctx.lineTo(ex, ey);
       ctx.strokeStyle = 'rgba(' + COLOR + ',' + alpha + ')';
-      ctx.lineWidth = 0.6;
+      ctx.lineWidth = IS_MOBILE ? 1 : 0.6;
       ctx.stroke();
       /* Endpoint dot, slightly more opaque than its spoke. */
       ctx.beginPath();
@@ -595,14 +608,34 @@
 
   resize();
   window.addEventListener('resize', resize);
+  /* iOS Safari: layout sometimes finishes after the inline script runs, and
+     also after orientation changes / bfcache restores. Re-attempt the sizing
+     on each of these events so we never end up animating into a 300×150
+     internal canvas stretched up to the hero's CSS width. */
+  window.addEventListener('orientationchange', resize);
+  window.addEventListener('load', resize);
+  window.addEventListener('pageshow', resize);
+  /* Belt-and-braces retry loop: if we still don't have a real size after
+     paint (e.g. fonts not yet loaded so the H1 hasn't reflowed), poll for
+     up to ~1.5s. Stops the moment we get a non-zero rect. */
+  if (!sized){
+    var retries = 0;
+    var retryId = setInterval(function(){
+      if (resize() || ++retries > 15) clearInterval(retryId);
+    }, 100);
+  }
 
   /* Pause when the hero scrolls offscreen — saves cycles during long
      scroll sessions on the index page. Falls back to always-on if the
      browser lacks IntersectionObserver. */
   if ('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
-      if (entries[0].isIntersecting) start();
-      else stop();
+      if (entries[0].isIntersecting) {
+        /* If we never got a real size, try once more now that the canvas
+           is in view — its parent must be laid out for the IO to fire. */
+        if (!sized) resize();
+        start();
+      } else stop();
     }, { threshold: 0 });
     io.observe(canvas);
   } else {
