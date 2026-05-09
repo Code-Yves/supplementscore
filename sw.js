@@ -7,7 +7,7 @@
  * so users always get fresh data within one navigation.
  */
 
-const CACHE_VERSION = 'v2026-05-06-uxBundle';
+const CACHE_VERSION = 'v2026-05-09-mobileNav';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
@@ -51,7 +51,29 @@ self.addEventListener('fetch', (event) => {
   // Don't cache cross-origin (Google Fonts, Formspree, PubMed, etc.)
   if (url.origin !== location.origin) return;
 
-  // Stale-while-revalidate for HTML / JS / CSS / JSON
+  // HTML navigations and the CSS files MUST be network-first so users always
+  // get the latest layout / nav / search-bar updates as soon as we deploy.
+  // Falling back to cache only when the network is unreachable preserves
+  // offline support without the previous cache-first staleness bug that
+  // pinned the iPhone to month-old CSS even after we bumped ?v= params.
+  const isHtml = req.mode === 'navigate' || req.destination === 'document'
+                 || url.pathname.endsWith('.html') || url.pathname === '/';
+  const isStyle = req.destination === 'style' || url.pathname.endsWith('.css');
+  if (isHtml || isStyle) {
+    event.respondWith(
+      fetch(req).then(response => {
+        if (response && response.status === 200) {
+          const respClone = response.clone();
+          caches.open(RUNTIME).then(cache => cache.put(req, respClone));
+        }
+        return response;
+      }).catch(() => caches.match(req)) // offline fallback
+    );
+    return;
+  }
+
+  // Everything else (JS, JSON, images): stale-while-revalidate is fine —
+  // freshness matters less and the speed win on flaky mobile is real.
   event.respondWith(
     caches.match(req).then(cached => {
       const fetchPromise = fetch(req).then(response => {
