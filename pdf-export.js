@@ -9,16 +9,15 @@ function generatePDF(mode){
   if(!window.jspdf)return null;
   const isSummaryOnly=(mode==='summary');
   const{jsPDF}=window.jspdf;
-  /* Round-12: iPhone-optimized page for the Summary Card.
-     - Custom 110 × 190 mm portrait page maps closely to the iPhone screen
-       aspect ratio. When the user opens the PDF on an iPhone (which fits
-       to width by default), body text appears at a comfortable reading size
-       instead of needing pinch-zoom.
+  /* Round-13: iPhone-optimized page for the Summary Card.
+     - Custom 115 × 260 mm portrait page — narrow enough that an iPhone shows
+       the body text large at fit-to-width, tall enough to fit 14–20 stacked
+       supplement rows plus the interaction-notes panel without clipping.
      - Margin tightened from 18 to 9 mm to maximise usable text width.
-     - The Full Guide (mode!=='summary') keeps A4 — it has cover, masthead,
-       and per-supplement detail pages that need the wider canvas. */
+     - The Full Guide (mode!=='summary') keeps A4 — its multi-page layout
+       and cover need the wider canvas. */
   const doc = isSummaryOnly
-    ? new jsPDF({unit:'mm', format:[110, 190]})
+    ? new jsPDF({unit:'mm', format:[115, 260]})
     : new jsPDF({unit:'mm', format:'a4'});
   const pw=doc.internal.pageSize.getWidth();
   const ph=doc.internal.pageSize.getHeight();
@@ -678,7 +677,11 @@ function generatePDF(mode){
     });
   }
   // Row geometry
-  const rH=7.5;                   // row height
+  /* Round-13: in summary mode the row is taller so we can stack name+badge
+     on the top line and the (often long) dose on a second line. The previous
+     single-line layout broke at iPhone width — name + badge + right-aligned
+     dose all overlapped each other. */
+  const rH = isSummaryOnly ? 11.5 : 7.5;
   const iconX=M+4;                 // food icon center x
   const nameX=M+9;                 // supplement name start x
   const doseOffsetPad=2;           // px padding between name end and dose start
@@ -736,38 +739,49 @@ function generatePDF(mode){
     let pairStartY=null; // tracks the top of the current adjacent-pair run (summary card only)
     items.forEach((item,i)=>{
       const inPair=isPairBlock[i];
-      // ── Summary card: Protocol A row (name | food badge | dose) ─────────────
+      // ── Summary card row (Round-13 stacked layout) ──────────────────────────
+      // Top line  : Supplement name (bold) + small food badge to the right
+      // Second    : Dose, muted, indented slightly. Wraps when long so phones
+      //             never have to side-scroll.
       if(isSummaryOnly){
-        const rMidY=y+rH/2;
-        // Supplement name — helvetica bold, left margin
+        const topY = y + 4;
+        // Name
         doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
         const _nmRaw=_winAnsiSafe(item.r.n);
-        const _nm=_nmRaw.length>40?_nmRaw.substring(0,39)+'…':_nmRaw;
-        doc.text(_nm,M,rMidY+1.3);
-        const _nameW=doc.getTextWidth(_nm);
-        // Food badge — green pill for 'with', gray pill for 'away'; nothing for 'any'
+        const _availForName = TW - 22; // reserve room for badge
+        let _nm=_nmRaw;
+        while(_nm.length>4 && doc.getTextWidth(_nm)>_availForName) _nm=_nm.substring(0,_nm.length-1);
+        if(_nm!==_nmRaw) _nm=_nm.substring(0,_nm.length-1)+'…';
+        doc.text(_nm, M, topY);
+        const _nameW = doc.getTextWidth(_nm);
+        // Food badge to the right of the name
         if(item.foodCat!=='any'){
-          const _bdgTxt=item.foodCat==='with'?'w/ food':'(empty)';
-          doc.setFont('helvetica','normal');doc.setFontSize(6.5);
-          const _bw=doc.getTextWidth(_bdgTxt)+4;
-          const _bx=M+_nameW+3;const _by=rMidY-2.2;
+          const _bdgTxt = item.foodCat==='with' ? 'w/ food' : 'empty stomach';
+          doc.setFont('helvetica','normal');doc.setFontSize(6);
+          const _bw = doc.getTextWidth(_bdgTxt) + 3.4;
+          const _bx = M + _nameW + 3;
+          const _by = topY - 3;
           if(item.foodCat==='with'){
-            doc.setFillColor(220,252,231);doc.roundedRect(_bx,_by,_bw,4,1,1,'F');
+            doc.setFillColor(220,252,231);doc.roundedRect(_bx,_by,_bw,3.8,1,1,'F');
             doc.setTextColor(22,101,52);
           } else {
-            doc.setFillColor(243,244,246);doc.roundedRect(_bx,_by,_bw,4,1,1,'F');
+            doc.setFillColor(243,244,246);doc.roundedRect(_bx,_by,_bw,3.8,1,1,'F');
             doc.setTextColor(107,114,128);
           }
-          doc.text(_bdgTxt,_bx+2,rMidY+0.8);
+          doc.text(_bdgTxt, _bx+1.7, _by+2.7);
         }
-        // Dose — right-aligned, muted
-        const _sd=_winAnsiSafe(item.dose.split(';')[0].trim());
-        doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
-        doc.text(_sd,pw-M,rMidY+1.3,{align:'right'});
-        // Row border
-        doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.15);doc.line(M,y+rH,pw-M,y+rH);
-        y+=rH;rowIdx++;
-        return; // skip full guide row rendering
+        // Dose — wrapped onto the second line if needed.
+        const _sd = _winAnsiSafe(item.dose.split(';')[0].trim());
+        doc.setFont('helvetica','normal');doc.setFontSize(7.8);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+        const _doseLines = doc.splitTextToSize(_sd, TW);
+        const _doseStartY = topY + 4;
+        _doseLines.slice(0,2).forEach(function(ln,i){
+          doc.text(ln, M, _doseStartY + i*3.6);
+        });
+        // Row separator
+        doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.15);doc.line(M, y+rH, pw-M, y+rH);
+        y += rH; rowIdx++;
+        return;
       }
       // ── Full guide row ───────────────────────────────────────────────────────
       // Row background:
