@@ -9,10 +9,21 @@ function generatePDF(mode){
   if(!window.jspdf)return null;
   const isSummaryOnly=(mode==='summary');
   const{jsPDF}=window.jspdf;
-  const doc=new jsPDF({unit:'mm',format:'a4'});
+  /* Round-12: iPhone-optimized page for the Summary Card.
+     - Custom 110 × 190 mm portrait page maps closely to the iPhone screen
+       aspect ratio. When the user opens the PDF on an iPhone (which fits
+       to width by default), body text appears at a comfortable reading size
+       instead of needing pinch-zoom.
+     - Margin tightened from 18 to 9 mm to maximise usable text width.
+     - The Full Guide (mode!=='summary') keeps A4 — it has cover, masthead,
+       and per-supplement detail pages that need the wider canvas. */
+  const doc = isSummaryOnly
+    ? new jsPDF({unit:'mm', format:[110, 190]})
+    : new jsPDF({unit:'mm', format:'a4'});
   const pw=doc.internal.pageSize.getWidth();
   const ph=doc.internal.pageSize.getHeight();
-  const M=18;const TW=pw-M*2;
+  const M = isSummaryOnly ? 9 : 18;
+  const TW=pw-M*2;
   // Brand palette — Supplement Score (navy + green on white).
   // Kept the original constant names so the rest of the renderer is untouched;
   // semantics: DARK=navy ink, GOLD=brand green accent, PUR=dark green kicker,

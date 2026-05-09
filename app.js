@@ -5424,11 +5424,13 @@ function confirmDownloadPrompt(skip){
 async function downloadPDF(){
   try{await loadJsPDF();}catch(e){console.error('PDF library failed to load:',e);alert('Could not generate PDF — please check your internet connection and try again.');return;}
   const age=document.getElementById('asl').value;
-  // Generate two PDFs: Summary Card (1 page) and Full Guide (complete)
+  /* Round-11: only the Summary Card PDF is generated for now. The Full Guide
+     is on hold while the summary layout is being polished — uncomment the
+     two lines below to bring it back. */
   const summaryDoc=generatePDF('summary');
   if(summaryDoc)summaryDoc.save('SupplementScore-'+age+'yo-SummaryCard.pdf');
-  const fullDoc=generatePDF('full');
-  if(fullDoc)fullDoc.save('SupplementScore-'+age+'yo-FullGuide.pdf');
+  // const fullDoc=generatePDF('full');
+  // if(fullDoc)fullDoc.save('SupplementScore-'+age+'yo-FullGuide.pdf');
 }
 
 function loadProfile(){

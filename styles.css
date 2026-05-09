@@ -704,8 +704,9 @@ body.on-profile .ssux-recent{display:none !important}
 .site-nav-tabs{grid-column:2;justify-self:center;display:inline-flex;gap:0;background:#fff;border:1px solid var(--color-border-tertiary);border-radius:999px;padding:5px}
 
 /* Nav search pill — lives in the right column of the nav grid.
-   Hidden by default; .site-nav--search-visible reveals it on desktop
-   when the hero search bar scrolls out of view. */
+   Mobile-only on this site (≥601px hides it entirely per user request).
+   The hero already has its own large search field on desktop, so the nav
+   pill is redundant up there; on mobile it's the primary search entry. */
 .site-nav-search-pill{
   grid-column:3;justify-self:end;display:flex;align-items:center;
   opacity:0;transform:translateX(8px);
@@ -714,6 +715,11 @@ body.on-profile .ssux-recent{display:none !important}
 }
 .site-nav--search-visible .site-nav-search-pill{
   opacity:1;transform:translateX(0);pointer-events:auto;
+}
+/* Desktop: hide the nav search pill outright. The hero's own search field
+   covers desktop search; we don't want a second one in the nav. */
+@media (min-width: 601px){
+  .site-nav-search-pill{display:none !important;}
 }
 .site-nav-search-pill form{
   position:relative;display:flex;align-items:center;gap:5px;
@@ -1998,6 +2004,15 @@ body{ overflow-x:clip; }
 @media(max-width:600px){.supp-cards{grid-template-columns:1fr}.sel-bar-inner{border-radius:12px;padding:12px 16px}.plan-card{margin:10px auto;border-radius:16px}}
 
 /* ── Profile Gate (coming soon overlay) ── */
+/* Position context for the gene-labeled DNA helix ambient background
+   (.gate-bg). Helices render at the left/right of the canvas, framing
+   the centered .gate-page content. The DNA labels (MTHFR, VDR, CYP2D6,
+   APOE, COMT) intentionally echo the roadmap copy elsewhere about
+   genetic-variant-aware recommendations. */
+#profile-gate{position:relative;overflow:hidden;min-height:680px}
+.gate-bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#profile-gate > *:not(.gate-bg){position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.gate-bg{display:none}}
 .gate-page{max-width:440px;margin:0 auto;padding:40px 20px 60px;text-align:center}
 .gate-hero{margin-bottom:28px}
 .gate-icon{width:56px;height:56px;border-radius:16px;background:var(--color-background-primary);border:1px solid rgba(31,122,107,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}

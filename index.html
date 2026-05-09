@@ -212,10 +212,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260509j">
+<link rel="stylesheet" href="styles.css?v=20260509k">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260509j">
+<link rel="stylesheet" href="index.css?v=20260509k">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -750,13 +750,17 @@
   </nav>
   <!-- Profile Gate Overlay -->
   <div id="profile-gate" style="display:none">
+    <!-- Gene-labeled DNA helix ambient background. Decorative; hidden
+         under prefers-reduced-motion via styles.css. Animation runs in
+         the <script> after </div></div> below this section. -->
+    <canvas class="gate-bg" aria-hidden="true"></canvas>
     <div class="gate-page">
       <!-- Hero -->
       <div class="gate-hero">
         <div class="gate-icon">
           <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F7A6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <div class="gate-eyebrow">Coming soon</div>
+        <div class="gate-eyebrow">Beta</div>
         <h2 class="gate-title">Your plan,<br>built by science.</h2>
         <p class="gate-desc">A personalized supplement stack ranked by the same evidence database behind 733 supplement scores — tailored to your age, goals, and health.</p>
       </div>
@@ -795,6 +799,202 @@
       </div>
     </div>
   </div>
+
+  <script>
+  /* profile-gate gene-labeled DNA helix ambient.
+     ----------------------------------------------------------------
+     Two slowly-rotating double helices flank the centered .gate-page
+     content. Floating gene labels (MTHFR, VDR, CYP2D6, APOE, COMT,
+     CYP1A2) drift along each strand — these names intentionally echo
+     the roadmap copy elsewhere about genetic-variant-aware
+     personalization, so the background reinforces the message
+     instead of just decorating it.
+
+     Tuned to match the v8 mockup defaults (variant C):
+       SPEED   = 1.0
+       OPACITY = 1.0
+
+     Disabled by CSS for prefers-reduced-motion. Paused via
+     IntersectionObserver while #profile-gate is hidden (it starts
+     display:none on the index page) or scrolled offscreen, so the
+     RAF loop only burns cycles when actually rendering. */
+  (function(){
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var canvas = document.querySelector('#profile-gate .gate-bg');
+    if (!canvas) return;
+    var ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx) return;
+
+    var SPEED   = 1.0;
+    var OPACITY = 1.0;
+    var COLOR   = '25, 152, 126';
+    var dpr     = window.devicePixelRatio || 1;
+
+    /* Two helices: one on the left, one on the right, framing the
+       centered .gate-page content (440px max-width). On wider
+       viewports they sit at ~18% / 82% of canvas width; on narrower
+       viewports (≤700px) they would crowd the copy, so we hide the
+       canvas entirely on phones — see the mobile media query below. */
+    var helices = [
+      {
+        cxF: 0.18,
+        slots: [0.18, 0.42, 0.65, 0.85],
+        slotLabels: ['MTHFR', 'VDR', 'CYP2D6', 'APOE']
+      },
+      {
+        cxF: 0.82,
+        slots: [0.22, 0.50, 0.78],
+        slotLabels: ['COMT', 'CYP1A2', 'BDNF']
+      }
+    ];
+
+    /* Pre-bake the slot objects so the labels are stable across
+       frames (the v8 mockup randomized them each load — fine for
+       a brainstorm, but for production we want consistent text). */
+    helices.forEach(function(he){
+      he.slots = he.slots.map(function(t, i){
+        return { t: t, label: he.slotLabels[i] };
+      });
+    });
+
+    function resize(){
+      var rect = canvas.parentElement.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      canvas.width  = Math.round(rect.width  * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      canvas.style.width  = rect.width  + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function getSize(){
+      return { w: canvas.width / dpr, h: canvas.height / dpr };
+    }
+
+    function alpha(a){ return 'rgba(' + COLOR + ',' + (a * OPACITY) + ')'; }
+
+    /* Vertical helix between (cx, y0) → (cx, y1) with rotation
+       phase. Renders both strands and the base-pair rungs. */
+    function renderHelix(cx, y0, y1, helixW, turns, phaseShift){
+      var samples = 80;
+      // Two strands, offset by π so they intertwine.
+      function strand(offset){
+        ctx.beginPath();
+        for (var i = 0; i <= samples; i++){
+          var t = i / samples;
+          var yy = y0 + t * (y1 - y0);
+          var ang = t * turns * Math.PI * 2 + phaseShift + offset;
+          var xx = cx + Math.sin(ang) * helixW;
+          if (i === 0) ctx.moveTo(xx, yy);
+          else ctx.lineTo(xx, yy);
+        }
+        ctx.strokeStyle = alpha(0.22);
+        ctx.lineWidth = 1.0;
+        ctx.stroke();
+      }
+      strand(0);
+      strand(Math.PI);
+      // Base-pair rungs every 4 samples — alpha tied to which strand
+      // is currently in front (cos > 0 = front, brighter rung).
+      for (var j = 0; j <= samples; j += 4){
+        var t = j / samples;
+        var yy = y0 + t * (y1 - y0);
+        var a1 = t * turns * Math.PI * 2 + phaseShift;
+        var a2 = a1 + Math.PI;
+        var x1 = cx + Math.sin(a1) * helixW;
+        var x2 = cx + Math.sin(a2) * helixW;
+        var depthFront = (Math.cos(a1) + 1) / 2;
+        ctx.beginPath();
+        ctx.moveTo(x1, yy);
+        ctx.lineTo(x2, yy);
+        ctx.strokeStyle = alpha(depthFront * 0.18);
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+    }
+
+    /* Renders a gene label anchored at fractional position `t` along
+       the helix. The label sits to whichever side of the strand is
+       currently facing forward, with a faint connector tick. */
+    function renderGeneLabel(cx, y0, y1, helixW, turns, phaseShift, slot){
+      var yy = y0 + slot.t * (y1 - y0);
+      var ang = slot.t * turns * Math.PI * 2 + phaseShift;
+      var xRel = Math.sin(ang); // -1..1
+      var xx = cx + xRel * helixW;
+      var depth = (Math.cos(ang) + 1) / 2;
+      var a = 0.20 + depth * 0.20;
+      var side = xRel > 0 ? 1 : -1;
+      var labelX = xx + side * 14;
+      ctx.font = '600 10px ui-monospace, "SF Mono", Menlo, monospace';
+      ctx.fillStyle = alpha(a);
+      ctx.textAlign = side > 0 ? 'left' : 'right';
+      ctx.fillText(slot.label, labelX, yy + 3);
+      // Connector tick from strand to label
+      ctx.strokeStyle = alpha(a * 0.7);
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(xx, yy);
+      ctx.lineTo(labelX - side * 2, yy);
+      ctx.stroke();
+    }
+
+    var frame = 0;
+    var rafId = null;
+
+    function tick(){
+      frame += SPEED;
+      var s = getSize();
+      ctx.clearRect(0, 0, s.w, s.h);
+      // Helix radius is a fraction of the smaller dimension so it
+      // scales with whatever viewport the gate renders into.
+      var helixW = 0.07 * Math.min(s.w, s.h);
+      var turns = 4;
+      var y0 = 0.10 * s.h;
+      var y1 = 0.90 * s.h;
+      for (var i = 0; i < helices.length; i++){
+        var he = helices[i];
+        var cx = he.cxF * s.w;
+        // Counter-rotate the second helix (Math.PI offset) for visual
+        // variety so the two helices don't appear locked together.
+        var phaseShift = frame * 0.012 + i * Math.PI;
+        renderHelix(cx, y0, y1, helixW, turns, phaseShift);
+        for (var k = 0; k < he.slots.length; k++){
+          renderGeneLabel(cx, y0, y1, helixW, turns, phaseShift, he.slots[k]);
+        }
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function start(){ if (rafId === null) tick(); }
+    function stop(){
+      if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    /* Pause the animation while #profile-gate is display:none or has
+       been scrolled out of view. Resize on visibility-gain so the
+       canvas matches the section's measured dimensions on the first
+       paint after it becomes visible. */
+    if ('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        if (entries[0].isIntersecting){
+          resize();
+          start();
+        } else {
+          stop();
+        }
+      }, { threshold: 0 });
+      io.observe(canvas);
+    } else {
+      start();
+    }
+  })();
+  </script>
 
   <div id="p1" style="display:none">
     <div id="v-input">
