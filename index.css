@@ -61,11 +61,17 @@
      centered max-width (1200px) and side padding (1rem). */
   max-width: none;
   margin: 18px 0 22px;
-  padding: 0;
+  padding: 8px 0;
   display: flex;
   gap: 10px;
   align-items: stretch;
   flex-wrap: wrap;
+  /* Sticky: lock below the nav bar (beta bar 22px + nav 48px = 70px) */
+  position: sticky;
+  top: 70px;
+  z-index: 25;
+  background: var(--color-background-secondary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
 }
 .rs-toolbar .rs-search{
   flex: 1;
@@ -178,7 +184,7 @@
   /* Mobile: zero side padding too — .articles-section already provides
      16px gutters via its own padding. Adding more here would push the
      toolbar narrower than the cards above and below it. */
-  .rs-toolbar{ padding: 0; gap: 8px; }
+  .rs-toolbar{ padding: 6px 0; gap: 8px; top: 70px; }
   .rs-cat-dd-btn{ height: 44px; padding: 0 12px; font-size: 13px; }
   .rs-cat.rs-cat-dd-panel{ min-width: 220px; }
 }

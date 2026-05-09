@@ -762,10 +762,10 @@ body.on-profile .ssux-recent{display:none !important}
     flex-direction:row;align-items:center;justify-content:flex-start;
     padding:6px 10px;height:auto;gap:8px;
   }
-  /* Tabs pill: ~66% of the row (was 50%, widened twice by 15% per request). */
+  /* Tabs pill and search pill share the row 50/50 (per user request). */
   .site-nav-tabs{
     grid-column:auto !important;justify-self:auto !important;
-    flex:0 1 66%;min-width:0;width:auto;
+    flex:1 1 0;min-width:0;width:auto;
     display:flex;justify-content:space-evenly;overflow:visible;
     height:32px;box-sizing:border-box;padding:3px;align-items:center;
   }
@@ -773,11 +773,40 @@ body.on-profile .ssux-recent{display:none !important}
   /* Each tab fills an equal share of the pill width; tighter padding to fit 4 tabs */
   .site-nav-tabs .site-nav-tab{flex:1;text-align:center;justify-content:center;padding:0 6px;letter-spacing:.01em;height:24px;min-height:0;}
   .site-nav-tabs .site-nav-tab.site-nav-tab-icon{flex:0 0 24px;width:24px;height:24px;min-height:0;padding:0;border-radius:50%;}
-  /* Search pill takes the remainder of the row. flex:1 1 0 + min-width:0
-     guarantees it gets a non-zero width even when its form is width:100%. */
+  /* Discover tab is hidden on mobile (relocated to the footer's Browse column).
+     Frees up horizontal room so Index / Research / Profile breathe in the pill. */
+  .site-nav-tabs #tab-discover{display:none !important;}
+  /* Profile tab on mobile: swap the avatar icon for the literal word "Profile"
+     so it reads consistently with the other tabs. The link keeps its
+     site-nav-tab-icon class so existing JS/aria still works, but we override
+     the icon-only sizing back to text-tab styling here.
+     CRITICAL: flex must be `1 1 0` (not `1 1 auto`) so it splits the tabs
+     pill evenly with the other text tabs — `auto` basis makes it size to
+     content, leaving dead gaps in the row. */
+  .site-nav-tabs .site-nav-tab.site-nav-tab-icon{
+    width:auto !important;height:24px !important;
+    flex:1 1 0 !important;flex-basis:0 !important;min-width:0 !important;
+    padding:0 6px !important;border-radius:999px !important;
+    background:transparent !important;color:var(--color-text-secondary) !important;
+    margin-left:0 !important;
+  }
+  .site-nav-tabs .site-nav-tab.site-nav-tab-icon.active{
+    background:var(--color-brand) !important;color:#fff !important;
+    box-shadow:0 2px 6px rgba(31,122,107,.20) !important;
+  }
+  .site-nav-tabs .site-nav-tab.site-nav-tab-icon svg{display:none !important;}
+  .site-nav-tabs .site-nav-tab.site-nav-tab-icon .site-nav-profile-text{
+    display:inline;font:inherit;line-height:1;
+  }
+  /* Lock the tabs row to space-between with no auto-margins so the three
+     visible tabs (INDEX, RESEARCH, PROFILE) stretch end-to-end with no
+     leftover whitespace at either edge of the pill. */
+  .site-nav-tabs{justify-content:space-between !important;}
+  /* Search pill is 50% of the row, matching the tabs pill exactly.
+     Both items have flex:1 1 0 so they split available space evenly. */
   .site-nav-search-pill{
     grid-column:auto !important;justify-self:auto !important;
-    flex:1 1 0;min-width:110px;width:auto;
+    flex:1 1 0;min-width:0;width:auto;
   }
 }
 
@@ -865,6 +894,10 @@ a.site-nav-tab{
 }
 .site-nav-tab.site-nav-tab-icon.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab.site-nav-tab-icon svg{display:block}
+/* Profile-tab text label — desktop hides it (icon variant), mobile shows it.
+   Inline default so the span is a no-op on every desktop page that ships
+   the shared nav. */
+.site-nav-profile-text{display:none}
 /* ===========================================================
    MOBILE STICKY HEADER — single source of truth (≤600px)
    ===========================================================

@@ -19,3 +19,6 @@ __pycache__/
 *.bak-*
 *.backup
 *~
+
+# FUSE filesystem temp files (created by perl -i / sed -i on mounted filesystems)
+.fuse_hidden*
