@@ -792,18 +792,15 @@ body.on-profile .ssux-recent{display:none !important}
     display:flex !important;
     grid-template-columns:none !important;
     flex-direction:row;align-items:center;justify-content:flex-start;
-    /* Edge-to-edge on mobile per user request — no horizontal padding so the
-     tabs pill butts against the left edge and the search pill butts against
-     the right edge. Vertical padding kept at 6px for breathing room. */
-    padding:6px 0;height:auto;gap:8px;
-    /* Cancel the .site-nav negative-margin / extra horizontal padding that
-       sits on the parent so the inner truly fills the viewport. */
+    /* Modest horizontal padding so the pills don't actually touch the
+       viewport edge (user feedback: edge-to-edge felt too tight). */
+    padding:6px 8px;height:auto;gap:8px;
     width:100%;max-width:none;box-sizing:border-box;
   }
-  /* Tabs pill and search pill share the row 50/50 (per user request). */
+  /* Tabs pill 60% / search pill 40% of the available row (per user request). */
   .site-nav-tabs{
     grid-column:auto !important;justify-self:auto !important;
-    flex:1 1 0;min-width:0;width:auto;
+    flex:6 1 0;min-width:0;width:auto;
     display:flex;justify-content:space-evenly;overflow:visible;
     height:32px;box-sizing:border-box;padding:3px;align-items:center;
   }
@@ -840,11 +837,10 @@ body.on-profile .ssux-recent{display:none !important}
      visible tabs (INDEX, RESEARCH, PROFILE) stretch end-to-end with no
      leftover whitespace at either edge of the pill. */
   .site-nav-tabs{justify-content:space-between !important;}
-  /* Search pill is 50% of the row, matching the tabs pill exactly.
-     Both items have flex:1 1 0 so they split available space evenly. */
+  /* Search pill is 40% of the row (tabs:search = 6:4 = 60/40). */
   .site-nav-search-pill{
     grid-column:auto !important;justify-self:auto !important;
-    flex:1 1 0;min-width:0;width:auto;
+    flex:4 1 0;min-width:0;width:auto;
   }
 }
 
