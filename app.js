@@ -4453,15 +4453,21 @@ const TIER_META={
   unproven:{lead:'Evidence still unclear',desc:'Popular, widely-discussed supplements where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'}
 };
 function _filterBanner(title,lead,desc,icon,accentKey){const cls=accentKey?' head-'+accentKey:'';return`<div class="pop-head${cls}"><div class="pop-head-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icon}</svg></div><div class="pop-head-mid"><div class="pop-head-lbl">${escHtml(lead)}</div><div class="pop-head-t">${title}</div><div class="pop-head-m">${escHtml(desc)}</div></div></div>`;}
+var _DD_ICONS={
+  'cat-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>',
+  'pop-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+  'sx-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'
+};
 function _dd(id,label,opts,onSelect){
+  const icoHtml=_DD_ICONS[id]||'';
   return`<div class="cdd" id="${id}-wrap">
-    <button type="button" class="cdd-btn" onclick="toggleDD('${id}')">${label} <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="cdd-btn" onclick="toggleDD('${id}')">${icoHtml}<span class="cdd-lbl">${label}</span><svg class="cdd-chev" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="cdd-menu" id="${id}-menu">${opts.map(o=>`<div class="cdd-item" data-val="${o.val}" onclick="${onSelect}('${o.val}');closeDD('${id}')">${o.label}</div>`).join('')}</div>
   </div>`;
 }
 function toggleDD(id){const m=document.getElementById(id+'-menu');if(!m)return;const open=m.classList.toggle('open');if(open){document.querySelectorAll('.cdd-menu.open').forEach(x=>{if(x.id!==id+'-menu')x.classList.remove('open');});}const wrap=document.getElementById(id+'-wrap');if(wrap)wrap.classList.toggle('cdd-open',open);}
 function closeDD(id){document.getElementById(id+'-menu').classList.remove('open');document.getElementById(id+'-wrap').classList.remove('cdd-open');}
-function _ddLabel(id,txt){const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.firstChild.textContent=txt+' ';}
+function _ddLabel(id,txt){const lbl=document.querySelector('#'+id+'-wrap .cdd-lbl');if(lbl)lbl.textContent=txt;}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}
 document.addEventListener('click',function(e){if(!e.target.closest('.cdd'))document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');m.parentElement.classList.remove('cdd-open');});});
 function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const trCount=S.filter(s=>s.tr).length;const catOpts=CATS.map(c=>({val:c,label:c}));const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+(tr?tr.count:0)+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);if(t)tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});var sxOpts=[
@@ -4487,11 +4493,7 @@ function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById(
 // "Filter by:" inline label — anchors the row left so the filter chips read
 // as a coherent group. The legacy Sort dropdown was removed; default sort
 // (by composite score) is applied at render time and not user-configurable.
-var filterByLbl='<span class="sfbar-filter-by" aria-hidden="true">'
-  +'<svg class="sfbar-filter-by-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>'
-  +'Filter by:'
-  +'</span>';
-sfbar.innerHTML=filterByLbl+_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
+sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {
   Sleep:['sleep','insomnia'],
   Anxiety:['anxiety','stress','adapt'],

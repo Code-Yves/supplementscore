@@ -459,15 +459,18 @@ function generatePDF(mode){
       }
     }
   }
-  // "SUMMARY" label
-  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
-  doc.text('SUMMARY',M,y);y+=8;
-  // Title — two lines
-  doc.setFont('times','normal');doc.setFontSize(22);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
-  doc.text(allItems.length+' Supplements,',M,y);y+=9;
-  doc.setFont('times','italic');doc.setFontSize(22);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
-  doc.text('One Coherent Protocol',M,y);y+=5;
-  doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=6;
+  // Title block — full guide only; summary card goes straight to supplement rows
+  if(!isSummaryOnly){
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
+    doc.text('SUMMARY',M,y);y+=8;
+    doc.setFont('times','normal');doc.setFontSize(22);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.text(allItems.length+' Supplements,',M,y);y+=9;
+    doc.setFont('times','italic');doc.setFontSize(22);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('One Coherent Protocol',M,y);y+=5;
+    doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=6;
+  } else {
+    y+=3; // small top margin before first section header
+  }
   // Food-icon + warning drawing helpers
   const FOOD_COL={with:[139,195,74],away:[31,42,61]}; // brand: green for "with food", navy for "away"
   // Explicit, evidence-based overrides where the tips-keyword sniff is unreliable.
@@ -534,7 +537,8 @@ function generatePDF(mode){
     doc.ellipse(cx-1.1,cy,1.4,0.85,'S');
     doc.ellipse(cx+1.1,cy,1.4,0.85,'S');
   };
-  // Legend bar (warm background with gold left bar)
+  // Legend bar \u2014 full guide only; summary card uses inline badges instead
+  if(!isSummaryOnly){
   const legH=8.5;
   doc.setFillColor(WARM[0],WARM[1],WARM[2]);doc.rect(M,y,TW,legH,'F');
   doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(M,y,1.2,legH,'F');
@@ -561,6 +565,7 @@ function generatePDF(mode){
   doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
   doc.text('May interact',lx+5,y+5.5);
   y+=legH+5;
+  }
   // ── Build row order: within each timing group, away-from-food first (score desc), then others (score desc), then apply pair adjacency ──
   const _groupBy=(arr,keyFn)=>{const o={};arr.forEach(x=>{const k=keyFn(x);if(!o[k])o[k]=[];o[k].push(x);});return o;};
   const _timeGrp=(t)=>t==='Night'?'Night':(t==='Morning'?'Morning':'Daytime');
@@ -670,18 +675,14 @@ function generatePDF(mode){
   // Helper: does name pair bar need to extend top/bottom? computed as adjacent pairing
   const drawGroupBand=(label,count)=>{
     if(isSummaryOnly){
-      // Print-friendly: small label + supplement count + thin hairline
-      y+=3;
-      doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+      // Section header: small gray uppercase label + hairline rule
+      y+=5;
+      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
       doc.text(label.toUpperCase(),M,y);
-      if(typeof count==='number'){
-        doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
-        doc.text(count+' supplement'+(count===1?'':'s'),pw-M,y,{align:'right'});
-      }
-      y+=1.6;
-      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.3);
+      y+=2;
+      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);
       doc.line(M,y,pw-M,y);
-      y+=2.8;
+      y+=3.5;
     } else {
       const bH=6;
       doc.setFillColor(GOLD[0],GOLD[1],GOLD[2]);doc.rect(M,y,TW,bH,'F');
@@ -724,9 +725,43 @@ function generatePDF(mode){
     let pairStartY=null; // tracks the top of the current adjacent-pair run (summary card only)
     items.forEach((item,i)=>{
       const inPair=isPairBlock[i];
+      // ── Summary card: Protocol A row (name | food badge | dose) ─────────────
+      if(isSummaryOnly){
+        const rMidY=y+rH/2;
+        // Supplement name — helvetica bold, left margin
+        doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+        const _nmRaw=_winAnsiSafe(item.r.n);
+        const _nm=_nmRaw.length>40?_nmRaw.substring(0,39)+'…':_nmRaw;
+        doc.text(_nm,M,rMidY+1.3);
+        const _nameW=doc.getTextWidth(_nm);
+        // Food badge — green pill for 'with', gray pill for 'away'; nothing for 'any'
+        if(item.foodCat!=='any'){
+          const _bdgTxt=item.foodCat==='with'?'w/ food':'(empty)';
+          doc.setFont('helvetica','normal');doc.setFontSize(6.5);
+          const _bw=doc.getTextWidth(_bdgTxt)+4;
+          const _bx=M+_nameW+3;const _by=rMidY-2.2;
+          if(item.foodCat==='with'){
+            doc.setFillColor(220,252,231);doc.roundedRect(_bx,_by,_bw,4,1,1,'F');
+            doc.setTextColor(22,101,52);
+          } else {
+            doc.setFillColor(243,244,246);doc.roundedRect(_bx,_by,_bw,4,1,1,'F');
+            doc.setTextColor(107,114,128);
+          }
+          doc.text(_bdgTxt,_bx+2,rMidY+0.8);
+        }
+        // Dose — right-aligned, muted
+        const _sd=_winAnsiSafe(item.dose.split(';')[0].trim());
+        doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+        doc.text(_sd,pw-M,rMidY+1.3,{align:'right'});
+        // Row border
+        doc.setDrawColor(TBRD[0],TBRD[1],TBRD[2]);doc.setLineWidth(0.15);doc.line(M,y+rH,pw-M,y+rH);
+        y+=rH;rowIdx++;
+        return; // skip full guide row rendering
+      }
+      // ── Full guide row ───────────────────────────────────────────────────────
       // Row background:
       //   • full guide → cream highlight + gold left bar across pair rows, zebra elsewhere
-      //   • summary card → no fill on pair rows; we draw a green left bracket once the run ends
+      //   • summary card → handled above
       if(!isSummaryOnly){
         if(inPair){
           doc.setFillColor(255,251,232);doc.rect(M,y,TW,rH,'F');
@@ -830,60 +865,140 @@ function generatePDF(mode){
     });
   });
   y+=8;
-  // ── Bottom INTERACTION NOTES panel (summary card only) ───────────────────
-  // Replaces the old top-right floating box that overlapped the title. Renders
-  // a full-width tinted panel with a 2-column grid of caution/avoid items.
-  if(isSummaryOnly && _summaryNotesData){
-    const ntData=_summaryNotesData;
-    const allItms=[
-      ...ntData.medRows.map(r=>({...r,_kind:'med'})),
-      ...ntData.suppRows.map(r=>({...r,_kind:'supp'}))
-    ];
-    if(allItms.length){
-      const padX=4,padY=4,headerH=5,rowGap=4.4;
-      const cols=2;
-      const rowsCt=Math.ceil(allItms.length/cols);
-      const boxH=headerH+padY+rowsCt*rowGap+padY*0.5;
-      const boxX=M,boxY=y,boxW=TW;
-      // Background — very light green tint with subtle green border
-      doc.setFillColor(249,250,247);
-      doc.setDrawColor(215,228,189);doc.setLineWidth(0.3);
-      doc.roundedRect(boxX,boxY,boxW,boxH,1.8,1.8,'FD');
-      // Header
-      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
-      doc.text('INTERACTION NOTES — WITHIN YOUR STACK',boxX+padX,boxY+4.2);
-      // 2-column grid of items
-      const colW=(boxW-padX*2-3)/cols;
-      const colX=[boxX+padX,boxX+padX+colW+3];
-      allItms.forEach((rec,i)=>{
-        const c=i%2;
-        const r=Math.floor(i/2);
-        const ix=colX[c];
-        const iy=boxY+headerH+padY+(r*rowGap);
-        // Tag pill (red — caution/avoid both critical)
-        const tagLbl=rec.type==='avoid'?'AVOID':'CAUTION';
-        doc.setFont('helvetica','bold');doc.setFontSize(5.2);
-        const tw=doc.getTextWidth(tagLbl)+2.6;
-        doc.setFillColor(185,28,28);
-        doc.roundedRect(ix,iy-2.6,tw,3.5,0.5,0.5,'F');
-        doc.setTextColor(255,255,255);
-        doc.text(tagLbl,ix+1.3,iy);
-        // Pair label
-        const lab1=_winAnsiSafe(_shortSuppName(rec.a));
-        const lab2=rec._kind==='med'
-          ?_winAnsiSafe(rec.b).replace(/\s*\([^)]*\)\s*/g,' ').trim()
-          :_winAnsiSafe(_shortSuppName(rec.b));
-        doc.setFont('helvetica','normal');doc.setFontSize(6.2);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
-        const pairTxt=lab1+' + '+lab2;
-        const pairMaxW=colW-tw-2;
-        let pTxt=pairTxt;
-        while(doc.getTextWidth(pTxt)>pairMaxW&&pTxt.length>3){
-          pTxt=pTxt.substring(0,pTxt.length-1);
-        }
-        if(pTxt!==pairTxt)pTxt=pTxt.substring(0,pTxt.length-1)+'…';
-        doc.text(pTxt,ix+tw+1.5,iy);
+  // ── Interactions panel (summary card only): Pair → Caution → Avoid ─────────
+  if(isSummaryOnly){
+    // ── 1. Collect negative interactions (supp–supp + supp–med) ────────────────
+    // Normalise supplement names for dedup: strip parenthetical forms & common suffixes
+    const _normName=n=>{
+      let s=n.replace(/\s*\([^)]*\)/g,'').trim();
+      // collapse magnesium variants
+      s=s.replace(/^Magnesium\s+\S+$/i,'Magnesium');
+      // collapse vitamin C variants
+      s=s.replace(/^Vitamin C\b.*/i,'Vitamin C');
+      return s.toLowerCase();
+    };
+    // Build negative set from _summaryNotesData (supp–med rows)
+    const _negMap=new Map(); // key: norm(a)+'||'+norm(b) sorted → {a,b,severity,reason,_kind}
+    const _mergeNeg=(a,b,severity,reason,kind)=>{
+      const k=[_normName(a),_normName(b)].sort().join('||');
+      if(!_negMap.has(k)||severity==='avoid')_negMap.set(k,{a,b,severity,reason,_kind:kind});
+    };
+    if(_summaryNotesData){
+      _summaryNotesData.medRows.forEach(r=>_mergeNeg(r.a,r.b,r.type||'caution',r.reason||'','med'));
+      _summaryNotesData.suppRows.forEach(r=>_mergeNeg(r.a,r.b,r.type||'caution',r.reason||'','supp'));
+    }
+    // Also call getSuppCautionsIn directly for supp–supp negatives (independent of _summaryNotesData)
+    if(typeof getSuppCautionsIn==='function'){
+      selNames.forEach(n=>{
+        try{
+          getSuppCautionsIn(n,selNames).forEach(h=>{
+            _mergeNeg(n,h.with||h.b||'',h.severity||h.type||'caution',h.reason||'','supp');
+          });
+        }catch(e){}
       });
-      y=boxY+boxH+4;
+    }
+    const _negItms=[..._negMap.values()];
+    const _negKeySet=new Set(_negMap.keys());
+    // ── 2. Collect positive pairs (deduped by normalised name, exclude neg-overlap) ──
+    const _pairReason=(a,b)=>{
+      const k=[a,b].sort().join('||');
+      const m={
+        'Vitamin D3||Vitamin K2 (MK-7)':'bone health synergy',
+        'Vitamin K2 (MK-7)||Vitamin D3':'bone health synergy',
+        'Magnesium glycinate||Vitamin D3':'enhances D3 activation',
+        'Magnesium||Vitamin D3':'enhances D3 activation',
+        'Vitamin D3||Magnesium glycinate':'enhances D3 activation',
+        'Vitamin D3||Magnesium':'enhances D3 activation',
+        'Omega-3 (EPA/DHA)||Vitamin E (mixed tocopherols)':'antioxidant synergy',
+        'Boswellia serrata||Curcumin (bioavailable form)':'anti-inflammatory synergy',
+        'Curcumin (bioavailable form)||Boswellia serrata':'anti-inflammatory synergy',
+        'Collagen peptides||Vitamin C (moderate dose)':'collagen synthesis',
+        'Vitamin C (moderate dose)||Collagen peptides':'collagen synthesis',
+        'Glycine||NAC (N-Acetyl Cysteine)':'glutathione support',
+        'NAC (N-Acetyl Cysteine)||Glycine':'glutathione support'
+      };
+      return m[k]||'synergistic pair';
+    };
+    const _posPairs=[];const _ppSeen=new Set();
+    const _selNamesSet=new Set(selNames);
+    if(typeof getPairPartners==='function'){
+      selNames.forEach(n=>{
+        getPairPartners(n).forEach(pn=>{
+          if(!_selNamesSet.has(pn))return;
+          // dedup by normalised name pair
+          const pk=[_normName(n),_normName(pn)].sort().join('||');
+          if(_ppSeen.has(pk))return;_ppSeen.add(pk);
+          // skip if this pair already appears in negative interactions
+          if(_negKeySet.has(pk))return;
+          _posPairs.push({a:n,b:pn});
+        });
+      });
+    }
+    // ── 3. Bucket negatives ────────────────────────────────────────────────────
+    const _cautRows=_negItms.filter(r=>r.severity!=='avoid');
+    const _avoidRows=_negItms.filter(r=>r.severity==='avoid');
+    // ── 4. Build flat list: Pair → Caution → Avoid ────────────────────────────
+    const _allInt=[
+      ..._posPairs.map(p=>({
+        tag:'Pair',tagBg:[220,252,231],tagFg:[22,101,52],
+        n1:_winAnsiSafe(_shortSuppName(p.a)),n2:_winAnsiSafe(_shortSuppName(p.b)),
+        reason:_pairReason(p.a,p.b)
+      })),
+      ..._cautRows.map(rec=>({
+        tag:'Caution',tagBg:[243,244,246],tagFg:[107,114,128],
+        n1:_winAnsiSafe(_shortSuppName(rec.a)),
+        n2:rec._kind==='med'?_winAnsiSafe(rec.b).replace(/\s*\([^)]*\)\s*/g,' ').trim():_winAnsiSafe(_shortSuppName(rec.b)),
+        reason:rec._kind==='med'&&_summaryNotesData?_summaryNotesData.medReasonFor(rec.a,rec.b,rec.severity):(rec.reason||'')
+      })),
+      ..._avoidRows.map(rec=>({
+        tag:'Avoid',tagBg:[254,226,226],tagFg:[153,27,27],
+        n1:_winAnsiSafe(_shortSuppName(rec.a)),
+        n2:rec._kind==='med'?_winAnsiSafe(rec.b).replace(/\s*\([^)]*\)\s*/g,' ').trim():_winAnsiSafe(_shortSuppName(rec.b)),
+        reason:rec._kind==='med'&&_summaryNotesData?_summaryNotesData.medReasonFor(rec.a,rec.b,rec.severity):(rec.reason||'')
+      }))
+    ];
+    if(_allInt.length){
+      y+=6;
+      // Section label + rule
+      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+      doc.text('INTERACTIONS',M,y);y+=2;
+      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=5.5;
+      // ── 5. 2-column renderer ────────────────────────────────────────────────
+      const _iRowH=6.5;
+      const _colW=(TW-8)/2; // gutter = 8 mm
+      const _renderCell=(item,cx,cy)=>{
+        // Tag pill
+        doc.setFont('helvetica','bold');doc.setFontSize(6);
+        const _tw=doc.getTextWidth(item.tag)+3.5;
+        doc.setFillColor(item.tagBg[0],item.tagBg[1],item.tagBg[2]);
+        doc.roundedRect(cx,cy-2.8,_tw,3.8,0.9,0.9,'F');
+        doc.setTextColor(item.tagFg[0],item.tagFg[1],item.tagFg[2]);
+        doc.text(item.tag,cx+1.75,cy+0.6);
+        // Names
+        const _ptxt=item.n1+' + '+item.n2;
+        doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+        const _nameX=cx+_tw+2.5;
+        const _nameMaxW=_colW-_tw-2.5;
+        let _pn=_ptxt;
+        while(doc.getTextWidth(_pn)>_nameMaxW&&_pn.length>4)_pn=_pn.substring(0,_pn.length-1);
+        if(_pn!==_ptxt)_pn=_pn.substring(0,_pn.length-1)+'…';
+        doc.text(_pn,_nameX,cy+0.6);
+        // Reason (below names, muted, smaller)
+        if(item.reason){
+          const _rs=_winAnsiSafe(item.reason);
+          doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+          let _rsT=_rs;
+          while(doc.getTextWidth(_rsT)>_colW&&_rsT.length>4)_rsT=_rsT.substring(0,_rsT.length-1);
+          if(_rsT!==_rs)_rsT=_rsT.substring(0,_rsT.length-1)+'…';
+          doc.text(_rsT,cx,cy+4.2);
+        }
+      };
+      // Render pairs in 2-column grid
+      for(let _ii=0;_ii<_allInt.length;_ii+=2){
+        _renderCell(_allInt[_ii],M,y);
+        if(_allInt[_ii+1])_renderCell(_allInt[_ii+1],M+_colW+8,y);
+        y+=_iRowH;
+      }
     }
   }
   // Summary card stops here — nothing below the table, print-friendly

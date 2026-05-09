@@ -4,7 +4,7 @@ Automated weekly audit of internal cross-linking and orphan pages across the sup
 
 ## Headline Finding
 
-The site has a **systemic gap in static-HTML cross-linking between supplement pages (`/s/`) and article pages (`/a/`)**. Out of 533 supplement pages and 263 article pages scanned, **0** supplement pages contain a static link to an article and **0** articles contain a static link to a supplement page. Cross-section navigation today flows almost exclusively through parameterized routes (`supplement.html?n=...`, `compare.html?a=...`) rather than direct `/a/`/`/s/` URLs, which means the static link graph between these two key sections is effectively disconnected. From a sitemap-discoverability standpoint, every `/s/` and `/a/` page is a structural orphan.
+The site has a **systemic gap in static-HTML cross-linking between supplement pages (`/s/`) and article pages (`/a/`)**. Out of 533 supplement pages and 263 article pages scanned, **533** supplement pages contain a static link to an article and **263** articles contain a static link to a supplement page. Cross-section navigation today flows almost exclusively through parameterized routes (`supplement.html?n=...`, `compare.html?a=...`) rather than direct `/a/`/`/s/` URLs, which means the static link graph between these two key sections is effectively disconnected. From a sitemap-discoverability standpoint, every `/s/` and `/a/` page is a structural orphan.
 
 ## Summary
 
@@ -12,82 +12,33 @@ The site has a **systemic gap in static-HTML cross-linking between supplement pa
 - Supplement pages (`/s/`): **533**
 - Article pages (`/a/`): **263**
 - Condition pages (`/condition/`): **27**
-- Broken internal `.html` links (after resolving relative paths): **2**
-- Supplement pages without an article cross-link: **533/533** (100.0%)
-- Article pages without a supplement cross-link: **263/263** (100.0%)
-- Condition pages with fewer than 3 supplement links (any style): **24/27**
-- Orphan supplement pages (no incoming static links): **533/533**
-- Orphan article pages (no incoming static links): **263/263**
-- Supplements in `data.js` with zero article mentions anywhere: **453/781**
+- Broken internal `.html` links (after resolving relative paths): **0**
+- Supplement pages without an article cross-link: **0/533** (0.0%)
+- Article pages without a supplement cross-link: **0/263** (0.0%)
+- Condition pages with fewer than 3 supplement links (any style): **0/27**
+- Orphan supplement pages (no incoming static links): **0/533**
+- Orphan article pages (no incoming static links): **0/263**
+- Supplements in `data.js` with zero article mentions anywhere: **439/781**
 
 ## 1. Broken Internal Links
 
-Found 2 broken internal links.
-
-| Source page | href | Missing target |
-|---|---|---|
-| `condition/adhd-stack.html` | `https://supplementscore.org/fr/condition/adhd-stack.html` | `fr/condition/adhd-stack.html` |
-| `condition/osteoporosis-stack.html` | `https://supplementscore.org/fr/condition/osteoporosis-stack.html` | `fr/condition/osteoporosis-stack.html` |
-
-Notes:
-- Broken targets above are pages that other repo pages link to but that don't exist on disk. The two French-locale condition pages (`fr/condition/adhd-stack.html`, `fr/condition/osteoporosis-stack.html`) are referenced from English condition pages' hreflang/i18n links but were never built.
-- Parameterized routes (e.g. `supplement.html?n=Foo`) are not flagged because the underlying `supplement.html` shell exists; the parameter is resolved client-side from `data.js`.
+No broken internal `.html` links found.
 
 ## 2. Supplement Pages Missing Article Cross-Links
 
-- WITH at least one `/a/` link: **0**
-- WITHOUT any `/a/` link: **533**
+- WITH at least one `/a/` link: **533**
+- WITHOUT any `/a/` link: **0**
 
 First 20 supplement pages with no article cross-link:
 
-- `s/2-fucosyllactose.html`
-- `s/5-ala.html`
-- `s/acacia-fiber.html`
-- `s/acerola-cherry-extract.html`
-- `s/acetyl-l-carnitine.html`
-- `s/activated-b-complex.html`
-- `s/adaptogen-stack.html`
-- `s/adenosylcobalamin.html`
-- `s/aged-garlic-extract.html`
-- `s/akkermansia-muciniphila.html`
-- `s/alfalfa-leaf.html`
-- `s/algal-dha.html`
-- `s/algal-epa.html`
-- `s/algal-oil.html`
-- `s/aloe-vera.html`
-- `s/alpha-gpc.html`
-- `s/alpha-lipoic-acid.html`
-- `s/amalaki-amla.html`
-- `s/american-ginseng.html`
-- `s/amla-indian-gooseberry.html`
 
 ## 3. Article Pages Missing Supplement Cross-Links
 
-- WITH at least one `/s/` link: **0**
-- WITHOUT any `/s/` link: **263**
+- WITH at least one `/s/` link: **263**
+- WITHOUT any `/s/` link: **0**
 
 First 20 article pages with no supplement cross-link:
 
-- `a/5-aminolevulinic-acid-the-mitochondrial-compound-for-blood-sugar-control.html`
-- `a/5-htp-the-supplement-ssris-replaced-mdash-and-why.html`
-- `a/5-supplements-that-can-dangerously-interact-with-common-medications.html`
-- `a/acacia-fiber-the-gentle-prebiotic-that-even-sensitive-guts-tolerate.html`
-- `a/acetyl-l-carnitine-vs-l-carnitine-when-the-acetyl-group-actually-matters.html`
-- `a/activated-charcoal-why-detox-claims-are-nonsense.html`
-- `a/adaptogens-explained-ashwagandha-rhodiola-and-the-stress-response.html`
-- `a/aged-garlic-extract-the-kyolic-evidence-for-cardiovascular-risk.html`
-- `a/alpha-gpc-the-choline-form-with-the-best-cognitive-trial-data.html`
-- `a/alpha-lipoic-acid-the-antioxidant-for-nerve-health.html`
-- `a/apigenin-from-chamomile-tea-to-senolytic-hype.html`
-- `a/apple-cider-vinegar-pills-worthless-and-potentially-harmful.html`
-- `a/are-multivitamins-a-waste-of-money.html`
-- `a/ashwagandha-and-thyroid-a-hidden-risk.html`
-- `a/ashwagandha-for-anxious-kids-why-pediatric-evidence-doesn-t-exist-yet.html`
-- `a/ashwagandha-the-most-overhyped-supplement-of-2026.html`
-- `a/astaxanthin-the-red-algal-antioxidant-with-specific-uses.html`
-- `a/astragalus-traditional-tonic-modern-evidence-gap.html`
-- `a/bacopa-monnieri-the-ayurvedic-nootropic-that-survived-modern-trials.html`
-- `a/barley-grass-vs-wheatgrass-what-the-superfood-powders-actually-do.html`
 
 ## 4. Supplement Coverage via Article Mentions
 
@@ -97,27 +48,25 @@ Supplement entries parsed from `data.js`: 781. (Larger than the 533 on-disk `/s/
 
 | Rank | Supplement | Articles mentioning |
 |---|---|---|
-| 1 | Iron | 52 |
-| 2 | DHA (standalone, algal) | 40 |
-| 3 | Calcium | 35 |
-| 4 | Magnesium | 34 |
-| 5 | NAC (N-Acetyl Cysteine) | 34 |
-| 6 | Zinc | 27 |
-| 7 | Vitamin C (megadose) | 27 |
-| 8 | Vitamin C (moderate dose) | 27 |
-| 9 | Vitamin C (liposomal) | 27 |
-| 10 | Omega-3 (EPA/DHA) | 25 |
+| 1 | Choline | 100 |
+| 2 | L-Carnitine | 93 |
+| 3 | Omega-3 (EPA/DHA) | 85 |
+| 4 | Omega-3 (high dose) | 85 |
+| 5 | Alpha-GPC | 83 |
+| 6 | Magnesium | 81 |
+| 7 | Iron | 69 |
+| 8 | Apigenin | 68 |
+| 9 | Berberine | 67 |
+| 10 | Calcium | 67 |
 
-### 20 supplements with zero article mentions (out of 453 total)
+### 20 supplements with zero article mentions (out of 439 total)
 
 Pitching one article featuring any of these would close the editorial coverage gap. Names use the canonical form from `data.js` (parenthetical aliases stripped before the case-insensitive substring match).
 
-- Dietary Nitrate / Beetroot
 - Black seed oil (Nigella sativa)
 - Palmitoylethanolamide (PEA)
 - Olive leaf extract
 - NMN / NAD+ precursors
-- Glucosamine / Chondroitin
 - Collagen for muscle strength
 - Turkesterone / Ecdysteroids
 - Lithium orotate (low-dose)
@@ -132,6 +81,8 @@ Pitching one article featuring any of these would close the editorial coverage g
 - Bee propolis
 - Pine bark extract (Pycnogenol)
 - Methyl B12 + Methylfolate combo
+- Mushroom complex (multi-species)
+- Usnic acid (weight loss)
 
 ## 5. Condition Page Link Depth
 
@@ -139,113 +90,52 @@ Counting both `/s/foo.html` static links and parameterized `supplement.html?n=..
 
 | Condition page | Distinct supplement links |
 |---|---|
-| `condition/allergic-rhinitis.html` | 0 ⚠️ |
-| `condition/anxiety-stack.html` | 0 ⚠️ |
-| `condition/ckd-nutrition.html` | 0 ⚠️ |
-| `condition/gerd-protocol.html` | 0 ⚠️ |
-| `condition/index.html` | 0 ⚠️ |
-| `condition/recurrent-uti.html` | 0 ⚠️ |
-| `es/condition/anxiety-stack.html` | 0 ⚠️ |
-| `es/condition/pcos-protocol.html` | 0 ⚠️ |
-| `fr/condition/anxiety-stack.html` | 0 ⚠️ |
-| `fr/condition/pcos-protocol.html` | 0 ⚠️ |
-| `condition/chronic-constipation.html` | 1 ⚠️ |
-| `condition/hangover-recovery.html` | 1 ⚠️ |
-| `condition/me-cfs-evidence.html` | 1 ⚠️ |
-| `condition/nafld-protocol.html` | 1 ⚠️ |
-| `condition/prostate-health.html` | 1 ⚠️ |
-| `condition/eczema-stack.html` | 2 ⚠️ |
-| `condition/gallstone-prevention.html` | 2 ⚠️ |
-| `condition/gout-protocol.html` | 2 ⚠️ |
-| `condition/hypothyroidism-stack.html` | 2 ⚠️ |
-| `condition/ibs-protocol.html` | 2 ⚠️ |
-| `condition/long-covid-evidence.html` | 2 ⚠️ |
-| `condition/pcos-protocol.html` | 2 ⚠️ |
-| `condition/perimenopause-stack.html` | 2 ⚠️ |
-| `condition/prediabetes-protocol.html` | 2 ⚠️ |
-| `condition/migraine-prevention.html` | 4 |
-| `condition/osteoporosis-stack.html` | 4 |
-| `condition/adhd-stack.html` | 5 |
+| `condition/chronic-constipation.html` | 3 |
+| `condition/eczema-stack.html` | 4 |
+| `condition/gallstone-prevention.html` | 4 |
+| `es/condition/pcos-protocol.html` | 4 |
+| `fr/condition/pcos-protocol.html` | 4 |
+| `condition/allergic-rhinitis.html` | 5 |
+| `condition/recurrent-uti.html` | 5 |
+| `condition/anxiety-stack.html` | 6 |
+| `condition/ckd-nutrition.html` | 6 |
+| `condition/gerd-protocol.html` | 6 |
+| `condition/hangover-recovery.html` | 6 |
+| `condition/index.html` | 6 |
+| `es/condition/anxiety-stack.html` | 6 |
+| `fr/condition/anxiety-stack.html` | 6 |
+| `condition/me-cfs-evidence.html` | 7 |
+| `condition/nafld-protocol.html` | 7 |
+| `condition/prostate-health.html` | 7 |
+| `condition/gout-protocol.html` | 8 |
+| `condition/hypothyroidism-stack.html` | 8 |
+| `condition/ibs-protocol.html` | 8 |
+| `condition/long-covid-evidence.html` | 8 |
+| `condition/pcos-protocol.html` | 8 |
+| `condition/perimenopause-stack.html` | 8 |
+| `condition/prediabetes-protocol.html` | 8 |
+| `condition/migraine-prevention.html` | 10 |
+| `condition/osteoporosis-stack.html` | 10 |
+| `condition/adhd-stack.html` | 11 |
 
-**24 condition pages have fewer than 3 supplement links.** These pages should be expanded with more relevant cross-links to improve topical depth and SEO.
+All condition pages have at least 3 supplement links.
 
 ## 6. Sitemap Orphans
 
 A page is treated as an orphan if no other page in the repo links to it via a resolvable static `href` (canonical self-links and query-parameterized routes excluded).
 
-### Orphan supplement pages: 533 / 533
+### Orphan supplement pages: 0 / 533
 
-Every supplement page is structurally orphaned at the static-HTML link layer. They are reachable via the parameterized `supplement.html?n=...` route and the XML sitemap, but no static page in the repo contains a direct `<a href="s/<slug>.html">` link to them.
-
-First 30:
-
-- `s/2-fucosyllactose.html`
-- `s/5-ala.html`
-- `s/acacia-fiber.html`
-- `s/acerola-cherry-extract.html`
-- `s/acetyl-l-carnitine.html`
-- `s/activated-b-complex.html`
-- `s/adaptogen-stack.html`
-- `s/adenosylcobalamin.html`
-- `s/aged-garlic-extract.html`
-- `s/akkermansia-muciniphila.html`
-- `s/alfalfa-leaf.html`
-- `s/algal-dha.html`
-- `s/algal-epa.html`
-- `s/algal-oil.html`
-- `s/aloe-vera.html`
-- `s/alpha-gpc.html`
-- `s/alpha-lipoic-acid.html`
-- `s/amalaki-amla.html`
-- `s/american-ginseng.html`
-- `s/amla-indian-gooseberry.html`
-- `s/andrographis-echinacea-combo.html`
-- `s/andrographis-paniculata.html`
-- `s/andrographis.html`
-- `s/aniracetam.html`
-- `s/anthocyanin-concentrate.html`
-- `s/apigenin.html`
-- `s/apple-cider-vinegar.html`
-- `s/arachidonic-acid.html`
-- `s/arjuna-bark.html`
-- `s/artichoke-extract.html`
-
-### Orphan article pages: 263 / 263
-
-Every article page is also structurally orphaned. Articles are surfaced through the home-page article feed (rendered client-side from a JSON list) and via search, but no static page contains a direct `<a href="a/<slug>.html">` link to them.
 
 First 30:
 
-- `a/5-aminolevulinic-acid-the-mitochondrial-compound-for-blood-sugar-control.html`
-- `a/5-htp-the-supplement-ssris-replaced-mdash-and-why.html`
-- `a/5-supplements-that-can-dangerously-interact-with-common-medications.html`
-- `a/acacia-fiber-the-gentle-prebiotic-that-even-sensitive-guts-tolerate.html`
-- `a/acetyl-l-carnitine-vs-l-carnitine-when-the-acetyl-group-actually-matters.html`
-- `a/activated-charcoal-why-detox-claims-are-nonsense.html`
-- `a/adaptogens-explained-ashwagandha-rhodiola-and-the-stress-response.html`
-- `a/aged-garlic-extract-the-kyolic-evidence-for-cardiovascular-risk.html`
-- `a/alpha-gpc-the-choline-form-with-the-best-cognitive-trial-data.html`
-- `a/alpha-lipoic-acid-the-antioxidant-for-nerve-health.html`
-- `a/apigenin-from-chamomile-tea-to-senolytic-hype.html`
-- `a/apple-cider-vinegar-pills-worthless-and-potentially-harmful.html`
-- `a/are-multivitamins-a-waste-of-money.html`
-- `a/ashwagandha-and-thyroid-a-hidden-risk.html`
-- `a/ashwagandha-for-anxious-kids-why-pediatric-evidence-doesn-t-exist-yet.html`
-- `a/ashwagandha-the-most-overhyped-supplement-of-2026.html`
-- `a/astaxanthin-the-red-algal-antioxidant-with-specific-uses.html`
-- `a/astragalus-traditional-tonic-modern-evidence-gap.html`
-- `a/bacopa-monnieri-the-ayurvedic-nootropic-that-survived-modern-trials.html`
-- `a/barley-grass-vs-wheatgrass-what-the-superfood-powders-actually-do.html`
-- `a/berberine-and-gut-health-a-double-edged-sword.html`
-- `a/berberine-is-it-really-nature-s-ozempic.html`
-- `a/bergamot-citrus-extract-italy-s-answer-to-high-cholesterol.html`
-- `a/beta-alanine-why-the-tingle-is-worth-it-for-athletes.html`
-- `a/betaine-tmg-the-methyl-donor-that-lowers-homocysteine-and-boosts-performance.html`
-- `a/bifidobacterium-infantis-35624-the-ibs-strain-with-gold-standard-data.html`
-- `a/bilberry-extract-what-the-eye-health-evidence-actually-shows.html`
-- `a/biotin-for-hair-growth-marketing-vs-reality.html`
-- `a/bitter-orange-and-synephrine-the-ephedra-substitute-with-its-own-cardiac-risks.html`
-- `a/black-cohosh-for-menopause-cautious-yes-cautious-no.html`
+
+### Orphan article pages: 0 / 263
+
+263 articles are linked from at least one other page; 0 are orphans.
+
+First 30:
+
 
 ## Priority Recommendations
 
@@ -259,20 +149,20 @@ Add a "Related articles" block to every `/s/` page and a "Related supplements" b
 
 ### C. Editorial coverage (next-best leverage)
 
-Among the 453 supplements with zero article mentions, **306 also have a dedicated `/s/` page**. These are the worst editorial gaps — users can land on the page but the article library never references them. Top candidates for a new article pitch:
+Among the 439 supplements with zero article mentions, **292 also have a dedicated `/s/` page**. These are the worst editorial gaps — users can land on the page but the article library never references them. Top candidates for a new article pitch:
 
-- **Dietary Nitrate / Beetroot** — `s/dietary-nitrate-beetroot.html` exists but is referenced by zero articles
 - **Black seed oil (Nigella sativa)** — `s/black-seed-oil.html` exists but is referenced by zero articles
 - **Palmitoylethanolamide (PEA)** — `s/palmitoylethanolamide.html` exists but is referenced by zero articles
 - **Olive leaf extract** — `s/olive-leaf-extract.html` exists but is referenced by zero articles
-- **Glucosamine / Chondroitin** — `s/glucosamine-chondroitin.html` exists but is referenced by zero articles
 - **Collagen for muscle strength** — `s/collagen-for-muscle-strength.html` exists but is referenced by zero articles
 - **Elderflower extract** — `s/elderflower-extract.html` exists but is referenced by zero articles
 - **Bee propolis** — `s/bee-propolis.html` exists but is referenced by zero articles
 - **Pine bark extract (Pycnogenol)** — `s/pine-bark-extract.html` exists but is referenced by zero articles
 - **Methyl B12 + Methylfolate combo** — `s/methyl-b12-methylfolate-combo.html` exists but is referenced by zero articles
+- **Mushroom complex (multi-species)** — `s/mushroom-complex.html` exists but is referenced by zero articles
+- **Andrographis paniculata** — `s/andrographis-paniculata.html` exists but is referenced by zero articles
 
-**Highest-priority pitch: `Dietary Nitrate / Beetroot`.** A supplement page exists on the site but appears in none of the 263 articles — anyone landing on the page from search has no internal pathway into the editorial library, and no article funnels readers toward the page. A single article featuring this supplement would close both gaps.
+**Highest-priority pitch: `Black seed oil (Nigella sativa)`.** A supplement page exists on the site but appears in none of the 263 articles — anyone landing on the page from search has no internal pathway into the editorial library, and no article funnels readers toward the page. A single article featuring this supplement would close both gaps.
 
 ---
 

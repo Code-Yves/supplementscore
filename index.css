@@ -551,7 +551,8 @@
   .ix-cat a:nth-child(-n+3){ border-top: 0; }
 }
 @media (max-width: 600px){
-  .ix-hero{ padding: 14px 18px 20px; }
+  .ix-hero{ padding: 20px 18px 10px; }
+  .ix-hero p.lede{ margin-bottom: 8px; } /* search form hidden on mobile — reclaim orphan gap */
 }
 
 .sfbar-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
@@ -565,10 +566,13 @@
 .sort-chip .sort-pre{color:var(--color-text-tertiary);margin-right:2px;}
 .sort-chip .sort-lbl{color:var(--color-text-primary);}
 @media(max-width:560px){
-  .sfbar .cdd,.sfbar .cdd-btn{flex:0 1 auto;}
+  /* Style D block buttons: each .cdd fills an equal share of the row */
+  .sfbar .cdd{flex:1 1 0;min-width:0;}
+  .sfbar .cdd-btn{flex:none;width:100%;}
 }
 @media(max-width:380px){
-  .sfbar .cdd-btn,.sort-chip{padding:6px 10px;font-size:11.5px;}
+  .sfbar .cdd-btn{padding:8px 4px !important;font-size:10px;}
+  .sfbar .cdd-lbl{font-size:10px;}
 }
 /* Anchor the sort menu to the right edge so it doesn't overflow the viewport
    when the chip sits at the right of the row */

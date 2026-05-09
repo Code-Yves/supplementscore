@@ -597,17 +597,19 @@ if (typeof renderAll === 'function') {
 
 /* ===== Block 8 (from line 17376, 62 lines) ===== */
 (function(){
-  var heroForm   = document.getElementById('ix-hero-form');
-  var stickyBar  = document.getElementById('ix-sticky-bar');
-  var filterBar  = document.getElementById('main-sticky');
+  var heroForm    = document.getElementById('ix-hero-form');
+  var stickyBar   = document.getElementById('ix-sticky-bar');
+  var filterBar   = document.getElementById('main-sticky');
   var stickyInput = document.getElementById('ix-sticky-search');
   var heroInput   = document.getElementById('ix-hero-search');
+  var siteNav     = document.querySelector('.site-nav');
+  var navPill     = document.getElementById('nav-search-pill');
+  var navPillInput= document.getElementById('nav-search-inp');
   if(!heroForm || !stickyBar) return;
 
-  // On mobile (<=600px) the sticky search bar is hidden via CSS and the
-  // filter chip bar is pinned directly under the nav (top:48px) by the
-  // styles.css media query. The JS dynamic top calculation only runs on
-  // desktop where the sticky search bar shows/hides as the hero scrolls.
+  // On mobile (<=600px) the sticky search bar is pinned below the nav
+  // via CSS and the nav pill is hidden. JS scroll logic only runs the
+  // nav-pill path on desktop.
   var IS_MOBILE = window.innerWidth <= 600;
   var NAV_TOP = IS_MOBILE ? 48 : 90;
 
@@ -615,7 +617,7 @@ if (typeof renderAll === 'function') {
     if(!filterBar) return;
     if(IS_MOBILE) return;  // CSS handles the mobile case
     if(searchVisible) {
-      // sticky search is showing — measure its rendered height and offset
+      // desktop sticky bar (mobile only) is showing — measure height
       var h = stickyBar.getBoundingClientRect().height || 67;
       filterBar.style.top = (NAV_TOP + h) + 'px';
     } else {
@@ -630,38 +632,62 @@ if (typeof renderAll === 'function') {
     return !!indexSections[h];
   }
 
-  // Show/hide sticky search when hero search scrolls out of view
+  // Show/hide search when hero search scrolls out of view.
+  // Desktop: fade the compact pill into the right side of the nav bar.
+  // Mobile:  show the existing sticky bar below the nav (CSS already
+  //          keeps it always-visible on mobile so this is a no-op there).
   var obs = new IntersectionObserver(function(entries){
     var heroVisible = entries[0].isIntersecting;
     var searchShowing = !heroVisible && isOnIndex();
-    stickyBar.classList.toggle('visible', searchShowing);
-    stickyBar.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
-    stickyInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
-    // Delay slightly so the sticky search transition has started before measuring
-    setTimeout(function(){ setFilterTop(searchShowing); }, 10);
+
+    if (IS_MOBILE) {
+      // Mobile: search lives inside the nav pill (always visible via CSS).
+      // Nothing to toggle — the pill is shown unconditionally on mobile.
+      // stickyBar is display:none on mobile so no need to touch it.
+    } else {
+      // Desktop: pill inside the nav replaces the sticky bar
+      if (siteNav) siteNav.classList.toggle('site-nav--search-visible', searchShowing);
+      if (navPill) navPill.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
+      if (navPillInput) navPillInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
+      // Filter bar sits directly below nav — no extra sticky-bar height
+      setTimeout(function(){ setFilterTop(false); }, 10);
+    }
   }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
   obs.observe(heroForm);
 
-  // Keep both inputs in sync so switching feels seamless
-  heroInput.addEventListener('input', function(){ stickyInput.value = heroInput.value; });
-  stickyInput.addEventListener('input', function(){ heroInput.value = stickyInput.value; });
+  // Keep all inputs in sync so switching between states feels seamless
+  heroInput.addEventListener('input', function(){
+    stickyInput.value = heroInput.value;
+    if (navPillInput) navPillInput.value = heroInput.value;
+  });
+  stickyInput.addEventListener('input', function(){
+    heroInput.value = stickyInput.value;
+    if (navPillInput) navPillInput.value = stickyInput.value;
+  });
+  if (navPillInput) navPillInput.addEventListener('input', function(){
+    heroInput.value = navPillInput.value;
+    stickyInput.value = navPillInput.value;
+  });
 
-  // Recalc on resize / orientation change so the desktop/mobile branch
-  // and NAV_TOP stay in sync. Without re-checking IS_MOBILE here, a
-  // landscape→portrait flip below 600px would still run the desktop
-  // top-calculation path.
+  // Recalc on resize / orientation change
   window.addEventListener('resize', function(){
     IS_MOBILE = window.innerWidth <= 600;
     NAV_TOP = IS_MOBILE ? 48 : 90;
   });
 
-  // Hide sticky search bar when navigating away from the Index tab
+  // Hide search UI when navigating away from the Index tab
   function onTabChange() {
     if (!isOnIndex()) {
-      stickyBar.classList.remove('visible');
-      stickyBar.setAttribute('aria-hidden', 'true');
-      stickyInput.setAttribute('tabindex', '-1');
-      if (filterBar) filterBar.style.top = NAV_TOP + 'px';
+      // Desktop: hide the nav pill (mobile pill is CSS-only, always visible)
+      if (!IS_MOBILE) {
+        stickyBar.classList.remove('visible');
+        stickyBar.setAttribute('aria-hidden', 'true');
+        stickyInput.setAttribute('tabindex', '-1');
+        if (siteNav) siteNav.classList.remove('site-nav--search-visible');
+        if (navPill) navPill.setAttribute('aria-hidden', 'true');
+        if (navPillInput) navPillInput.setAttribute('tabindex', '-1');
+        if (filterBar) filterBar.style.top = NAV_TOP + 'px';
+      }
     }
     // When returning to index, the IntersectionObserver re-evaluates via isOnIndex()
   }

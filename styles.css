@@ -487,7 +487,7 @@ body.on-profile .ssux-recent{display:none !important}
    the actual sticky position was 90px. Aligning them here removes the
    confusion. The 90px value sits below the .beta-bar (32px) + .site-nav
    (~58px content + border). If you change either height, update this. */
-.sticky-bar{position:sticky;top:90px;z-index:12;padding:.75rem 0 .5rem;margin:0 -1rem;padding-left:1rem;padding-right:1rem;background:var(--color-background-secondary);border-bottom:1px solid var(--color-border-tertiary);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.sticky-bar{position:static;padding:.5rem 0;margin:0 -1rem;padding-left:1rem;padding-right:1rem;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
 .sfbar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0;padding:8px 0}
 .sfbtn{padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s}.sfbtn:hover:not([class*=on-]){background:var(--color-background-primary);border-color:var(--color-border-primary)}
 .sfbtn.on-all{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
@@ -703,17 +703,48 @@ body.on-profile .ssux-recent{display:none !important}
 /* Tabs — sit inside one rounded pill; active tab is a filled pill */
 .site-nav-tabs{grid-column:2;justify-self:center;display:inline-flex;gap:0;background:#fff;border:1px solid var(--color-border-tertiary);border-radius:999px;padding:5px}
 
-/* Search bar removed (the form was deleted from every page). These
-   selectors stay as safety nets in case any leftover markup slips in. */
-.nav-search,.nav-ac{display:none !important}
+/* Nav search pill — lives in the right column of the nav grid.
+   Hidden by default; .site-nav--search-visible reveals it on desktop
+   when the hero search bar scrolls out of view. */
+.site-nav-search-pill{
+  grid-column:3;justify-self:end;display:flex;align-items:center;
+  opacity:0;transform:translateX(8px);
+  transition:opacity .2s ease,transform .2s ease;
+  pointer-events:none;
+}
+.site-nav--search-visible .site-nav-search-pill{
+  opacity:1;transform:translateX(0);pointer-events:auto;
+}
+.site-nav-search-pill form{
+  position:relative;display:flex;align-items:center;gap:5px;
+  background:rgba(31,122,107,.07);
+  border:1px solid rgba(31,122,107,.2);
+  border-radius:999px;height:28px;padding:0 10px 0 8px;
+  width:190px;
+}
+.site-nav-search-pill .ico{
+  width:13px;height:13px;color:var(--color-brand);flex-shrink:0;
+}
+.site-nav-search-pill input{
+  border:none;outline:none;background:transparent;
+  font-size:12px;color:var(--color-text-primary);width:100%;
+}
+.site-nav-search-pill input::placeholder{color:var(--color-text-tertiary)}
+/* Mobile: pill lives inside the nav bar, always visible — no separate sticky search row */
+@media(max-width:600px){
+  .site-nav-search-pill{
+    opacity:1;transform:none;pointer-events:auto;transition:none;
+    grid-column:2;justify-self:end;
+  }
+  .site-nav-search-pill form{width:auto;min-width:110px;max-width:150px}
+}
 
-/* Mobile: drop the brand to give tabs the full width, and let the tabs
-   horizontal-scroll if the device is extremely narrow. */
+/* Mobile: brand hidden; tabs left + search pill right in a two-column grid */
 @media(max-width:600px){
   .site-nav{height:auto}
   .site-nav-brand{display:none}
-  .site-nav-inner{grid-template-columns:1fr;padding:8px 16px;height:auto;gap:0}
-  .site-nav-tabs{grid-column:1;justify-self:center;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .site-nav-inner{grid-template-columns:auto 1fr;align-items:center;padding:6px 12px;height:auto;gap:8px}
+  .site-nav-tabs{grid-column:1;justify-self:start;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .site-nav-tabs::-webkit-scrollbar{display:none}
 }
 
@@ -737,6 +768,14 @@ body.on-profile .ssux-recent{display:none !important}
 .nav-ac-foot{display:block;padding:10px 14px;font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-top:1px solid var(--color-border-tertiary);border-radius:0 0 10px 10px;text-decoration:none}
 .nav-ac-foot:hover{color:var(--color-brand);background:rgba(31,122,107,.06)}
 .nav-ac-foot kbd{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:10px;padding:1px 5px;border-radius:3px;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+/* Override for nav pill's dropdown — right-align to the pill, don't stretch to left edge */
+#nav-ac{left:auto;right:0;min-width:300px;z-index:200}
+/* Mobile: clamp dropdown so it never overflows the viewport left edge */
+@media(max-width:600px){
+  #nav-ac{min-width:0;width:calc(100vw - 24px);right:0;left:auto;}
+}
+/* Discover page: pill is always visible (no scroll trigger needed) */
+.site-nav-search-pill--always{opacity:1 !important;transform:none !important;pointer-events:auto !important;transition:none !important;}
 /* Tabs are anchors on every page. Hard-reset font + box so they render
    identically regardless of element type. Pill-shaped, with a filled
    purple pill for the active tab — the active state never shifts size
@@ -841,68 +880,52 @@ a.site-nav-tab{
     z-index:30;
     box-shadow:none;
     border-bottom:none;
-    overflow:hidden;
+    overflow:visible; /* allow pill autocomplete dropdown to overflow */
   }
   .site-nav .site-nav-inner{
     width:100%; height:100%; position:relative; background:transparent;
   }
 
-  /* === Bar 2: sticky search field === */
-  #ix-sticky-bar{
-    display:block !important;
-    position:fixed !important;
-    top:70px !important;            /* beta 22 + nav 48 */
-    left:0; right:0; width:100%;
-    margin:0;
-    padding:6px 14px;
-    height:44px;
-    box-sizing:border-box;
-    background:var(--color-background-secondary) !important;
-    border-bottom:none;
-    z-index:29 !important;
-    /* Override the desktop hide-by-default transform/opacity. */
-    transform:none !important;
-    opacity:1 !important;
-    pointer-events:auto !important;
-    /* Override desktop's transition that fades it in/out — on mobile
-       it's permanent, no need for a transition cost. */
-    transition:none !important;
-  }
-  /* Tighten the inner search field to fill the 44px bar nicely. */
-  #ix-sticky-bar .ix-search{ height:32px; min-height:0; }
-  /* Hide the duplicate hero search input on mobile — the sticky one
-     is always visible right below the nav. */
+  /* === Bar 2: sticky search field — REMOVED on mobile.
+     Search now lives inside the nav bar (site-nav-search-pill).
+     The ix-sticky-bar is hidden; its 44px slot is reclaimed. */
+  #ix-sticky-bar{ display:none !important; }
+  /* Hide the duplicate hero search input on mobile. */
   .ix-hero #ix-hero-form{ display:none; }
 
   /* === Bar 3: filter chips === */
   /* Use both selectors and !important so we beat #main-sticky's id
      specificity and any inline `style.top` written by index.js. */
+  /* Filter bar is now inline (not fixed) — scrolls with page content.
+     Stretch full bleed edge-to-edge on mobile. */
   .sticky-bar,
   #main-sticky{
-    position:fixed !important;
-    top:114px !important;           /* beta 22 + nav 48 + search 44 */
+    position:static !important;
+    top:auto !important;
     left:0 !important; right:0 !important;
     width:100% !important;
     margin:0 !important;
-    padding:6px 14px !important;    /* tighter than before; see chip below */
-    box-sizing:border-box;
-    background:var(--color-background-secondary) !important;
-    border-bottom:none;
+    padding:0 12px !important;
+    height:auto !important;
+    z-index:auto !important;
     box-shadow:none;
-    z-index:28 !important;
-    height:44px;                    /* fixed bar height: 6+32+6 */
+    box-sizing:border-box;
+  }
+  .sticky-bar .sfbar-row,
+  #main-sticky .sfbar-row{
+    width:100%;
   }
 
   /* === Body push-down — tab-aware ===
      Non-index pages: 70px (beta 22 + nav 48). Other tabs on
      index.html match this default.
-     Supplements tab only: 158px (beta 22 + nav 48 + search 44 + filter 44).
+     Filter bar is now inline — same padding for all tabs on mobile.
      The class is set on <html> from the inline head script for
      first-paint correctness, and mirrored to <body> for selectors
      elsewhere that key on body.tab-*. */
   body{ padding-top:70px !important; }
   html.tab-supplements body,
-  body.tab-supplements{ padding-top:158px !important; }
+  body.tab-supplements{ padding-top:70px !important; }
 
   /* Belt-and-suspenders: explicitly hide the search/filter bars on
      non-supplements tabs. Their parent #supplements-view is already
@@ -918,8 +941,8 @@ a.site-nav-tab{
     display:none !important;
   }
 
-  /* === A-Z bar sits below the chip bar (not part of fixed stack) === */
-  .az-letter-bar{ top:158px !important; z-index:27; }
+  /* === A-Z bar sits just below the nav === */
+  .az-letter-bar{ top:70px !important; z-index:27; }
 }
 
 /* ============================================================
@@ -935,8 +958,9 @@ a.site-nav-tab{
      keeps them inside the 44px-tall fixed filter bar (with 6px
      padding above/below). Touch target is below Apple's HIG min but
      the chips are wide and well-spaced so mis-taps are rare. */
-  .cdd-btn{ min-height:32px !important; height:32px !important; padding:6px 12px !important; font-size:13px !important; line-height:1.1 !important; }
-  .sfbar{ gap:8px !important; }
+  /* Style D block buttons: auto height, no gap between blocks */
+  .sfbar .cdd-btn{ height:auto !important; min-height:0 !important; padding:10px 6px !important; }
+  .sfbar{ gap:0 !important; }
 
   /* (#3) A-Z letter buttons — 36px with at-least-8px gap so the row
      is reliably tappable. */
@@ -1972,56 +1996,50 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    scards below for one continuous surface.
 ═════════════════════════════════════════════════════════════════ */
 
-/* — Peer chip row — */
-.sfbar{gap:8px;padding:10px 0;align-items:center}
-.sfbar .sfbtn,
+/* — Style D: icon-block filter buttons — */
+.sfbar{display:flex;flex-wrap:nowrap;gap:0;padding:10px 0;align-items:stretch;width:100%}
+/* Each .cdd expands equally to fill the row */
+.sfbar .cdd{flex:1 1 0;min-width:0}
 .sfbar .cdd-btn{
-  padding:7px 13px;
+  width:100%;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  padding:10px 8px;
   border-radius:10px;
-  border:1px solid var(--color-border-secondary);
+  border:.5px solid var(--color-border-tertiary);
   background:var(--color-background-primary);
   color:var(--color-text-secondary);
-  font-size:12.5px;
-  font-weight:500;
   font-family:inherit;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  white-space:nowrap;
+  display:flex;
   box-shadow:none;
   transition:border-color .15s, color .15s, background .15s;
 }
-.sfbar .sfbtn:hover:not([class*="on-"]),
+.sfbar .cdd-ico{width:18px;height:18px;flex-shrink:0;color:#1d7a5a;display:block}
+.sfbar .cdd-lbl{font-size:11px;font-weight:500;line-height:1;color:var(--color-text-secondary)}
+.sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
 .sfbar .cdd-btn:hover:not(.on){
-  border-color:var(--color-border-primary);
-  color:var(--color-text-primary);
-  background:var(--color-background-primary);
+  border-color:var(--color-border-secondary);
+  background:var(--color-background-secondary);
 }
-/* All active / selected chips look identical — solid brand purple, white text. No tier-specific colors. */
-.sfbar .sfbtn[class*="on-"],
+/* Active: teal fill */
 .sfbar .cdd-btn.on{
-  background:var(--color-brand);
-  color:#fff;
-  border-color:transparent;
+  background:#e3f4ef;
+  border-color:#1d7a5a;
   box-shadow:none;
   filter:none;
 }
-.sfbar .sfbtn[class*="on-"]:hover,
-.sfbar .cdd-btn.on:hover{
-  background:var(--color-brand);
-  filter:brightness(1.08);
-}
-/* Dropdown-open ring — neutral, matches active chip */
+.sfbar .cdd-btn.on .cdd-ico{color:#0d5c40}
+.sfbar .cdd-btn.on .cdd-lbl{color:#0d5c40}
+.sfbar .cdd-btn.on:hover{background:#d4edea;filter:none}
+/* Dropdown-open ring */
 .sfbar .cdd-open .cdd-btn{
-  border-color:var(--color-text-primary);
-  box-shadow:0 0 0 1px rgba(12,10,9,.08);
+  border-color:#1d7a5a;
+  box-shadow:0 0 0 1px rgba(29,122,107,.15);
 }
-.sfbar .cdd-open .cdd-btn.on{
-  box-shadow:0 0 0 2px rgba(12,10,9,.18);
-}
-.sfbar .sfbtn:focus-visible,
 .sfbar .cdd-btn:focus-visible{
-  outline:2px solid var(--color-text-primary);
+  outline:2px solid var(--color-brand);
   outline-offset:2px;
 }
 
@@ -2252,6 +2270,9 @@ html.is-embedded .pg-close-fab{display:none}
   margin-top:20px;padding-top:14px;
   font-size:11.5px;color:rgba(248,244,237,.6);text-align:center;line-height:1.6;
 }
+
+/* Hide the entire site footer when My Profile tab is active */
+body.tab-profile .site-footer{display:none !important}
 
 /* ── Contributor band — sits above the link grid inside .site-footer ── */
 .site-footer-contrib{
