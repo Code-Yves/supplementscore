@@ -747,7 +747,39 @@ body.on-profile .ssux-recent{display:none !important}
     padding:0 12px 0 10px;
   }
   .site-nav-search-pill .ico{width:14px;height:14px;}
-  .site-nav-search-pill input{font-size:12.5px;}
+  /* font-size MUST be ≥16px on mobile or iOS Safari auto-zooms the page on
+     focus and visually crops the page to the right. The pill is 32px tall,
+     so 16px sits comfortably with room to spare. */
+  .site-nav-search-pill input{font-size:16px;}
+}
+
+/* ============================================================
+   iOS Safari auto-zoom prevention — site-wide safeguard
+   ============================================================
+   iOS Safari zooms in on the page whenever a focused input has
+   font-size < 16px. The zoom doesn't reverse on blur, so the
+   page is left visually clipped to the right and the user has to
+   pinch-zoom out manually. We had this bite the nav search pill
+   on iPhone; the same bug latently affected dozens of other
+   inputs across the site (.gate-input, .plan-email-input,
+   .ea-input, .add-supp-input, etc — all 11–15px on mobile).
+   Forcing a 16px minimum on every focusable text control at
+   ≤600px is the canonical fix. Visually the difference is
+   marginal (≈1–3px); functionally it eliminates the zoom.
+   Selects/checkboxes/radios are excluded — they don't trigger
+   zoom and have legitimate small sizes in some contexts. */
+@media(max-width:600px){
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  input:not([type]),
+  textarea{
+    font-size:16px !important;
+  }
 }
 
 /* Mobile: brand hidden. Use flexbox (not grid) for the nav row — iOS Safari
@@ -760,7 +792,13 @@ body.on-profile .ssux-recent{display:none !important}
     display:flex !important;
     grid-template-columns:none !important;
     flex-direction:row;align-items:center;justify-content:flex-start;
-    padding:6px 10px;height:auto;gap:8px;
+    /* Edge-to-edge on mobile per user request — no horizontal padding so the
+     tabs pill butts against the left edge and the search pill butts against
+     the right edge. Vertical padding kept at 6px for breathing room. */
+    padding:6px 0;height:auto;gap:8px;
+    /* Cancel the .site-nav negative-margin / extra horizontal padding that
+       sits on the parent so the inner truly fills the viewport. */
+    width:100%;max-width:none;box-sizing:border-box;
   }
   /* Tabs pill and search pill share the row 50/50 (per user request). */
   .site-nav-tabs{
@@ -881,7 +919,11 @@ a.site-nav-tab{
   padding:0;width:20px;height:20px;border-radius:50%;
   background:rgba(31,122,107,.08);
   color:#1F7A6B;
-  margin-left:10px;
+  /* margin-left must match the text-tab horizontal padding (21px) so the
+     visual gap between RESEARCH and the profile icon equals the gap
+     between every other adjacent pair of tabs. With 10px the icon was
+     pulling tight against RESEARCH and looked off-balance. */
+  margin-left:21px;
 }
 .site-nav-tab.site-nav-tab-icon:hover{
   background:rgba(31,122,107,.16);
@@ -952,7 +994,7 @@ a.site-nav-tab{
      a stray hairline divider at the top of the page (user feedback). */
   .site-nav{
     position:fixed; top:22px; left:0; right:0; width:100%;
-    margin:0; padding:6px 12px; height:48px;
+    margin:0; padding:6px 0; height:48px;
     background:var(--color-background-secondary);
     z-index:30;
     box-shadow:none;
