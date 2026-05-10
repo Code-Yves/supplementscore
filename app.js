@@ -5054,7 +5054,9 @@ function _wizShowStep(n) {
   const backBtn = document.getElementById('wiz-back-btn');
   if (backBtn) backBtn.style.display = n === 1 ? 'none' : 'flex';
   const nextBtn = document.getElementById('wiz-next-btn');
-  if (nextBtn) nextBtn.textContent = n === WIZ_TOTAL ? 'Generate my plan →' : 'Next →';
+  /* Round-16: shortened "Generate my plan →" to "Generate Plan →" so the button
+     fits cleanly on narrow phone viewports without ellipsing. */
+  if (nextBtn) nextBtn.textContent = n === WIZ_TOTAL ? 'Generate Plan →' : 'Next →';
   // Lazy renders when steps become visible
   if (n === 4) renderCondChips&&renderCondChips();
   if (n === 6) { renderDietChips&&renderDietChips(); renderAllergyChips&&renderAllergyChips(); }

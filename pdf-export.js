@@ -20,24 +20,58 @@ function generatePDF(mode){
        and cover need the wider canvas. */
   let _summaryPageHeight = 260;
   if(isSummaryOnly){
-    /* Pre-count the user's selected supplements to size the page. _allRecs()
-       reads the same global state that the renderer uses below — defensive
-       fallback to 10 if either dependency isn't loaded yet. */
-    let _n = 10;
+    /* Pre-count supplements + estimate interaction count to size the page so
+       nothing overflows the footer. _allRecs() reads the same globals the
+       renderer uses below — defensive fallback if dependencies aren't loaded. */
+    let _nSupps = 10;
+    let _nInts = 6; // generous default
     try {
       if(typeof _allRecs === 'function' && typeof selectedSupps !== 'undefined') {
-        _n = _allRecs().filter(function(r){ return selectedSupps.has(r.n); }).length;
+        const _sel = _allRecs().filter(function(r){ return selectedSupps.has(r.n); });
+        _nSupps = _sel.length;
+        /* Estimate interactions: positive pairs across the stack + cautions.
+           Conservative — over-allocates rather than under-allocates. Each
+           interaction occupies one cell in a 2-column grid → ceil(N/2) rows. */
+        let _intEst = 0;
+        const _names = _sel.map(function(r){ return r.n; });
+        if(typeof getPairPartners === 'function'){
+          const _seen = new Set();
+          _names.forEach(function(n){
+            try {
+              getPairPartners(n).forEach(function(p){
+                if(!_names.includes(p)) return;
+                const k = [n,p].sort().join('||');
+                if(_seen.has(k)) return; _seen.add(k); _intEst++;
+              });
+            } catch(_){}
+          });
+        }
+        if(typeof getSuppCautionsIn === 'function'){
+          const _seenC = new Set();
+          _names.forEach(function(n){
+            try {
+              getSuppCautionsIn(n, _names).forEach(function(c){
+                const k = [n, c.with].sort().join('||');
+                if(_seenC.has(k)) return; _seenC.add(k); _intEst++;
+              });
+            } catch(_){}
+          });
+        }
+        _nInts = Math.max(_intEst, 0);
       }
     } catch(_){}
-    /* Top zone (logo + spacer): 28 mm
-       Section header tier ribbons: 3 × 7 = 21 mm
-       Supplement rows: N × 11.5 mm (matches rH below)
-       Interaction notes panel: 38 mm  (the "AVOID / CAUTION" grid at bottom)
-       Footer + page margin: 18 mm
-       → total height for N supplements. */
-    _summaryPageHeight = 28 + 21 + _n * 11.5 + 38 + 18;
+    /* Page-height components (matches the actual draw zones below):
+         Top zone (wordmark + rule):                      ~22 mm
+         Three section headers (Morning/Daytime/Night):   3 × 10.5 = 32 mm
+         Supplement rows:                                 _nSupps × 11.5 mm
+         Interaction-notes header + rule:                 14 mm
+         Interaction-notes grid (2-column, 6.5 mm/row):   ceil(N/2) × 6.5 mm
+         Bottom buffer (footer rule + safe margin):       22 mm
+       Plus a 4 mm gap between zones × ~2 zones = 8 mm cushion. */
+    const _intRows = Math.ceil(_nInts / 2);
+    _summaryPageHeight = 22 + 32 + _nSupps * 11.5 + (_nInts > 0 ? 14 + _intRows * 6.5 : 0) + 22 + 8;
     if(_summaryPageHeight < 220) _summaryPageHeight = 220;
-    if(_summaryPageHeight > 500) _summaryPageHeight = 500;
+    if(_summaryPageHeight > 600) _summaryPageHeight = 600;
   }
   const doc = isSummaryOnly
     ? new jsPDF({unit:'mm', format:[115, _summaryPageHeight]})
@@ -257,9 +291,20 @@ function generatePDF(mode){
     doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
     doc.text('SECTION 01  \u00B7  SUMMARY OVERVIEW',pw-M,12,{align:'right'});
   } else {
-    drawBrandLogo(M,5,{layout:'horizontal',scale:0.55});
+    /* Round-15: replaced the leaf logo with a clean "SupplementScore.org"
+       wordmark. "SupplementScore" in dark navy bold, ".org" in brand green for
+       a subtle accent. Keeps the top of the page calm and readable. */
+    const _topY = 11;
+    doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(DARK[0],DARK[1],DARK[2]);
+    doc.text('SupplementScore', M, _topY);
+    const _wMark = doc.getTextWidth('SupplementScore');
+    doc.setFont('helvetica','normal');doc.setFontSize(13);doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]);
+    doc.text('.org', M + _wMark, _topY);
+    /* Hairline rule under the wordmark for a proper editorial top. */
+    doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);
+    doc.line(M, _topY + 2.4, pw - M, _topY + 2.4);
   }
-  let y=isSummaryOnly?23:28;
+  let y = isSummaryOnly ? 20 : 28;
   // ── Display helpers (defined early so top-right interaction card can use them) ──
   // WinAnsi-safe text normalizer — jsPDF's built-in Helvetica/Times use WinAnsi
   // encoding. Most common unicode glyphs (ellipsis, en/em dash, smart quotes,

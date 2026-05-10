@@ -1531,7 +1531,11 @@ body{ overflow-x:clip; }
    shape as Next but a quieter (outlined) variant. Sticky nav stays solid. */
 .wiz-nav{position:sticky;bottom:0;background:var(--color-background-secondary);padding:14px 0 18px;margin-top:20px;pointer-events:none;z-index:5;display:flex;gap:10px;align-items:stretch}
 .wiz-nav::before{content:'';position:absolute;left:0;right:0;top:-14px;height:14px;background:linear-gradient(to top,var(--color-background-secondary),transparent);pointer-events:none}
-.wiz-next-btn{flex:2;padding:13px;border-radius:12px;border:none;background:var(--color-brand);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-0.01em;pointer-events:all;transition:opacity .14s}
+/* Round-16: button text was getting cropped on narrow phones (e.g. "Generate
+   my plan" rendered as "ate my |"). Fixed by: (a) preventing the text from
+   wrapping or being truncated mid-glyph, (b) ensuring the button never
+   compresses below its content width, and (c) clipping any descender artifacts. */
+.wiz-next-btn{flex:1 1 auto;width:auto;min-width:0;padding:13px 16px;border-radius:12px;border:none;background:var(--color-brand);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-0.01em;pointer-events:all;transition:opacity .14s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
 .wiz-next-btn:hover{opacity:.87}
 /* Round-10: download-prompt modal — small, centered, optional email field. */
 .dl-prompt{position:fixed;inset:0;z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -1543,10 +1547,10 @@ body{ overflow-x:clip; }
 .dl-prompt-sub{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 14px}
 .dl-prompt-input{width:100%;padding:11px 13px;border:1px solid var(--color-border-secondary);border-radius:10px;font-size:13.5px;font-family:inherit;outline:none;background:#fff;color:var(--color-text-primary);transition:border-color .14s,box-shadow .14s}
 .dl-prompt-input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.12)}
-.dl-prompt-row{display:flex;gap:8px;margin-top:14px}
-.dl-prompt-btn{flex:1;padding:11px 14px;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid transparent;transition:background .14s,color .14s,border-color .14s}
-.dl-prompt-skip{background:transparent;color:var(--color-text-secondary);border-color:var(--color-border-secondary)}
-.dl-prompt-skip:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+/* Round-16: single full-width primary button (Skip removed; an empty email is
+   treated as Skip). The icon + text are centered inside the button. */
+.dl-prompt-row{display:flex;gap:0;margin-top:14px}
+.dl-prompt-btn{flex:1 1 auto;width:100%;padding:13px 14px;border-radius:10px;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid transparent;transition:background .14s,color .14s,border-color .14s;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
 .dl-prompt-go{background:var(--color-brand);color:#fff;border-color:var(--color-brand)}
 .dl-prompt-go:hover{background:var(--color-brand-hover,#176258);border-color:var(--color-brand-hover,#176258)}
 
@@ -1941,8 +1945,8 @@ body{ overflow-x:clip; }
 .sel-bar-left{display:flex;align-items:center;gap:12px;color:#fff}
 .sel-bar-count{font-size:22px;font-weight:700}
 .sel-bar-label{font-size:12px;color:rgba(255,255,255,.7)}
-.sel-bar-btn{padding:12px 28px;border-radius:10px;background:var(--color-brand);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
-/* Round-7: hover used to flash purple (legacy gate-button color). Pin to brand. */
+/* Round-16: sel-bar button — keep on one line, give the new SVG icon room. */
+.sel-bar-btn{padding:12px 22px;border-radius:10px;background:var(--color-brand);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
 .sel-bar-btn:hover{background:var(--color-brand-hover,#176258)}
 /* Plan overlay modal */
 .plan-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.4);overflow-y:auto;padding:20px}
@@ -2013,7 +2017,7 @@ body{ overflow-x:clip; }
 .gate-bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 #profile-gate > *:not(.gate-bg){position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.gate-bg{display:none}}
-.gate-page{max-width:440px;margin:0 auto;padding:40px 20px 60px;text-align:center}
+.gate-page{max-width:440px;margin:0 auto;padding:8px 20px 60px;text-align:center}
 .gate-hero{margin-bottom:28px}
 .gate-icon{width:56px;height:56px;border-radius:16px;background:var(--color-background-primary);border:1px solid rgba(31,122,107,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
 .gate-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);margin-bottom:10px}
@@ -2039,7 +2043,7 @@ body{ overflow-x:clip; }
 .gate-trust{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 .gate-trust-item{font-size:11px;color:var(--color-text-tertiary)}
 .gate-trust-dot{width:3px;height:3px;border-radius:50%;background:var(--color-text-tertiary);opacity:.4}
-@media(max-width:600px){.gate-page{padding:32px 16px 48px}.gate-title{font-size:24px}.gate-form{flex-direction:column}}
+@media(max-width:600px){.gate-page{padding:6px 16px 48px}.gate-title{font-size:24px}.gate-form{flex-direction:column}}
 
 /* Research category hero - rotating slim banner */
 .cat-hero{position:relative;border-radius:14px;overflow:hidden;height:110px;margin:18px 0 22px;cursor:pointer;color:#fff;box-shadow:0 8px 24px -8px rgba(0,0,0,.18);transition:transform .2s}

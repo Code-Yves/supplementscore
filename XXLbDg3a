@@ -8,7 +8,7 @@
   </url>
   <url>
     <loc>https://supplementscore.org/landing.html</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -518,28 +518,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
-  <!-- 2026-05-10 nightly-new-page-generator additions -->
-  <url><loc>https://supplementscore.org/compare/ashwagandha-vs-rhodiola.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/berberine-vs-cinnamon.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/l-theanine-vs-magnesium-for-sleep.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/tongkat-ali-vs-fadogia-agrestis.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/lions-mane-vs-bacopa.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/beta-alanine-vs-citrulline.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/inositol-vs-berberine-for-pcos.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/spermidine-vs-resveratrol.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/quercetin-vs-bromelain.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/glucosamine-vs-msm.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/fibromyalgia-protocol.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/restless-legs-syndrome.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/metabolic-syndrome.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/peripheral-neuropathy.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/male-fertility.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/macular-degeneration.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/tinnitus.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/dry-eye.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/kidney-stones.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/for/shift-workers.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/for/students.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/for/hair-loss.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/for/hypertension.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

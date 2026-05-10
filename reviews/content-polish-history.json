@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "description": "Per-week record of pages audited by weekly-content-polish-pass. Pages stay excluded for 8 weeks after their most recent run.",
+  "runs": [
+    {
+      "date": "2026-05-10",
+      "iso_week": "2026-W19",
+      "pages": [
+        "a/black-cohosh-for-menopause-cautious-yes-cautious-no.html",
+        "a/tianeptine-the-legal-opioid-hiding-in-gas-station-supplements.html",
+        "a/the-protein-supplement-guide-whey-vs-plant-vs-casein.html",
+        "s/l-serine.html",
+        "s/vinpocetine.html",
+        "s/japanese-knotweed.html",
+        "condition/long-covid-evidence.html",
+        "compare/coq10-vs-pqq.html"
+      ]
+    }
+  ]
+}

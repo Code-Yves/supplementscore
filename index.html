@@ -947,8 +947,10 @@
       // scales with whatever viewport the gate renders into.
       var helixW = 0.07 * Math.min(s.w, s.h);
       var turns = 4;
-      var y0 = 0.10 * s.h;
-      var y1 = 0.90 * s.h;
+      /* Full-bleed: strands reach the very top and bottom of the
+         section so there's no empty band beneath the nav. */
+      var y0 = 0;
+      var y1 = s.h;
       for (var i = 0; i < helices.length; i++){
         var he = helices[i];
         var cx = he.cxF * s.w;
@@ -1286,30 +1288,32 @@
         <div class="sel-bar-inner">
           <div class="sel-bar-left">
             <div class="sel-bar-count" id="sel-count">0</div>
-            <div><div style="font-size:13px;font-weight:600;color:#fff">Supplements Selected</div></div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Supplements</div></div>
           </div>
           <!-- Round-10: download is gated behind a small email prompt so we
                can notify the user when their plan can be optimized based on
-               new research. Email is optional; "Skip" still triggers PDF. -->
-          <button class="sel-bar-btn" onclick="openDownloadPrompt()">↓ Download my plan</button>
+               new research. Round-16: Title Case + a real download SVG icon. -->
+          <button class="sel-bar-btn" onclick="openDownloadPrompt()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:7px;vertical-align:-2px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download My Plan
+          </button>
         </div>
       </div>
       <!-- Round-6: plan-overlay modal removed. The bottom bar's "Download my plan"
            button now triggers downloadPDF() directly — no intermediate screen. -->
 
-      <!-- Round-10: tiny email prompt before download. Optional email so the
-           user can be notified when the engine refines their plan against new
-           research. "Skip" still triggers the PDF. -->
+      <!-- Round-16: tiny email prompt before download. Email is optional — leaving
+           it blank still downloads. Single full-width primary button. -->
       <div class="dl-prompt" id="dl-prompt" style="display:none" role="dialog" aria-modal="true" aria-labelledby="dl-prompt-title">
         <div class="dl-prompt-bd" onclick="closeDownloadPrompt()"></div>
         <div class="dl-prompt-card">
           <button type="button" class="dl-prompt-x" onclick="closeDownloadPrompt()" aria-label="Close">&times;</button>
           <h2 id="dl-prompt-title" class="dl-prompt-h">One quick step</h2>
           <p class="dl-prompt-sub">Optional — only used to notify you if your plan can be optimized as new research lands. We won't email you for anything else.</p>
-          <input type="email" id="dl-prompt-email" class="dl-prompt-input" placeholder="you@example.com" autocomplete="email" aria-label="Email address (optional)">
+          <input type="email" id="dl-prompt-email" class="dl-prompt-input" placeholder="your@email.com (optional)" autocomplete="email" aria-label="Email address (optional)">
           <div class="dl-prompt-row">
-            <button type="button" class="dl-prompt-btn dl-prompt-skip" onclick="confirmDownloadPrompt(true)">Skip</button>
-            <button type="button" class="dl-prompt-btn dl-prompt-go" onclick="confirmDownloadPrompt(false)">Save &amp; Download</button>
+            <button type="button" class="dl-prompt-btn dl-prompt-go" onclick="confirmDownloadPrompt(false)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:7px;vertical-align:-2px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download My Plan
+            </button>
           </div>
         </div>
       </div>
@@ -9819,7 +9823,7 @@
   </div>
 </div><!-- end article-71 -->
 
-  
+
 
   <!-- ARTICLE 72 -->
   <div class="article-full" id="article-72" style="display:none">
@@ -9891,7 +9895,7 @@
     </div>
   </div><!-- end article-72 -->
 
-  
+
 
   <!-- ARTICLE 73 -->
   <div class="article-full" id="article-73" style="display:none">
@@ -9925,7 +9929,7 @@
     </div>
   </div><!-- end article-73 -->
 
-  
+
 
   <!-- ARTICLE 74 -->
   <div class="article-full" id="article-74" style="display:none">
@@ -9987,11 +9991,11 @@
     </div>
   </div><!-- end article-74 -->
 
-  
+
 
   <!-- ARTICLE 75 -->
   <div class="article-full" id="article-75" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -10028,7 +10032,7 @@
     </div>
   </div><!-- end article-75 -->
 
-  
+
 
   <!-- ARTICLE 76 -->
   <div class="article-full" id="article-76" style="display:none">
@@ -10091,7 +10095,7 @@
     </div>
   </div><!-- end article-76 -->
 
-  
+
 
   <!-- ARTICLE 77 -->
   <div class="article-full" id="article-77" style="display:none">
@@ -10126,7 +10130,7 @@
     </div>
   </div><!-- end article-77 -->
 
-  
+
 
   <!-- ARTICLE 78 -->
   <div class="article-full" id="article-78" style="display:none">
@@ -10159,7 +10163,7 @@
     </div>
   </div><!-- end article-78 -->
 
-  
+
 
   <!-- ARTICLE 79 -->
   <div class="article-full" id="article-79" style="display:none">
@@ -10230,7 +10234,7 @@
     </div>
   </div><!-- end article-79 -->
 
-  
+
 
   <!-- ARTICLE 80 -->
   <div class="article-full" id="article-80" style="display:none">
@@ -10264,11 +10268,11 @@
     </div>
   </div><!-- end article-80 -->
 
-  
+
 
   <!-- ARTICLE 81 -->
   <div class="article-full" id="article-81" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -10523,7 +10527,7 @@
 
   <!-- ARTICLE 86 -->
   <div class="article-full" id="article-86" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -10742,7 +10746,7 @@
   </div><!-- end article-90 -->
 
   <!-- ARTICLE 91 -->
-  <div class="article-full" id="article-91" style="display:none"><!-- last-reviewed: 2026-04-26 -->
+  <div class="article-full" id="article-91" style="display:none"><!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -11368,7 +11372,7 @@
   </div><!-- end article-94 -->
 
   <!-- ARTICLE 95 -->
-  <div class="article-full" id="article-95" style="display:none"><!-- last-reviewed: 2026-04-26 -->
+  <div class="article-full" id="article-95" style="display:none"><!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -11654,7 +11658,7 @@
 
   <!-- ARTICLE 101 -->
   <div class="article-full" id="article-101" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -12003,7 +12007,7 @@
 
   <!-- ARTICLE 107 -->
   <div class="article-full" id="article-107" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -12434,7 +12438,7 @@
 
   <!-- ARTICLE 115 -->
   <div class="article-full" id="article-115" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -12623,7 +12627,7 @@
 
   <!-- ARTICLE 120 -->
   <div class="article-full" id="article-120" style="display:none">
-    <!-- last-reviewed: 2026-04-26 -->
+    <!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -12901,7 +12905,7 @@
   </div><!-- end article-125 -->
 
   <!-- ARTICLE 126 -->
-  <div class="article-full" id="article-126" style="display:none"><!-- last-reviewed: 2026-04-26 -->
+  <div class="article-full" id="article-126" style="display:none"><!-- last-reviewed: 2026-05-10 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
@@ -14069,7 +14073,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-153 -->
 
   <div class="article-full" id="article-154" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14099,7 +14103,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-154 -->
 
   <div class="article-full" id="article-155" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14126,7 +14130,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-155 -->
 
   <div class="article-full" id="article-156" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14154,7 +14158,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-156 -->
 
   <div class="article-full" id="article-157" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14183,7 +14187,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-157 -->
 
   <div class="article-full" id="article-158" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14212,7 +14216,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-158 -->
 
   <div class="article-full" id="article-159" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14247,7 +14251,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-159 -->
 
   <div class="article-full" id="article-160" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14274,7 +14278,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-160 -->
 
   <div class="article-full" id="article-161" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14304,7 +14308,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-161 -->
 
   <div class="article-full" id="article-162" style="display:none"><!-- last-reviewed: 2026-04-26 -->
@@ -14331,7 +14335,7 @@
         </ol>
       </div>
     </div>
-  
+
   </div><!-- end article-162 -->
 
   <div class="article-full" id="article-163" style="display:none"><!-- last-reviewed: 2026-04-27 -->
@@ -17119,7 +17123,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <script src="data.js?v=20260504a"></script>
 <script src="pairings-data.js?v=20260508a"></script>
 <script src="app.js?v=20260509l"></script>
-<script src="pdf-export.js?v=20260509a"></script>
+<script src="pdf-export.js?v=20260509b"></script>
 <script src="search-index.js?v=20260504a"></script>
 <script src="nav-search.js?v=20260509i" defer></script>
 <script src="supplement-modal.js?v=20260504a" defer></script>
