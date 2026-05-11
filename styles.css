@@ -2812,11 +2812,12 @@ body.tab-profile .site-footer{display:none !important}
 /* Section — number floats in left margin. Use padding-left on the v2 body so
    the floating number doesn't get clipped by the modal padding. */
 .article-v2 .v2-body{padding-left:44px;position:relative}
-.article-v2 .sec{margin:48px 0 0;position:relative;padding-left:0}
+.article-v2 .sec{margin:44px 0 0;position:relative;padding-left:0}
 .article-v2 .sec-n{
-  position:absolute;left:-44px;top:5px;font-size:11px;font-weight:700;color:var(--accent);
+  position:static;display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;color:var(--accent);
   letter-spacing:.04em;font-variant-numeric:tabular-nums;
-  display:inline-flex;align-items:center;gap:8px;
+  margin:0 0 6px;line-height:1;
 }
 .article-v2 .sec-n::after{content:'';width:18px;height:1.5px;background:var(--accent);opacity:.4}
 .article-v2 .sec-h{font-size:1.2rem;font-weight:700;letter-spacing:-0.012em;margin:0 0 6px;color:#0c0a09;line-height:1.26;max-width:38ch}

@@ -340,7 +340,7 @@ function applyArticleFilter() {
   if (lmBtn) {
     if (cat === 'all' && !q) {
       document.querySelectorAll('.article-card').forEach((c, i) => {
-        if (i >= 10) c.classList.add('article-hidden');
+        if (i >= 20) c.classList.add('article-hidden');
         else c.classList.remove('article-hidden');
       });
       const rem = document.querySelectorAll('.article-card.article-hidden').length;
@@ -358,16 +358,16 @@ function applyArticleFilter() {
 }
 function initArticleLoadMore() {
   const cards = document.querySelectorAll('.article-card');
-  cards.forEach((c, i) => { if (i >= 10) c.classList.add('article-hidden'); c.dataset.articleIndex = i; });
-  if (cards.length > 5) {
+  cards.forEach((c, i) => { if (i >= 20) c.classList.add('article-hidden'); c.dataset.articleIndex = i; });
+  if (cards.length > 20) {
     const btn = document.createElement('button');
     btn.id = 'article-load-more';
-    btn.textContent = 'Load more (' + (cards.length - 5) + ' remaining)';
+    btn.textContent = 'Load more (' + (cards.length - 20) + ' remaining)';
     btn.style.cssText = 'width:100%;padding:10px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:none;font-size:12px;color:var(--color-text-secondary);cursor:pointer;margin-top:8px;font-family:inherit';
     btn.onclick = function() {
       const hidden = document.querySelectorAll('.article-card.article-hidden');
       let shown = 0;
-      hidden.forEach(c => { if (shown < 10) { c.classList.remove('article-hidden'); shown++; } });
+      hidden.forEach(c => { if (shown < 20) { c.classList.remove('article-hidden'); shown++; } });
       const rem = document.querySelectorAll('.article-card.article-hidden').length;
       if (!rem) btn.remove();
       else btn.textContent = 'Load more (' + rem + ' remaining)';
@@ -377,13 +377,55 @@ function initArticleLoadMore() {
 }
 /* Reorder article cards by engagement potential — shock/trending first, then practical/useful, then niche */
 const ARTICLE_PRIORITY=[55,18,5,3,9,11,2,47,8,67,45,91,84,88,104,65,15,4,127,6,100,7,16,54,85,107,52,121,124,31,10,17,12,13,59,96,82,56,115,92,14,21,34,69,78,23,75,87,102,20,26,22,72,36,24,66,37,64,81,35,73,111,119,99,27,30,62,49,80,110,98,113,118,130,131,132,133,134,135,136,137,138,139,140,141,90,32,33,105,112,53,71,125,93,40,28,39,42,44,50,51,60,63,70,74,76,79,94,106,108,114,116,123,129,29,41,46,58,86,95,101,120,126,19,25,38,43,48,57,61,68,77,83,89,97,103,109,117,122,128];
+/* Top of the "All" list — curated mix of Quick Reads (/a/ pages) and inline
+   articles (showArticle(N) modal). Used to interleave types at the top so
+   the page doesn't front-load any one category. After this top block, the
+   numeric ARTICLE_PRIORITY order takes over. */
+const ARTICLE_TOP_MIX=[
+  'a/the-10-most-dangerous-supplements-still-legally-sold.html',
+  3,   /* Why "Detox" Supplements Are a $3 Billion Scam (Reality Check) */
+  'a/the-10-most-overhyped-supplements-of-2026.html',
+  4,   /* CDC Warning: Kava Poisoning (Safety Alert) */
+  'a/12-supplement-mistakes-you-should-literally-never-make.html',
+  10,  /* Magnesium Forms Explained (Guide) */
+  'a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html',
+  11,  /* Ashwagandha: The Most Overhyped Supplement (Reality Check) */
+  'a/the-10-safest-supplements-on-earth.html',
+  5,   /* Creatine for Brain Health (Breakthrough) */
+  'a/10-supplements-that-interact-with-the-most-prescription-drugs.html',
+  15,  /* Are Multivitamins a Waste of Money? (Reality Check) */
+  'a/10-wild-fun-facts-about-the-supplement-industry.html',
+  2,   /* The Evidence-Based Sleep Stack (Guide) */
+  'a/the-10-most-studied-supplements-on-earth.html',
+  9,   /* 5 Supplements That Dangerously Interact (Safety Alert) */
+  'a/10-hidden-gem-supplements-no-one-markets.html',
+  8,   /* The Truth About Collagen Supplements (Reality Check) */
+  'a/the-10-supplements-people-are-actually-deficient-in.html',
+  6    /* NMN and NAD (Reality Check) */
+];
+function _articleCardKey(c){
+  const onclick=c.getAttribute('onclick')||'';
+  const m=onclick.match(/showArticle\((\d+)\)/);
+  if(m)return parseInt(m[1],10);
+  const href=c.getAttribute('href')||'';
+  if(href.indexOf('a/')!==-1)return href.replace(/^\/+/,'');
+  return null;
+}
 function reorderArticles(){
   const list=document.querySelector('.article-list');if(!list)return;
   const cards=[...list.querySelectorAll('.article-card')];
-  const map={};cards.forEach(c=>{const m=c.getAttribute('onclick')?.match(/showArticle\((\d+)\)/);if(m)map[m[1]]=c;});
-  ARTICLE_PRIORITY.forEach(id=>{const c=map[id];if(c)list.appendChild(c);});
-  /* append any remaining cards not in the priority list */
-  cards.forEach(c=>{if(!c.parentElement||c.parentElement!==list)list.appendChild(c);});
+  /* Build index keyed by either showArticle numeric id or /a/ href. */
+  const idx={};cards.forEach(c=>{const k=_articleCardKey(c);if(k!==null&&!(k in idx))idx[k]=c;});
+  /* Compose final order: TOP_MIX → numeric PRIORITY → any leftover cards
+     (Quick Reads not in TOP_MIX) in source order. Use a Set to skip
+     duplicates so each card lands in exactly one slot. */
+  const seen=new Set();
+  const order=[];
+  ARTICLE_TOP_MIX.forEach(id=>{const c=idx[id];if(c&&!seen.has(c)){order.push(c);seen.add(c);}});
+  ARTICLE_PRIORITY.forEach(id=>{const c=idx[id];if(c&&!seen.has(c)){order.push(c);seen.add(c);}});
+  cards.forEach(c=>{if(!seen.has(c)){order.push(c);seen.add(c);}});
+  /* appendChild moves each node to the end in turn — final DOM order matches `order`. */
+  order.forEach(c=>list.appendChild(c));
 }
 function catCardClick(cat){
   filterArticles(cat);
