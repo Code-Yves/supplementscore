@@ -169,43 +169,88 @@ window._articleCategoryFilter = 'all';
 window._articleSearchQuery = '';
 const ARTICLE_CAT_LABELS={all:'All Articles',quickread:'Quick Reads',guide:'Guides',breakthrough:'Breakthroughs',myth:'Reality Check',safety:'Safety Alerts',kids:'Kids'};
 
-/* Interleave article-list cards on first paint so the "All" view doesn't
-   front-load a single category. Without this, the 13 newly-added Quick Reads
-   cards (which were inserted contiguously at the top of the list block in
-   index.html) would dominate the first scroll. We round-robin across the
-   categories present so the user sees a mix at first glance. Runs once on
-   DOMContentLoaded; subsequent filter changes preserve the shuffled order. */
-(function interleaveArticleCards(){
-  function shuffle(){
+/* Curated "top 20" article ordering — explicitly mixes categories at the
+   top of the Articles list so the page doesn't front-load Quick Reads (or
+   any single category). The 20 picks below are the highest-click-potential
+   pieces across all 6 categories: featured guides, popular reality-checks,
+   safety alerts, breakthroughs, and the new Quick Reads digests. Anything
+   not in this list keeps its source-DOM position after position 20.
+
+   Identifier format:
+     • Numeric (e.g. 1, 3, 92) → showArticle(N) inline-modal card
+     • '/a/slug.html'          → direct-link /a/ Quick Read card
+   We match a card to an identifier by parsing either its onclick attribute
+   (showArticle\((\d+)\)) or its href attribute. */
+(function curateTopArticles(){
+  var TOP_20 = [
+    'a/the-10-most-dangerous-supplements-still-legally-sold.html',
+    3,   /* Why "Detox" Supplements Are a $3 Billion Scam (Reality Check) */
+    'a/the-10-most-overhyped-supplements-of-2026.html',
+    4,   /* CDC Warning: Kava Poisoning (Safety Alert) */
+    'a/12-supplement-mistakes-you-should-literally-never-make.html',
+    10,  /* Magnesium Forms Explained (Guide) */
+    'a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html',
+    11,  /* Ashwagandha: The Most Overhyped Supplement (Reality Check) */
+    'a/the-10-safest-supplements-on-earth.html',
+    5,   /* Creatine for Brain Health (Breakthrough) */
+    'a/10-supplements-that-interact-with-the-most-prescription-drugs.html',
+    15,  /* Are Multivitamins a Waste of Money? (Reality Check) */
+    'a/10-wild-fun-facts-about-the-supplement-industry.html',
+    2,   /* The Evidence-Based Sleep Stack (Guide) */
+    'a/the-10-most-studied-supplements-on-earth.html',
+    9,   /* 5 Supplements That Dangerously Interact (Safety Alert) */
+    'a/10-hidden-gem-supplements-no-one-markets.html',
+    8,   /* The Truth About Collagen Supplements (Reality Check) */
+    'a/the-10-supplements-people-are-actually-deficient-in.html',
+    6    /* NMN and NAD: Why Raising a Biomarker Isn't Slowing Aging (Reality Check) */
+  ];
+
+  function cardKey(card){
+    var onclick = card.getAttribute('onclick') || '';
+    var m = onclick.match(/showArticle\((\d+)\)/);
+    if (m) return parseInt(m[1], 10);
+    var href = card.getAttribute('href') || '';
+    if (href.indexOf('a/') !== -1){
+      /* Strip any leading slash so 'a/foo.html' === '/a/foo.html'. */
+      return href.replace(/^\/+/, '');
+    }
+    return null;
+  }
+
+  function curate(){
     var list = document.querySelector('.article-list');
     if (!list) return;
-    if (list.dataset.shuffled === '1') return;
+    if (list.dataset.curated === '1') return;
     var cards = Array.prototype.slice.call(list.children).filter(function(el){
       return el.classList && el.classList.contains('article-card');
     });
     if (cards.length < 2) return;
-    /* Bucket by category. */
-    var buckets = {};
+    /* Build an index from key → card node. */
+    var index = {};
     cards.forEach(function(c){
-      var cat = c.getAttribute('data-category') || 'other';
-      (buckets[cat] = buckets[cat] || []).push(c);
+      var k = cardKey(c);
+      if (k !== null) index[k] = c;
     });
-    var catOrder = Object.keys(buckets);
-    /* Round-robin: take one card from each bucket in turn until all empty. */
-    var mixed = [];
-    while (catOrder.some(function(k){return buckets[k].length;})){
-      catOrder.forEach(function(k){
-        if (buckets[k].length) mixed.push(buckets[k].shift());
-      });
-    }
-    /* Re-append in mixed order. appendChild moves existing nodes (no clone). */
-    mixed.forEach(function(c){ list.appendChild(c); });
-    list.dataset.shuffled = '1';
+    /* Resolve TOP_20 in order; skip any that don't exist on the page. */
+    var picked = [];
+    var pickedSet = new Set();
+    TOP_20.forEach(function(id){
+      var card = index[id];
+      if (card && !pickedSet.has(card)){
+        picked.push(card);
+        pickedSet.add(card);
+      }
+    });
+    /* Append the picked cards in curated order, then the remainder in their
+       original source-DOM order. appendChild moves nodes (no clone). */
+    picked.forEach(function(c){ list.appendChild(c); });
+    cards.forEach(function(c){ if (!pickedSet.has(c)) list.appendChild(c); });
+    list.dataset.curated = '1';
   }
   if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', shuffle);
+    document.addEventListener('DOMContentLoaded', curate);
   } else {
-    shuffle();
+    curate();
   }
 })();
 function filterArticles(cat, shouldScroll) {
