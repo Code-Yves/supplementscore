@@ -167,7 +167,47 @@ function showArticleList() {
 }
 window._articleCategoryFilter = 'all';
 window._articleSearchQuery = '';
-const ARTICLE_CAT_LABELS={all:'All Articles',guide:'Guides',breakthrough:'Breakthroughs',myth:'Reality Check',safety:'Safety Alerts',kids:'Kids'};
+const ARTICLE_CAT_LABELS={all:'All Articles',quickread:'Quick Reads',guide:'Guides',breakthrough:'Breakthroughs',myth:'Reality Check',safety:'Safety Alerts',kids:'Kids'};
+
+/* Interleave article-list cards on first paint so the "All" view doesn't
+   front-load a single category. Without this, the 13 newly-added Quick Reads
+   cards (which were inserted contiguously at the top of the list block in
+   index.html) would dominate the first scroll. We round-robin across the
+   categories present so the user sees a mix at first glance. Runs once on
+   DOMContentLoaded; subsequent filter changes preserve the shuffled order. */
+(function interleaveArticleCards(){
+  function shuffle(){
+    var list = document.querySelector('.article-list');
+    if (!list) return;
+    if (list.dataset.shuffled === '1') return;
+    var cards = Array.prototype.slice.call(list.children).filter(function(el){
+      return el.classList && el.classList.contains('article-card');
+    });
+    if (cards.length < 2) return;
+    /* Bucket by category. */
+    var buckets = {};
+    cards.forEach(function(c){
+      var cat = c.getAttribute('data-category') || 'other';
+      (buckets[cat] = buckets[cat] || []).push(c);
+    });
+    var catOrder = Object.keys(buckets);
+    /* Round-robin: take one card from each bucket in turn until all empty. */
+    var mixed = [];
+    while (catOrder.some(function(k){return buckets[k].length;})){
+      catOrder.forEach(function(k){
+        if (buckets[k].length) mixed.push(buckets[k].shift());
+      });
+    }
+    /* Re-append in mixed order. appendChild moves existing nodes (no clone). */
+    mixed.forEach(function(c){ list.appendChild(c); });
+    list.dataset.shuffled = '1';
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', shuffle);
+  } else {
+    shuffle();
+  }
+})();
 function filterArticles(cat, shouldScroll) {
   if(shouldScroll === undefined) shouldScroll = true;
   window._articleCategoryFilter = cat || 'all';

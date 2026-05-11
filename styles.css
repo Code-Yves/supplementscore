@@ -938,35 +938,34 @@ a.site-nav-tab{
 .site-nav-tab.active:hover{background:var(--color-brand-hover);color:#fff}
 .site-nav-tab:focus-visible{outline:2px solid var(--color-brand-soft);outline-offset:2px}
 
-/* Icon variant — used for the Profile tab so it reads as "my account" rather
-   than text. Sized to match the text tabs exactly (16px row height) so the
-   pill row stays uniform — no bulging, no off-center alignment. The circle
-   reads as a subtle avatar slot. */
+/* Icon variant — was the avatar-circle for Profile, now superseded by
+   text "Profile" on every viewport per user request. We hide the SVG
+   entirely and let the .site-nav-profile-text span render as a regular
+   text tab with the same padding, height, hover, and active states as
+   INDEX / DISCOVER / RESEARCH so the row is perfectly even. */
 .site-nav-tab.site-nav-tab-icon{
-  padding:0;width:20px;height:20px;border-radius:50%;
-  background:rgba(31,122,107,.08);
-  color:#1F7A6B;
-  /* margin-left must match the text-tab horizontal padding (21px) so the
-     visual gap between RESEARCH and the profile icon equals the gap
-     between every other adjacent pair of tabs. With 10px the icon was
-     pulling tight against RESEARCH and looked off-balance. */
-  margin-left:21px;
+  /* Inherit all the regular text-tab styles; no special width/height,
+     no avatar-circle background, no margin-left injection. */
+  padding:0 21px;width:auto;height:20px;
+  border-radius:999px;
+  background:none;
+  color:var(--color-text-secondary);
+  margin-left:0;
 }
 .site-nav-tab.site-nav-tab-icon:hover{
-  background:rgba(31,122,107,.16);
-  color:var(--color-brand);
+  background:rgba(31,122,107,.06);
+  color:var(--color-text-primary);
 }
 .site-nav-tab.site-nav-tab-icon.active{
   background:var(--color-brand);
   color:#fff;
-  box-shadow:0 2px 6px rgba(31,122,107,.25);
+  box-shadow:0 2px 6px rgba(31,122,107,.20);
 }
 .site-nav-tab.site-nav-tab-icon.active:hover{background:var(--color-brand-hover);color:#fff}
-.site-nav-tab.site-nav-tab-icon svg{display:block}
-/* Profile-tab text label — desktop hides it (icon variant), mobile shows it.
-   Inline default so the span is a no-op on every desktop page that ships
-   the shared nav. */
-.site-nav-profile-text{display:none}
+/* Hide the SVG site-wide — we use the text span instead. */
+.site-nav-tab.site-nav-tab-icon svg{display:none}
+/* Show the "Profile" text label on every viewport. */
+.site-nav-profile-text{display:inline}
 /* ===========================================================
    MOBILE STICKY HEADER — single source of truth (≤600px)
    ===========================================================
@@ -2012,9 +2011,17 @@ body{ overflow-x:clip; }
    (.gate-bg). Helices render at the left/right of the canvas, framing
    the centered .gate-page content. The DNA labels (MTHFR, VDR, CYP2D6,
    APOE, COMT) intentionally echo the roadmap copy elsewhere about
-   genetic-variant-aware recommendations. */
-#profile-gate{position:relative;overflow:hidden;min-height:680px}
-.gate-bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+   genetic-variant-aware recommendations.
+
+   overflow:hidden is intentionally NOT set here — the canvas extends
+   ~200px above the section (see EXTEND_TOP in the inline script after
+   #profile-gate) so the helices reach up under the nav pill, with no
+   empty cream band between the nav and the start of the animation.
+   The top/height of the canvas is set inline by the script after
+   sizing — CSS only sets pointer-events, z-index, and the left:0
+   anchor so the canvas always spans the full width. */
+#profile-gate{position:relative;min-height:680px}
+.gate-bg{position:absolute;left:0;width:100%;pointer-events:none;z-index:0}
 #profile-gate > *:not(.gate-bg){position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.gate-bg{display:none}}
 .gate-page{max-width:440px;margin:0 auto;padding:8px 20px 60px;text-align:center}
@@ -2030,7 +2037,8 @@ body{ overflow-x:clip; }
 .gate-step-text{font-size:12.5px;color:var(--color-text-secondary);line-height:1.5}
 .gate-step-text strong{color:var(--color-text-primary);display:block;margin-bottom:3px;font-size:13px;letter-spacing:-.1px}
 .gate-optional{font-weight:400;color:var(--color-text-tertiary);font-size:11px}
-.gate-form{display:flex;gap:8px;margin-bottom:8px}
+.gate-form{display:flex;gap:8px;margin-bottom:8px;width:100%}
+.gate-form .gate-btn{flex:1;width:100%}
 .gate-input{flex:1;padding:11px 14px;border:1px solid var(--color-border-secondary);border-radius:10px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s;background:var(--color-background-primary);color:var(--color-text-primary)}
 .gate-input:focus{border-color:var(--color-brand)}
 .gate-btn{padding:11px 20px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s}
@@ -2407,13 +2415,16 @@ html.is-embedded .pg-close-fab{display:none}
    line; the three link columns are equal-width. */
 .site-footer-grid{
   display:grid;
-  grid-template-columns:1.6fr 1fr 1fr 1fr;
-  column-gap:32px;
+  /* 5 columns: brand block + 4 link columns (Methodology, Browse,
+     Go Deeper, Site). Brand gets a wider share for the tagline. */
+  grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;
+  column-gap:28px;
   row-gap:0;
   align-items:start;
 }
-@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;column-gap:32px;row-gap:28px}}
-@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}}
+@media(max-width:980px){.site-footer-grid{grid-template-columns:1.4fr 1fr 1fr 1fr;column-gap:28px;row-gap:32px}.site-footer-grid > *:nth-child(5){grid-column:span 4}}
+@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;column-gap:32px;row-gap:28px}.site-footer-grid > *:nth-child(5){grid-column:auto}}
+@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}.site-footer-grid > *:nth-child(5){grid-column:auto}}
 .site-footer-brand-row{display:flex;align-items:center;gap:0;margin-bottom:0}
 .site-footer-leaf{
   width:22px;height:22px;border-radius:6px;

@@ -444,10 +444,16 @@
 
   /* ---------- Send-to-clinician PDF (window.print() with optimized stylesheet) ---------- */
   function initClinicianHandout(){
-    /* Show a 'Print handout' button on supplement detail and on /a/ articles */
+    /* Show a 'Print handout' button on supplement detail and on /a/ articles
+       — EXCEPT Quick Reads. Quick Reads are short digest articles distilled
+       from the Discover page; a clinician hand-out doesn't make sense for
+       a list of 10 supplements with one-liner facts. */
     var target = null;
     if (/\/a\//.test(location.pathname)){
       target = document.querySelector('main.ar-wrap');
+      /* Skip Quick Reads articles. The category label is set on .ar-cat. */
+      var catEl = document.querySelector('.ar-cat');
+      if (catEl && /quick reads/i.test(catEl.textContent || '')) return;
     } else if (location.pathname.indexOf('/supplement.html') !== -1){
       target = document.querySelector('main, body > div');
     }

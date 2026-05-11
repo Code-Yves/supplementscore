@@ -212,10 +212,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260509l">
+<link rel="stylesheet" href="styles.css?v=20260509p">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260509l">
+<link rel="stylesheet" href="index.css?v=20260509p">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -226,7 +226,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://api.github.com https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=20260504a" defer></script>
+  <script src="_site-ux.js?v=20260509o" defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -264,7 +264,6 @@
   <div class="site-nav-inner">
     <div class="site-nav-tabs">
       <a class="site-nav-tab active" id="tab-supplements" href="#supplements" style="text-decoration:none" onclick="window._tabSwitchByUser=true">Index</a>
-      <a class="site-nav-tab" id="tab-discover" href="discover.html" style="text-decoration:none">Discover</a>
       <a class="site-nav-tab" id="tab-research" href="#research" style="text-decoration:none" onclick="window._tabSwitchByUser=true">Research</a>
       <a class="site-nav-tab site-nav-tab-icon" id="tab-profile" href="#profile" style="text-decoration:none" onclick="window._tabSwitchByUser=true" aria-label="Profile" title="Profile"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-5 4-8 8-8s8 3 8 8z"/></svg><span class="site-nav-profile-text">Profile</span></a>
     </div>
@@ -462,13 +461,13 @@
 
    Tuned to the values from the v4 mockup (variant A, defaults):
      SPEED   = 1.0  — frame increment per RAF tick
-     OPACITY = 1.0  — multiplier on stroke/fill alpha
+     OPACITY = 1.0  (1.6× boost on mobile for legibility)
    Both are hard-coded here; tune them inline if you want to dial
    intensity up or down later.
 
-   Disabled by CSS on max-width:699px and prefers-reduced-motion.
-   Pauses via IntersectionObserver while the hero is offscreen, so
-   long sessions on the page don't burn cycles repainting nothing. */
+   Disabled by CSS under prefers-reduced-motion. Pauses via
+   IntersectionObserver while the hero is offscreen, so long
+   sessions on the page don't burn cycles repainting nothing. */
 (function(){
   if (typeof window === 'undefined') return;
   /* Defensive double-check: the CSS already hides the canvas under
@@ -481,25 +480,26 @@
   var ctx = canvas.getContext && canvas.getContext('2d');
   if (!ctx) return;
 
-  var SPEED   = 1.0;
-  /* Mobile (≤600px) gets a stronger opacity multiplier — at small scale the
-     0.14 stroke alpha disappears against the cream background on iPhone
-     Safari. 1.6× brings it back into legible range without overwhelming the
-     desktop look. */
+  var SPEED = 1.0;
+  /* Mobile (≤600px) gets a stronger opacity multiplier — at small
+     scale the 0.14 stroke alpha disappears against the cream
+     background on iPhone Safari. 1.6× brings it back into legible
+     range without overwhelming the desktop look. */
   var IS_MOBILE = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
   var OPACITY = IS_MOBILE ? 1.6 : 1.0;
-  /* Recompute on orientation/viewport change so the opacity boost is right
-     after a portrait↔landscape rotation or after a bfcache restore. */
+  /* Recompute on orientation/viewport change so the opacity boost
+     is right after a portrait↔landscape rotation or after a bfcache
+     restore. */
   function refreshMobileFlag(){
     IS_MOBILE = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
     OPACITY = IS_MOBILE ? 1.6 : 1.0;
   }
   window.addEventListener('orientationchange', refreshMobileFlag);
   window.addEventListener('pageshow', refreshMobileFlag);
-  /* Brand teal, expressed as RGB triplet so we can vary alpha freely.
-     Matches --color-brand (#1F7A6B) with a touch more saturation —
-     identical to the value tuned in the mockups. */
-  var COLOR   = '25, 152, 126';
+  /* Brand teal, expressed as RGB triplet so we can vary alpha
+     freely. Matches --color-brand (#1F7A6B) with a touch more
+     saturation — identical to the value tuned in the mockups. */
+  var COLOR = '25, 152, 126';
 
   var dpr = window.devicePixelRatio || 1;
 
@@ -515,24 +515,23 @@
     return arr;
   }
 
-  /* Three hubs, positions in unit-fraction space so they scale to any
-     hero height/width. Spoke counts (5/6/5) and lengths come straight
-     from variant A in the mockup. */
+  /* Three hubs, positions in unit-fraction space so they scale to
+     any hero height/width. Spoke counts (5/6/5) and lengths come
+     straight from variant A in the V4 mockup. */
   var hubs = [
     { cx: 0.20, cy: 0.30, branches: makeBranches(5, 100, 160) },
     { cx: 0.78, cy: 0.65, branches: makeBranches(6, 100, 160) },
     { cx: 0.62, cy: 0.22, branches: makeBranches(5, 100, 160) }
   ];
 
-  /* `sized` flips to true once we successfully size the canvas. iOS Safari
-     can fire the inline script before the hero parent has been laid out,
-     in which case getBoundingClientRect() returns 0×0 and the canvas keeps
-     its useless 300×150 default. We retry on every observable event until
-     we land a real size. */
+  /* `sized` flips to true once we successfully size the canvas. iOS
+     Safari can fire the inline script before the hero parent has
+     been laid out, in which case getBoundingClientRect() returns
+     0×0 and the canvas keeps its useless 300×150 default. We retry
+     on every observable event until we land a real size. */
   var sized = false;
   function resize(){
     var rect = canvas.parentElement.getBoundingClientRect();
-    /* Guard against zero-height hero (legacy-trust-hero variants etc.) */
     if (rect.width === 0 || rect.height === 0) return false;
     canvas.width  = Math.round(rect.width  * dpr);
     canvas.height = Math.round(rect.height * dpr);
@@ -553,8 +552,8 @@
     ctx.arc(cx, cy, 3.5 * scale, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(' + COLOR + ',' + (0.32 * OPACITY) + ')';
     ctx.fill();
-    /* Slow breathing ring — radius and alpha out-of-phase so the ring
-       fades as it expands. ~13s period at SPEED=1. */
+    /* Slow breathing ring — radius and alpha out-of-phase so the
+       ring fades as it expands. ~13s period at SPEED=1. */
     var breath = (Math.sin(frame * 0.008) + 1) / 2;
     ctx.beginPath();
     ctx.arc(cx, cy, (3.5 + breath * 8) * scale, 0, Math.PI * 2);
@@ -566,8 +565,8 @@
   function drawBranches(cx, cy, branches, frame, scale){
     for (var i = 0; i < branches.length; i++){
       var b = branches[i];
-      /* Each spoke has its own phase (b.delay) so the spokes around a
-         single hub don't all peak together — looks more organic. */
+      /* Each spoke has its own phase (b.delay) so the spokes around
+         a single hub don't all peak together — looks more organic. */
       var t = ((frame * 0.002) + b.delay) % 1;
       var alpha = Math.sin(t * Math.PI) * 0.14 * OPACITY;
       var len = b.len * scale;
@@ -593,11 +592,12 @@
   function tick(){
     frame += SPEED;
     var s = getSize();
-    /* Scale spoke length and hub radius with hero size. Spokes were tuned
-       for a ~600px-tall desktop hero; on a short mobile hero (~250px) the
-       same absolute lengths look cramped and clip. We map the smaller
-       canvas dimension into the range [0.55, 1.0] so mobile renders a
-       proportionally tighter version of the same composition. */
+    /* Scale spoke length and hub radius with hero size. Spokes
+       were tuned for a ~600px-tall desktop hero; on a short mobile
+       hero (~250px) the same absolute lengths look cramped and
+       clip. We map the smaller canvas dimension into the range
+       [0.55, 1.0] so mobile renders a proportionally tighter
+       version of the same composition. */
     var dim = Math.min(s.w, s.h);
     var scale = Math.max(0.55, Math.min(1, dim / 600));
     ctx.clearRect(0, 0, s.w, s.h);
@@ -616,16 +616,18 @@
 
   resize();
   window.addEventListener('resize', resize);
-  /* iOS Safari: layout sometimes finishes after the inline script runs, and
-     also after orientation changes / bfcache restores. Re-attempt the sizing
-     on each of these events so we never end up animating into a 300×150
-     internal canvas stretched up to the hero's CSS width. */
+  /* iOS Safari: layout sometimes finishes after the inline script
+     runs, and also after orientation changes / bfcache restores.
+     Re-attempt the sizing on each of these events so we never end
+     up animating into a 300×150 internal canvas stretched up to
+     the hero's CSS width. */
   window.addEventListener('orientationchange', resize);
   window.addEventListener('load', resize);
   window.addEventListener('pageshow', resize);
-  /* Belt-and-braces retry loop: if we still don't have a real size after
-     paint (e.g. fonts not yet loaded so the H1 hasn't reflowed), poll for
-     up to ~1.5s. Stops the moment we get a non-zero rect. */
+  /* Belt-and-braces retry loop: if we still don't have a real size
+     after paint (e.g. fonts not yet loaded so the H1 hasn't
+     reflowed), poll for up to ~1.5s. Stops the moment we get a
+     non-zero rect. */
   if (!sized){
     var retries = 0;
     var retryId = setInterval(function(){
@@ -633,14 +635,15 @@
     }, 100);
   }
 
-  /* Pause when the hero scrolls offscreen — saves cycles during long
-     scroll sessions on the index page. Falls back to always-on if the
-     browser lacks IntersectionObserver. */
+  /* Pause when the hero scrolls offscreen — saves cycles during
+     long scroll sessions on the index page. Falls back to
+     always-on if the browser lacks IntersectionObserver. */
   if ('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
-      if (entries[0].isIntersecting) {
-        /* If we never got a real size, try once more now that the canvas
-           is in view — its parent must be laid out for the IO to fire. */
+      if (entries[0].isIntersecting){
+        /* If we never got a real size, try once more now that the
+           canvas is in view — its parent must be laid out for the
+           IO to fire. */
         if (!sized) resize();
         start();
       } else stop();
@@ -823,10 +826,25 @@
     var ctx = canvas.getContext && canvas.getContext('2d');
     if (!ctx) return;
 
-    var SPEED   = 1.0;
-    var OPACITY = 1.0;
+    /* Lowered from 1.0 by ~30% so the helix rotation reads as
+       genuinely meditative — at SPEED=1.0 it felt too active behind
+       the centered hero copy. */
+    var SPEED   = 0.7;
+    /* Lowered from 1.0 to make the helix more subtle. The strands +
+       gene labels were reading too prominent at full opacity behind
+       the centered hero copy; 0.6 keeps everything legible but
+       recedes into the background more gracefully. */
+    var OPACITY = 0.6;
     var COLOR   = '25, 152, 126';
     var dpr     = window.devicePixelRatio || 1;
+    /* The canvas is rendered taller than #profile-gate by EXTEND_TOP
+       pixels and offset upward by the same amount, so the helices
+       reach above the section, past the nav pill, all the way up to
+       the green status banner at the top of the page. Bumped from
+       200 → 350 because the section's top edge sits lower than the
+       original estimate (there's nav + tab-bar padding above it
+       that 200px alone didn't fully cover). */
+    var EXTEND_TOP = 350;
 
     /* Two helices: one on the left, one on the right, framing the
        centered .gate-page content (440px max-width). On wider
@@ -858,10 +876,19 @@
     function resize(){
       var rect = canvas.parentElement.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
+      /* Canvas is sized to (parent height + EXTEND_TOP) and offset
+         upward by EXTEND_TOP, so the drawing area extends above the
+         section. Internal coordinates run from (0, 0) at the top of
+         the extended area down to (w, parentHeight + EXTEND_TOP) at
+         the section's bottom edge — y0 = 0 in the renderer means
+         "very top of the visible animation," not "top of the
+         section." */
+      var canvasH = rect.height + EXTEND_TOP;
       canvas.width  = Math.round(rect.width  * dpr);
-      canvas.height = Math.round(rect.height * dpr);
-      canvas.style.width  = rect.width  + 'px';
-      canvas.style.height = rect.height + 'px';
+      canvas.height = Math.round(canvasH    * dpr);
+      canvas.style.width  = rect.width + 'px';
+      canvas.style.height = canvasH    + 'px';
+      canvas.style.top    = '-' + EXTEND_TOP + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
@@ -1771,7 +1798,37 @@
       </div>
       <div class="hero-counter" id="hero-current">1 / 21</div>
 
-      <div class="hero-slide active" onclick="showArticle(92)">
+      <div class="hero-slide active" onclick="location.href='a/the-10-most-dangerous-supplements-still-legally-sold.html'">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>New</span>
+          <span class="hero-slide-badge">Quick Reads</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">The 10 Most Dangerous Supplements (Still Legally Sold)</h2>
+          <p class="hero-slide-desc">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="location.href='a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html'">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
+          <span class="hero-slide-badge">Quick Reads</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">The Cheapest Effective Supplements vs the Priciest Hyped Ones</h2>
+          <p class="hero-slide-desc">$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(92)">
         <div class="hero-slide-top">
           <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Editor's Pick</span>
           <span class="hero-slide-badge">Breakthrough</span>
@@ -2112,6 +2169,11 @@
             <span class="lbl">All</span>
             <span class="n" data-total-count>0</span>
           </a>
+          <a data-cat="quickread"
+             onclick="filterArticles('quickread'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
+            <span class="lbl">Quick Reads</span>
+            <span class="n" data-cat-count="quickread">0</span>
+          </a>
           <a data-cat="guide"
              onclick="filterArticles('guide'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
             <span class="lbl">Guide</span>
@@ -2148,7 +2210,7 @@
 
     </div>
 
-<script src="index.js?v=20260506a" defer></script>
+<script src="index.js?v=20260509o" defer></script>
 
     <!-- NO RESULTS STATE -->
     <div id="articles-no-results" class="articles-no-results" style="display:none">
@@ -2173,6 +2235,166 @@
     </div>
 
     <div class="article-list">
+      <!-- Quick Reads — brief digest articles distilled from the Discover page.
+           Each links directly to its standalone /a/ HTML file (not modal-rendered)
+           because the source content lives there as a regular article page. -->
+      <a href="a/the-10-safest-supplements-on-earth.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">The 10 Safest Supplements on Earth</div>
+          <div class="article-desc">Wide therapeutic windows, decades of human data, and tox profiles so clean that #1 is the only perfect score in our entire database.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/the-10-most-dangerous-supplements-still-legally-sold.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.86 3h8.28L21 7.86v8.28L16.14 21H7.86L3 16.14V7.86z"/><path d="M12 8v5"/><path d="M12 16.5h.01" stroke-width="2"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">The 10 Most Dangerous Supplements (Still Legally Sold)</div>
+          <div class="article-desc">Documented liver failure, kidney damage, cancer, or deaths. Several are still legally sold in the United States.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/the-10-most-studied-supplements-on-earth.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">The 10 Most-Studied Supplements on Earth</div>
+          <div class="article-desc">If a supplement has hundreds of human trials, you can stop guessing. These are the ones we know the most about — for better or worse.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/the-10-most-overhyped-supplements-of-2026.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2l13 6V5L3 11z"/><path d="M16 8a4 4 0 0 1 0 8"/><path d="M5 13.5V17a2 2 0 0 0 4 0v-2"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">The 10 Most Overhyped Supplements of 2026</div>
+          <div class="article-desc">Some have huge marketing budgets. Some have a single positive study. None have the evidence base their packaging implies.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/10-hidden-gem-supplements-no-one-markets.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/><path d="M9 3l3 5 3-5"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">10 Hidden-Gem Supplements No One Markets</div>
+          <div class="article-desc">Off-patent, evidence-rich, basically free. The flip side of "most overhyped" — these don't have marketing departments because they're off-patent.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/what-to-actually-take-by-goal-sleep-focus-strength-heart-immunity-aging.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">What to Actually Take, by Goal: Sleep, Focus, Strength, Heart, Immunity, Aging</div>
+          <div class="article-desc">Six goals, four evidence-led picks each. Tier 1/2 only — no trending wishful thinking.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/12-supplement-mistakes-you-should-literally-never-make.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">12 Supplement Mistakes You Should Literally Never Make</div>
+          <div class="article-desc">Dangerous combinations, mega-doses, and the pediatric ER's greatest hits. Print this and put it on the fridge.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/pregnancy-supplements-take-vs-avoid.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 16.5 12 21 12 21z"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">Pregnancy Supplements: Take vs Avoid</div>
+          <div class="article-desc">An at-a-glance ACOG/NIH/WHO reference — what's worth taking and what to skip. Always confirm with your obstetrician first.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.5 9.5a2.5 2.5 0 0 0-5 0c0 1.5 1 2 2.5 2.5s2.5 1 2.5 2.5a2.5 2.5 0 0 1-5 0"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">The Cheapest Effective Supplements vs the Priciest Hyped Ones</div>
+          <div class="article-desc">$5 of creatine has more clinical evidence behind it than every $1,500 NAD+ IV combined. Price ≠ evidence.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/10-supplements-that-interact-with-the-most-prescription-drugs.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 14.5a3.5 3.5 0 0 1 0-5L13 6a3.5 3.5 0 0 1 5 5L16.5 12.5"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5L11 18a3.5 3.5 0 0 1-5-5l1.5-1.5"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">10 Supplements That Interact With the Most Prescription Drugs</div>
+          <div class="article-desc">If you take any prescription, this is the list to scan first. St. John's Wort alone fights with at least 5 drug categories.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/the-10-supplements-people-are-actually-deficient-in.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">The 10 Supplements People Are Actually Deficient In</div>
+          <div class="article-desc">From NHANES dietary surveys: the supplements where pills genuinely fill a population-wide nutritional hole. Most marketing dollars go elsewhere.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/10-wild-fun-facts-about-the-supplement-industry.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">10 Wild Fun Facts About the Supplement Industry</div>
+          <div class="article-desc">420 trials on psyllium. 57% fewer cardiac deaths with K2. Argyria forever. The stuff too good to leave out.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+      <a href="a/recent-supplement-recalls-and-fda-warnings-the-roll-call.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 7H4c0-1 2-2 2-7z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">Quick Reads</div>
+          <div class="article-title">Recent Supplement Recalls &amp; FDA Warnings: The Roll-Call</div>
+          <div class="article-desc">A roll-call of products the FDA, EFSA, WHO, or national regulators have flagged. Several are still legally on shelves through loopholes.</div>
+          <div class="article-meta">May 9, 2026</div>
+        </div>
+      </a>
+
       <div class="article-card" data-category="guide" onclick="showArticle(2)" style="cursor:pointer">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
@@ -16984,8 +17206,6 @@
         <div class="site-footer-h">Methodology</div>
         <div class="site-footer-col">
           <a href="methodology.html">How scores work</a>
-          <a href="editorial-pipeline.html">Editorial pipeline</a>
-          <a href="editorial-board.html">Editorial board</a>
           <a href="sources.html">Sources we trust</a>
           <a href="funder-policy.html">Funder policy</a>          <a href="changed-our-mind.html">Changed our mind</a>
         </div>
@@ -16993,7 +17213,6 @@
       <div>
         <div class="site-footer-h">Browse</div>
         <div class="site-footer-col">
-          <a href="discover.html">Discover</a>
           <a href="condition/index.html">Conditions</a>
           <a href="sx/index.html">By symptom</a>
           <a href="bibliography.html">Bibliography</a>
@@ -17001,12 +17220,17 @@
         </div>
       </div>
       <div>
+        <div class="site-footer-h">Go Deeper</div>
+        <div class="site-footer-col">
+          <a href="condition/index.html">All protocols</a>
+          <a href="compare/index.html">Compare supplements</a>
+        </div>
+      </div>
+      <div>
         <div class="site-footer-h">Site</div>
         <div class="site-footer-col">
           <a href="about.html">About</a>
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
-          <a href="accessibility.html">Accessibility</a>
+          <a href="privacy.html">Terms &amp; Privacy</a>
         </div>
       </div>
     </div>
@@ -17122,9 +17346,9 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="data.js?v=20260504a"></script>
 <script src="pairings-data.js?v=20260508a"></script>
-<script src="app.js?v=20260509l"></script>
-<script src="pdf-export.js?v=20260509b"></script>
-<script src="search-index.js?v=20260504a"></script>
+<script src="app.js?v=20260509o"></script>
+<script src="pdf-export.js?v=20260509p"></script>
+<script src="search-index.js?v=20260509o"></script>
 <script src="nav-search.js?v=20260509i" defer></script>
 <script src="supplement-modal.js?v=20260504a" defer></script>
 

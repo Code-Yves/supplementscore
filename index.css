@@ -64,11 +64,14 @@
 /* Per-category label colors — apply to the option labels inside the toolbar
    dropdown panel. Layout/positioning of the panel and its options lives in
    the .rs-toolbar / .rs-cat-dd-panel block further down. */
+.rs-cat a[data-cat="quickread"] .lbl    { color: #4B7BE5 }
 .rs-cat a[data-cat="guide"] .lbl        { color: var(--t2c) }
 .rs-cat a[data-cat="breakthrough"] .lbl { color: var(--t1c) }
 .rs-cat a[data-cat="kids"] .lbl         { color: var(--color-brand) }
 .rs-cat a[data-cat="myth"] .lbl         { color: var(--t3c) }
 .rs-cat a[data-cat="safety"] .lbl       { color: var(--t4c) }
+.rs-cat-dd-label[data-cat="quickread"]  { color: #4B7BE5 }
+.rs-ac-cat[data-cat="quickread"]        { color: #4B7BE5 }
 
 @media (max-width: 600px){
   .rs-hero{ padding: 32px 18px 24px; }
@@ -89,9 +92,15 @@
   gap: 10px;
   align-items: stretch;
   flex-wrap: wrap;
-  /* Sticky: lock below the nav bar (beta bar 22px + nav 48px = 70px) */
+  /* Sticky: lock IMMEDIATELY below the nav bar with NO gap, so article
+     content can't scroll through the strip between them.
+     Desktop: beta-bar (~32px) + site-nav (~52px) ≈ 84px. We use 84px
+     directly (flush with the nav's bottom edge) and pad the toolbar
+     itself for breathing room. The toolbar's solid cream background
+     visually merges with the nav strip above it.
+     Mobile override is in the @media block at the bottom of this file. */
   position: sticky;
-  top: 70px;
+  top: 84px;
   z-index: 25;
   background: var(--color-background-secondary);
   border-bottom: 0.5px solid var(--color-border-tertiary);
@@ -112,6 +121,10 @@
 @media (max-width: 700px){
   .rs-toolbar{flex-wrap: nowrap;}
   .rs-toolbar .rs-search{min-width: 0; height: 44px;}
+  /* Mobile sticky offset: beta-bar 22px + site-nav 48px = 70px (plus
+     safe-area-inset for the iPhone notch). Override the desktop 90px
+     default so the toolbar pins right under the nav on phones. */
+  .rs-toolbar{top: calc(70px + env(safe-area-inset-top));}
   /* Note: input font-size stays at 16px globally on mobile (iOS-zoom
      prevention rule in styles.css), so we don't override it here. */
 }

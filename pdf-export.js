@@ -60,18 +60,19 @@ function generatePDF(mode){
         _nInts = Math.max(_intEst, 0);
       }
     } catch(_){}
-    /* Page-height components (matches the actual draw zones below):
-         Top zone (wordmark + rule):                      ~22 mm
+    /* Round-17 — height formula reconciled with the actual drawn dimensions:
+         Top zone (wordmark + rule):                      22 mm
          Three section headers (Morning/Daytime/Night):   3 × 10.5 = 32 mm
          Supplement rows:                                 _nSupps × 11.5 mm
-         Interaction-notes header + rule:                 14 mm
-         Interaction-notes grid (2-column, 6.5 mm/row):   ceil(N/2) × 6.5 mm
-         Bottom buffer (footer rule + safe margin):       22 mm
-       Plus a 4 mm gap between zones × ~2 zones = 8 mm cushion. */
+         Interaction-notes header + rule:                 16 mm
+         Interaction-notes grid (2-column, 9 mm/row):     ceil(N/2) × 9 mm
+         Bottom buffer (footer rule + safe margin):       24 mm
+       Plus a 12 mm safety cushion so future small layout tweaks don't
+       immediately overflow again. */
     const _intRows = Math.ceil(_nInts / 2);
-    _summaryPageHeight = 22 + 32 + _nSupps * 11.5 + (_nInts > 0 ? 14 + _intRows * 6.5 : 0) + 22 + 8;
-    if(_summaryPageHeight < 220) _summaryPageHeight = 220;
-    if(_summaryPageHeight > 600) _summaryPageHeight = 600;
+    _summaryPageHeight = 22 + 32 + _nSupps * 11.5 + (_nInts > 0 ? 16 + _intRows * 9 : 0) + 24 + 12;
+    if(_summaryPageHeight < 240) _summaryPageHeight = 240;
+    if(_summaryPageHeight > 700) _summaryPageHeight = 700;
   }
   const doc = isSummaryOnly
     ? new jsPDF({unit:'mm', format:[115, _summaryPageHeight]})
@@ -1070,9 +1071,14 @@ function generatePDF(mode){
       // Section label + rule
       doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(GRY[0],GRY[1],GRY[2]);
       doc.text('INTERACTIONS',M,y);y+=2;
-      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=5.5;
+      doc.setDrawColor(RULE[0],RULE[1],RULE[2]);doc.setLineWidth(0.25);doc.line(M,y,pw-M,y);y+=6;
       // ── 5. 2-column renderer ────────────────────────────────────────────────
-      const _iRowH=6.5;
+      /* Round-17: bumped from 6.5 to 9 mm so the reason line on row N doesn't
+         visually collide with the tag pill on row N+1. Each cell now stacks:
+           tag pill + names (top, ~4 mm)
+           reason text (below, ~3 mm)
+         leaving ~2 mm of breathing room between rows. */
+      const _iRowH=9;
       const _colW=(TW-8)/2; // gutter = 8 mm
       const _renderCell=(item,cx,cy)=>{
         // Tag pill
@@ -1101,11 +1107,25 @@ function generatePDF(mode){
           doc.text(_rsT,cx,cy+4.2);
         }
       };
-      // Render pairs in 2-column grid
+      // Render pairs in 2-column grid — but stop before we hit the footer.
+      // Footer line sits at ph-12; we need ~6mm of breathing room above it
+      // so the last row doesn't visually collide with the page-number line.
+      // Any interactions that don't fit get summarised by an overflow note.
+      const _maxY = ph - 12 - 6 - _iRowH; // last safe row top
+      let _overflow = 0;
       for(let _ii=0;_ii<_allInt.length;_ii+=2){
+        if (y > _maxY){
+          _overflow = _allInt.length - _ii;
+          break;
+        }
         _renderCell(_allInt[_ii],M,y);
         if(_allInt[_ii+1])_renderCell(_allInt[_ii+1],M+_colW+8,y);
         y+=_iRowH;
+      }
+      if (_overflow > 0){
+        doc.setFont('helvetica','italic');doc.setFontSize(6.5);
+        doc.setTextColor(GRY[0],GRY[1],GRY[2]);
+        doc.text('+ '+_overflow+' more pair'+(_overflow>1?'s':'')+' — see the full guide for the complete interaction grid.',M,y+1);
       }
     }
   }
