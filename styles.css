@@ -2716,3 +2716,328 @@ body.tab-profile .site-footer{display:none !important}
 .rn-plan-search-icon{flex-shrink:0;color:var(--color-text-tertiary)}
 .rn-plan-search-inp{flex:1;border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:inherit}
 .rn-plan-search-inp::placeholder{color:var(--color-text-tertiary)}
+
+/* ============================================================
+   Article layout v6 — typography-only, no filled callouts.
+   Scoped to `.article-v2` so the design overrides the legacy
+   article styles cleanly. Mockup spec lives at
+   /Users/yves/Desktop/AI/Supplement Score/mockup-article-layout-v6.html
+   Memory:
+     - light-mode only
+     - no filled-card callouts (left-bar typographic treatment)
+   ============================================================ */
+.article-v2{
+  /* Per-archetype accent. Default = brand teal (stack). The .article-v2
+     wrapper gets a data-accent attribute that flips these vars to the
+     archetype palette (safety/break/myth/guide/kids). */
+  --accent:#1F7A6B;
+  --accent-deep:#155A50;
+  --accent-soft:#BCDDD5;
+  --accent-tint:#F0F7F5;
+  --hair:#E8E5DF;
+  --hair-2:#EFECE6;
+  --t1:#1F7A6B;--t2:#65A30D;--t3:#CA8A04;--t4:#DC2626;
+  color:#0c0a09;
+}
+.article-v2[data-accent="safety"]{--accent:#EA580C;--accent-deep:#9A3412;--accent-soft:#FED7AA;--accent-tint:#FFF7ED}
+.article-v2[data-accent="breakthrough"]{--accent:#16A34A;--accent-deep:#166534;--accent-soft:#BBF7D0;--accent-tint:#F0FDF4}
+.article-v2[data-accent="myth"]{--accent:#DC2626;--accent-deep:#991B1B;--accent-soft:#FECACA;--accent-tint:#FEF2F2}
+.article-v2[data-accent="guide"]{--accent:#0EA5E9;--accent-deep:#075985;--accent-soft:#BAE6FD;--accent-tint:#F0F9FF}
+.article-v2[data-accent="kids"]{--accent:#DB2777;--accent-deep:#9D174D;--accent-soft:#FBCFE8;--accent-tint:#FDF2F8}
+.article-v2[data-accent="quickread"]{--accent:#1F7A6B;--accent-deep:#155A50;--accent-soft:#BCDDD5;--accent-tint:#F0F7F5}
+.article-v2[data-accent="stack"]{--accent:#1F7A6B;--accent-deep:#155A50;--accent-soft:#BCDDD5;--accent-tint:#F0F7F5}
+
+/* Category eyebrow */
+.article-v2 .cat{
+  display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;
+  letter-spacing:.10em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 14px;
+}
+.article-v2 .cat::before{content:'';width:18px;height:1.5px;background:var(--accent)}
+
+/* H1 */
+.article-v2 .h1,
+.article-v2 > h2:first-of-type,
+.article-v2 .v2-h1{
+  font-size:2rem;font-weight:700;line-height:1.14;letter-spacing:-0.022em;
+  margin:0 0 18px;color:#0c0a09;max-width:24ch;
+}
+
+/* Body prose — same family as the site, but tuned to mockup ratios when inside v2 */
+.article-v2 p{font-size:14.5px;line-height:1.7;color:#1f2937;margin:0 0 13px}
+.article-v2 p strong{font-weight:600;color:#0c0a09}
+
+/* Trust strip */
+.article-v2 .trust{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:0 0 16px;margin:0 0 32px;border-bottom:1px solid var(--hair);font-size:12px;
+}
+.article-v2 .trust-item{display:inline-flex;align-items:center;gap:7px;color:#6B7280}
+.article-v2 .trust-item b{color:#0c0a09;font-weight:600}
+.article-v2 .trust-bars{display:inline-flex;gap:2px;align-items:center}
+.article-v2 .trust-bars span{display:inline-block;width:3px;height:10px;background:var(--accent);border-radius:1px;opacity:.22}
+.article-v2 .trust-bars span.on{opacity:1}
+.article-v2 .trust-icon{width:11px;height:11px;color:#6B7280}
+.article-v2 .trust-rev{color:var(--accent-deep);font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-left:auto}
+.article-v2 .trust-rev::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%}
+
+/* Bottom Line — left-bar typographic treatment */
+.article-v2 .bl{padding:2px 0 4px 20px;border-left:2px solid var(--accent);margin:0 0 36px}
+.article-v2 .bl-k{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.article-v2 .bl-v{font-size:18px;font-weight:600;line-height:1.42;color:#0c0a09;margin:0 0 18px;letter-spacing:-0.008em;max-width:50ch}
+.article-v2 .bl-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.article-v2 .bl-li{font-size:13.5px;line-height:1.55;color:#4B5563;padding-left:24px;position:relative}
+.article-v2 .bl-li::before{content:'';position:absolute;left:0;top:9px;width:14px;height:1.5px;background:var(--accent);opacity:.55}
+.article-v2 .bl-li b{color:#0c0a09;font-weight:600}
+.article-v2 .bl-foot{margin-top:16px;padding-top:13px;border-top:1px dashed var(--hair);font-size:11px;color:#9CA3AF;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.article-v2 .bl-foot-pill{display:inline-flex;align-items:center;gap:5px;background:#FAF6EE;padding:2px 9px;border-radius:999px;color:#6B7280;font-weight:500}
+.article-v2 .bl-foot-pill b{color:#4B5563;font-weight:600}
+.article-v2 .bl .bl-v .imp{color:var(--accent-deep);font-weight:700}
+.article-v2 .bl-li.imp::before{background:var(--accent);opacity:1;height:2px;top:8px}
+.article-v2 .bl-li.imp b{color:var(--accent-deep)}
+
+/* TOC inline */
+.article-v2 .toc{margin:0 0 36px;padding:6px 0 6px 20px;border-left:2px solid var(--hair)}
+.article-v2 .toc-k{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#6B7280;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.article-v2 .toc-k-r{font-size:10px;color:#9CA3AF;letter-spacing:.04em;text-transform:none;font-weight:500}
+.article-v2 .toc-list{margin:0;padding:0;list-style:none}
+.article-v2 .toc-li{position:relative}
+.article-v2 .toc-li a{display:flex;gap:14px;padding:6px 0;text-decoration:none;color:#4B5563;font-size:13.5px;align-items:baseline;line-height:1.4}
+.article-v2 .toc-li a:hover{color:#0c0a09}
+.article-v2 .toc-num{font-size:10.5px;color:#9CA3AF;font-variant-numeric:tabular-nums;width:22px;flex-shrink:0;font-weight:600}
+.article-v2 .toc-time{margin-left:auto;font-size:10.5px;color:#9CA3AF;font-variant-numeric:tabular-nums}
+.article-v2 .toc-li.on a{color:var(--accent-deep);font-weight:600}
+.article-v2 .toc-li.on .toc-num{color:var(--accent)}
+.article-v2 .toc-li.on::before{content:'';position:absolute;left:-22px;top:8px;bottom:8px;width:2px;background:var(--accent)}
+
+/* Section — number floats in left margin. Use padding-left on the v2 body so
+   the floating number doesn't get clipped by the modal padding. */
+.article-v2 .v2-body{padding-left:44px;position:relative}
+.article-v2 .sec{margin:48px 0 0;position:relative;padding-left:0}
+.article-v2 .sec-n{
+  position:absolute;left:-44px;top:5px;font-size:11px;font-weight:700;color:var(--accent);
+  letter-spacing:.04em;font-variant-numeric:tabular-nums;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.article-v2 .sec-n::after{content:'';width:18px;height:1.5px;background:var(--accent);opacity:.4}
+.article-v2 .sec-h{font-size:1.2rem;font-weight:700;letter-spacing:-0.012em;margin:0 0 6px;color:#0c0a09;line-height:1.26;max-width:38ch}
+.article-v2 .sec-meta{
+  font-size:10.5px;color:#9CA3AF;margin-bottom:14px;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.article-v2 .sec-meta .src{display:inline-flex;align-items:center;gap:4px}
+.article-v2 .sec-meta .src svg{width:10px;height:10px}
+.article-v2 .sec-meta .dot{width:2px;height:2px;border-radius:50%;background:#9CA3AF;display:inline-block}
+
+/* Pull-stat */
+.article-v2 .stat{margin:24px 0;padding:6px 0 6px 20px;border-left:2px solid var(--accent)}
+.article-v2 .stat-row{display:flex;align-items:center;gap:20px}
+.article-v2 .stat-n{font-size:38px;font-weight:800;color:var(--accent-deep);line-height:1.05;letter-spacing:-0.025em;font-variant-numeric:tabular-nums;flex-shrink:0;min-width:88px}
+.article-v2 .stat-b{font-size:12.5px;color:#4B5563;line-height:1.55;max-width:44ch}
+.article-v2 .stat-b b{color:#0c0a09;font-weight:600}
+.article-v2 .stat-cite{font-size:10.5px;color:#9CA3AF;margin-top:7px;display:inline-flex;align-items:center;gap:6px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.article-v2 .stat-cite::before{content:'';width:14px;height:1.5px;background:#9CA3AF;opacity:.4}
+
+/* Inline supplement chip — Option B: score badge, no pill */
+.article-v2 .chip{
+  display:inline-flex;align-items:baseline;gap:5px;
+  color:#0c0a09;text-decoration:none;font-weight:600;font-size:14px;
+  line-height:inherit;vertical-align:baseline;letter-spacing:-0.002em;
+}
+.article-v2 .chip-s{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--t1);color:#fff;border-radius:5px;
+  height:17px;min-width:22px;padding:0 5px;
+  font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;
+  transform:translateY(-1px);
+}
+.article-v2 .chip.t2 .chip-s{background:var(--t2)}
+.article-v2 .chip.t3 .chip-s{background:var(--t3)}
+.article-v2 .chip.t4 .chip-s{background:var(--t4)}
+.article-v2 .chip-name{border-bottom:1.5px solid transparent;transition:border-color .12s}
+.article-v2 .chip:hover .chip-name{border-bottom-color:var(--t1)}
+.article-v2 .chip.t2:hover .chip-name{border-bottom-color:var(--t2)}
+.article-v2 .chip.t3:hover .chip-name{border-bottom-color:var(--t3)}
+.article-v2 .chip.t4:hover .chip-name{border-bottom-color:var(--t4)}
+
+/* Sensitive populations — converted from filled callout to left-bar amber.
+   This is the legacy inline-styled <div style="background:#FFF7ED..."> block
+   from the article-full source. We intercept it in JS and add .sens-pop;
+   here we make it look like a Bottom Line with an amber accent. */
+.article-v2 .sens-pop{
+  padding:2px 0 4px 20px;border-left:2px solid #EA580C;margin:0 0 28px;
+  background:transparent !important;border-radius:0 !important;
+  /* The old inline styles set background/border/border-radius/color; the
+     wrapping JS strips most of those but we belt-and-brace here. */
+}
+.article-v2 .sens-pop > strong:first-child{
+  display:block;font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:#EA580C;margin-bottom:8px;
+}
+.article-v2 .sens-pop,
+.article-v2 .sens-pop p{font-size:13.5px;line-height:1.55;color:#4B5563}
+
+/* Bottom .aend sections — supplements, related, sources */
+.article-v2 .aend{margin:44px 0 0;padding-top:28px;border-top:1px solid var(--hair)}
+.article-v2 .aend-k{
+  font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:#6B7280;margin-bottom:16px;
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+}
+.article-v2 .aend-k-r{font-size:10px;color:#9CA3AF;letter-spacing:.04em;text-transform:none;font-weight:500}
+
+/* Supplements list */
+.article-v2 .supp-list{display:flex;flex-direction:column}
+.article-v2 .supp-row{
+  display:flex;align-items:center;gap:16px;padding:14px 4px;
+  text-decoration:none;color:#0c0a09;border-bottom:1px solid var(--hair-2);
+  transition:color .12s;
+}
+.article-v2 .supp-row:last-child{border-bottom:0}
+.article-v2 .supp-row:hover{color:var(--accent-deep)}
+.article-v2 .supp-row:hover .supp-row-arrow{transform:translateX(3px);color:var(--accent)}
+.article-v2 .supp-row-s{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--t1);color:#fff;border-radius:6px;
+  width:38px;height:32px;font-size:13px;font-weight:700;
+  font-variant-numeric:tabular-nums;flex-shrink:0;letter-spacing:-0.005em;
+}
+.article-v2 .supp-row.t2 .supp-row-s{background:var(--t2)}
+.article-v2 .supp-row.t3 .supp-row-s{background:var(--t3)}
+.article-v2 .supp-row.t4 .supp-row-s{background:var(--t4)}
+.article-v2 .supp-row-body{flex:1;min-width:0}
+.article-v2 .supp-row-name{font-size:14.5px;font-weight:600;color:#0c0a09;margin-bottom:2px;letter-spacing:-0.005em;line-height:1.3}
+.article-v2 .supp-row-meta{font-size:11.5px;color:#6B7280;line-height:1.4}
+.article-v2 .supp-row-tier{font-size:10.5px;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase;font-weight:600;flex-shrink:0}
+.article-v2 .supp-row-arrow{color:#9CA3AF;font-size:14px;transition:transform .12s, color .12s;flex-shrink:0;line-height:1}
+
+/* Related list */
+.article-v2 .rel-list{display:flex;flex-direction:column}
+.article-v2 .rel-row{
+  display:flex;align-items:center;gap:16px;padding:14px 4px;
+  text-decoration:none;color:#0c0a09;border-bottom:1px solid var(--hair-2);
+  cursor:pointer;
+}
+.article-v2 .rel-row:last-child{border-bottom:0}
+.article-v2 .rel-row:hover .rel-row-title{color:var(--accent-deep)}
+.article-v2 .rel-row:hover .rel-row-arrow{transform:translateX(3px);color:var(--accent)}
+.article-v2 .rel-row-body{flex:1;min-width:0}
+.article-v2 .rel-row-cat{
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:4px;color:#6B7280;display:inline-flex;align-items:center;gap:7px;
+}
+.article-v2 .rel-row-cat::before{content:'';width:10px;height:1.5px;background:currentColor;opacity:.6}
+.article-v2 .rel-row-cat[data-cat="breakthrough"]{color:#166534}
+.article-v2 .rel-row-cat[data-cat="guide"]{color:#075985}
+.article-v2 .rel-row-cat[data-cat="safety"]{color:#9A3412}
+.article-v2 .rel-row-cat[data-cat="myth"]{color:#991B1B}
+.article-v2 .rel-row-cat[data-cat="kids"]{color:#9D174D}
+.article-v2 .rel-row-cat[data-cat="quickread"]{color:#155A50}
+.article-v2 .rel-row-cat[data-cat="stack"]{color:#155A50}
+.article-v2 .rel-row-title{font-size:14.5px;font-weight:600;line-height:1.34;color:#0c0a09;letter-spacing:-0.005em;transition:color .12s}
+.article-v2 .rel-row-arrow{color:#9CA3AF;font-size:14px;transition:transform .12s, color .12s;flex-shrink:0;line-height:1}
+
+/* Sources list — replaces the legacy .art-sources block when inside v2 */
+.article-v2 .sources-list{margin:0;padding:0;list-style:none;counter-reset:src;display:flex;flex-direction:column}
+.article-v2 .sources-list li{
+  counter-increment:src;
+  padding:11px 0 11px 28px;border-bottom:1px solid var(--hair-2);
+  font-size:12.5px;line-height:1.6;color:#4B5563;position:relative;
+}
+.article-v2 .sources-list li:last-child{border-bottom:0}
+.article-v2 .sources-list li::before{
+  content:counter(src);position:absolute;left:0;top:11px;
+  font-size:10.5px;font-weight:700;color:#9CA3AF;
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+.article-v2 .sources-list em{font-style:italic;color:#4B5563}
+.article-v2 .sources-list .src-link{
+  color:#4B5563;text-decoration:underline;
+  text-decoration-color:var(--hair);text-underline-offset:2px;
+  transition:text-decoration-color .12s,color .12s;
+}
+.article-v2 .sources-list .src-link:hover{text-decoration-color:var(--accent);color:var(--accent-deep)}
+.article-v2 .src-tag{
+  display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:#9CA3AF;
+  padding:1px 6px;border:1px solid var(--hair);border-radius:3px;margin-left:4px;
+  background:transparent;
+}
+.article-v2 .src-tag.coi{color:#9A3412;border-color:#9A3412;opacity:.7}
+.article-v2 .src-tag.industry{color:#991B1B;border-color:#991B1B;opacity:.7}
+.article-v2 .src-tag.mixed{color:#B45309;border-color:#B45309;opacity:.7}
+.article-v2 .sources-foot{
+  margin-top:18px;font-size:11.5px;color:#6B7280;
+  display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.article-v2 .sources-foot::before{content:'';width:14px;height:1.5px;background:#9CA3AF;opacity:.4}
+.article-v2 .sources-foot b{color:#4B5563;font-weight:600}
+
+/* Suppress the legacy .art-sources styling when we've upgraded the section. */
+.article-v2 .art-sources{margin-top:0;padding-top:0;border-top:0}
+.article-v2 .art-sources h3{display:none}
+.article-v2 .art-sources > ol:not(.sources-list){display:none}
+
+/* Suppress legacy renderer outputs that we've replaced */
+.article-v2 .art-kp-card,
+.article-v2 .art-supps-section,
+.article-v2 .art-related-section{display:none}
+
+/* Hide the legacy .article-meta and "Back to articles" button when v2 chrome
+   is in play — we render the trust strip and the .article-top instead. */
+.article-v2 .article-meta{display:none}
+.article-v2 button[onclick*="showArticleList"]{display:none}
+
+/* The legacy modal had inline-styled "padding:1.5rem;max-width:740px"
+   wrapper. Override its padding so .v2-body's left-padding (44px) gives
+   us the floating margin number room without doubling up. */
+.article-v2 > div[style*="padding"]{padding:0 !important;max-width:none !important;margin:0 !important}
+
+/* ============================================================
+   Top chrome — restyle existing modal buttons to mockup spec
+   ============================================================ */
+.art-modal.v2-chrome .art-modal-chrome{
+  position:static;background:transparent;border-bottom:1px solid var(--hair,#E8E5DF);
+  padding:14px 22px;margin-bottom:0;border-radius:0;
+}
+.art-modal.v2-chrome .art-nav-btn,
+.art-modal.v2-chrome .art-modal-close,
+.art-modal.v2-chrome .art-share-btn{
+  width:auto;height:auto;min-height:0;padding:6px 10px;border-radius:6px;
+  background:transparent;border:none;color:#6B7280;font-size:12px;font-weight:500;
+  display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  transition:color .12s;
+}
+.art-modal.v2-chrome .art-nav-btn svg,
+.art-modal.v2-chrome .art-modal-close svg,
+.art-modal.v2-chrome .art-share-btn svg{width:13px;height:13px}
+.art-modal.v2-chrome .art-nav-btn:hover:not(:disabled),
+.art-modal.v2-chrome .art-modal-close:hover,
+.art-modal.v2-chrome .art-share-btn:hover{background:transparent;color:#0c0a09}
+.art-modal.v2-chrome .art-nav-btn:disabled{opacity:.4;color:#9CA3AF;cursor:not-allowed}
+.art-modal.v2-chrome .art-nav-btn::after{font-size:12px;font-weight:500}
+.art-modal.v2-chrome #art-prev-btn::after{content:'Prev';margin-left:2px}
+.art-modal.v2-chrome #art-next-btn{flex-direction:row-reverse}
+.art-modal.v2-chrome #art-next-btn::after{content:'Next';margin-right:2px}
+.art-modal.v2-chrome .art-modal-nav{gap:0}
+.art-modal.v2-chrome .art-modal-actions{gap:0;position:relative}
+.art-modal.v2-chrome .art-modal-actions::before{
+  content:'';display:inline-block;width:1px;height:14px;
+  background:var(--hair,#E8E5DF);margin:0 6px;align-self:center;
+  order:1;
+}
+.art-modal.v2-chrome .art-share-btn{order:0}
+.art-modal.v2-chrome .art-modal-close{order:2;padding:6px 8px;color:#9CA3AF;font-size:14px}
+.art-modal.v2-chrome .art-modal-close:hover{color:#0c0a09}
+.art-modal.v2-chrome .art-share-btn.copied{background:transparent;color:var(--accent,#1F7A6B)}
+.art-modal.v2-chrome .art-modal-body{padding-top:18px}
+@media(max-width:500px){
+  .art-modal.v2-chrome .art-share-label{display:none}
+  .art-modal.v2-chrome .art-share-btn{padding:6px 8px}
+}
+
+/* Inline render path (non-modal) — when _renderArticleInline targets
+   .article-full directly, add .article-v2 on the wrapper. The
+   floating sec-n needs the v2-body padding-left; otherwise margins
+   collide with the page edge. */
+.article-full.article-v2{max-width:780px;margin:0 auto;padding:1.5rem 1rem 2rem}

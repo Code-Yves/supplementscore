@@ -103,44 +103,86 @@ function _renderArticleInline(n) {
     }
   }
   target.style.display = 'block';
-  /* Inject key points at top, supplement cards at bottom */
-  var existing = target.querySelector('.art-supps-section');
-  if (existing) existing.remove();
-  var existingKp = target.querySelector('.art-kp-card');
-  if (existingKp) existingKp.remove();
-  var existingRel = target.querySelector('.art-related-section');
-  if (existingRel) existingRel.remove();
-  var inner = target.querySelector('[style*="padding"]');
+  /* Clear prior v2-injected content (sections, trust, bl, toc, aend, sens-pop). */
+  var prior = target.querySelectorAll('.bl, .toc, .trust, .aend, .sec');
+  for (var p = 0; p < prior.length; p++) {
+    if (prior[p].parentNode) prior[p].parentNode.removeChild(prior[p]);
+  }
+  /* Clear legacy renderer outputs too, in case we rerender after a previous
+     non-v2 pass left them behind. */
+  var legacy = target.querySelectorAll('.art-supps-section, .art-kp-card, .art-related-section');
+  for (var q = 0; q < legacy.length; q++) {
+    if (legacy[q].parentNode) legacy[q].parentNode.removeChild(legacy[q]);
+  }
+  var inner = target.querySelector('[style*="padding"]') || target;
   if (inner) {
-    /* Key points — inject after .article-meta */
-    if (typeof articleKeyPointsHtml === 'function') {
-      var kpHtml = articleKeyPointsHtml(inner);
-      if (kpHtml) {
-        var metaEl = inner.querySelector('.article-meta');
-        if (metaEl) {
-          metaEl.style.marginBottom = '0';
-          metaEl.insertAdjacentHTML('afterend', kpHtml);
-          var firstP = inner.querySelector('p');
-          if (firstP) firstP.classList.add('art-body-first');
-        }
+    /* v2 scope: add .article-v2 to the inner wrapper. */
+    inner.classList.add('article-v2');
+    target.classList.add('article-v2');
+    /* Pick accent. */
+    var accentKey = 'stack';
+    try {
+      if (typeof _buildAllArts === 'function') {
+        var am = _buildAllArts();
+        if (am[n] && am[n].c && typeof _v2AccentKeyFromCode === 'function') accentKey = _v2AccentKeyFromCode(am[n].c);
+      }
+      if (!accentKey || accentKey === 'stack') {
+        var catEl0 = inner.querySelector('.article-cat');
+        if (catEl0 && typeof _v2AccentKeyFromCatText === 'function') accentKey = _v2AccentKeyFromCatText(catEl0.textContent);
+      }
+    } catch (_) {}
+    inner.setAttribute('data-accent', accentKey);
+    /* Cat eyebrow + h1 typography. */
+    var catEl = inner.querySelector('.article-cat');
+    if (catEl) { catEl.classList.add('cat'); catEl.removeAttribute('style'); }
+    var h2El = inner.querySelector('h2');
+    if (h2El) { h2El.classList.add('v2-h1'); h2El.removeAttribute('style'); }
+    /* Sensitive-pop conversion. */
+    if (typeof articleConvertSensitivePops === 'function') articleConvertSensitivePops(inner);
+    /* Trust strip. */
+    if (typeof articleTrustHtml === 'function' && h2El) {
+      var trustHtml = articleTrustHtml(target, accentKey);
+      if (trustHtml) h2El.insertAdjacentHTML('afterend', trustHtml);
+    }
+    /* Bottom Line. */
+    if (typeof articleBottomLineHtml === 'function') {
+      var blHtml = articleBottomLineHtml(inner, null);
+      if (blHtml) {
+        var trustEl = inner.querySelector('.trust');
+        if (trustEl) trustEl.insertAdjacentHTML('afterend', blHtml);
+        else if (h2El) h2El.insertAdjacentHTML('afterend', blHtml);
       }
     }
-    if (typeof processArticleSources === 'function') {
-      processArticleSources(inner);
+    /* TOC. */
+    if (typeof articleTocHtml === 'function') {
+      var tocHtml = articleTocHtml(inner);
+      if (tocHtml) {
+        var blEl = inner.querySelector('.bl');
+        if (blEl) blEl.insertAdjacentHTML('afterend', tocHtml);
+      }
     }
-    /* Supplement cards at bottom (original position) */
+    /* Section wrap. */
+    if (typeof articleSectionWrapHtml === 'function') articleSectionWrapHtml(inner);
+    /* Process sources first so it returns the sources wrapper for insertion. */
+    var sourcesDiv = null;
+    if (typeof processArticleSources === 'function') {
+      sourcesDiv = processArticleSources(inner);
+    }
+    /* Supplements .aend. */
     if (typeof articleSuppsHtml === 'function') {
       var suppHtml = articleSuppsHtml(n);
       if (suppHtml) {
-        var sourcesDiv = inner.querySelector('.art-sources');
         if (sourcesDiv) sourcesDiv.insertAdjacentHTML('beforebegin', suppHtml);
         else inner.insertAdjacentHTML('beforeend', suppHtml);
       }
     }
-    /* Related articles at very bottom */
+    /* Related .aend. */
     if (typeof articleRelatedHtml === 'function') {
       var relHtml = articleRelatedHtml(n);
-      if (relHtml) inner.insertAdjacentHTML('beforeend', relHtml);
+      if (relHtml) {
+        if (sourcesDiv) sourcesDiv.insertAdjacentHTML('beforebegin', relHtml);
+        else inner.insertAdjacentHTML('beforeend', relHtml);
+      }
     }
   }
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });

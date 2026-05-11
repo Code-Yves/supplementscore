@@ -4256,13 +4256,105 @@ function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';c
    quality, related conditions, sources — same experience as clicking
    a supplement from the index). The smaller inline #supp-modal isn't
    the right surface for this — it omits the deeper sections. */const _slug=_slcSlug(name);const _href='supplement.html?slug='+encodeURIComponent(_slug);return`<a class="art-supp-card" href="${_href}" style="text-decoration:none;color:inherit"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></a>`;}
-function articleSuppsHtml(articleId){const names=ARTICLE_SUPPS[articleId];if(!names||!names.length)return'';return`<div class="art-supps-section"><div class="art-supps-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Supplements mentioned in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
-function articleKeyPointsHtml(body){const firstP=body.querySelector('p');if(!firstP)return'';const text=firstP.textContent.trim();const parts=text.replace(/([.!?])\s+([A-Z\u201c\u2018\u0022])/g,'$1\n$2').split('\n').map(s=>s.trim()).filter(s=>s.length>25);if(!parts.length)return'';const items=parts.slice(0,3).map((s,i)=>`<li class="art-kp-item"><span class="art-kp-num">${i+1}</span><span>${s}</span></li>`).join('');return`<div class="art-kp-card"><div class="art-kp-label">Key Points</div><ul class="art-kp-list">${items}</ul></div>`;}
+/* v2 article renderer — outputs the .aend supplement-list block from
+   mockup-article-layout-v6.html. Each row: tier-colored score badge +
+   name + meta line + tier label + arrow. Same supplement.html deep-link
+   so supplement-modal.js still intercepts the click. */
+function articleSuppsHtml(articleId){
+  const names=ARTICLE_SUPPS[articleId];
+  if(!names||!names.length)return'';
+  const rows=names.map(function(n){
+    const s=_suppByName.get(n);
+    if(!s)return'';
+    const sc=calcScore(s);
+    const et=eTier(s);
+    const slug=_slcSlug(n);
+    const href='supplement.html?slug='+encodeURIComponent(slug);
+    const tag=(s.tag||'').split(' · ').slice(0,2).join(' · ');
+    const tierNum=et==='t1'?'1':et==='t2'?'2':et==='t3'?'3':'4';
+    return '<a class="supp-row '+et+'" href="'+href+'">'
+      +'<span class="supp-row-s">'+sc+'</span>'
+      +'<div class="supp-row-body">'
+      +'<div class="supp-row-name">'+escHtml(s.n)+'</div>'
+      +'<div class="supp-row-meta">Efficacy '+s.e+'/5 · Safety '+s.s+'/5'+(tag?' · '+escHtml(tag):'')+'</div>'
+      +'</div>'
+      +'<span class="supp-row-tier">Tier '+tierNum+'</span>'
+      +'<span class="supp-row-arrow">→</span>'
+      +'</a>';
+  }).join('');
+  const label=names.length===1?'1 supplement':names.length+' supplements';
+  return '<div class="aend"><div class="aend-k"><span>Supplements in this article</span><span class="aend-k-r">'+label+'</span></div><div class="supp-list">'+rows+'</div></div>';
+}
+/* v2 Bottom Line — replaces the old "Key Points" card. Outputs the .bl
+   left-bar treatment from mockup-article-layout-v6.html. articleData is
+   optional curated content { eyebrow, verdict, bullets:[], pills:[] };
+   when omitted, auto-extract verdict + bullets from the body's first
+   prose paragraph (skipping "Sensitive populations" callouts). */
+function articleBottomLineHtml(body,articleData){
+  let eyebrow='The Bottom Line';
+  let verdict='';
+  let bullets=[];
+  let pills=[];
+  if(articleData&&articleData.bottomLine){
+    const bl=articleData.bottomLine;
+    if(bl.eyebrow)eyebrow=bl.eyebrow;
+    if(bl.verdict)verdict=bl.verdict;
+    if(Array.isArray(bl.bullets))bullets=bl.bullets.slice(0,3);
+    if(Array.isArray(bl.pills))pills=bl.pills.slice(0,2);
+  }
+  if(!verdict){
+    const ps=Array.from(body.querySelectorAll('p'));
+    const firstP=ps.find(function(p){
+      if(p.closest&&p.closest('.sens-pop'))return false;
+      const txt=p.textContent.trim();
+      if(/^Sensitive populations:/i.test(txt))return false;
+      return txt.length>40;
+    });
+    if(!firstP)return'';
+    const text=firstP.textContent.trim();
+    const sentences=text.replace(/([.!?])\s+([A-Z“‘"])/g,'$1\n$2').split('\n').map(function(s){return s.trim();}).filter(function(s){return s.length>25;});
+    if(!sentences.length)return'';
+    verdict=sentences[0];
+    bullets=sentences.slice(1,4);
+  }
+  const bullHtml=bullets.map(function(b){return '<li class="bl-li">'+(typeof b==='string'?escHtml(b):escHtml(b.text||''))+'</li>';}).join('');
+  const pillHtml=pills.length?('<div class="bl-foot">'+pills.map(function(p){return '<span class="bl-foot-pill">'+(typeof p==='string'?escHtml(p):escHtml(p.text||''))+'</span>';}).join('')+'</div>'):'';
+  return '<div class="bl"><div class="bl-k">'+escHtml(eyebrow)+'</div>'
+    +'<p class="bl-v">'+escHtml(verdict)+'</p>'
+    +(bullHtml?'<ul class="bl-list">'+bullHtml+'</ul>':'')
+    +pillHtml
+    +'</div>';
+}
+/* Back-compat: _renderArticleInline still calls articleKeyPointsHtml. Route
+   it through the v2 Bottom Line renderer. */
+function articleKeyPointsHtml(body){return articleBottomLineHtml(body,null);}
+/* Legacy implementation kept for reference; renamed out of the call path. */
+function _legacy_articleKeyPointsHtml_unused(body){const firstP=body.querySelector('p');if(!firstP)return'';const text=firstP.textContent.trim();const parts=text.replace(/([.!?])\s+([A-Z\u201c\u2018\u0022])/g,'$1\n$2').split('\n').map(s=>s.trim()).filter(s=>s.length>25);if(!parts.length)return'';const items=parts.slice(0,3).map((s,i)=>`<li class="art-kp-item"><span class="art-kp-num">${i+1}</span><span>${s}</span></li>`).join('');return`<div class="art-kp-card"><div class="art-kp-label">Key Points</div><ul class="art-kp-list">${items}</ul></div>`;}
 function articleSuppsTopHtml(id){const names=ARTICLE_SUPPS[id];if(!names||!names.length)return'';const icon=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m4-4h6l6 6v12a2 2 0 01-2 2H9a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>`;return`<div class="art-supps-top"><div class="art-supps-top-label">${icon}Supplement${names.length>1?'s':''} in this article</div><div class="art-supps-grid">${names.map(n=>suppCardForArticle(n)).join('')}</div></div>`;}
 let _allArtsCache=null;
 function _buildAllArts(){if(_allArtsCache)return _allArtsCache;const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));_allArtsCache=m;return m;}
 function getRelatedArticles(articleId,max){max=max||4;const allArts=_buildAllArts();const thisArt=allArts[articleId];const thisSupps=ARTICLE_SUPPS[articleId]||[];const scores={};thisSupps.forEach(name=>{(ARTICLE_MAP[name]||[]).forEach(a=>{if(a.id!==articleId)scores[a.id]=(scores[a.id]||0)+2;});});if(thisArt)Object.values(allArts).forEach(a=>{if(a.id!==articleId&&a.c===thisArt.c)scores[a.id]=(scores[a.id]||0)+1;});return Object.entries(scores).filter(([,s])=>s>0).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([id])=>allArts[parseInt(id)]).filter(Boolean);}
-function articleRelatedHtml(articleId){const arts=getRelatedArticles(articleId);if(!arts.length)return'';const svgDoc=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;const cards=arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#1F7A6B';return`<div class="art-mini" role="link" tabindex="0" onclick="goArticle(${a.id},event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goArticle(${a.id},event);}"><div class="art-mini-ic" style="background:${clr}1a;color:${clr}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">${a.t}</div><div class="art-mini-m" style="color:${clr}">${ART_CAT_LBL[a.c]||''}<span class="art-mini-dot">·</span>${a.m} min</div></div><div class="art-mini-arr">›</div></div>`;}).join('');return`<div class="art-related-section"><div class="art-related-label">${svgDoc}Related Articles</div><div class="art-list">${cards}</div></div>`;}
+/* v2 related articles — outputs the .aend .rel-list block from
+   mockup-article-layout-v6.html. Each row: colored category eyebrow +
+   title + arrow. data-cat is the article's c code so the CSS picks
+   the right per-category color. */
+function articleRelatedHtml(articleId){
+  const arts=getRelatedArticles(articleId);
+  if(!arts.length)return'';
+  const rows=arts.map(function(a){
+    const cat=a.c||'';
+    const catLbl=ART_CAT_LBL[cat]||'';
+    return '<div class="rel-row" role="link" tabindex="0" onclick="goArticle('+a.id+',event)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goArticle('+a.id+',event);}">'
+      +'<div class="rel-row-body">'
+      +'<div class="rel-row-cat" data-cat="'+escAttr(cat)+'">'+escHtml(catLbl)+(a.m?' · '+a.m+' min':'')+'</div>'
+      +'<div class="rel-row-title">'+escHtml(a.t)+'</div>'
+      +'</div>'
+      +'<span class="rel-row-arrow">→</span>'
+      +'</div>';
+  }).join('');
+  const label=arts.length===1?'1 related':arts.length+' related';
+  return '<div class="aend"><div class="aend-k"><span>Related articles</span><span class="aend-k-r">'+label+'</span></div><div class="rel-list">'+rows+'</div></div>';
+}
 let _currentSuppName=null;
 function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;_currentSuppName=name;
 /* If the article modal is already open (e.g. user clicked a supplement
@@ -4289,15 +4381,207 @@ function _showSuppShareToast(msg){const t=document.getElementById('supp-share-to
 function shareSupp(){const name=_currentSuppName;if(!name)return;const slug=_slcSlug?_slcSlug(name):String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');/* Deep-link to the standalone supplement page so the recipient gets
    the full supplement detail, not just an index modal. */const url=location.origin+'/supplement.html?slug='+encodeURIComponent(slug);const shareData={title:name+' — SupplementScore',text:name+' — evidence-based score and protocol via SupplementScore',url:url};const btn=document.getElementById('supp-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showSuppShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showSuppShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showSuppShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
+/* ============================================================
+   v2 article helpers — TOC, section wrap, trust strip, category-to-accent
+   mapper. All scoped to the v2 article layout (mockup-article-layout-v6).
+   ============================================================ */
+/* Map the .article-cat text in source HTML (or the article's c code from
+   ARTICLE_MAP) to a v2 accent key. */
+function _v2AccentKeyFromCatText(txt){
+  if(!txt)return'stack';
+  const t=String(txt).toLowerCase().trim();
+  if(/safety/.test(t))return'safety';
+  if(/reality|myth/.test(t))return'myth';
+  if(/breakthrough|research update/.test(t))return'breakthrough';
+  if(/kids|teen|infant/.test(t))return'kids';
+  if(/stack/.test(t))return'stack';
+  if(/quick read/.test(t))return'quickread';
+  if(/guide|featured/.test(t))return'guide';
+  return'stack';
+}
+function _v2AccentKeyFromCode(c){
+  if(!c)return'stack';
+  switch(c){
+    case'safety':return'safety';
+    case'myth':return'myth';
+    case'breakthrough':return'breakthrough';
+    case'kids':return'kids';
+    case'guide':return'guide';
+    case'quickread':return'quickread';
+    default:return'stack';
+  }
+}
+/* Word-count -> minutes, ~200 wpm, rounded to a sensible label. */
+function _v2ReadTime(text){
+  if(!text)return 1;
+  const words=String(text).trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1,Math.round(words/200));
+}
+/* Generate a stable section id from heading text. */
+function _v2SlugifySec(s){
+  return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60)||'section';
+}
+/* Build a .toc block by scanning the body for h3 elements. Skips the
+   "Sources" heading. Each h3 gets an id (article-sec-N if not already
+   set). Per-section read time is computed from the words between this
+   h3 and the next. */
+function articleTocHtml(body){
+  if(!body)return'';
+  const h3s=Array.from(body.querySelectorAll('h3')).filter(function(h){
+    const t=h.textContent.trim();
+    return t&&t!=='Sources';
+  });
+  if(h3s.length<2)return'';
+  let totalMin=0;
+  const items=h3s.map(function(h,i){
+    if(!h.id)h.id='article-sec-'+(i+1);
+    let text='';
+    let cur=h.nextSibling;
+    while(cur){
+      if(cur.nodeType===1&&cur.tagName==='H3')break;
+      if(cur.nodeType===1)text+=' '+(cur.textContent||'');
+      cur=cur.nextSibling;
+    }
+    const min=_v2ReadTime(text);
+    totalMin+=min;
+    const num=String(i+1).padStart(2,'0');
+    const onCls=i===0?' on':'';
+    return '<li class="toc-li'+onCls+'"><a href="#'+escAttr(h.id)+'"><span class="toc-num">'+num+'</span><span>'+escHtml(h.textContent.trim())+'</span><span class="toc-time">'+min+' min</span></a></li>';
+  }).join('');
+  const meta=h3s.length+' sections · '+totalMin+' min';
+  return '<div class="toc"><div class="toc-k"><span>On this page</span><span class="toc-k-r">'+meta+'</span></div><ul class="toc-list">'+items+'</ul></div>';
+}
+/* For each h3 (except Sources), wrap it + its following content up to the
+   next h3 in a <section class="sec"> with a floating .sec-n number and a
+   .sec-meta line. We mutate the DOM in place. */
+function articleSectionWrapHtml(body){
+  if(!body)return;
+  const h3s=Array.from(body.querySelectorAll('h3')).filter(function(h){
+    return h.textContent.trim()&&h.textContent.trim()!=='Sources';
+  });
+  h3s.forEach(function(h,i){
+    if(h.closest('.sec'))return;
+    if(!h.id)h.id='article-sec-'+(i+1);
+    const num=String(i+1).padStart(2,'0');
+    const sec=document.createElement('section');
+    sec.className='sec';
+    /* Gather following siblings up to the next h3, the sources wrapper, or
+       any v2 .aend block (in case those have already been injected). */
+    const collected=[];
+    let cur=h.nextSibling;
+    while(cur){
+      if(cur.nodeType===1){
+        const tag=cur.tagName;
+        if(tag==='H3')break;
+        const cls=cur.className||'';
+        if(typeof cls==='string'&&(cls.indexOf('aend')>=0||cls.indexOf('art-sources')>=0))break;
+        /* Also stop if this element contains a Sources h3 (the legacy
+           Sources wrapper is a plain styled div with no class). */
+        if(cur.querySelector){
+          const inner=cur.querySelector('h3');
+          if(inner&&inner.textContent.trim()==='Sources')break;
+        }
+      }
+      const next=cur.nextSibling;
+      collected.push(cur);
+      cur=next;
+    }
+    /* Build replacement. */
+    const wordsText=collected.map(function(n){return n.textContent||'';}).join(' ');
+    const min=_v2ReadTime(wordsText);
+    /* Count sources inline in this section — looking for <a href> within. */
+    let srcCount=0;
+    collected.forEach(function(n){
+      if(n.nodeType===1){
+        srcCount+=n.querySelectorAll?n.querySelectorAll('a.src-link, a[href*="pubmed"], a[href*="doi.org"]').length:0;
+      }
+    });
+    /* New h2 (sec-h) replaces old h3. */
+    const h2=document.createElement('h2');
+    h2.className='sec-h';
+    h2.id=h.id;
+    h2.textContent=h.textContent;
+    const meta=document.createElement('div');
+    meta.className='sec-meta';
+    meta.innerHTML='<span>'+min+' min</span>'+(srcCount?' <span class="dot"></span><span class="src">'+srcCount+' source'+(srcCount===1?'':'s')+'</span>':'');
+    const secN=document.createElement('span');
+    secN.className='sec-n';
+    secN.textContent=num;
+    sec.appendChild(secN);
+    sec.appendChild(h2);
+    sec.appendChild(meta);
+    collected.forEach(function(n){sec.appendChild(n);});
+    h.parentNode.replaceChild(sec,h);
+  });
+}
+/* Build the trust strip from the article's source DOM. Pulls read-time
+   from the legacy .article-meta line where possible, otherwise estimates
+   from body word count. Counts <li> sources for "studies cited". Evidence
+   bars are a coarse heuristic: 4 = >=20 sources & breakthrough/guide,
+   3 = >=10 sources, 2 = >=5, 1 = otherwise. */
+function articleTrustHtml(src,catKey){
+  if(!src)return'';
+  let readMin=null;
+  const metaEl=src.querySelector('.article-meta');
+  if(metaEl){
+    const m=metaEl.textContent.match(/(\d+)\s*min/i);
+    if(m)readMin=parseInt(m[1],10);
+  }
+  if(!readMin){
+    const txt=src.textContent||'';
+    readMin=_v2ReadTime(txt);
+  }
+  const ol=Array.from(src.querySelectorAll('h3')).find(function(h){return h.textContent.trim()==='Sources';});
+  const olEl=ol?ol.parentElement.querySelector('ol'):null;
+  const srcCount=olEl?olEl.querySelectorAll('li').length:0;
+  /* Evidence bars 1..4 */
+  let bars=1;
+  if(srcCount>=5)bars=2;
+  if(srcCount>=10)bars=3;
+  if(srcCount>=20)bars=4;
+  const barLbl=bars>=4?'Strong':bars>=3?'Solid':bars>=2?'Moderate':'Limited';
+  const lr=articleReviewedDate(src);
+  const revLbl=lr?('Reviewed · '+fmtReviewDate(lr)):'Reviewed by Editorial Board';
+  const docSvg='<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>';
+  const clockSvg='<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>';
+  let barsHtml='';
+  for(let i=1;i<=4;i++)barsHtml+='<span'+(i<=bars?' class="on"':'')+'></span>';
+  return '<div class="trust">'
+    +'<span class="trust-item">'+clockSvg+'<b>'+readMin+' min</b></span>'
+    +(srcCount?'<span class="trust-item">'+docSvg+'<b>'+srcCount+'</b> studies cited</span>':'')
+    +'<span class="trust-item"><span class="trust-bars">'+barsHtml+'</span><b>'+barLbl+'</b> evidence</span>'
+    +'<span class="trust-rev">'+escHtml(revLbl)+'</span>'
+    +'</div>';
+}
+/* Convert legacy inline "Sensitive populations" callouts (filled boxes
+   with inline style attribute) into a left-bar treatment. We can't rely
+   on a class selector because the legacy markup uses inline styles only.
+   Detect by inner content (begins with "Sensitive populations:") and
+   strip the offending styles. */
+function articleConvertSensitivePops(body){
+  if(!body)return;
+  const candidates=body.querySelectorAll('div[style]');
+  candidates.forEach(function(d){
+    const strong=d.querySelector('strong');
+    if(!strong)return;
+    if(!/^Sensitive populations:/i.test(strong.textContent||''))return;
+    d.removeAttribute('style');
+    /* Strip strong's inline style too. */
+    strong.removeAttribute('style');
+    d.classList.add('sens-pop');
+  });
+}
 function processArticleSources(container){
   let sourcesDiv=null;
   container.querySelectorAll('h3').forEach(h=>{if(h.textContent.trim()==='Sources')sourcesDiv=h.parentElement;});
   if(!sourcesDiv)return null;
   sourcesDiv.classList.add('art-sources');
   const ol=sourcesDiv.querySelector('ol');
+  let totalSources=0,industryCount=0,coiCount=0;
   if(ol){
     ol.style.fontSize='0.68rem';ol.style.lineHeight='1.65';
     ol.querySelectorAll('li').forEach(li=>{
+      totalSources++;
       const m=li.innerHTML.match(/\u201c([^\u201d]+)\u201d|"([^"]+)"/);
       if(m){
         const title=m[1]||m[2];
@@ -4319,28 +4603,155 @@ function processArticleSources(container){
       const ftype=(li.getAttribute('data-funder-type')||'').toLowerCase();
       const funder=li.getAttribute('data-funder')||'';
       const coi=(li.getAttribute('data-coi')||'').toLowerCase();
+      const isV2=!!(container.classList&&container.classList.contains('article-v2'))
+              ||!!(container.closest&&container.closest('.article-v2'));
       if(ftype){
         li.classList.add('cite-fund-'+ftype);
         if(ftype==='industry'){
+          industryCount++;
           const tip='Industry-funded'+(funder?' \u2014 '+funder:'')+'. Effect estimates from industry-funded supplement trials run ~20\u201330% larger on average than independent ones; weighted accordingly in our tier calls.';
-          li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-fund-industry-badge" title="'+escAttr(tip)+'">industry-funded</span>');
+          if(isV2){
+            li.insertAdjacentHTML('beforeend',' <span class="src-tag industry" title="'+escAttr(tip)+'">industry-funded</span>');
+          }else{
+            li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-fund-industry-badge" title="'+escAttr(tip)+'">industry-funded</span>');
+          }
         }else if(ftype==='mixed'){
           const tip='Mixed funding'+(funder?' \u2014 '+funder:'')+'. Some industry support disclosed.';
-          li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-fund-mixed-badge" title="'+escAttr(tip)+'">mixed funding</span>');
+          if(isV2){
+            li.insertAdjacentHTML('beforeend',' <span class="src-tag mixed" title="'+escAttr(tip)+'">mixed funding</span>');
+          }else{
+            li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-fund-mixed-badge" title="'+escAttr(tip)+'">mixed funding</span>');
+          }
         }
       }
       if(coi==='true'||coi==='yes'){
-        li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-coi-badge" title="One or more authors disclosed a competing interest related to the supplement.">COI disclosed</span>');
+        coiCount++;
+        if(isV2){
+          li.insertAdjacentHTML('beforeend',' <span class="src-tag coi" title="One or more authors disclosed a competing interest related to the supplement.">COI disclosed</span>');
+        }else{
+          li.insertAdjacentHTML('beforeend',' <span class="cite-fund-badge cite-coi-badge" title="One or more authors disclosed a competing interest related to the supplement.">COI disclosed</span>');
+        }
       }
     });
   }
+  /* In v2 mode, wrap the legacy block in the .aend / .sources-list structure
+     from mockup-article-layout-v6.html. The original h3 and ol are hidden by
+     the v2 CSS (`.article-v2 .art-sources h3 { display:none }`); we render a
+     parallel .sources-list with the same li nodes copied in. */
+  try{
+    const inV2=!!(sourcesDiv.closest&&sourcesDiv.closest('.article-v2'));
+    if(inV2&&ol&&!sourcesDiv.querySelector('.sources-list')){
+      const lis=Array.from(ol.querySelectorAll('li')).map(function(li){return li.outerHTML;}).join('');
+      const peer=totalSources===1?'1 peer-reviewed':totalSources+' peer-reviewed';
+      const footParts=[];
+      footParts.push('Reviewed against <b>'+totalSources+' peer-reviewed source'+(totalSources===1?'':'s')+'</b>');
+      if(industryCount)footParts.push(industryCount+' industry-funded stud'+(industryCount===1?'y':'ies')+' flagged');
+      else footParts.push('0 industry-funded');
+      if(coiCount)footParts.push(coiCount+' author COI disclosed');
+      else footParts.push('No conflicts of interest among reviewers.');
+      const foot='<div class="sources-foot">'+footParts.join(' \u00b7 ')+'</div>';
+      const aend='<div class="aend"><div class="aend-k"><span>Sources</span><span class="aend-k-r">'+peer+'</span></div><ol class="sources-list">'+lis+'</ol>'+foot+'</div>';
+      sourcesDiv.insertAdjacentHTML('beforeend',aend);
+    }
+  }catch(_){}
   return sourcesDiv;
 }
 let _artReturnScrollY=0,_currentArticleId=null,_artNavList=[],_artNavStack=[];
 function _buildArtNavList(){const out=[];document.querySelectorAll('[id^="article-"]').forEach(el=>{const m=el.id.match(/^article-(\d+)$/);if(m)out.push(parseInt(m[1],10));});return out.sort((a,b)=>a-b);}
-function goArticle(id,ev,_skipStackPush){const _ev=ev||(typeof window!=='undefined'?window.event:null);if(_ev&&_ev.stopPropagation)_ev.stopPropagation();const src=document.getElementById('article-'+id);if(!src)return;const modal=document.getElementById('art-modal');if(!modal)return;const isOpen=modal.classList.contains('open');if(!isOpen){_artReturnScrollY=window.pageYOffset;if(!_artNavList.length)_artNavList=_buildArtNavList();_artNavStack=[];try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'ss-art-modal',state:'open'},'*');}catch(_){}}else if(_currentArticleId&&_currentArticleId!==id&&!_skipStackPush){_artNavStack.push(_currentArticleId);}_currentArticleId=id;const body=document.getElementById('art-modal-body');if(!body)return;const artInner=src.querySelector('[style*="padding"]')||src;body.innerHTML=artInner.innerHTML;const backBtn=body.querySelector('button');if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();const kpHtml=articleKeyPointsHtml(body);if(kpHtml){const metaEl=body.querySelector('.article-meta');if(metaEl){metaEl.style.marginBottom='0';metaEl.insertAdjacentHTML('afterend',kpHtml);}else{body.insertAdjacentHTML('afterbegin',kpHtml);}const firstP=body.querySelector('p');if(firstP)firstP.classList.add('art-body-first');}const suppsHtml=articleSuppsHtml(id);const sourcesDiv=processArticleSources(body);if(suppsHtml){if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);else body.insertAdjacentHTML('beforeend',suppsHtml);}const relHtml=articleRelatedHtml(id);if(relHtml)body.insertAdjacentHTML('beforeend',relHtml);if(sourcesDiv)body.appendChild(sourcesDiv);/* Phase 0 / Item #9: surface last-reviewed date from the source article comment.
-   Phase 0 / Item #10: also render an inline "Flag inaccuracy" trigger next to the date. */const _lr=articleReviewedDate(src);const _flagLink='<button type="button" class="article-flag-btn" onclick="openFeedback(\'article\',\''+id+'\')">Flag inaccuracy</button>';if(_lr){const _meta=body.querySelector('.article-meta');const _badge='<div class="article-meta-row"><span class="article-reviewed" title="Reviewed against PubMed and the listed sources every 22 days. Tier-4 safety entries are reviewed more often.">Last reviewed: '+fmtReviewDate(_lr)+'</span>'+_flagLink+'</div>';if(_meta){_meta.insertAdjacentHTML('afterend',_badge);}else{body.insertAdjacentHTML('afterbegin',_badge);}}else{const _meta=body.querySelector('.article-meta');const _row='<div class="article-meta-row">'+_flagLink+'</div>';if(_meta){_meta.insertAdjacentHTML('afterend',_row);}else{body.insertAdjacentHTML('afterbegin',_row);}}_updateArtNav();if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}modal.scrollTop=0;_setArticleHash(id);}
-function closeArtModal(){if(_artNavStack.length){const prev=_artNavStack.pop();if(document.getElementById('article-'+prev)){goArticle(prev,null,true);return;}}const m=document.getElementById('art-modal');if(m)m.classList.remove('open');document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;_artNavStack=[];try{if(location.hash&&/^#article-\d+$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}catch(e){}try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'ss-art-modal',state:'close'},'*');}catch(_){}}
+function goArticle(id,ev,_skipStackPush){
+  const _ev=ev||(typeof window!=='undefined'?window.event:null);
+  if(_ev&&_ev.stopPropagation)_ev.stopPropagation();
+  const src=document.getElementById('article-'+id);
+  if(!src)return;
+  const modal=document.getElementById('art-modal');
+  if(!modal)return;
+  const isOpen=modal.classList.contains('open');
+  if(!isOpen){
+    _artReturnScrollY=window.pageYOffset;
+    if(!_artNavList.length)_artNavList=_buildArtNavList();
+    _artNavStack=[];
+    try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'ss-art-modal',state:'open'},'*');}catch(_){}
+  }else if(_currentArticleId&&_currentArticleId!==id&&!_skipStackPush){
+    _artNavStack.push(_currentArticleId);
+  }
+  _currentArticleId=id;
+  const body=document.getElementById('art-modal-body');
+  if(!body)return;
+  const artInner=src.querySelector('[style*="padding"]')||src;
+  body.innerHTML=artInner.innerHTML;
+  /* v2: scope new layout via .article-v2 class + per-archetype accent. */
+  body.classList.add('article-v2');
+  modal.classList.add('v2-chrome');
+  /* Pick accent: try ARTICLE_MAP c-code first (more reliable), then fall
+     back to the .article-cat text on the source. */
+  let accentKey='stack';
+  try{
+    const am=_buildAllArts();
+    if(am[id]&&am[id].c)accentKey=_v2AccentKeyFromCode(am[id].c);
+    else{
+      const catEl=body.querySelector('.article-cat');
+      if(catEl)accentKey=_v2AccentKeyFromCatText(catEl.textContent);
+    }
+  }catch(_){}
+  body.setAttribute('data-accent',accentKey);
+  /* Remove legacy back button. */
+  const backBtn=body.querySelector('button');
+  if(backBtn&&backBtn.textContent.includes('Back'))backBtn.remove();
+  /* Restyle the original .article-cat as .cat eyebrow. */
+  const catEl=body.querySelector('.article-cat');
+  if(catEl){catEl.classList.add('cat');catEl.removeAttribute('style');}
+  /* Promote the article h2 to .h1 typography. */
+  const h2El=body.querySelector('h2');
+  if(h2El){h2El.classList.add('v2-h1');h2El.removeAttribute('style');}
+  /* Convert legacy sensitive-population callouts to left-bar treatment. */
+  articleConvertSensitivePops(body);
+  /* Inject the trust strip after the title. */
+  const trustHtml=articleTrustHtml(src,accentKey);
+  if(h2El&&trustHtml){h2El.insertAdjacentHTML('afterend',trustHtml);}
+  /* Bottom Line right after trust. */
+  const blHtml=articleBottomLineHtml(body,null);
+  const trustEl=body.querySelector('.trust');
+  if(blHtml){
+    if(trustEl)trustEl.insertAdjacentHTML('afterend',blHtml);
+    else if(h2El)h2El.insertAdjacentHTML('afterend',blHtml);
+    else body.insertAdjacentHTML('afterbegin',blHtml);
+  }
+  /* TOC inline. */
+  const tocHtml=articleTocHtml(body);
+  if(tocHtml){
+    const blEl=body.querySelector('.bl');
+    if(blEl)blEl.insertAdjacentHTML('afterend',tocHtml);
+  }
+  /* Wrap each h3 (except Sources) as a .sec block with a floating number. */
+  articleSectionWrapHtml(body);
+  /* End sections: supplements, related, sources — in that order, after body
+     content but before any other trailing elements. */
+  const suppsHtml=articleSuppsHtml(id);
+  const sourcesDiv=processArticleSources(body);
+  if(suppsHtml){
+    if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',suppsHtml);
+    else body.insertAdjacentHTML('beforeend',suppsHtml);
+  }
+  const relHtml=articleRelatedHtml(id);
+  if(relHtml){
+    if(sourcesDiv)sourcesDiv.insertAdjacentHTML('beforebegin',relHtml);
+    else body.insertAdjacentHTML('beforeend',relHtml);
+  }
+  if(sourcesDiv)body.appendChild(sourcesDiv);
+  /* Flag inaccuracy: keep the legacy openFeedback() trigger but tuck it into
+     the sources .aend footer area so it doesn't break the typographic flow.
+     The trust strip already surfaces the reviewed date — no need to double up. */
+  try{
+    const _flagBtn='<button type="button" class="article-flag-btn" onclick="openFeedback(\'article\',\''+id+'\')" style="margin-left:auto">Flag inaccuracy</button>';
+    const lastAend=body.querySelector('.aend:last-child .sources-foot')||body.querySelector('.aend:last-child');
+    if(lastAend){lastAend.insertAdjacentHTML('beforeend',' '+_flagBtn);}
+  }catch(_){}
+  _updateArtNav();
+  if(!isOpen){modal.classList.add('open');document.body.style.overflow='hidden';}
+  modal.scrollTop=0;
+  _setArticleHash(id);
+}
+function closeArtModal(){if(_artNavStack.length){const prev=_artNavStack.pop();if(document.getElementById('article-'+prev)){goArticle(prev,null,true);return;}}const m=document.getElementById('art-modal');if(m){m.classList.remove('open');m.classList.remove('v2-chrome');}document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;_artNavStack=[];try{if(location.hash&&/^#article-\d+$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}catch(e){}try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'ss-art-modal',state:'close'},'*');}catch(_){}}
 function _setArticleHash(id){try{history.replaceState(null,'','#article-'+id);}catch(e){}}
 function _showShareToast(msg){const t=document.getElementById('art-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+escHtml(String(msg||''));t.classList.add('show');clearTimeout(_showShareToast._t);_showShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
 function shareArticle(){const id=_currentArticleId;if(!id)return;const body=document.getElementById('art-modal-body');const titleEl=body?body.querySelector('h2'):null;const title=titleEl?titleEl.textContent.trim():'Supplement Score';const url=location.origin+location.pathname+'#article-'+id;const shareData={title:title,text:title+' — via Supplement Score',url:url};const btn=document.getElementById('art-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
