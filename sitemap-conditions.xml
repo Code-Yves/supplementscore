@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://supplementscore.org/condition/index.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://supplementscore.org/condition/index.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://supplementscore.org/condition/adhd-stack.html</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/condition/allergic-rhinitis.html</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/condition/anxiety-stack.html</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -32,4 +32,12 @@
   <url><loc>https://supplementscore.org/condition/tinnitus.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/condition/dry-eye.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/condition/kidney-stones.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/ibs-d-protocol.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/female-fertility.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/periodontal-disease.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/chronic-inflammation.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/raynauds-protocol.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/menopause-hot-flashes.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/postpartum-depression.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/endometriosis-protocol.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

@@ -22,3 +22,23 @@
 | 2026-05-10 | glynac-glycine-plus-nac-for-glutathione-restoration-in-aging-what-the-baylor-trials-show | Breakthrough | 659 | 7 | public:7 | evergreen |
 | 2026-05-10 | probiotics-for-infant-eczema-what-12-rcts-show-and-which-strain-actually-matters | Kids | 709 | 6 | public:6 | evergreen |
 | 2026-05-10 | childrens-electrolyte-powders-safe-alternatives-to-sports-drinks-for-sick-and-active-kids | Kids | 659 | 6 | public:6 | evergreen |
+| 2026-05-11 | hesperidin-and-cardiovascular-outcomes-what-the-citrus-flavonoid-trials-show | Research Update | 720 | 7 | public:4, mixed:1, industry:2 | evergreen |
+| 2026-05-11 | tributyrin-the-butyrate-prodrug-and-its-gut-barrier-evidence | Research Update | 730 | 6 | public:4, industry:2 | evergreen |
+| 2026-05-11 | magnesium-l-threonate-and-cognition-what-the-human-trials-show | Research Update | 720 | 6 | public:3, industry:2, mixed:1 | evergreen |
+| 2026-05-11 | same-s-adenosylmethionine-for-depression-head-to-head-trials-with-ssris | Research Update | 760 | 6 | public:6 | evergreen |
+| 2026-05-11 | cocoa-flavanols-and-cognitive-aging-the-cosmos-trial-results | Research Update | 750 | 6 | public:4, mixed:2 | evergreen |
+| 2026-05-11 | tetrahydrocurcumin-the-curcumin-metabolite-without-the-absorption-problem | Research Update | 720 | 6 | public:5, industry:1 | evergreen |
+| 2026-05-11 | probiotic-strains-for-ibs-which-species-the-evidence-actually-supports | Guide | 850 | 6 | public:6 | evergreen |
+| 2026-05-11 | l-tyrosine-for-stress-and-cognitive-performance-when-it-actually-works | Guide | 760 | 7 | public:7 | evergreen |
+| 2026-05-11 | inositol-for-pcos-myo-vs-d-chiro-and-the-40-1-ratio-explained | Guide | 770 | 6 | public:6 | evergreen |
+| 2026-05-11 | rhodiola-rosea-dosing-for-fatigue-and-stress-what-the-russian-and-western-trials-agree-on | Guide | 780 | 7 | public:5, industry:2 | evergreen |
+| 2026-05-11 | bitter-orange-synephrine-the-ephedra-replacement-with-cardiovascular-risks | Safety | 760 | 7 | public:7 | evergreen |
+| 2026-05-11 | comfrey-and-pyrrolizidine-alkaloids-why-the-fda-restricted-the-herb | Safety | 770 | 7 | public:6, industry:1 | evergreen |
+| 2026-05-11 | supplement-thyroid-medication-interactions-biotin-calcium-iron-and-soy | Safety | 880 | 7 | public:7 | evergreen |
+| 2026-05-11 | alkaline-water-and-ph-supplements-why-the-chemistry-doesnt-work-that-way | Myth | 780 | 7 | public:7 | evergreen |
+| 2026-05-11 | adrenal-fatigue-supplements-the-diagnosis-no-endocrine-society-recognises | Myth | 800 | 6 | public:6 | evergreen |
+| 2026-05-11 | liver-detox-supplements-what-milk-thistle-actually-does-and-doesnt-do | Myth | 780 | 6 | public:6 | evergreen |
+| 2026-05-11 | mitoq-the-mitochondria-targeted-antioxidant-and-its-clinical-trials | Breakthrough | 740 | 6 | public:4, industry:2 | evergreen |
+| 2026-05-11 | carnosine-for-skin-glycation-and-aging-the-ages-evidence-so-far | Breakthrough | 760 | 7 | public:5, industry:2 | evergreen |
+| 2026-05-11 | lactobacillus-reuteri-dsm-17938-for-infant-colic-what-the-rcts-show | Kids | 770 | 6 | public:5, industry:1 | evergreen |
+| 2026-05-11 | vitamin-d-for-breastfed-infants-why-aap-recommends-400-iu-from-birth | Kids | 890 | 6 | public:6 | evergreen |

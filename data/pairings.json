@@ -1,14 +1,15 @@
 {
   "_meta": {
     "generated": "2026-04-23",
-    "last_reviewed": "2026-05-04 (Plan A4 — added 35 cofactor/antagonism/timing/risk pairings, 10 depletions, 8 dangerous)",
+    "last_reviewed": "2026-05-11 (weekly pairing-coverage refresh \u2014 appended 56 entries; auto-apply mode)",
     "source": "data.js (733 supplements; mod date 2026-04-24, no net add/remove vs prior 733 count)",
     "schema_version": "1.3",
     "notes": "Each pairing references supplement `n` (name) strings as they appear in `data.js`. `kind` describes WHY the pair belongs together; `strength` is 1-5 (5 = mandatory for the effect, 1 = speculative). `apart_from` lists things the supplement competes with for absorption.",
     "changelog": [
       "v1.3 (2026-05-01): Full-database audit. Renamed 30 orphan member references to canonical supplement names; added 25 new pairings covering methylation, mineral interactions, sleep stack, BP/glucose synergies, depression adjuncts, and absorption boosters.",
       "v1.1 (2026-04-23 PM): Added 25 additional pairings (p31-p55) surfaced from a complete re-read of data.js prose. All existing pairings (p1-p30) remain unchanged.",
-      "v1.2 (2026-04-25): Added 7 additional pairings (p56-p62) surfaced from data.js entries modified 2026-04-24 — chiefly explicit stack entries (Adaptogen stack, HA+Chondroitin stack), prose synergies (Casein vs Whey timing, Theacrine+Caffeine, Beta-alanine+Creatine, Proline+C+Glycine), and the Dan Shen/Sanqi TCM pair. Existing p1-p55 unchanged."
+      "v1.2 (2026-04-25): Added 7 additional pairings (p56-p62) surfaced from data.js entries modified 2026-04-24 \u2014 chiefly explicit stack entries (Adaptogen stack, HA+Chondroitin stack), prose synergies (Casein vs Whey timing, Theacrine+Caffeine, Beta-alanine+Creatine, Proline+C+Glycine), and the Dan Shen/Sanqi TCM pair. Existing p1-p55 unchanged.",
+      "v1.4 (2026-05-11): Weekly pairing-coverage refresh \u2014 appended 56 entries (p138-p193) covering thin-coverage Tier-1 supplements. Auto-apply mode for medium/high confidence with PMIDs; Tier-1 supp-Rx high antagonisms escalated to human review."
     ]
   },
   "pairings": [
@@ -374,7 +375,7 @@
     {
       "id": "p29",
       "members": [
-        "HMB (β-Hydroxy-β-methylbutyrate)",
+        "HMB (\u03b2-Hydroxy-\u03b2-methylbutyrate)",
         "Creatine monohydrate"
       ],
       "kind": "independent-complementary",
@@ -470,7 +471,7 @@
       ],
       "kind": "substrate-pair",
       "strength": 3,
-      "goal": "GlyNAC extended — glutathione synthesis + transsulfuration support",
+      "goal": "GlyNAC extended \u2014 glutathione synthesis + transsulfuration support",
       "rationale": "Extends p26. L-cysteine/NAC + glycine are the two limiting substrates for glutathione; P5P and Zn are cofactors for the transsulfuration enzymes (CBS, CSE) that produce endogenous cysteine.",
       "dose": "NAC 600-1,200 mg + glycine 3 g + P5P 25 mg + Zn 15-25 mg (with Cu 1-2 mg if long-term).",
       "source_field": "L-Cysteine entry: 'Synergistic with glycine (GlyNAC stack); add B6 and zinc to support the transsulfuration pathway'"
@@ -484,7 +485,7 @@
       "kind": "side-effect-offset",
       "strength": 4,
       "goal": "Prevent arachidonic-acid buildup from high-dose GLA",
-      "rationale": "GLA can be elongated to arachidonic acid (pro-inflammatory) if the pathway is not balanced by EPA/DHA intake. This pairing is more than convenience — it is a safety-relevant balance.",
+      "rationale": "GLA can be elongated to arachidonic acid (pro-inflammatory) if the pathway is not balanced by EPA/DHA intake. This pairing is more than convenience \u2014 it is a safety-relevant balance.",
       "dose": "Borage oil 500-1,000 mg GLA + EPA/DHA 1-2 g.",
       "source_field": "Borage oil entry: 'combine with fish oil to prevent arachidonic-acid buildup from GLA'"
     },
@@ -512,7 +513,7 @@
       "kind": "synergy",
       "strength": 4,
       "goal": "Targeted bifidogenic synbiotic",
-      "rationale": "GOS selectively feeds bifidobacteria — a specific case of p8 with stronger trial data than generic fibre for raising Bifidobacterium counts.",
+      "rationale": "GOS selectively feeds bifidobacteria \u2014 a specific case of p8 with stronger trial data than generic fibre for raising Bifidobacterium counts.",
       "dose": "GOS 3.5-5 g + Bifidobacterium-containing probiotic 1-10B CFU.",
       "source_field": "GOS entry: 'highly synergistic with probiotic supplementation'"
     },
@@ -538,9 +539,9 @@
       ],
       "kind": "mechanism-complementary",
       "strength": 2,
-      "goal": "Complete oat matrix — cholesterol + vascular antioxidant",
+      "goal": "Complete oat matrix \u2014 cholesterol + vascular antioxidant",
       "rationale": "Beta-glucan handles LDL via bile-acid sequestration; avenanthramides add endothelial antioxidant activity. Whole oats deliver both; isolated supplementation loses one.",
-      "dose": "Beta-glucan 3-10 g + avenanthramides (dose not standardised — whole oat sources preferred).",
+      "dose": "Beta-glucan 3-10 g + avenanthramides (dose not standardised \u2014 whole oat sources preferred).",
       "source_field": "Avenanthramides entry: 'synergistic with oat beta-glucan for complete oat benefits'"
     },
     {
@@ -760,7 +761,7 @@
       "kind": "temporal-complementary",
       "strength": 3,
       "goal": "24-hour muscle protein synthesis coverage",
-      "rationale": "Whey is rapidly digested and spikes plasma amino acids — ideal post-workout to drive an acute MPS response. Casein clots in the stomach and releases amino acids slowly over ~7 h — ideal pre-bed to suppress overnight proteolysis. Layering the two by timing (not by mixing) covers both the post-exercise anabolic window and the overnight fasted period.",
+      "rationale": "Whey is rapidly digested and spikes plasma amino acids \u2014 ideal post-workout to drive an acute MPS response. Casein clots in the stomach and releases amino acids slowly over ~7 h \u2014 ideal pre-bed to suppress overnight proteolysis. Layering the two by timing (not by mixing) covers both the post-exercise anabolic window and the overnight fasted period.",
       "dose": "Whey 20-30 g within 1-2 h post-workout + casein 30-40 g 30-60 min pre-bed on training days.",
       "source_field": "Casein protein entry: 'Casein before bed beats whey for overnight muscle building'"
     },
@@ -772,7 +773,7 @@
       ],
       "kind": "goal-stack",
       "strength": 3,
-      "goal": "Adaptogen stack — calming + activating",
+      "goal": "Adaptogen stack \u2014 calming + activating",
       "rationale": "KSM-66 ashwagandha lowers cortisol and supports recovery from chronic stress; Rhodiola rosea is a stimulating adaptogen that supports energy and mental endurance. Complementary mechanisms (GABAergic/HPA-axis dampening + monoaminergic/fatigue resistance). No head-to-head RCT of the combination, but both have independent evidence and the combination is in clinical use.",
       "dose": "KSM-66 ashwagandha 300-600 mg/day (food, AM or PM) + Rhodiola rosea 200-400 mg/day (empty stomach, AM only). Cycle 8-12 weeks on, 2-4 weeks off.",
       "contraindications": [
@@ -851,11 +852,11 @@
       "kind": "traditional-formula",
       "strength": 1,
       "goal": "TCM cardiovascular / circulation support",
-      "rationale": "Classical TCM cardiovascular pairing (often as 'Compound Danshen Dripping Pill'). Both have anti-platelet and vasodilatory activity in lab and Chinese clinical studies; independent replication outside China is limited. Listed for completeness — additive bleeding risk is the dominant practical consideration.",
+      "rationale": "Classical TCM cardiovascular pairing (often as 'Compound Danshen Dripping Pill'). Both have anti-platelet and vasodilatory activity in lab and Chinese clinical studies; independent replication outside China is limited. Listed for completeness \u2014 additive bleeding risk is the dominant practical consideration.",
       "dose": "Dan Shen 1,500-3,000 mg/day + Sanqi 500-1,500 mg/day standardised extract.",
       "contraindications": [
         "warfarin / DOAC / aspirin / NSAID (additive bleeding)",
-        "pre-surgical period (stop ≥2 weeks prior)"
+        "pre-surgical period (stop \u22652 weeks prior)"
       ],
       "source_field": "Dan Shen compound entry: 'traditionally combined with Sanqi (Panax notoginseng)'"
     },
@@ -984,7 +985,7 @@
       "kind": "synergy",
       "strength": 3,
       "rationale": "Berberine activates AMPK; bergamot inhibits HMG-CoA reductase via brutieridin/melitidin. Italian RCTs combine for additive LDL reduction.",
-      "dose": "Berberine 500 mg 2-3×/day + Bergamot 500-1000 mg/day with meals.",
+      "dose": "Berberine 500 mg 2-3\u00d7/day + Bergamot 500-1000 mg/day with meals.",
       "id": "p72"
     },
     {
@@ -1084,7 +1085,7 @@
       ],
       "kind": "mechanism-complementary",
       "strength": 5,
-      "goal": "Bone deposition triad — calcium absorbed (D3), directed to bone (K2), enzymes activated (Mg)",
+      "goal": "Bone deposition triad \u2014 calcium absorbed (D3), directed to bone (K2), enzymes activated (Mg)",
       "rationale": "Magnesium is the cofactor that activates vitamin D and converts inactive osteocalcin; K2 then directs the calcium D3 absorbs into bone instead of arteries.",
       "dose": "D3 1000-2000 IU + MK-7 100-200 mcg + Mg glycinate 200-400 mg, with the largest meal.",
       "contraindications": [
@@ -1101,7 +1102,7 @@
       "strength": 5,
       "goal": "Avoid mineral absorption conflict",
       "rationale": "Calcium reduces non-heme iron absorption by up to 60% via DMT-1 competition. Even ~165 mg calcium with iron blocks half the iron uptake.",
-      "dose": "Separate iron and calcium doses by ≥2 hours (and avoid dairy with iron).",
+      "dose": "Separate iron and calcium doses by \u22652 hours (and avoid dairy with iron).",
       "apart_from": [
         "Calcium",
         "dairy"
@@ -1117,7 +1118,7 @@
       "strength": 3,
       "goal": "Metabolic + hepatoprotection support",
       "rationale": "Berberine improves insulin sensitivity but is hepatically processed; silymarin protects hepatocytes during chronic use. Italian RCTs (Berberol K) combine for NAFLD and metabolic syndrome.",
-      "dose": "Berberine 500 mg 2-3×/day + Silymarin 200-400 mg/day with meals.",
+      "dose": "Berberine 500 mg 2-3\u00d7/day + Silymarin 200-400 mg/day with meals.",
       "id": "p82"
     },
     {
@@ -1165,7 +1166,7 @@
       "kind": "synergy",
       "strength": 3,
       "goal": "Gentler iron repletion in deficiency",
-      "rationale": "Lactoferrin enhances iron uptake while reducing GI side effects; vitamin C still aids reduction of Fe3+ → Fe2+. Useful in pregnancy and IBD trials.",
+      "rationale": "Lactoferrin enhances iron uptake while reducing GI side effects; vitamin C still aids reduction of Fe3+ \u2192 Fe2+. Useful in pregnancy and IBD trials.",
       "dose": "Ferrous bisglycinate 25-50 mg + Vitamin C 100-250 mg + Lactoferrin 100-200 mg, on empty stomach.",
       "apart_from": [
         "Calcium",
@@ -1198,7 +1199,7 @@
       "strength": 5,
       "goal": "Vitamin D activation",
       "rationale": "Magnesium is a required cofactor for the hepatic and renal hydroxylases that activate vitamin D. Mg-deficient subjects show poor 25-OH-D response to D3 supplementation.",
-      "dose": "Mg 300-400 mg/day with D3 ≥1,000 IU; both with food.",
+      "dose": "Mg 300-400 mg/day with D3 \u22651,000 IU; both with food.",
       "id": "p88"
     },
     {
@@ -1210,7 +1211,7 @@
       "strength": 4,
       "goal": "Long-term zinc supplementation balance",
       "rationale": "Zinc downregulates intestinal copper absorption via metallothionein. Chronic zinc >25-30 mg/day without copper causes anemia and neuropathy.",
-      "dose": "If Zn ≥25 mg/day, add Cu 1-2 mg/day. Optimal ratio ~8-15:1 Zn:Cu.",
+      "dose": "If Zn \u226525 mg/day, add Cu 1-2 mg/day. Optimal ratio ~8-15:1 Zn:Cu.",
       "optimal_ratio": "Zn:Cu 10:1",
       "id": "p89"
     },
@@ -1222,7 +1223,7 @@
       "kind": "absorption-enhancer",
       "strength": 5,
       "goal": "Non-heme iron absorption",
-      "rationale": "Ascorbate reduces ferric to ferrous iron in the gut, increasing absorption ~2-3×. Especially helpful with plant-based iron sources.",
+      "rationale": "Ascorbate reduces ferric to ferrous iron in the gut, increasing absorption ~2-3\u00d7. Especially helpful with plant-based iron sources.",
       "dose": "Iron 30-60 mg + Vitamin C 100-250 mg, taken together on empty stomach if tolerated.",
       "evidence_grade": "A",
       "id": "p90"
@@ -1287,8 +1288,8 @@
       "kind": "cofactor",
       "strength": 5,
       "goal": "Thyroid hormone synthesis and conversion",
-      "rationale": "Iodine is the substrate for T3/T4; selenium is the cofactor for deiodinases that activate T4→T3 and for glutathione-peroxidase that protects the thyroid from peroxide damage.",
-      "dose": "Iodine ≤150 mcg/day (avoid in autoimmune thyroid) + Selenium 100-200 mcg selenomethionine.",
+      "rationale": "Iodine is the substrate for T3/T4; selenium is the cofactor for deiodinases that activate T4\u2192T3 and for glutathione-peroxidase that protects the thyroid from peroxide damage.",
+      "dose": "Iodine \u2264150 mcg/day (avoid in autoimmune thyroid) + Selenium 100-200 mcg selenomethionine.",
       "evidence_grade": "A",
       "id": "p95"
     },
@@ -1302,7 +1303,7 @@
       "strength": 5,
       "goal": "Bone-targeted calcium deposition",
       "rationale": "D3 increases gut Ca absorption; K2 activates osteocalcin (bone) and MGP (vascular protection), directing Ca to bone rather than arteries. Mg is also required for D activation.",
-      "dose": "Ca ≤500 mg/dose + D3 1,000-2,000 IU + MK-7 90-200 mcg + Mg 300 mg.",
+      "dose": "Ca \u2264500 mg/dose + D3 1,000-2,000 IU + MK-7 90-200 mcg + Mg 300 mg.",
       "evidence_grade": "B",
       "id": "p96"
     },
@@ -1328,7 +1329,7 @@
       "kind": "substrate-pair",
       "strength": 4,
       "goal": "Glutathione synthesis (older adults)",
-      "rationale": "Glutathione = γ-glutamyl-cysteinyl-glycine. NAC supplies cysteine; glycine supplies the third amino acid. Older adults are typically deficient in BOTH substrates; supplementing one alone gives diminishing returns.",
+      "rationale": "Glutathione = \u03b3-glutamyl-cysteinyl-glycine. NAC supplies cysteine; glycine supplies the third amino acid. Older adults are typically deficient in BOTH substrates; supplementing one alone gives diminishing returns.",
       "dose": "Glycine 100 mg/kg + NAC 100 mg/kg daily, divided BID.",
       "evidence_grade": "B",
       "id": "p98"
@@ -1342,7 +1343,7 @@
       "kind": "mechanism-complementary",
       "strength": 4,
       "goal": "Mitochondrial support stack",
-      "rationale": "ALCAR shuttles fatty acids into mitochondria for β-oxidation; ALA recycles antioxidants and is a mitochondrial cofactor; CoQ10 carries electrons in the ETC. The triad supports mitochondrial bioenergetics from substrate to electron transport.",
+      "rationale": "ALCAR shuttles fatty acids into mitochondria for \u03b2-oxidation; ALA recycles antioxidants and is a mitochondrial cofactor; CoQ10 carries electrons in the ETC. The triad supports mitochondrial bioenergetics from substrate to electron transport.",
       "dose": "ALCAR 1-2 g + ALA 600 mg + CoQ10 100-200 mg daily.",
       "id": "p99"
     },
@@ -1381,7 +1382,7 @@
       "strength": 4,
       "goal": "Migraine prophylaxis triad",
       "rationale": "Each has independent evidence; the trio addresses mitochondrial energy production failure thought to underlie migraine. Riboflavin 400 mg, Mg 400-600 mg, CoQ10 100 mg each have their own RCT support.",
-      "dose": "Riboflavin 400 mg + Mg 400 mg + CoQ10 100 mg daily for ≥3 months.",
+      "dose": "Riboflavin 400 mg + Mg 400 mg + CoQ10 100 mg daily for \u22653 months.",
       "id": "p102"
     },
     {
@@ -1393,7 +1394,7 @@
       "strength": 5,
       "goal": "Avoid iron-absorption blunting",
       "rationale": "Calcium competitively inhibits both heme and non-heme iron absorption at any dose. The effect is large enough to cause clinical iron deficiency in heavy calcium users.",
-      "dose": "Separate by ≥2 hours.",
+      "dose": "Separate by \u22652 hours.",
       "separation_hours": 2,
       "evidence_grade": "A",
       "id": "p103"
@@ -1407,7 +1408,7 @@
       "strength": 4,
       "goal": "Avoid mutual divalent-cation competition",
       "rationale": "Iron and zinc share intestinal divalent metal transporters. Co-dosing reduces zinc absorption by 30-50% and iron absorption by similar amounts.",
-      "dose": "Separate by ≥2 hours.",
+      "dose": "Separate by \u22652 hours.",
       "separation_hours": 2,
       "evidence_grade": "A",
       "id": "p104"
@@ -1420,8 +1421,8 @@
       "kind": "absorption-conflict",
       "strength": 3,
       "goal": "Avoid divalent-cation competition",
-      "rationale": "At doses ≥500 mg, calcium and magnesium compete for absorption transporters. Smaller doses (≤250 mg each) co-administered are less affected.",
-      "dose": "Separate doses ≥1,000 mg by ≥2 hours; smaller co-doses are fine.",
+      "rationale": "At doses \u2265500 mg, calcium and magnesium compete for absorption transporters. Smaller doses (\u2264250 mg each) co-administered are less affected.",
+      "dose": "Separate doses \u22651,000 mg by \u22652 hours; smaller co-doses are fine.",
       "separation_hours": 2,
       "id": "p105"
     },
@@ -1434,7 +1435,7 @@
       "strength": 3,
       "goal": "Avoid iron blunting",
       "rationale": "Coffee/tea polyphenols (chlorogenic acid, tannins) bind iron in the gut, reducing non-heme iron absorption by 60-90% when co-consumed. Effect persists ~1 hour after the beverage.",
-      "dose": "Separate iron from coffee/tea by ≥1 hour either side.",
+      "dose": "Separate iron from coffee/tea by \u22651 hour either side.",
       "separation_hours": 1,
       "evidence_grade": "A",
       "id": "p106"
@@ -1472,8 +1473,8 @@
       "kind": "side-effect-offset",
       "strength": 3,
       "goal": "Methylation depletion offset",
-      "rationale": "High-dose niacin (≥1 g/day) consumes methyl groups for methyl-niacinamide excretion, depleting SAM-e. Adding methyl donors (folate, B12, choline) prevents the homocysteine elevation seen with chronic high-dose niacin.",
-      "dose": "If on niacin ≥1 g/day, add 5-MTHF 800 mcg + B12 1 mg + choline 500 mg.",
+      "rationale": "High-dose niacin (\u22651 g/day) consumes methyl groups for methyl-niacinamide excretion, depleting SAM-e. Adding methyl donors (folate, B12, choline) prevents the homocysteine elevation seen with chronic high-dose niacin.",
+      "dose": "If on niacin \u22651 g/day, add 5-MTHF 800 mcg + B12 1 mg + choline 500 mg.",
       "id": "p109"
     },
     {
@@ -1499,9 +1500,9 @@
       ],
       "kind": "absorption-conflict",
       "strength": 5,
-      "goal": "Levothyroxine absorption — supplement timing",
-      "rationale": "Levothyroxine absorption is blunted by minerals (Ca, Fe, Mg, Al), soy, fiber, and coffee. Separate by ≥4 hours from any of these.",
-      "dose": "Take levothyroxine 30-60 min before food/coffee; separate Ca/Fe/Mg/soy by ≥4 h.",
+      "goal": "Levothyroxine absorption \u2014 supplement timing",
+      "rationale": "Levothyroxine absorption is blunted by minerals (Ca, Fe, Mg, Al), soy, fiber, and coffee. Separate by \u22654 hours from any of these.",
+      "dose": "Take levothyroxine 30-60 min before food/coffee; separate Ca/Fe/Mg/soy by \u22654 h.",
       "separation_hours": 4,
       "evidence_grade": "A",
       "contraindications": [
@@ -1530,7 +1531,7 @@
       "strength": 3,
       "goal": "Avoid antimicrobial blunting of probiotic strains",
       "rationale": "Berberine has broad-spectrum antimicrobial activity that can reduce probiotic viability when co-administered. Separate dosing windows preserves both effects.",
-      "dose": "Separate by ≥4 hours.",
+      "dose": "Separate by \u22654 hours.",
       "separation_hours": 4,
       "id": "p113"
     },
@@ -1543,7 +1544,7 @@
       "strength": 3,
       "goal": "Avoid antimicrobial blunting",
       "rationale": "Carvacrol/thymol in oregano oil have antibacterial activity against probiotic strains. Separation preserves both.",
-      "dose": "Separate by ≥4 hours.",
+      "dose": "Separate by \u22654 hours.",
       "separation_hours": 4,
       "id": "p114"
     },
@@ -1580,7 +1581,7 @@
       "kind": "absorption-conflict",
       "strength": 2,
       "goal": "Avoid mutual antagonism at high doses",
-      "rationale": "At extreme doses, retinol and D3 can antagonize each other's nuclear receptor effects. At normal supplemental doses (D3 ≤2,000 IU; retinol ≤3,000 IU), this is rarely clinically meaningful.",
+      "rationale": "At extreme doses, retinol and D3 can antagonize each other's nuclear receptor effects. At normal supplemental doses (D3 \u22642,000 IU; retinol \u22643,000 IU), this is rarely clinically meaningful.",
       "dose": "Avoid simultaneous mega-doses; balanced AD3K formulas are fine.",
       "id": "p117"
     },
@@ -1593,7 +1594,7 @@
       "strength": 5,
       "goal": "Iron deficit recovery while on bone protocol",
       "rationale": "Bone-protocol calcium doses (1,000+ mg/day) heavily blunt iron absorption. Heavy menstruating women on calcium often present with iron deficiency despite oral iron.",
-      "dose": "Iron AM, fasting; calcium with lunch/dinner; separate by ≥4h.",
+      "dose": "Iron AM, fasting; calcium with lunch/dinner; separate by \u22654h.",
       "separation_hours": 4,
       "id": "p118"
     },
@@ -1605,7 +1606,7 @@
       "kind": "absorption-conflict",
       "strength": 1,
       "goal": "Avoid heat-killed strains",
-      "rationale": "Hot beverages (≥50°C) directly damage non-spore probiotic strains. Take with cool/room-temp water.",
+      "rationale": "Hot beverages (\u226550\u00b0C) directly damage non-spore probiotic strains. Take with cool/room-temp water.",
       "dose": "Don't swallow probiotics with hot coffee/tea.",
       "id": "p119"
     },
@@ -1632,7 +1633,7 @@
       "strength": 3,
       "goal": "Avoid tannin chelation",
       "rationale": "Tea and coffee tannins reduce zinc absorption by ~30-50% when co-consumed. Less severe than the iron interaction but real.",
-      "dose": "Separate zinc from coffee/tea by ≥1 hour.",
+      "dose": "Separate zinc from coffee/tea by \u22651 hour.",
       "separation_hours": 1,
       "id": "p121"
     },
@@ -1660,7 +1661,7 @@
       "strength": 5,
       "goal": "Bisphosphonate absorption (oral)",
       "rationale": "Oral bisphosphonates have <1% bioavailability and any mineral or food blocks them entirely. Take FIRST THING with plain water; no supplements/food/coffee for 30-60 min.",
-      "dose": "Bisphosphonate FIRST THING with water; supplements ≥60 min later.",
+      "dose": "Bisphosphonate FIRST THING with water; supplements \u226560 min later.",
       "separation_hours": 1,
       "evidence_grade": "A",
       "contraindications": [
@@ -1688,8 +1689,8 @@
       "kind": "absorption-conflict",
       "strength": 3,
       "goal": "Preserve probiotic viability",
-      "rationale": "Same as berberine + probiotics caution above; separation by ≥4h preserves both effects.",
-      "dose": "Separate by ≥4 hours.",
+      "rationale": "Same as berberine + probiotics caution above; separation by \u22654h preserves both effects.",
+      "dose": "Separate by \u22654 hours.",
       "separation_hours": 4,
       "id": "p125"
     },
@@ -1702,7 +1703,7 @@
       "strength": 1,
       "goal": "Avoid B12 oxidation",
       "rationale": "Mega-doses of vitamin C can degrade B12 in vitro; in practice, in-vivo effect at typical supplement doses is small.",
-      "dose": "Separate B12 from mega-dose vitamin C by ≥1 hour.",
+      "dose": "Separate B12 from mega-dose vitamin C by \u22651 hour.",
       "id": "p126"
     },
     {
@@ -1713,7 +1714,7 @@
       "kind": "absorption-enhancer",
       "strength": 4,
       "goal": "Carotenoid absorption",
-      "rationale": "Lutein and zeaxanthin are fat-soluble; absorption is 3-5× higher when co-ingested with fat (≥10 g).",
+      "rationale": "Lutein and zeaxanthin are fat-soluble; absorption is 3-5\u00d7 higher when co-ingested with fat (\u226510 g).",
       "dose": "Take with breakfast containing eggs/avocado/nuts.",
       "id": "p127"
     },
@@ -1727,7 +1728,7 @@
       ],
       "kind": "risk-additive",
       "strength": 5,
-      "goal": "Bleeding risk additive — AVOID stacking",
+      "goal": "Bleeding risk additive \u2014 AVOID stacking",
       "rationale": "Each item has antiplatelet or fibrinolytic activity at supplement doses. Stacking 3+ adds clinically meaningful bleeding risk; combined with anticoagulants, risk becomes serious.",
       "dose": "Limit to 1-2 of these at a time; flag any to anticoagulation clinic.",
       "evidence_grade": "B",
@@ -1747,7 +1748,7 @@
       ],
       "kind": "risk-additive",
       "strength": 5,
-      "goal": "Hepatotoxic risk additive — AVOID stacking",
+      "goal": "Hepatotoxic risk additive \u2014 AVOID stacking",
       "rationale": "Each can cause idiosyncratic hepatotoxicity. Stacking 2+ multiplies risk. Add alcohol or acetaminophen and risk increases further.",
       "dose": "Avoid combining; rotate or eliminate.",
       "evidence_grade": "B",
@@ -1762,7 +1763,7 @@
       ],
       "kind": "risk-additive",
       "strength": 5,
-      "goal": "Serotonin syndrome risk — AVOID stacking, AVOID with serotonergic Rx",
+      "goal": "Serotonin syndrome risk \u2014 AVOID stacking, AVOID with serotonergic Rx",
       "rationale": "Each raises serotonin via different mechanisms. Stacking elevates risk; co-administration with SSRI/SNRI/MAOI is dangerous.",
       "dose": "Use one at a time; never combine with serotonergic prescription drugs.",
       "evidence_grade": "A",
@@ -1783,7 +1784,7 @@
       ],
       "kind": "risk-additive",
       "strength": 4,
-      "goal": "Hypoglycemia-additive — caution in diabetics",
+      "goal": "Hypoglycemia-additive \u2014 caution in diabetics",
       "rationale": "Each has modest glucose-lowering effects. Stacking + insulin/sulfonylurea can cause hypoglycemia. Otherwise safe when stacked in non-diabetic prediabetes contexts under monitoring.",
       "dose": "If on insulin/sulfonylurea, monitor glucose closely when adding any of these.",
       "contraindications": [
@@ -1801,7 +1802,7 @@
       ],
       "kind": "risk-additive",
       "strength": 3,
-      "goal": "Hypotension-additive — caution on antihypertensives",
+      "goal": "Hypotension-additive \u2014 caution on antihypertensives",
       "rationale": "Each has mild BP-lowering effect. Stacking 3+ can produce additive hypotension, especially in those already on antihypertensives.",
       "dose": "Monitor BP; reduce antihypertensive dose only under prescriber guidance.",
       "contraindications": [
@@ -1823,7 +1824,7 @@
       ],
       "kind": "risk-additive",
       "strength": 4,
-      "goal": "CNS depression additive — caution in OSA, on benzo/opioids",
+      "goal": "CNS depression additive \u2014 caution in OSA, on benzo/opioids",
       "rationale": "Sedating supplements stack additively. Combined with benzodiazepines, opioids, alcohol, or untreated sleep apnea, the additive effect can be dangerous.",
       "dose": "Avoid combining sedating supplements with sedating prescription drugs or alcohol.",
       "contraindications": [
@@ -1843,7 +1844,7 @@
       ],
       "kind": "risk-additive",
       "strength": 5,
-      "goal": "Sympathomimetic additive — AVOID in CV disease, AFib",
+      "goal": "Sympathomimetic additive \u2014 AVOID in CV disease, AFib",
       "rationale": "Each raises heart rate / BP / sympathetic tone via different mechanisms. Stacking causes palpitations, hypertension, and (in vulnerable individuals) arrhythmia.",
       "dose": "Avoid combining; especially avoid in CVD, AFib, hypertension, anxiety disorders.",
       "evidence_grade": "B",
@@ -1864,7 +1865,7 @@
       ],
       "kind": "risk-additive",
       "strength": 3,
-      "goal": "Estrogenic additive — caution in oestrogen-sensitive cancers",
+      "goal": "Estrogenic additive \u2014 caution in oestrogen-sensitive cancers",
       "rationale": "Phyto-oestrogenic supplements stack. Useful in symptomatic perimenopause; risky in oestrogen-receptor-positive breast cancer history. DIM is anti-oestrogenic but in the same hormonal pathway.",
       "dose": "Discuss with oncologist if any history of ER+ breast cancer.",
       "contraindications": [
@@ -1882,7 +1883,7 @@
       ],
       "kind": "goal-stack",
       "strength": 4,
-      "goal": "BPH symptom relief — additive for symptom control",
+      "goal": "BPH symptom relief \u2014 additive for symptom control",
       "rationale": "Each has small but real effect on urinary symptoms via 5-alpha reductase / inflammatory pathways. Stacking improves symptom score modestly but does NOT replace 5-ARI prescription drugs in moderate-severe BPH.",
       "dose": "Saw palmetto 320 mg + Beta-sitosterol 60-130 mg + Pygeum 100 mg + Pumpkin seed oil 320 mg, daily.",
       "id": "p136"
@@ -1896,9 +1897,971 @@
       "kind": "goal-stack",
       "strength": 4,
       "goal": "Glutathione recovery (oxidative stress / older adults)",
-      "rationale": "NAC + glycine give substrate; vitamin C recycles oxidized glutathione (GSSG → GSH). The triad is more effective than NAC alone for raising tissue glutathione.",
+      "rationale": "NAC + glycine give substrate; vitamin C recycles oxidized glutathione (GSSG \u2192 GSH). The triad is more effective than NAC alone for raising tissue glutathione.",
       "dose": "NAC 600-1,200 mg + Glycine 3-5 g + Vitamin C 500 mg, divided BID.",
       "id": "p137"
+    },
+    {
+      "id": "p138",
+      "members": [
+        "Bifidobacterium infantis EVC001",
+        "Probiotics"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid overlap with broad multi-strain probiotic blends",
+      "rationale": "EVC001 is a specific HMO-utilising strain for breast-fed infants; many infant probiotic blends overlap on Bifidobacterium spp. but lack HMO-cleavage activity, so combining can be redundant without added benefit.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "31474262"
+      ]
+    },
+    {
+      "id": "p139",
+      "members": [
+        "Bifidobacterium infantis EVC001",
+        "Acacia fiber (prebiotic)"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Prebiotic substrate (post-weaning bridge)",
+      "rationale": "After breastfeeding ends, HMO substrate is lost; soluble prebiotic fibre helps maintain Bifidobacterium-favourable luminal environment via short-chain fatty acid production.",
+      "direction": "synergy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "29951588"
+      ]
+    },
+    {
+      "id": "p140",
+      "members": [
+        "Acacia fiber (prebiotic)",
+        "Probiotics"
+      ],
+      "kind": "synergy",
+      "strength": 4,
+      "goal": "Synbiotic \u2014 prebiotic substrate for Bifidobacterium/Lactobacillus",
+      "rationale": "Acacia gum is selectively fermented by Bifidobacterium and Lactobacillus species, raising counts and SCFA output in human trials.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "18491071"
+      ]
+    },
+    {
+      "id": "p141",
+      "members": [
+        "Acacia fiber (prebiotic)",
+        "Psyllium husk (soluble fibre)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Multi-fibre blend overlap",
+      "rationale": "Both are soluble, viscous, fermentable fibres; total daily dose, not stacking, drives the laxation and prebiotic effects.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "28507400"
+      ]
+    },
+    {
+      "id": "p142",
+      "members": [
+        "Acacia fiber (prebiotic)",
+        "Iron"
+      ],
+      "kind": "timing-separation",
+      "strength": 3,
+      "goal": "Avoid mineral binding",
+      "rationale": "Soluble fibres can bind divalent cations including iron and reduce absorption when co-ingested at high doses.",
+      "direction": "timing-separation",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19234945"
+      ],
+      "apart_from": [
+        "Iron",
+        "Calcium",
+        "Zinc"
+      ]
+    },
+    {
+      "id": "p143",
+      "members": [
+        "L-Leucine (standalone)",
+        "Vitamin D3"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "goal": "Sarcopenia (older adults)",
+      "rationale": "Leucine-enriched protein + vitamin D improved muscle mass and lower-extremity function in sarcopenic elderly (PROVIDE trial).",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "29065859"
+      ]
+    },
+    {
+      "id": "p144",
+      "members": [
+        "L-Leucine (standalone)",
+        "EAAs (Essential amino acids)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid double-dosing leucine in EAA blends",
+      "rationale": "Commercial EAA powders already contain 2.5\u20133 g leucine per serving; standalone leucine on top often pushes intake past diminishing-returns threshold (~3 g).",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "24257722"
+      ]
+    },
+    {
+      "id": "p145",
+      "members": [
+        "Melatonin (0.1-0.5 mg physiological dose)",
+        "Magnesium bisglycinate"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Sleep onset + maintenance",
+      "rationale": "Magnesium glycinate down-regulates NMDA tone and supports GABA-A function; layered with low-dose melatonin to phase-anchor sleep onset.",
+      "direction": "synergy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "23853635"
+      ]
+    },
+    {
+      "id": "p146",
+      "members": [
+        "Melatonin (0.1-0.5 mg physiological dose)",
+        "Melatonin"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid stacking with standard-dose melatonin",
+      "rationale": "Pharmacological-dose melatonin (1-10 mg) and the physiological 0.1-0.5 mg dose target the same MT1/MT2 receptors; combining gives no additional sleep benefit and may worsen morning grogginess.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "28503116"
+      ]
+    },
+    {
+      "id": "p147",
+      "members": [
+        "L-Carnitine",
+        "CoQ10 (Ubiquinol)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 3,
+      "goal": "Mitochondrial fatty-acid oxidation support",
+      "rationale": "L-carnitine shuttles long-chain fatty acids into mitochondria; CoQ10 sustains electron-transport-chain capacity to oxidise them.",
+      "direction": "synergy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "18227072"
+      ]
+    },
+    {
+      "id": "p148",
+      "members": [
+        "L-Carnitine",
+        "Levothyroxine (thyroid hormone)"
+      ],
+      "kind": "risk-additive",
+      "strength": 3,
+      "goal": "Carnitine antagonises thyroid hormone action",
+      "rationale": "L-carnitine inhibits thyroid hormone entry into cell nuclei; can blunt levothyroxine effect and is itself used off-label for thyrotoxicosis.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "11713228"
+      ],
+      "contraindications": [
+        "levothyroxine"
+      ]
+    },
+    {
+      "id": "p149",
+      "members": [
+        "L-Carnitine"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Multivitamin/energy-blend overlap",
+      "rationale": "Many 'energy' and weight-loss blends already include carnitine (often as acetyl-L-carnitine); stacking with standalone L-carnitine adds cost without proportional benefit above ~2 g/day.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "20682999"
+      ]
+    },
+    {
+      "id": "p150",
+      "members": [
+        "Citrulline (L-citrulline, pure form)",
+        "L-Arginine"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 3,
+      "goal": "Plasma arginine / NO substrate pool",
+      "rationale": "Oral citrulline raises plasma arginine more efficiently than oral arginine itself by bypassing hepatic first-pass arginase, so co-supplementation lifts NO precursor pool with smaller arginine doses.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "17182482"
+      ]
+    },
+    {
+      "id": "p151",
+      "members": [
+        "Citrulline (L-citrulline, pure form)",
+        "Citrulline malate"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Same active moiety",
+      "rationale": "Citrulline malate is L-citrulline complexed with malic acid; do not stack \u2014 total elemental citrulline is what matters for plasma arginine.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "20386132"
+      ]
+    },
+    {
+      "id": "p152",
+      "members": [
+        "Citrulline (L-citrulline, pure form)",
+        "PDE5"
+      ],
+      "kind": "risk-additive",
+      "strength": 3,
+      "goal": "Additive hypotension with PDE5 inhibitors / nitrates",
+      "rationale": "Citrulline raises NO; combination with sildenafil/tadalafil or organic nitrates can lower blood pressure beyond intended targets.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "22050691"
+      ],
+      "contraindications": [
+        "nitrates",
+        "PDE5 inhibitors"
+      ]
+    },
+    {
+      "id": "p153",
+      "members": [
+        "Saccharomyces boulardii CNCM I-745",
+        "Antibiotic"
+      ],
+      "kind": "synergy",
+      "strength": 5,
+      "goal": "Antibiotic-associated diarrhoea (AAD) prevention",
+      "rationale": "S. boulardii is a yeast and is not killed by antibacterials; co-administration during antibiotic courses reduces AAD and C. difficile recurrence per a Cochrane-level meta-analysis.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "25922896"
+      ]
+    },
+    {
+      "id": "p154",
+      "members": [
+        "Saccharomyces boulardii CNCM I-745",
+        "Saccharomyces boulardii"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Same organism \u2014 different SKUs",
+      "rationale": "CNCM I-745 and generic S. boulardii listings refer to the same Florastor strain or close equivalents; do not double-dose.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "27709480"
+      ]
+    },
+    {
+      "id": "p155",
+      "members": [
+        "Potassium supplementation (clinical)",
+        "Magnesium"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Magnesium repletion is required to correct hypokalaemia",
+      "rationale": "Intracellular potassium retention depends on Na/K ATPase, which requires magnesium; in Mg-depleted patients, K supplementation alone fails to correct serum K.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "17984161"
+      ]
+    },
+    {
+      "id": "p156",
+      "members": [
+        "Potassium supplementation (clinical)",
+        "ACE inhibitors / ARBs"
+      ],
+      "kind": "risk-additive",
+      "strength": 5,
+      "goal": "Hyperkalaemia risk",
+      "rationale": "ACE inhibitors, ARBs, aldosterone antagonists and potassium-sparing diuretics all raise serum K; adding K supplementation can precipitate dangerous hyperkalaemia, especially in CKD.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19925985"
+      ],
+      "contraindications": [
+        "ACE inhibitors",
+        "ARBs",
+        "spironolactone",
+        "eplerenone",
+        "amiloride",
+        "triamterene"
+      ]
+    },
+    {
+      "id": "p157",
+      "members": [
+        "Potassium supplementation (clinical)",
+        "Electrolyte complex (Na/K/Mg)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double-dosing K from electrolyte blends",
+      "rationale": "Clinical K supplementation already targets daily K replacement; co-administering electrolyte powders with substantial K adds to the prescribed dose and increases hyperkalaemia risk.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19925985"
+      ]
+    },
+    {
+      "id": "p158",
+      "members": [
+        "Protein supplementation (clinical sarcopenia)",
+        "Vitamin D3"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 5,
+      "goal": "Sarcopenia treatment (PROVIDE trial)",
+      "rationale": "Leucine-enriched whey + vitamin D improved muscle mass and chair-rise time in sarcopenic elderly versus iso-caloric control.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "29065859"
+      ]
+    },
+    {
+      "id": "p159",
+      "members": [
+        "Protein supplementation (clinical sarcopenia)",
+        "L-Leucine (standalone)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Clinical sarcopenia formulas already leucine-enriched",
+      "rationale": "Most sarcopenia protein products contain 2.5\u20133 g leucine per serving; adding standalone leucine has diminishing returns once threshold is crossed.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "24257722"
+      ]
+    },
+    {
+      "id": "p160",
+      "members": [
+        "Protein supplementation (clinical sarcopenia)",
+        "Whey protein"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Same primary substrate",
+      "rationale": "Clinical sarcopenia formulations are typically whey-based with added leucine and vitamin D; stacking with extra whey gives marginal benefit unless protein intake is below target.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "28698222"
+      ]
+    },
+    {
+      "id": "p161",
+      "members": [
+        "Calcium carbonate/citrate (bone health)",
+        "Vitamin D3"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 5,
+      "goal": "Bone health / fracture prevention",
+      "rationale": "Vitamin D upregulates intestinal calcium absorption; calcium + D combined reduces hip-fracture risk in older adults more than either alone.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "17720017"
+      ]
+    },
+    {
+      "id": "p162",
+      "members": [
+        "Calcium carbonate/citrate (bone health)",
+        "Vitamin K2 (MK-7)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "goal": "Direct calcium into bone, not arteries",
+      "rationale": "K2 activates osteocalcin and matrix-Gla protein, supporting deposition into bone and limiting vascular calcification when calcium intake is high.",
+      "direction": "synergy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "23525894"
+      ],
+      "contraindications": [
+        "warfarin (for K2)"
+      ]
+    },
+    {
+      "id": "p163",
+      "members": [
+        "Calcium carbonate/citrate (bone health)",
+        "Levothyroxine (thyroid hormone)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Thyroid-hormone absorption",
+      "rationale": "Calcium binds levothyroxine in the gut; separate by 4 h.",
+      "direction": "timing-separation",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "10982317"
+      ]
+    },
+    {
+      "id": "p164",
+      "members": [
+        "Oral rehydration salts (WHO formula)",
+        "Probiotics"
+      ],
+      "kind": "synergy",
+      "strength": 4,
+      "goal": "Acute paediatric diarrhoea",
+      "rationale": "Probiotics (S. boulardii, L. rhamnosus GG) shorten diarrhoea duration when added to ORS in acute infectious gastroenteritis.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "21069673"
+      ]
+    },
+    {
+      "id": "p165",
+      "members": [
+        "Oral rehydration salts (WHO formula)",
+        "Lithium"
+      ],
+      "kind": "risk-additive",
+      "strength": 4,
+      "goal": "Sodium load alters lithium clearance",
+      "rationale": "Lithium is renally cleared in competition with sodium; abrupt sodium-load changes from ORS can shift serum lithium up or down.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "9430148"
+      ],
+      "contraindications": [
+        "lithium"
+      ]
+    },
+    {
+      "id": "p166",
+      "members": [
+        "Oral rehydration salts (WHO formula)",
+        "Electrolyte replacement (clinical)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Overlapping electrolyte products",
+      "rationale": "WHO ORS and clinical electrolyte replacement target the same Na/K/glucose rehydration; pick one \u2014 do not stack to avoid sodium overdose.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "21069673"
+      ]
+    },
+    {
+      "id": "p167",
+      "members": [
+        "Ferrous bisglycinate (gentle iron)",
+        "Vitamin C (moderate dose)"
+      ],
+      "kind": "absorption-enhancer",
+      "strength": 5,
+      "goal": "Maximal non-heme iron absorption",
+      "rationale": "Ascorbate reduces Fe3+ to Fe2+ and chelates it for uptake, raising absorption two-to-threefold.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "15743017"
+      ]
+    },
+    {
+      "id": "p168",
+      "members": [
+        "Ferrous bisglycinate (gentle iron)",
+        "Calcium"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Mineral absorption competition",
+      "rationale": "Calcium \u2265300 mg/dose halves non-heme iron absorption; separate by 2 h.",
+      "direction": "timing-separation",
+      "confidence": "high",
+      "evidence_pmids": [
+        "1985396"
+      ],
+      "apart_from": [
+        "Calcium",
+        "Zinc"
+      ]
+    },
+    {
+      "id": "p169",
+      "members": [
+        "Ferrous bisglycinate (gentle iron)",
+        "PPI"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Acid-dependent iron absorption",
+      "rationale": "Proton-pump inhibitors raise gastric pH and reduce non-heme iron solubility and absorption; chronic PPI use is an under-recognised contributor to iron-deficiency anaemia.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "26922476"
+      ],
+      "contraindications": [
+        "chronic PPI"
+      ]
+    },
+    {
+      "id": "p170",
+      "members": [
+        "Ferrous bisglycinate (gentle iron)",
+        "Iron"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Same elemental iron pool",
+      "rationale": "Multivitamins-with-iron and standalone iron supplements overlap; total elemental Fe intake matters more than form for repletion.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "28676671"
+      ]
+    },
+    {
+      "id": "p171",
+      "members": [
+        "Electrolyte replacement (clinical)",
+        "Magnesium"
+      ],
+      "kind": "cofactor",
+      "strength": 3,
+      "goal": "Magnesium repletion supports K and Ca homeostasis",
+      "rationale": "Hypomagnesaemia perpetuates hypokalaemia and hypocalcaemia; correcting Mg is required for the other electrolytes to stay corrected.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "17984161"
+      ]
+    },
+    {
+      "id": "p172",
+      "members": [
+        "Electrolyte replacement (clinical)",
+        "ACE inhibitors / ARBs"
+      ],
+      "kind": "risk-additive",
+      "strength": 4,
+      "goal": "Hyperkalaemia risk",
+      "rationale": "K-containing electrolyte formulas combined with renin-angiotensin-aldosterone blockade can produce hyperkalaemia, especially in CKD.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19925985"
+      ],
+      "contraindications": [
+        "ACE inhibitors",
+        "ARBs"
+      ]
+    },
+    {
+      "id": "p173",
+      "members": [
+        "Electrolyte replacement (clinical)",
+        "Oral rehydration salts (WHO formula)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double sodium load",
+      "rationale": "WHO ORS and clinical electrolyte mixes overlap on Na, K and glucose; using both can drive serum Na too high in adults.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "21069673"
+      ]
+    },
+    {
+      "id": "p174",
+      "members": [
+        "Psyllium husk (soluble fibre)",
+        "Probiotics"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Synbiotic / SCFA production",
+      "rationale": "Psyllium is partially fermentable and supports SCFA-producing commensals when paired with probiotic strains.",
+      "direction": "synergy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "31091184"
+      ]
+    },
+    {
+      "id": "p175",
+      "members": [
+        "Psyllium husk (soluble fibre)",
+        "Levothyroxine (thyroid hormone)"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Drug binding by viscous fibre",
+      "rationale": "Psyllium can bind and delay absorption of many oral medications including levothyroxine; separate by \u22652 h.",
+      "direction": "timing-separation",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "17716169"
+      ]
+    },
+    {
+      "id": "p176",
+      "members": [
+        "Psyllium husk (soluble fibre)",
+        "Iron"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 3,
+      "goal": "Mineral absorption",
+      "rationale": "Soluble fibres can reduce iron and zinc absorption when co-ingested in large doses; separate by 2 h.",
+      "direction": "timing-separation",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19234945"
+      ],
+      "apart_from": [
+        "Iron",
+        "Zinc",
+        "Calcium"
+      ]
+    },
+    {
+      "id": "p177",
+      "members": [
+        "Psyllium husk (soluble fibre)",
+        "Acacia fiber (prebiotic)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Multi-fibre stacking",
+      "rationale": "Both soluble fibres improve laxation and prebiotic effect; total g/day is the active variable rather than stacking.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "28507400"
+      ]
+    },
+    {
+      "id": "p178",
+      "members": [
+        "Magnesium bisglycinate",
+        "Vitamin D3"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Vitamin D activation requires magnesium",
+      "rationale": "Mg is a cofactor for the enzymes converting 25(OH)D to 1,25(OH)2D and for vitamin-D-binding protein; Mg deficiency blunts response to D3 supplementation.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "29480918"
+      ]
+    },
+    {
+      "id": "p179",
+      "members": [
+        "Magnesium bisglycinate",
+        "Magnesium citrate"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Same elemental Mg pool",
+      "rationale": "Glycinate and citrate forms differ in tolerability but contribute to the same elemental Mg intake; stacking risks exceeding tolerable upper limit (350 mg/day from supplements).",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "18557994"
+      ]
+    },
+    {
+      "id": "p180",
+      "members": [
+        "Magnesium bisglycinate",
+        "Fluoroquinolone"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Chelation of antibiotic",
+      "rationale": "Magnesium chelates fluoroquinolones and tetracyclines in the gut, sharply reducing antibiotic absorption; separate by \u22654 h (Mg taken AFTER antibiotic).",
+      "direction": "timing-separation",
+      "confidence": "high",
+      "evidence_pmids": [
+        "8517703"
+      ],
+      "apart_from": [
+        "fluoroquinolones",
+        "tetracyclines",
+        "bisphosphonates"
+      ]
+    },
+    {
+      "id": "p181",
+      "members": [
+        "Chamomile extract (Matricaria chamomilla)",
+        "L-Theanine"
+      ],
+      "kind": "synergy",
+      "strength": 3,
+      "goal": "Calming / pre-sleep stack",
+      "rationale": "Chamomile apigenin partially agonises GABA-A benzodiazepine site; theanine raises alpha-wave activity \u2014 non-overlapping calming mechanisms.",
+      "direction": "synergy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19865069"
+      ]
+    },
+    {
+      "id": "p182",
+      "members": [
+        "Chamomile extract (Matricaria chamomilla)",
+        "Benzodiazepine"
+      ],
+      "kind": "risk-additive",
+      "strength": 3,
+      "goal": "Additive CNS depression",
+      "rationale": "Chamomile's GABA-A activity can compound with benzodiazepines and z-drugs, increasing daytime sedation.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19865069"
+      ],
+      "contraindications": [
+        "benzodiazepines",
+        "sleep_rx"
+      ]
+    },
+    {
+      "id": "p183",
+      "members": [
+        "Magnesium citrate",
+        "Vitamin D3"
+      ],
+      "kind": "cofactor",
+      "strength": 4,
+      "goal": "Vitamin D activation cofactor",
+      "rationale": "Magnesium is a cofactor for 25-hydroxylase and 1\u03b1-hydroxylase; Mg-deficient patients respond less to vitamin D supplementation.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "29480918"
+      ]
+    },
+    {
+      "id": "p184",
+      "members": [
+        "Magnesium citrate",
+        "Magnesium bisglycinate"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Same elemental Mg pool",
+      "rationale": "Citrate is more laxative-prone, glycinate is gentler; stacking risks exceeding the supplement upper limit and produces additive osmotic diarrhoea.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "18557994"
+      ]
+    },
+    {
+      "id": "p185",
+      "members": [
+        "Magnesium citrate",
+        "Fluoroquinolone"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 5,
+      "goal": "Chelation of antibiotics",
+      "rationale": "Citrate-form Mg still chelates fluoroquinolones, tetracyclines and bisphosphonates; separate by \u22654 h.",
+      "direction": "timing-separation",
+      "confidence": "high",
+      "evidence_pmids": [
+        "8517703"
+      ],
+      "apart_from": [
+        "fluoroquinolones",
+        "tetracyclines",
+        "bisphosphonates"
+      ]
+    },
+    {
+      "id": "p186",
+      "members": [
+        "Saccharomyces boulardii",
+        "Antibiotic"
+      ],
+      "kind": "synergy",
+      "strength": 5,
+      "goal": "Antibiotic-associated diarrhoea prevention",
+      "rationale": "S. boulardii is yeast \u2014 survives antibacterial exposure; co-administration during antibiotic courses reduces AAD.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "25922896"
+      ]
+    },
+    {
+      "id": "p187",
+      "members": [
+        "Saccharomyces boulardii",
+        "Saccharomyces boulardii CNCM I-745"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Same organism",
+      "rationale": "Generic S. boulardii listings and CNCM I-745 (Florastor) refer to the same probiotic species; do not double-dose.",
+      "direction": "redundancy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "27709480"
+      ]
+    },
+    {
+      "id": "p188",
+      "members": [
+        "Lactobacillus rhamnosus GG",
+        "Antibiotic"
+      ],
+      "kind": "absorption-conflict",
+      "strength": 4,
+      "goal": "Antibiotics kill bacterial probiotics",
+      "rationale": "Antibacterials reduce LGG viability if co-ingested; separate by \u22652 h and continue LGG for 1-2 weeks past antibiotic end.",
+      "direction": "timing-separation",
+      "confidence": "high",
+      "evidence_pmids": [
+        "28198303"
+      ],
+      "apart_from": [
+        "antibiotics"
+      ]
+    },
+    {
+      "id": "p189",
+      "members": [
+        "Lactobacillus rhamnosus GG",
+        "Probiotics"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Multi-strain probiotic blend overlap",
+      "rationale": "Many multi-strain blends include L. rhamnosus or close LGG analogues; total CFU and strain identity matter for clinical claims.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "31474262"
+      ]
+    },
+    {
+      "id": "p190",
+      "members": [
+        "Electrolyte complex (Na/K/Mg)",
+        "Magnesium"
+      ],
+      "kind": "cofactor",
+      "strength": 3,
+      "goal": "Mg supports K and Na ATPase function",
+      "rationale": "Mg is the cofactor for Na/K ATPase; without Mg sufficiency, K supplementation fails to correct serum K.",
+      "direction": "synergy",
+      "confidence": "high",
+      "evidence_pmids": [
+        "17984161"
+      ]
+    },
+    {
+      "id": "p191",
+      "members": [
+        "Electrolyte complex (Na/K/Mg)",
+        "ACE inhibitors / ARBs"
+      ],
+      "kind": "risk-additive",
+      "strength": 4,
+      "goal": "Hyperkalaemia risk",
+      "rationale": "K in electrolyte blends adds to the K-retaining effect of RAAS blockade and potassium-sparing diuretics, especially in CKD.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19925985"
+      ],
+      "contraindications": [
+        "ACE inhibitors",
+        "ARBs",
+        "spironolactone"
+      ]
+    },
+    {
+      "id": "p192",
+      "members": [
+        "Electrolyte complex (Na/K/Mg)",
+        "Lithium"
+      ],
+      "kind": "risk-additive",
+      "strength": 3,
+      "goal": "Sodium load alters lithium clearance",
+      "rationale": "Lithium and sodium compete at renal tubule; high or variable sodium intake from electrolyte mixes can shift lithium levels.",
+      "direction": "antagonism",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "9430148"
+      ],
+      "contraindications": [
+        "lithium"
+      ]
+    },
+    {
+      "id": "p193",
+      "members": [
+        "Electrolyte complex (Na/K/Mg)",
+        "Potassium supplementation (clinical)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double K load",
+      "rationale": "Stacking clinical K replacement with electrolyte powders containing K can precipitate hyperkalaemia.",
+      "direction": "redundancy",
+      "confidence": "medium",
+      "evidence_pmids": [
+        "19925985"
+      ]
     }
   ],
   "medication_depletion_pairings": [
@@ -1990,7 +2953,7 @@
         "Magnesium",
         "Zinc"
       ],
-      "reason": "OCPs deplete B6, folate, B12, Mg, Zn — relevant for both contraceptive use and pre-conception planning when stopping OCPs."
+      "reason": "OCPs deplete B6, folate, B12, Mg, Zn \u2014 relevant for both contraceptive use and pre-conception planning when stopping OCPs."
     },
     {
       "med": "Isoniazid (TB therapy)",
@@ -2210,7 +3173,7 @@
         "Methylene blue (oral)",
         "SSRI/SNRI/MAOI/triptan/tramadol"
       ],
-      "risk": "Fatal serotonin syndrome — methylene blue is a potent MAO-A inhibitor; FDA black-box-equivalent warning."
+      "risk": "Fatal serotonin syndrome \u2014 methylene blue is a potent MAO-A inhibitor; FDA black-box-equivalent warning."
     },
     {
       "members": [
