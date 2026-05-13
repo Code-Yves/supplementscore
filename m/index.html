@@ -1,73 +1,104 @@
 <!DOCTYPE html>
-<!-- last-reviewed: 2026-05-13 -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Medication–supplement interactions — SupplementScore</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
-  <meta name="description" content="Medication–supplement interaction guides grouped by drug class — anticoagulants, antidepressants, antihypertensives, statins, levothyroxine, metformin, and more. Independent and unsponsored.">
-  <link rel="canonical" href="https://supplementscore.org/m/index.html">
-  <meta property="og:title" content="Medication–supplement interactions — SupplementScore">
-  <meta property="og:description" content="Medication–supplement interaction guides grouped by drug class.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://supplementscore.org/m/index.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Medication–supplement interactions — SupplementScore">
-  <meta name="twitter:description" content="Medication–supplement interaction guides grouped by drug class.">
-  <script>document.documentElement.setAttribute('data-theme','light');</script>
-  <style>html{color-scheme:light}</style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260509q">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
-  <meta name="theme-color" content="#1F7A6B">
-  <style>
-    body{background:var(--color-background-primary);color:var(--color-text-primary)}
-    .hub-wrap{max-width:880px;margin:0 auto;padding:32px 22px 64px}
-    .hub-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
-    .hub-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
-    .hub-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
-    @media(max-width:760px){.hub-close-fab{top:12px;right:12px;width:36px;height:36px}}
-    .hub-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
-    .hub-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
-    .hub-lede{font-size:17px;color:var(--color-text-secondary);max-width:62ch;margin-bottom:30px;line-height:1.55}
-    .hub-section{margin:32px 0 14px}
-    .hub-section h2{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 12px}
-    .hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-    .hub-card{display:block;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;text-decoration:none;color:inherit;transition:border-color .15s,transform .12s}
-    .hub-card:hover{border-color:var(--color-brand);transform:translateY(-1px)}
-    .hub-card-tag{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--color-brand);margin-bottom:7px}
-    .hub-card h3{font-size:1.05rem;font-weight:700;letter-spacing:-.2px;line-height:1.3;margin:0 0 8px;color:var(--color-text-primary)}
-    .hub-card p{font-size:13.5px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px}
-    .hub-card .meta{font-size:11.5px;color:var(--color-text-tertiary);display:flex;gap:10px;align-items:center}
-    .hub-empty{margin:24px 0 8px;padding:20px 22px;border:1px dashed var(--color-border-tertiary);border-radius:14px;background:var(--color-background-secondary,transparent);color:var(--color-text-secondary);font-size:14px;line-height:1.55}
-    .hub-foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--color-border-tertiary);font-size:12.5px;color:var(--color-text-tertiary);line-height:1.6}
-  </style>
-  <script src="../_site-ux.js?v=20260509o" defer></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Medication–supplement interactions","description":"Medication–supplement interaction guides grouped by drug class — anticoagulants, antidepressants, antihypertensives, statins, levothyroxine, metformin, and more.","url":"https://supplementscore.org/m/index.html","mainEntity":[]}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.setAttribute('data-theme','light');</script>
+<style>html{color-scheme:light}</style>
+<title>Medication × supplement interactions — SupplementScore</title>
+<meta name="description" content="Supplements that interact with your medication. AVOID / CAUTION / MONITOR / SAFE buckets per drug, with cited PMID evidence. No sponsorships.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://supplementscore.org/m/index.html">
+<meta property="og:title" content="Medication × supplement interactions — SupplementScore">
+<meta property="og:description" content="Supplements that interact with your medication. AVOID / CAUTION / MONITOR / SAFE buckets per drug, with cited evidence.">
+<meta property="og:url" content="https://supplementscore.org/m/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SupplementScore">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=20260513a">
+<style>
+  .hub-wrap{max-width:980px;margin:0 auto;padding:32px 24px 64px;color:var(--color-text-primary)}
+  .hub-kicker{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
+  .hub-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.5px;line-height:1.2;margin:0 0 12px}
+  .hub-lede{font-size:17px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 28px;max-width:680px}
+  .hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
+  .hub-card{padding:18px 18px 16px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:12px;text-decoration:none;color:inherit;transition:all .15s}
+  .hub-card:hover{border-color:var(--color-brand);transform:translateY(-1px)}
+  .hub-card-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:6px}
+  .hub-card h2{font-size:16.5px;font-weight:700;letter-spacing:-.2px;margin:0 0 8px;line-height:1.3}
+  .hub-card p{font-size:13.5px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px}
+  .hub-card .meta{font-size:11.5px;color:var(--color-text-tertiary)}
+  .hub-foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--color-border-tertiary);font-size:12.5px;color:var(--color-text-tertiary);line-height:1.6}
+  .hub-close-fab{position:fixed;top:18px;right:18px;width:36px;height:36px;border-radius:50%;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);text-decoration:none;z-index:50}
+</style>
+<script src="../_site-ux.js?v=20260513a" defer></script>
 </head>
 <body>
 <a href="../index.html" class="hub-close-fab" aria-label="Close and return"
    onclick="event.preventDefault();if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='../index.html';}">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 </a>
+
 <main class="hub-wrap">
 
-  <div class="hub-kicker">Medication interactions</div>
-  <h1>Medication–supplement interactions</h1>
-  <p class="hub-lede">Per-medication guides covering which supplements have meaningful interactions, the mechanism (CYP induction/inhibition, chelation, additive pharmacodynamics), and what the clinical reference databases actually say. Organised by drug class. None of this replaces clinical care — it's the prep work for a real conversation with your prescriber.</p>
+  <div class="hub-kicker">Drug × supplement reference</div>
+  <h1>Medication × supplement interactions</h1>
+  <p class="hub-lede">When you take a prescription medication, the next question is usually what supplements interact with it. Each page lists supplements to <strong>avoid</strong>, take with <strong>caution</strong>, simply <strong>monitor</strong>, and ones that may <strong>complement</strong> the medication. PMIDs cited; not medical advice — always discuss any supplement change with a qualified clinician.</p>
 
-  <div class="hub-section">
-    <h2>Medications by drug class</h2>
-    <div class="hub-grid">
-    </div>
-    <div class="hub-empty">Per-medication interaction guides are being written. Until then, every supplement page already lists clinically significant drug interactions in its <em>Safety &amp; interactions</em> section — start from the <a href="../index.html">supplement index</a>.</div>
+  <div class="hub-grid">
+
+    <a href="amlodipine.html" class="hub-card">
+      <div class="hub-card-tag">Dihydropyridine calcium channel blocker</div>
+      <h2>Amlodipine and supplements: interactions, cautions, and safe stacks</h2>
+      <p>Amlodipine and supplements: which to avoid (St John&#x27;s wort), which to watch (grapefruit, hawthorn, berberine, piperine), and which are safe or supportive (magnesium, CoQ10). Independent,…</p>
+      <div class="meta">Updated 2026-05-13</div>
+    </a>
+    <a href="gabapentin.html" class="hub-card">
+      <div class="hub-card-tag">Gabapentinoid · anticonvulsant / neuropathic pain</div>
+      <h2>Gabapentin and supplements: interactions, cautions, and safe stacks</h2>
+      <p>Gabapentin and supplements: divalent-cation chelation (magnesium, calcium, iron), additive CNS sedation (kava, valerian, CBD), and why most CYP-modulating supplements actually don&#x27;t matter here.…</p>
+      <div class="meta">Updated 2026-05-13</div>
+    </a>
+    <a href="semaglutide.html" class="hub-card">
+      <div class="hub-card-tag">GLP-1 receptor agonist · type 2 diabetes / weight management</div>
+      <h2>Semaglutide and supplements: interactions, cautions, and safe stacks</h2>
+      <p>Semaglutide and supplements: delayed gastric emptying changes how everything is absorbed, and rapid weight loss creates real micronutrient and lean-mass concerns. Which supplements actually help…</p>
+      <div class="meta">Updated 2026-05-13</div>
+    </a>
+    <a href="sertraline.html" class="hub-card">
+      <div class="hub-card-tag">SSRI · serotonergic antidepressant</div>
+      <h2>Sertraline and supplements: interactions, cautions, and safe stacks</h2>
+      <p>Sertraline and supplements: which serotonergic supplements to avoid (5-HTP, L-tryptophan, SAMe, St John&#x27;s wort), which to discuss with a psychiatrist (saffron, rhodiola), and what&#x27;s actually safe…</p>
+      <div class="meta">Updated 2026-05-13</div>
+    </a>
+    <a href="tramadol.html" class="hub-card">
+      <div class="hub-card-tag">Atypical opioid · serotonin–norepinephrine reuptake inhibitor</div>
+      <h2>Tramadol and supplements: interactions, cautions, and safe stacks</h2>
+      <p>Tramadol&#x27;s dual opioid+SNRI mechanism makes serotonergic and sedative supplements especially dangerous. Why 5-HTP, L-tryptophan, SAMe, St John&#x27;s wort, saffron, rhodiola, kratom, and kava deserve…</p>
+      <div class="meta">Updated 2026-05-13</div>
+    </a>
+
   </div>
 
-<p class="hub-foot">More medication interaction guides coming. Have a medication you'd like covered? Open a request via the <a href="../about.html">about page</a> contact and we'll add it to the queue.</p>
+  <p class="hub-foot">More medication × supplement pages coming. New drugs are added weekly from a rotation of the top-50 most-prescribed medications. <a href="../methodology.html">How we build these pages →</a></p>
+
+  <!-- SEO-STATIC-INDEX:start -->
+  <section style="margin-top:48px;padding-top:24px;border-top:1px solid var(--color-border-tertiary);font-size:13px;line-height:1.7" aria-label="All medication pages">
+    <h2 style="font-size:15px;margin:0 0 12px">All medication × supplement pages (5)</h2>
+    <ul style="list-style:none;padding:0;margin:0">
+    <li><a href="amlodipine.html">Amlodipine and supplements: interactions, cautions, and safe stacks</a></li>
+    <li><a href="gabapentin.html">Gabapentin and supplements: interactions, cautions, and safe stacks</a></li>
+    <li><a href="semaglutide.html">Semaglutide and supplements: interactions, cautions, and safe stacks</a></li>
+    <li><a href="sertraline.html">Sertraline and supplements: interactions, cautions, and safe stacks</a></li>
+    <li><a href="tramadol.html">Tramadol and supplements: interactions, cautions, and safe stacks</a></li>
+    </ul>
+  </section>
+  <!-- SEO-STATIC-INDEX:end -->
+
 </main>
 </body>
 </html>

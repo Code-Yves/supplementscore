@@ -550,6 +550,25 @@
   max-width: 480px; margin: 0 auto 32px;
   position: relative;
 }
+/* ix-ac bleed fix (2026-05-13)
+   ------------------------------------------------------------------
+   The `.ix-hero > *:not(.ix-hero-bg){ z-index:1 }` rule above forces
+   both the search form AND the .ix-sources logo strip to z-index:1,
+   creating equal-rank stacking contexts. Because .ix-sources is later
+   in the DOM, it paints ON TOP of the form's autocomplete dropdown
+   even though #ix-ac is set to z-index:30 internally — the dropdown's
+   z-index is trapped inside the form's stacking context.
+
+   A plain `.ix-search{ z-index:5 }` rule does NOT win here:
+     .ix-hero > *:not(.ix-hero-bg)  → specificity (0,2,0)
+     .ix-search                     → specificity (0,1,0)
+   so the parent rule's z-index:1 wins on specificity.
+
+   Bump specificity to (0,2,0) by scoping under .ix-hero — same as
+   the offending rule, with source order winning the tie. ix-sources
+   gets an explicit z-index:1 so the relationship is unambiguous. */
+.ix-hero .ix-search{ z-index: 5; }
+.ix-hero .ix-sources{ z-index: 1; }
 .ix-search input{
   width: 100%; padding: 12px 20px 12px 44px;
   font-family: inherit; font-size: 14px;
@@ -574,7 +593,19 @@
   width: 16px; height: 16px;
   color: var(--color-text-tertiary); pointer-events: none;
 }
-.ix-search #ix-ac{border-radius:0 0 16px 16px;z-index:30;}
+.ix-search #ix-ac{
+  border-radius: 0 0 16px 16px;
+  z-index: 30;
+  /* Defensive solidity: re-assert background-color and add a soft
+     drop shadow so the dropdown reads as a clearly-opaque surface
+     even if a stacking-context surprise lands it close to the
+     sources logos below. background-color (not the `background`
+     shorthand) is used so any future override using the shorthand
+     on .gs-ac doesn't accidentally wipe this. */
+  background-color: var(--color-background-primary);
+  box-shadow: 0 8px 24px -10px rgba(12, 10, 9, .18),
+              0 2px 6px rgba(12, 10, 9, .06);
+}
 .ix-search .kbd{
   position: absolute; right: 18px; top: 50%;
   transform: translateY(-50%);

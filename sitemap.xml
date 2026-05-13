@@ -561,4 +561,10 @@
   <url><loc>https://supplementscore.org/for/students.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/for/hair-loss.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/for/hypertension.html</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url>
+    <loc>https://supplementscore.org/browse.html</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
