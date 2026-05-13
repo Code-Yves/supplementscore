@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Semax (synthetic ACTH analogue)",
       "alternateName": [
         "Semax (synthetic ACTH analogue)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/semax.png",
       "nonProprietaryName": "Semax (synthetic ACTH analogue)",
       "activeIngredient": "Semax (synthetic ACTH analogue)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–600 mcg/day intranasal; approved only in Russia and Ukraine; no Western regulatory approval",

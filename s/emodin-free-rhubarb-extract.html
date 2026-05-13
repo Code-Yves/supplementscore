@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Emodin-free rhubarb extract",
       "alternateName": [
         "Emodin-free rhubarb extract"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/emodin-free-rhubarb-extract.png",
       "nonProprietaryName": "Emodin-free rhubarb extract",
       "activeIngredient": "Emodin-free rhubarb extract",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day emodin-free rhubarb root extract; avoid raw rhubarb root supplements",

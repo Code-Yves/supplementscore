@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calendula (Calendula officinalis)",
       "alternateName": [
         "Calendula (Calendula officinalis)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calendula.png",
       "nonProprietaryName": "Calendula (Calendula officinalis)",
       "activeIngredient": "Calendula (Calendula officinalis)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Topical: cream/ointment for wounds (evidence-based). Oral: 500–1,000 mg/day extract (limited evidence)",

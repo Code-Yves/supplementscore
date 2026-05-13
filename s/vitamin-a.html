@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vitamin A (retinol, low-dose)",
       "alternateName": [
         "Vitamin A (retinol, low-dose)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vitamin-a.png",
       "nonProprietaryName": "Vitamin A (retinol, low-dose)",
       "activeIngredient": "Vitamin A (retinol, low-dose)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "700–900 mcg RAE/day; do NOT exceed 3,000 mcg RAE/day from supplements; avoid high-dose retinol in pregnancy",

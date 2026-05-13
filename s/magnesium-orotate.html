@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Magnesium orotate",
       "alternateName": [
         "Magnesium orotate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/magnesium-orotate.png",
       "nonProprietaryName": "Magnesium orotate",
       "activeIngredient": "Magnesium orotate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "400–800 mg/day magnesium orotate; expensive with limited evidence advantage over other forms",

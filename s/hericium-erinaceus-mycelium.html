@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Hericium erinaceus mycelium (Amyloban 3399)",
       "alternateName": [
         "Hericium erinaceus mycelium (Amyloban 3399)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/hericium-erinaceus-mycelium.png",
       "nonProprietaryName": "Hericium erinaceus mycelium (Amyloban 3399)",
       "activeIngredient": "Hericium erinaceus mycelium (Amyloban 3399)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,500 mg/day Amyloban 3399 standardised to amycenone; different active profile from fruiting body extracts",

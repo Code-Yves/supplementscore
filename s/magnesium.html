@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Magnesium",
       "alternateName": [
         "Magnesium"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/magnesium.png",
       "nonProprietaryName": "Magnesium",
       "activeIngredient": "Magnesium",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–400 mg/day elemental magnesium as glycinate or malate; L-threonate for cognition. Avoid oxide form.",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "GlyNAC (Glycine + NAC)",
       "alternateName": [
         "GlyNAC (Glycine + NAC)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/glynac.png",
       "nonProprietaryName": "GlyNAC (Glycine + NAC)",
       "activeIngredient": "GlyNAC (Glycine + NAC)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Glycine 1.33 mmol/kg/day + NAC 0.81 mmol/kg/day (~100 mg/kg each); typically 7 g glycine + 6 g NAC daily",

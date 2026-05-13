@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Butyrate tributyrin (odourless)",
       "alternateName": [
         "Butyrate tributyrin (odourless)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/butyrate-tributyrin.png",
       "nonProprietaryName": "Butyrate tributyrin (odourless)",
       "activeIngredient": "Butyrate tributyrin (odourless)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–600 mg/day tributyrin; better colon delivery and palatability than sodium butyrate powder",

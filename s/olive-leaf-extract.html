@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Olive leaf extract",
       "alternateName": [
         "Olive leaf extract"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/olive-leaf-extract.png",
       "nonProprietaryName": "Olive leaf extract",
       "activeIngredient": "Olive leaf extract",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day standardised extract (15–20% oleuropein); monitor blood pressure if on antihypertensives",

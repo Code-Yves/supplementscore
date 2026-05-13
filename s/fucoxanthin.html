@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Fucoxanthin",
       "alternateName": [
         "Fucoxanthin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/fucoxanthin.png",
       "nonProprietaryName": "Fucoxanthin",
       "activeIngredient": "Fucoxanthin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–8 mg/day fucoxanthin from standardised brown seaweed extract; always taken with a fatty meal or xanthophyll-rich oil",

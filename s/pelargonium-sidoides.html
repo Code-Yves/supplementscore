@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Pelargonium sidoides (Umckaloabo)",
       "alternateName": [
         "Pelargonium sidoides (Umckaloabo)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pelargonium-sidoides.png",
       "nonProprietaryName": "Pelargonium sidoides (Umckaloabo)",
       "activeIngredient": "Pelargonium sidoides (Umckaloabo)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "EPs 7630 extract: 30 drops × 3 daily or 20 mg tablets × 3 daily for 7–10 days at symptom onset",

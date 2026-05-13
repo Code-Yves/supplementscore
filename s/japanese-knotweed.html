@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Japanese knotweed (Reynoutria japonica)",
       "alternateName": [
         "Japanese knotweed (Reynoutria japonica)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/japanese-knotweed.png",
       "nonProprietaryName": "Japanese knotweed (Reynoutria japonica)",
       "activeIngredient": "Japanese knotweed (Reynoutria japonica)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day root extract (standardised to resveratrol); Lyme protocol use is not clinically validated",

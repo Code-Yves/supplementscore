@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lactobacillus rhamnosus GG",
       "alternateName": [
         "Lactobacillus rhamnosus GG"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lactobacillus-rhamnosus-gg.png",
       "nonProprietaryName": "Lactobacillus rhamnosus GG",
       "activeIngredient": "Lactobacillus rhamnosus GG",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10–20 billion CFU/day; refrigerated strains preferred for viability",

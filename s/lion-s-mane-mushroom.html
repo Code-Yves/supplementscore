@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lion's mane mushroom",
       "alternateName": [
         "Lion's mane mushroom"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lion-s-mane-mushroom.png",
       "nonProprietaryName": "Lion's mane mushroom",
       "activeIngredient": "Lion's mane mushroom",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Most positive trials used 1–3 g/day of fruiting-body powder, or about 1 g/day of an erinacine A-enriched mycelium extract for cognition; allow 8–16 weeks. Benefits in the Mori 2009 MCI trial faded within 4 weeks of stopping. Hot-water extracts are preferred over raw powder because the active polysaccharides extract better in hot water.",

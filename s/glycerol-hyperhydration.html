@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Glycerol hyperhydration",
       "alternateName": [
         "Glycerol hyperhydration"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/glycerol-hyperhydration.png",
       "nonProprietaryName": "Glycerol hyperhydration",
       "activeIngredient": "Glycerol hyperhydration",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1.2 g/kg body weight with 25 mL/kg water, consumed 60–90 min before exercise in heat",

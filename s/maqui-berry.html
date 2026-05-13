@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Maqui berry (Aristotelia chilensis)",
       "alternateName": [
         "Maqui berry (Aristotelia chilensis)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/maqui-berry.png",
       "nonProprietaryName": "Maqui berry (Aristotelia chilensis)",
       "activeIngredient": "Maqui berry (Aristotelia chilensis)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "60–180 mg standardised extract (Delphinol, ≥35% anthocyanins) daily",

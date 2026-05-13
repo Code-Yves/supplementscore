@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Manuka honey (medicinal grade)",
       "alternateName": [
         "Manuka honey (medicinal grade)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/manuka-honey.png",
       "nonProprietaryName": "Manuka honey (medicinal grade)",
       "activeIngredient": "Manuka honey (medicinal grade)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Topical wound use: medical-grade UMF 15+ honey applied to cleaned skin under a non-adherent dressing, changed daily. Oral throat-soothing use: 1 teaspoon (~5 g) UMF 10+ as needed for sore throat (limited evidence). No evidence-based oral dose for systemic health claims.",

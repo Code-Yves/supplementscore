@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Boswellic acids AKBA (standardised)",
       "alternateName": [
         "Boswellic acids AKBA (standardised)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/boswellic-acids-akba.png",
       "nonProprietaryName": "Boswellic acids AKBA (standardised)",
       "activeIngredient": "Boswellic acids AKBA (standardised)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–300 mg/day AKBA (look for extracts standardised to 30% AKBA); take with a fat-containing meal",

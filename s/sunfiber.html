@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Sunfiber (partially hydrolysed guar gum)",
       "alternateName": [
         "Sunfiber (partially hydrolysed guar gum)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/sunfiber.png",
       "nonProprietaryName": "Sunfiber (partially hydrolysed guar gum)",
       "activeIngredient": "Sunfiber (partially hydrolysed guar gum)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–7 g/day dissolved in water or food; well-tolerated even in FODMAP-sensitive patients",

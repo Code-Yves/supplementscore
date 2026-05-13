@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Saw palmetto (Serenoa repens)",
       "alternateName": [
         "Saw palmetto (Serenoa repens)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/saw-palmetto.png",
       "nonProprietaryName": "Saw palmetto (Serenoa repens)",
       "activeIngredient": "Saw palmetto (Serenoa repens)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "320 mg/day standardised extract (85–95% fatty acids); consistent Cochrane evidence shows no benefit over placebo",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Taurine (cardiac and metabolic)",
       "alternateName": [
         "Taurine (cardiac and metabolic)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/taurine.png",
       "nonProprietaryName": "Taurine (cardiac and metabolic)",
       "activeIngredient": "Taurine (cardiac and metabolic)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–3,000 mg/day in 2–3 divided doses; blood pressure effects are additive with antihypertensives",

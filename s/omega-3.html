@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Omega-3 (high dose)",
       "alternateName": [
         "Omega-3 (high dose)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/omega-3.png",
       "nonProprietaryName": "Omega-3 (high dose)",
       "activeIngredient": "Omega-3 (high dose)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Triglyceride reduction / cardiovascular risk: 2–4 g/day EPA+DHA with a fatty meal; prescription EPA-only (icosapentaenoic acid, Vascepa) 4 g/day is the only formulation with REDUCE-IT evidence. Over-the-counter fish oil at equivalent doses is a lower-cost alternative with weaker evidence.",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Partially hydrolysed guar gum (PHGG)",
       "alternateName": [
         "Partially hydrolysed guar gum (PHGG)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/partially-hydrolysed-guar-gum.png",
       "nonProprietaryName": "Partially hydrolysed guar gum (PHGG)",
       "activeIngredient": "Partially hydrolysed guar gum (PHGG)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–7 g/day dissolved in any liquid; start at 3 g/day and increase over 1–2 weeks",

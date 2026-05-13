@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calcium hydroxyapatite (MCHC)",
       "alternateName": [
         "Calcium hydroxyapatite (MCHC)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calcium-hydroxyapatite.png",
       "nonProprietaryName": "Calcium hydroxyapatite (MCHC)",
       "activeIngredient": "Calcium hydroxyapatite (MCHC)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000 mg/day MCHC (providing ~250 mg calcium); pair with vitamin D3 and K2",

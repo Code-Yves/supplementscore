@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Biotin (high-dose)",
       "alternateName": [
         "Biotin (high-dose)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/biotin.png",
       "nonProprietaryName": "Biotin (high-dose)",
       "activeIngredient": "Biotin (high-dose)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "30–100 mcg/day adequate; high-dose supplements (5,000–10,000 mcg) lack evidence and interfere with lab tests",

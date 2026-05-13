@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Pycnogenol (pine bark, branded)",
       "alternateName": [
         "Pycnogenol (pine bark, branded)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pycnogenol.png",
       "nonProprietaryName": "Pycnogenol (pine bark, branded)",
       "activeIngredient": "Pycnogenol (pine bark, branded)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–200 mg/day standardised Pycnogenol; 200 mg studied for cognitive decline prevention",

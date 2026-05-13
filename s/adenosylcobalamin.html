@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Adenosylcobalamin (dibencozide)",
       "alternateName": [
         "Adenosylcobalamin (dibencozide)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/adenosylcobalamin.png",
       "nonProprietaryName": "Adenosylcobalamin (dibencozide)",
       "activeIngredient": "Adenosylcobalamin (dibencozide)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1000–5000 mcg adenosylcobalamin (dibencozide) daily, or combined with methylcobalamin",

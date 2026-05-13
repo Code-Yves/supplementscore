@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Boswellia serrata",
       "alternateName": [
         "Boswellia serrata"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/boswellia-serrata.png",
       "nonProprietaryName": "Boswellia serrata",
       "activeIngredient": "Boswellia serrata",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–500 mg extract (≥65% boswellic acids, ≥30% AKBA) 2–3× daily with a fat-containing meal",

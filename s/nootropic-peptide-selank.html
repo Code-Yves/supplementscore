@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Nootropic peptide selank (synthetic)",
       "alternateName": [
         "Nootropic peptide selank (synthetic)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/nootropic-peptide-selank.png",
       "nonProprietaryName": "Nootropic peptide selank (synthetic)",
       "activeIngredient": "Nootropic peptide selank (synthetic)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "250–500 mcg/day intranasal; approved only in Russia; no Western regulatory approval",

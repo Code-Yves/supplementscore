@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "L-Histidine",
       "alternateName": [
         "L-Histidine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/l-histidine.png",
       "nonProprietaryName": "L-Histidine",
       "activeIngredient": "L-Histidine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–4 g/day; most useful for CKD fatigue and RA; deficiency rare with adequate dietary protein",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Enzyme CoQ10 + PQQ stack",
       "alternateName": [
         "Enzyme CoQ10 + PQQ stack"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/enzyme-coq10-pqq-stack.png",
       "nonProprietaryName": "Enzyme CoQ10 + PQQ stack",
       "activeIngredient": "Enzyme CoQ10 + PQQ stack",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200 mg ubiquinol + 20 mg PQQ/day; combination lacks direct RCT evidence",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Diindolylmethane (DIM)",
       "alternateName": [
         "Diindolylmethane (DIM)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/diindolylmethane.png",
       "nonProprietaryName": "Diindolylmethane (DIM)",
       "activeIngredient": "Diindolylmethane (DIM)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–300 mg/day with a fat-containing meal",

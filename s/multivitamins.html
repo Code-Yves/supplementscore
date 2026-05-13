@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Multivitamins (healthy adults)",
       "alternateName": [
         "Multivitamins (healthy adults)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/multivitamins.png",
       "nonProprietaryName": "Multivitamins (healthy adults)",
       "activeIngredient": "Multivitamins (healthy adults)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "One tablet/day of an RDA-level multivitamin (typical formula: 100% DV vitamins A, C, D, E, K, B-complex; 100% DV iodine, selenium, zinc; ≤100% iron only if deficient; calcium and magnesium typically below 50% DV due to size). Avoid mega-dose formulations. Take with breakfast.",

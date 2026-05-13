@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lactobacillus casei Shirota",
       "alternateName": [
         "Lactobacillus casei Shirota"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lactobacillus-casei-shirota.png",
       "nonProprietaryName": "Lactobacillus casei Shirota",
       "activeIngredient": "Lactobacillus casei Shirota",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "6.5–40 billion CFU/day; the original Yakult strain with 100+ human trials",

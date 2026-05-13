@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Potassium supplementation (clinical)",
       "alternateName": [
         "Potassium supplementation (clinical)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/potassium-supplementation.png",
       "nonProprietaryName": "Potassium supplementation (clinical)",
       "activeIngredient": "Potassium supplementation (clinical)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "99 mg/dose OTC limit in US; higher doses require prescription or dietary sources; target 3,500–4,700 mg/day total from diet and supplements",

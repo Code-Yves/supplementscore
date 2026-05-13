@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Polygala tenuifolia (Yuan Zhi)",
       "alternateName": [
         "Polygala tenuifolia (Yuan Zhi)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/polygala-tenuifolia.png",
       "nonProprietaryName": "Polygala tenuifolia (Yuan Zhi)",
       "activeIngredient": "Polygala tenuifolia (Yuan Zhi)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–300 mg/day root extract standardised to tenuifolin; traditional decoction 3–9 g/day",

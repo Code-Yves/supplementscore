@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Kaempferol",
       "alternateName": [
         "Kaempferol"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/kaempferol.png",
       "nonProprietaryName": "Kaempferol",
       "activeIngredient": "Kaempferol",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "25–100 mg/day standardised kaempferol supplement; prioritise dietary sources over supplements",

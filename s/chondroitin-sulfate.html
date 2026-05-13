@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Chondroitin sulfate (standalone)",
       "alternateName": [
         "Chondroitin sulfate (standalone)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/chondroitin-sulfate.png",
       "nonProprietaryName": "Chondroitin sulfate (standalone)",
       "activeIngredient": "Chondroitin sulfate (standalone)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "800–1,200 mg/day chondroitin sulfate; separate from other supplements; minimum 3-month trial for structural benefits",

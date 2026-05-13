@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Tocotrienols (vitamin E fraction)",
       "alternateName": [
         "Tocotrienols (vitamin E fraction)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/tocotrienols.png",
       "nonProprietaryName": "Tocotrienols (vitamin E fraction)",
       "activeIngredient": "Tocotrienols (vitamin E fraction)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–300 mg/day mixed tocotrienols from annatto or palm; take with a fatty meal",

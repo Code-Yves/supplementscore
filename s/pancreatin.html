@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Pancreatin (porcine digestive enzymes)",
       "alternateName": [
         "Pancreatin (porcine digestive enzymes)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pancreatin.png",
       "nonProprietaryName": "Pancreatin (porcine digestive enzymes)",
       "activeIngredient": "Pancreatin (porcine digestive enzymes)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Over-the-counter: 1–2 capsules (10,000–25,000 USP lipase units) with each meal. EPI/cystic fibrosis prescription: 25,000–75,000 USP lipase units with meals (10,000–25,000 with snacks). Enteric-coated; do not crush.",

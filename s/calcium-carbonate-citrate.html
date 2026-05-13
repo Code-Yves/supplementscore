@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calcium carbonate/citrate (bone health)",
       "alternateName": [
         "Calcium carbonate/citrate (bone health)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calcium-carbonate-citrate.png",
       "nonProprietaryName": "Calcium carbonate/citrate (bone health)",
       "activeIngredient": "Calcium carbonate/citrate (bone health)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–600 mg/dose calcium (citrate or carbonate); total intake 1,000–1,200 mg/day including diet; always pair with vitamin D",

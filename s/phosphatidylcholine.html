@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Phosphatidylcholine",
       "alternateName": [
         "Phosphatidylcholine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/phosphatidylcholine.png",
       "nonProprietaryName": "Phosphatidylcholine",
       "activeIngredient": "Phosphatidylcholine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "900–1,800 mg/day with meals; sunflower lecithin preferred over soy for allergy-sensitive individuals",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "HMB free acid",
       "alternateName": [
         "HMB free acid"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/hmb-free-acid.png",
       "nonProprietaryName": "HMB free acid",
       "activeIngredient": "HMB free acid",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1 g × 3 daily (one dose 30 min pre-exercise); faster absorption than HMB calcium form",

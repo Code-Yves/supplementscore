@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Senna leaf (Cassia senna)",
       "alternateName": [
         "Senna leaf (Cassia senna)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/senna-leaf.png",
       "nonProprietaryName": "Senna leaf (Cassia senna)",
       "activeIngredient": "Senna leaf (Cassia senna)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "15–30 mg sennosides at bedtime; maximum 1–2 weeks; chronic use causes dependency and electrolyte loss",

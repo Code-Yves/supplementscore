@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vitamin B12",
       "alternateName": [
         "Vitamin B12"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vitamin-b12.png",
       "nonProprietaryName": "Vitamin B12",
       "activeIngredient": "Vitamin B12",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mcg/day sublingual methylcobalamin or cyanocobalamin; confirm deficiency with serum B12 + MMA test",

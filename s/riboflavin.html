@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Riboflavin (Vitamin B2)",
       "alternateName": [
         "Riboflavin (Vitamin B2)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/riboflavin.png",
       "nonProprietaryName": "Riboflavin (Vitamin B2)",
       "activeIngredient": "Riboflavin (Vitamin B2)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "400 mg/day for migraine prevention; take with food; allow 3–6 months before assessing response",

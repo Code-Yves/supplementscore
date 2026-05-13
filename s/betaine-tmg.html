@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Betaine TMG (trimethylglycine)",
       "alternateName": [
         "Betaine TMG (trimethylglycine)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/betaine-tmg.png",
       "nonProprietaryName": "Betaine TMG (trimethylglycine)",
       "activeIngredient": "Betaine TMG (trimethylglycine)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–3,000 mg/day; 6,000 mg/day for elevated homocysteine under medical supervision",

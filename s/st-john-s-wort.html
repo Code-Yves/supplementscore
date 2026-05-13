@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "St. John's Wort",
       "alternateName": [
         "St. John's Wort"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/st-john-s-wort.png",
       "nonProprietaryName": "St. John's Wort",
       "activeIngredient": "St. John's Wort",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "900 mg/day (300 mg × 3) standardised extract (0.3% hypericin or 5% hyperforin); do not self-prescribe",

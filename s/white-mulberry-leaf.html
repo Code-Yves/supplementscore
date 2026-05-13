@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "White mulberry leaf (Morus alba)",
       "alternateName": [
         "White mulberry leaf (Morus alba)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/white-mulberry-leaf.png",
       "nonProprietaryName": "White mulberry leaf (Morus alba)",
       "activeIngredient": "White mulberry leaf (Morus alba)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–3,000 mg/day leaf extract before carbohydrate meals; may cause gas similar to acarbose",

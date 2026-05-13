@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vitamin E (mixed tocopherols)",
       "alternateName": [
         "Vitamin E (mixed tocopherols)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vitamin-e.png",
       "nonProprietaryName": "Vitamin E (mixed tocopherols)",
       "activeIngredient": "Vitamin E (mixed tocopherols)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–400 IU/day mixed tocopherols for general use; 800 IU/day for NASH only under medical supervision",

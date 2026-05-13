@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calcium alpha-ketoglutarate (Ca-AKG)",
       "alternateName": [
         "Calcium alpha-ketoglutarate (Ca-AKG)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calcium-alpha-ketoglutarate.png",
       "nonProprietaryName": "Calcium alpha-ketoglutarate (Ca-AKG)",
       "activeIngredient": "Calcium alpha-ketoglutarate (Ca-AKG)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–2,000 mg/day Ca-AKG; typically taken in the morning on an empty stomach or with a light meal",

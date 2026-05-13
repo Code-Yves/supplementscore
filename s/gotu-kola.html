@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Gotu kola (Centella asiatica)",
       "alternateName": [
         "Gotu kola (Centella asiatica)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/gotu-kola.png",
       "nonProprietaryName": "Gotu kola (Centella asiatica)",
       "activeIngredient": "Gotu kola (Centella asiatica)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "250–500 mg/day standardised extract (10% asiaticoside); may cause liver injury at high doses",

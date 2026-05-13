@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Dandelion root (Taraxacum officinale)",
       "alternateName": [
         "Dandelion root (Taraxacum officinale)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/dandelion-root.png",
       "nonProprietaryName": "Dandelion root (Taraxacum officinale)",
       "activeIngredient": "Dandelion root (Taraxacum officinale)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,500 mg/day root extract or 4–10 g dried root as tea; traditional use, limited clinical evidence",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Butyrate (calcium/magnesium)",
       "alternateName": [
         "Butyrate (calcium/magnesium)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/butyrate.png",
       "nonProprietaryName": "Butyrate (calcium/magnesium)",
       "activeIngredient": "Butyrate (calcium/magnesium)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–1,200 mg/day calcium or magnesium butyrate; enteric-coated for colonic delivery",

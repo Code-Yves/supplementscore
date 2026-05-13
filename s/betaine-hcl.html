@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Betaine HCl",
       "alternateName": [
         "Betaine HCl"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/betaine-hcl.png",
       "nonProprietaryName": "Betaine HCl",
       "activeIngredient": "Betaine HCl",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "650–2,000 mg with protein-containing meals; do not use with NSAIDs or if you have ulcers",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Punarnava (Boerhavia diffusa)",
       "alternateName": [
         "Punarnava (Boerhavia diffusa)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/punarnava.png",
       "nonProprietaryName": "Punarnava (Boerhavia diffusa)",
       "activeIngredient": "Punarnava (Boerhavia diffusa)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day root extract; 3–6 g/day as traditional powder",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Oral rehydration salts (WHO formula)",
       "alternateName": [
         "Oral rehydration salts (WHO formula)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/oral-rehydration-salts.png",
       "nonProprietaryName": "Oral rehydration salts (WHO formula)",
       "activeIngredient": "Oral rehydration salts (WHO formula)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "WHO formula: 2.6 g NaCl, 2.9 g trisodium citrate, 1.5 g KCl, 13.5 g anhydrous glucose per litre of clean water",

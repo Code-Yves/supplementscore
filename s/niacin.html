@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Niacin (Vitamin B3)",
       "alternateName": [
         "Niacin (Vitamin B3)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/niacin.png",
       "nonProprietaryName": "Niacin (Vitamin B3)",
       "activeIngredient": "Niacin (Vitamin B3)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Niacinamide: 500–1,000 mg/day for skin. Nicotinic acid: 500–2,000 mg/day for lipids (supervised — liver toxicity risk at high dose).",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Larch arabinogalactan",
       "alternateName": [
         "Larch arabinogalactan"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/larch-arabinogalactan.png",
       "nonProprietaryName": "Larch arabinogalactan",
       "activeIngredient": "Larch arabinogalactan",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "4―30 g/day dissolved in water; well-tolerated prebiotic fibre; immune claims need more research",

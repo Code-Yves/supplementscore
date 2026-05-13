@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Luteolin",
       "alternateName": [
         "Luteolin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/luteolin.png",
       "nonProprietaryName": "Luteolin",
       "activeIngredient": "Luteolin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–300 mg/day with a fat-containing meal",

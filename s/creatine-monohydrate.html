@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Creatine monohydrate",
       "alternateName": [
         "Creatine monohydrate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/creatine-monohydrate.png",
       "nonProprietaryName": "Creatine monohydrate",
       "activeIngredient": "Creatine monohydrate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3–5 g/day continuously; optional loading phase: 20 g/day for 5–7 days then 3–5 g/day. Monohydrate is as effective as more expensive forms.",

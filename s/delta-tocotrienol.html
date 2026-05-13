@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Delta-tocotrienol",
       "alternateName": [
         "Delta-tocotrienol"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/delta-tocotrienol.png",
       "nonProprietaryName": "Delta-tocotrienol",
       "activeIngredient": "Delta-tocotrienol",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "125–300 mg delta/gamma tocotrienols (annatto-sourced) daily",

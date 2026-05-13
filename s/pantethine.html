@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Pantethine",
       "alternateName": [
         "Pantethine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pantethine.png",
       "nonProprietaryName": "Pantethine",
       "activeIngredient": "Pantethine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300 mg × 2–3 daily with meals; allow 4–8 months for full cholesterol-lowering effect",

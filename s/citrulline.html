@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Citrulline (L-citrulline, pure form)",
       "alternateName": [
         "Citrulline (L-citrulline, pure form)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/citrulline.png",
       "nonProprietaryName": "Citrulline (L-citrulline, pure form)",
       "activeIngredient": "Citrulline (L-citrulline, pure form)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3–6 g/day L-citrulline for blood pressure; 6–8 g/day 30–60 min before exercise for performance",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Chlorogenic acid (green coffee extract)",
       "alternateName": [
         "Chlorogenic acid (green coffee extract)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/chlorogenic-acid.png",
       "nonProprietaryName": "Chlorogenic acid (green coffee extract)",
       "activeIngredient": "Chlorogenic acid (green coffee extract)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–400 mg/day chlorogenic acid from green coffee extract (400–800 mg extract equivalent)",

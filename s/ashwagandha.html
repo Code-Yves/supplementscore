@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Ashwagandha (KSM-66)",
       "alternateName": [
         "Ashwagandha (KSM-66)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/ashwagandha.png",
       "nonProprietaryName": "Ashwagandha (KSM-66)",
       "activeIngredient": "Ashwagandha (KSM-66)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–600 mg/day standardised extract; cycle 8–12 wks on, 2–4 off",

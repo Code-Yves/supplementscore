@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Proline (L-Proline)",
       "alternateName": [
         "Proline (L-Proline)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/proline.png",
       "nonProprietaryName": "Proline (L-Proline)",
       "activeIngredient": "Proline (L-Proline)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–2,000 mg/day alongside vitamin C and glycine for collagen synthesis support",

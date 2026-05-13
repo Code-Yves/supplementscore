@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Milk thistle (Silymarin)",
       "alternateName": [
         "Milk thistle (Silymarin)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/milk-thistle.png",
       "nonProprietaryName": "Milk thistle (Silymarin)",
       "activeIngredient": "Milk thistle (Silymarin)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "280–420 mg/day silymarin (phospholipid complex form preferred)",

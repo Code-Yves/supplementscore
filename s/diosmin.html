@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Diosmin",
       "alternateName": [
         "Diosmin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/diosmin.png",
       "nonProprietaryName": "Diosmin",
       "activeIngredient": "Diosmin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500 mg × 2 daily (micronized); 1,000 mg × 3 daily for 4 days then 1,000 mg × 2 for acute hemorrhoids",

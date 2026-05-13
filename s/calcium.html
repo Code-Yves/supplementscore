@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calcium",
       "alternateName": [
         "Calcium"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calcium.png",
       "nonProprietaryName": "Calcium",
       "activeIngredient": "Calcium",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day supplemental in divided doses; citrate preferred. Pair with Vitamin D3 and K2. Prefer food sources where possible.",

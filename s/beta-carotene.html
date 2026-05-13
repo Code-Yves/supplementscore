@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Beta-carotene (standalone supplement)",
       "alternateName": [
         "Beta-carotene (standalone supplement)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/beta-carotene.png",
       "nonProprietaryName": "Beta-carotene (standalone supplement)",
       "activeIngredient": "Beta-carotene (standalone supplement)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Do NOT supplement isolated beta-carotene if you smoke or have ever smoked — increased lung cancer risk in CARET and ATBC trials. For non-smokers seeking carotenoids: 5–15 mg/day mixed carotenoids with food, but food sources (orange vegetables, dark leafy greens) are preferred.",

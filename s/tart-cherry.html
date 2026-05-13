@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Tart cherry (Montmorency)",
       "alternateName": [
         "Tart cherry (Montmorency)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/tart-cherry.png",
       "nonProprietaryName": "Tart cherry (Montmorency)",
       "activeIngredient": "Tart cherry (Montmorency)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "480 mg concentrated extract or 240–480 mL juice twice daily; 7–10 days around intense training",

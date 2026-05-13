@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Adaptogen stack (Ashwagandha + Rhodiola)",
       "alternateName": [
         "Adaptogen stack (Ashwagandha + Rhodiola)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/adaptogen-stack.png",
       "nonProprietaryName": "Adaptogen stack (Ashwagandha + Rhodiola)",
       "activeIngredient": "Adaptogen stack (Ashwagandha + Rhodiola)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "KSM-66 300–600 mg/day + Rhodiola rosea 200–400 mg/day; cycle 8–12 weeks on, 2–4 weeks off",

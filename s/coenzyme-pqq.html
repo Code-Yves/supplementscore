@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Coenzyme PQQ (pyrroloquinoline quinone, mitochondrial)",
       "alternateName": [
         "Coenzyme PQQ (pyrroloquinoline quinone, mitochondrial)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/coenzyme-pqq.png",
       "nonProprietaryName": "Coenzyme PQQ (pyrroloquinoline quinone, mitochondrial)",
       "activeIngredient": "Coenzyme PQQ (pyrroloquinoline quinone, mitochondrial)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10–20 mg/day with breakfast; most trials used 20 mg BioPQQ brand",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Whey protein",
       "alternateName": [
         "Whey protein"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/whey-protein.png",
       "nonProprietaryName": "Whey protein",
       "activeIngredient": "Whey protein",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "20–40 g per serving; aim for 1.6–2.2 g/kg/day total protein from all sources. Isolate for lactose sensitivity.",

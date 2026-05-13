@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Zinc",
       "alternateName": [
         "Zinc"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/zinc.png",
       "nonProprietaryName": "Zinc",
       "activeIngredient": "Zinc",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Daily supplement: 15–30 mg/day with food. Acute cold: 75–92 mg/day as lozenges for up to 5 days. Do not exceed 40 mg/day long-term.",

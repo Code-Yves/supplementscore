@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "EAAs (Essential amino acids)",
       "alternateName": [
         "EAAs (Essential amino acids)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/eaas.png",
       "nonProprietaryName": "EAAs (Essential amino acids)",
       "activeIngredient": "EAAs (Essential amino acids)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "6–12 g/day around training or between meals; contains all 9 essential amino acids",

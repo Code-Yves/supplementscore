@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Methyl B12 + Methylfolate combo",
       "alternateName": [
         "Methyl B12 + Methylfolate combo"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/methyl-b12-methylfolate-combo.png",
       "nonProprietaryName": "Methyl B12 + Methylfolate combo",
       "activeIngredient": "Methyl B12 + Methylfolate combo",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000 mcg methyl-B12 + 400 mcg 5-MTHF/day; test homocysteine and serum levels first",

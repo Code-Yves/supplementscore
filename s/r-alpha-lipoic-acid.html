@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "R-Alpha lipoic acid",
       "alternateName": [
         "R-Alpha lipoic acid"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/r-alpha-lipoic-acid.png",
       "nonProprietaryName": "R-Alpha lipoic acid",
       "activeIngredient": "R-Alpha lipoic acid",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–600 mg/day R-ALA; take on an empty stomach for better absorption",

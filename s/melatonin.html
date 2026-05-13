@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Melatonin (high-dose, nightly)",
       "alternateName": [
         "Melatonin (high-dose, nightly)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/melatonin.png",
       "nonProprietaryName": "Melatonin (high-dose, nightly)",
       "activeIngredient": "Melatonin (high-dose, nightly)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "AVOID >1 mg nightly long-term; use 0.3–1 mg situationally only (jet lag, shift work)",

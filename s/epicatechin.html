@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Epicatechin (dark chocolate flavanol)",
       "alternateName": [
         "Epicatechin (dark chocolate flavanol)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/epicatechin.png",
       "nonProprietaryName": "Epicatechin (dark chocolate flavanol)",
       "activeIngredient": "Epicatechin (dark chocolate flavanol)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–2 mg/kg body weight/day (approximately 75–150 mg) from standardised epicatechin or high-flavanol cocoa extract",

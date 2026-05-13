@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Hemp protein",
       "alternateName": [
         "Hemp protein"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/hemp-protein.png",
       "nonProprietaryName": "Hemp protein",
       "activeIngredient": "Hemp protein",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "25–50 g/day; lower leucine than whey — less optimal for muscle protein synthesis; add leucine if needed",

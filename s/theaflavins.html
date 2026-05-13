@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Theaflavins (black tea extract)",
       "alternateName": [
         "Theaflavins (black tea extract)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/theaflavins.png",
       "nonProprietaryName": "Theaflavins (black tea extract)",
       "activeIngredient": "Theaflavins (black tea extract)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–700 mg/day theaflavins from black tea extract; equivalent to 3–5 cups of strong black tea",

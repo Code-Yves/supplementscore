@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Devil's claw (Harpagophytum procumbens)",
       "alternateName": [
         "Devil's claw (Harpagophytum procumbens)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/devil-s-claw.png",
       "nonProprietaryName": "Devil's claw (Harpagophytum procumbens)",
       "activeIngredient": "Devil's claw (Harpagophytum procumbens)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "600–1,200 mg/day extract providing 50–100 mg harpagoside; avoid with anticoagulants",

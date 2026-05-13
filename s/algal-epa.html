@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Algal EPA (standalone)",
       "alternateName": [
         "Algal EPA (standalone)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/algal-epa.png",
       "nonProprietaryName": "Algal EPA (standalone)",
       "activeIngredient": "Algal EPA (standalone)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day algal EPA; vegan alternative to fish oil for cardiovascular and mood support",

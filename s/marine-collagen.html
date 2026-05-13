@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Marine collagen (fish-derived)",
       "alternateName": [
         "Marine collagen (fish-derived)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/marine-collagen.png",
       "nonProprietaryName": "Marine collagen (fish-derived)",
       "activeIngredient": "Marine collagen (fish-derived)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–10 g/day marine collagen peptides; type I collagen — best for skin; take with vitamin C",

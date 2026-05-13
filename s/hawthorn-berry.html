@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Hawthorn berry (Crataegus)",
       "alternateName": [
         "Hawthorn berry (Crataegus)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/hawthorn-berry.png",
       "nonProprietaryName": "Hawthorn berry (Crataegus)",
       "activeIngredient": "Hawthorn berry (Crataegus)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "160–900 mg/day hawthorn extract standardised to flavonoids; use under medical supervision for heart conditions",

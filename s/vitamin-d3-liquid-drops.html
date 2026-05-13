@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vitamin D3 liquid drops",
       "alternateName": [
         "Vitamin D3 liquid drops"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vitamin-d3-liquid-drops.png",
       "nonProprietaryName": "Vitamin D3 liquid drops",
       "activeIngredient": "Vitamin D3 liquid drops",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–2,000 IU/day (1–2 drops) maintenance; liquid allows precise titration for all ages",

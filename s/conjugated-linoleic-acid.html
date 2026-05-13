@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Conjugated linoleic acid (CLA)",
       "alternateName": [
         "Conjugated linoleic acid (CLA)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/conjugated-linoleic-acid.png",
       "nonProprietaryName": "Conjugated linoleic acid (CLA)",
       "activeIngredient": "Conjugated linoleic acid (CLA)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3.2–6.4 g/day mixed isomers (c9,t11 + t10,c12); monitor fasting glucose and lipid panel",

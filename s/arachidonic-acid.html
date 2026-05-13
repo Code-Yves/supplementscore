@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Arachidonic acid (ARA)",
       "alternateName": [
         "Arachidonic acid (ARA)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/arachidonic-acid.png",
       "nonProprietaryName": "Arachidonic acid (ARA)",
       "activeIngredient": "Arachidonic acid (ARA)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–1,500 mg/day arachidonic acid with meals; cycle 8 weeks on, 4 weeks off",

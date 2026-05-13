@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Stinging nettle root (Urtica dioica)",
       "alternateName": [
         "Stinging nettle root (Urtica dioica)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/stinging-nettle-root.png",
       "nonProprietaryName": "Stinging nettle root (Urtica dioica)",
       "activeIngredient": "Stinging nettle root (Urtica dioica)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Root: 300–600 mg/day for BPH. Leaf: 300 mg freeze-dried × 3 daily for allergies",

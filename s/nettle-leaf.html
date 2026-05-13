@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Nettle leaf (Urtica dioica leaf)",
       "alternateName": [
         "Nettle leaf (Urtica dioica leaf)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/nettle-leaf.png",
       "nonProprietaryName": "Nettle leaf (Urtica dioica leaf)",
       "activeIngredient": "Nettle leaf (Urtica dioica leaf)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300 mg freeze-dried leaf × 3 daily for allergies; leaf use is different from root (prostate)",

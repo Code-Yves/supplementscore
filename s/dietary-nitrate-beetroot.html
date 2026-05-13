@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Dietary Nitrate / Beetroot",
       "alternateName": [
         "Dietary Nitrate / Beetroot"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/dietary-nitrate-beetroot.png",
       "nonProprietaryName": "Dietary Nitrate / Beetroot",
       "activeIngredient": "Dietary Nitrate / Beetroot",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "400–800 mg dietary nitrate (≈300–600 mL concentrated beetroot juice), 2–3 hrs before exercise",

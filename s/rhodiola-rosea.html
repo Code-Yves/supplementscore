@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Rhodiola rosea",
       "alternateName": [
         "Rhodiola rosea"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/rhodiola-rosea.png",
       "nonProprietaryName": "Rhodiola rosea",
       "activeIngredient": "Rhodiola rosea",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–600 mg/day standardised extract (3% rosavins + 1% salidroside); cycle 6–8 wks on, 2–4 off",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Berberis aristata (Indian barberry)",
       "alternateName": [
         "Berberis aristata (Indian barberry)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/berberis-aristata.png",
       "nonProprietaryName": "Berberis aristata (Indian barberry)",
       "activeIngredient": "Berberis aristata (Indian barberry)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day standardised root extract; equivalent berberine content to Coptis-derived supplements",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Milk peptides (casein hydrolysate)",
       "alternateName": [
         "Milk peptides (casein hydrolysate)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/milk-peptides.png",
       "nonProprietaryName": "Milk peptides (casein hydrolysate)",
       "activeIngredient": "Milk peptides (casein hydrolysate)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "150–300 mg/day Lactium (alpha-s1 casein hydrolysate); allow 2 weeks for full effect",

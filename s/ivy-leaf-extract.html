@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Ivy leaf extract (Hedera helix)",
       "alternateName": [
         "Ivy leaf extract (Hedera helix)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/ivy-leaf-extract.png",
       "nonProprietaryName": "Ivy leaf extract (Hedera helix)",
       "activeIngredient": "Ivy leaf extract (Hedera helix)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100 mg dried leaf extract/day for adults; weight-adjusted for children; EA 575 extract best studied",

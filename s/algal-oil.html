@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Algal oil (vegan DHA/EPA)",
       "alternateName": [
         "Algal oil (vegan DHA/EPA)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/algal-oil.png",
       "nonProprietaryName": "Algal oil (vegan DHA/EPA)",
       "activeIngredient": "Algal oil (vegan DHA/EPA)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–2000 mg combined EPA+DHA daily (check product potency — varies widely)",

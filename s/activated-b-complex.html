@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Activated B complex (methylated)",
       "alternateName": [
         "Activated B complex (methylated)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/activated-b-complex.png",
       "nonProprietaryName": "Activated B complex (methylated)",
       "activeIngredient": "Activated B complex (methylated)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1 capsule/day providing methylated B12, folate, and B6 (P5P); most useful with confirmed MTHFR variants",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Magnesium bisglycinate",
       "alternateName": [
         "Magnesium bisglycinate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/magnesium-bisglycinate.png",
       "nonProprietaryName": "Magnesium bisglycinate",
       "activeIngredient": "Magnesium bisglycinate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–400 mg elemental magnesium as bisglycinate before bed; best tolerated form for sleep and anxiety",

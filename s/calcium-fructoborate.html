@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calcium fructoborate",
       "alternateName": [
         "Calcium fructoborate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calcium-fructoborate.png",
       "nonProprietaryName": "Calcium fructoborate",
       "activeIngredient": "Calcium fructoborate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "110–220 mg/day calcium fructoborate (providing ~3–6 mg boron); better absorbed than boron glycinate",

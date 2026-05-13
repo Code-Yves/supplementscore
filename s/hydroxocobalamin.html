@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Hydroxocobalamin",
       "alternateName": [
         "Hydroxocobalamin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/hydroxocobalamin.png",
       "nonProprietaryName": "Hydroxocobalamin",
       "activeIngredient": "Hydroxocobalamin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Oral/sublingual: 500–1,000 mcg/day for deficiency correction. Maintenance: 250–500 mcg/day. Injection: 1,000 mcg IM (prescription only).",

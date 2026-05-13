@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Mangosteen (Garcinia mangostana)",
       "alternateName": [
         "Mangosteen (Garcinia mangostana)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/mangosteen.png",
       "nonProprietaryName": "Mangosteen (Garcinia mangostana)",
       "activeIngredient": "Mangosteen (Garcinia mangostana)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day mangosteen extract; most evidence is preclinical; fruit is safe as food",

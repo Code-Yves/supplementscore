@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vitamin C (megadose)",
       "alternateName": [
         "Vitamin C (megadose)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vitamin-c.png",
       "nonProprietaryName": "Vitamin C (megadose)",
       "activeIngredient": "Vitamin C (megadose)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–500 mg/day is optimal; absorption maxes out around 400 mg per dose; doses above 2 g/day increase kidney stone risk",

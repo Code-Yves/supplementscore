@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "L-Cysteine",
       "alternateName": [
         "L-Cysteine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/l-cysteine.png",
       "nonProprietaryName": "L-Cysteine",
       "activeIngredient": "L-Cysteine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,500 mg/day in divided doses with food",

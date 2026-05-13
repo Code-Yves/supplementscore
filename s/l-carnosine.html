@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "L-Carnosine",
       "alternateName": [
         "L-Carnosine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/l-carnosine.png",
       "nonProprietaryName": "L-Carnosine",
       "activeIngredient": "L-Carnosine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–2,000 mg/day L-carnosine; or 75 mg zinc carnosine × 2 for targeted gut applications",

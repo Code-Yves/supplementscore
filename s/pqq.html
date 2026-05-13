@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "PQQ (Pyrroloquinoline quinone)",
       "alternateName": [
         "PQQ (Pyrroloquinoline quinone)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pqq.png",
       "nonProprietaryName": "PQQ (Pyrroloquinoline quinone)",
       "activeIngredient": "PQQ (Pyrroloquinoline quinone)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10–20 mg/day with food; often combined with CoQ10",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Sambucol (elderberry extract, maintenance)",
       "alternateName": [
         "Sambucol (elderberry extract, maintenance)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/sambucol.png",
       "nonProprietaryName": "Sambucol (elderberry extract, maintenance)",
       "activeIngredient": "Sambucol (elderberry extract, maintenance)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Acute use only (15 mL × 4 daily for 3–5 days at symptom onset); daily maintenance use unsupported",

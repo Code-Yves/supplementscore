@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vinpocetine",
       "alternateName": [
         "Vinpocetine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vinpocetine.png",
       "nonProprietaryName": "Vinpocetine",
       "activeIngredient": "Vinpocetine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–10 mg 3× daily (15–30 mg/day) with food if using; note that it is not a legal supplement in most Western countries",

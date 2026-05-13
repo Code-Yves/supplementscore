@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Spilanthes acmella (toothache plant)",
       "alternateName": [
         "Spilanthes acmella (toothache plant)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/spilanthes-acmella.png",
       "nonProprietaryName": "Spilanthes acmella (toothache plant)",
       "activeIngredient": "Spilanthes acmella (toothache plant)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "No standardised oral dose. Traditional use: chew 1 fresh flower head or apply 5–10 drops of tincture topically to gums for short-term tooth-pain relief. Limited modern clinical data.",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Maitake mushroom (Grifola frondosa)",
       "alternateName": [
         "Maitake mushroom (Grifola frondosa)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/maitake-mushroom.png",
       "nonProprietaryName": "Maitake mushroom (Grifola frondosa)",
       "activeIngredient": "Maitake mushroom (Grifola frondosa)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "35–70 mg/day D-fraction extract or 3–7 g/day whole mushroom powder",

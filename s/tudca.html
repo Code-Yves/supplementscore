@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "TUDCA (tauroursodeoxycholic acid)",
       "alternateName": [
         "TUDCA (tauroursodeoxycholic acid)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/tudca.png",
       "nonProprietaryName": "TUDCA (tauroursodeoxycholic acid)",
       "activeIngredient": "TUDCA (tauroursodeoxycholic acid)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "250–500 mg/day on an empty stomach; 1,500 mg/day in clinical liver protocols",

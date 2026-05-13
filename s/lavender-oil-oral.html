@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lavender oil oral (Silexan)",
       "alternateName": [
         "Lavender oil oral (Silexan)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lavender-oil-oral.png",
       "nonProprietaryName": "Lavender oil oral (Silexan)",
       "activeIngredient": "Lavender oil oral (Silexan)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "80 mg/day Silexan (pharmaceutical-grade oral lavender oil capsule); other forms not clinically validated",

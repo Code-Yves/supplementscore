@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Meriva curcumin (phytosome)",
       "alternateName": [
         "Meriva curcumin (phytosome)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/meriva-curcumin.png",
       "nonProprietaryName": "Meriva curcumin (phytosome)",
       "activeIngredient": "Meriva curcumin (phytosome)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day Meriva curcumin phytosome (equivalent to about 200 mg curcuminoids)",

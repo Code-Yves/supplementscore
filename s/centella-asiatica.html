@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Centella asiatica (Gotu kola, standardised TTFCA)",
       "alternateName": [
         "Centella asiatica (Gotu kola, standardised TTFCA)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/centella-asiatica.png",
       "nonProprietaryName": "Centella asiatica (Gotu kola, standardised TTFCA)",
       "activeIngredient": "Centella asiatica (Gotu kola, standardised TTFCA)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "60–120 mg/day TTFCA (total triterpenic fraction of Centella asiatica); take in divided doses",

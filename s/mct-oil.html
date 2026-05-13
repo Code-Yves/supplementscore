@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "MCT oil (medium chain triglycerides)",
       "alternateName": [
         "MCT oil (medium chain triglycerides)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/mct-oil.png",
       "nonProprietaryName": "MCT oil (medium chain triglycerides)",
       "activeIngredient": "MCT oil (medium chain triglycerides)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–15 mL/day; start with 5 mL to avoid GI distress; ramp up gradually over 1–2 weeks",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Mixed carotenoids",
       "alternateName": [
         "Mixed carotenoids"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/mixed-carotenoids.png",
       "nonProprietaryName": "Mixed carotenoids",
       "activeIngredient": "Mixed carotenoids",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "15–25 mg/day mixed carotenoids from natural sources; safer than isolated beta-carotene supplementation",

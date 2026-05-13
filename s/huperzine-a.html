@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Huperzine A",
       "alternateName": [
         "Huperzine A"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/huperzine-a.png",
       "nonProprietaryName": "Huperzine A",
       "activeIngredient": "Huperzine A",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "50–200 mcg twice daily; do not combine with prescription cholinesterase inhibitors",

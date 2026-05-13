@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Oat beta-glucan (cholesterol)",
       "alternateName": [
         "Oat beta-glucan (cholesterol)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/oat-beta-glucan.png",
       "nonProprietaryName": "Oat beta-glucan (cholesterol)",
       "activeIngredient": "Oat beta-glucan (cholesterol)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3 g/day soluble oat beta-glucan (≈1.5 cups cooked oatmeal, or ¾ cup dry oat bran, or 3 g concentrated supplement)",

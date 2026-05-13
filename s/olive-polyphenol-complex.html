@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Olive polyphenol complex (EVOO)",
       "alternateName": [
         "Olive polyphenol complex (EVOO)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/olive-polyphenol-complex.png",
       "nonProprietaryName": "Olive polyphenol complex (EVOO)",
       "activeIngredient": "Olive polyphenol complex (EVOO)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day EVOO extract standardised to 5–10 mg hydroxytyrosol equivalent",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Wobenzym (systemic enzymes)",
       "alternateName": [
         "Wobenzym (systemic enzymes)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/wobenzym.png",
       "nonProprietaryName": "Wobenzym (systemic enzymes)",
       "activeIngredient": "Wobenzym (systemic enzymes)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "2–3 tablets, three times daily (6–9 tablets/day total) on an empty stomach (≥30 min before meals or ≥2 hours after). Sustained use 4–8 weeks for inflammation outcomes.",

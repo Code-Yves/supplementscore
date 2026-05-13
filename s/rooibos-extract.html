@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Rooibos extract (Aspalathus linearis)",
       "alternateName": [
         "Rooibos extract (Aspalathus linearis)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/rooibos-extract.png",
       "nonProprietaryName": "Rooibos extract (Aspalathus linearis)",
       "activeIngredient": "Rooibos extract (Aspalathus linearis)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3–6 cups/day as tea or 500 mg/day extract; caffeine-free; excellent safety record",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Beta-sitosterol",
       "alternateName": [
         "Beta-sitosterol"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/beta-sitosterol.png",
       "nonProprietaryName": "Beta-sitosterol",
       "activeIngredient": "Beta-sitosterol",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "60–130 mg/day for prostate; 2,000 mg/day plant sterols for cholesterol",

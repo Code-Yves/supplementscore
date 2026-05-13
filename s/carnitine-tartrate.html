@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Carnitine tartrate",
       "alternateName": [
         "Carnitine tartrate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/carnitine-tartrate.png",
       "nonProprietaryName": "Carnitine tartrate",
       "activeIngredient": "Carnitine tartrate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "2–4 g/day L-carnitine tartrate; best taken around exercise; 2 g/day for male fertility",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Red clover (Trifolium pratense)",
       "alternateName": [
         "Red clover (Trifolium pratense)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/red-clover.png",
       "nonProprietaryName": "Red clover (Trifolium pratense)",
       "activeIngredient": "Red clover (Trifolium pratense)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "40–80 mg/day isoflavones from standardised red clover extract; avoid with hormone-sensitive cancers",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Urolithin A",
       "alternateName": [
         "Urolithin A"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/urolithin-a.png",
       "nonProprietaryName": "Urolithin A",
       "activeIngredient": "Urolithin A",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day (Mitopure form studied); not everyone produces urolithin A endogenously",

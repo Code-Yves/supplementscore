@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Chromium GTF (brewer's yeast form)",
       "alternateName": [
         "Chromium GTF (brewer's yeast form)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/chromium-gtf.png",
       "nonProprietaryName": "Chromium GTF (brewer's yeast form)",
       "activeIngredient": "Chromium GTF (brewer's yeast form)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–400 mcg/day chromium GTF; may be more bioavailable than chromium picolinate in some studies",

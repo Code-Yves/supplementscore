@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lactobacillus plantarum",
       "alternateName": [
         "Lactobacillus plantarum"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lactobacillus-plantarum.png",
       "nonProprietaryName": "Lactobacillus plantarum",
       "activeIngredient": "Lactobacillus plantarum",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10–20 billion CFU/day; strain-specific evidence strongest for 299v and LP01",

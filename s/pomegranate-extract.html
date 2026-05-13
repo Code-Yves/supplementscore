@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Pomegranate extract (ellagic acid)",
       "alternateName": [
         "Pomegranate extract (ellagic acid)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pomegranate-extract.png",
       "nonProprietaryName": "Pomegranate extract (ellagic acid)",
       "activeIngredient": "Pomegranate extract (ellagic acid)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day pomegranate extract (40% ellagic acid) or 240 mL juice daily",

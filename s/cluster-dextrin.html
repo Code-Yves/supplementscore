@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Cluster dextrin (HBCD)",
       "alternateName": [
         "Cluster dextrin (HBCD)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/cluster-dextrin.png",
       "nonProprietaryName": "Cluster dextrin (HBCD)",
       "activeIngredient": "Cluster dextrin (HBCD)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "30–60 g per hour during exercise lasting over 90 minutes; dissolve in 500 mL water",

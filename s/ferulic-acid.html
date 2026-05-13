@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Ferulic acid",
       "alternateName": [
         "Ferulic acid"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/ferulic-acid.png",
       "nonProprietaryName": "Ferulic acid",
       "activeIngredient": "Ferulic acid",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "400–1,000 mg/day ferulic acid from rice bran or wheat bran extract; often included in antioxidant stacks with vitamins C and E",

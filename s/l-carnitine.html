@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "L-Carnitine",
       "alternateName": [
         "L-Carnitine"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/l-carnitine.png",
       "nonProprietaryName": "L-Carnitine",
       "activeIngredient": "L-Carnitine",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Male fertility: 2–3 g/day in divided doses. Cardiac support: 2–4 g/day under medical supervision. Athletic: 2 g with carbohydrate pre-exercise.",

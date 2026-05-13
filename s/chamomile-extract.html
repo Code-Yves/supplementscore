@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Chamomile extract (Matricaria chamomilla)",
       "alternateName": [
         "Chamomile extract (Matricaria chamomilla)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/chamomile-extract.png",
       "nonProprietaryName": "Chamomile extract (Matricaria chamomilla)",
       "activeIngredient": "Chamomile extract (Matricaria chamomilla)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "220–1,100 mg/day standardised extract or 3–4 cups chamomile tea; safe long-term",

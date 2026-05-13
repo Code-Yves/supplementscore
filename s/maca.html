@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Maca (Lepidium meyenii)",
       "alternateName": [
         "Maca (Lepidium meyenii)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/maca.png",
       "nonProprietaryName": "Maca (Lepidium meyenii)",
       "activeIngredient": "Maca (Lepidium meyenii)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,500–3,000 mg/day gelatinised maca powder; allow 6–8 weeks for assessment",

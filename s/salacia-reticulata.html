@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Salacia reticulata",
       "alternateName": [
         "Salacia reticulata"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/salacia-reticulata.png",
       "nonProprietaryName": "Salacia reticulata",
       "activeIngredient": "Salacia reticulata",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "240–1,000 mg/day before meals; inhibits carbohydrate and fat absorption",

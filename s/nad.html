@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "NAD+ (direct oral supplement)",
       "alternateName": [
         "NAD+ (direct oral supplement)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/nad.png",
       "nonProprietaryName": "NAD+ (direct oral supplement)",
       "activeIngredient": "NAD+ (direct oral supplement)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Not recommended as standalone supplement — use NMN (250–500 mg/day) or NR (250–300 mg/day) instead; niacinamide 500 mg/day is a cost-effective alternative",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Berberine-containing Coptis (Huang Lian)",
       "alternateName": [
         "Berberine-containing Coptis (Huang Lian)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/berberine-containing-coptis.png",
       "nonProprietaryName": "Berberine-containing Coptis (Huang Lian)",
       "activeIngredient": "Berberine-containing Coptis (Huang Lian)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day Coptis extract; lower dose than pure berberine due to additional active alkaloids",

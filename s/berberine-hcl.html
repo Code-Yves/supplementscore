@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Berberine HCl (sustained release)",
       "alternateName": [
         "Berberine HCl (sustained release)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/berberine-hcl.png",
       "nonProprietaryName": "Berberine HCl (sustained release)",
       "activeIngredient": "Berberine HCl (sustained release)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day sustained-release berberine HCl; fewer GI side effects than standard form",

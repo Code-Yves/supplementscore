@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Tremella fuciformis (snow fungus)",
       "alternateName": [
         "Tremella fuciformis (snow fungus)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/tremella-fuciformis.png",
       "nonProprietaryName": "Tremella fuciformis (snow fungus)",
       "activeIngredient": "Tremella fuciformis (snow fungus)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–3 g/day mushroom powder or 500 mg extract; preclinical evidence only — no human supplement trials",

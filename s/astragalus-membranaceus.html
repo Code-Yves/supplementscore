@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Astragalus membranaceus (Huang Qi)",
       "alternateName": [
         "Astragalus membranaceus (Huang Qi)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/astragalus-membranaceus.png",
       "nonProprietaryName": "Astragalus membranaceus (Huang Qi)",
       "activeIngredient": "Astragalus membranaceus (Huang Qi)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,500 mg/day standardised root extract; traditionally decocted as a tea in TCM practice",

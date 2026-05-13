@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Chlorella",
       "alternateName": [
         "Chlorella"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/chlorella.png",
       "nonProprietaryName": "Chlorella",
       "activeIngredient": "Chlorella",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3–6 g/day broken-cell-wall chlorella powder or tablets; split across 2 doses with meals",

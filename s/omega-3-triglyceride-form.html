@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Omega-3 triglyceride form (rTG)",
       "alternateName": [
         "Omega-3 triglyceride form (rTG)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/omega-3-triglyceride-form.png",
       "nonProprietaryName": "Omega-3 triglyceride form (rTG)",
       "activeIngredient": "Omega-3 triglyceride form (rTG)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–4 g/day EPA+DHA in rTG form; ~70% better absorbed than ethyl ester form",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Hesperidin",
       "alternateName": [
         "Hesperidin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/hesperidin.png",
       "nonProprietaryName": "Hesperidin",
       "activeIngredient": "Hesperidin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500 mg/day hesperidin or 900 mg/day diosmin-hesperidin complex",

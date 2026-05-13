@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Inulin / FOS (prebiotic fibre)",
       "alternateName": [
         "Inulin / FOS (prebiotic fibre)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/inulin-fos.png",
       "nonProprietaryName": "Inulin / FOS (prebiotic fibre)",
       "activeIngredient": "Inulin / FOS (prebiotic fibre)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–10 g/day; start at 2–3 g/day and titrate up to minimise bloating",

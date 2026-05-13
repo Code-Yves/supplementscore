@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Collagen for muscle strength",
       "alternateName": [
         "Collagen for muscle strength"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/collagen-for-muscle-strength.png",
       "nonProprietaryName": "Collagen for muscle strength",
       "activeIngredient": "Collagen for muscle strength",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "No dose recommendation — collagen is not a complete protein and adds no muscle-building benefit beyond what 0.4 g/kg whey or other complete protein per meal already provides. If your goal is muscle, prioritise whey/casein/EAAs over collagen.",

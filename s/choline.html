@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Choline",
       "alternateName": [
         "Choline"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/choline.png",
       "nonProprietaryName": "Choline",
       "activeIngredient": "Choline",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "250–550 mg/day; 450 mg/day during pregnancy. CDP-choline and alpha-GPC preferred for brain effects; bitartrate for general use.",

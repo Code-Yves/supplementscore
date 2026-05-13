@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Probiotics",
       "alternateName": [
         "Probiotics"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/probiotics.png",
       "nonProprietaryName": "Probiotics",
       "activeIngredient": "Probiotics",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "RTI prevention: B. animalis ≥1B CFU/day; IBS-D: L. rhamnosus GG 10B CFU/day; take 2 hrs from antibiotics",

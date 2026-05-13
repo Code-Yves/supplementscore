@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lacto-fermented foods (supplement form)",
       "alternateName": [
         "Lacto-fermented foods (supplement form)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lacto-fermented-foods.png",
       "nonProprietaryName": "Lacto-fermented foods (supplement form)",
       "activeIngredient": "Lacto-fermented foods (supplement form)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–2 capsules/day standardised to ≥1 billion live CFU. Eating actual fermented foods (sauerkraut 30–60 g, kefir 100–200 mL, kimchi 30–60 g) daily is preferred and far better studied.",

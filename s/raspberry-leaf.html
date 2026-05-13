@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Raspberry leaf (Rubus idaeus)",
       "alternateName": [
         "Raspberry leaf (Rubus idaeus)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/raspberry-leaf.png",
       "nonProprietaryName": "Raspberry leaf (Rubus idaeus)",
       "activeIngredient": "Raspberry leaf (Rubus idaeus)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–2 cups tea/day (~2 g dried leaf per cup) starting from 32 weeks gestation. Avoid in the first and second trimester — may stimulate the uterus. Limited but largely benign clinical evidence; discuss with midwife or obstetrician first.",

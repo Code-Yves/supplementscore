@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Icariin (Epimedium extract)",
       "alternateName": [
         "Icariin (Epimedium extract)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/icariin.png",
       "nonProprietaryName": "Icariin (Epimedium extract)",
       "activeIngredient": "Icariin (Epimedium extract)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–500 mg standardised extract (40%+ icariin) twice daily",

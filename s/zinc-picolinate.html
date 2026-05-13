@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Zinc picolinate",
       "alternateName": [
         "Zinc picolinate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/zinc-picolinate.png",
       "nonProprietaryName": "Zinc picolinate",
       "activeIngredient": "Zinc picolinate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "15–30 mg/day zinc picolinate; copper supplementation needed if exceeding 25 mg/day long-term",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Fibre (general dietary)",
       "alternateName": [
         "Fibre (general dietary)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/fibre.png",
       "nonProprietaryName": "Fibre (general dietary)",
       "activeIngredient": "Fibre (general dietary)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "25–38 g/day total from food and supplements; increase intake gradually by 5 g per week to avoid bloating",

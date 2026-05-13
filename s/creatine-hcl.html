@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Creatine HCl",
       "alternateName": [
         "Creatine HCl"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/creatine-hcl.png",
       "nonProprietaryName": "Creatine HCl",
       "activeIngredient": "Creatine HCl",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1.5–3 g/day; no evidence it outperforms creatine monohydrate at equivalent doses",

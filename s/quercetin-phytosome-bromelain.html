@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Quercetin phytosome + Bromelain",
       "alternateName": [
         "Quercetin phytosome + Bromelain"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/quercetin-phytosome-bromelain.png",
       "nonProprietaryName": "Quercetin phytosome + Bromelain",
       "activeIngredient": "Quercetin phytosome + Bromelain",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500 mg quercetin phytosome + 100 mg bromelain × 2 daily; bromelain dramatically improves quercetin bioavailability",

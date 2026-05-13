@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Caprylic acid (C8 MCT)",
       "alternateName": [
         "Caprylic acid (C8 MCT)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/caprylic-acid.png",
       "nonProprietaryName": "Caprylic acid (C8 MCT)",
       "activeIngredient": "Caprylic acid (C8 MCT)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "5–15 mL/day pure C8 MCT oil; start with 5 mL to avoid GI distress",

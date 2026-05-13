@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "D-Glucuronolactone",
       "alternateName": [
         "D-Glucuronolactone"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/d-glucuronolactone.png",
       "nonProprietaryName": "D-Glucuronolactone",
       "activeIngredient": "D-Glucuronolactone",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "400–1,200 mg/day, often combined with caffeine or taurine",

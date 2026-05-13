@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Marshmallow root (Althaea officinalis)",
       "alternateName": [
         "Marshmallow root (Althaea officinalis)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/marshmallow-root.png",
       "nonProprietaryName": "Marshmallow root (Althaea officinalis)",
       "activeIngredient": "Marshmallow root (Althaea officinalis)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,500 mg/day root extract or 2–5 g root as tea; take 30 min away from medications",

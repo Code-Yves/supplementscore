@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "5-ALA (5-aminolevulinic acid)",
       "alternateName": [
         "5-ALA (5-aminolevulinic acid)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/5-ala.png",
       "nonProprietaryName": "5-ALA (5-aminolevulinic acid)",
       "activeIngredient": "5-ALA (5-aminolevulinic acid)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "50–150 mg/day 5-ALA, typically as 5-ALA + sodium ferrous citrate (SFC) combination; taken with meals",

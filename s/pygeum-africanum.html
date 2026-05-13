@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Pygeum africanum",
       "alternateName": [
         "Pygeum africanum"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/pygeum-africanum.png",
       "nonProprietaryName": "Pygeum africanum",
       "activeIngredient": "Pygeum africanum",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–200 mg/day standardised extract (14% triterpenes); evidence modest but consistent",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Uridine monophosphate (UMP)",
       "alternateName": [
         "Uridine monophosphate (UMP)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/uridine-monophosphate.png",
       "nonProprietaryName": "Uridine monophosphate (UMP)",
       "activeIngredient": "Uridine monophosphate (UMP)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day on an empty stomach",

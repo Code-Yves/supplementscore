@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Yerba mate (Ilex paraguayensis)",
       "alternateName": [
         "Yerba mate (Ilex paraguayensis)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/yerba-mate.png",
       "nonProprietaryName": "Yerba mate (Ilex paraguayensis)",
       "activeIngredient": "Yerba mate (Ilex paraguayensis)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–3 g dried leaf as infusion (not above 65°C), or 500 mg dry extract 1-2x daily",

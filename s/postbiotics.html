@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Postbiotics (heat-killed probiotics)",
       "alternateName": [
         "Postbiotics (heat-killed probiotics)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/postbiotics.png",
       "nonProprietaryName": "Postbiotics (heat-killed probiotics)",
       "activeIngredient": "Postbiotics (heat-killed probiotics)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–10 billion heat-killed cells/day (e.g., HK L-137 250 mg/day, ET-901 100 mg/day). Take any time of day with or without food — shelf-stable, no refrigeration needed.",

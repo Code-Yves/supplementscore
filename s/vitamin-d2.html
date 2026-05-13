@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Vitamin D2 (ergocalciferol)",
       "alternateName": [
         "Vitamin D2 (ergocalciferol)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/vitamin-d2.png",
       "nonProprietaryName": "Vitamin D2 (ergocalciferol)",
       "activeIngredient": "Vitamin D2 (ergocalciferol)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–2,000 IU/day; D3 is significantly more effective — use D2 only if vegan D3 is unavailable",

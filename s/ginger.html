@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Ginger (Zingiber officinale)",
       "alternateName": [
         "Ginger (Zingiber officinale)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/ginger.png",
       "nonProprietaryName": "Ginger (Zingiber officinale)",
       "activeIngredient": "Ginger (Zingiber officinale)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–2 g/day standardised extract (5% gingerols) for nausea; 500 mg × 2–3 for inflammation; keep under 4 g/day",

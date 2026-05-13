@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Magnesium malate",
       "alternateName": [
         "Magnesium malate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/magnesium-malate.png",
       "nonProprietaryName": "Magnesium malate",
       "activeIngredient": "Magnesium malate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "200–400 mg elemental Mg from magnesium malate; malic acid supports energy metabolism",

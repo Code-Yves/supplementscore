@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Bone broth protein",
       "alternateName": [
         "Bone broth protein"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/bone-broth-protein.png",
       "nonProprietaryName": "Bone broth protein",
       "activeIngredient": "Bone broth protein",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10–20 g/day bone broth protein powder; no proven advantage over standard collagen peptides",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Borage oil (GLA)",
       "alternateName": [
         "Borage oil (GLA)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/borage-oil.png",
       "nonProprietaryName": "Borage oil (GLA)",
       "activeIngredient": "Borage oil (GLA)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1000–3000 mg borage oil daily (providing 240–720 mg GLA)",

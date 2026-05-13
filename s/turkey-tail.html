@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Turkey tail (Trametes versicolor)",
       "alternateName": [
         "Turkey tail (Trametes versicolor)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/turkey-tail.png",
       "nonProprietaryName": "Turkey tail (Trametes versicolor)",
       "activeIngredient": "Turkey tail (Trametes versicolor)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–3,000 mg/day standardised PSK/PSP extract",

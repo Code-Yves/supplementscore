@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Oleuropein (olive extract)",
       "alternateName": [
         "Oleuropein (olive extract)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/oleuropein.png",
       "nonProprietaryName": "Oleuropein (olive extract)",
       "activeIngredient": "Oleuropein (olive extract)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "250–500 mg/day oleuropein from standardised olive leaf extract",

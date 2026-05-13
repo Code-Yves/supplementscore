@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Bitter melon (Momordica charantia)",
       "alternateName": [
         "Bitter melon (Momordica charantia)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/bitter-melon.png",
       "nonProprietaryName": "Bitter melon (Momordica charantia)",
       "activeIngredient": "Bitter melon (Momordica charantia)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–3 g/day extract or 50 mL/day juice; monitor blood sugar closely if on diabetes medication",

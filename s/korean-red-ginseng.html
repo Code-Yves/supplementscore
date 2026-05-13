@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Korean red ginseng (fermented)",
       "alternateName": [
         "Korean red ginseng (fermented)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/korean-red-ginseng.png",
       "nonProprietaryName": "Korean red ginseng (fermented)",
       "activeIngredient": "Korean red ginseng (fermented)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–3 g/day fermented Korean red ginseng; avoid with warfarin and stimulants",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Ferrous bisglycinate (gentle iron)",
       "alternateName": [
         "Ferrous bisglycinate (gentle iron)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/ferrous-bisglycinate.png",
       "nonProprietaryName": "Ferrous bisglycinate (gentle iron)",
       "activeIngredient": "Ferrous bisglycinate (gentle iron)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "25–50 mg/day elemental iron as bisglycinate; every other day dosing may improve absorption; test ferritin first",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Ketone esters (exogenous ketones)",
       "alternateName": [
         "Ketone esters (exogenous ketones)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/ketone-esters.png",
       "nonProprietaryName": "Ketone esters (exogenous ketones)",
       "activeIngredient": "Ketone esters (exogenous ketones)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "25–50 g ketone monoester 30 min before cognitive demand; expensive at 30–50 USD per serving",

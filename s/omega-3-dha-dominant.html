@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Omega-3 DHA-dominant",
       "alternateName": [
         "Omega-3 DHA-dominant"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/omega-3-dha-dominant.png",
       "nonProprietaryName": "Omega-3 DHA-dominant",
       "activeIngredient": "Omega-3 DHA-dominant",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–2,000 mg DHA/day; especially important during pregnancy and for older adults",

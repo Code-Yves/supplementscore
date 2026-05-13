@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Bacillus clausii",
       "alternateName": [
         "Bacillus clausii"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/bacillus-clausii.png",
       "nonProprietaryName": "Bacillus clausii",
       "activeIngredient": "Bacillus clausii",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "2–6 billion spores daily, taken in 1–3 divided doses with or without food. Often dispensed as 5-mL liquid vials in Europe/India.",

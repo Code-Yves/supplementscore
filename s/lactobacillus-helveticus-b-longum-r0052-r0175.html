@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lactobacillus helveticus/B. longum R0052/R0175",
       "alternateName": [
         "Lactobacillus helveticus/B. longum R0052/R0175"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lactobacillus-helveticus-b-longum-r0052-r0175.png",
       "nonProprietaryName": "Lactobacillus helveticus/B. longum R0052/R0175",
       "activeIngredient": "Lactobacillus helveticus/B. longum R0052/R0175",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3 billion CFU/day of the R0052/R0175 combination; specific strains matter — generic alternatives are unproven",

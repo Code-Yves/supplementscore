@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lactobacillus fermentum",
       "alternateName": [
         "Lactobacillus fermentum"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lactobacillus-fermentum.png",
       "nonProprietaryName": "Lactobacillus fermentum",
       "activeIngredient": "Lactobacillus fermentum",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1–10 billion CFU/day; ME-3 strain uniquely produces glutathione in the gut",

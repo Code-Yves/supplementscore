@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Arjuna bark (Terminalia arjuna)",
       "alternateName": [
         "Arjuna bark (Terminalia arjuna)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/arjuna-bark.png",
       "nonProprietaryName": "Arjuna bark (Terminalia arjuna)",
       "activeIngredient": "Arjuna bark (Terminalia arjuna)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500 mg bark extract × 2 daily; use under medical supervision alongside cardiac medications",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Cannabigerol (CBG)",
       "alternateName": [
         "Cannabigerol (CBG)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/cannabigerol.png",
       "nonProprietaryName": "Cannabigerol (CBG)",
       "activeIngredient": "Cannabigerol (CBG)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10–50 mg per dose; product strength varies widely — start low",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Saffron Affron (standardised extract)",
       "alternateName": [
         "Saffron Affron (standardised extract)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/saffron-affron.png",
       "nonProprietaryName": "Saffron Affron (standardised extract)",
       "activeIngredient": "Saffron Affron (standardised extract)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "14–28 mg/day Affron standardised extract (or equivalent lepticrosalide content); allow 4–8 weeks",

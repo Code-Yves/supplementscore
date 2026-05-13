@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Cistanche deserticola",
       "alternateName": [
         "Cistanche deserticola"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/cistanche-deserticola.png",
       "nonProprietaryName": "Cistanche deserticola",
       "activeIngredient": "Cistanche deserticola",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "450–1,000 mg/day standardised extract; human evidence still limited",

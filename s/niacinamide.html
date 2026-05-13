@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Niacinamide (nicotinamide)",
       "alternateName": [
         "Niacinamide (nicotinamide)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/niacinamide.png",
       "nonProprietaryName": "Niacinamide (nicotinamide)",
       "activeIngredient": "Niacinamide (nicotinamide)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Knee OA: 500–1,000 mg 3× daily (up to 3,000 mg/day). NAD+ support: 250–500 mg/day. Skin UV protection: 500 mg twice daily.",

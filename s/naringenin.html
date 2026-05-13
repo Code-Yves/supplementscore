@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Naringenin",
       "alternateName": [
         "Naringenin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/naringenin.png",
       "nonProprietaryName": "Naringenin",
       "activeIngredient": "Naringenin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "150–600 mg naringenin daily (often with piperine or phospholipid delivery)",

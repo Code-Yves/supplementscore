@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Melatonin gummies (high dose 5–10 mg)",
       "alternateName": [
         "Melatonin gummies (high dose 5–10 mg)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/melatonin-gummies.png",
       "nonProprietaryName": "Melatonin gummies (high dose 5–10 mg)",
       "activeIngredient": "Melatonin gummies (high dose 5–10 mg)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Optimal dose is 0.3–1 mg 30–60 minutes before bed; most gummies are significantly overdosed",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Korean mistletoe (Viscum album)",
       "alternateName": [
         "Korean mistletoe (Viscum album)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/korean-mistletoe.png",
       "nonProprietaryName": "Korean mistletoe (Viscum album)",
       "activeIngredient": "Korean mistletoe (Viscum album)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Subcutaneous injection only (mistletoe extracts e.g., Iscador, Helixor: 1–20 mg per injection, 2–3×/week, dose-titrated by trained integrative oncology practitioner). Oral preparations are not effective for cancer indications.",

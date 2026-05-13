@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Zinc bisglycinate",
       "alternateName": [
         "Zinc bisglycinate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/zinc-bisglycinate.png",
       "nonProprietaryName": "Zinc bisglycinate",
       "activeIngredient": "Zinc bisglycinate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "15–30 mg elemental zinc as bisglycinate daily (check label for elemental)",

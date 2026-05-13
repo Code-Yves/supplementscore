@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Boron",
       "alternateName": [
         "Boron"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/boron.png",
       "nonProprietaryName": "Boron",
       "activeIngredient": "Boron",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "3–6 mg/day boron glycinate; do not exceed 10 mg/day",

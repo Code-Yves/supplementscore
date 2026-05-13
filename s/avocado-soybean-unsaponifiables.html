@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Avocado soybean unsaponifiables (ASU)",
       "alternateName": [
         "Avocado soybean unsaponifiables (ASU)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/avocado-soybean-unsaponifiables.png",
       "nonProprietaryName": "Avocado soybean unsaponifiables (ASU)",
       "activeIngredient": "Avocado soybean unsaponifiables (ASU)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300 mg/day ASU; effects take 2–3 months to appear; best studied for knee and hip OA",

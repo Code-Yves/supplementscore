@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Magnesium L-threonate",
       "alternateName": [
         "Magnesium L-threonate"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/magnesium-l-threonate.png",
       "nonProprietaryName": "Magnesium L-threonate",
       "activeIngredient": "Magnesium L-threonate",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,500–2,000 mg/day (providing ~144 mg elemental Mg); take in the evening",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Lutein + Zeaxanthin",
       "alternateName": [
         "Lutein + Zeaxanthin"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/lutein-zeaxanthin.png",
       "nonProprietaryName": "Lutein + Zeaxanthin",
       "activeIngredient": "Lutein + Zeaxanthin",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "10 mg lutein + 2 mg zeaxanthin/day with a fat-containing meal (AREDS2 formula)",

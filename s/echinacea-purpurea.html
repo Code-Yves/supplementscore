@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Echinacea purpurea",
       "alternateName": [
         "Echinacea purpurea"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/echinacea-purpurea.png",
       "nonProprietaryName": "Echinacea purpurea",
       "activeIngredient": "Echinacea purpurea",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–500 mg standardised extract × 3 daily at first sign of cold for 7–10 days; evidence inconsistent",

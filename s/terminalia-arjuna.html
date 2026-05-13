@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Terminalia arjuna (Arjuna standardised extract)",
       "alternateName": [
         "Terminalia arjuna (Arjuna standardised extract)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/terminalia-arjuna.png",
       "nonProprietaryName": "Terminalia arjuna (Arjuna standardised extract)",
       "activeIngredient": "Terminalia arjuna (Arjuna standardised extract)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500 mg twice daily standardised bark extract (25% arjunic acid); take under medical supervision if on cardiac medications",

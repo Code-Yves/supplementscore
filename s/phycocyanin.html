@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Phycocyanin (spirulina blue pigment)",
       "alternateName": [
         "Phycocyanin (spirulina blue pigment)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/phycocyanin.png",
       "nonProprietaryName": "Phycocyanin (spirulina blue pigment)",
       "activeIngredient": "Phycocyanin (spirulina blue pigment)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "100–200 mg/day extracted phycocyanin; more concentrated than whole spirulina",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Tyrosine (L-tyrosine)",
       "alternateName": [
         "Tyrosine (L-tyrosine)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/tyrosine.png",
       "nonProprietaryName": "Tyrosine (L-tyrosine)",
       "activeIngredient": "Tyrosine (L-tyrosine)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–2,000 mg 30–60 min before acute stress or demanding cognitive tasks",

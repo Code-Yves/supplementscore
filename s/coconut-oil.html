@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Coconut oil (supplement form)",
       "alternateName": [
         "Coconut oil (supplement form)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/coconut-oil.png",
       "nonProprietaryName": "Coconut oil (supplement form)",
       "activeIngredient": "Coconut oil (supplement form)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Not recommended as a health supplement — raises LDL cholesterol comparably to other saturated fats. If MCT effects are the goal, use MCT oil (5–20 mL/day, build up gradually). If using coconut oil in cooking, do so in moderation as you would any saturated fat.",

@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Triphala",
       "alternateName": [
         "Triphala"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/triphala.png",
       "nonProprietaryName": "Triphala",
       "activeIngredient": "Triphala",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500–1,000 mg/day or 2–4 g powder in warm water before bed; start low to assess tolerance",

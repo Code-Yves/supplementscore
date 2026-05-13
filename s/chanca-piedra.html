@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Chanca piedra (Phyllanthus niruri)",
       "alternateName": [
         "Chanca piedra (Phyllanthus niruri)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/chanca-piedra.png",
       "nonProprietaryName": "Chanca piedra (Phyllanthus niruri)",
       "activeIngredient": "Chanca piedra (Phyllanthus niruri)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "500 mg standardised extract 2–3 times daily, or 1–2 g dried herb as infusion",

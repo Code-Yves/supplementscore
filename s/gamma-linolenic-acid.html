@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Gamma-linolenic acid (GLA)",
       "alternateName": [
         "Gamma-linolenic acid (GLA)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/gamma-linolenic-acid.png",
       "nonProprietaryName": "Gamma-linolenic acid (GLA)",
       "activeIngredient": "Gamma-linolenic acid (GLA)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "1,000–2,000 mg/day evening primrose oil (~80–160 mg GLA) or 500 mg borage oil (~100 mg GLA)",

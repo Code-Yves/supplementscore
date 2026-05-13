@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "California poppy (Eschscholzia californica)",
       "alternateName": [
         "California poppy (Eschscholzia californica)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/california-poppy.png",
       "nonProprietaryName": "California poppy (Eschscholzia californica)",
       "activeIngredient": "California poppy (Eschscholzia californica)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–600 mg/day extract or 2–3 cups tea before bed; traditional use — limited clinical trial data",

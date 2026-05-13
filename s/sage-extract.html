@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Sage extract (Salvia officinalis)",
       "alternateName": [
         "Sage extract (Salvia officinalis)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/sage-extract.png",
       "nonProprietaryName": "Sage extract (Salvia officinalis)",
       "activeIngredient": "Sage extract (Salvia officinalis)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "300–600 mg/day standardised extract; avoid high doses long-term due to thujone content",

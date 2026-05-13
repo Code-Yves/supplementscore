@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Elderberry (Sambucus nigra)",
       "alternateName": [
         "Elderberry (Sambucus nigra)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/elderberry.png",
       "nonProprietaryName": "Elderberry (Sambucus nigra)",
       "activeIngredient": "Elderberry (Sambucus nigra)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "15 mL syrup × 4 daily for 3–5 days within 48 hrs of onset",

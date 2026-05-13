@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Digestive enzymes",
       "alternateName": [
         "Digestive enzymes"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/digestive-enzymes.png",
       "nonProprietaryName": "Digestive enzymes",
       "activeIngredient": "Digestive enzymes",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "Lactase: 6,000–9,000 FCC units with dairy. Broad blend: 1 capsule with largest meal.",

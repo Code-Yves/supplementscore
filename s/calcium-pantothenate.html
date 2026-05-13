@@ -23,7 +23,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "DietarySupplement",
+      "@type": [
+        "DietarySupplement",
+        "Product"
+      ],
       "name": "Calcium pantothenate (Vitamin B5)",
       "alternateName": [
         "Calcium pantothenate (Vitamin B5)"
@@ -33,6 +36,10 @@
       "image": "https://supplementscore.org/og/calcium-pantothenate.png",
       "nonProprietaryName": "Calcium pantothenate (Vitamin B5)",
       "activeIngredient": "Calcium pantothenate (Vitamin B5)",
+      "brand": {
+        "@type": "Organization",
+        "name": "SupplementScore"
+      },
       "recommendedIntake": {
         "@type": "RecommendedDoseSchedule",
         "doseValue": "50–500 mg/day general use; up to 2–5 g/day split doses for acne",
