@@ -42,3 +42,46 @@
 | 2026-05-11 | carnosine-for-skin-glycation-and-aging-the-ages-evidence-so-far | Breakthrough | 760 | 7 | public:5, industry:2 | evergreen |
 | 2026-05-11 | lactobacillus-reuteri-dsm-17938-for-infant-colic-what-the-rcts-show | Kids | 770 | 6 | public:5, industry:1 | evergreen |
 | 2026-05-11 | vitamin-d-for-breastfed-infants-why-aap-recommends-400-iu-from-birth | Kids | 890 | 6 | public:6 | evergreen |
+
+| 2026-05-12 | glycine-and-sleep-architecture-what-the-eeg-and-subjective-trials-show | Research Update | 712 | 6 | industry:4, mixed:1, public:1 | evergreen |
+| 2026-05-12 | taurine-and-blood-pressure-what-the-prehypertension-trial-actually-found | Research Update | 668 | 5 | public:5 | evergreen |
+| 2026-05-12 | lions-mane-hericium-erinaceus-cognition-what-the-controlled-trials-show | Research Update | 671 | 5 | industry:1, public:4 | evergreen |
+| 2026-05-12 | magnesium-forms-compared-glycinate-citrate-oxide-malate-and-threonate-bioavailability-and-outcomes | Research Update | 715 | 5 | industry:1, public:4 | evergreen |
+| 2026-05-12 | selenium-yeast-vs-selenomethionine-vs-selenite-form-bioavailability-and-the-trial-legacy | Research Update | 687 | 5 | public:5 | evergreen |
+| 2026-05-12 | benfotiamine-and-diabetic-neuropathy-fat-soluble-thiamine-and-the-trial-record | Research Update | 673 | 5 | industry:2, public:3 | evergreen |
+| 2026-05-12 | d-ribose-for-heart-failure-and-fibromyalgia-what-the-energy-substrate-trials-show | Guide | 677 | 6 | industry:2, public:4 | evergreen |
+| 2026-05-12 | pycnogenol-french-maritime-pine-bark-extract-what-conditions-have-real-trial-evidence | Guide | 628 | 6 | industry:4, mixed:1, public:1 | evergreen |
+| 2026-05-12 | pantothenic-acid-vitamin-b5-the-forgotten-b-vitamin-beyond-the-acne-claims | Guide | 641 | 6 | industry:1, none_disclosed:1, public:4 | evergreen |
+| 2026-05-12 | schisandra-chinensis-the-adaptogen-with-real-hepatoprotective-data | Guide | 674 | 5 | public:5 | evergreen |
+| 2026-05-12 | vitamin-a-toxicity-retinol-beta-carotene-and-the-asymmetric-risks | Safety | 673 | 6 | public:6 | evergreen |
+| 2026-05-12 | dgl-vs-whole-licorice-why-the-glycyrrhizin-form-causes-hypertension-and-hypokalemia | Safety | 701 | 6 | public:6 | evergreen |
+| 2026-05-12 | senna-and-stimulant-laxatives-why-natural-doesnt-mean-safe-for-daily-use | Safety | 697 | 6 | public:6 | evergreen |
+| 2026-05-12 | elderberry-and-the-cytokine-storm-myth-what-the-2020-concern-actually-was | Myth | 626 | 6 | public:6 | evergreen |
+| 2026-05-12 | aloe-vera-internally-for-gut-healing-what-the-evidence-actually-shows | Myth | 605 | 6 | public:6 | evergreen |
+| 2026-05-12 | slippery-elm-for-acid-reflux-folklore-vs-the-thin-trial-evidence | Myth | 701 | 6 | public:6 | evergreen |
+| 2026-05-12 | exogenous-beta-hydroxybutyrate-ketone-supplements-from-bench-to-bedside-trials | Breakthrough | 604 | 5 | public:5 | evergreen |
+| 2026-05-12 | nicotinamide-riboside-plus-pterostilbene-basis-and-the-combination-nad-product-trial-legacy | Breakthrough | 651 | 5 | industry:2, public:3 | evergreen |
+| 2026-05-12 | iron-bisglycinate-for-pediatric-anemia-tolerability-vs-ferrous-sulfate | Kids | 678 | 6 | public:6 | evergreen |
+| 2026-05-12 | kids-multivitamin-gummies-when-daily-use-is-actually-justified-and-when-just-vitamin-d-is-enough | Kids | 606 | 6 | public:6 | evergreen |
+
+| 2026-05-13 | vitamin-k2-mk-4-vs-mk-7-half-life-dose-and-the-bone-trial-evidence | Research Update | 760 | 8 | industry:3, public:5 | evergreen |
+| 2026-05-13 | epa-vs-dha-when-each-omega-3-outperforms-mood-lipids-and-inflammation | Research Update | 740 | 9 | industry:2, mixed:1, nonprofit:1, public:5 | evergreen |
+| 2026-05-13 | magnesium-for-migraine-prevention-the-aan-grade-b-evidence-and-the-600-mg-protocol | Research Update | 720 | 7 | industry:3, nonprofit:1, public:3 | evergreen |
+| 2026-05-13 | vitamin-e-for-nafld-and-mash-the-pivens-trial-and-why-hepatologists-still-prescribe-800-iu | Research Update | 730 | 7 | public:7 | evergreen |
+| 2026-05-13 | tocotrienols-vs-tocopherols-two-vitamin-e-families-different-cholesterol-and-bone-trials | Research Update | 700 | 7 | industry:3, public:4 | evergreen |
+| 2026-05-13 | inulin-and-fructo-oligosaccharides-the-bifidogenic-effect-and-what-it-actually-means-clinically | Research Update | 720 | 8 | industry:2, public:6 | evergreen |
+| 2026-05-13 | quercetin-and-exercise-performance-the-vo2max-and-post-exercise-immune-trials | Research Update | 700 | 7 | industry:1, public:6 | evergreen |
+| 2026-05-13 | pomegranate-polyphenols-what-15-years-of-trials-show-for-blood-pressure-and-prostate | Guide | 740 | 7 | industry:6, public:1 | evergreen |
+| 2026-05-13 | black-seed-oil-nigella-sativa-what-the-thymoquinone-trials-show-for-metabolic-and-allergic-disease | Guide | 720 | 6 | public:6 | evergreen |
+| 2026-05-13 | olive-leaf-extract-and-blood-pressure-the-oleuropein-trials-and-the-captopril-head-to-head | Guide | 700 | 6 | industry:2, public:4 | evergreen |
+| 2026-05-13 | l-glutamine-the-marketing-vs-the-gut-barrier-and-critical-illness-trial-data | Guide | 720 | 6 | industry:1, public:5 | evergreen |
+| 2026-05-13 | high-dose-vitamin-d-bolus-therapy-why-large-single-doses-increased-fractures-and-falls | Safety | 700 | 5 | nonprofit:1, public:4 | evergreen |
+| 2026-05-13 | chaparral-larrea-tridentata-and-hepatotoxicity-why-the-fda-warned-against-the-desert-detox-herb | Safety | 680 | 6 | public:6 | evergreen |
+| 2026-05-13 | iron-supplement-poisoning-in-young-children-still-a-leading-pediatric-fatal-overdose-category | Safety | 700 | 5 | nonprofit:1, public:4 | evergreen |
+| 2026-05-13 | cats-claw-uncaria-tomentosa-for-immunity-and-arthritis-big-claims-thin-trial-record | Myth | 700 | 6 | industry:1, public:5 | evergreen |
+| 2026-05-13 | wild-yam-cream-for-menopause-why-diosgenin-doesnt-become-progesterone-in-humans | Myth | 680 | 6 | public:6 | evergreen |
+| 2026-05-13 | apple-pectin-for-heavy-metal-chelation-the-chernobyl-myth-and-what-the-data-actually-show | Myth | 680 | 6 | industry:1, nonprofit:1, public:4 | evergreen |
+| 2026-05-13 | oral-hyaluronic-acid-for-knee-osteoarthritis-the-absorption-question-and-the-meta-analytic-effect | Breakthrough | 720 | 6 | industry:5, public:1 | evergreen |
+| 2026-05-13 | c15-pentadecanoic-acid-the-odd-chain-fatty-acid-marketed-as-the-first-essential-nutrient-in-90-years | Breakthrough | 700 | 6 | industry:3, public:3 | evergreen |
+| 2026-05-13 | probiotics-for-infant-atopic-dermatitis-what-the-lactobacillus-rhamnosus-gg-and-perinatal-trials-show | Kids | 720 | 6 | industry:1, nonprofit:1, public:4 | evergreen |
+| 2026-05-13 | magnesium-for-childhood-constipation-when-magnesium-hydroxide-or-oxide-is-the-right-call | Kids | 700 | 5 | nonprofit:1, public:4 | evergreen |

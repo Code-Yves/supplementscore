@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://supplementscore.org/compare/index.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://supplementscore.org/compare/index.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://supplementscore.org/compare/adaptogens.html</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/coq10-vs-pqq.html</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/creatine-vs-bcaas.html</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -29,4 +29,26 @@
   <url><loc>https://supplementscore.org/compare/ubiquinone-vs-ubiquinol.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/apigenin-vs-magnesium-for-sleep.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/citrulline-vs-arginine.html</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/ashwagandha-vs-l-theanine-for-stress.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/collagen-vs-vitamin-c-for-skin.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/curcumin-vs-boswellia.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/fish-oil-vs-algal-oil.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/glycine-vs-l-theanine.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/lutein-vs-zeaxanthin.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/magnesium-glycinate-vs-threonate.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/saw-palmetto-vs-beta-sitosterol.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/whey-vs-plant-protein.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/zinc-picolinate-vs-zinc-citrate.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/saffron-vs-5-htp-for-mood.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/tyrosine-vs-rhodiola-for-fatigue.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/tmg-vs-same-for-methylation.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/alpha-lipoic-acid-vs-acetyl-l-carnitine.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/hibiscus-vs-pomegranate-for-blood-pressure.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/riboflavin-vs-coq10-for-migraine.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/magnesium-citrate-vs-oxide.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/citicoline-vs-alpha-gpc.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/elderberry-vs-zinc-for-colds.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/creatine-forms.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://supplementscore.org/compare/curcumin-formulations.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://supplementscore.org/compare/probiotic-strains.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

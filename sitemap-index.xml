@@ -14,14 +14,22 @@
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-compare.xml</loc>
-    <lastmod>2026-05-11</lastmod>
+    <lastmod>2026-05-13</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-conditions.xml</loc>
-    <lastmod>2026-05-11</lastmod>
+    <lastmod>2026-05-13</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-for.xml</loc>
-    <lastmod>2026-05-11</lastmod>
+    <lastmod>2026-05-13</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://supplementscore.org/sitemap-stacks.xml</loc>
+    <lastmod>2026-05-13</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://supplementscore.org/sitemap-medications.xml</loc>
+    <lastmod>2026-05-13</lastmod>
   </sitemap>
 </sitemapindex>
