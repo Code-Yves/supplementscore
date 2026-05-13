@@ -164,6 +164,41 @@ body.is-modal .site-nav{display:none}
 body.is-modal .det-back{display:none}
 body.is-modal .det-wrap{padding-top:18px}
 body.is-modal .det-jump{top:0}
+
+/* ── Pairings module (Treatment B pilot, 2026-05-13) ──
+   Synergy cards rendered between the do-not-stack alert and the
+   Protocol block on the supplement detail page. Pilot scope: Vitamin D3
+   only; gated by name in the JS render fn. Data source: window.SUPP_PAIRINGS
+   loaded from pairings-data.js. */
+.det-pair-mod{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden}
+.det-pair-mod-head{padding:13px 22px;border-bottom:1px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;background:var(--color-background-secondary)}
+.det-pair-mod-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-secondary)}
+.det-pair-mod-meta{font-size:11px;color:var(--color-text-tertiary)}
+.det-pair-mod-meta a{color:inherit;text-decoration:underline}
+.det-pair-mod-grid{padding:18px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.det-pair-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.det-pair-card-strip{height:4px;background:var(--t1c)}
+.det-pair-card.lvl4 .det-pair-card-strip{background:var(--color-brand-soft)}
+.det-pair-card.avoid .det-pair-card-strip{background:var(--t4c)}
+.det-pair-card-inner{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+.det-pair-card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.det-pair-pill{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--t1bg);color:var(--t1tx)}
+.det-pair-card.avoid .det-pair-pill{background:var(--t4bg);color:var(--t4tx)}
+.det-pair-strength{display:inline-flex;gap:3px;margin-left:auto}
+.det-pair-strength i{width:6px;height:6px;border-radius:50%;background:var(--t1c);opacity:.22}
+.det-pair-strength i.on{opacity:1}
+.det-pair-card.avoid .det-pair-strength i{background:var(--t4c)}
+.det-pair-h{font-size:15px;font-weight:700;letter-spacing:-.15px;line-height:1.3;margin:0 0 4px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.det-pair-h .plus{color:var(--color-text-tertiary);font-weight:400}
+.det-pair-h a{color:var(--color-text-primary);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s,color .15s}
+.det-pair-h a:hover{border-bottom-color:var(--color-brand);color:var(--color-brand)}
+.det-pair-goal{font-size:13px;color:var(--color-text-secondary);line-height:1.5;margin:0 0 10px}
+.det-pair-dose{font-size:12px;padding:8px 10px;background:var(--color-background-secondary);border-radius:7px;color:var(--color-text-primary);line-height:1.45;display:flex;gap:8px;align-items:baseline}
+.det-pair-dose b{font-weight:700;color:var(--color-brand);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0}
+.det-pair-card.avoid .det-pair-dose b{color:var(--t4tx)}
+.det-pair-foot{margin-top:8px;font-size:11.5px;color:var(--color-text-tertiary);line-height:1.45}
+.det-pair-foot .warn{color:var(--t4tx)}
+@media(max-width:560px){.det-pair-mod-grid{padding:14px;grid-template-columns:1fr}}
 </style>
   <link rel="canonical" href="https://supplementscore.org/supplement.html">
   <meta property="og:title" content="Supplement detail | SupplementScore">
@@ -228,6 +263,7 @@ body.is-modal .det-jump{top:0}
 <main class="det-wrap" id="det-root"></main>
 
 <script src="data.js?v=20260504a"></script>
+<script src="pairings-data.js?v=20260513a"></script>
 <script src="a/manifest.js?v=20260504a"></script>
 <script src="search-index.js?v=20260509q"></script>
 <script src="nav-search.js?v=20260509i"></script>
@@ -364,6 +400,123 @@ body.is-modal .det-jump{top:0}
     alertHtml = '<div class="det-alert med"><span class="det-alert-icon">⚠︎</span><div><b>Do not stack</b> with '+avoidMeds.slice(0, 2).map(function(m){return escHtml(m.name);}).join(', ')+(avoidMeds.length > 2 ? ', and others.' : '.')+' <a href="#det-related">See related ↓</a></div></div>';
   }
 
+  // ── Pairings module (Treatment B pilot, 2026-05-13) ──
+  // Renders synergy cards for the current supplement using window.SUPP_PAIRINGS
+  // (pairings-data.js). Pilot scope: Vitamin D3 only. To roll out site-wide,
+  // remove the name check in the early return and the limit of 5 cards.
+  var pairingsHtml = (function(){
+    if (s.n !== 'Vitamin D3') return '';
+    var PAIRS = (typeof window !== 'undefined' && window.SUPP_PAIRINGS) ? window.SUPP_PAIRINGS : [];
+    if (!PAIRS.length) return '';
+
+    // Normalise a partner name down to a canonical key so different forms of
+    // the same molecule collapse (Mg glycinate / Mg bisglycinate / Mg citrate
+    // → "magnesium"; Ca carbonate / Ca citrate → "calcium"; K2 (MK-7) → "k2").
+    function canon(name){
+      var n = String(name||'').toLowerCase();
+      n = n.replace(/\([^)]*\)/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+      if (/\bk2\b/.test(n) || /vitamin\s*k\s*2/.test(n)) return 'k2';
+      if (/\bvitamin\s*a\b|retinol/.test(n)) return 'vitamin a';
+      if (/magnesium/.test(n)) return 'magnesium';
+      if (/\bcalcium\b|hydroxyapatite|mchc/.test(n)) return 'calcium';
+      if (/boron/.test(n)) return 'boron';
+      if (/\bleucine\b|protein\s+supplementation/.test(n)) return 'protein/leucine';
+      if (/\bd3\b|cholecalciferol/.test(n)) return 'd3';
+      return n.split(' ').slice(0,3).join(' ');
+    }
+    function isThisSupp(name){ return canon(name) === 'd3'; }
+
+    // Filter to pairings that include D3, then group by canonical partner-set.
+    var d3Pairs = PAIRS.filter(function(p){
+      return (p.members||[]).some(isThisSupp);
+    });
+    var bucket = {};
+    d3Pairs.forEach(function(p){
+      var others = (p.members||[]).filter(function(m){ return !isThisSupp(m); });
+      var key = others.map(canon).sort().join('+');
+      if (!bucket[key] || (p.strength||0) > (bucket[key].strength||0)){
+        bucket[key] = Object.assign({}, p, { _others: others });
+      }
+    });
+    var rows = Object.keys(bucket).map(function(k){ return bucket[k]; });
+    if (!rows.length) return '';
+
+    // Split positive synergies from absorption-conflict ("keep apart at high
+    // doses") cases so the conflict cards always survive the slice. Pilot
+    // budget: 4 strongest synergies + every conflict (usually 0-1).
+    var avoid = rows.filter(function(p){ return p.kind === 'absorption-conflict'; });
+    var good  = rows.filter(function(p){ return p.kind !== 'absorption-conflict'; });
+    good.sort(function(a,b){ return (b.strength||0) - (a.strength||0); });
+    rows = good.slice(0, 4).concat(avoid);
+
+    function kindLabel(kind, goal){
+      if (kind === 'absorption-conflict') return 'Keep apart at high doses';
+      if (kind === 'mechanism-complementary') {
+        if (/whi|post-menopausal/i.test(goal||'')) return 'Synergy · WHI-validated';
+        return 'Mechanism-complementary';
+      }
+      if (kind === 'cofactor') return 'Co-factor';
+      if (kind === 'goal-stack') return 'Goal stack';
+      if (kind === 'synergy') return 'Synergy';
+      if (kind === 'absorption-enhancer') return 'Absorption enhancer';
+      return (kind || 'Pair').replace(/-/g,' ');
+    }
+    function strengthDots(n){
+      n = Math.max(0, Math.min(5, n|0));
+      var out = '';
+      for (var i = 0; i < 5; i++) out += '<i'+(i < n ? ' class="on"' : '')+'></i>';
+      return '<span class="det-pair-strength" aria-label="strength '+n+' of 5">'+out+'</span>';
+    }
+    function suppLink(name){
+      var slug = window.SS && window.SS.slugify ? window.SS.slugify(name) : '';
+      var url  = window.SS && window.SS.urlFor   ? window.SS.urlFor('supplement', slug) : 'supplement.html?slug='+encodeURIComponent(slug);
+      return '<a href="'+escAttr(url)+'">'+escHtml(name)+'</a>';
+    }
+    function titleHtml(others){
+      // Always lead with this supplement, then partners joined by " + ".
+      var parts = ['<a href="#">'+escHtml(s.n)+'</a>'];
+      others.forEach(function(o){ parts.push(suppLink(o)); });
+      return parts.join('<span class="plus"> + </span>');
+    }
+
+    var cards = rows.map(function(p){
+      var isAvoid = p.kind === 'absorption-conflict';
+      var lvl4 = !isAvoid && (p.strength||0) <= 4;
+      var classes = 'det-pair-card' + (isAvoid ? ' avoid' : '') + (lvl4 ? ' lvl4' : '');
+      var pillLbl = kindLabel(p.kind, p.goal);
+      var rationale = p.rationale ? (' ' + p.rationale) : '';
+      var bodyText = (p.goal ? p.goal + '.' : '') + rationale;
+      var doseRow = p.dose ? '<div class="det-pair-dose"><b>Dose</b><span>'+escHtml(p.dose)+'</span></div>' : '';
+      var warn = '';
+      if (Array.isArray(p.contraindications) && p.contraindications.length){
+        warn = '<div class="det-pair-foot"><span class="warn">⚠︎ Caution: '+escHtml(p.contraindications.join('; '))+'.</span></div>';
+      } else if (isAvoid){
+        warn = '<div class="det-pair-foot"><span class="warn">⚠︎ Balanced AD3K formulas at normal doses are fine.</span></div>';
+      }
+      return '<div class="'+classes+'">'
+        + '<div class="det-pair-card-strip"></div>'
+        + '<div class="det-pair-card-inner">'
+        +   '<div class="det-pair-card-top">'
+        +     '<span class="det-pair-pill">'+escHtml(pillLbl)+'</span>'
+        +     strengthDots(p.strength||0)
+        +   '</div>'
+        +   '<h3 class="det-pair-h">'+titleHtml(p._others)+'</h3>'
+        +   '<p class="det-pair-goal">'+escHtml(bodyText)+'</p>'
+        +   doseRow
+        +   warn
+        + '</div>'
+        + '</div>';
+    }).join('');
+
+    return '<div class="det-pair-mod" id="det-pairings">'
+      + '<div class="det-pair-mod-head">'
+      +   '<span class="det-pair-mod-tag">Pairs well · keep apart</span>'
+      +   '<span class="det-pair-mod-meta">Strength reflects mechanism evidence (1–5). <a href="methodology.html#pairings">How we weight pairings</a></span>'
+      + '</div>'
+      + '<div class="det-pair-mod-grid">' + cards + '</div>'
+      + '</div>';
+  })();
+
   // Categories
   var catsHtml = cats.length
     ? cats.map(function(c){return '<span class="det-cat-pill">'+escHtml(c)+'</span>';}).join('')
@@ -445,6 +598,7 @@ body.is-modal .det-jump{top:0}
 
   // Jump-nav links — only show sections that exist
   var jumpLinks = ['<a href="#det-protocol">Protocol</a>','<a href="#det-evidence">Evidence</a>','<a href="#det-related">Related</a>'];
+  if (pairingsHtml) jumpLinks.unshift('<a href="#det-pairings">Pairings</a>');
   if (artiles.length) jumpLinks.push('<a href="#det-sources">Sources</a>');
 
   root.innerHTML =
@@ -478,6 +632,9 @@ body.is-modal .det-jump{top:0}
       + '<div class="det-body">'
 
       +   alertHtml
+
+      // Pairings module (Treatment B pilot — Vitamin D3 only)
+      +   pairingsHtml
 
       // Protocol
       +   (protocolRows
@@ -671,7 +828,7 @@ body.is-modal .det-jump{top:0}
       <div>
         <div class="site-footer-brand-row">
           <span class="site-footer-leaf" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
           </span>
           <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
         </div>
