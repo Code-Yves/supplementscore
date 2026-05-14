@@ -85,3 +85,24 @@
 | 2026-05-13 | c15-pentadecanoic-acid-the-odd-chain-fatty-acid-marketed-as-the-first-essential-nutrient-in-90-years | Breakthrough | 700 | 6 | industry:3, public:3 | evergreen |
 | 2026-05-13 | probiotics-for-infant-atopic-dermatitis-what-the-lactobacillus-rhamnosus-gg-and-perinatal-trials-show | Kids | 720 | 6 | industry:1, nonprofit:1, public:4 | evergreen |
 | 2026-05-13 | magnesium-for-childhood-constipation-when-magnesium-hydroxide-or-oxide-is-the-right-call | Kids | 700 | 5 | nonprofit:1, public:4 | evergreen |
+
+| 2026-05-14 | nad-precursor-comparison-nmn-nr-and-niacin-oral-bioavailability-head-to-head | Research Update | 740 | 7 | public:5, industry:1, mixed:1 | evergreen |
+| 2026-05-14 | coq10-for-migraine-prevention-what-the-controlled-trials-show | Research Update | 720 | 6 | public:5, nonprofit:1 | evergreen |
+| 2026-05-14 | holy-basil-tulsi-and-cortisol-blood-glucose-controlled-trial-evidence | Research Update | 720 | 6 | public:4, industry:2 | evergreen |
+| 2026-05-14 | l-tryptophan-vs-5-htp-serotonin-precursors-with-different-safety-profiles | Research Update | 740 | 6 | public:6 | evergreen |
+| 2026-05-14 | polyphenols-and-the-gut-microbiome-prebiotic-effects-beyond-fiber | Research Update | 760 | 5 | public:3, industry:2 | evergreen |
+| 2026-05-14 | adenosylcobalamin-the-mitochondrial-b12-form-most-supplements-omit | Research Update | 720 | 6 | public:6 | evergreen |
+| 2026-05-14 | vitamin-b6-pyridoxine-hcl-vs-p5p-bioavailability-and-toxicity-windows | Guide | 720 | 6 | public:5, nonprofit:1 | evergreen |
+| 2026-05-14 | nac-dosing-from-acetaminophen-rescue-to-nafld-and-mental-health | Guide | 760 | 6 | public:6 | evergreen |
+| 2026-05-14 | folinic-acid-vs-methylfolate-vs-folic-acid-matching-the-form-to-the-indication | Guide | 740 | 5 | public:4, industry:1 | evergreen |
+| 2026-05-14 | magnesium-for-restless-legs-syndrome-dosing-form-and-the-trial-record | Guide | 720 | 5 | public:4, nonprofit:1 | evergreen |
+| 2026-05-14 | vitamin-a-and-bone-loss-when-retinol-intake-raises-fracture-risk | Safety | 740 | 6 | public:6 | evergreen |
+| 2026-05-14 | hibiscus-tea-and-antihypertensive-interactions-the-blood-pressure-paradox | Safety | 740 | 6 | public:6 | evergreen |
+| 2026-05-14 | garlic-and-perioperative-bleeding-why-surgeons-want-patients-to-stop-two-weeks-out | Safety | 720 | 6 | public:6 | evergreen |
+| 2026-05-14 | transdermal-magnesium-oil-and-spray-what-the-absorption-studies-show | Myth | 740 | 6 | public:4, industry:1, none_disclosed:1 | evergreen |
+| 2026-05-14 | oral-glutathione-absorption-why-most-capsules-fail-to-raise-plasma-levels | Myth | 740 | 6 | public:4, industry:2 | evergreen |
+| 2026-05-14 | adrenal-cocktails-the-social-media-fatigue-drink-with-no-clinical-basis | Myth | 720 | 5 | public:4, nonprofit:1 | evergreen |
+| 2026-05-14 | nad-from-tryptophan-how-dietary-precursors-build-nad-and-the-pellagra-connection | Breakthrough | 740 | 6 | public:6 | evergreen |
+| 2026-05-14 | theaflavins-and-senolytic-activity-black-tea-polyphenols-and-the-emerging-in-vivo-data | Breakthrough | 740 | 6 | public:5, industry:1 | evergreen |
+| 2026-05-14 | lutein-for-childhood-myopia-and-screen-time-what-the-controlled-trials-show | Kids | 740 | 6 | public:4, industry:2 | evergreen |
+| 2026-05-14 | dha-for-adolescent-depression-emerging-evidence-from-omega-3-trials | Kids | 740 | 6 | public:5, nonprofit:1 | evergreen |

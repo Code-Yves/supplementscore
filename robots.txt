@@ -1,6 +1,18 @@
 User-agent: *
 Allow: /
 
+# Block internal mockup directory from crawling (not deployed but defensive)
+Disallow: /_mockups/
+
+# Sitemap index — references all shards
 Sitemap: https://supplementscore.org/sitemap-index.xml
+
+# Individual shards listed explicitly (some crawlers ignore the index and only honour explicit Sitemap directives)
 Sitemap: https://supplementscore.org/sitemap.xml
 Sitemap: https://supplementscore.org/sitemap-supplements.xml
+Sitemap: https://supplementscore.org/sitemap-articles.xml
+Sitemap: https://supplementscore.org/sitemap-conditions.xml
+Sitemap: https://supplementscore.org/sitemap-compare.xml
+Sitemap: https://supplementscore.org/sitemap-for.xml
+Sitemap: https://supplementscore.org/sitemap-medications.xml
+Sitemap: https://supplementscore.org/sitemap-stacks.xml

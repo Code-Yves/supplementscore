@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "description": "Per-week record of supplement detail pages polished by weekly-supplement-page-polish. Pages stay excluded for 8 weeks after their most recent run.",
+  "runs": [
+    {
+      "date": "2026-05-14",
+      "iso_week": "2026-W20",
+      "pages": [
+        "s/rhodiola-rosea.html",
+        "s/saccharomyces-boulardii-cncm-i-745.html",
+        "s/potassium-citrate.html",
+        "s/bifidobacterium-infantis-35624.html",
+        "s/urolithin-a.html",
+        "s/lutein-zeaxanthin.html",
+        "s/lactobacillus-acidophilus.html",
+        "s/d-chiro-inositol.html",
+        "s/delta-tocotrienol.html",
+        "s/cacao-flavanols.html"
+      ]
+    }
+  ]
+}

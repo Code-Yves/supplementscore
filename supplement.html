@@ -165,40 +165,36 @@ body.is-modal .det-back{display:none}
 body.is-modal .det-wrap{padding-top:18px}
 body.is-modal .det-jump{top:0}
 
-/* ── Pairings module (Treatment B pilot, 2026-05-13) ──
-   Synergy cards rendered between the do-not-stack alert and the
-   Protocol block on the supplement detail page. Pilot scope: Vitamin D3
+/* ── Pairings module (Treatment B pilot, 2026-05-13; simplified 2026-05-13 v2) ──
+   Renders below the Protocol + Evidence sections. Pilot scope: Vitamin D3
    only; gated by name in the JS render fn. Data source: window.SUPP_PAIRINGS
-   loaded from pairings-data.js. */
+   loaded from pairings-data.js. The simplified layout drops card chrome
+   (top strips, pills, dose box, grid of cards) in favour of a single
+   column of rows with consistent typographic hierarchy. */
 .det-pair-mod{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden}
 .det-pair-mod-head{padding:13px 22px;border-bottom:1px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;background:var(--color-background-secondary)}
 .det-pair-mod-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-secondary)}
 .det-pair-mod-meta{font-size:11px;color:var(--color-text-tertiary)}
 .det-pair-mod-meta a{color:inherit;text-decoration:underline}
-.det-pair-mod-grid{padding:18px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
-.det-pair-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-.det-pair-card-strip{height:4px;background:var(--t1c)}
-.det-pair-card.lvl4 .det-pair-card-strip{background:var(--color-brand-soft)}
-.det-pair-card.avoid .det-pair-card-strip{background:var(--t4c)}
-.det-pair-card-inner{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
-.det-pair-card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.det-pair-pill{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--t1bg);color:var(--t1tx)}
-.det-pair-card.avoid .det-pair-pill{background:var(--t4bg);color:var(--t4tx)}
-.det-pair-strength{display:inline-flex;gap:3px;margin-left:auto}
-.det-pair-strength i{width:6px;height:6px;border-radius:50%;background:var(--t1c);opacity:.22}
-.det-pair-strength i.on{opacity:1}
-.det-pair-card.avoid .det-pair-strength i{background:var(--t4c)}
-.det-pair-h{font-size:15px;font-weight:700;letter-spacing:-.15px;line-height:1.3;margin:0 0 4px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.det-pair-h .plus{color:var(--color-text-tertiary);font-weight:400}
-.det-pair-h a{color:var(--color-text-primary);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s,color .15s}
-.det-pair-h a:hover{border-bottom-color:var(--color-brand);color:var(--color-brand)}
-.det-pair-goal{font-size:13px;color:var(--color-text-secondary);line-height:1.5;margin:0 0 10px}
-.det-pair-dose{font-size:12px;padding:8px 10px;background:var(--color-background-secondary);border-radius:7px;color:var(--color-text-primary);line-height:1.45;display:flex;gap:8px;align-items:baseline}
-.det-pair-dose b{font-weight:700;color:var(--color-brand);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0}
-.det-pair-card.avoid .det-pair-dose b{color:var(--t4tx)}
-.det-pair-foot{margin-top:8px;font-size:11.5px;color:var(--color-text-tertiary);line-height:1.45}
-.det-pair-foot .warn{color:var(--t4tx)}
-@media(max-width:560px){.det-pair-mod-grid{padding:14px;grid-template-columns:1fr}}
+.det-pair-list{margin:0;padding:0;list-style:none}
+.det-pair-row{padding:16px 22px;border-top:1px solid var(--color-border-tertiary);display:flex;flex-direction:column;gap:6px}
+.det-pair-row:first-child{border-top:none}
+.det-pair-row-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.det-pair-partners{font-size:14.5px;font-weight:600;color:var(--color-text-primary);flex:1;min-width:0;line-height:1.35}
+.det-pair-partners a{color:inherit;text-decoration:none;border-bottom:1px solid var(--color-border-tertiary);transition:border-color .15s,color .15s}
+.det-pair-partners a:hover{border-bottom-color:var(--color-brand);color:var(--color-brand)}
+.det-pair-partners .plus{color:var(--color-text-tertiary);font-weight:400;margin:0 4px}
+.det-pair-kind{font-size:11px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.det-pair-row.avoid .det-pair-kind{color:var(--t4tx)}
+.det-pair-strength{display:inline-flex;gap:3px;align-items:center}
+.det-pair-strength i{width:5px;height:5px;border-radius:50%;background:var(--color-text-tertiary);opacity:.22}
+.det-pair-strength i.on{background:var(--t1c);opacity:1}
+.det-pair-row.avoid .det-pair-strength i.on{background:var(--t4c)}
+.det-pair-goal{font-size:13.5px;color:var(--color-text-secondary);line-height:1.55;margin:0}
+.det-pair-meta{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55}
+.det-pair-meta b{font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;font-size:10.5px;letter-spacing:.08em;margin-right:6px}
+.det-pair-warn{font-size:12px;color:var(--t4tx);line-height:1.55}
+@media(max-width:560px){.det-pair-row{padding:14px 16px}.det-pair-row-top{gap:8px}}
 </style>
   <link rel="canonical" href="https://supplementscore.org/supplement.html">
   <meta property="og:title" content="Supplement detail | SupplementScore">
@@ -451,7 +447,7 @@ body.is-modal .det-jump{top:0}
 
     function kindLabel(kind, goal){
       if (kind === 'absorption-conflict') return 'Keep apart at high doses';
-      if (kind === 'mechanism-complementary') {
+      if (kind === 'mechanism-complementary'){
         if (/whi|post-menopausal/i.test(goal||'')) return 'Synergy · WHI-validated';
         return 'Mechanism-complementary';
       }
@@ -472,40 +468,34 @@ body.is-modal .det-jump{top:0}
       var url  = window.SS && window.SS.urlFor   ? window.SS.urlFor('supplement', slug) : 'supplement.html?slug='+encodeURIComponent(slug);
       return '<a href="'+escAttr(url)+'">'+escHtml(name)+'</a>';
     }
-    function titleHtml(others){
-      // Always lead with this supplement, then partners joined by " + ".
-      var parts = ['<a href="#">'+escHtml(s.n)+'</a>'];
-      others.forEach(function(o){ parts.push(suppLink(o)); });
-      return parts.join('<span class="plus"> + </span>');
+    function partnersHtml(others){
+      // On the D3 page the leading "Vitamin D3 + " is implied by the section
+      // header — keep partner names only for a cleaner row.
+      return others.map(suppLink).join('<span class="plus">+</span>');
     }
 
-    var cards = rows.map(function(p){
+    var rowsHtml = rows.map(function(p){
       var isAvoid = p.kind === 'absorption-conflict';
-      var lvl4 = !isAvoid && (p.strength||0) <= 4;
-      var classes = 'det-pair-card' + (isAvoid ? ' avoid' : '') + (lvl4 ? ' lvl4' : '');
-      var pillLbl = kindLabel(p.kind, p.goal);
-      var rationale = p.rationale ? (' ' + p.rationale) : '';
-      var bodyText = (p.goal ? p.goal + '.' : '') + rationale;
-      var doseRow = p.dose ? '<div class="det-pair-dose"><b>Dose</b><span>'+escHtml(p.dose)+'</span></div>' : '';
+      var rowCls = 'det-pair-row' + (isAvoid ? ' avoid' : '');
+      var goalText = (p.goal ? p.goal + '.' : '') + (p.rationale ? ' ' + p.rationale : '');
+      var goal = goalText ? '<p class="det-pair-goal">'+escHtml(goalText)+'</p>' : '';
+      var dose = p.dose ? '<div class="det-pair-meta"><b>Dose</b>'+escHtml(p.dose)+'</div>' : '';
       var warn = '';
       if (Array.isArray(p.contraindications) && p.contraindications.length){
-        warn = '<div class="det-pair-foot"><span class="warn">⚠︎ Caution: '+escHtml(p.contraindications.join('; '))+'.</span></div>';
+        warn = '<div class="det-pair-warn">⚠︎ Caution: '+escHtml(p.contraindications.join('; '))+'.</div>';
       } else if (isAvoid){
-        warn = '<div class="det-pair-foot"><span class="warn">⚠︎ Balanced AD3K formulas at normal doses are fine.</span></div>';
+        warn = '<div class="det-pair-warn">⚠︎ Balanced AD3K formulas at normal doses are fine.</div>';
       }
-      return '<div class="'+classes+'">'
-        + '<div class="det-pair-card-strip"></div>'
-        + '<div class="det-pair-card-inner">'
-        +   '<div class="det-pair-card-top">'
-        +     '<span class="det-pair-pill">'+escHtml(pillLbl)+'</span>'
-        +     strengthDots(p.strength||0)
-        +   '</div>'
-        +   '<h3 class="det-pair-h">'+titleHtml(p._others)+'</h3>'
-        +   '<p class="det-pair-goal">'+escHtml(bodyText)+'</p>'
-        +   doseRow
-        +   warn
+      return '<li class="'+rowCls+'">'
+        + '<div class="det-pair-row-top">'
+        +   '<div class="det-pair-partners">'+partnersHtml(p._others)+'</div>'
+        +   '<span class="det-pair-kind">'+escHtml(kindLabel(p.kind, p.goal))+'</span>'
+        +   strengthDots(p.strength||0)
         + '</div>'
-        + '</div>';
+        + goal
+        + dose
+        + warn
+        + '</li>';
     }).join('');
 
     return '<div class="det-pair-mod" id="det-pairings">'
@@ -513,7 +503,7 @@ body.is-modal .det-jump{top:0}
       +   '<span class="det-pair-mod-tag">Pairs well · keep apart</span>'
       +   '<span class="det-pair-mod-meta">Strength reflects mechanism evidence (1–5). <a href="methodology.html#pairings">How we weight pairings</a></span>'
       + '</div>'
-      + '<div class="det-pair-mod-grid">' + cards + '</div>'
+      + '<ul class="det-pair-list">' + rowsHtml + '</ul>'
       + '</div>';
   })();
 
@@ -633,9 +623,6 @@ body.is-modal .det-jump{top:0}
 
       +   alertHtml
 
-      // Pairings module (Treatment B pilot — Vitamin D3 only)
-      +   pairingsHtml
-
       // Protocol
       +   (protocolRows
             ? '<div class="det-ref" id="det-protocol">'
@@ -648,6 +635,9 @@ body.is-modal .det-jump{top:0}
       +   (s.desc
             ? '<section class="det-prose" id="det-evidence"><h2 class="det-prose-h">What it is &amp; what the evidence says</h2><p>'+escHtml(s.desc)+'</p></section>'
             : '')
+
+      // Pairings module (Treatment B pilot — Vitamin D3 only)
+      +   pairingsHtml
 
       // Linked entities panel — only render if we have any
       +   ((meds.length || conds.length || bioms.length || s.tr || artiles.length)
@@ -808,98 +798,14 @@ body.is-modal .det-jump{top:0}
   .bq-foot{font-size:11.5px;color:var(--color-text-tertiary);padding:0 22px 16px;line-height:1.55}
   .bq-foot a{color:var(--color-text-secondary)}
 </style>
-<footer class="site-footer" role="contentinfo">
-  <div class="site-footer-inner">
-    <div class="site-footer-contrib">
-      <div class="site-footer-contrib-inner">
-        <div class="site-footer-contrib-text">
-          <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
-          <div class="site-footer-contrib-title">Help build the database</div>
-          <div class="site-footer-contrib-desc">Clinicians, researchers, developers, and writers who can flag bad evidence, contribute corrections, or help us scale — get in touch.</div>
-        </div>
-        <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
-          <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
-          <button type="submit">Reach out →</button>
-          <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
-        </form>
-      </div>
-    </div>
-    <div class="site-footer-grid">
-      <div>
-        <div class="site-footer-brand-row">
-          <span class="site-footer-leaf" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
-          </span>
-          <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
-        </div>
-        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
-        <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
-      </div>
-      <div>
-        <div class="site-footer-h">Methodology</div>
-        <div class="site-footer-col">
-          <a href="methodology.html">How scores work</a>
-          <a href="sources.html">Sources we trust</a>
-          <a href="funder-policy.html">Funder policy</a>
-          <a href="changed-our-mind.html">Changed our mind</a>
-        </div>
-      </div>
-      <div>
-        <div class="site-footer-h">Browse</div>
-        <div class="site-footer-col">
-          <a href="browse.html">All supplements</a>
-          <a href="condition/index.html">Conditions</a>
-          <a href="sx/index.html">By symptom</a>
-          <a href="for/index.html">By population</a>
-        </div>
-      </div>
-      <div>
-        <div class="site-footer-h">Go Deeper</div>
-        <div class="site-footer-col">
-          <a href="m/index.html">Medications</a>
-          <a href="compare/index.html">Compare supplements</a>
-          <a href="bibliography.html">Bibliography</a>
-          <a href="glossary.html">Glossary</a>
-        </div>
-      </div>
-      <div>
-        <div class="site-footer-h">Site</div>
-        <div class="site-footer-col">
-          <a href="about.html">About</a>
-          <a href="data/">Open data</a>
-          <a href="privacy.html">Terms &amp; Privacy</a>
-        </div>
-    </div>
-    <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
-  </div>
-<script>
-/* Footer contributor form — small handler shared by every page that ships the
-   shared site-footer. Defined once on window so re-loads on subsequent pages
-   are no-ops. Posts to the same Formspree endpoint as the about-page form,
-   tagged with source='contributor-footer' so leads from here are attributable. */
-window.ssFooterContrib = window.ssFooterContrib || function(e){
-  e.preventDefault();
-  var form = e.target;
-  var input = form.querySelector('input[type=email]');
-  var btn = form.querySelector('button');
-  var email = (input.value || '').trim();
-  if (!email || email.indexOf('@') < 0 || email.length < 5) {
-    input.classList.add('is-invalid');
-    setTimeout(function(){ input.classList.remove('is-invalid'); }, 2000);
-    return false;
-  }
-  btn.disabled = true; btn.textContent = 'Sending…';
-  fetch('https://formspree.io/f/mnjoylkz', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ email: email, source: 'contributor-footer', date: new Date().toISOString() })
-  }).then(function(r){
-    if (r.ok) { form.classList.add('is-success'); }
-    else { btn.disabled = false; btn.textContent = 'Try again'; }
-  }).catch(function(){ btn.disabled = false; btn.textContent = 'Try again'; });
-  return false;
-};
-</script>
-</footer>
+<!-- Site footer removed from supplement card view (2026-05-13).
+     Per design feedback: the green footer sat too prominently below
+     the supplement detail content and competed with the "Educational
+     reference, not medical advice" line directly above it. Other
+     pages (index.html, methodology.html, article pages, etc.) still
+     ship the shared site-footer; only the supplement detail view is
+     scoped to remove it. The window.ssFooterContrib handler is
+     defined idempotently on those other pages so its removal here
+     leaves nothing orphaned. -->
 </body>
 </html>
