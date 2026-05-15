@@ -106,3 +106,24 @@
 | 2026-05-14 | theaflavins-and-senolytic-activity-black-tea-polyphenols-and-the-emerging-in-vivo-data | Breakthrough | 740 | 6 | public:5, industry:1 | evergreen |
 | 2026-05-14 | lutein-for-childhood-myopia-and-screen-time-what-the-controlled-trials-show | Kids | 740 | 6 | public:4, industry:2 | evergreen |
 | 2026-05-14 | dha-for-adolescent-depression-emerging-evidence-from-omega-3-trials | Kids | 740 | 6 | public:5, nonprofit:1 | evergreen |
+
+| 2026-05-15 | forskolin-coleus-forskohlii-camp-and-the-weight-loss-trial-record | Research Update | 665 | 8 | public:8 | evergreen |
+| 2026-05-15 | gymnema-sylvestre-and-blood-sugar-the-gs4-extract-trial-record | Research Update | 600 | 8 | industry:3, public:5 | evergreen |
+| 2026-05-15 | glucomannan-konjac-fiber-for-weight-and-cholesterol-the-efsa-claim-and-trial-record | Research Update | 630 | 8 | public:8 | evergreen |
+| 2026-05-15 | maitake-d-fraction-beta-glucan-and-the-glycemic-immune-trial-evidence | Research Update | 627 | 8 | industry:2, mixed:1, nonprofit:2, public:3 | evergreen |
+| 2026-05-15 | hops-bitter-acids-iso-alpha-acids-for-sleep-and-metabolic-syndrome | Research Update | 608 | 8 | industry:6, public:2 | evergreen |
+| 2026-05-15 | palmitoylethanolamide-pea-for-chronic-pain-and-neuroinflammation-the-trial-record | Research Update | 617 | 8 | industry:3, public:5 | evergreen |
+| 2026-05-15 | valerian-root-for-sleep-dose-form-and-the-controlled-trial-record | Guide | 651 | 8 | industry:2, public:6 | evergreen |
+| 2026-05-15 | diosmin-and-hesperidin-mpff-for-chronic-venous-insufficiency | Guide | 601 | 8 | industry:5, public:3 | evergreen |
+| 2026-05-15 | fenugreek-for-blood-sugar-and-testosterone-what-controlled-trials-show | Guide | 606 | 8 | industry:1, public:7 | evergreen |
+| 2026-05-15 | gotu-kola-centella-asiatica-for-venous-insufficiency-and-cognition | Guide | 650 | 8 | industry:2, public:6 | evergreen |
+| 2026-05-15 | yohimbine-cardiovascular-emergencies-and-the-supplement-vs-prescription-distinction | Safety | 661 | 8 | public:8 | evergreen |
+| 2026-05-15 | guggul-commiphora-mukul-cholesterol-thyroid-and-drug-interactions | Safety | 637 | 8 | public:8 | evergreen |
+| 2026-05-15 | supplement-induced-hypoglycemia-when-blood-sugar-supplements-stack-with-medication | Safety | 601 | 8 | public:8 | evergreen |
+| 2026-05-15 | gaba-supplements-and-the-blood-brain-barrier-myth | Myth | 660 | 8 | industry:1, public:7 | evergreen |
+| 2026-05-15 | deer-antler-velvet-igf-1-marketing-vs-trial-reality | Myth | 616 | 7 | industry:1, public:6 | evergreen |
+| 2026-05-15 | horny-goat-weed-epimedium-icariin-and-the-libido-marketing-gap | Myth | 625 | 8 | public:8 | evergreen |
+| 2026-05-15 | apigenin-cd38-inhibition-and-nad-the-flavonoid-mechanism-and-emerging-human-evidence | Breakthrough | 631 | 8 | public:8 | evergreen |
+| 2026-05-15 | mfgm-milk-fat-globule-membrane-from-infant-formula-to-adult-cognition-trials | Breakthrough | 660 | 8 | industry:4, public:4 | evergreen |
+| 2026-05-15 | probiotic-strains-for-antibiotic-associated-diarrhea-in-children-which-species-work | Kids | 663 | 8 | public:8 | evergreen |
+| 2026-05-15 | zinc-for-pediatric-acute-diarrhea-who-guidelines-and-the-trial-record | Kids | 651 | 8 | nonprofit:1, public:7 | evergreen |
