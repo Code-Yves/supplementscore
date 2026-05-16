@@ -127,3 +127,24 @@
 | 2026-05-15 | mfgm-milk-fat-globule-membrane-from-infant-formula-to-adult-cognition-trials | Breakthrough | 660 | 8 | industry:4, public:4 | evergreen |
 | 2026-05-15 | probiotic-strains-for-antibiotic-associated-diarrhea-in-children-which-species-work | Kids | 663 | 8 | public:8 | evergreen |
 | 2026-05-15 | zinc-for-pediatric-acute-diarrhea-who-guidelines-and-the-trial-record | Kids | 651 | 8 | nonprofit:1, public:7 | evergreen |
+
+| 2026-05-16 | passionflower-passiflora-incarnata-for-anxiety-what-controlled-trials-show | Research Update | 719 | 6 | public:5, nonprofit:1 | evergreen |
+| 2026-05-16 | rosehip-rosa-canina-for-osteoarthritis-the-gopo-trials | Research Update | 720 | 7 | industry:4, public:3 | evergreen |
+| 2026-05-16 | vitex-agnus-castus-chasteberry-for-pms-and-pmdd-what-rcts-show | Research Update | 700 | 6 | industry:4, public:2 | evergreen |
+| 2026-05-16 | grape-seed-extract-for-blood-pressure-what-meta-analyses-show | Research Update | 629 | 5 | industry:2, public:3 | evergreen |
+| 2026-05-16 | tudca-tauroursodeoxycholic-acid-for-liver-and-bile-flow-what-trials-show | Research Update | 714 | 6 | public:6 | evergreen |
+| 2026-05-16 | borage-oil-gla-for-atopic-dermatitis-where-the-evidence-collapsed | Research Update | 641 | 5 | public:4, nonprofit:1 | evergreen |
+| 2026-05-16 | zinc-carnosine-for-gastric-ulcers-and-leaky-gut-the-japanese-trial-record | Guide | 629 | 6 | public:6 | evergreen |
+| 2026-05-16 | mct-oil-c8-vs-c10-vs-coconut-oil-which-fatty-acid-actually-matters | Guide | 675 | 5 | industry:1, public:4 | evergreen |
+| 2026-05-16 | marshmallow-root-althaea-officinalis-for-cough-sore-throat-and-reflux | Guide | 706 | 5 | public:5 | evergreen |
+| 2026-05-16 | akkermansia-muciniphila-the-next-generation-probiotic-and-what-trials-have-actually-shown | Guide | 763 | 6 | public:6 | evergreen |
+| 2026-05-16 | chaga-mushroom-the-oxalate-kidney-risk-the-wellness-market-ignores | Safety | 658 | 6 | public:6 | evergreen |
+| 2026-05-16 | fo-ti-he-shou-wu-the-traditional-tonic-with-a-real-hepatotoxicity-signal | Safety | 679 | 6 | public:6 | evergreen |
+| 2026-05-16 | licorice-root-glycyrrhizin-the-pseudoaldosteronism-risk-people-keep-missing | Safety | 695 | 6 | public:6 | evergreen |
+| 2026-05-16 | evening-primrose-oil-for-eczema-the-cochrane-review-that-ended-the-debate | Myth | 758 | 6 | industry:1, nonprofit:1, public:4 | evergreen |
+| 2026-05-16 | policosanol-for-cholesterol-the-cuban-trials-that-no-one-could-reproduce | Myth | 652 | 6 | industry:2, public:4 | evergreen |
+| 2026-05-16 | marine-collagen-vs-bovine-collagen-the-amino-acid-profile-is-nearly-identical | Myth | 680 | 6 | industry:2, public:4 | evergreen |
+| 2026-05-16 | dihydroberberine-vs-berberine-the-bioavailability-claim-and-the-thin-human-data | Breakthrough | 672 | 6 | industry:2, public:4 | evergreen |
+| 2026-05-16 | 2-fucosyllactose-and-other-hmos-as-adult-supplements-emerging-but-not-proven | Breakthrough | 741 | 6 | industry:4, public:2 | evergreen |
+| 2026-05-16 | riboflavin-for-pediatric-migraine-prophylaxis-what-the-trials-actually-show | Kids | 735 | 6 | public:6 | evergreen |
+| 2026-05-16 | vitamin-b12-for-vegan-and-vegetarian-children-the-non-negotiable-supplement | Kids | 769 | 7 | nonprofit:2, public:5 | evergreen |

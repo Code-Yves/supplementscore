@@ -1,0 +1,18 @@
+{
+  "_comment": "12-week rolling history of conditions deep-dived by weekly-condition-deep-dive scheduled task. Used to avoid re-picking the same topic within the rolling window.",
+  "runs": [
+    {
+      "date": "2026-05-16",
+      "slugs": [
+        "type-2-diabetes",
+        "osteopenia",
+        "depression-mild-moderate"
+      ],
+      "all_topics_in_window": [
+        "type-2-diabetes",
+        "osteopenia",
+        "depression-mild-moderate"
+      ]
+    }
+  ]
+}
