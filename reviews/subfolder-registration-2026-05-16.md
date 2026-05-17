@@ -57,7 +57,7 @@ Backup: `compare/index.html.bak-20260516T070712Z`
 - sibo-protocol.html
 - sjogrens-syndrome-adjunct.html
 - tension-headache-stack.html
-- type-2-diabetes.html  *(late-arrival — generated at 07:07:59Z mid-run; registered in second pass at 07:08:??Z)*
+- type-2-diabetes.html *(late-arrival — generated at 07:07:59Z mid-run; registered in second pass at 07:08:??Z)*
 
 Backups: `condition/index.html.bak-20260516T070712Z` (first pass), `condition/index.html.bak-20260516T070759Z` (second pass for late arrival).
 

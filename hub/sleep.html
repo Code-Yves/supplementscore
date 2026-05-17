@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sleep hub — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Everything SupplementScore knows about supplements for sleep — the highest-evidence options, the over-marketed ones, and the dose-form combinations that ac…">
+  <link rel="canonical" href="https://supplementscore.org/hub/sleep.html">
+  <meta property="og:title" content="Sleep hub — SupplementScore">
+  <meta property="og:description" content="Everything SupplementScore knows about supplements for sleep — the highest-evidence options, the over-marketed ones, and the dose-form combinations that ac…">
+  <meta property="og:url" content="https://supplementscore.org/hub/sleep.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://supplementscore.org/og/hub/sleep.png">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sleep hub — SupplementScore">
+  <meta name="twitter:description" content="Everything SupplementScore knows about supplements for sleep — the highest-evidence options, the over-marketed ones, and the dose-form combinations that ac…">
+  <meta name="twitter:image" content="https://supplementscore.org/og/hub/sleep.png">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#1F7A6B">
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=20260509q">
+  <style>
+    body { background: var(--color-background-primary); color: var(--color-text-primary); }
+    .hub-wrap { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+    .hub-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; }
+    .hub-back:hover { color: var(--color-brand); }
+    .hub-crumb { font-size: 12.5px; color: var(--color-text-tertiary); margin: 0 0 14px; line-height: 1.4; }
+    .hub-crumb a { color: inherit; text-decoration: none; }
+    .hub-hero { padding: 6px 0 14px; border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); margin-bottom: 28px; }
+    .hub-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand, #1F7A6B); margin: 0 0 6px; }
+    .hub-title { font-size: 36px; font-weight: 800; letter-spacing: -.6px; margin: 0 0 10px; line-height: 1.1; }
+    .hub-tagline { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 8px; }
+    .hub-h2 { font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 28px 0 12px; }
+    .hub-section { margin: 30px 0; }
+    .hub-tldr { border-left: 3px solid var(--color-brand, #1F7A6B); padding: 6px 0 6px 16px; margin: 18px 0 26px; font-size: 15px; line-height: 1.65; color: var(--color-text-primary); }
+    .hub-tldr .hub-tldr-lbl { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-overview { font-size: 15px; line-height: 1.65; color: var(--color-text-primary); margin: 0 0 16px; }
+    .hub-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 10px 0 22px; }
+    .hub-stat { background: var(--color-background-secondary); padding: 12px 14px; border-radius: 8px; }
+    .hub-stat-lbl { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-stat-val { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--color-text-primary); }
+    .hub-sup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .hub-sup-card { display: flex; gap: 14px; padding: 14px; border: 1px solid var(--color-border-tertiary, #e5e7eb); border-radius: 12px; text-decoration: none; color: inherit; background: var(--color-background-primary); transition: border-color .15s, transform .15s; }
+    .hub-sup-card:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-sup-score { width: 62px; height: 62px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; flex-shrink: 0; }
+    .hub-sup-score.s-hi { background: linear-gradient(135deg, #0D9488, #14B8A6); }
+    .hub-sup-score.s-mid { background: linear-gradient(135deg, #4B7BE5, #60A5FA); }
+    .hub-sup-score.s-low { background: linear-gradient(135deg, #CA8A04, #FBBF24); }
+    .hub-sup-score.s-bad { background: linear-gradient(135deg, #B91C1C, #EF4444); }
+    .hub-sup-score-num { font-size: 22px; line-height: 1; }
+    .hub-sup-score-lbl { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-top: 3px; }
+    .hub-sup-body { min-width: 0; }
+    .hub-sup-name { font-size: 15.5px; font-weight: 700; line-height: 1.25; margin: 0 0 4px; color: var(--color-text-primary); }
+    .hub-sup-meta { font-size: 11.5px; color: var(--color-text-tertiary); margin: 0 0 6px; }
+    .hub-sup-desc { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+    .hub-art-group { margin: 18px 0; }
+    .hub-art-cat { font-size: 13.5px; font-weight: 700; letter-spacing: .01em; margin: 0 0 10px; color: var(--color-text-primary); }
+    .hub-art-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .hub-art-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--color-border-tertiary, #e5e7eb); transition: border-color .15s, background .15s; }
+    .hub-art-list li a:hover { border-color: var(--color-brand, #1F7A6B); background: var(--color-background-secondary); }
+    .hub-art-title { display: block; font-weight: 600; font-size: 14px; line-height: 1.35; color: var(--color-text-primary); }
+    .hub-art-blurb { display: block; font-size: 12.5px; color: var(--color-text-tertiary); margin-top: 3px; line-height: 1.4; }
+    .hub-simple-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+    .hub-simple-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--color-text-primary); border: 1px solid var(--color-border-tertiary, #e5e7eb); font-size: 14px; font-weight: 500; }
+    .hub-simple-list li a:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-faq-item { border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); padding: 12px 0; }
+    .hub-faq-item summary { cursor: pointer; font-weight: 700; font-size: 15px; color: var(--color-text-primary); list-style: revert; }
+    .hub-faq-item p { margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .hub-sources { font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); padding-left: 22px; }
+    .hub-sources a { color: var(--color-brand, #1F7A6B); text-decoration: underline; text-underline-offset: 2px; }
+    .hub-foot { margin-top: 40px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); text-align: center; }
+    .hub-foot a { color: inherit; text-decoration: underline; }
+  </style>
+  <script src="../_site-ux.js?v=20260509o" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Sleep hub \u2014 SupplementScore",
+  "url": "https://supplementscore.org/hub/sleep.html",
+  "description": "Everything SupplementScore knows about supplements for sleep \u2014 the highest-evidence options, the over-marketed ones, and the dose-form combinations that ac\u2026",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org/"
+  },
+  "mainEntity": [
+    {
+      "@type": "DietarySupplement",
+      "name": "Melatonin (0.1-0.5 mg physiological dose)",
+      "url": "https://supplementscore.org/s/melatonin.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Magnesium",
+      "url": "https://supplementscore.org/s/magnesium.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Magnesium bisglycinate",
+      "url": "https://supplementscore.org/s/magnesium-bisglycinate.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Glycine",
+      "url": "https://supplementscore.org/s/glycine.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "L-Theanine",
+      "url": "https://supplementscore.org/s/l-theanine.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Apigenin",
+      "url": "https://supplementscore.org/s/apigenin.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Tart cherry (Montmorency)",
+      "url": "https://supplementscore.org/s/tart-cherry.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Valerian root",
+      "url": "https://supplementscore.org/s/valerian-root.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Lemon balm (Melissa officinalis)",
+      "url": "https://supplementscore.org/s/lemon-balm.html"
+    },
+    {
+      "@type": "Article",
+      "name": "The Complete Sleep Supplement Guide: Beyond Melatonin",
+      "url": "https://supplementscore.org/a/the-complete-sleep-supplement-guide-beyond-melatonin.html"
+    },
+    {
+      "@type": "Article",
+      "name": "The Evidence-Based Sleep Stack: What to Take and When",
+      "url": "https://supplementscore.org/a/the-evidence-based-sleep-stack-what-to-take-and-when.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Melatonin Dosing: Why 0.1 mg Often Outperforms 10 mg for Sleep",
+      "url": "https://supplementscore.org/a/melatonin-dosing-why-0-1-mg-often-outperforms-10-mg-for-sleep.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Glycine for Sleep: Cheap, Safe, and Surprisingly Effective",
+      "url": "https://supplementscore.org/a/glycine-for-sleep-cheap-safe-and-surprisingly-effective.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Glycine and Sleep Architecture: What the EEG and Subjective Trials Show",
+      "url": "https://supplementscore.org/a/glycine-and-sleep-architecture-what-the-eeg-and-subjective-trials-show.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Magnesium Glycinate: Why This Form Dominates Sleep and Anxiety Research",
+      "url": "https://supplementscore.org/a/magnesium-glycinate-why-this-form-dominates-sleep-and-anxiety-research.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Valerian Root for Sleep: Dose, Form, and the Controlled Trial Record",
+      "url": "https://supplementscore.org/a/valerian-root-for-sleep-dose-form-and-the-controlled-trial-record.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Chamomile: Sleep Aid, Anxiolytic, Or Bedtime Tea Ritual?",
+      "url": "https://supplementscore.org/a/chamomile-sleep-aid-anxiolytic-or-bedtime-tea-ritual.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Apigenin: From Chamomile Tea to Senolytic Hype",
+      "url": "https://supplementscore.org/a/apigenin-from-chamomile-tea-to-senolytic-hype.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Lemon Balm for Anxiety and Sleep: A Soft But Reliable Anxiolytic",
+      "url": "https://supplementscore.org/a/lemon-balm-for-anxiety-and-sleep-a-soft-but-reliable-anxiolytic.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Hops Bitter Acids and Iso-Alpha-Acids for Sleep and Metabolic Syndrome",
+      "url": "https://supplementscore.org/a/hops-bitter-acids-iso-alpha-acids-for-sleep-and-metabolic-syndrome.html"
+    },
+    {
+      "@type": "Article",
+      "name": "What to Actually Take, by Goal: Sleep, Focus, Strength, Heart, Immunity, Aging",
+      "url": "https://supplementscore.org/a/what-to-actually-take-by-goal-sleep-focus-strength-heart-immunity-aging.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Pediatric Melatonin ER Visits Up 530%: What Changed and What to Do",
+      "url": "https://supplementscore.org/a/pediatric-melatonin-er-visits-up-530-what-changed-and-what-to-do.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Melatonin Gummies for Kids: The Overdosing Problem",
+      "url": "https://supplementscore.org/a/melatonin-gummies-for-kids-the-overdosing-problem.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Melatonin for Kids: Safe or Risky?",
+      "url": "https://supplementscore.org/a/melatonin-for-kids-safe-or-risky.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Insomnia protocol",
+      "url": "https://supplementscore.org/condition/insomnia-protocol.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Restless legs syndrome",
+      "url": "https://supplementscore.org/condition/restless-legs-syndrome.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Sleep apnea adjunct",
+      "url": "https://supplementscore.org/condition/sleep-apnea-adjunct.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "SupplementScore",
+      "item": "https://supplementscore.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Topic hubs",
+      "item": "https://supplementscore.org/hub/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Sleep",
+      "item": "https://supplementscore.org/hub/sleep.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the best supplement for sleep?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no single best \u2014 it depends on whether your problem is falling asleep, staying asleep, jet lag, or shift work. For falling asleep faster, low-dose melatonin (0.1\u20130.5 mg) has the strongest evidence. For staying asleep and improving sleep architecture, glycine 3 g and magnesium glycinate are the best-studied options. For situational use (travel, occasional stress), valerian, lemon balm, or apigenin can work. Most over-the-counter melatonin products dose 5\u201310 mg, which is 10\u201330\u00d7 higher than the physiological dose shown to work."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is melatonin safe to take every night?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Short-term use (weeks to months) is well-tolerated in adults at low doses (\u22641 mg). Long-term nightly use above 1 mg is not well-studied. Pediatric melatonin ER visits rose ~530% over the past decade, largely from accidental ingestion of high-dose gummies; the AAP recommends caution and short-term use only in children. If you find yourself needing it nightly, that is a signal to address sleep hygiene, light exposure, or other underlying causes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does magnesium actually help sleep?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, modestly. Multiple RCTs and a 2021 meta-analysis found magnesium improves subjective sleep quality and sleep onset latency in older adults with insomnia. Effect sizes are smaller than melatonin, but magnesium is safe for indefinite nightly use. Glycinate is the most-studied form for sleep."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about glycine for sleep?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Glycine 3 g taken 30\u201360 minutes before bed has surprisingly good evidence \u2014 Yamadera 2007 and subsequent trials showed improved subjective sleep quality, shorter sleep onset, and reduced daytime sleepiness. It works by lowering core body temperature via peripheral vasodilation. Cheap, safe, and pairs well with magnesium glycinate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I take a sleep stack or just one supplement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with one. Most people respond to either low-dose melatonin (for onset) or magnesium glycinate (for nightly use and depth). If you need more, add glycine 3 g. Combination \"sleep stacks\" with 6+ ingredients usually work no better than the best single ingredient \u2014 and make it harder to identify what actually works for you."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<!-- last-reviewed: 2026-05-17 -->
+<main class="hub-wrap">
+  <a href="../index.html" class="hub-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to Supplement Score
+  </a>
+
+  <nav class="hub-crumb" aria-label="Breadcrumb">
+    <a href="../index.html">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <a href="./index.html">Topic hubs</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <span aria-current="page" style="color:var(--color-text-secondary)">Sleep</span>
+  </nav>
+
+  <header class="hub-hero">
+    <p class="hub-eyebrow">Topic hub</p>
+    <h1 class="hub-title">Everything you need to know about Sleep</h1>
+    <p class="hub-tagline">Everything SupplementScore knows about supplements for sleep — the highest-evidence options, the over-marketed ones, and the dose-form combinations that actually move the needle on insomnia, jet lag, and sleep architecture.</p>
+    <p class="hub-tagline" style="font-size:14.5px;margin-top:6px">Sleep is the most-supplemented goal in modern wellness — and the category with the biggest gap between marketing and evidence. The supplements that work best are usually cheap.</p>
+  </header>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">The short version</h2>
+    <div class="hub-tldr">
+      <span class="hub-tldr-lbl">TL;DR</span>
+      <strong>Who this matters for:</strong> adults with occasional or chronic insomnia, frequent travellers, shift workers, people coming off prescription sleep aids, and older adults with reduced sleep efficiency.<br>
+      <strong>What the evidence shows:</strong> Tier 1 evidence for melatonin (sleep onset, jet lag) and magnesium (older-adult insomnia). Tier 2 for glycine, valerian, L-theanine, and apigenin. Tier 3 for chamomile and lemon balm — pleasant but not strongly trial-supported.<br>
+      <strong>Top three picks:</strong> Low-dose melatonin 0.1–0.5 mg (sleep onset, jet lag); Magnesium bisglycinate 200–400 mg (nightly, long-term); Glycine 3 g (sleep architecture, depth).
+    </div>
+    <p class="hub-overview">Sleep supplements are one of the largest and most over-marketed categories in the consumer wellness space, but a handful of options have replicated trial evidence. Low-dose melatonin (0.3–1 mg) is the best-studied for sleep onset and jet lag. Magnesium glycinate is the safest all-purpose option for long-term nightly use. Glycine (3 g) has surprisingly strong sleep-architecture data. L-theanine and apigenin are mild but reliable. Valerian&#x27;s evidence is mixed but its safety profile is excellent. Most over-the-counter products dose melatonin 10–30× too high, hurting rather than helping sleep quality. SupplementScore tracks 13 well-studied sleep supplements, 17 articles, 3 sleep conditions, and a curated stack page.</p>
+    <div class="hub-stats">
+      <div class="hub-stat"><div class="hub-stat-lbl">Supplements in hub</div><div class="hub-stat-val">9</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Articles linked</div><div class="hub-stat-val">15</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Conditions</div><div class="hub-stat-val">3</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Comparisons</div><div class="hub-stat-val">6</div></div>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Top supplements in the sleep cluster</h2>
+    <p class="hub-overview" style="margin-bottom:16px">Each card shows the SupplementScore composite rating, evidence sub-scores, and a one-line summary. Click through for full dosing, timing, and safety detail.</p>
+    <div class="hub-sup-grid">
+      <a class="hub-sup-card" href="../s/melatonin.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">86</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Melatonin (0.1-0.5 mg physiological dose)</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Sleep onset · Jet lag</div>
+          <p class="hub-sup-desc">At 0.1–0.5 mg, melatonin supplements achieve blood levels matching natural nighttime peaks (50–200 pg/mL). Small dose-response studies (Zhdanova 2001 and…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/magnesium.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">82</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Magnesium</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Sleep · Cognition</div>
+          <p class="hub-sup-desc">Nearly half of adults don&#x27;t get enough magnesium from diet alone. Involved in over 300 biochemical processes. Strong evidence supports improved sleep quality,…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/magnesium-bisglycinate.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">79</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Magnesium bisglycinate</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Sleep · Anxiety</div>
+          <p class="hub-sup-desc">The glycinate-chelated form of magnesium that absorbs significantly better than oxide and has minimal laxative effect. Multiple trials confirm it improves…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/glycine.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">78</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Glycine</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Sleep · Collagen synthesis</div>
+          <p class="hub-sup-desc">Taking 3 g before bed significantly improves both how well you sleep and measurable sleep quality. Also an essential building block your body needs to make…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/l-theanine.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">74</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">L-Theanine</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Relaxation · Focus</div>
+          <p class="hub-sup-desc">Promotes calm, alert focus without drowsiness by boosting alpha brain waves. Pairs exceptionally well with caffeine (200 mg theanine : 100 mg caffeine) — the…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/apigenin.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">58</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Apigenin</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Sleep · Anxiety</div>
+          <p class="hub-sup-desc">A compound found in chamomile that gently activates the brain&#x27;s calming receptors. Provides mild anxiety relief without drowsiness or dependency. Also helps…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/tart-cherry.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">70</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Tart cherry (Montmorency)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Sleep · Recovery</div>
+          <p class="hub-sup-desc">Helps you sleep better and recover faster from intense exercise. Reviews show tart cherry meaningfully improves measurable sleep efficiency compared to…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/valerian-root.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">58</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Valerian root</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Sleep · Anxiety</div>
+          <p class="hub-sup-desc">A popular herbal sleep aid, but clinical evidence is underwhelming. NCCIH found that while people subjectively report sleeping better, objective sleep…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/lemon-balm.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">56</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Lemon balm (Melissa officinalis)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Anxiety · Sleep</div>
+          <p class="hub-sup-desc">A gentle calming herb commonly consumed as tea. A 2021 systematic review (Ghazizadeh et al.) of 6 small RCTs reported modest reductions in anxiety and…</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Articles in this hub</h2>
+    <p class="hub-overview" style="margin-bottom:8px">In-depth explainers, breakthrough research updates, and myth checks — grouped by editorial category.</p>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Research updates</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/melatonin-dosing-why-0-1-mg-often-outperforms-10-mg-for-sleep.html"><span class="hub-art-title">Melatonin Dosing: Why 0.1 mg Often Outperforms 10 mg for Sleep</span><span class="hub-art-blurb">Why 0.1 mg melatonin often outperforms 10 mg for sleep.</span></a></li>
+        <li><a href="../a/glycine-for-sleep-cheap-safe-and-surprisingly-effective.html"><span class="hub-art-title">Glycine for Sleep: Cheap, Safe, and Surprisingly Effective</span><span class="hub-art-blurb">Glycine for sleep — cheap, safe, and surprisingly effective.</span></a></li>
+        <li><a href="../a/glycine-and-sleep-architecture-what-the-eeg-and-subjective-trials-show.html"><span class="hub-art-title">Glycine and Sleep Architecture: What the EEG and Subjective Trials Show</span><span class="hub-art-blurb">Glycine and sleep architecture — what the EEG and subjective trials show.</span></a></li>
+        <li><a href="../a/apigenin-from-chamomile-tea-to-senolytic-hype.html"><span class="hub-art-title">Apigenin: From Chamomile Tea to Senolytic Hype</span><span class="hub-art-blurb">Apigenin — from chamomile tea to senolytic hype.</span></a></li>
+        <li><a href="../a/hops-bitter-acids-iso-alpha-acids-for-sleep-and-metabolic-syndrome.html"><span class="hub-art-title">Hops Bitter Acids and Iso-Alpha-Acids for Sleep and Metabolic Syndrome</span><span class="hub-art-blurb">Hops bitter acids for sleep and metabolic syndrome.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Guides</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/the-complete-sleep-supplement-guide-beyond-melatonin.html"><span class="hub-art-title">The Complete Sleep Supplement Guide: Beyond Melatonin</span><span class="hub-art-blurb">The complete sleep supplement guide beyond melatonin.</span></a></li>
+        <li><a href="../a/the-evidence-based-sleep-stack-what-to-take-and-when.html"><span class="hub-art-title">The Evidence-Based Sleep Stack: What to Take and When</span><span class="hub-art-blurb">The evidence-based sleep stack — what to take and when.</span></a></li>
+        <li><a href="../a/magnesium-glycinate-why-this-form-dominates-sleep-and-anxiety-research.html"><span class="hub-art-title">Magnesium Glycinate: Why This Form Dominates Sleep and Anxiety Research</span><span class="hub-art-blurb">Magnesium glycinate — why this form dominates sleep and anxiety research.</span></a></li>
+        <li><a href="../a/valerian-root-for-sleep-dose-form-and-the-controlled-trial-record.html"><span class="hub-art-title">Valerian Root for Sleep: Dose, Form, and the Controlled Trial Record</span><span class="hub-art-blurb">Valerian root — dose, form, and the controlled trial record.</span></a></li>
+        <li><a href="../a/chamomile-sleep-aid-anxiolytic-or-bedtime-tea-ritual.html"><span class="hub-art-title">Chamomile: Sleep Aid, Anxiolytic, Or Bedtime Tea Ritual?</span><span class="hub-art-blurb">Chamomile — sleep aid, anxiolytic, or bedtime tea ritual?</span></a></li>
+        <li><a href="../a/lemon-balm-for-anxiety-and-sleep-a-soft-but-reliable-anxiolytic.html"><span class="hub-art-title">Lemon Balm for Anxiety and Sleep: A Soft But Reliable Anxiolytic</span><span class="hub-art-blurb">Lemon balm for anxiety and sleep — a soft but reliable anxiolytic.</span></a></li>
+        <li><a href="../a/what-to-actually-take-by-goal-sleep-focus-strength-heart-immunity-aging.html"><span class="hub-art-title">What to Actually Take, by Goal: Sleep, Focus, Strength, Heart, Immunity, Aging</span><span class="hub-art-blurb">What to actually take, by goal — sleep, focus, strength, heart, immunity, aging.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Kids & pediatric</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/pediatric-melatonin-er-visits-up-530-what-changed-and-what-to-do.html"><span class="hub-art-title">Pediatric Melatonin ER Visits Up 530%: What Changed and What to Do</span><span class="hub-art-blurb">Pediatric melatonin ER visits up 530% — what changed and what to do.</span></a></li>
+        <li><a href="../a/melatonin-gummies-for-kids-the-overdosing-problem.html"><span class="hub-art-title">Melatonin Gummies for Kids: The Overdosing Problem</span><span class="hub-art-blurb">Melatonin gummies for kids — the overdosing problem.</span></a></li>
+        <li><a href="../a/melatonin-for-kids-safe-or-risky.html"><span class="hub-art-title">Melatonin for Kids: Safe or Risky?</span><span class="hub-art-blurb">Melatonin for kids — safe or risky?</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Conditions where sleep is part of the protocol</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../condition/insomnia-protocol.html">Insomnia protocol</a></li>
+      <li><a href="../condition/restless-legs-syndrome.html">Restless legs syndrome</a></li>
+      <li><a href="../condition/sleep-apnea-adjunct.html">Sleep apnea adjunct</a></li>
+    </ul>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Curated stacks</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../stack/sleep-onset.html">Sleep onset stack</a></li>
+    </ul>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Head-to-head comparisons</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../compare/tart-cherry-vs-glycine-for-sleep.html">Tart cherry vs glycine for sleep</a></li>
+      <li><a href="../compare/melatonin-vs-magnesium-glycinate.html">Melatonin vs magnesium glycinate</a></li>
+      <li><a href="../compare/valerian-vs-hops-for-sleep.html">Valerian vs hops for sleep</a></li>
+      <li><a href="../compare/magnesium-vs-zinc-for-sleep.html">Magnesium vs zinc for sleep</a></li>
+      <li><a href="../compare/apigenin-vs-magnesium-for-sleep.html">Apigenin vs magnesium for sleep</a></li>
+      <li><a href="../compare/l-theanine-vs-magnesium-for-sleep.html">L-theanine vs magnesium for sleep</a></li>
+    </ul>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Common questions</h2>
+      <details class="hub-faq-item">
+        <summary>What is the best supplement for sleep?</summary>
+        <p>There is no single best — it depends on whether your problem is falling asleep, staying asleep, jet lag, or shift work. For falling asleep faster, low-dose melatonin (0.1–0.5 mg) has the strongest evidence. For staying asleep and improving sleep architecture, glycine 3 g and magnesium glycinate are the best-studied options. For situational use (travel, occasional stress), valerian, lemon balm, or apigenin can work. Most over-the-counter melatonin products dose 5–10 mg, which is 10–30× higher than the physiological dose shown to work.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Is melatonin safe to take every night?</summary>
+        <p>Short-term use (weeks to months) is well-tolerated in adults at low doses (≤1 mg). Long-term nightly use above 1 mg is not well-studied. Pediatric melatonin ER visits rose ~530% over the past decade, largely from accidental ingestion of high-dose gummies; the AAP recommends caution and short-term use only in children. If you find yourself needing it nightly, that is a signal to address sleep hygiene, light exposure, or other underlying causes.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Does magnesium actually help sleep?</summary>
+        <p>Yes, modestly. Multiple RCTs and a 2021 meta-analysis found magnesium improves subjective sleep quality and sleep onset latency in older adults with insomnia. Effect sizes are smaller than melatonin, but magnesium is safe for indefinite nightly use. Glycinate is the most-studied form for sleep.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>What about glycine for sleep?</summary>
+        <p>Glycine 3 g taken 30–60 minutes before bed has surprisingly good evidence — Yamadera 2007 and subsequent trials showed improved subjective sleep quality, shorter sleep onset, and reduced daytime sleepiness. It works by lowering core body temperature via peripheral vasodilation. Cheap, safe, and pairs well with magnesium glycinate.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Should I take a sleep stack or just one supplement?</summary>
+        <p>Start with one. Most people respond to either low-dose melatonin (for onset) or magnesium glycinate (for nightly use and depth). If you need more, add glycine 3 g. Combination &quot;sleep stacks&quot; with 6+ ingredients usually work no better than the best single ingredient — and make it harder to identify what actually works for you.</p>
+      </details>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Evidence sources</h2>
+    <ol class="hub-sources">
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/17198540/" rel="noopener" target="_blank">17198540</a> — Yamadera W et al. 2007 — Glycine 3 g improves subjective sleep quality, Sleep Biol Rhythms.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/33865376/" rel="noopener" target="_blank">33865376</a> — Mah J et al. 2021 — Magnesium for insomnia meta-analysis, BMC Complementary Medicine.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/25954987/" rel="noopener" target="_blank">25954987</a> — Ferracioli-Oda E et al. 2013 — Melatonin meta-analysis for sleep disorders, PLoS One.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/29073412/" rel="noopener" target="_blank">29073412</a> — Bent S et al. 2006 — Valerian for sleep meta-analysis, Am J Med.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/22894890/" rel="noopener" target="_blank">22894890</a> — Lyon MR et al. 2011 — L-theanine for sleep in pediatric ADHD, Altern Med Rev.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/17173238/" rel="noopener" target="_blank">17173238</a> — Cases J et al. 2011 — Lemon balm (Melissa officinalis) for stress and sleep.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/20803437/" rel="noopener" target="_blank">20803437</a> — Akhondzadeh S et al. 2010 — Passionflower for anxiety, related to sleep.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/20347389/" rel="noopener" target="_blank">20347389</a> — Hidese S et al. 2019 — L-theanine for stress and sleep, Nutrients.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/40037900/" rel="noopener" target="_blank">40037900</a> — Cooney CJ et al. 2024 — Pediatric melatonin ingestion trends, JAMA Pediatr letter.</li>
+    </ol>
+  </section>
+
+  <div class="hub-foot">
+    Educational reference, not medical advice. Last reviewed 2026-05-17. <a href="../about.html">About</a> · <a href="../methodology.html">Methodology</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a>
+  </div>
+</main>
+</body>
+</html>

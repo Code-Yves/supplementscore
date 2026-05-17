@@ -1,0 +1,41 @@
+{
+  "last_run": "2026-05-17",
+  "hubs_generated": [
+    {
+      "slug": "magnesium",
+      "first_generated": "2026-05-17",
+      "last_regenerated": "2026-05-17",
+      "word_count": 2687,
+      "supplements_linked": 8,
+      "articles_linked": 13,
+      "conditions_linked": 2,
+      "stacks_linked": 0,
+      "compares_linked": 10,
+      "total_internal_links": 33
+    },
+    {
+      "slug": "sleep",
+      "first_generated": "2026-05-17",
+      "last_regenerated": "2026-05-17",
+      "word_count": 3001,
+      "supplements_linked": 9,
+      "articles_linked": 15,
+      "conditions_linked": 3,
+      "stacks_linked": 1,
+      "compares_linked": 6,
+      "total_internal_links": 34
+    },
+    {
+      "slug": "probiotics",
+      "first_generated": "2026-05-17",
+      "last_regenerated": "2026-05-17",
+      "word_count": 3432,
+      "supplements_linked": 12,
+      "articles_linked": 24,
+      "conditions_linked": 7,
+      "stacks_linked": 0,
+      "compares_linked": 2,
+      "total_internal_links": 45
+    }
+  ]
+}

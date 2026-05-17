@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Probiotics hub — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Everything SupplementScore knows about probiotics — strain-specific evidence for IBS, antibiotic-associated diarrhea, infant colic, eczema, mood, and respi…">
+  <link rel="canonical" href="https://supplementscore.org/hub/probiotics.html">
+  <meta property="og:title" content="Probiotics hub — SupplementScore">
+  <meta property="og:description" content="Everything SupplementScore knows about probiotics — strain-specific evidence for IBS, antibiotic-associated diarrhea, infant colic, eczema, mood, and respi…">
+  <meta property="og:url" content="https://supplementscore.org/hub/probiotics.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://supplementscore.org/og/hub/probiotics.png">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Probiotics hub — SupplementScore">
+  <meta name="twitter:description" content="Everything SupplementScore knows about probiotics — strain-specific evidence for IBS, antibiotic-associated diarrhea, infant colic, eczema, mood, and respi…">
+  <meta name="twitter:image" content="https://supplementscore.org/og/hub/probiotics.png">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#1F7A6B">
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=20260509q">
+  <style>
+    body { background: var(--color-background-primary); color: var(--color-text-primary); }
+    .hub-wrap { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+    .hub-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; }
+    .hub-back:hover { color: var(--color-brand); }
+    .hub-crumb { font-size: 12.5px; color: var(--color-text-tertiary); margin: 0 0 14px; line-height: 1.4; }
+    .hub-crumb a { color: inherit; text-decoration: none; }
+    .hub-hero { padding: 6px 0 14px; border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); margin-bottom: 28px; }
+    .hub-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand, #1F7A6B); margin: 0 0 6px; }
+    .hub-title { font-size: 36px; font-weight: 800; letter-spacing: -.6px; margin: 0 0 10px; line-height: 1.1; }
+    .hub-tagline { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 8px; }
+    .hub-h2 { font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 28px 0 12px; }
+    .hub-section { margin: 30px 0; }
+    .hub-tldr { border-left: 3px solid var(--color-brand, #1F7A6B); padding: 6px 0 6px 16px; margin: 18px 0 26px; font-size: 15px; line-height: 1.65; color: var(--color-text-primary); }
+    .hub-tldr .hub-tldr-lbl { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-overview { font-size: 15px; line-height: 1.65; color: var(--color-text-primary); margin: 0 0 16px; }
+    .hub-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 10px 0 22px; }
+    .hub-stat { background: var(--color-background-secondary); padding: 12px 14px; border-radius: 8px; }
+    .hub-stat-lbl { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-stat-val { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--color-text-primary); }
+    .hub-sup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .hub-sup-card { display: flex; gap: 14px; padding: 14px; border: 1px solid var(--color-border-tertiary, #e5e7eb); border-radius: 12px; text-decoration: none; color: inherit; background: var(--color-background-primary); transition: border-color .15s, transform .15s; }
+    .hub-sup-card:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-sup-score { width: 62px; height: 62px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; flex-shrink: 0; }
+    .hub-sup-score.s-hi { background: linear-gradient(135deg, #0D9488, #14B8A6); }
+    .hub-sup-score.s-mid { background: linear-gradient(135deg, #4B7BE5, #60A5FA); }
+    .hub-sup-score.s-low { background: linear-gradient(135deg, #CA8A04, #FBBF24); }
+    .hub-sup-score.s-bad { background: linear-gradient(135deg, #B91C1C, #EF4444); }
+    .hub-sup-score-num { font-size: 22px; line-height: 1; }
+    .hub-sup-score-lbl { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-top: 3px; }
+    .hub-sup-body { min-width: 0; }
+    .hub-sup-name { font-size: 15.5px; font-weight: 700; line-height: 1.25; margin: 0 0 4px; color: var(--color-text-primary); }
+    .hub-sup-meta { font-size: 11.5px; color: var(--color-text-tertiary); margin: 0 0 6px; }
+    .hub-sup-desc { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+    .hub-art-group { margin: 18px 0; }
+    .hub-art-cat { font-size: 13.5px; font-weight: 700; letter-spacing: .01em; margin: 0 0 10px; color: var(--color-text-primary); }
+    .hub-art-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .hub-art-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--color-border-tertiary, #e5e7eb); transition: border-color .15s, background .15s; }
+    .hub-art-list li a:hover { border-color: var(--color-brand, #1F7A6B); background: var(--color-background-secondary); }
+    .hub-art-title { display: block; font-weight: 600; font-size: 14px; line-height: 1.35; color: var(--color-text-primary); }
+    .hub-art-blurb { display: block; font-size: 12.5px; color: var(--color-text-tertiary); margin-top: 3px; line-height: 1.4; }
+    .hub-simple-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+    .hub-simple-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--color-text-primary); border: 1px solid var(--color-border-tertiary, #e5e7eb); font-size: 14px; font-weight: 500; }
+    .hub-simple-list li a:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-faq-item { border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); padding: 12px 0; }
+    .hub-faq-item summary { cursor: pointer; font-weight: 700; font-size: 15px; color: var(--color-text-primary); list-style: revert; }
+    .hub-faq-item p { margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .hub-sources { font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); padding-left: 22px; }
+    .hub-sources a { color: var(--color-brand, #1F7A6B); text-decoration: underline; text-underline-offset: 2px; }
+    .hub-foot { margin-top: 40px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); text-align: center; }
+    .hub-foot a { color: inherit; text-decoration: underline; }
+  </style>
+  <script src="../_site-ux.js?v=20260509o" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Probiotics hub \u2014 SupplementScore",
+  "url": "https://supplementscore.org/hub/probiotics.html",
+  "description": "Everything SupplementScore knows about probiotics \u2014 strain-specific evidence for IBS, antibiotic-associated diarrhea, infant colic, eczema, mood, and respi\u2026",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org/"
+  },
+  "mainEntity": [
+    {
+      "@type": "DietarySupplement",
+      "name": "Probiotics",
+      "url": "https://supplementscore.org/s/probiotics.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Lactobacillus rhamnosus GG",
+      "url": "https://supplementscore.org/s/lactobacillus-rhamnosus-gg.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Saccharomyces boulardii",
+      "url": "https://supplementscore.org/s/saccharomyces-boulardii.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Saccharomyces boulardii CNCM I-745",
+      "url": "https://supplementscore.org/s/saccharomyces-boulardii-cncm-i-745.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Bifidobacterium longum",
+      "url": "https://supplementscore.org/s/bifidobacterium-longum.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Lactobacillus reuteri",
+      "url": "https://supplementscore.org/s/lactobacillus-reuteri.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Limosilactobacillus reuteri DSM 17938",
+      "url": "https://supplementscore.org/s/limosilactobacillus-reuteri-dsm-17938.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Bifidobacterium infantis 35624",
+      "url": "https://supplementscore.org/s/bifidobacterium-infantis-35624.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Bifidobacterium breve",
+      "url": "https://supplementscore.org/s/bifidobacterium-breve.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Lactobacillus gasseri",
+      "url": "https://supplementscore.org/s/lactobacillus-gasseri.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Akkermansia muciniphila",
+      "url": "https://supplementscore.org/s/akkermansia-muciniphila.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Lactobacillus plantarum",
+      "url": "https://supplementscore.org/s/lactobacillus-plantarum.html"
+    },
+    {
+      "@type": "Article",
+      "name": "The Gut-Brain Connection: How Probiotics Affect Your Mood",
+      "url": "https://supplementscore.org/a/the-gut-brain-connection-how-probiotics-affect-your-mood.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotics and Antibiotics: Timing Matters",
+      "url": "https://supplementscore.org/a/probiotics-and-antibiotics-timing-matters.html"
+    },
+    {
+      "@type": "Article",
+      "name": "The Science of Gut Health: Beyond Probiotics",
+      "url": "https://supplementscore.org/a/the-science-of-gut-health-beyond-probiotics.html"
+    },
+    {
+      "@type": "Article",
+      "name": "The Gut-Immune Connection: Probiotics and Respiratory Health",
+      "url": "https://supplementscore.org/a/the-gut-immune-connection-probiotics-and-respiratory-health.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotic Strains for IBS: Which Species the Evidence Actually Supports",
+      "url": "https://supplementscore.org/a/probiotic-strains-for-ibs-which-species-the-evidence-actually-supports.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Lactobacillus rhamnosus GG: The Most-Studied Probiotic Strain",
+      "url": "https://supplementscore.org/a/lactobacillus-rhamnosus-gg-the-most-studied-probiotic-strain.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Saccharomyces boulardii: The Yeast Probiotic Backed by Strong Trials",
+      "url": "https://supplementscore.org/a/saccharomyces-boulardii-the-yeast-probiotic-backed-by-strong-trials.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Akkermansia muciniphila: the next-generation probiotic and what trials have actually shown",
+      "url": "https://supplementscore.org/a/akkermansia-muciniphila-the-next-generation-probiotic-and-what-trials-have-actually-shown.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Lactobacillus gasseri: The Probiotic Strain for Weight and Women&#39;s Health",
+      "url": "https://supplementscore.org/a/lactobacillus-gasseri-the-probiotic-strain-for-weight-and-women-s-health.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Berberine for SIBO: the 2024-2025 evidence update",
+      "url": "https://supplementscore.org/a/berberine-for-sibo-the-2024-2025-evidence-update.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Berberine and Gut Health: A Double-Edged Sword",
+      "url": "https://supplementscore.org/a/berberine-and-gut-health-a-double-edged-sword.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Polyphenols and the Gut Microbiome: Prebiotic Effects Beyond Fiber",
+      "url": "https://supplementscore.org/a/polyphenols-and-the-gut-microbiome-prebiotic-effects-beyond-fiber.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Tributyrin: The Butyrate Prodrug and Its Gut Barrier Evidence",
+      "url": "https://supplementscore.org/a/tributyrin-the-butyrate-prodrug-and-its-gut-barrier-evidence.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Aloe Vera Internally for &quot;Gut Healing&quot;: What the Evidence Actually Shows",
+      "url": "https://supplementscore.org/a/aloe-vera-internally-for-gut-healing-what-the-evidence-actually-shows.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Zinc-carnosine for gastric ulcers and leaky gut: the Japanese trial record",
+      "url": "https://supplementscore.org/a/zinc-carnosine-for-gastric-ulcers-and-leaky-gut-the-japanese-trial-record.html"
+    },
+    {
+      "@type": "Article",
+      "name": "L-Glutamine: The Marketing vs the Gut-Barrier and Critical Illness Trial Data",
+      "url": "https://supplementscore.org/a/l-glutamine-the-marketing-vs-the-gut-barrier-and-critical-illness-trial-data.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotics for Babies: What Pediatric Research Shows",
+      "url": "https://supplementscore.org/a/probiotics-for-babies-what-pediatric-research-shows.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Lactobacillus reuteri DSM 17938 for Infant Colic: What the RCTs Show",
+      "url": "https://supplementscore.org/a/lactobacillus-reuteri-dsm-17938-for-infant-colic-what-the-rcts-show.html"
+    },
+    {
+      "@type": "Article",
+      "name": "L. reuteri DSM 17938 for Infant Colic: The Strongest Probiotic Evidence in Pediatrics",
+      "url": "https://supplementscore.org/a/l-reuteri-dsm-17938-for-infant-colic-the-strongest-probiotic-evidence-in-pediatr.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotics for Infant Eczema: What 12 RCTs Show and Which Strain Actually Matters",
+      "url": "https://supplementscore.org/a/probiotics-for-infant-eczema-what-12-rcts-show-and-which-strain-actually-matters.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotics for Infant Atopic Dermatitis: What the LGG and Perinatal Trials Show",
+      "url": "https://supplementscore.org/a/probiotics-for-infant-atopic-dermatitis-what-the-lactobacillus-rhamnosus-gg-and-perinatal-trials-show.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotic Strains for Antibiotic-Associated Diarrhea in Children: Which Species Work",
+      "url": "https://supplementscore.org/a/probiotic-strains-for-antibiotic-associated-diarrhea-in-children-which-species-work.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotics for pediatric functional abdominal pain: which strains have evidence",
+      "url": "https://supplementscore.org/a/probiotics-for-pediatric-functional-abdominal-pain-which-strains-have-evidence.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Probiotics for Kids After Antibiotics",
+      "url": "https://supplementscore.org/a/probiotics-for-kids-after-antibiotics.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "IBS protocol",
+      "url": "https://supplementscore.org/condition/ibs-protocol.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "IBS-D protocol",
+      "url": "https://supplementscore.org/condition/ibs-d-protocol.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "IBS-C protocol",
+      "url": "https://supplementscore.org/condition/ibs-c-protocol.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "SIBO protocol",
+      "url": "https://supplementscore.org/condition/sibo-protocol.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "GERD protocol",
+      "url": "https://supplementscore.org/condition/gerd-protocol.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Crohn\u2019s disease adjunct",
+      "url": "https://supplementscore.org/condition/crohns-disease-adjunct.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Ulcerative colitis adjunct",
+      "url": "https://supplementscore.org/condition/ulcerative-colitis-adjunct.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "SupplementScore",
+      "item": "https://supplementscore.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Topic hubs",
+      "item": "https://supplementscore.org/hub/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Probiotics",
+      "item": "https://supplementscore.org/hub/probiotics.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the best probiotic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wrong question \u2014 there is no single best probiotic. The right question is \"best for what?\" For antibiotic-associated diarrhea: Lactobacillus rhamnosus GG or Saccharomyces boulardii. For travel diarrhea or C. difficile prevention: S. boulardii CNCM I-745. For IBS-D: L. rhamnosus GG or Bifidobacterium infantis 35624. For infant colic: L. reuteri DSM 17938. For respiratory infection prevention: B. animalis subsp. lactis. Buying a \"broad-spectrum\" 50-billion CFU product without matching strain to indication wastes most of what you spend."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do probiotics actually survive stomach acid?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most do not, in meaningful numbers \u2014 but it does not matter as much as marketing suggests. The mechanism for many strains is transient: they pass through the gut, interact with the immune system and existing microbes, and trigger downstream effects without colonising. Enteric-coated capsules and acid-resistant strains (like S. boulardii, which is a yeast) survive better, but for most indications the trial-tested product is the right answer regardless of survival claims."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I take probiotics with antibiotics?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, but timing matters. Take probiotics 2 hours apart from the antibiotic dose so the antibiotic does not kill the probiotic. Continue for 1\u20132 weeks after finishing the antibiotic. The 2018 Cochrane review found L. rhamnosus GG and S. boulardii each cut antibiotic-associated diarrhea risk by roughly half in adults and children."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I get probiotics from food instead?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fermented foods (yogurt, kefir, sauerkraut, kimchi) provide live bacteria but not the specific clinically-tested strains. For general gut health, fermented foods + dietary fiber + a varied plant intake outperform supplements for most healthy adults. For specific indications (IBS, AAD, infant colic, eczema prevention), a strain-matched supplement is the better tool."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are probiotics safe?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Very safe in healthy people. The main risks are in severely immunocompromised patients, hospitalised patients with central venous catheters, and very premature infants \u2014 where rare cases of probiotic bacteremia or fungemia have been reported. Healthy outpatients can use trial-tested probiotics indefinitely with no known harm."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<!-- last-reviewed: 2026-05-17 -->
+<main class="hub-wrap">
+  <a href="../index.html" class="hub-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to Supplement Score
+  </a>
+
+  <nav class="hub-crumb" aria-label="Breadcrumb">
+    <a href="../index.html">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <a href="./index.html">Topic hubs</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <span aria-current="page" style="color:var(--color-text-secondary)">Probiotics</span>
+  </nav>
+
+  <header class="hub-hero">
+    <p class="hub-eyebrow">Topic hub</p>
+    <h1 class="hub-title">Everything you need to know about Probiotics</h1>
+    <p class="hub-tagline">Everything SupplementScore knows about probiotics — strain-specific evidence for IBS, antibiotic-associated diarrhea, infant colic, eczema, mood, and respiratory infection prevention.</p>
+    <p class="hub-tagline" style="font-size:14.5px;margin-top:6px">Probiotic benefits are strain-specific. There is no single best product, and choosing by brand or &quot;CFU count&quot; without matching strain to indication wastes most of what you spend.</p>
+  </header>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">The short version</h2>
+    <div class="hub-tldr">
+      <span class="hub-tldr-lbl">TL;DR</span>
+      <strong>Who this matters for:</strong> people on antibiotics, frequent travellers, those with IBS / IBS-D / IBS-C, parents of infants with colic, perinatal mothers (eczema prevention), and adults with recurrent respiratory infections.<br>
+      <strong>What the evidence shows:</strong> Tier 1 evidence for L. rhamnosus GG (AAD, pediatric diarrhea), S. boulardii (C. difficile, travel diarrhea), L. reuteri DSM 17938 (infant colic). Tier 2 for B. animalis (URTIs), B. infantis 35624 (IBS), L. gasseri (weight, women). Tier 3 / emerging for Akkermansia muciniphila.<br>
+      <strong>Top three picks:</strong> L. rhamnosus GG (antibiotic-associated diarrhea); S. boulardii CNCM I-745 (travel / C. diff); L. reuteri DSM 17938 (infant colic).
+    </div>
+    <p class="hub-overview">Probiotics are one of the most-purchased and least-understood supplement categories. The single most important fact: benefits are strain-specific, not species-specific and certainly not generic. Lactobacillus rhamnosus GG has the best evidence for antibiotic-associated diarrhea and pediatric infectious diarrhea. Saccharomyces boulardii CNCM I-745 is the only yeast probiotic with strong trial data — used for travel diarrhea and C. difficile recurrence prevention. Bifidobacterium animalis subsp. lactis lowers respiratory infection frequency. Lactobacillus reuteri DSM 17938 is the most-studied probiotic in pediatrics, for infant colic. Lactobacillus gasseri has emerging weight and women&#x27;s-health data. Akkermansia muciniphila is a next-generation strain with promising but early metabolic data. SupplementScore tracks 21 individual probiotic strains, 24 articles, and 7 conditions where strain selection actually matters.</p>
+    <div class="hub-stats">
+      <div class="hub-stat"><div class="hub-stat-lbl">Supplements in hub</div><div class="hub-stat-val">12</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Articles linked</div><div class="hub-stat-val">24</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Conditions</div><div class="hub-stat-val">7</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Comparisons</div><div class="hub-stat-val">2</div></div>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Top supplements in the probiotics cluster</h2>
+    <p class="hub-overview" style="margin-bottom:16px">Each card shows the SupplementScore composite rating, evidence sub-scores, and a one-line summary. Click through for full dosing, timing, and safety detail.</p>
+    <div class="hub-sup-grid">
+      <a class="hub-sup-card" href="../s/probiotics.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">69</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Probiotics</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Gut · Immunity</div>
+          <p class="hub-sup-desc">Probiotic benefits are strain-specific — no single product works for everything. A 2025 meta-analysis found B. animalis reduced respiratory infections by 21%.…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/lactobacillus-rhamnosus-gg.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">80</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Lactobacillus rhamnosus GG</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Gut · IBS</div>
+          <p class="hub-sup-desc">The most studied probiotic strain in the world, with decades of clinical research. The 2020 Cochrane review (Collinson, previously Allen) concluded probiotics…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/saccharomyces-boulardii.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">80</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Saccharomyces boulardii</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Gut · C. diff</div>
+          <p class="hub-sup-desc">A unique probiotic yeast that antibiotics cannot kill, making it the only probiotic you can take during an antibiotic course without it being destroyed.…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/saccharomyces-boulardii-cncm-i-745.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">86</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Saccharomyces boulardii CNCM I-745</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Gut health · Antibiotic-associated diarrhoea</div>
+          <p class="hub-sup-desc">A specific strain of the probiotic yeast S. boulardii with the strongest evidence for preventing antibiotic-associated diarrhoea and C. difficile recurrence.…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/bifidobacterium-longum.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">70</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Bifidobacterium longum</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Gut · Immunity</div>
+          <p class="hub-sup-desc">Helps reduce stress through the gut-brain connection. A 2024 review of 16 trials found the 1714 strain significantly reduces perceived stress and the morning…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/lactobacillus-reuteri.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">70</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Lactobacillus reuteri</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Gut · Bone</div>
+          <p class="hub-sup-desc">A versatile probiotic strain with evidence across multiple health areas. The Protectis strain significantly reduces crying time in colicky infants. The ATCC…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/limosilactobacillus-reuteri-dsm-17938.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">79</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Limosilactobacillus reuteri DSM 17938</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · Infant colic · Gut health</div>
+          <p class="hub-sup-desc">One of the most studied probiotic strains in paediatrics. Cochrane reviews confirm L. reuteri DSM 17938 significantly reduces crying time in breastfed infants…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/bifidobacterium-infantis-35624.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">79</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Bifidobacterium infantis 35624</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 5/5 · IBS · Bloating</div>
+          <p class="hub-sup-desc">The most studied probiotic strain specifically for irritable bowel syndrome. Multiple trials show it significantly reduces IBS symptoms including bloating,…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/bifidobacterium-breve.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">69</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Bifidobacterium breve</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Gut health · Infant health</div>
+          <p class="hub-sup-desc">A probiotic strain naturally abundant in breastfed infants, playing a key role in early immune development. Trials show it reduces eczema severity in children…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/lactobacillus-gasseri.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">74</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Lactobacillus gasseri</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Weight management · Vaginal microbiome</div>
+          <p class="hub-sup-desc">A naturally dominant species in healthy vaginal and gut microbiomes with the most consistent weight-management evidence of any probiotic strain. The Kadooka et…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/akkermansia-muciniphila.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">52</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Akkermansia muciniphila</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Gut barrier · Metabolic</div>
+          <p class="hub-sup-desc">A next-generation probiotic that lives in the mucus layer of your gut and strengthens the intestinal barrier. Low levels of Akkermansia are consistently linked…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/lactobacillus-plantarum.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">72</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Lactobacillus plantarum</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 5/5 · Gut health · Immunity</div>
+          <p class="hub-sup-desc">One of the most well-studied probiotic strains available today. A 2024 review found it significantly reduces IBS symptoms including bloating, gas, and…</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Articles in this hub</h2>
+    <p class="hub-overview" style="margin-bottom:8px">In-depth explainers, breakthrough research updates, and myth checks — grouped by editorial category.</p>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Research updates</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/the-gut-brain-connection-how-probiotics-affect-your-mood.html"><span class="hub-art-title">The Gut-Brain Connection: How Probiotics Affect Your Mood</span><span class="hub-art-blurb">The gut-brain connection — how probiotics affect mood.</span></a></li>
+        <li><a href="../a/probiotics-and-antibiotics-timing-matters.html"><span class="hub-art-title">Probiotics and Antibiotics: Timing Matters</span><span class="hub-art-blurb">Probiotics and antibiotics — timing matters.</span></a></li>
+        <li><a href="../a/the-gut-immune-connection-probiotics-and-respiratory-health.html"><span class="hub-art-title">The Gut-Immune Connection: Probiotics and Respiratory Health</span><span class="hub-art-blurb">Probiotics and respiratory infections — the gut-immune connection.</span></a></li>
+        <li><a href="../a/akkermansia-muciniphila-the-next-generation-probiotic-and-what-trials-have-actually-shown.html"><span class="hub-art-title">Akkermansia muciniphila: the next-generation probiotic and what trials have actually shown</span><span class="hub-art-blurb">Akkermansia muciniphila — the next-generation probiotic.</span></a></li>
+        <li><a href="../a/lactobacillus-gasseri-the-probiotic-strain-for-weight-and-women-s-health.html"><span class="hub-art-title">Lactobacillus gasseri: The Probiotic Strain for Weight and Women&amp;#39;s Health</span><span class="hub-art-blurb">L. gasseri — the strain for weight and women&#x27;s health.</span></a></li>
+        <li><a href="../a/berberine-for-sibo-the-2024-2025-evidence-update.html"><span class="hub-art-title">Berberine for SIBO: the 2024-2025 evidence update</span><span class="hub-art-blurb">Berberine for SIBO — the 2024-2025 evidence update.</span></a></li>
+        <li><a href="../a/berberine-and-gut-health-a-double-edged-sword.html"><span class="hub-art-title">Berberine and Gut Health: A Double-Edged Sword</span><span class="hub-art-blurb">Berberine and gut health — a double-edged sword.</span></a></li>
+        <li><a href="../a/polyphenols-and-the-gut-microbiome-prebiotic-effects-beyond-fiber.html"><span class="hub-art-title">Polyphenols and the Gut Microbiome: Prebiotic Effects Beyond Fiber</span><span class="hub-art-blurb">Polyphenols and the gut microbiome — prebiotic effects beyond fiber.</span></a></li>
+        <li><a href="../a/tributyrin-the-butyrate-prodrug-and-its-gut-barrier-evidence.html"><span class="hub-art-title">Tributyrin: The Butyrate Prodrug and Its Gut Barrier Evidence</span><span class="hub-art-blurb">Tributyrin and butyrate — the gut-barrier evidence.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Guides</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/the-science-of-gut-health-beyond-probiotics.html"><span class="hub-art-title">The Science of Gut Health: Beyond Probiotics</span><span class="hub-art-blurb">The science of gut health beyond probiotics.</span></a></li>
+        <li><a href="../a/probiotic-strains-for-ibs-which-species-the-evidence-actually-supports.html"><span class="hub-art-title">Probiotic Strains for IBS: Which Species the Evidence Actually Supports</span><span class="hub-art-blurb">Which strains actually have IBS evidence.</span></a></li>
+        <li><a href="../a/lactobacillus-rhamnosus-gg-the-most-studied-probiotic-strain.html"><span class="hub-art-title">Lactobacillus rhamnosus GG: The Most-Studied Probiotic Strain</span><span class="hub-art-blurb">L. rhamnosus GG — the most-studied probiotic strain.</span></a></li>
+        <li><a href="../a/saccharomyces-boulardii-the-yeast-probiotic-backed-by-strong-trials.html"><span class="hub-art-title">Saccharomyces boulardii: The Yeast Probiotic Backed by Strong Trials</span><span class="hub-art-blurb">Saccharomyces boulardii — the yeast probiotic backed by strong trials.</span></a></li>
+        <li><a href="../a/zinc-carnosine-for-gastric-ulcers-and-leaky-gut-the-japanese-trial-record.html"><span class="hub-art-title">Zinc-carnosine for gastric ulcers and leaky gut: the Japanese trial record</span><span class="hub-art-blurb">Zinc-carnosine for gastric ulcers and leaky gut.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Myths & misconceptions</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/aloe-vera-internally-for-gut-healing-what-the-evidence-actually-shows.html"><span class="hub-art-title">Aloe Vera Internally for &amp;quot;Gut Healing&amp;quot;: What the Evidence Actually Shows</span><span class="hub-art-blurb">Aloe vera internally — what gut-healing evidence actually shows.</span></a></li>
+        <li><a href="../a/l-glutamine-the-marketing-vs-the-gut-barrier-and-critical-illness-trial-data.html"><span class="hub-art-title">L-Glutamine: The Marketing vs the Gut-Barrier and Critical Illness Trial Data</span><span class="hub-art-blurb">L-glutamine — marketing vs the gut-barrier trial data.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Kids & pediatric</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/probiotics-for-babies-what-pediatric-research-shows.html"><span class="hub-art-title">Probiotics for Babies: What Pediatric Research Shows</span><span class="hub-art-blurb">Probiotics for babies — what pediatric research shows.</span></a></li>
+        <li><a href="../a/lactobacillus-reuteri-dsm-17938-for-infant-colic-what-the-rcts-show.html"><span class="hub-art-title">Lactobacillus reuteri DSM 17938 for Infant Colic: What the RCTs Show</span><span class="hub-art-blurb">L. reuteri DSM 17938 for infant colic — what the RCTs show.</span></a></li>
+        <li><a href="../a/l-reuteri-dsm-17938-for-infant-colic-the-strongest-probiotic-evidence-in-pediatr.html"><span class="hub-art-title">L. reuteri DSM 17938 for Infant Colic: The Strongest Probiotic Evidence in Pediatrics</span><span class="hub-art-blurb">L. reuteri DSM 17938 — the strongest probiotic evidence in pediatrics.</span></a></li>
+        <li><a href="../a/probiotics-for-infant-eczema-what-12-rcts-show-and-which-strain-actually-matters.html"><span class="hub-art-title">Probiotics for Infant Eczema: What 12 RCTs Show and Which Strain Actually Matters</span><span class="hub-art-blurb">Probiotics for infant eczema — 12 RCTs and which strain matters.</span></a></li>
+        <li><a href="../a/probiotics-for-infant-atopic-dermatitis-what-the-lactobacillus-rhamnosus-gg-and-perinatal-trials-show.html"><span class="hub-art-title">Probiotics for Infant Atopic Dermatitis: What the LGG and Perinatal Trials Show</span><span class="hub-art-blurb">Probiotics for infant atopic dermatitis — the LGG and perinatal evidence.</span></a></li>
+        <li><a href="../a/probiotic-strains-for-antibiotic-associated-diarrhea-in-children-which-species-work.html"><span class="hub-art-title">Probiotic Strains for Antibiotic-Associated Diarrhea in Children: Which Species Work</span><span class="hub-art-blurb">Antibiotic-associated diarrhea in children — which strains work.</span></a></li>
+        <li><a href="../a/probiotics-for-pediatric-functional-abdominal-pain-which-strains-have-evidence.html"><span class="hub-art-title">Probiotics for pediatric functional abdominal pain: which strains have evidence</span><span class="hub-art-blurb">Pediatric functional abdominal pain — which strains have evidence.</span></a></li>
+        <li><a href="../a/probiotics-for-kids-after-antibiotics.html"><span class="hub-art-title">Probiotics for Kids After Antibiotics</span><span class="hub-art-blurb">Probiotics for kids after antibiotics.</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Conditions where probiotics is part of the protocol</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../condition/ibs-protocol.html">IBS protocol</a></li>
+      <li><a href="../condition/ibs-d-protocol.html">IBS-D protocol</a></li>
+      <li><a href="../condition/ibs-c-protocol.html">IBS-C protocol</a></li>
+      <li><a href="../condition/sibo-protocol.html">SIBO protocol</a></li>
+      <li><a href="../condition/gerd-protocol.html">GERD protocol</a></li>
+      <li><a href="../condition/crohns-disease-adjunct.html">Crohn’s disease adjunct</a></li>
+      <li><a href="../condition/ulcerative-colitis-adjunct.html">Ulcerative colitis adjunct</a></li>
+    </ul>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Head-to-head comparisons</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../compare/probiotics-vs-prebiotics.html">Probiotics vs prebiotics</a></li>
+      <li><a href="../compare/probiotic-strains.html">Comparing the major probiotic strains</a></li>
+    </ul>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Common questions</h2>
+      <details class="hub-faq-item">
+        <summary>What is the best probiotic?</summary>
+        <p>Wrong question — there is no single best probiotic. The right question is &quot;best for what?&quot; For antibiotic-associated diarrhea: Lactobacillus rhamnosus GG or Saccharomyces boulardii. For travel diarrhea or C. difficile prevention: S. boulardii CNCM I-745. For IBS-D: L. rhamnosus GG or Bifidobacterium infantis 35624. For infant colic: L. reuteri DSM 17938. For respiratory infection prevention: B. animalis subsp. lactis. Buying a &quot;broad-spectrum&quot; 50-billion CFU product without matching strain to indication wastes most of what you spend.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Do probiotics actually survive stomach acid?</summary>
+        <p>Most do not, in meaningful numbers — but it does not matter as much as marketing suggests. The mechanism for many strains is transient: they pass through the gut, interact with the immune system and existing microbes, and trigger downstream effects without colonising. Enteric-coated capsules and acid-resistant strains (like S. boulardii, which is a yeast) survive better, but for most indications the trial-tested product is the right answer regardless of survival claims.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Should I take probiotics with antibiotics?</summary>
+        <p>Yes, but timing matters. Take probiotics 2 hours apart from the antibiotic dose so the antibiotic does not kill the probiotic. Continue for 1–2 weeks after finishing the antibiotic. The 2018 Cochrane review found L. rhamnosus GG and S. boulardii each cut antibiotic-associated diarrhea risk by roughly half in adults and children.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Can I get probiotics from food instead?</summary>
+        <p>Fermented foods (yogurt, kefir, sauerkraut, kimchi) provide live bacteria but not the specific clinically-tested strains. For general gut health, fermented foods + dietary fiber + a varied plant intake outperform supplements for most healthy adults. For specific indications (IBS, AAD, infant colic, eczema prevention), a strain-matched supplement is the better tool.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Are probiotics safe?</summary>
+        <p>Very safe in healthy people. The main risks are in severely immunocompromised patients, hospitalised patients with central venous catheters, and very premature infants — where rare cases of probiotic bacteremia or fungemia have been reported. Healthy outpatients can use trial-tested probiotics indefinitely with no known harm.</p>
+      </details>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Evidence sources</h2>
+    <ol class="hub-sources">
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/29257353/" rel="noopener" target="_blank">29257353</a> — Goldenberg JZ et al. 2017 — Probiotics for AAD in children, Cochrane Review.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/25927096/" rel="noopener" target="_blank">25927096</a> — Szajewska H et al. 2014 — L. rhamnosus GG for diarrhea, meta-analysis.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/27914762/" rel="noopener" target="_blank">27914762</a> — Goldenberg JZ et al. 2017 — Probiotics for C. difficile, Cochrane.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/29445213/" rel="noopener" target="_blank">29445213</a> — Sung V et al. 2018 — L. reuteri DSM 17938 for infant colic IPD meta-analysis.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/30873402/" rel="noopener" target="_blank">30873402</a> — Hao Q et al. 2015 — Probiotics for upper respiratory tract infections, Cochrane.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/30580726/" rel="noopener" target="_blank">30580726</a> — Ford AC et al. 2018 — Probiotics for IBS, AGA evidence review.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/30733721/" rel="noopener" target="_blank">30733721</a> — Depommier C et al. 2019 — Akkermansia muciniphila first-in-human trial.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/22529959/" rel="noopener" target="_blank">22529959</a> — Kalliomäki M et al. 2003 — L. rhamnosus GG for atopic eczema prevention.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/27158839/" rel="noopener" target="_blank">27158839</a> — Ouwehand AC et al. 2018 — Probiotic strain identification and CFU labeling adequacy.</li>
+    </ol>
+  </section>
+
+  <div class="hub-foot">
+    Educational reference, not medical advice. Last reviewed 2026-05-17. <a href="../about.html">About</a> · <a href="../methodology.html">Methodology</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a>
+  </div>
+</main>
+</body>
+</html>

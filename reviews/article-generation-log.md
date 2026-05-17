@@ -148,3 +148,24 @@
 | 2026-05-16 | 2-fucosyllactose-and-other-hmos-as-adult-supplements-emerging-but-not-proven | Breakthrough | 741 | 6 | industry:4, public:2 | evergreen |
 | 2026-05-16 | riboflavin-for-pediatric-migraine-prophylaxis-what-the-trials-actually-show | Kids | 735 | 6 | public:6 | evergreen |
 | 2026-05-16 | vitamin-b12-for-vegan-and-vegetarian-children-the-non-negotiable-supplement | Kids | 769 | 7 | nonprofit:2, public:5 | evergreen |
+
+| 2026-05-17 | fish-oil-and-atrial-fibrillation-the-af-signal-in-omega-3-trials | Research Update | 770 | 7 | industry:2, public:4, nonprofit:1 | evergreen |
+| 2026-05-17 | vitamin-d-and-cancer-mortality-what-the-vital-extended-follow-up-shows | Research Update | 780 | 7 | public:7 | evergreen |
+| 2026-05-17 | berberine-for-sibo-the-2024-2025-evidence-update | Research Update | 790 | 7 | industry:1, public:6 | evergreen |
+| 2026-05-17 | magnesium-and-glycemic-control-what-the-2025-meta-analysis-actually-found | Research Update | 800 | 7 | public:7 | evergreen |
+| 2026-05-17 | curcumin-nano-formulations-and-the-bioavailability-arms-race | Research Update | 830 | 7 | industry:2, public:5 | evergreen |
+| 2026-05-17 | icosapent-ethyl-vs-mixed-omega-3-reconciling-reduce-it-and-strength | Research Update | 820 | 7 | industry:3, public:3, nonprofit:1 | evergreen |
+| 2026-05-17 | how-to-time-iron-supplements-around-coffee-tea-and-calcium | Guide | 820 | 7 | public:7 | evergreen |
+| 2026-05-17 | third-party-supplement-certifications-usp-nsf-and-consumerlab-decoded | Guide | 820 | 7 | industry:2, nonprofit:2, public:3 | evergreen |
+| 2026-05-17 | fat-soluble-vs-water-soluble-supplements-when-to-take-with-food | Guide | 800 | 6 | public:6 | evergreen |
+| 2026-05-17 | pre-vs-post-workout-supplement-timing-what-the-data-actually-shows | Guide | 830 | 7 | public:7 | evergreen |
+| 2026-05-17 | st-johns-wort-drug-interactions-the-cyp3a4-inducer-problem | Safety | 820 | 7 | public:7 | evergreen |
+| 2026-05-17 | supplement-anticonvulsant-interactions-what-neurologists-watch-for | Safety | 820 | 7 | industry:1, public:6 | evergreen |
+| 2026-05-17 | coq10-and-perioperative-bleeding-what-anesthesiologists-want-to-know | Safety | 800 | 7 | nonprofit:1, public:6 | evergreen |
+| 2026-05-17 | biotin-megadose-supplements-and-laboratory-test-interference-the-fda-warning | Myth | 820 | 7 | public:7 | evergreen |
+| 2026-05-17 | pink-himalayan-salt-and-the-trace-mineral-marketing-myth | Myth | 800 | 7 | nonprofit:1, public:6 | evergreen |
+| 2026-05-17 | orac-antioxidant-supplement-claims-why-the-usda-removed-the-database | Myth | 810 | 7 | public:7 | evergreen |
+| 2026-05-17 | pasteurized-akkermansia-muciniphila-the-metabolic-phase-2-results | Breakthrough | 850 | 7 | industry:1, public:6 | evergreen |
+| 2026-05-17 | mitoq-for-parkinsons-disease-where-the-evidence-stands | Breakthrough | 830 | 7 | industry:1, public:6 | evergreen |
+| 2026-05-17 | vitamin-d-for-adolescent-acne-the-igf-1-and-sebum-trial-evidence | Kids | 800 | 7 | nonprofit:1, public:6 | evergreen |
+| 2026-05-17 | probiotics-for-pediatric-functional-abdominal-pain-which-strains-have-evidence | Kids | 830 | 7 | public:7 | evergreen |
