@@ -1852,5 +1852,548 @@
       }
     ],
     "last_reviewed": "2026-05-11"
+  },
+  "hydrochlorothiazide": {
+    "category": "Diuretics (thiazide subclass)",
+    "molecule": "Hydrochlorothiazide",
+    "metabolism": "Not metabolised; ~95% excreted unchanged via active tubular secretion in the proximal tubule. Inhibits the Na-Cl symporter in the distal convoluted tubule.",
+    "vs_class": "Thiazide-specific \u2014 RETAINS calcium (opposite of loop diuretics), so combining high-dose vitamin D3 + calcium can produce hypercalcemia / milk-alkali syndrome. Strong photosensitizer (FDA non-melanoma skin-cancer warning). Modest sustained K and Mg loss \u2014 less aggressive than loops. Raises lithium levels by ~25%.",
+    "supplement_overrides": [
+      {
+        "supplement": "calcium (oral supplement)",
+        "interaction": "CAUTION",
+        "reason": "HCTZ reduces urinary calcium excretion; high-dose calcium (>1000 mg/d) plus vitamin D3 can drive hypercalcemia (milk-alkali syndrome reports). Use within RDA; check serum Ca after 4-6 weeks.",
+        "evidence": "PMID:37846572"
+      },
+      {
+        "supplement": "vitamin D3 (high-dose >4000 IU)",
+        "interaction": "CAUTION",
+        "reason": "Same hypercalcemia mechanism as calcium \u2014 particularly in elderly or CKD. Standard 1000-2000 IU is fine; >4000 IU long-term warrants serum Ca monitoring.",
+        "evidence": "PMID:37846572"
+      },
+      {
+        "supplement": "magnesium",
+        "interaction": "NONE",
+        "reason": "Mild urinary Mg wasting from thiazides; replacement is appropriate, not contraindicated. No PK interaction.",
+        "evidence": "PMID:40530753"
+      },
+      {
+        "supplement": "potassium (oral supplement)",
+        "interaction": "CAUTION",
+        "reason": "Replacement is often clinically indicated, but monitor for hyperkalemia if also on ACE/ARB or K-sparing diuretic.",
+        "evidence": "PMID:40530753"
+      },
+      {
+        "supplement": "licorice root high-dose",
+        "interaction": "AVOID",
+        "reason": "Glycyrrhizin causes pseudoaldosteronism (11\u03b2-HSD2 inhibition) that compounds thiazide hypokalemia and hypertension; case reports of severe hypokalemia, rhabdomyolysis.",
+        "evidence": "PMID:36285406"
+      },
+      {
+        "supplement": "St John's wort",
+        "interaction": "CAUTION",
+        "reason": "Additive photosensitivity with an already photosensitizing thiazide. CYP induction not relevant (HCTZ unmetabolised).",
+        "evidence": "Manufacturer label (HCTZ)"
+      },
+      {
+        "supplement": "CoQ10 (Ubiquinol)",
+        "interaction": "NONE",
+        "reason": "No PK interaction; mild additive antihypertensive benefit; reasonable adjunct.",
+        "evidence": "PMID:25933483"
+      },
+      {
+        "supplement": "zinc",
+        "interaction": "NONE",
+        "reason": "Modest urinary zinc loss; replacement at RDA is safe.",
+        "evidence": "Class default (diuretic depleted_or_replace)"
+      },
+      {
+        "supplement": "caffeine (standardised)",
+        "interaction": "CAUTION",
+        "reason": "Additive diuresis and risk of dehydration; spike in postural BP at high doses.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "hibiscus sabdariffa",
+        "interaction": "CAUTION",
+        "reason": "Additive antihypertensive + mild diuretic. Generally beneficial but monitor home BP for hypotension at initiation.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "vitamin B1 (Thiamine)",
+        "interaction": "MONITOR",
+        "reason": "Thiazides cause modest B1 depletion; clinically less severe than loop diuretics. Replacement at RDA reasonable for long courses.",
+        "evidence": "PMID:30574464"
+      },
+      {
+        "supplement": "berberine",
+        "interaction": "MONITOR",
+        "reason": "Mild additive antihypertensive + glucose effects; theoretical risk only.",
+        "evidence": "Class default (bp)"
+      }
+    ],
+    "last_reviewed": "2026-05-18"
+  },
+  "furosemide": {
+    "category": "Diuretics (loop subclass)",
+    "molecule": "Furosemide",
+    "metabolism": "~50% renal excretion of unchanged drug; remainder via hepatic glucuronidation. Inhibits the Na-K-2Cl cotransporter in the thick ascending limb of Henle.",
+    "vs_class": "Loop-specific \u2014 WASTES calcium (opposite of thiazides). Highest risk of thiamine (B1) depletion among diuretics \u2014 documented in 21-98% of chronic heart-failure patients on chronic loop therapy; B1 supplementation is often recommended. More aggressive K and Mg loss than thiazides. IV bolus doses carry ototoxicity risk (relevant only for inpatient use).",
+    "supplement_overrides": [
+      {
+        "supplement": "Vitamin B1 (Thiamine)",
+        "interaction": "NONE",
+        "reason": "Furosemide-induced thiamine deficiency is well-documented in heart-failure cohorts; supplementation (100 mg/d or thiamine HCl 200-300 mg/d trial doses) is routinely recommended, not contraindicated.",
+        "evidence": "PMID:37884467"
+      },
+      {
+        "supplement": "magnesium",
+        "interaction": "NONE",
+        "reason": "Loop diuretics cause significant urinary Mg wasting; replacement is standard of care, not a risk.",
+        "evidence": "PMID:40530753"
+      },
+      {
+        "supplement": "potassium (oral supplement)",
+        "interaction": "CAUTION",
+        "reason": "Replacement is often clinically indicated; risk only if co-prescribed with K-sparing diuretic (spironolactone), ACE/ARB \u2014 then monitor for hyperkalemia.",
+        "evidence": "PMID:40530753"
+      },
+      {
+        "supplement": "calcium (oral supplement)",
+        "interaction": "NONE",
+        "reason": "Furosemide WASTES calcium (unlike thiazides), so supplementation up to RDA is reasonable, especially with vitamin D3 for bone protection.",
+        "evidence": "PMID:40530753"
+      },
+      {
+        "supplement": "vitamin D3",
+        "interaction": "NONE",
+        "reason": "No hypercalcemia risk (unlike thiazides); beneficial for bone health given calcium wasting.",
+        "evidence": "PMID:40530753"
+      },
+      {
+        "supplement": "zinc",
+        "interaction": "NONE",
+        "reason": "Modest urinary zinc loss; replacement at RDA is appropriate.",
+        "evidence": "Class default (diuretic depleted_or_replace)"
+      },
+      {
+        "supplement": "CoQ10 (Ubiquinol)",
+        "interaction": "NONE",
+        "reason": "Beneficial adjunct in heart-failure patients on chronic loop diuretics; no PK concern.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "licorice root high-dose",
+        "interaction": "AVOID",
+        "reason": "Glycyrrhizin-induced pseudoaldosteronism compounds furosemide-induced hypokalemia \u2014 risk of arrhythmia, rhabdomyolysis. Loop + licorice cases of severe K depletion published.",
+        "evidence": "PMID:36285406"
+      },
+      {
+        "supplement": "St John's wort",
+        "interaction": "MONITOR",
+        "reason": "Mild additive photosensitivity. CYP induction not clinically relevant since furosemide is mostly renally cleared.",
+        "evidence": "Manufacturer label (furosemide)"
+      },
+      {
+        "supplement": "hibiscus sabdariffa",
+        "interaction": "CAUTION",
+        "reason": "Additive diuresis and antihypertensive effect; risk of dehydration / postural hypotension when added to loop diuretic.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "dandelion root (Taraxacum officinale)",
+        "interaction": "CAUTION",
+        "reason": "Additive diuresis; risk of volume depletion when stacked with loop diuretic.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "horsetail (Equisetum)",
+        "interaction": "CAUTION",
+        "reason": "Additive diuresis + thiamine antagonist activity \u2014 counterproductive given furosemide's B1-depleting effect.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "uva ursi (Arctostaphylos uva-ursi)",
+        "interaction": "CAUTION",
+        "reason": "Additive diuresis and hydroquinone exposure; not recommended with loop diuretics for chronic use.",
+        "evidence": "Class default (diuretic)"
+      },
+      {
+        "supplement": "nattokinase",
+        "interaction": "MONITOR",
+        "reason": "No direct interaction with furosemide; flag only if also on anticoagulant or antiplatelet therapy.",
+        "evidence": "Class default (bp caution)"
+      },
+      {
+        "supplement": "aged garlic extract (Kyolic)",
+        "interaction": "NONE",
+        "reason": "Mild additive BP-lowering effect; safe and often beneficial.",
+        "evidence": "Class default (diuretic)"
+      }
+    ],
+    "last_reviewed": "2026-05-18"
+  },
+  "bupropion": {
+    "category": "Atypical antidepressants / NDRIs",
+    "molecule": "Bupropion",
+    "metabolism": "Extensive hepatic metabolism via CYP2B6 to hydroxybupropion (active, more potent than parent). Bupropion is itself a STRONG CYP2D6 INHIBITOR. Active-metabolite half-life ~20-37 h.",
+    "vs_class": "Unique among antidepressants \u2014 NDRI with no direct serotonergic activity, so serotonin-syndrome warnings (5-HTP, L-tryptophan, SAMe) are LESS severe than for SSRIs (CAUTION rather than AVOID). However, bupropion is the antidepressant most likely to LOWER SEIZURE THRESHOLD \u2014 pro-convulsant supplements (kava, ginkgo, high-dose caffeine, evening primrose oil) move from CAUTION to AVOID. Strong CYP2D6 inhibition raises levels of CYP2D6-metabolised co-medications.",
+    "supplement_overrides": [
+      {
+        "supplement": "St John's wort",
+        "interaction": "AVOID",
+        "reason": "CYP2B6 induction reduces bupropion AUC; case reports of loss of antidepressant efficacy plus additive seizure risk.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "5-HTP",
+        "interaction": "CAUTION",
+        "reason": "Lower serotonin-syndrome risk than with SSRIs (bupropion is NDRI, not serotonergic), but still combine only under prescriber supervision \u2014 downgrade from class AVOID to CAUTION.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "Tryptophan (L-tryptophan)",
+        "interaction": "CAUTION",
+        "reason": "Same as 5-HTP \u2014 bupropion does not raise serotonin directly, so risk is lower but not zero in combination with other serotonergic agents.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "S-Adenosylmethionine (SAMe)",
+        "interaction": "CAUTION",
+        "reason": "Lower serotonergic concern with bupropion than with SSRIs; class AVOID downgraded to CAUTION.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "Kava (high-dose/extract)",
+        "interaction": "AVOID",
+        "reason": "Lowers seizure threshold + hepatotoxicity additive; bupropion already lowers seizure threshold the most among antidepressants.",
+        "evidence": "PMID:24259638"
+      },
+      {
+        "supplement": "Ginkgo biloba",
+        "interaction": "AVOID",
+        "reason": "Pro-convulsant; case reports of seizures in bupropion users. Class default raises to AVOID for this molecule.",
+        "evidence": "PMID:24259638"
+      },
+      {
+        "supplement": "Evening primrose oil (EPO)",
+        "interaction": "CAUTION",
+        "reason": "GLA can lower seizure threshold at high doses; avoid >2 g/day with bupropion.",
+        "evidence": "Manufacturer label (bupropion seizure precaution)"
+      },
+      {
+        "supplement": "Yohimbine HCl",
+        "interaction": "AVOID",
+        "reason": "Additive sympathomimetic effects (NE elevation); BP/HR spikes, anxiety \u2014 bupropion already increases norepinephrine.",
+        "evidence": "Class default (ndri_adhd)"
+      },
+      {
+        "supplement": "Bitter orange (Citrus aurantium)",
+        "interaction": "AVOID",
+        "reason": "Synephrine adds to bupropion's NE elevation; cardiovascular events reported.",
+        "evidence": "Class default (ndri_adhd)"
+      },
+      {
+        "supplement": "Caffeine (standardised)",
+        "interaction": "CAUTION",
+        "reason": "High-dose caffeine (>400 mg/d) plus bupropion increases seizure risk and tachycardia/anxiety; moderate intake fine.",
+        "evidence": "Manufacturer label (bupropion seizure precaution)"
+      },
+      {
+        "supplement": "Theacrine (TeaCrine)",
+        "interaction": "CAUTION",
+        "reason": "Same mechanism as caffeine; additive stimulant load.",
+        "evidence": "Class default (ndri_adhd)"
+      },
+      {
+        "supplement": "Berberine",
+        "interaction": "CAUTION",
+        "reason": "CYP2D6/3A4 inhibitor \u2014 could raise bupropion levels and lower seizure threshold further.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Quercetin",
+        "interaction": "CAUTION",
+        "reason": "CYP2D6 inhibition clinically relevant at >500 mg/day; raises bupropion exposure.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Black pepper extract (piperine)",
+        "interaction": "CAUTION",
+        "reason": "CYP3A4 and P-gp inhibition raises bupropion AUC; use modest doses.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Magnesium glycinate",
+        "interaction": "NONE",
+        "reason": "Beneficial adjunct for anxiety/sleep side effects; no PK concern.",
+        "evidence": "Class default (ndri_adhd depleted_or_replace)"
+      },
+      {
+        "supplement": "L-Theanine",
+        "interaction": "NONE",
+        "reason": "Helpful for bupropion-induced jitteriness; no PK concern.",
+        "evidence": "Class default (ndri_adhd depleted_or_replace)"
+      },
+      {
+        "supplement": "Omega-3 (EPA/DHA)",
+        "interaction": "NONE",
+        "reason": "Adjunctive augmentation in depression; no interaction.",
+        "evidence": "PMID:33498694"
+      }
+    ],
+    "last_reviewed": "2026-05-18"
+  },
+  "fluoxetine": {
+    "category": "SSRIs (selective serotonin reuptake inhibitors)",
+    "molecule": "Fluoxetine",
+    "metabolism": "CYP2D6 substrate; ALSO strong CYP2D6 inhibitor and moderate CYP2C9/CYP3A4 inhibitor. Active metabolite norfluoxetine has a 7-15 day half-life at steady state \u2014 supplement interactions can persist for weeks after discontinuation.",
+    "vs_class": "Fluoxetine has the LONGEST WASHOUT among SSRIs \u2014 serotonergic supplement risks persist 4-6 weeks after stopping. Strongest CYP2D6 inhibitor among SSRIs alongside paroxetine \u2014 more impactful on CYP2D6-substrate supplements than sertraline / citalopram. Less QT prolongation than citalopram/escitalopram, so QT-prolonging supplements (saffron at high doses, licorice) carry less added risk here.",
+    "supplement_overrides": [
+      {
+        "supplement": "St John's wort",
+        "interaction": "AVOID",
+        "reason": "Serotonin-syndrome cases documented; risk amplified by fluoxetine's long half-life \u2014 synergy persists weeks after discontinuation.",
+        "evidence": "PMID:14982105"
+      },
+      {
+        "supplement": "5-HTP",
+        "interaction": "AVOID",
+        "reason": "Direct serotonin precursor + SSRI = serotonin syndrome. Fluoxetine's long washout makes timing of switch especially risky.",
+        "evidence": "PMID:17934195"
+      },
+      {
+        "supplement": "Tryptophan (L-tryptophan)",
+        "interaction": "AVOID",
+        "reason": "Same mechanism as 5-HTP; case reports of serotonin syndrome.",
+        "evidence": "PMID:17934195"
+      },
+      {
+        "supplement": "S-Adenosylmethionine (SAMe)",
+        "interaction": "AVOID",
+        "reason": "Methyl donor with serotonergic activity; serotonin syndrome reported in SSRI co-users.",
+        "evidence": "PMID:17934195"
+      },
+      {
+        "supplement": "Saffron (Crocus sativus)",
+        "interaction": "AVOID",
+        "reason": "Mild MAOI activity; combined with long-acting fluoxetine raises serotonergic load. Upgraded from class CAUTION to AVOID for fluoxetine specifically.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "Saffron Affron (standardised extract)",
+        "interaction": "AVOID",
+        "reason": "Same as saffron; standardised extracts deliver higher safranal/crocin doses with more reliable MAOI-like activity.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "Rhodiola rosea",
+        "interaction": "AVOID",
+        "reason": "Monoaminergic adaptogen; serotonin syndrome reported with SSRI + Rhodiola.",
+        "evidence": "PMID:36299970"
+      },
+      {
+        "supplement": "Korean red ginseng (Panax ginseng)",
+        "interaction": "AVOID",
+        "reason": "Monoaminergic activity; serotonin syndrome cases reported with SSRIs.",
+        "evidence": "Class default (ssri)"
+      },
+      {
+        "supplement": "Omega-3 (EPA/DHA)",
+        "interaction": "NONE",
+        "reason": "Adjunctive augmentation evidence (1-2 g EPA/d in depression); no PK concern.",
+        "evidence": "PMID:33498694"
+      },
+      {
+        "supplement": "Folate (5-MTHF)",
+        "interaction": "MONITOR",
+        "reason": "7.5-15 mg/d augments SSRI response in MTHFR-variant patients; not a safety concern but worth flagging to prescriber.",
+        "evidence": "PMID:23212058"
+      },
+      {
+        "supplement": "Methylcobalamin (high-dose neurological)",
+        "interaction": "MONITOR",
+        "reason": "Adjunctive evidence for SSRI response; safe.",
+        "evidence": "Class default (ssri caution)"
+      },
+      {
+        "supplement": "Curcumin (bioavailable form)",
+        "interaction": "CAUTION",
+        "reason": "CYP2C9/CYP2D6 inhibitor \u2014 can raise fluoxetine exposure, especially with bioavailability enhancers (Meriva, Theracurmin).",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Quercetin",
+        "interaction": "CAUTION",
+        "reason": "CYP2D6 inhibition clinically meaningful at >500 mg/d; raises fluoxetine and norfluoxetine exposure.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Berberine",
+        "interaction": "CAUTION",
+        "reason": "Mild serotonergic action plus CYP2D6/3A4 inhibition.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Lavender oil oral (Silexan)",
+        "interaction": "CAUTION",
+        "reason": "Mild MAOI-like properties; theoretical additive serotonergic risk.",
+        "evidence": "Class default (ssri caution)"
+      },
+      {
+        "supplement": "Valerian root",
+        "interaction": "CAUTION",
+        "reason": "Additive sedation; no PK concern.",
+        "evidence": "Class default (ssri caution)"
+      },
+      {
+        "supplement": "Passionflower (Passiflora incarnata)",
+        "interaction": "CAUTION",
+        "reason": "Additive sedation; no PK concern.",
+        "evidence": "Class default (ssri caution)"
+      },
+      {
+        "supplement": "CBD (Cannabidiol)",
+        "interaction": "CAUTION",
+        "reason": "CYP2C9/3A4 substrate competition raises fluoxetine levels at CBD doses >300 mg/d; pharmacokinetic studies show 2x AUC increase for some SSRIs.",
+        "evidence": "Class default (ssri caution)"
+      },
+      {
+        "supplement": "Inositol (high-dose, psychiatric)",
+        "interaction": "NONE",
+        "reason": "Adjunctive evidence in OCD/depression; safe with SSRIs.",
+        "evidence": "Class default (ssri caution)"
+      }
+    ],
+    "last_reviewed": "2026-05-18"
+  },
+  "prednisone": {
+    "category": "Corticosteroids (oral glucocorticoids)",
+    "molecule": "Prednisone",
+    "metabolism": "Pro-drug \u2014 converted to active prednisolone by hepatic 11\u03b2-HSD1. Further metabolism via CYP3A4. Renal clearance of inactive metabolites. Bioavailability ~70%.",
+    "vs_class": "Long-term oral corticosteroid courses (>3 months at \u22652.5-7.5 mg/d) require routine bone-protection supplementation per ACR 2022 GIOP guideline: calcium 1000-1200 mg/d AND vitamin D3 600-1000 IU/d minimum. Immunosuppression makes immune-stimulating herbs counter-productive (the dominant supplement interaction class for steroids). Pro-drug status means CYP3A4 modulators affect both activation and clearance.",
+    "supplement_overrides": [
+      {
+        "supplement": "calcium (oral supplement)",
+        "interaction": "NONE",
+        "reason": "ACR 2022 GIOP guideline: 1000-1200 mg/d ELEMENTAL calcium for any patient on \u22652.5 mg/d prednisone-equivalent for \u22653 months. Replacement, not a risk.",
+        "evidence": "PMID:37845798"
+      },
+      {
+        "supplement": "Vitamin D3",
+        "interaction": "NONE",
+        "reason": "ACR 2022 GIOP guideline: 600-1000 IU/d minimum (more if 25-OH-D <30 ng/mL). Replacement, not a risk.",
+        "evidence": "PMID:37845798"
+      },
+      {
+        "supplement": "Vitamin K2 (MK-7)",
+        "interaction": "NONE",
+        "reason": "Adjunctive bone support during chronic steroid therapy; safe and reasonable.",
+        "evidence": "Class default (cortico depleted_or_replace)"
+      },
+      {
+        "supplement": "Magnesium glycinate",
+        "interaction": "NONE",
+        "reason": "Steroids cause urinary Mg loss; replacement at RDA appropriate.",
+        "evidence": "Class default (cortico depleted_or_replace)"
+      },
+      {
+        "supplement": "Potassium citrate",
+        "interaction": "CAUTION",
+        "reason": "Long-term high-dose steroids cause K loss; replacement appropriate but monitor for hyperkalemia if also on ACE/ARB.",
+        "evidence": "Class default (cortico depleted_or_replace)"
+      },
+      {
+        "supplement": "Zinc",
+        "interaction": "NONE",
+        "reason": "Modest depletion with chronic steroids; replacement at RDA safe.",
+        "evidence": "Class default (cortico depleted_or_replace)"
+      },
+      {
+        "supplement": "Echinacea purpurea",
+        "interaction": "AVOID",
+        "reason": "Immune stimulation directly counteracts intended immunosuppression of corticosteroid therapy (e.g., for autoimmune disease, transplant).",
+        "evidence": "Class default (cortico caution); upgrade for transplant/autoimmune indication"
+      },
+      {
+        "supplement": "Astragalus (Astragalus membranaceus)",
+        "interaction": "AVOID",
+        "reason": "Same immune-stimulating mechanism; particularly counterproductive in autoimmune indications.",
+        "evidence": "Class default (cortico caution); upgrade for autoimmune indication"
+      },
+      {
+        "supplement": "Elderberry (Sambucus nigra)",
+        "interaction": "CAUTION",
+        "reason": "Mild immunostimulation; short courses generally OK in non-transplant settings.",
+        "evidence": "Class default (cortico caution)"
+      },
+      {
+        "supplement": "Reishi (Ganoderma lucidum)",
+        "interaction": "CAUTION",
+        "reason": "Beta-glucan immunomodulator \u2014 long-term concurrent use undermines steroid purpose.",
+        "evidence": "Class default (cortico caution)"
+      },
+      {
+        "supplement": "Maitake mushroom (Grifola frondosa)",
+        "interaction": "CAUTION",
+        "reason": "Beta-glucan immunomodulator; same caution as reishi.",
+        "evidence": "Class default (cortico caution)"
+      },
+      {
+        "supplement": "Beta-glucan (1,3/1,6)",
+        "interaction": "CAUTION",
+        "reason": "Immunostimulant; counterproductive concurrent with steroid immunosuppression.",
+        "evidence": "Class default (cortico caution)"
+      },
+      {
+        "supplement": "Andrographis paniculata",
+        "interaction": "CAUTION",
+        "reason": "Immune stimulation reported; avoid during steroid courses for autoimmune disease.",
+        "evidence": "Class default (cortico caution)"
+      },
+      {
+        "supplement": "Licorice root high-dose",
+        "interaction": "AVOID",
+        "reason": "Inhibits 11\u03b2-HSD2 \u2192 compounds glucocorticoid effects (Cushingoid features); plus worsens hypokalemia and hypertension.",
+        "evidence": "PMID:36285406"
+      },
+      {
+        "supplement": "St John's wort",
+        "interaction": "CAUTION",
+        "reason": "CYP3A4 induction can lower prednisolone AUC by ~50% \u2014 documented in transplant patients losing immunosuppressive cover. Upgrade to AVOID for transplant indication.",
+        "evidence": "PMID:38025741"
+      },
+      {
+        "supplement": "grapefruit (whole / juice)",
+        "interaction": "MONITOR",
+        "reason": "Modest CYP3A4 inhibition raises prednisolone exposure (~1.2-1.5x AUC); less severe than for tacrolimus or cyclosporine.",
+        "evidence": "PMID:11963641"
+      },
+      {
+        "supplement": "Curcumin (bioavailable form)",
+        "interaction": "CAUTION",
+        "reason": "CYP3A4 inhibition can raise prednisolone exposure (especially Meriva/Theracurmin formulations); also has its own anti-inflammatory activity that may complicate dose-titration.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "Berberine",
+        "interaction": "CAUTION",
+        "reason": "CYP3A4 inhibitor \u2014 can raise prednisolone exposure.",
+        "evidence": "PMID:34182907"
+      },
+      {
+        "supplement": "CoQ10 (Ubiquinol)",
+        "interaction": "NONE",
+        "reason": "May mitigate steroid-induced myopathy and cardiac effects; no PK interaction.",
+        "evidence": "Class default (no contraindication)"
+      },
+      {
+        "supplement": "Omega-3 (EPA/DHA)",
+        "interaction": "NONE",
+        "reason": "Anti-inflammatory adjunct; standard recommendation in autoimmune disease.",
+        "evidence": "Class default"
+      }
+    ],
+    "last_reviewed": "2026-05-18"
   }
 }

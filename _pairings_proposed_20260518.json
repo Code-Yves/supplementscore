@@ -1,0 +1,601 @@
+[
+  {
+    "members": ["Bifidobacterium infantis EVC001", "2'-Fucosyllactose (2'-FL HMO)"],
+    "kind": "synergy",
+    "strength": 4,
+    "goal": "HMO-substrate match for infant gut colonisation",
+    "rationale": "EVC001 expresses a dedicated H1 cluster that cleaves human milk oligosaccharides; 2'-FL is the most abundant HMO and a preferred substrate, supporting persistent colonisation.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["28467287"]
+  },
+  {
+    "members": ["Bifidobacterium infantis EVC001", "Antibiotic"],
+    "kind": "absorption-conflict",
+    "strength": 4,
+    "goal": "Preserve probiotic viability during antibiotic course",
+    "rationale": "Broad-spectrum antibiotics inactivate live B. infantis; separating doses by ≥2 hours reduces direct kill and preserves colonisation, mirroring guidance for other gut probiotics.",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["22529959"]
+  },
+  {
+    "members": ["Bifidobacterium infantis EVC001", "Probiotics"],
+    "kind": "redundancy",
+    "strength": 2,
+    "goal": "Avoid duplicate strain in multi-strain blends",
+    "rationale": "Many infant multi-strain blends already include B. infantis; stacking EVC001 on top adds cost without proven additive benefit unless HMO substrate is present.",
+    "direction": "redundancy",
+    "confidence": "low",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["Melatonin (0.1-0.5 mg physiological dose)", "Glycine"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Sleep onset + slow-wave architecture",
+    "rationale": "Physiologic melatonin shortens sleep latency; glycine 3 g lowers core body temperature and improves subjective sleep quality. Mechanisms are distinct and clinically complementary.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["17198601"]
+  },
+  {
+    "members": ["Melatonin (0.1-0.5 mg physiological dose)", "Benzodiazepine"],
+    "kind": "risk-additive",
+    "strength": 3,
+    "goal": "Additive CNS depression and next-day sedation",
+    "rationale": "Even low-dose melatonin can potentiate benzodiazepine-induced sedation, psychomotor impairment, and fall risk in older adults. Use the lowest effective dose if combined and avoid driving the following morning.",
+    "direction": "antagonism",
+    "confidence": "high",
+    "evidence_pmids": ["28158555"]
+  },
+  {
+    "members": ["Melatonin (0.1-0.5 mg physiological dose)", "Caffeine (standardised)"],
+    "kind": "absorption-conflict",
+    "strength": 3,
+    "goal": "Caffeine suppresses melatonin secretion",
+    "rationale": "Caffeine within ~6 hours of bedtime blunts the endogenous melatonin rise, partially offsetting a low physiologic dose. Separate caffeine and melatonin dosing by ≥6 hours.",
+    "direction": "timing-separation",
+    "confidence": "medium",
+    "evidence_pmids": ["24235903"]
+  },
+
+  {
+    "members": ["L-Carnitine", "Valproate (anticonvulsant)"],
+    "kind": "risk-additive",
+    "strength": 5,
+    "goal": "Reverse valproate-induced carnitine depletion and hyperammonaemia",
+    "rationale": "Valproate sequesters carnitine as valproyl-carnitine and inhibits beta-oxidation, producing secondary deficiency and hyperammonaemic encephalopathy. Pediatric Neurology Society recommends L-carnitine 100 mg/kg/day IV for symptomatic toxicity; oral supplementation is widely used for risk groups.",
+    "direction": "antagonism",
+    "confidence": "high",
+    "evidence_pmids": ["19138304"]
+  },
+  {
+    "members": ["L-Carnitine", "Alpha-Lipoic Acid (ALA)"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Mitochondrial bioenergetics in aging",
+    "rationale": "The Ames Lab pairing combines L-carnitine (fatty-acid transport into mitochondria) with alpha-lipoic acid (PDH cofactor / Nrf2 activator). The combination improved mitochondrial function and reduced oxidative damage in aged rats and underpins several geroscience formulations.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["12414737"]
+  },
+  {
+    "members": ["L-Carnitine", "Acetyl-L-Carnitine (ALCAR)"],
+    "kind": "redundancy",
+    "strength": 4,
+    "goal": "Same carnitine pool — avoid double dosing",
+    "rationale": "ALCAR and L-carnitine share the same systemic carnitine pool; stacking both at high dose simply elevates the carnitine load. Pick one form for the indication (ALCAR for CNS effects, L-carnitine for cardiac/muscle).",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["Saccharomyces boulardii CNCM I-745", "Antifungal"],
+    "kind": "absorption-conflict",
+    "strength": 4,
+    "goal": "Preserve S. boulardii viability around azole/echinocandin dosing",
+    "rationale": "Systemic antifungals (fluconazole, nystatin, amphotericin) are active against S. boulardii in vitro and abolish its protective effect when co-administered. Separate doses by ≥2 hours, and avoid use entirely in patients on long-term systemic antifungal therapy or with central venous catheters.",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["10770730"]
+  },
+  {
+    "members": ["Saccharomyces boulardii CNCM I-745", "Oral rehydration salts (WHO formula)"],
+    "kind": "mechanism-complementary",
+    "strength": 4,
+    "goal": "Acute pediatric gastroenteritis — shorten diarrhoea duration",
+    "rationale": "S. boulardii reduces diarrhoea duration by ~24 hours; ORS replaces ongoing fluid/electrolyte losses. ESPGHAN/ESPID guidance supports S. boulardii as an adjunct to rehydration in acute infectious diarrhoea.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["24299826"]
+  },
+
+  {
+    "members": ["Protein supplementation (clinical sarcopenia)", "Creatine monohydrate"],
+    "kind": "mechanism-complementary",
+    "strength": 4,
+    "goal": "Older-adult lean mass and strength with resistance training",
+    "rationale": "Creatine added to a sufficient protein intake further increases lean mass and upper-body strength in older adults performing resistance training compared with protein alone. Effect size is modest but consistent across meta-analyses.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["24576864"]
+  },
+  {
+    "members": ["Protein supplementation (clinical sarcopenia)", "Vitamin D3"],
+    "kind": "mechanism-complementary",
+    "strength": 5,
+    "goal": "PROVIDE-style sarcopenia formulation (whey + leucine + D3)",
+    "rationale": "Vitamin D adequacy is required for the anabolic response to protein in older adults; combined whey + leucine + D3 improved appendicular muscle mass and chair-stand performance in the PROVIDE trial.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["26169451"]
+  },
+  {
+    "members": ["Protein supplementation (clinical sarcopenia)", "HMB (β-Hydroxy-β-methylbutyrate)"],
+    "kind": "redundancy",
+    "strength": 3,
+    "goal": "Leucine metabolite overlap in older adults already meeting protein target",
+    "rationale": "HMB is a leucine metabolite. In patients hitting 1.2-1.5 g/kg/day high-leucine protein, additional HMB shows diminishing returns outside of disuse atrophy or critical illness. Reserve HMB for bedrest or anorexia of aging where intake is inadequate.",
+    "direction": "redundancy",
+    "confidence": "medium",
+    "evidence_pmids": ["23193624"]
+  },
+
+  {
+    "members": ["Chamomile extract (Matricaria chamomilla)", "Warfarin"],
+    "kind": "risk-additive",
+    "strength": 4,
+    "goal": "Bleeding risk via coumarin constituents",
+    "rationale": "Chamomile contains natural coumarins and a documented INR-raising case report with intracranial bleed. Avoid concurrent chronic use; if used, monitor INR weekly until stable.",
+    "direction": "antagonism",
+    "confidence": "high",
+    "evidence_pmids": ["16550130"]
+  },
+  {
+    "members": ["Chamomile extract (Matricaria chamomilla)", "SSRI"],
+    "kind": "synergy",
+    "strength": 3,
+    "goal": "Adjunctive anxiolysis in generalised anxiety disorder",
+    "rationale": "Standardised chamomile extract (Matricaria recutita, 1500 mg/day) reduced GAD severity in two University of Pennsylvania RCTs; no pharmacokinetic interaction with SSRIs has been reported, and the combination is commonly used clinically.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["27912875"]
+  },
+
+  {
+    "members": ["Saccharomyces boulardii", "Antifungal"],
+    "kind": "absorption-conflict",
+    "strength": 4,
+    "goal": "Antifungals inactivate the probiotic yeast",
+    "rationale": "Systemic antifungals act on S. boulardii; separate dosing by ≥2 hours and avoid in immunocompromised patients with central lines (fungaemia risk).",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["10770730"]
+  },
+  {
+    "members": ["Saccharomyces boulardii", "Oral rehydration salts (WHO formula)"],
+    "kind": "mechanism-complementary",
+    "strength": 4,
+    "goal": "Adjunct to rehydration in acute infectious diarrhoea",
+    "rationale": "Meta-analysis shows S. boulardii shortens acute diarrhoea by ~1 day; ORS remains the primary intervention. The combination is widely used in pediatric care.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["24299826"]
+  },
+
+  {
+    "members": ["Lactobacillus rhamnosus GG", "Antibiotic"],
+    "kind": "absorption-conflict",
+    "strength": 4,
+    "goal": "Separate dosing to preserve LGG viability",
+    "rationale": "Antibiotics that are active against gram-positive flora reduce LGG counts when co-ingested. Dose LGG ≥2 hours after the antibiotic, continued ≥1 week past completion, to maximise the AAD-prevention benefit.",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["22529959"]
+  },
+  {
+    "members": ["Lactobacillus rhamnosus GG", "Oral rehydration salts (WHO formula)"],
+    "kind": "mechanism-complementary",
+    "strength": 4,
+    "goal": "Acute pediatric gastroenteritis adjunct",
+    "rationale": "ESPGHAN positions LGG among the probiotics with evidence to shorten acute infectious diarrhoea by roughly one day when added to standard rehydration.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["25274571"]
+  },
+
+  {
+    "members": ["Potassium citrate", "ACE inhibitor / ARB"],
+    "kind": "risk-additive",
+    "strength": 5,
+    "goal": "Hyperkalaemia risk on RAAS blockade",
+    "rationale": "ACE inhibitors and ARBs raise serum potassium by blocking aldosterone; adding clinical-dose potassium citrate (often 30–60 mEq/day for stone or RTA management) compounds the risk, especially with reduced GFR or diabetes.",
+    "direction": "antagonism",
+    "confidence": "high",
+    "evidence_pmids": ["19064776"]
+  },
+  {
+    "members": ["Potassium citrate", "Potassium-sparing diuretic (spironolactone/amiloride)"],
+    "kind": "risk-additive",
+    "strength": 5,
+    "goal": "Compound hyperkalaemia risk",
+    "rationale": "Potassium-sparing diuretics reduce renal K+ excretion; co-administration with potassium citrate produced symptomatic hyperkalaemia in case series. Avoid unless serum K+ is monitored.",
+    "direction": "antagonism",
+    "confidence": "high",
+    "evidence_pmids": ["19064776"]
+  },
+  {
+    "members": ["Potassium citrate", "Magnesium citrate"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Calcium oxalate kidney-stone prevention",
+    "rationale": "Both alkalinise urine, increase urinary citrate, and inhibit calcium oxalate crystal formation. AUA stone-prevention guidance acknowledges both as adjuncts when dietary correction is insufficient.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["23643203"]
+  },
+  {
+    "members": ["Potassium citrate", "Electrolyte complex (Na/K/Mg)"],
+    "kind": "redundancy",
+    "strength": 4,
+    "goal": "Avoid double potassium load",
+    "rationale": "Many electrolyte powders already contribute 200–600 mg of potassium per serving; layering clinical-dose K-citrate on top can drive serum K out of range.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["Ginger (Zingiber officinale)", "Warfarin"],
+    "kind": "risk-additive",
+    "strength": 4,
+    "goal": "Possible bleeding risk via thromboxane inhibition",
+    "rationale": "Case reports describe elevated INR with high-dose ginger in patients on warfarin; mechanistic data show inhibition of platelet aggregation. Avoid daily high-dose ginger (>2 g/day) without INR monitoring.",
+    "direction": "antagonism",
+    "confidence": "high",
+    "evidence_pmids": ["15630249"]
+  },
+  {
+    "members": ["Ginger (Zingiber officinale)", "Antiplatelet (aspirin/clopidogrel)"],
+    "kind": "risk-additive",
+    "strength": 3,
+    "goal": "Additive antiplatelet effect",
+    "rationale": "Ginger inhibits cyclo-oxygenase / thromboxane synthesis at high doses; combined chronic use with aspirin or clopidogrel could increase bruising and bleeding times. Effect size is modest at typical culinary doses.",
+    "direction": "antagonism",
+    "confidence": "medium",
+    "evidence_pmids": ["11354556"]
+  },
+  {
+    "members": ["Ginger (Zingiber officinale)", "Vitamin B6 (P5P)"],
+    "kind": "mechanism-complementary",
+    "strength": 4,
+    "goal": "Nausea and vomiting of pregnancy (NVP)",
+    "rationale": "ACOG endorses both ginger 250 mg QID and vitamin B6 (pyridoxine) 10–25 mg TID as first-line non-pharmacological options for NVP. They act via distinct mechanisms and can be combined.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["24102992"]
+  },
+  {
+    "members": ["Ginger (Zingiber officinale)", "Curcumin (bioavailable form)"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Anti-inflammatory stack for osteoarthritis symptoms",
+    "rationale": "Ginger inhibits COX/LOX pathways; curcumin inhibits NF-κB. Both reduce knee OA pain in meta-analyses; the combination is plausible but head-to-head trial evidence is limited.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["27913739"]
+  },
+
+  {
+    "members": ["Casein protein", "Whey protein"],
+    "kind": "temporal-complementary",
+    "strength": 4,
+    "goal": "24-hour MPS coverage (already captured in p56) — pre-bed casein dosing",
+    "rationale": "30–40 g pre-sleep casein elevates overnight muscle protein synthesis without disturbing sleep, complementing daytime whey dosing.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["22330017"]
+  },
+  {
+    "members": ["Casein protein", "Creatine monohydrate"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Resistance-training lean-mass response",
+    "rationale": "Cribb (PMID 16766878) showed greater fat-free mass and strength gains when creatine was co-ingested with a milk protein blend than with protein alone, with casein's slow leucine release pairing well with creatine's phosphagen support.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["16766878"]
+  },
+  {
+    "members": ["Casein protein", "Calcium"],
+    "kind": "redundancy",
+    "strength": 3,
+    "goal": "Calcium already present in casein",
+    "rationale": "A 30-g casein serving delivers ~200–300 mg calcium. Layering 1000 mg supplemental calcium on top of high-casein intake can exceed RDA targets and contributes to the vascular-calcification debate; pair with K2 if calcium intake is high.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["Saffron (Crocus sativus)", "Omega-3 (EPA/DHA)"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Adjunctive depression support",
+    "rationale": "Both saffron (30 mg/day) and EPA-predominant omega-3 (≥1 g EPA/day) have antidepressant signals in meta-analyses of mild-to-moderate MDD; mechanisms are distinct (serotonergic modulation vs membrane lipid composition / neuroinflammation).",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["31412879"]
+  },
+  {
+    "members": ["Saffron (Crocus sativus)", "Antiplatelet (aspirin/clopidogrel)"],
+    "kind": "risk-additive",
+    "strength": 2,
+    "goal": "Weak additive antiplatelet effect",
+    "rationale": "Saffron components (crocetin, safranal) show mild platelet-aggregation inhibition in vitro; clinical bleeding signal is theoretical. Use caution with high-dose saffron in patients on dual antiplatelet therapy.",
+    "direction": "antagonism",
+    "confidence": "low",
+    "evidence_pmids": ["12701039"]
+  },
+  {
+    "members": ["Saffron (Crocus sativus)", "SSRI"],
+    "kind": "synergy",
+    "strength": 3,
+    "goal": "Adjunctive antidepressant effect in MDD",
+    "rationale": "Saffron 30 mg/day matched fluoxetine 40 mg/day in head-to-head trials and improved sexual-function side effects of SSRIs as adjunct. Watch for serotonin-related symptoms with high-dose serotonergic stacks.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["23280545"]
+  },
+
+  {
+    "members": ["Citrulline malate", "L-Arginine"],
+    "kind": "redundancy",
+    "strength": 4,
+    "goal": "Citrulline more efficiently raises plasma arginine than oral L-arginine",
+    "rationale": "Oral L-arginine is heavily metabolised first-pass; oral citrulline bypasses gut/liver and elevates plasma arginine more reliably. Stacking both is rarely necessary; pick citrulline if NO support is the goal.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": ["17684207"]
+  },
+  {
+    "members": ["Citrulline malate", "Dietary Nitrate / Beetroot"],
+    "kind": "redundancy",
+    "strength": 3,
+    "goal": "Overlapping NO/vasodilation mechanisms",
+    "rationale": "Citrulline raises NO via the arginine/NOS pathway; beetroot raises NO via dietary nitrate / nitrite reduction. Both are ergogenic at similar magnitudes; stacking shows additive effects in some trials but with diminishing returns.",
+    "direction": "redundancy",
+    "confidence": "medium",
+    "evidence_pmids": ["26900538"]
+  },
+  {
+    "members": ["Citrulline malate", "PDE5 inhibitor (sildenafil/tadalafil)"],
+    "kind": "risk-additive",
+    "strength": 3,
+    "goal": "Additive vasodilation and hypotension risk",
+    "rationale": "Both raise cGMP-mediated vasodilation; combining 6 g citrulline malate pre-workout with on-demand PDE5 inhibitors may potentiate dizziness, especially with concurrent antihypertensives or nitrates.",
+    "direction": "antagonism",
+    "confidence": "medium",
+    "evidence_pmids": ["21908956"]
+  },
+
+  {
+    "members": ["Collagen peptides", "Vitamin C (moderate dose)"],
+    "kind": "temporal-complementary",
+    "strength": 4,
+    "goal": "Tendon collagen synthesis pre-exercise",
+    "rationale": "Shaw et al. demonstrated that 15 g gelatin + 50 mg vitamin C taken 30–60 minutes before exercise doubled blood markers of collagen synthesis. Apply the same timing window for tendon and ligament rehabilitation protocols.",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["27852613"]
+  },
+  {
+    "members": ["Collagen peptides", "Marine collagen (fish-derived)"],
+    "kind": "redundancy",
+    "strength": 4,
+    "goal": "Equivalent amino-acid delivery",
+    "rationale": "Bovine and marine collagen hydrolysates share a near-identical glycine/proline/hydroxyproline profile and comparable plasma di-/tri-peptide kinetics. Stacking both adds cost without unique benefit; pick one based on dietary preference.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+  {
+    "members": ["Collagen peptides", "Glucosamine / Chondroitin"],
+    "kind": "mechanism-complementary",
+    "strength": 2,
+    "goal": "Joint matrix + chondrocyte signalling",
+    "rationale": "Collagen peptides provide raw substrate for cartilage matrix; glucosamine/chondroitin modulate chondrocyte signalling pathways. Combined use is plausible but head-to-head RCT data are limited.",
+    "direction": "synergy",
+    "confidence": "low",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["Lactobacillus plantarum 299v", "Iron"],
+    "kind": "mechanism-complementary",
+    "strength": 4,
+    "goal": "Enhance non-heme iron absorption in women",
+    "rationale": "Lp299v co-ingested with a fruit-drink iron source increased non-heme iron absorption by ~50% in women of reproductive age, likely via lactic-acid lowering of luminal pH.",
+    "direction": "synergy",
+    "confidence": "high",
+    "evidence_pmids": ["18937897"]
+  },
+  {
+    "members": ["Lactobacillus plantarum 299v", "Antibiotic"],
+    "kind": "absorption-conflict",
+    "strength": 4,
+    "goal": "Separate dosing to preserve viability",
+    "rationale": "Like other lactic-acid bacteria, Lp299v is susceptible to most oral antibiotics; dose ≥2 hours apart and continue for the antibiotic course plus one week.",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["22529959"]
+  },
+  {
+    "members": ["Lactobacillus plantarum 299v", "Probiotics"],
+    "kind": "redundancy",
+    "strength": 2,
+    "goal": "Strain overlap with multi-strain blends",
+    "rationale": "Some broad-spectrum probiotic blends already contain L. plantarum strains; check the label to avoid paying for redundant strain mass at sub-clinical CFU counts.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+  {
+    "members": ["Lactobacillus plantarum 299v", "Psyllium husk (soluble fibre)"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "IBS symptom relief — synbiotic",
+    "rationale": "Lp299v showed IBS symptom relief in the Ducrotté RCT; soluble fibre provides fermentable substrate and contributes its own benefit on stool form. Combination is rational for mixed-IBS.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["22652640"]
+  },
+
+  {
+    "members": ["Iberogast (STW 5)", "Peppermint oil (enteric-coated)"],
+    "kind": "redundancy",
+    "strength": 3,
+    "goal": "Overlapping spasmolytic mechanism",
+    "rationale": "Both Iberogast and enteric-coated peppermint oil act as smooth-muscle relaxants for functional dyspepsia and IBS. Combining them adds cost and oesophageal-reflux risk without proven additive benefit.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+  {
+    "members": ["Iberogast (STW 5)", "Acetaminophen"],
+    "kind": "risk-additive",
+    "strength": 2,
+    "goal": "Possible additive hepatotoxicity (legacy greater-celandine formula)",
+    "rationale": "The original STW 5 formula included Chelidonium majus (greater celandine), which the EMA flagged for hepatotoxicity. STW 5-II has removed celandine, but some markets still sell legacy product. With chronic acetaminophen use, prefer STW 5-II or alternatives.",
+    "direction": "antagonism",
+    "confidence": "low",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["Hibiscus sabdariffa", "ACE inhibitor / ARB"],
+    "kind": "risk-additive",
+    "strength": 3,
+    "goal": "Additive BP-lowering",
+    "rationale": "Hibiscus tea lowers SBP by ~7 mmHg in meta-analysis; adding to ACE/ARB therapy may produce symptomatic hypotension or orthostasis, especially in elderly patients.",
+    "direction": "antagonism",
+    "confidence": "medium",
+    "evidence_pmids": ["25875025"]
+  },
+  {
+    "members": ["Hibiscus sabdariffa", "Diuretic"],
+    "kind": "risk-additive",
+    "strength": 3,
+    "goal": "Additive diuresis and BP-lowering",
+    "rationale": "Hibiscus has mild diuretic activity; stacking with hydrochlorothiazide or loop diuretics may compound orthostatic symptoms and electrolyte shifts. Monitor BP and electrolytes during initiation.",
+    "direction": "antagonism",
+    "confidence": "medium",
+    "evidence_pmids": ["25875025"]
+  },
+  {
+    "members": ["Hibiscus sabdariffa", "Dietary Nitrate / Beetroot"],
+    "kind": "redundancy",
+    "strength": 2,
+    "goal": "Overlapping antihypertensive effect",
+    "rationale": "Both lower SBP by ~5–8 mmHg via vasodilation pathways; pick one if the goal is BP and avoid layering on top of existing antihypertensive regimen without monitoring.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": []
+  },
+
+  {
+    "members": ["EGCG concentrate (decaffeinated green-tea catechin)", "Green tea extract (EGCG)"],
+    "kind": "redundancy",
+    "strength": 4,
+    "goal": "Same active constituent — hepatotoxicity dose risk",
+    "rationale": "Stacking a concentrated decaf EGCG product with standard green tea extract drives EGCG exposure past the EFSA 800 mg/day no-observed-adverse-effect threshold, compounding idiosyncratic hepatotoxicity risk.",
+    "direction": "redundancy",
+    "confidence": "high",
+    "evidence_pmids": ["32624662"]
+  },
+  {
+    "members": ["EGCG concentrate (decaffeinated green-tea catechin)", "Iron"],
+    "kind": "absorption-conflict",
+    "strength": 3,
+    "goal": "Catechins chelate non-heme iron",
+    "rationale": "EGCG and other green-tea catechins reduce non-heme iron absorption by up to 70%. In iron-deficiency anaemia, separate EGCG and iron supplements by ≥2 hours.",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["19594223"]
+  },
+  {
+    "members": ["EGCG concentrate (decaffeinated green-tea catechin)", "Beta-blocker"],
+    "kind": "absorption-conflict",
+    "strength": 3,
+    "goal": "Reduces nadolol absorption via OATP1A2 inhibition",
+    "rationale": "Green tea catechins inhibit intestinal OATP1A2 and lower nadolol Cmax by ~85%. Separate dosing or choose a beta-blocker not dependent on OATP1A2 (e.g., bisoprolol, metoprolol).",
+    "direction": "timing-separation",
+    "confidence": "high",
+    "evidence_pmids": ["19185546"]
+  },
+
+  {
+    "members": ["Sulforaphane (broccoli isothiocyanate)", "NAC (N-Acetyl Cysteine)"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Glutathione support via Nrf2 + cysteine substrate",
+    "rationale": "Sulforaphane activates the Nrf2/Keap1 pathway driving GSH-synthesising enzymes; NAC provides the rate-limiting cysteine. The combination raises GSH more than either alone in cell-line and small clinical studies.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["33272091"]
+  },
+  {
+    "members": ["Sulforaphane (broccoli isothiocyanate)", "Curcumin (bioavailable form)"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Nrf2 + NF-κB modulation stack",
+    "rationale": "Sulforaphane activates Nrf2; curcumin both activates Nrf2 and inhibits NF-κB. The pair is widely used in chemoprevention research with consistent additive effects on phase II enzyme induction.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["22001305"]
+  },
+  {
+    "members": ["Sulforaphane (broccoli isothiocyanate)", "Acetaminophen"],
+    "kind": "absorption-conflict",
+    "strength": 2,
+    "goal": "Nrf2 induction may alter acetaminophen metabolism",
+    "rationale": "Sulforaphane pre-treatment induces phase II enzymes and altered acetaminophen-induced hepatotoxicity in rodent models. Clinical relevance unproven; raise as caution at chronic high doses, especially with alcohol.",
+    "direction": "antagonism",
+    "confidence": "low",
+    "evidence_pmids": ["17875811"]
+  },
+
+  {
+    "members": ["Eggshell membrane (NEM)", "Glucosamine / Chondroitin"],
+    "kind": "mechanism-complementary",
+    "strength": 3,
+    "goal": "Joint pain — complementary matrix supports",
+    "rationale": "NEM (500 mg/day) reduces joint pain and stiffness within 7–30 days in OA RCTs; glucosamine/chondroitin act on cartilage matrix metabolism over longer horizons. The pair is rational for new-onset OA.",
+    "direction": "synergy",
+    "confidence": "medium",
+    "evidence_pmids": ["19568322"]
+  },
+  {
+    "members": ["Eggshell membrane (NEM)", "Collagen peptides"],
+    "kind": "redundancy",
+    "strength": 3,
+    "goal": "Overlapping joint-matrix substrates",
+    "rationale": "Both deliver collagen-type amino acids and hyaluronic-acid precursors for joint support; head-to-head trials don't show clear additivity. Pick one for OA and add the other only if symptoms persist.",
+    "direction": "redundancy",
+    "confidence": "medium",
+    "evidence_pmids": []
+  },
+  {
+    "members": ["Eggshell membrane (NEM)", "Hyaluronic acid (oral)"],
+    "kind": "mechanism-complementary",
+    "strength": 2,
+    "goal": "Joint matrix synergy",
+    "rationale": "NEM already contains hyaluronic acid (~1%); oral HA supplementation adds modest joint-comfort effect; combination is plausible but trial evidence is thin.",
+    "direction": "synergy",
+    "confidence": "low",
+    "evidence_pmids": []
+  }
+]

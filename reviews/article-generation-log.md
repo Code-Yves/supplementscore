@@ -169,3 +169,23 @@
 | 2026-05-17 | mitoq-for-parkinsons-disease-where-the-evidence-stands | Breakthrough | 830 | 7 | industry:1, public:6 | evergreen |
 | 2026-05-17 | vitamin-d-for-adolescent-acne-the-igf-1-and-sebum-trial-evidence | Kids | 800 | 7 | nonprofit:1, public:6 | evergreen |
 | 2026-05-17 | probiotics-for-pediatric-functional-abdominal-pain-which-strains-have-evidence | Kids | 830 | 7 | public:7 | evergreen |
+| 2026-05-18 | vitamin-d-and-respiratory-infections-the-post-vital-2024-2025-update | Research-Update | 870 | 9 | public:8, nonprofit:1 | evergreen |
+| 2026-05-18 | glucosamine-and-cardiovascular-mortality-what-the-uk-biobank-cohort-shows | Research-Update | 880 | 9 | public:7, industry:2 | evergreen |
+| 2026-05-18 | coq10-in-heart-failure-q-symbio-follow-up-and-the-2024-2025-meta-analyses | Research-Update | 850 | 9 | industry:2, public:6, mixed:1 | evergreen |
+| 2026-05-18 | nmn-oral-bioavailability-what-the-2024-2025-plasma-response-trials-show | Research-Update | 870 | 10 | public:6, industry:4 | evergreen |
+| 2026-05-18 | calcium-and-cardiovascular-risk-the-2024-cochrane-update | Research-Update | 860 | 9 | public:8, nonprofit:1 | evergreen |
+| 2026-05-18 | vitamin-d-for-fall-prevention-in-older-adults-what-recent-meta-analyses-show | Research-Update | 870 | 9 | public:8, nonprofit:1 | evergreen |
+| 2026-05-18 | how-to-time-iron-supplements-coffee-calcium-vitamin-c-and-ppis | Guide | 820 | 8 | public:7, nonprofit:1 | evergreen |
+| 2026-05-18 | proprietary-blends-on-supplement-labels-what-they-actually-hide | Guide | 830 | 6 | public:5, nonprofit:1 | evergreen |
+| 2026-05-18 | probiotic-strain-selection-by-condition-a-practical-guide | Guide | 900 | 7 | industry:5, public:1, nonprofit:1 | evergreen |
+| 2026-05-18 | b-complex-timing-and-absorption-why-morning-isnt-always-best | Guide | 810 | 5 | public:4, industry:1 | evergreen |
+| 2026-05-18 | vitamin-a-megadose-teratogenicity-why-pregnancy-and-retinol-dont-mix | Safety | 820 | 6 | public:6 | evergreen |
+| 2026-05-18 | selenium-overdose-brazil-nuts-and-the-narrow-therapeutic-window | Safety | 850 | 7 | public:7 | evergreen |
+| 2026-05-18 | intravenous-vitamin-c-megadose-the-marik-protocol-collapse-and-what-replaced-it | Safety | 870 | 8 | public:7, nonprofit:1, none_disclosed:1 | evergreen |
+| 2026-05-18 | hair-skin-and-nails-formulas-what-biotin-and-collagen-trials-actually-show | Myth | 870 | 7 | public:3, industry:3, nonprofit:1 | evergreen |
+| 2026-05-18 | cellular-hydration-supplements-the-marketing-claim-with-no-biological-basis | Myth | 830 | 6 | public:4, nonprofit:1, industry:1 | evergreen |
+| 2026-05-18 | lectin-free-supplements-and-the-plant-paradox-what-the-evidence-shows | Myth | 820 | 5 | public:5 | evergreen |
+| 2026-05-18 | glp-1-mimicking-supplements-what-berberine-gymnema-and-bitter-melon-actually-do | Breakthrough | 850 | 5 | industry:3, public:2 | evergreen |
+| 2026-05-18 | dasatinib-plus-quercetin-senolytic-therapy-the-2024-2025-human-trial-update | Breakthrough | 870 | 7 | public:6, industry:1 | evergreen |
+| 2026-05-18 | zinc-lozenges-for-childrens-colds-what-the-pediatric-trials-show | Kids | 830 | 7 | public:6, nonprofit:1 | evergreen |
+| 2026-05-18 | vitamin-d-drops-overdose-in-infants-case-reports-and-the-aap-warning | Kids | 850 | 6 | public:3, nonprofit:3 | evergreen |
