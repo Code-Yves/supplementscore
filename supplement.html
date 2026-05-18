@@ -128,10 +128,21 @@
 .det-rel-h{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
 .det-rel-h .cnt{font-size:10px;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:1px 7px;border-radius:999px;font-weight:600}
 .det-rel-list{list-style:none;display:flex;flex-direction:column;gap:5px;margin:0;padding:0}
-.det-rel-list a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;font-size:13px;color:var(--color-text-primary);border-bottom:1px dashed var(--color-border-tertiary);text-decoration:none}
-.det-rel-list a:last-child{border-bottom:none}
+.det-rel-list a,
+.det-rel-list .det-rel-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;font-size:13px;color:var(--color-text-primary);border-bottom:1px dashed var(--color-border-tertiary);text-decoration:none}
+.det-rel-list a:last-child,
+.det-rel-list .det-rel-row:last-child{border-bottom:none}
 .det-rel-list a:hover{color:var(--accent)}
+/* Static (non-clickable) row variant for "Recommended for" — no hover
+   color shift, default cursor. The row still inherits the same flex
+   layout above. */
+.det-rel-list .det-rel-row--static{cursor:default}
 .det-rel-empty{font-size:12px;color:var(--color-text-tertiary);font-style:italic;padding:6px 0}
+.det-rel-list--more{list-style:none;display:flex;flex-direction:column;gap:5px;margin:0;padding:0}
+.det-rel-list--more[hidden]{display:none}
+.det-rel-more{margin-top:8px;background:none;border:0;color:var(--color-brand);font-size:12.5px;font-family:inherit;cursor:pointer;padding:6px 0;font-weight:500;display:inline-flex;align-items:center;gap:4px;line-height:1.2}
+.det-rel-more:hover{text-decoration:underline}
+.det-rel-more svg{flex-shrink:0;color:var(--color-brand)}
 .det-ltag{font-size:9.5px;color:var(--color-text-tertiary);padding:1.5px 7px;border-radius:999px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);font-weight:500;flex-shrink:0;white-space:nowrap}
 .det-ltag.avoid{background:var(--t4bg);color:var(--t4tx);border-color:transparent}
 .det-ltag.caution{background:var(--t3bg);color:var(--t3tx);border-color:transparent}
@@ -282,9 +293,14 @@ body.is-modal .det-jump{top:0}
 
 <script src="data.js?v=20260504a"></script>
 <script src="pairings-data.js?v=20260513a"></script>
+<script src="data/comparisons.js?v=20260518a"></script>
 <script src="a/manifest.js?v=20260504a"></script>
 <script src="search-index.js?v=20260509q"></script>
 <script src="nav-search.js?v=20260509i"></script>
+<!-- modal-stack.js: shared back-stack so closing the article modal returns
+     to this supplement instead of the bare index. sessionStorage-backed so it
+     survives the target=_top navigation done by the Further Reading links. -->
+<script src="modal-stack.js?v=20260513a"></script>
 <script>
 (function(){
   function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
@@ -339,13 +355,29 @@ body.is-modal .det-jump{top:0}
     return '<div class="det-bar"><div class="det-bar-lbl">'+escHtml(label)+'</div><div class="det-bar-track"><div class="det-bar-fill" style="width:'+pct+'%"></div></div><div class="det-bar-val">'+(val||'-')+'/5</div></div>';
   }
 
-  // Linked entity list cell
+  // Linked entity list cell — caps long lists at 10 visible rows with a
+  // "Show N more" toggle so dense supplements (Magnesium, Omega-3 etc.)
+  // don't unfurl 20–30-row columns by default.
+  var relCellSeq = 0;
   function relCell(title, items, renderItem, count){
     var body;
     if(!items || !items.length){
       body = '<div class="det-rel-empty">None on file.</div>';
-    } else {
+    } else if (items.length <= 10) {
       body = '<ul class="det-rel-list">' + items.map(renderItem).join('') + '</ul>';
+    } else {
+      var visible = items.slice(0, 10);
+      var hidden  = items.slice(10);
+      var id = 'rel-more-' + (++relCellSeq);
+      // Use inline style="display:none" — the [hidden] attribute alone is
+      // overridden by author CSS rules with display:flex on the same class.
+      body = ''
+        + '<ul class="det-rel-list">' + visible.map(renderItem).join('') + '</ul>'
+        + '<ul class="det-rel-list det-rel-list--more" id="' + id + '" style="display:none">' + hidden.map(renderItem).join('') + '</ul>'
+        + '<button type="button" class="det-rel-more" data-target="' + id + '" data-extra="' + hidden.length + '">'
+        +   '<span class="det-rel-more-label">Show ' + hidden.length + ' more</span>'
+        +   '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>'
+        + '</button>';
     }
     var cnt = (count != null) ? '<span class="cnt">'+count+'</span>' : '';
     return '<div class="det-rel-cell"><div class="det-rel-h"><span>'+escHtml(title)+'</span>'+cnt+'</div>'+body+'</div>';
@@ -555,14 +587,21 @@ body.is-modal .det-jump{top:0}
   if (s.tips) protocolRows += '<div class="det-ref-row"><span class="det-ref-row-lbl">How to take</span><span class="det-ref-row-val">'+escHtml(s.tips)+'</span></div>';
   if (s.cycle) protocolRows += '<div class="det-ref-row"><span class="det-ref-row-lbl">Cycling</span><span class="det-ref-row-val">'+escHtml(s.cycle)+'</span></div>';
 
-  // Linked entities cells
+  // Linked entities cells. Drug interactions render as static rows (not links)
+  // — the bucket tag (Caution / Synergy / Avoid) is the meaningful signal;
+  // clicking through to a medication page is noise for this audience.
   var medsCellHtml = relCell('Drug interactions', meds, function(m){
-    return '<li><a href="'+escAttr(window.SS.urlFor('medication', m.slug))+'"><span>'+escHtml(m.name)+'</span><span class="det-ltag '+bucketClass(m.bucket)+'">'+escHtml(bucketLabel(m.bucket))+'</span></a></li>';
+    return '<li><span class="det-rel-row det-rel-row--static"><span>'+escHtml(m.name)+'</span><span class="det-ltag '+bucketClass(m.bucket)+'">'+escHtml(bucketLabel(m.bucket))+'</span></span></li>';
   }, meds.length);
 
   var condsLabel = (s.t === 't4') ? 'Marketed for' : 'Recommended for';
+  /* Conditions are rendered as plain (non-clickable) rows by design —
+     per user feedback 2026-05-13, the condition pages aren't a useful
+     destination, so we surface the relationship visually without an
+     active link. Visual styling matches the adjacent medication / lab
+     marker rows via the .det-rel-row class added to styles below. */
   var condsCellHtml = relCell(condsLabel, conds, function(c){
-    return '<li><a href="'+escAttr(window.SS.urlFor('condition', c.slug))+'"><span>'+escHtml(c.name)+'</span><span class="det-ltag">Condition</span></a></li>';
+    return '<li><span class="det-rel-row det-rel-row--static"><span>'+escHtml(c.name)+'</span><span class="det-ltag">Condition</span></span></li>';
   }, conds.length);
 
   var biomsCellHtml = relCell('Lab markers', bioms, function(b){
@@ -586,18 +625,47 @@ body.is-modal .det-jump{top:0}
 
   var sourcesHtml = '';
   if (artiles.length){
-    /* Article URL resolution — use the prebuilt /a/manifest.json mapping
-       (id → filename) for accuracy. The manifest is generated at build time
-       from the actual /a/ filenames, so it stays correct even when slugify
-       rules drift between the extract script and the runtime JS. Falls back
-       to the lite viewer (article.html?id=N) for any id not in the manifest. */
+    /* Article URL resolution — route to the v2 article modal on index.html
+       (2026-05-13). The previous routing went to a/<filename>.html static
+       files, which use the legacy .ar-wrap layout. index.html ships 470
+       pre-rendered <div class="article-full" id="article-N"> blocks, and
+       app.js's goArticle() handler opens any of them in the art-modal with
+       the v2 chrome (trust strip, Bottom Line, TOC, numbered sections,
+       related supplements, processed sources) when the URL has the
+       matching #article-N fragment.
+
+       target="_top" breaks out of the supplement-modal iframe so the
+       article opens on the parent window — otherwise the article modal
+       would render inside the supplement modal's iframe (modal-in-modal,
+       broken navigation, no v2 chrome wired up).
+
+       For supplement.html viewed standalone (not in modal), _top is the
+       current window, so behavior is identical. */
     sourcesHtml = '<div class="det-sources" id="det-sources"><div class="det-sources-h">Sources &amp; further reading</div><div class="det-sources-grid">'
       + artiles.map(function(a){
           var readTime = a.m ? (a.m + ' min') : '';
-          var manifest = window.__ART_MANIFEST || {};
-          var fileName = manifest[a.id] || manifest[String(a.id)];
-          var artUrl = fileName ? ('a/' + fileName) : window.SS.urlFor('article', a.id);
-          return '<a href="'+escAttr(artUrl)+'">'
+          /* Thread the current supplement slug through the URL so closing
+             the article modal returns to this supplement modal instead of
+             the bare index. supplement-modal.js auto-opens any
+             ?supplement=<slug> on load while preserving the #article hash,
+             so the supplement and article modals open together; the article
+             paints on top (z-index bumped in styles.css), and closing it
+             reveals the supplement modal underneath.
+
+             We also push the return state to SSModalStack (sessionStorage)
+             via the onclick handler — belt-and-suspenders so that even if
+             the URL approach fails (browser quirks, History API timing),
+             closeArtModal() can pop and re-open this supplement. */
+          var artUrl = 'index.html?supplement=' + encodeURIComponent(slug)
+            + '#article-' + encodeURIComponent(a.id);
+          /* Use top.SSModalStack — inside the supplement iframe, the parent
+             window (index.html) holds the live SSModalStack we want to push
+             to. Guarded for cross-origin safety. */
+          var pushSnippet =
+              "try{var T=window.top;"
+            + "if(T&&T.SSModalStack){T.SSModalStack.push({type:'supplement',slug:'" + escAttr(slug) + "'});}}"
+            + "catch(_){}";
+          return '<a href="'+escAttr(artUrl)+'" target="_top" onclick="'+pushSnippet+'">'
             + '<span class="det-art-left">'
             +   ART_ICON
             +   '<span class="det-art-title">'+escHtml(a.t)+'</span>'
@@ -676,12 +744,175 @@ body.is-modal .det-jump{top:0}
 
       +   sourcesHtml
 
+      +   '<div id="det-compare-slot"></div>'
       +   '<div id="det-related-guides-slot"></div>'
       +   '<div id="det-brands-slot"></div>'
 
       +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="methodology.html">methodology</a> for how scores are derived.</p>'
       + '</div>'
     + '</div>';
+
+  // Wire up the "Show N more" toggles in the related-entities cells. Each
+  // button reveals its hidden sibling list and removes itself from view.
+  // Uses inline style display so CSS specificity can't override it.
+  root.querySelectorAll('.det-rel-more').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = document.getElementById(btn.dataset.target);
+      if (t) t.style.display = '';
+      btn.style.display = 'none';
+    });
+  });
+
+  // ── Head-to-head comparisons layer ──────────────────────────────────────
+  // Loads /data/comparisons.json and surfaces all comparisons that mention
+  // this supplement. Sits above the Related guides block. Comparison entries
+  // are no longer duplicated in the related-guides loader below.
+  (function loadCompares(){
+    var slot = document.getElementById('det-compare-slot');
+    if (!slot) return;
+    var name = (s.n || '').trim();
+    if (!name) return;
+
+    // Clean the supplement name down to its core ingredient phrase so that
+    // names like "Ashwagandha (KSM-66)" or "Omega-3 (EPA/DHA)" can be matched
+    // against comparison guides that just use the bare ingredient name.
+    //   strip parenthetical clarifiers, trailing "/ alternates", and +/&
+    function cleanName(n){
+      return n.replace(/\([^)]*\)/g, ' ')
+              .replace(/\s*\/.*$/, '')
+              .replace(/[+&]/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim()
+              .toLowerCase();
+    }
+    function reEsc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    function norm(x){ return String(x).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+
+    var cleaned  = cleanName(name);
+    if (!cleaned) return;
+    var nameNorm = norm(name);
+    var firstWord = cleaned.split(/\s+/)[0];
+
+    // A comparison matches if either:
+    //   (1) the cleaned name appears as a whole phrase in the haystack
+    //   (2) the supplement's first significant word (≥4 chars) appears, which
+    //       catches Latin binomials ("Rhodiola rosea") and substring fits
+    //       ("Folate" → "Methylfolate vs Folic Acid")
+    function matchesHay(hay){
+      if (new RegExp('\\b' + reEsc(cleaned) + '\\b', 'i').test(hay)) return true;
+      if (firstWord.length >= 4) {
+        if (new RegExp('\\b' + reEsc(firstWord) + '\\b', 'i').test(hay)) return true;
+        if (firstWord.length >= 5 && hay.indexOf(firstWord) !== -1) return true;
+      }
+      return false;
+    }
+
+    // Comparisons are loaded via <script src="data/comparisons.js"> in the
+    // <head>, which exposes window.SS_COMPARISONS synchronously. This works
+    // identically on file:// (where fetch is blocked), local dev servers,
+    // and production. The fetch fallback below covers the edge case where
+    // the script tag is removed or fails to load.
+    function renderFromDb(db){
+      if (!db || !db.comparisons) return;
+      var matches = db.comparisons.map(function(c){
+        // Hyphens in slugs are normalised to spaces so word boundaries work
+        var hay = (c.title + ' ' + c.href + ' ' + (c.sides || []).join(' '))
+                    .toLowerCase().replace(/-/g, ' ');
+        if (!matchesHay(hay)) return null;
+        // Identify partner(s): sides that don't themselves match this supplement.
+        var partners = (c.sides || []).filter(function(side){
+          var sn = norm(side);
+          if (sn === nameNorm) return false;
+          if (sn.indexOf(nameNorm) !== -1 || nameNorm.indexOf(sn) !== -1) return false;
+          // Also skip sides that share the cleaned name (e.g. "Magnesium glycinate")
+          if (sn.indexOf(cleaned) !== -1 || cleaned.indexOf(sn) !== -1) return false;
+          return true;
+        });
+        return { href: c.href, title: c.title, topic: c.topic, kind: c.kind, partners: partners, sides: c.sides || [] };
+      }).filter(Boolean);
+      if (!matches.length) return;
+
+      // Sort: binary first (more direct), then multi-form. Within each, the
+      // comparisons whose primary topic appears highest in the page's interest
+      // would be ideal — but we don't have that signal yet, so just stable
+      // by source order.
+      matches.sort(function(a,b){
+        if (a.kind !== b.kind) return a.kind === 'binary' ? -1 : 1;
+        return 0;
+      });
+
+      // Cap to 8 to keep the section compact
+      var capped = matches.slice(0, 8);
+
+      function escHtml(s){ var d=document.createElement('div'); d.textContent=String(s||''); return d.innerHTML; }
+      // Pull the subtitle from the title after an em-dash, if present
+      function subtitle(title){
+        var m = String(title).split(/\s+[—–]\s+/);
+        return m.length > 1 ? m.slice(1).join(' — ') : '';
+      }
+
+      var rows = capped.map(function(m){
+        var partnerLbl;
+        if (m.kind === 'multi') {
+          // Multi-form: show "All N forms compared" or list the other sides briefly
+          if (m.sides.length >= 3) {
+            partnerLbl = 'all ' + m.sides.length + ' forms compared';
+          } else {
+            partnerLbl = m.partners.join(', ') || m.sides.join(' vs ');
+          }
+        } else {
+          partnerLbl = m.partners[0] || m.sides.filter(function(x){ return norm(x) !== nameNorm; })[0] || m.sides[0] || '';
+        }
+        var sub = subtitle(m.title);
+        var topicHtml = m.topic && m.topic !== 'Other' ? ' · ' + escHtml(m.topic) : '';
+        return ''
+          + '<a class="dr-link dc-link" href="' + escHtml(m.href) + '">'
+          +   '<span class="dc-vs" aria-hidden="true">vs</span>'
+          +   '<span class="dr-body">'
+          +     '<span class="dr-title">' + escHtml(partnerLbl) + '</span>'
+          +     (sub ? '<span class="dc-sub">' + escHtml(sub) + topicHtml + '</span>'
+                    : (m.topic && m.topic !== 'Other' ? '<span class="dc-sub">' + escHtml(m.topic) + '</span>' : ''))
+          +   '</span>'
+          +   '<svg class="dr-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>'
+          + '</a>';
+      }).join('');
+
+      // Section footer surfaces a link to the full /compare/ index (the
+      // existing guides directory, pre-filtered by this supplement's name)
+      // ONLY when more matches exist than we're showing inline. Never links
+      // out to the two-supplement search tool — this section is strictly a
+      // directory of already-written comparison guides.
+      var more = matches.length > capped.length
+        ? '<div class="dc-foot"><a class="dc-foot-more" href="compare/index.html#q=' + encodeURIComponent(name) + '">See all ' + matches.length + ' comparison guides →</a></div>'
+        : '';
+
+      slot.innerHTML =
+        '<section class="det-related-guides det-compare">'
+        + '<div class="dr-head">'
+        +   '<span class="dr-tag">Head-to-head comparisons</span>'
+        +   '<span class="dr-meta">' + matches.length + ' guide' + (matches.length>1?'s':'') + ' mention ' + escHtml(name) + '</span>'
+        + '</div>'
+        + '<div class="dr-list">' + rows + '</div>'
+        + more
+        + '</section>';
+    }
+
+    // Primary path: the script-tag-loaded global. Synchronous, works on
+    // file://, no fetch / CORS issues.
+    if (window.SS_COMPARISONS) {
+      renderFromDb(window.SS_COMPARISONS);
+      return;
+    }
+
+    // Fallback: try fetching the JSON. Useful if comparisons.js was removed
+    // for some reason but comparisons.json is still served.
+    fetch('data/comparisons.json').then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(renderFromDb).catch(function(err){
+      try { console.warn('[compare] comparisons data unavailable:', err && err.message || err); } catch(_){}
+    });
+  })();
 
   // ── Related guides layer (Direction C, 2026-05-02) ─────────────────────
   // Surfaces relevant /compare/ and /condition/ deep-dive guides on the supplement detail page.
@@ -691,19 +922,9 @@ body.is-modal .det-jump{top:0}
     var name = (s.n || '').toLowerCase();
     var matches = [];
 
-    // Comparison guides — keyword set per guide
-    var COMPARES = [
-      { href:'compare/magnesium-forms.html',     title:'Magnesium glycinate vs citrate vs L-threonate', keys:['magnesium'] },
-      { href:'compare/protein-powders.html',     title:'Whey vs casein vs pea protein',                 keys:['whey','casein','pea protein'] },
-      { href:'compare/serotonin-precursors.html',title:'5-HTP vs L-tryptophan vs SAMe',                 keys:['5-htp','l-tryptophan','tryptophan','same'] },
-      { href:'compare/adaptogens.html',          title:'Ashwagandha vs Rhodiola vs Cordyceps',          keys:['ashwagandha','rhodiola','cordyceps'] },
-      { href:'compare/omega-3-forms.html',       title:'EPA vs DHA vs ALA omega-3',                     keys:['omega-3','epa','dha','fish oil','algae oil','flaxseed oil'] }
-    ];
-    COMPARES.forEach(function(c){
-      if (c.keys.some(function(k){ return name.indexOf(k) !== -1; })) {
-        matches.push({ href: c.href, title: c.title, kind: 'compare' });
-      }
-    });
+    // Comparison guides are now surfaced by the loadCompares() module above,
+    // which sources from /data/comparisons.json (full set of 76 guides).
+    // This block only handles condition deep-dives.
 
     // Condition deep-dives — keyword set per protocol
     var CONDITIONS = [
@@ -732,17 +953,14 @@ body.is-modal .det-jump{top:0}
 
     if (!matches.length) return;
     var rows = matches.map(function(m){
-      var icon = m.kind === 'compare'
-        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M21 16l-4 4-4-4"/></svg>'
-        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
-      var kindLbl = m.kind === 'compare' ? 'Comparison guide' : 'Condition deep-dive';
-      return '<a class="dr-link" href="' + m.href + '"><span class="dr-icon">' + icon + '</span><span class="dr-body"><span class="dr-kind">' + kindLbl + '</span><span class="dr-title">' + escHtml(m.title) + '</span></span><svg class="dr-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>';
+      var icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+      return '<a class="dr-link" href="' + m.href + '"><span class="dr-icon">' + icon + '</span><span class="dr-body"><span class="dr-kind">Condition deep-dive</span><span class="dr-title">' + escHtml(m.title) + '</span></span><svg class="dr-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>';
     }).join('');
     slot.innerHTML =
       '<section class="det-related-guides">'
       + '<div class="dr-head">'
-      +   '<span class="dr-tag">Related guides</span>'
-      +   '<span class="dr-meta">' + matches.length + ' deep-dive' + (matches.length>1?'s':'') + ' that mention this supplement</span>'
+      +   '<span class="dr-tag">Condition deep-dives</span>'
+      +   '<span class="dr-meta">' + matches.length + ' protocol' + (matches.length>1?'s':'') + ' that use this supplement</span>'
       + '</div>'
       + '<div class="dr-list">' + rows + '</div>'
       + '</section>';
@@ -754,7 +972,7 @@ body.is-modal .det-jump{top:0}
   (function loadBrands(){
     var slot = document.getElementById('det-brands-slot');
     if (!slot) return;
-    fetch('/data/brands.json').then(function(r){ return r.ok ? r.json() : null; }).then(function(db){
+    fetch('data/brands.json').then(function(r){ return r.ok ? r.json() : null; }).then(function(db){
       if (!db) return;
       var key = (s.n||'').toLowerCase().trim();
       var entries = db[key];
@@ -803,6 +1021,15 @@ body.is-modal .det-jump{top:0}
   .dr-title{display:block;font-size:14px;font-weight:600;color:var(--color-text-primary);line-height:1.3}
   .dr-arrow{color:var(--color-text-tertiary);flex-shrink:0}
   .dr-link:hover .dr-arrow{color:var(--color-brand)}
+
+  /* Head-to-head comparisons panel — shares .det-related-guides shell + .dr-* layout */
+  .det-compare .dc-vs{width:30px;height:30px;border-radius:8px;background:rgba(31,122,107,.10);color:var(--color-brand);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:.04em;flex-shrink:0}
+  .det-compare .dr-link{gap:13px}
+  .det-compare .dr-title{font-size:14.5px;font-weight:600}
+  .det-compare .dc-sub{display:block;font-size:12px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.45}
+  .dc-foot{padding:12px 22px;border-top:1px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+  .dc-foot-more{font-size:12.5px;color:var(--color-brand);text-decoration:none;font-weight:500}
+  .dc-foot-more:hover{text-decoration:underline}
 
   /* Brand-quality layer */
   .det-bq{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden;margin-top:18px}

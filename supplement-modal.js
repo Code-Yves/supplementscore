@@ -50,6 +50,10 @@
      margin on the 601-680px range while .art-modal already went
      full-bleed there — visually inconsistent. */
   + '@media(max-width:600px){.ssm-card{margin:0;width:100%;height:100vh;border-radius:0;border:none}.ssm-share{right:60px}.ssm-x{top:10px;right:10px}}'
+  /* Hide Share + X when the iframe is showing a non-supplement page
+     (e.g. a /compare/ guide). That page has its own close FAB at the
+     same coordinates; without this rule the two stacks overlap. */
+  + '.ssm.hide-chrome .ssm-share,.ssm.hide-chrome .ssm-x{display:none !important}'
   + 'body.ssm-locked{overflow:hidden}';
   document.head.appendChild(styleEl);
 
@@ -87,6 +91,20 @@
 
   frame.addEventListener('load', function(){
     if (openSlug) modal.classList.add('loaded');
+    // If the iframe has navigated to a page that isn't the supplement detail
+    // (e.g. a /compare/ guide opened from a Head-to-head comparison link),
+    // hide our Share/X chrome so it doesn't overlap that page's own close
+    // FAB. The chrome comes back the moment the iframe returns to a
+    // supplement page (which happens when the user clicks the inner close
+    // FAB — it calls history.back inside the iframe).
+    try {
+      var pn = frame.contentWindow && frame.contentWindow.location && frame.contentWindow.location.pathname || '';
+      var isSupplement = /\/supplement\.html$/i.test(pn);
+      modal.classList.toggle('hide-chrome', !isSupplement);
+    } catch(_){
+      // Cross-origin or detached frame — keep chrome visible by default.
+      modal.classList.remove('hide-chrome');
+    }
   });
 
   function open(slug, fromHistory) {
@@ -94,6 +112,19 @@
     if (slug === openSlug){
       try { frame.contentWindow && frame.contentWindow.scrollTo(0,0); } catch(e){}
       return;
+    }
+    /* Snapshot whatever modal is currently open BEFORE we switch to this
+       supplement, so closing this supplement returns the user there.
+       Excludes the case where we're restoring from the stack ourselves
+       (fromHistory) and the case where the current modal IS this same
+       supplement (handled by the early-return above). */
+    if (!fromHistory && window.SSModalStack) {
+      try {
+        var snap = window.SSModalStack.snapshot();
+        if (snap && !(snap.type === 'supplement' && snap.slug === slug)) {
+          window.SSModalStack.push(snap);
+        }
+      } catch(_){}
     }
     attachModal();
     openSlug = slug;
@@ -120,6 +151,18 @@
     if (!fromHistory && history.state && history.state.ssm) {
       try { history.back(); } catch(e){}
     }
+    /* Site-wide modal back-stack (2026-05-13).
+       After this supplement modal closes, if SSModalStack has a previous
+       modal recorded (e.g. an article modal that opened this supplement
+       via a supplement link inside it), re-open that one. The article
+       case isn't wired yet (article→supplement→close hasn't been a
+       reported flow), but the symmetry is here for free. */
+    try {
+      if (window.SSModalStack) {
+        var prevEntry = window.SSModalStack.pop();
+        if (prevEntry) window.SSModalStack.reopen(prevEntry);
+      }
+    } catch(_){}
   }
 
   // Click on backdrop or X closes; click on Share copies the deep link.

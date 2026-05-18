@@ -44,7 +44,87 @@
     .hub-card h2{font-size:1.05rem;font-weight:700;letter-spacing:-.2px;line-height:1.3;margin:0 0 8px;color:var(--color-text-primary)}
     .hub-card p{font-size:13.5px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px}
     .hub-card .meta{font-size:11.5px;color:var(--color-text-tertiary);display:flex;gap:10px;align-items:center}
+    .hub-card.hidden{display:none}
     .hub-foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--color-border-tertiary);font-size:12.5px;color:var(--color-text-tertiary);line-height:1.6}
+
+    /* Search + filter controls */
+    .cmp-controls{margin:0 0 22px}
+    .cmp-search-row{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+    .cmp-search{flex:0 1 360px;min-width:220px;position:relative}
+    .cmp-search input{width:100%;padding:11px 36px 11px 38px;border:1px solid var(--color-border-secondary);border-radius:10px;font-size:14px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary);outline:none;box-sizing:border-box;transition:border-color .15s,box-shadow .15s}
+    .cmp-search input:focus{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.12)}
+    .cmp-search .ic-search{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--color-text-tertiary);pointer-events:none;display:flex}
+    .cmp-search .ic-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--color-text-tertiary);font-size:18px;line-height:1;cursor:pointer;padding:4px 6px;display:none;border-radius:6px;z-index:2}
+    .cmp-search .ic-clear:hover{color:var(--color-text-primary);background:var(--color-background-secondary)}
+    .cmp-search.has-value .ic-clear{display:block}
+
+    /* Type-ahead suggestion dropdown */
+    .cmp-suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.10);max-height:380px;overflow-y:auto;z-index:25;padding:6px}
+    .cmp-suggest[hidden]{display:none}
+    .cmp-suggest-item{display:block;width:100%;text-align:left;background:transparent;border:0;padding:9px 12px;border-radius:7px;cursor:pointer;font-family:inherit;color:var(--color-text-primary);text-decoration:none;line-height:1.35}
+    .cmp-suggest-item:hover,.cmp-suggest-item.on{background:var(--color-background-secondary)}
+    .cmp-suggest-item .ttl{font-size:13.5px;font-weight:500;display:block}
+    .cmp-suggest-item .ttl mark{background:rgba(31,122,107,.18);color:inherit;font-weight:600;padding:0;border-radius:2px}
+    .cmp-suggest-item .meta{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:11.5px;color:var(--color-text-tertiary)}
+    .cmp-suggest-item .meta-tag{font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--color-brand)}
+    .cmp-suggest-empty{padding:14px 16px;font-size:13px;color:var(--color-text-tertiary);text-align:center}
+
+    /* Goal dropdown — single-select topic filter */
+    .cmp-goal{position:relative;flex:1 1 240px;min-width:200px}
+    .cmp-goal-btn{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 16px;border:1px solid var(--color-border-secondary);border-radius:10px;background:var(--color-background-primary);font-family:inherit;font-size:13.5px;color:var(--color-text-primary);cursor:pointer;line-height:1.2;transition:border-color .12s,box-shadow .12s}
+    .cmp-goal-btn:hover{border-color:var(--color-brand)}
+    .cmp-goal-btn[aria-expanded="true"]{border-color:var(--color-brand);box-shadow:0 0 0 3px rgba(31,122,107,.12)}
+    .cmp-goal-btn svg{color:var(--color-text-tertiary);transition:transform .15s;flex-shrink:0}
+    .cmp-goal-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .cmp-goal-label{font-weight:500;color:var(--color-text-secondary)}
+    .cmp-goal-label > span{font-weight:600;color:var(--color-brand)}
+
+    .cmp-goal-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;min-width:240px;max-height:380px;overflow-y:auto;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.10);padding:6px;z-index:20}
+    .cmp-goal-menu[hidden]{display:none}
+    .cmp-goal-item{display:flex;justify-content:space-between;align-items:center;width:100%;padding:8px 12px;background:transparent;border:0;border-radius:7px;font-family:inherit;font-size:13px;color:var(--color-text-primary);cursor:pointer;text-align:left;line-height:1.3;gap:14px}
+    .cmp-goal-item:hover{background:var(--color-background-secondary)}
+    .cmp-goal-item.on{background:rgba(31,122,107,.10);color:var(--color-brand);font-weight:600}
+    .cmp-goal-item .ct{font-size:11.5px;color:var(--color-text-tertiary);font-variant-numeric:tabular-nums;flex-shrink:0}
+    .cmp-goal-item.on .ct{color:var(--color-brand);opacity:.75}
+    .cmp-goal-item--all{border-bottom:1px solid var(--color-border-tertiary);border-radius:7px 7px 0 0;margin-bottom:4px;padding-bottom:10px}
+
+    @media (max-width:540px){
+      .cmp-goal-menu{right:auto;left:0;min-width:220px}
+      .cmp-goal{align-self:stretch}
+      .cmp-goal-btn{width:100%;justify-content:space-between}
+    }
+
+    .cmp-count{font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 16px;font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .cmp-count-reset{background:none;border:0;color:var(--color-brand);font-size:12.5px;cursor:pointer;font-family:inherit;padding:0;font-weight:500;display:none}
+    .cmp-count-reset.on{display:inline}
+    .cmp-count-reset:hover{text-decoration:underline}
+
+    .cmp-empty{padding:48px 24px;text-align:center;color:var(--color-text-tertiary);font-size:14px;background:var(--color-background-secondary);border:1px dashed var(--color-border-tertiary);border-radius:12px;margin-bottom:24px;display:none}
+    .cmp-empty.on{display:block}
+    .cmp-empty .cmp-empty-h{font-size:15px;font-weight:600;color:var(--color-text-primary);margin-bottom:6px}
+
+    /* Section headers — hide when their grid has no visible matches */
+    .hub-section{margin-top:36px}
+    .hub-section h2{font-size:1.05rem;font-weight:700;letter-spacing:-.2px;color:var(--color-text-primary);margin:0 0 14px}
+    .hub-section.empty,.hub-grid.empty,.hub-section.empty + .hub-grid{display:none}
+    #cmp-featured-h{font-size:1.05rem;font-weight:700;letter-spacing:-.2px;color:var(--color-text-primary);margin:0 0 14px}
+
+    /* SEO link list — restyled as a collapsed details disclosure so it stops
+       reading as a duplicate footer while keeping the flat link list intact
+       for crawl discovery. */
+    .ss-static-index{margin-top:32px;padding:14px 18px;border:1px solid var(--color-border-tertiary);border-radius:12px;background:var(--color-background-secondary)}
+    .ss-static-index > summary{font-size:13px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:2px 0}
+    .ss-static-index > summary::-webkit-details-marker{display:none}
+    .ss-static-index > summary::before{content:'';display:inline-block;width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid var(--color-text-tertiary);transition:transform .15s;flex-shrink:0}
+    .ss-static-index[open] > summary::before{transform:rotate(90deg)}
+    .ss-static-index > summary:hover{color:var(--color-text-primary)}
+    .ss-static-index-h{font-size:13px;font-weight:600;color:var(--color-text-primary);margin:14px 0 4px 0}
+    .ss-static-index-p{font-size:12px;color:var(--color-text-tertiary);margin:0 0 10px 0}
+    .ss-static-index-ul{columns:2;column-gap:24px;margin:10px 0 4px;padding-left:18px;font-size:12.5px;line-height:1.65}
+    .ss-static-index-ul li{break-inside:avoid;margin-bottom:2px}
+    .ss-static-index-ul a{color:var(--color-text-secondary);text-decoration:none}
+    .ss-static-index-ul a:hover{color:var(--color-brand);text-decoration:underline}
+    @media (max-width:600px){ .ss-static-index-ul{columns:1} }
   </style>
   <script src="../_site-ux.js?v=20260509o" defer></script>
 
@@ -82,7 +162,37 @@
   <h1>Compare supplement forms side-by-side</h1>
   <p class="hub-lede">When you've decided you want a supplement, the next question is usually <em>which form</em>. These guides walk through the most-bought decisions head-to-head: how the forms differ on absorption, evidence base, side-effect profile, and best-fit goal. No sponsorships, no affiliate links.</p>
 
-  <div class="hub-grid">
+  <div class="cmp-controls">
+    <div class="cmp-search-row">
+      <div class="cmp-search" id="cmp-search-wrap">
+        <span class="ic-search" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="search" id="cmp-q" placeholder="Search comparisons (e.g. magnesium, sleep, omega-3)" aria-label="Search comparisons" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="cmp-suggest" aria-expanded="false">
+        <button type="button" class="ic-clear" id="cmp-clear" aria-label="Clear search">×</button>
+        <div class="cmp-suggest" id="cmp-suggest" role="listbox" hidden></div>
+      </div>
+      <div class="cmp-goal" id="cmp-goal">
+        <button type="button" class="cmp-goal-btn" id="cmp-goal-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="cmp-goal-label">Goal: <span id="cmp-goal-val">All</span></span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="cmp-goal-menu" id="cmp-goal-menu" role="listbox" hidden></div>
+      </div>
+    </div>
+    <div class="cmp-count">
+      <span id="cmp-count-text">Showing all comparisons</span>
+      <button type="button" class="cmp-count-reset" id="cmp-reset">Reset filters</button>
+    </div>
+  </div>
+
+  <div class="cmp-empty" id="cmp-empty" role="status" aria-live="polite">
+    <div class="cmp-empty-h">No comparisons match your filters</div>
+    <div>Try a different search term, or clear the topic chips above.</div>
+  </div>
+
+  <h2 id="cmp-featured-h">Featured multi-form guides</h2>
+  <div class="hub-grid" id="cmp-grid-featured">
 
     <a href="magnesium-forms.html" class="hub-card">
       <div class="hub-card-tag">Mineral form</div>
@@ -143,9 +253,9 @@
   </div>
 
 
-  <div class="hub-section">
-    <h2>Recently added comparisons</h2>
-    <div class="hub-grid">
+  <div class="hub-section" id="cmp-section-recent">
+    <h2 id="cmp-recent-h">Recently added comparisons</h2>
+    <div class="hub-grid" id="cmp-grid-recent">
     <a href="apigenin-vs-magnesium-for-sleep.html" class="hub-card">
       <div class="hub-card-tag">Side-by-side</div>
       <h2>Apigenin vs Magnesium for sleep — what the human evidence actually says</h2>
@@ -568,7 +678,8 @@
 <p class="hub-foot">More comparison guides coming. Have a request? Open a request via the <a href="../about.html">about page</a> contact and we'll add it to the queue.</p>
 
 <!-- SEO-STATIC-INDEX:start (auto-injected 2026-05-13 — static link list for crawl discovery) -->
-<section class="ss-static-index" aria-label="Compare supplements">
+<details class="ss-static-index" aria-label="Compare supplements">
+  <summary>Full A–Z index of all comparisons (for quick lookup &amp; crawlers)</summary>
   <h2 class="ss-static-index-h">Compare supplements</h2>
   <p class="ss-static-index-p">Side-by-side comparisons of supplement forms, brands, and protocols.</p>
   <ul class="ss-static-index-ul">
@@ -758,9 +869,391 @@
     <li><a href="zinc-picolinate-vs-zinc-citrate.html">Zinc Picolinate vs Zinc Citrate — bioavailability, GI tolerance, and what form to actually buy</a></li>
 
   </ul>
-</section>
+</details>
 <!-- SEO-STATIC-INDEX:end -->
 
 </main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer-inner">
+    <div class="site-footer-contrib">
+      <div class="site-footer-contrib-inner">
+        <div class="site-footer-contrib-text">
+          <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+          <div class="site-footer-contrib-title">Help build the database</div>
+          <div class="site-footer-contrib-desc">Clinicians, researchers, developers, and writers who can flag bad evidence, contribute corrections, or help us scale — get in touch.</div>
+        </div>
+        <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
+          <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
+          <button type="submit">Reach out →</button>
+          <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
+        </form>
+      </div>
+    </div>
+    <div class="site-footer-grid">
+      <div>
+        <div class="site-footer-brand-row">
+          <span class="site-footer-leaf" aria-hidden="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+          </span>
+          <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
+        </div>
+        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
+        <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
+      </div>
+      <div>
+        <div class="site-footer-h">Methodology</div>
+        <div class="site-footer-col">
+          <a href="../methodology.html">How scores work</a>
+          <a href="../sources.html">Sources we trust</a>
+          <a href="../funder-policy.html">Funder policy</a>
+          <a href="../changed-our-mind.html">Changed our mind</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Browse</div>
+        <div class="site-footer-col">
+          <a href="../browse.html">All supplements</a>
+          <a href="../condition/index.html">Conditions</a>
+          <a href="../sx/index.html">By symptom</a>
+          <a href="../for/index.html">By population</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Go Deeper</div>
+        <div class="site-footer-col">
+          <a href="index.html">Compare supplements</a>
+          <a href="../bibliography.html">Bibliography</a>
+          <a href="../glossary.html">Glossary</a>
+        </div>
+      </div>
+      <div>
+        <div class="site-footer-h">Site</div>
+        <div class="site-footer-col">
+          <a href="../about.html">About</a>
+          <a href="../privacy.html">Terms &amp; Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+  </div>
+<script>
+/* Footer contributor form — shared handler used across pages with the
+   shared site-footer. Defined once on window so re-loads are no-ops. */
+window.ssFooterContrib = window.ssFooterContrib || function(e){
+  e.preventDefault();
+  var form = e.target;
+  var input = form.querySelector('input[type=email]');
+  var btn = form.querySelector('button');
+  var email = (input.value || '').trim();
+  if (!email || email.indexOf('@') < 0 || email.length < 5) {
+    input.classList.add('is-invalid');
+    setTimeout(function(){ input.classList.remove('is-invalid'); }, 2000);
+    return false;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  fetch('https://formspree.io/f/mnjoylkz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email: email, source: 'contributor-footer', date: new Date().toISOString() })
+  }).then(function(r){
+    if (r.ok) { form.classList.add('is-success'); }
+    else { btn.disabled = false; btn.textContent = 'Try again'; }
+  }).catch(function(){ btn.disabled = false; btn.textContent = 'Try again'; });
+  return false;
+};
+</script>
+</footer>
+
+<script>
+/* compare/index.html — search, topic-filter chips, and sort.
+   Reads the existing .hub-card elements (no markup duplication), derives a
+   topic per card from its title + description against a keyword taxonomy,
+   and wires up the controls above the grid. */
+(function(){
+  // Topic taxonomy — ordered by priority. First match wins as "primary"
+  // for sort-by-topic; all matches contribute to chip multi-select.
+  // Note: leading \b only — stems (e.g. "cogniti", "inflamm") rely on prefix
+  // match into "cognitive"/"inflammatory". Items needing exact-word matching
+  // carry their own trailing \b inside the alternation (e.g. \bdha\b).
+  var TOPICS = [
+    ['Sleep',        /\b(sleep|insomnia|melatonin|valerian|hops|tart cherry|apigenin|chamomile|bedtime)/i],
+    ['Stress & mood', /\b(stress|anxious|anxiety|cortisol|mood|depress|adaptogen|ashwagandha|rhodiola|holy basil|tulsi|lemon balm|saffron|st\.?\s?john|5-htp|tryptophan|\bsame\b)/i],
+    ['Cognition',    /\b(cogniti|memory|focus|nootropic|\bbrain\b|bacopa|lion'?s? mane|ginkgo|alpha-gpc|citicoline|cdp-choline|phosphatidylserine|l-threonate|threonate|attention)/i],
+    ['Performance',  /\b(muscle|protein|whey|casein|plant protein|pea protein|leucine|creatine|\bbcaa|beta-alanine|citrulline|arginine|beetroot|pumps|training|performance|ergogenic|\bmps\b)/i],
+    ['Heart & BP',   /\b(blood pressure|hypertens|cardio|cardiovascular|lipid|cholesterol|triglycerid|hawthorn|garlic|olive leaf|hibiscus|pomegranate|omega-3|fish oil|krill|algal|\bepa\b|\bdha\b|coq10)/i],
+    ['Joints & inflammation', /\b(joint|osteoarthrit|\bknee\b|inflamm|glucosamine|\bmsm\b|curcumin|boswellia|ginger|chondroitin)/i],
+    ['Gut',          /\b(\bgut\b|probiotic|prebiotic|microbiom|psyllium|inulin|fibre|fiber|boulardii|reuteri|\blgg\b|glutamine|zinc carnosine|digest|\bibs\b|\buti\b|d-mannose|cranberry|bowel)/i],
+    ['Energy',       /\b(energy|fatigue|mitochondri|coq10|\bpqq\b|\bnmn\b|\bnr\b|nad\+?|carnitine|alpha-lipoic|acetyl-l-carnitine|ribose|ribofla|\biron\b|ferrous|anemi|hemoglob)/i],
+    ['Hormones',     /\b(hormone|libido|testosteron|estrogen|oestrogen|menopause|\bpms\b|\bpcos\b|prostate|\bbph\b|tongkat|fadogia|maca|\bdim\b|calcium d-glucarate|black cohosh|red clover|saw palmetto|pygeum|beta-sitosterol)/i],
+    ['Bones',        /\b(bone|osteoporos|calcium|vitamin k|\bk2\b|mk-?[47]|fracture|vitamin d|cholecalciferol|ergocalciferol|\bd3\b|\bd2\b)/i],
+    ['Skin & eyes',  /\b(skin|collagen|elasticity|wrinkl|aging|\beye\b|vision|macular|\bamd\b|lutein|zeaxanthin|astaxanthin)/i],
+    ['Immune',       /\b(immune|\bcold\b|\bflu\b|elderberry|vitamin c|sambucus|\bzinc\b)/i],
+    ['Liver',        /\b(liver|hepat|nafld|tudca|\bnac\b|glutathione|cholestasis|milk thistle|silymarin)/i],
+    ['Methylation',  /\b(methylation|methylfolate|folic acid|folate|\bb12\b|methylcobalamin|cyanocobalamin|\btmg\b|betaine|homocysteine|mthfr)/i],
+    ['Thyroid & metabolic', /\b(thyroid|hashimoto|hypothyroid|berberine|cinnamon|insulin|glucose|inositol|blood sugar|metabolic|selenium|iodine)/i],
+    ['Migraine',     /\b(migraine|headache)/i],
+    ['Longevity',    /\b(longevity|anti-aging|spermidine|resveratrol|pterostilbene|sirtuin|telomere|senescence)/i]
+  ];
+
+  var allCards = Array.prototype.slice.call(document.querySelectorAll('.hub-card'));
+  if (!allCards.length) return;
+  var grids = {
+    featured: document.getElementById('cmp-grid-featured'),
+    recent:   document.getElementById('cmp-grid-recent')
+  };
+  var featuredH = document.getElementById('cmp-featured-h');
+  var recentH   = document.getElementById('cmp-recent-h');
+  var emptyEl   = document.getElementById('cmp-empty');
+  var countEl   = document.getElementById('cmp-count-text');
+  var resetBtn  = document.getElementById('cmp-reset');
+  var qInput    = document.getElementById('cmp-q');
+  var qClear    = document.getElementById('cmp-clear');
+  var qWrap     = document.getElementById('cmp-search-wrap');
+  var goalBtn   = document.getElementById('cmp-goal-btn');
+  var goalMenu  = document.getElementById('cmp-goal-menu');
+  var goalVal   = document.getElementById('cmp-goal-val');
+  var goalWrap  = document.getElementById('cmp-goal');
+  var sugBox    = document.getElementById('cmp-suggest');
+  var sugIndex  = -1;  // keyboard-highlighted suggestion (-1 = none)
+
+  // Tag every card with derived topics + searchable text + sort keys.
+  var topicCounts = {};
+  allCards.forEach(function(card){
+    var h = card.querySelector('h2');
+    var p = card.querySelector('p');
+    var m = card.querySelector('.meta');
+    var title = (h ? h.textContent : '').trim();
+    var desc  = (p ? p.textContent : '').trim();
+    var hay   = (title + ' ' + desc + ' ' + card.getAttribute('href')).toLowerCase();
+    var topics = [];
+    for (var i = 0; i < TOPICS.length; i++){
+      if (TOPICS[i][1].test(hay)) topics.push(TOPICS[i][0]);
+    }
+    if (!topics.length) topics.push('Other');
+    card.dataset.topics  = topics.join('|');
+    card.dataset.primary = topics[0];
+    card.dataset.title   = title;
+    card.dataset.search  = hay;
+    var dt = '';
+    if (m) { var mm = m.textContent.match(/\d{4}-\d{2}-\d{2}/); if (mm) dt = mm[0]; }
+    card.dataset.updated = dt || '2000-01-01';
+    topics.forEach(function(t){ topicCounts[t] = (topicCounts[t] || 0) + 1; });
+  });
+
+  // Goal menu options in TOPICS-priority order, then any tail topics.
+  var orderedTopics = TOPICS.map(function(t){ return t[0]; }).filter(function(t){ return topicCounts[t]; });
+  Object.keys(topicCounts).forEach(function(t){ if (orderedTopics.indexOf(t) === -1) orderedTopics.push(t); });
+  var totalCount = allCards.length;
+  goalMenu.innerHTML =
+    '<button type="button" class="cmp-goal-item cmp-goal-item--all" data-topic="" role="option">All goals<span class="ct">' + totalCount + '</span></button>' +
+    orderedTopics.map(function(t){
+      return '<button type="button" class="cmp-goal-item" data-topic="' + t.replace(/"/g,'&quot;') + '" role="option">' +
+             t + '<span class="ct">' + topicCounts[t] + '</span></button>';
+    }).join('');
+
+  var state = { q: '', topic: '' };
+
+  function matches(card){
+    if (state.topic){
+      var cardTopics = (card.dataset.topics || '').split('|');
+      if (cardTopics.indexOf(state.topic) === -1) return false;
+    }
+    if (state.q){
+      var q = state.q.toLowerCase();
+      if ((card.dataset.search || '').indexOf(q) === -1) return false;
+    }
+    return true;
+  }
+
+  // Sort newest-first (by updated date). Sort UI is gone; this is the default.
+  function compareCards(a, b){
+    return (b.dataset.updated || '').localeCompare(a.dataset.updated || '');
+  }
+
+  function applyToGrid(grid, headerEl){
+    if (!grid) return 0;
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.hub-card'));
+    cards.forEach(function(c){ c.classList.toggle('hidden', !matches(c)); });
+    var visible = cards.filter(function(c){ return !c.classList.contains('hidden'); });
+    visible.sort(compareCards);
+    visible.forEach(function(c){ grid.appendChild(c); });
+    var hidden = (visible.length === 0);
+    grid.classList.toggle('empty', hidden);
+    if (headerEl) headerEl.classList.toggle('empty', hidden);
+    return visible.length;
+  }
+
+  function render(){
+    var nFeat = applyToGrid(grids.featured, featuredH);
+    var nRec  = applyToGrid(grids.recent,   recentH);
+    var total = nFeat + nRec;
+    if (state.q || state.topic){
+      countEl.textContent = 'Showing ' + total + ' of ' + totalCount + ' comparison' + (totalCount === 1 ? '' : 's');
+      resetBtn.classList.add('on');
+    } else {
+      countEl.textContent = totalCount + ' comparisons across ' + orderedTopics.length + ' topics';
+      resetBtn.classList.remove('on');
+    }
+    emptyEl.classList.toggle('on', total === 0);
+    // Reflect selected topic in button label + menu pressed state
+    goalVal.textContent = state.topic || 'All';
+    goalMenu.querySelectorAll('.cmp-goal-item').forEach(function(it){
+      it.classList.toggle('on', it.dataset.topic === state.topic);
+    });
+    // Sync URL hash so filter state is shareable
+    var hash = [];
+    if (state.q) hash.push('q=' + encodeURIComponent(state.q));
+    if (state.topic) hash.push('t=' + encodeURIComponent(state.topic));
+    var newHash = hash.length ? '#' + hash.join('&') : '';
+    var target = location.pathname + (newHash || '');
+    if ((location.pathname + (location.hash || '')) !== target){
+      history.replaceState(null, '', target);
+    }
+  }
+
+  function openMenu(){ goalMenu.hidden = false; goalBtn.setAttribute('aria-expanded','true'); }
+  function closeMenu(){ goalMenu.hidden = true; goalBtn.setAttribute('aria-expanded','false'); }
+
+  // Type-ahead suggestion list. Shows up to 8 cards whose title or description
+  // contains the query (within the active goal, if any). Click navigates to the
+  // card; arrow keys move, Enter activates.
+  function escHTML(s){ var d = document.createElement('div'); d.textContent = String(s||''); return d.innerHTML; }
+  function highlight(text, q){
+    if (!q) return escHTML(text);
+    var safe = escHTML(text);
+    var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(re, '<mark>$1</mark>');
+  }
+  function renderSuggestions(){
+    var q = state.q;
+    if (!q){ sugBox.hidden = true; sugBox.innerHTML = ''; qInput.setAttribute('aria-expanded','false'); sugIndex = -1; return; }
+    var ql = q.toLowerCase();
+    var hits = allCards.filter(function(c){
+      if (state.topic){
+        var ct = (c.dataset.topics || '').split('|');
+        if (ct.indexOf(state.topic) === -1) return false;
+      }
+      return (c.dataset.search || '').indexOf(ql) !== -1;
+    });
+    // Rank: title-startswith > title-contains > body-contains
+    hits.sort(function(a,b){
+      var at = (a.dataset.title || '').toLowerCase();
+      var bt = (b.dataset.title || '').toLowerCase();
+      var aw = at.indexOf(ql) === 0 ? 0 : (at.indexOf(ql) !== -1 ? 1 : 2);
+      var bw = bt.indexOf(ql) === 0 ? 0 : (bt.indexOf(ql) !== -1 ? 1 : 2);
+      if (aw !== bw) return aw - bw;
+      return (b.dataset.updated || '').localeCompare(a.dataset.updated || '');
+    });
+    hits = hits.slice(0, 8);
+    if (!hits.length){
+      sugBox.innerHTML = '<div class="cmp-suggest-empty">No matches for "' + escHTML(q) + '"</div>';
+      sugBox.hidden = false;
+      qInput.setAttribute('aria-expanded','true');
+      sugIndex = -1;
+      return;
+    }
+    sugBox.innerHTML = hits.map(function(c, i){
+      var title = c.dataset.title || '';
+      var primary = c.dataset.primary || '';
+      var href = c.getAttribute('href');
+      return '<a class="cmp-suggest-item" role="option" data-href="' + escHTML(href) + '" data-idx="' + i + '" href="' + escHTML(href) + '">' +
+             '<span class="ttl">' + highlight(title, q) + '</span>' +
+             '<span class="meta"><span class="meta-tag">' + escHTML(primary) + '</span></span>' +
+             '</a>';
+    }).join('');
+    sugBox.hidden = false;
+    qInput.setAttribute('aria-expanded','true');
+    sugIndex = -1;
+  }
+  function moveSuggestion(delta){
+    var items = sugBox.querySelectorAll('.cmp-suggest-item');
+    if (!items.length) return;
+    sugIndex = (sugIndex + delta + items.length) % items.length;
+    items.forEach(function(it, i){ it.classList.toggle('on', i === sugIndex); });
+    items[sugIndex].scrollIntoView({block:'nearest'});
+  }
+  function activateSuggestion(){
+    var items = sugBox.querySelectorAll('.cmp-suggest-item');
+    if (!items.length) return false;
+    var i = sugIndex >= 0 ? sugIndex : 0;
+    var href = items[i].getAttribute('data-href');
+    if (href) { location.href = href; return true; }
+    return false;
+  }
+  function closeSuggestions(){ sugBox.hidden = true; qInput.setAttribute('aria-expanded','false'); sugIndex = -1; }
+
+  // Wire up controls
+  qInput.addEventListener('input', function(){
+    state.q = qInput.value.trim();
+    qWrap.classList.toggle('has-value', !!state.q);
+    renderSuggestions();
+    render();
+  });
+  qInput.addEventListener('focus', function(){
+    if (state.q) renderSuggestions();
+  });
+  qInput.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (sugBox.hidden) renderSuggestions(); moveSuggestion(1); }
+    else if (e.key === 'ArrowUp')   { e.preventDefault(); moveSuggestion(-1); }
+    else if (e.key === 'Enter')     { if (!sugBox.hidden && activateSuggestion()) { e.preventDefault(); } }
+    else if (e.key === 'Escape')    {
+      if (!sugBox.hidden) { closeSuggestions(); e.preventDefault(); return; }
+      if (state.q) { state.q = ''; qInput.value = ''; qWrap.classList.remove('has-value'); render(); }
+    }
+  });
+  // Click anywhere outside the search wrapper closes suggestions.
+  document.addEventListener('click', function(e){
+    if (!qWrap.contains(e.target)) closeSuggestions();
+    if (!goalMenu.hidden && !goalWrap.contains(e.target)) closeMenu();
+  });
+  // Let click on a suggestion run through naturally (it's an <a href>) — but
+  // close the list so we don't leave it hanging if navigation is intercepted.
+  sugBox.addEventListener('mousedown', function(e){
+    var it = e.target.closest('.cmp-suggest-item');
+    if (!it) e.preventDefault();  // keep focus in input when clicking empty area
+  });
+
+  qClear.addEventListener('click', function(){
+    qInput.value = ''; state.q = '';
+    qWrap.classList.remove('has-value');
+    closeSuggestions();
+    qInput.focus();
+    render();
+  });
+  goalBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (goalMenu.hidden) openMenu(); else closeMenu();
+  });
+  goalMenu.addEventListener('click', function(e){
+    var it = e.target.closest('.cmp-goal-item');
+    if (!it) return;
+    state.topic = it.dataset.topic || '';
+    closeMenu();
+    renderSuggestions();  // re-scope suggestions if a query is open
+    render();
+  });
+  resetBtn.addEventListener('click', function(){
+    state.q = ''; state.topic = '';
+    qInput.value = ''; qWrap.classList.remove('has-value');
+    closeSuggestions();
+    render();
+    qInput.focus();
+  });
+
+  // Restore state from URL hash on load
+  (function restore(){
+    var h = location.hash.replace(/^#/, '');
+    if (!h) { render(); return; }
+    h.split('&').forEach(function(p){
+      var kv = p.split('='); var k = kv[0]; var v = decodeURIComponent(kv[1] || '');
+      if (k === 'q') { state.q = v; qInput.value = v; qWrap.classList.toggle('has-value', !!v); }
+      else if (k === 't') { if (orderedTopics.indexOf(v) !== -1) state.topic = v; }
+    });
+    render();
+  })();
+})();
+</script>
+
 </body>
 </html>

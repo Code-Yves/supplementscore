@@ -702,8 +702,22 @@ if (typeof renderAll === 'function') {
     const type=item.dataset.type||'supp';
     ac.classList.remove('vis');ixAcIdx=-1;
     if(type==='supp'){
-      inp.value=item.dataset.name;
-      inp.form.submit();
+      /* Direct-to-card navigation (2026-05-13).
+         Was: inp.value = name; inp.form.submit();   // → search.html
+         Now: navigate straight to supplement.html?slug=...
+         Picking a specific supplement from the autocomplete is an
+         unambiguous selection — sending the user to a search-results
+         listing was an extra hop. window.SS.slugify / window.SS.urlFor
+         are exposed globally by search-index.js. */
+      const name = item.dataset.name;
+      const slug = (window.SS && window.SS.slugify)
+        ? window.SS.slugify(name)
+        : String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      const href = (window.SS && window.SS.urlFor)
+        ? window.SS.urlFor('supplement', slug)
+        : ('supplement.html?slug=' + encodeURIComponent(slug));
+      location.href = href;
+      return;
     } else if(type==='cond'){
       // Show supplements for this condition from the CONDITIONS list
       inp.value='';
@@ -756,6 +770,33 @@ if (typeof renderAll === 'function') {
       ac.classList.remove('vis');ixAcIdx=-1;
     }
   });
+
+  /* Exact-name submit shortcut (2026-05-13).
+     If the user types a query that exactly matches a supplement
+     name (case-insensitive, trimmed) and hits Enter without picking
+     from the autocomplete, send them straight to that supplement's
+     card instead of the search-results listing.
+     Ambiguous / partial / non-matching queries still submit to
+     search.html as before — so "antioxidant" still lists results,
+     but "NAC (N-Acetyl Cysteine)" opens the card. */
+  if (inp.form) {
+    inp.form.addEventListener('submit', function(e){
+      const q = String(inp.value || '').trim();
+      if (!q) return;
+      if (typeof S === 'undefined' || !S.length) return;
+      const ql = q.toLowerCase();
+      const exact = S.find(function(s){ return s.n.toLowerCase() === ql; });
+      if (!exact) return; // fall through to search.html
+      e.preventDefault();
+      const slug = (window.SS && window.SS.slugify)
+        ? window.SS.slugify(exact.n)
+        : exact.n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      const href = (window.SS && window.SS.urlFor)
+        ? window.SS.urlFor('supplement', slug)
+        : ('supplement.html?slug=' + encodeURIComponent(slug));
+      location.href = href;
+    });
+  }
 })();
 
 /* ===== Block 7 (from line 17370, 4 lines) ===== */

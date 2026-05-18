@@ -4751,7 +4751,81 @@ function goArticle(id,ev,_skipStackPush){
   modal.scrollTop=0;
   _setArticleHash(id);
 }
-function closeArtModal(){if(_artNavStack.length){const prev=_artNavStack.pop();if(document.getElementById('article-'+prev)){goArticle(prev,null,true);return;}}const m=document.getElementById('art-modal');if(m){m.classList.remove('open');m.classList.remove('v2-chrome');}document.body.style.overflow='';window.scrollTo({top:_artReturnScrollY,behavior:'instant'});_currentArticleId=null;_artNavStack=[];try{if(location.hash&&/^#article-\d+$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}catch(e){}try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'ss-art-modal',state:'close'},'*');}catch(_){}}
+function closeArtModal(){
+  /* 1) Article-to-article navigation: pop the in-article back-stack and
+        re-render the previous article. Unchanged from the original. */
+  if(_artNavStack.length){
+    const prev=_artNavStack.pop();
+    if(document.getElementById('article-'+prev)){
+      goArticle(prev,null,true);
+      return;
+    }
+  }
+
+  /* 2) Tear down the article modal itself. */
+  const m=document.getElementById('art-modal');
+  if(m){
+    m.classList.remove('open');
+    m.classList.remove('v2-chrome');
+  }
+  document.body.style.overflow='';
+  window.scrollTo({top:_artReturnScrollY,behavior:'instant'});
+  _currentArticleId=null;
+  _artNavStack=[];
+  try{
+    if(location.hash&&/^#article-\d+$/.test(location.hash)){
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+  }catch(e){}
+  try{
+    if(window.parent&&window.parent!==window){
+      window.parent.postMessage({type:'ss-art-modal',state:'close'},'*');
+    }
+  }catch(_){}
+
+  /* 3) Site-wide modal back-stack (2026-05-13).
+        Now that the article modal is closed, ask SSModalStack if there's a
+        previous modal to restore. The common case is article-from-supplement:
+        the user opened a "Further Reading" article from a supplement modal;
+        we pushed { type:'supplement', slug } at click time, so here we pop
+        and re-open via window.SSModal.open(slug). */
+  try{
+    if(window.SSModalStack){
+      var prevEntry = window.SSModalStack.pop();
+      if(prevEntry){
+        /* Skip restoration if the same modal is already visible (e.g. the
+           supplement modal survived the page navigation and is sitting
+           underneath the just-closed article). Avoids a needless reload of
+           the iframe. */
+        var alreadyOpen = false;
+        if(prevEntry.type==='supplement'){
+          var ssm = document.querySelector('.ssm.open');
+          if(ssm){
+            var sp = new URLSearchParams(location.search);
+            var visibleSlug = sp.get('supplement')
+              || (history.state && history.state.ssm) || null;
+            if(visibleSlug === prevEntry.slug) alreadyOpen = true;
+          }
+        }
+        if(!alreadyOpen){
+          window.SSModalStack.reopen(prevEntry);
+        }
+      } else {
+        /* 4) Safety net: stack was empty, but the URL still carries
+              ?supplement=<slug>. Means the user came in via a deep link
+              (or supplement-modal.js's auto-open didn't get a chance to
+              push). Re-open from the URL so the user still lands back on
+              their supplement instead of the bare index. */
+        var sp2 = new URLSearchParams(location.search);
+        var slugFromUrl = sp2.get('supplement');
+        if(slugFromUrl && window.SSModal && typeof window.SSModal.open==='function'){
+          var ssmEl = document.querySelector('.ssm.open');
+          if(!ssmEl) window.SSModal.open(slugFromUrl);
+        }
+      }
+    }
+  }catch(_){}
+}
 function _setArticleHash(id){try{history.replaceState(null,'','#article-'+id);}catch(e){}}
 function _showShareToast(msg){const t=document.getElementById('art-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+escHtml(String(msg||''));t.classList.add('show');clearTimeout(_showShareToast._t);_showShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
 function shareArticle(){const id=_currentArticleId;if(!id)return;const body=document.getElementById('art-modal-body');const titleEl=body?body.querySelector('h2'):null;const title=titleEl?titleEl.textContent.trim():'Supplement Score';const url=location.origin+location.pathname+'#article-'+id;const shareData={title:title,text:title+' — via Supplement Score',url:url};const btn=document.getElementById('art-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}

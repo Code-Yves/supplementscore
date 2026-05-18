@@ -1316,6 +1316,53 @@ body{ overflow-x:clip; }
 .cdd-open .cdd-btn.on{box-shadow:0 0 0 2px rgba(31,122,107,.3),0 2px 6px rgba(31,122,107,.25)}
 .cdd-btn svg{flex-shrink:0;transition:transform .15s}
 .cdd-open .cdd-btn svg{transform:rotate(180deg)}
+
+/* Index filter buttons — V2 solid-brand treatment (2026-05-13).
+   See mockup-filter-buttons-color-variants.html for the picker. The
+   production default (background: bg-secondary, color: text-secondary)
+   was near-invisible against the page's cream background. This scoped
+   override gives the Goal / Age & Sex / Symptom row solid brand teal
+   with white icon + label so the buttons read as clearly tappable.
+   Scope is .sfbar only — other dropdowns elsewhere on the site keep
+   the original muted treatment. Icon SVGs use stroke="currentColor"
+   so they pick up the white color automatically.
+   ------------------------------------------------------------------
+   States:
+     base        — solid brand
+     :hover      — brand-hover (darker), lifted shadow
+     .cdd-open   — brand-hover + outer ring
+     .on         — keep the existing brand→brand-hover gradient so the
+                   selected filter still reads distinct from base. The
+                   inset highlight adds a subtle "pressed" feel. */
+.sfbar .cdd-btn{
+  background: var(--color-brand);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 2px 6px rgba(31,122,107,.18);
+}
+.sfbar .cdd-btn:hover{
+  background: var(--color-brand-hover);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(31,122,107,.28);
+}
+.sfbar .cdd-open .cdd-btn{
+  background: var(--color-brand-hover);
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgba(31,122,107,.35), 0 4px 12px rgba(31,122,107,.28);
+}
+.sfbar .cdd-btn.on{
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.sfbar .cdd-btn.on:hover{
+  filter: brightness(1.06);
+}
+.sfbar .cdd-open .cdd-btn.on{
+  box-shadow: 0 0 0 2px rgba(31,122,107,.4), 0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
 .cdd-menu{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:160px;max-height:280px;overflow-y:auto;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200;padding:4px}
 .cdd-menu.open{display:block}
 .cdd-item{padding:6px 10px;font-size:12px;color:var(--color-text-secondary);border-radius:6px;cursor:pointer;transition:background .1s;white-space:nowrap}
@@ -1806,8 +1853,13 @@ body{ overflow-x:clip; }
 /* Round-7: legacy purple hover replaced with brand-darken. */
 .abt-cta-email button:hover{background:var(--color-brand-hover,#176258)}
 @media(max-width:600px){.abt-tiers-grid,.abt-feature-rows,.abt-road{grid-template-columns:1fr}.abt-mission-grid{grid-template-columns:1fr}.abt-src-grid{grid-template-columns:1fr 1fr}}
-/* Article modal overlay */
-.art-modal{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow-y:auto;padding:0 20px}
+/* Article modal overlay
+   z-index raised from 999 → 1100 (2026-05-13) so the article modal
+   paints ON TOP of the supplement modal (.ssm, z-index:1000) when both
+   are open — used by the "Further Reading" flow where clicking an
+   article from a supplement card opens the article over the supplement.
+   Closing the article reveals the supplement modal underneath. */
+.art-modal{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow-y:auto;padding:0 20px}
 .art-modal.open{display:flex;justify-content:center;align-items:flex-start}
 .art-modal-pane{background:var(--color-background-primary);border-radius:14px;max-width:740px;width:100%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:artModalIn .2s ease-out;margin:40px 0}
 @keyframes artModalIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}

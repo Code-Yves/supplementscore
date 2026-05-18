@@ -1399,6 +1399,20 @@ const CONDITIONS={
     dose_modifiers:{'Biotin (high-dose)':'INTERFERES with thyroid + troponin lab assays — pause 72 h before testing'},
     monitoring:['ferritin','vitD','tsh','zinc']
   },
+  osteoarthritis:{
+    label:'Joint pain / Osteoarthritis',category:'msk',severity:'medium',icd10:['M15.9','M17.9','M19.90'],
+    supps:['Boswellia serrata','Curcumin (bioavailable form)','Collagen peptides','Collagen type II (undenatured, UC-II)','Glucosamine / Chondroitin','Glucosamine HCl (standalone)','Hyaluronic acid (oral)','Methylsulfonylmethane (MSM)','Niacinamide (nicotinamide)'],
+    supps_recommended:['Boswellia serrata','Curcumin (bioavailable form)','Curcumin Meriva (phytosome)','Collagen peptides','Collagen type II (undenatured, UC-II)','Hyaluronic acid (oral)','Methylsulfonylmethane (MSM)','Niacinamide (nicotinamide)','Pycnogenol (pine bark, branded)'],
+    dose_modifiers:{'Collagen peptides':'10–15 g/day for joint indications (higher than the 2.5–5 g/day skin dose)','Collagen type II (undenatured, UC-II)':'40 mg/day on empty stomach — different mechanism from collagen peptides; do not stack the two','Boswellia serrata':'300–500 mg extract (≥65% boswellic acids) 2–3× daily with a fat-containing meal','Curcumin (bioavailable form)':'Use bioavailable form (Meriva, BCM-95, or with piperine); plain turmeric powder is poorly absorbed'},
+    monitoring:[]
+  },
+  skin_aging:{
+    label:'Skin elasticity / aging',category:'dermatology',severity:'low',
+    supps:['Collagen peptides','Marine collagen (fish-derived)','Hyaluronic acid (oral)','Astaxanthin','Niacinamide (nicotinamide)','Vitamin C (moderate dose)'],
+    supps_recommended:['Collagen peptides','Marine collagen (fish-derived)','Hyaluronic acid (oral)','Astaxanthin','Niacinamide (nicotinamide)','Vitamin C (moderate dose)','Pycnogenol (pine bark, branded)'],
+    dose_modifiers:{'Collagen peptides':'2.5–5 g/day hydrolysed peptides for skin (lower than the 10–15 g/day joint dose); take with 50 mg vitamin C','Marine collagen (fish-derived)':'5–10 g/day; smaller MW peptides — typically type I (skin-dominant collagen)','Vitamin C (moderate dose)':'Cofactor for collagen synthesis — take alongside collagen peptides for endogenous collagen support'},
+    monitoring:[]
+  },
   depression:{
     label:'Depression / Low mood',category:'neuropsych',severity:'medium',icd10:['F32.9'],
     supps:['Saffron (Crocus sativus)','Omega-3 (EPA/DHA)','S-Adenosylmethionine (SAMe)','Vitamin D3','Folate (5-MTHF)',"St. John's Wort"],

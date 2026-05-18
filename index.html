@@ -21954,7 +21954,6 @@
       <div>
         <div class="site-footer-h">Go Deeper</div>
         <div class="site-footer-col">
-          <a href="m/index.html">Medications</a>
           <a href="compare/index.html">Compare supplements</a>
           <a href="stack/index.html">Stacks</a>
           <a href="bibliography.html">Bibliography</a>
@@ -21965,7 +21964,6 @@
         <div class="site-footer-h">Site</div>
         <div class="site-footer-col">
           <a href="about.html">About</a>
-          <a href="data/">Open data</a>
           <a href="privacy.html">Terms &amp; Privacy</a>
         </div>
     </div>
@@ -22090,6 +22088,9 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <script src="pdf-export.js?v=20260509p"></script>
 <script src="search-index.js?v=20260509q"></script>
 <script src="nav-search.js?v=20260509i" defer></script>
+<!-- modal-stack.js: shared back-stack so closing one modal returns to the previous.
+     Must load before supplement-modal.js so its open() can call SSModalStack.push(). -->
+<script src="modal-stack.js?v=20260513a"></script>
 <script src="supplement-modal.js?v=20260504a" defer></script>
 
 <!-- Sources modal -->

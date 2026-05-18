@@ -1,0 +1,1021 @@
+# Recommendation-coverage audit — 2026-05-18
+
+- Supplements scanned: **777**
+- Conditions in taxonomy: **66**
+- Forward mismatches (tag promises indications, no condition row covers them): **31**
+- Forward orphans (zero condition rows reverse-map at all): **650**
+- Forward partials (some tag tokens covered, others not): **77**
+- Reverse mismatches (condition lists a supplement whose tag/desc has no overlap): **243**
+
+## Forward mismatches — fix priority HIGH
+
+- **Creatine monohydrate** — tag `Performance · Cognition` (indication tokens: Cognition) — only mapped to: Sarcopenia / Muscle loss with aging
+- **Zinc** — tag `Immunity · Cold duration` (indication tokens: Immunity, Cold duration) — only mapped to: Thyroid issues, Hair loss / Thinning, Prostate health, Eye health / Vision, Crohn's disease, Celiac disease, ADHD, Psoriasis, Hashimoto's thyroiditis, Male fertility, Erectile dysfunction, Low testosterone (men)
+- **Vitamin B12** — tag `Vegans · Elderly · Cognition` (indication tokens: Vegans, Elderly, Cognition) — only mapped to: Crohn's disease, Celiac disease, Restless legs syndrome, Peripheral neuropathy, Multiple sclerosis, Long COVID, Chronic fatigue syndrome (ME/CFS)
+- **NAC (N-Acetyl Cysteine)** — tag `Antioxidant · OCD · Addiction` (indication tokens: OCD, Addiction) — only mapped to: Inflammation, PCOS, Liver support, PTSD, Bipolar disorder, Endometriosis, Female fertility, Long COVID
+- **Taurine** — tag `Cardiovascular · Metabolic · Aging` (indication tokens: Cardiovascular, Metabolic, Aging) — only mapped to: High blood pressure, Atrial fibrillation (AFib), Heart failure
+- **Digestive enzymes** — tag `IBS · Food intolerance · Bloating` (indication tokens: IBS, Food intolerance, Bloating) — only mapped to: Digestive issues
+- **Vitamin B6 (P5P)** — tag `PMS · Pregnancy nausea · OCP support` (indication tokens: PMS, Pregnancy nausea, OCP support) — only mapped to: Kidney stones (recurrent)
+- **Green tea extract (EGCG)** — tag `Weight loss / Antioxidant` (indication tokens: Weight loss / Antioxidant) — only mapped to: Uterine fibroids
+- **Glutamine (standalone, healthy adults)** — tag `Gut health / Immunity` (indication tokens: Gut health / Immunity) — only mapped to: Digestive issues
+- **Panax ginseng** — tag `Cognitive / Fatigue / Sexual health` (indication tokens: Cognitive / Fatigue / Sexual health) — only mapped to: Erectile dysfunction
+- **Bromelain** — tag `Inflammation · Sinusitis · Recovery` (indication tokens: Inflammation, Sinusitis) — only mapped to: Seasonal allergies
+- **D-Mannose** — tag `UTI prevention · Bladder health` (indication tokens: UTI prevention, Bladder health) — only mapped to: Recurring UTIs
+- **Vitamin C (moderate dose)** — tag `Immunity · Collagen · Antioxidant` (indication tokens: Immunity, Collagen) — only mapped to: Recurring UTIs, Iron deficiency, Skin elasticity / aging, Eye health / Vision, Seasonal allergies, Male fertility, Gout
+- **Cranberry extract** — tag `UTI prevention · Bladder health` (indication tokens: UTI prevention, Bladder health) — only mapped to: Recurring UTIs
+- **Maca (Lepidium meyenii)** — tag `Libido · Energy · Fertility` (indication tokens: Libido, Energy, Fertility) — only mapped to: Erectile dysfunction
+- **Biotin (high-dose)** — tag `Hair · Nails · Skin` (indication tokens: Hair, Nails, Skin) — only mapped to: Multiple sclerosis
+- **Pantothenic acid (Vitamin B5)** — tag `Energy · Adrenal support · Skin` (indication tokens: Energy, Adrenal support, Skin) — only mapped to: Kidney stones (recurrent)
+- **N-Acetyl Tyrosine (NALT)** — tag `Focus · Stress resilience` (indication tokens: Focus, Stress resilience) — only mapped to: ADHD
+- **Bifidobacterium lactis (BB-12 / HN019)** — tag `Immunity · Gut regularity · Infant health` (indication tokens: Immunity, Gut regularity, Infant health) — only mapped to: IBS — constipation-predominant
+- **Vitex / Chasteberry (Vitex agnus-castus)** — tag `PMS · Cycle regulation · Prolactin` (indication tokens: PMS, Cycle regulation, Prolactin) — only mapped to: Perimenopause
+- **Quercetin phytosome + Bromelain** — tag `Anti-inflammatory · Immunity · Antihistamine` (indication tokens: Anti-inflammatory, Immunity, Antihistamine) — only mapped to: Seasonal allergies
+- **L-Glutamine (post-infectious IBS)** — tag `Gut barrier · IBS-D · Intestinal permeability` (indication tokens: Gut barrier, IBS-D, Intestinal permeability) — only mapped to: IBS — diarrhea-predominant
+- **Ginkgo biloba EGb 761** — tag `Dementia symptoms · Circulation · Cognitive aging` (indication tokens: Dementia symptoms, Circulation, Cognitive aging) — only mapped to: Peripheral artery disease
+- **Psyllium husk (soluble fibre)** — tag `Cholesterol · Gut regularity · Glucose` (indication tokens: Cholesterol, Gut regularity, Glucose) — only mapped to: IBS — constipation-predominant
+- **Berberine-containing Coptis (Huang Lian)** — tag `TCM · Antimicrobial · Glucose metabolism` (indication tokens: TCM, Antimicrobial, Glucose metabolism) — only mapped to: SIBO (Small intestinal bacterial overgrowth)
+- **Collagen peptides (type I, exercise recovery)** — tag `Tendon · Ligament · Exercise recovery` (indication tokens: Tendon, Ligament) — only mapped to: Sarcopenia / Muscle loss with aging
+- **Citrulline (L-citrulline, pure form)** — tag `Blood flow · Exercise · Blood pressure` (indication tokens: Blood flow, Exercise, Blood pressure) — only mapped to: Peripheral artery disease, Kidney stones (recurrent), Erectile dysfunction
+- **L-Carnitine** — tag `Male fertility · Cardiac · Fat metabolism · Exercise recovery` (indication tokens: Male fertility, Cardiac, Fat metabolism) — only mapped to: Heart failure, Graves' disease
+- **Melatonin (0.1-0.5 mg physiological dose)** — tag `Sleep onset · Jet lag · Circadian · Low dose · No grogginess` (indication tokens: Sleep onset, Jet lag, Circadian, Low dose, No grogginess) — only mapped to: GERD / Acid reflux, Insomnia
+- **5-ALA (5-aminolevulinic acid)** — tag `Mitochondrial · Blood sugar · Iron metabolism · Cytochrome synthesis` (indication tokens: Mitochondrial, Blood sugar, Iron metabolism, Cytochrome synthesis) — only mapped to: Type 2 diabetes
+- **Pyridoxal 5-phosphate (P5P)** — tag `Vitamin B6 · Neurotransmitters · Homocysteine` (indication tokens: Vitamin B6, Neurotransmitters, Homocysteine) — only mapped to: Kidney stones (recurrent)
+
+## Forward orphans — no Recommended-For chip will render
+
+- **Omega-3 (high dose)** — tag `Drug interactions · Anticoagulants · Cardiovascular` (indication tokens: Drug interactions, Anticoagulants, Cardiovascular)
+- **Melatonin** — tag `Sleep onset · Jet lag · Circadian` (indication tokens: Sleep onset, Jet lag, Circadian)
+- **Beta-Alanine** — tag `Endurance · High-intensity` (indication tokens: High-intensity)
+- **Elderberry (Sambucus nigra)** — tag `Cold/Flu · Immunity` (indication tokens: Cold/Flu, Immunity)
+- **Bacopa monnieri** — tag `Memory · Cognitive speed` (indication tokens: Memory, Cognitive speed)
+- **Citrulline malate** — tag `Muscular endurance · Blood flow` (indication tokens: Muscular endurance, Blood flow)
+- **Casein protein** — tag `Overnight muscle synthesis` (indication tokens: Overnight muscle synthesis)
+- **Alpha-GPC** — tag `Cognition · Acetylcholine · Athletic` (indication tokens: Cognition, Acetylcholine)
+- **Black seed oil (Nigella sativa)** — tag `Metabolic · Glucose · Lipids · BP` (indication tokens: Metabolic, Glucose, Lipids, BP)
+- **Ginger (Zingiber officinale)** — tag `Nausea · Inflammation · Pain` (indication tokens: Nausea, Inflammation, Pain)
+- **Citicoline (CDP-Choline)** — tag `Cognition · Stroke recovery · Memory` (indication tokens: Cognition, Stroke recovery, Memory)
+- **Palmitoylethanolamide (PEA)** — tag `Neuropathic pain · Inflammation` (indication tokens: Neuropathic pain, Inflammation)
+- **Colostrum (bovine)** — tag `Gut barrier · Immune · Recovery` (indication tokens: Gut barrier, Immune)
+- **Niacin (Vitamin B3)** — tag `Lipids · Skin · Energy metabolism` (indication tokens: Lipids, Skin, Energy metabolism)
+- **Fenugreek (Trigonella foenum-graecum)** — tag `Testosterone · Libido · Glucose` (indication tokens: Testosterone, Libido, Glucose)
+- **NMN / NAD+ precursors** — tag `Anti-aging / Longevity` (indication tokens: Anti-aging / Longevity)
+- **BCAAs (standalone)** — tag `Muscle recovery` (indication tokens: Muscle recovery)
+- **Multivitamins (healthy adults)** — tag `General prevention` (indication tokens: General prevention)
+- **Valerian root** — tag `Sleep · Anxiety` (indication tokens: Sleep, Anxiety)
+- **Spirulina** — tag `Antioxidant · Lipids` (indication tokens: Lipids)
+- **5-HTP** — tag `Mood · Sleep · Appetite` (indication tokens: Mood, Sleep, Appetite)
+- **Vitamin C (megadose)** — tag `Prevention / Immunity` (indication tokens: Prevention / Immunity)
+- **Resveratrol** — tag `Anti-aging / Cardiovascular` (indication tokens: Anti-aging / Cardiovascular)
+- **Detox supplements** — tag `Detoxification claims` (indication tokens: Detoxification claims)
+- **Turkesterone / Ecdysteroids** — tag `Anabolic / Muscle building` (indication tokens: Anabolic / Muscle building)
+- **Ginkgo biloba** — tag `Cognitive / Dementia prevention` (indication tokens: Cognitive / Dementia prevention)
+- **Phosphatidylserine** — tag `Cognition · Memory · Cortisol` (indication tokens: Cognition, Memory, Cortisol)
+- **CBD (Cannabidiol)** — tag `Anxiety · Sleep · Pain` (indication tokens: Anxiety, Sleep, Pain)
+- **Lithium orotate (low-dose)** — tag `Mood · Neuroprotection · Longevity` (indication tokens: Mood, Neuroprotection)
+- **Lemon balm (Melissa officinalis)** — tag `Anxiety · Sleep · Cognitive calm` (indication tokens: Anxiety, Sleep, Cognitive calm)
+- **Shilajit (Mumie)** — tag `Energy · Testosterone · Anti-aging` (indication tokens: Energy, Testosterone, Anti-aging)
+- **GABA (standalone supplement)** — tag `Anxiety · Sleep · Relaxation` (indication tokens: Anxiety, Sleep, Relaxation)
+- **Agmatine sulfate** — tag `Neuropathic pain · Mood · Athletic` (indication tokens: Neuropathic pain, Mood)
+- **Serrapeptase** — tag `Anti-inflammatory · Sinus · Swelling` (indication tokens: Anti-inflammatory, Sinus, Swelling)
+- **Spermidine** — tag `Autophagy · Longevity · Cognitive aging` (indication tokens: Autophagy, Cognitive aging)
+- **Kava (high-dose/extract)** — tag `Liver toxicity` (indication tokens: Liver toxicity)
+- **Tianeptine ("gas station heroin")** — tag `Opioid-like dependency` (indication tokens: Opioid-like dependency)
+- **High-dose fat-soluble vitamins (A, E)** — tag `Excess toxicity` (indication tokens: Excess toxicity)
+- **Aristolochic acid (in some herbal products)** — tag `Kidney cancer · Nephrotoxicity` (indication tokens: Kidney cancer, Nephrotoxicity)
+- **Ephedra analogues (synephrine)** — tag `Cardiovascular risk` (indication tokens: Cardiovascular risk)
+- **Kratom (Mitragyna speciosa)** — tag `Opioid-like dependency` (indication tokens: Opioid-like dependency)
+- **DMAA/DMHA novel stimulant pre-workouts** — tag `Cardiovascular risk · Seizures` (indication tokens: Cardiovascular risk, Seizures)
+- **Vitamin A (retinol, low-dose)** — tag `Vision · Immunity · Skin` (indication tokens: Vision, Immunity, Skin)
+- **Astragalus (Astragalus membranaceus)** — tag `Immunity · Adaptogen · Anti-aging` (indication tokens: Immunity, Anti-aging)
+- **Phosphatidylcholine** — tag `Liver · Cell membrane · Cognition` (indication tokens: Liver, Cell membrane, Cognition)
+- **Potassium citrate** — tag `Blood pressure · Muscle · Electrolyte` (indication tokens: Blood pressure, Muscle, Electrolyte)
+- **Chlorella** — tag `Detox · Immunity · Cholesterol` (indication tokens: Detox, Immunity, Cholesterol)
+- **Moringa (Moringa oleifera)** — tag `Antioxidant · Glucose · Inflammation` (indication tokens: Glucose, Inflammation)
+- **Elderflower extract** — tag `Upper respiratory · Antiviral · Sinus` (indication tokens: Upper respiratory, Antiviral, Sinus)
+- **Bee propolis** — tag `Immunity · Wound healing · Oral health` (indication tokens: Immunity, Wound healing, Oral health)
+- **Pine bark extract (Pycnogenol)** — tag `Circulation · Skin · Antioxidant` (indication tokens: Circulation, Skin)
+- **DIM (Diindolylmethane)** — tag `Estrogen metabolism · Hormonal balance` (indication tokens: Estrogen metabolism, Hormonal balance)
+- **Methyl B12 + Methylfolate combo** — tag `MTHFR · Methylation · Energy` (indication tokens: MTHFR, Methylation, Energy)
+- **Mushroom complex (multi-species)** — tag `Immunity · Adaptogen · Cognition` (indication tokens: Immunity, Cognition)
+- **Inulin / FOS (prebiotic fibre)** — tag `Gut microbiome · Calcium absorption` (indication tokens: Gut microbiome, Calcium absorption)
+- **Tongkat ali (Eurycoma longifolia)** — tag `Testosterone · Male health` (indication tokens: Testosterone, Male health)
+- **Copper (as glycinate)** — tag `Iron metabolism · Collagen · Immunity` (indication tokens: Iron metabolism, Collagen, Immunity)
+- **Usnic acid (weight loss)** — tag `Hepatotoxicity · Mitochondrial uncoupling` (indication tokens: Hepatotoxicity, Mitochondrial uncoupling)
+- **Electrolyte complex (Na/K/Mg)** — tag `Hydration · Performance · Recovery` (indication tokens: Hydration)
+- **Andrographis paniculata** — tag `Immunity · Cold/Flu · Inflammation` (indication tokens: Immunity, Cold/Flu, Inflammation)
+- **Gamma-linolenic acid (GLA)** — tag `Inflammation · Eczema · PMS` (indication tokens: Inflammation, Eczema, PMS)
+- **Nattokinase** — tag `Cardiovascular · Fibrinolysis · Blood pressure` (indication tokens: Cardiovascular, Fibrinolysis, Blood pressure)
+- **Theacrine (TeaCrine)** — tag `Energy · Focus · Tolerance-free` (indication tokens: Energy, Focus, Tolerance-free)
+- **Sunfiber (partially hydrolysed guar gum)** — tag `Gut · IBS · Prebiotic` (indication tokens: Gut, IBS, Prebiotic)
+- **Tributyrin / Butyrate** — tag `Gut barrier · Microbiome · Inflammation` (indication tokens: Gut barrier, Microbiome, Inflammation)
+- **Colloidal silver** — tag `Antimicrobial claims · Toxicity` (indication tokens: Antimicrobial claims, Toxicity)
+- **Activated charcoal (oral)** — tag `Detox claims · Gas` (indication tokens: Detox claims, Gas)
+- **Apple cider vinegar (supplement)** — tag `Glucose · Weight · Digestion` (indication tokens: Glucose, Weight, Digestion)
+- **Carnosine (L-carnosine)** — tag `Anti-glycation · Aging · Athletic` (indication tokens: Anti-glycation, Aging)
+- **Sea moss (Irish moss)** — tag `Thyroid · Minerals · Gut` (indication tokens: Thyroid, Minerals, Gut)
+- **Fulvic acid** — tag `Mineral absorption · Antioxidant · Gut` (indication tokens: Mineral absorption, Gut)
+- **Diatomaceous earth (food grade)** — tag `Detox claims · Silica` (indication tokens: Detox claims, Silica)
+- **Enzyme CoQ10 + PQQ stack** — tag `Mitochondria · Energy · Aging` (indication tokens: Mitochondria, Energy, Aging)
+- **Lactobacillus rhamnosus GG** — tag `Gut · IBS · Pediatric diarrhoea` (indication tokens: Gut, IBS, Pediatric diarrhoea)
+- **Bifidobacterium longum** — tag `Gut · Immunity · Mood-gut axis` (indication tokens: Gut, Immunity, Mood-gut axis)
+- **Conjugated linoleic acid (CLA)** — tag `Body composition · Fat loss` (indication tokens: Body composition, Fat loss)
+- **Tyrosine (L-tyrosine)** — tag `Focus · Stress resilience · Cognition` (indication tokens: Focus, Stress resilience, Cognition)
+- **Omega-7 (Palmitoleic acid)** — tag `Metabolic · Inflammation · Skin` (indication tokens: Metabolic, Inflammation, Skin)
+- **Cistanche deserticola** — tag `Cognition · Testosterone · Anti-aging` (indication tokens: Cognition, Testosterone, Anti-aging)
+- **Glycerophosphocholine (GPC)** — tag `Cognition · Stroke recovery · Growth hormone` (indication tokens: Cognition, Stroke recovery, Growth hormone)
+- **Resolvins / SPMs (Specialised Pro-resolving Mediators)** — tag `Inflammation resolution · Recovery` (indication tokens: Inflammation resolution)
+- **Urolithin A** — tag `Mitophagy · Muscle · Aging` (indication tokens: Mitophagy, Muscle, Aging)
+- **Cordyceps militaris** — tag `Endurance · Energy · Oxygen utilisation` (indication tokens: Energy, Oxygen utilisation)
+- **Reishi (Ganoderma lucidum)** — tag `Immunity · Sleep · Adaptogen` (indication tokens: Immunity, Sleep)
+- **Turkey tail (Trametes versicolor)** — tag `Immunity · Cancer adjunct · Gut` (indication tokens: Immunity, Cancer adjunct, Gut)
+- **Rhodiola crenulata** — tag `Altitude · Endurance · Distinct species` (indication tokens: Altitude, Distinct species)
+- **Grape seed extract (OPC)** — tag `Antioxidant · Circulation · Blood pressure` (indication tokens: Circulation, Blood pressure)
+- **Horny goat weed (Epimedium)** — tag `Libido · Erectile function · Bone` (indication tokens: Libido, Erectile function, Bone)
+- **Mucuna pruriens** — tag `Dopamine · Testosterone · Mood` (indication tokens: Dopamine, Testosterone, Mood)
+- **Policosanol** — tag `Cholesterol · Cardiovascular` (indication tokens: Cholesterol, Cardiovascular)
+- **DHEA (Dehydroepiandrosterone)** — tag `Hormonal · Aging · Adrenal` (indication tokens: Hormonal, Aging, Adrenal)
+- **Manuka honey (medicinal grade)** — tag `Wound healing · Antimicrobial · Gut` (indication tokens: Wound healing, Antimicrobial, Gut)
+- **Zeolite (clinoptilolite)** — tag `Detox claims · Heavy metals` (indication tokens: Detox claims, Heavy metals)
+- **Dong quai (Angelica sinensis)** — tag `Menstrual · Menopause · Blood` (indication tokens: Menstrual, Menopause, Blood)
+- **Berberine + Ceylon cinnamon combo** — tag `Glucose · Metabolic · Insulin` (indication tokens: Glucose, Metabolic, Insulin)
+- **Collagen + Vitamin C stack** — tag `Tendon · Skin · Joint` (indication tokens: Tendon, Skin, Joint)
+- **Glutathione (liposomal)** — tag `Antioxidant · Detoxification · Immunity` (indication tokens: Detoxification, Immunity)
+- **Benfotiamine** — tag `Neuropathy · AGEs · Glucose metabolism` (indication tokens: Neuropathy, AGEs, Glucose metabolism)
+- **Cissus quadrangularis** — tag `Bone healing · Joint · Weight` (indication tokens: Bone healing, Joint, Weight)
+- **Wobenzym (systemic enzymes)** — tag `Inflammation · Recovery · OA` (indication tokens: Inflammation, OA)
+- **Sulforaphane (broccoli sprout extract)** — tag `Detoxification · Cancer prevention · Autism` (indication tokens: Detoxification, Cancer prevention, Autism)
+- **Pyruvate (calcium pyruvate)** — tag `Weight management · Endurance · Metabolism` (indication tokens: Weight management, Metabolism)
+- **Chlorophyll / Chlorophyllin** — tag `Detox · Body odor · Antioxidant` (indication tokens: Detox, Body odor)
+- **Tribulus terrestris** — tag `Testosterone · Libido · Athletic` (indication tokens: Testosterone, Libido)
+- **Chaga (Inonotus obliquus)** — tag `Antioxidant · Immunity · Anti-tumor` (indication tokens: Immunity, Anti-tumor)
+- **Agaricus blazei (Royal Sun mushroom)** — tag `Immunity · Blood sugar · Cancer adjunct` (indication tokens: Immunity, Blood sugar, Cancer adjunct)
+- **Fo-Ti (Polygonum multiflorum / He Shou Wu)** — tag `Anti-aging · Hair · Liver risk` (indication tokens: Anti-aging, Hair, Liver risk)
+- **Bentonite clay (oral)** — tag `Detox claims · GI binder` (indication tokens: Detox claims, GI binder)
+- **Essential oils (oral, general)** — tag `Various claims · Safety concerns` (indication tokens: Various claims, Safety concerns)
+- **Omega-3-6-9 blends** — tag `Cardiovascular · General wellness` (indication tokens: Cardiovascular, General wellness)
+- **Sambucol (elderberry extract, maintenance)** — tag `Immunity · Prevention · Daily use` (indication tokens: Immunity, Prevention, Daily use)
+- **Melatonin (high-dose, nightly)** — tag `Sleep dependency · Hormone disruption` (indication tokens: Sleep dependency, Hormone disruption)
+- **Lactobacillus plantarum** — tag `Gut health · Immunity · IBS` (indication tokens: Gut health, Immunity, IBS)
+- **Bifidobacterium breve** — tag `Gut health · Infant health · Eczema` (indication tokens: Gut health, Infant health, Eczema)
+- **Ox bile (bovine bile salts)** — tag `Fat digestion · Gallbladder removal · Bile insufficiency` (indication tokens: Fat digestion, Gallbladder removal, Bile insufficiency)
+- **Betaine HCl** — tag `Low stomach acid · Digestion · Protein absorption` (indication tokens: Low stomach acid, Digestion, Protein absorption)
+- **R-Alpha lipoic acid** — tag `Neuropathy · Blood sugar · Antioxidant` (indication tokens: Neuropathy, Blood sugar)
+- **Pterostilbene + resveratrol combo** — tag `Antioxidant · Longevity · Cardiovascular` (indication tokens: Cardiovascular)
+- **EAAs (Essential amino acids)** — tag `Muscle · Recovery · Fasting` (indication tokens: Muscle, Fasting)
+- **Magnesium L-threonate** — tag `Cognition · Brain magnesium · Sleep` (indication tokens: Cognition, Brain magnesium, Sleep)
+- **Spore-based probiotics (Bacillus coagulans)** — tag `Gut health · IBS · Resilience` (indication tokens: Gut health, IBS, Resilience)
+- **Omega-3 DHA-dominant** — tag `Brain health · Pregnancy · Cognition` (indication tokens: Brain health, Pregnancy, Cognition)
+- **Vitamin K1 (phylloquinone)** — tag `Blood clotting · Bone health` (indication tokens: Blood clotting, Bone health)
+- **Manganese** — tag `Bone health · Metabolism · Antioxidant` (indication tokens: Bone health, Metabolism)
+- **Molybdenum** — tag `Sulfite metabolism · Detox enzymes` (indication tokens: Sulfite metabolism, Detox enzymes)
+- **Vanadium** — tag `Insulin mimetic · Glucose metabolism` (indication tokens: Insulin mimetic, Glucose metabolism)
+- **Royal jelly** — tag `Immunity · Skin · Energy` (indication tokens: Immunity, Skin, Energy)
+- **Cat's claw (Uncaria tomentosa)** — tag `Immunity · Inflammation · Arthritis` (indication tokens: Immunity, Inflammation, Arthritis)
+- **Passionflower (Passiflora incarnata)** — tag `Anxiety · Sleep · Calm` (indication tokens: Anxiety, Sleep, Calm)
+- **Skullcap (Scutellaria lateriflora)** — tag `Anxiety · Sleep · Neuroprotection` (indication tokens: Anxiety, Sleep, Neuroprotection)
+- **Holy basil (Tulsi)** — tag `Adaptogen · Stress · Glucose` (indication tokens: Stress, Glucose)
+- **Schisandra (Schisandra chinensis)** — tag `Adaptogen · Liver · Endurance` (indication tokens: Liver)
+- **Triphala** — tag `Gut health · Digestion · Detox` (indication tokens: Gut health, Digestion, Detox)
+- **Olive oil extract (hydroxytyrosol)** — tag `Cardiovascular · Antioxidant` (indication tokens: Cardiovascular)
+- **Black garlic extract** — tag `Cardiovascular · Antioxidant` (indication tokens: Cardiovascular)
+- **Shatavari (Asparagus racemosus)** — tag `Female health · Lactation · Adaptogen` (indication tokens: Female health, Lactation)
+- **Silica (orthosilicic acid)** — tag `Bone · Hair · Nails` (indication tokens: Bone, Hair, Nails)
+- **MCT oil (medium chain triglycerides)** — tag `Energy · Ketosis · Cognition` (indication tokens: Energy, Ketosis, Cognition)
+- **Phosphoric acid (urinary)** — tag `Kidney stones · Urinary acidification` (indication tokens: Kidney stones, Urinary acidification)
+- **Activated B complex (methylated)** — tag `Energy · Mood · Methylation` (indication tokens: Energy, Mood, Methylation)
+- **Greater celandine (Chelidonium majus)** — tag `Liver toxicity · Hepatitis` (indication tokens: Liver toxicity, Hepatitis)
+- **Black cohosh high-dose** — tag `Liver damage · Menopause` (indication tokens: Liver damage, Menopause)
+- **Licorice root high-dose** — tag `Hypokalemia · Hypertension · Cardiac` (indication tokens: Hypokalemia, Hypertension, Cardiac)
+- **Bitter orange (Citrus aurantium)** — tag `Cardiovascular risk · Synephrine` (indication tokens: Cardiovascular risk, Synephrine)
+- **Androstenedione (prohormone)** — tag `Banned · Liver toxicity · Hormonal` (indication tokens: Banned, Liver toxicity, Hormonal)
+- **1,3-DMBA (dimethylbutylamine)** — tag `Stimulant · Cardiovascular · Seizure` (indication tokens: Stimulant, Cardiovascular, Seizure)
+- **Methyl-1-testosterone (oral steroid)** — tag `Liver failure · Illegal · Hormonal` (indication tokens: Liver failure, Illegal, Hormonal)
+- **Phenibut** — tag `GABAergic · Dependence · Withdrawal` (indication tokens: GABAergic, Dependence, Withdrawal)
+- **Yohimbe bark (Pausinystalia yohimbe)** — tag `Cardiac arrhythmia · Hypertensive crisis` (indication tokens: Cardiac arrhythmia, Hypertensive crisis)
+- **Monolaurin** — tag `Antimicrobial · Immunity · Gut` (indication tokens: Antimicrobial, Immunity, Gut)
+- **Dihydromyricetin (DHM)** — tag `Hangover · Liver protection · Alcohol metabolism` (indication tokens: Hangover, Liver protection, Alcohol metabolism)
+- **Pregnenolone** — tag `Hormonal · Cognition · Mood` (indication tokens: Hormonal, Cognition, Mood)
+- **Shoden ashwagandha (high-withanolide)** — tag `Sleep · Stress · Adaptogen` (indication tokens: Sleep, Stress)
+- **Humic acid** — tag `Mineral transport · Detox claims · Gut` (indication tokens: Mineral transport, Detox claims, Gut)
+- **Aconite (Aconitum napellus)** — tag `Cardiac arrest · Neurotoxicity · Fatal` (indication tokens: Cardiac arrest, Neurotoxicity, Fatal)
+- **Calomel (mercurous chloride)** — tag `Mercury poisoning · Nephrotoxicity` (indication tokens: Mercury poisoning, Nephrotoxicity)
+- **Comfrey (Symphytum officinale, oral)** — tag `Hepatotoxicity · Pyrrolizidine alkaloids` (indication tokens: Hepatotoxicity, Pyrrolizidine alkaloids)
+- **Pennyroyal oil (Mentha pulegium)** — tag `Abortifacient · Hepatotoxicity · Fatal` (indication tokens: Abortifacient, Hepatotoxicity, Fatal)
+- **Colloidal gold** — tag `No evidence · Pseudoscience` (indication tokens: No evidence, Pseudoscience)
+- **Cesium chloride (alkaline therapy)** — tag `Cardiac arrest · Pseudoscience` (indication tokens: Cardiac arrest, Pseudoscience)
+- **Germander (Teucrium chamaedrys)** — tag `Hepatotoxicity · Banned herb` (indication tokens: Hepatotoxicity, Banned herb)
+- **SARMs (Selective Androgen Receptor Modulators)** — tag `Unlicensed anabolics` (indication tokens: Unlicensed anabolics)
+- **DNP (2,4-Dinitrophenol)** — tag `Fatal hyperthermia · Metabolic uncoupling` (indication tokens: Fatal hyperthermia, Metabolic uncoupling)
+- **Fibre (general dietary)** — tag `Gut · Heart · Glucose` (indication tokens: Gut, Heart, Glucose)
+- **Sodium bicarbonate (sports)** — tag `Buffering · Endurance · Sprint` (indication tokens: Buffering, Sprint)
+- **Baicalin (Scutellaria baicalensis)** — tag `Inflammation · Neuroprotection · Liver` (indication tokens: Inflammation, Neuroprotection, Liver)
+- **Beta-glucan (1,3/1,6)** — tag `Immunity · Cholesterol · Gut` (indication tokens: Immunity, Cholesterol, Gut)
+- **Caprylic acid (C8 MCT)** — tag `Ketosis · Energy · Cognition` (indication tokens: Ketosis, Energy, Cognition)
+- **Chlorogenic acid (green coffee)** — tag `Glucose · Blood pressure` (indication tokens: Glucose, Blood pressure)
+- **DHA (standalone, algal)** — tag `Brain · Pregnancy · Vegan` (indication tokens: Brain, Pregnancy)
+- **Ecklonia cava (brown seaweed)** — tag `Circulation · Sleep · Inflammation` (indication tokens: Circulation, Sleep, Inflammation)
+- **Elderberry + Zinc combo** — tag `Cold/Flu · Immunity` (indication tokens: Cold/Flu, Immunity)
+- **Hesperidin** — tag `Circulation · Venous insufficiency` (indication tokens: Circulation, Venous insufficiency)
+- **IP-6 (Inositol hexaphosphate)** — tag `Immunity · Cancer adjunct` (indication tokens: Immunity, Cancer adjunct)
+- **Kudzu (Pueraria lobata)** — tag `Alcohol reduction · Cardiovascular` (indication tokens: Alcohol reduction, Cardiovascular)
+- **N-Acetyl glucosamine** — tag `Gut barrier · IBD · Joint` (indication tokens: Gut barrier, IBD, Joint)
+- **Oleuropein (olive extract)** — tag `Cardiovascular · Antiviral` (indication tokens: Cardiovascular, Antiviral)
+- **Rutin** — tag `Circulation · Varicose veins · Inflammation` (indication tokens: Circulation, Varicose veins, Inflammation)
+- **Tocotrienols (vitamin E fraction)** — tag `Cardiovascular · Skin · Neuroprotection` (indication tokens: Cardiovascular, Skin, Neuroprotection)
+- **Zinc carnosine** — tag `Gut barrier · H. pylori · Ulcer` (indication tokens: Gut barrier, H. pylori, Ulcer)
+- **Bamboo extract (silica)** — tag `Hair · Nails · Bone` (indication tokens: Hair, Nails, Bone)
+- **Blue-green algae (AFA)** — tag `Cognition · Energy claims` (indication tokens: Cognition, Energy claims)
+- **Borax (boron supplement form)** — tag `Joint · Hormone claims` (indication tokens: Joint, Hormone claims)
+- **Calcium D-glucarate** — tag `Estrogen metabolism · Detox · Liver` (indication tokens: Estrogen metabolism, Detox, Liver)
+- **Cistus incanus** — tag `Immunity · Antiviral · Biofilm` (indication tokens: Immunity, Antiviral, Biofilm)
+- **Colloidal minerals** — tag `Mineral absorption claims` (indication tokens: Mineral absorption claims)
+- **Deer antler velvet** — tag `IGF-1 · Athletic claims` (indication tokens: IGF-1, Athletic claims)
+- **Digestive bitters** — tag `Digestion · Appetite · Bile` (indication tokens: Digestion, Appetite, Bile)
+- **Emu oil (oral)** — tag `Inflammation · Gut` (indication tokens: Inflammation, Gut)
+- **Fucoidan** — tag `Cancer adjunct · Immunity` (indication tokens: Cancer adjunct, Immunity)
+- **Glutathione precursors blend** — tag `Antioxidant · Detox` (indication tokens: Detox)
+- **HMB + Creatine stack** — tag `Muscle · Sarcopenia combo` (indication tokens: Muscle, Sarcopenia combo)
+- **Jiaogulan (Gynostemma)** — tag `Adaptogen · Cholesterol` (indication tokens: Cholesterol)
+- **K2 + D3 combo** — tag `Bone · Cardiovascular · Calcium regulation` (indication tokens: Bone, Cardiovascular, Calcium regulation)
+- **Lacto-fermented foods (supplement form)** — tag `Gut · Immunity` (indication tokens: Gut, Immunity)
+- **Milk peptides (casein hydrolysate)** — tag `Sleep · Anxiety · Stress` (indication tokens: Sleep, Anxiety, Stress)
+- **Oil of oregano (soft gel)** — tag `Antimicrobial · Gut · SIBO` (indication tokens: Antimicrobial, Gut, SIBO)
+- **Pearl powder** — tag `Skin · Calcium · Anti-aging claims` (indication tokens: Skin, Calcium, Anti-aging claims)
+- **Coltsfoot (Tussilago farfara)** — tag `Pyrrolizidine alkaloids · Liver cancer` (indication tokens: Pyrrolizidine alkaloids, Liver cancer)
+- **Chaparral (Larrea tridentata)** — tag `Hepatotoxicity` (indication tokens: Hepatotoxicity)
+- **Lobelia (Lobelia inflata)** — tag `Respiratory · Emetic · Toxic` (indication tokens: Respiratory, Emetic, Toxic)
+- **Sassafras oil** — tag `Safrole · Hepatocarcinogen` (indication tokens: Safrole, Hepatocarcinogen)
+- **Ma huang (raw Ephedra herb)** — tag `Cardiovascular death` (indication tokens: Cardiovascular death)
+- **Methyl synephrine** — tag `Cardiovascular · Arrhythmia` (indication tokens: Cardiovascular, Arrhythmia)
+- **Silver protein (mild silver protein)** — tag `Argyria · No efficacy` (indication tokens: Argyria, No efficacy)
+- **Wormwood high-dose (Artemisia absinthium)** — tag `Neurotoxicity · Thujone` (indication tokens: Neurotoxicity, Thujone)
+- **Andrographis + Echinacea combo** — tag `Cold/Flu · Immunity` (indication tokens: Cold/Flu, Immunity)
+- **Astragaloside IV (isolated)** — tag `Telomere · Anti-aging · Immunity` (indication tokens: Telomere, Anti-aging, Immunity)
+- **Berberine HCl (sustained release)** — tag `Glucose · GI tolerability` (indication tokens: Glucose, GI tolerability)
+- **Butyrate (calcium/magnesium)** — tag `Gut barrier · IBD · Microbiome` (indication tokens: Gut barrier, IBD, Microbiome)
+- **Caralluma fimbriata** — tag `Appetite · Weight management` (indication tokens: Appetite, Weight management)
+- **Chrysin** — tag `Aromatase inhibitor · Testosterone` (indication tokens: Aromatase inhibitor, Testosterone)
+- **Coleus forskohlii (Forskolin)** — tag `cAMP · Thyroid · Weight` (indication tokens: cAMP, Thyroid, Weight)
+- **Emodin** — tag `Gut motility · Anti-inflammatory` (indication tokens: Gut motility, Anti-inflammatory)
+- **Gamma oryzanol** — tag `Cholesterol · Menopause · Athletic` (indication tokens: Cholesterol, Menopause)
+- **Gymnema sylvestre** — tag `Blood sugar · Sugar cravings` (indication tokens: Blood sugar, Sugar cravings)
+- **Horse chestnut (Aesculus)** — tag `Venous insufficiency · Leg swelling` (indication tokens: Venous insufficiency, Leg swelling)
+- **Huperzine A** — tag `Cognition · Acetylcholinesterase` (indication tokens: Cognition, Acetylcholinesterase)
+- **Indole-3-Carbinol (I3C)** — tag `Estrogen metabolism · Cancer prevention` (indication tokens: Estrogen metabolism, Cancer prevention)
+- **Larch arabinogalactan** — tag `Prebiotic · Immunity · Fibre` (indication tokens: Prebiotic, Immunity, Fibre)
+- **Mastic gum (Pistacia lentiscus)** — tag `H. pylori · GERD · Gut` (indication tokens: H. pylori, GERD, Gut)
+- **Meriva curcumin (phytosome)** — tag `Joint · Inflammation · Bioavailable` (indication tokens: Joint, Inflammation, Bioavailable)
+- **Androsterone** — tag `Hormone · Pheromone claims` (indication tokens: Hormone, Pheromone claims)
+- **Avocado soybean unsaponifiables (ASU)** — tag `Joint · OA` (indication tokens: Joint, OA)
+- **Bee pollen** — tag `Energy · Immunity claims` (indication tokens: Energy, Immunity claims)
+- **Brewer's yeast** — tag `B vitamins · Energy · Skin` (indication tokens: B vitamins, Energy, Skin)
+- **Calcium AEP (2-aminoethylphosphoric acid)** — tag `Cell membrane · Multiple sclerosis claims` (indication tokens: Cell membrane, Multiple sclerosis claims)
+- **Cetyl myristoleate** — tag `Joint · Anti-inflammatory claims` (indication tokens: Joint, Anti-inflammatory claims)
+- **Coral calcium** — tag `Bone · Alkaline claims` (indication tokens: Bone, Alkaline claims)
+- **DHEA topical cream** — tag `Skin aging · Vaginal atrophy` (indication tokens: Skin aging, Vaginal atrophy)
+- **Fenugreek + Ashwagandha stack** — tag `Testosterone · Stress combo` (indication tokens: Testosterone, Stress combo)
+- **Garcinia cambogia (HCA)** — tag `Weight loss · Appetite` (indication tokens: Weight loss, Appetite)
+- **Graviola (Annona muricata)** — tag `Cancer claims · Neurotoxicity risk` (indication tokens: Cancer claims, Neurotoxicity risk)
+- **Hemp seed oil** — tag `Omega fatty acids · Skin` (indication tokens: Omega fatty acids, Skin)
+- **Horsetail (Equisetum)** — tag `Hair · Nails · Silica` (indication tokens: Hair, Nails, Silica)
+- **Kelp (iodine-rich)** — tag `Thyroid · Mineral · Contamination risk` (indication tokens: Thyroid, Contamination risk)
+- **L-Lysine** — tag `Cold sores · Collagen · Immunity` (indication tokens: Cold sores, Collagen, Immunity)
+- **Melatonin gummies (high dose 5\u201310 mg)** — tag `Overdosed · Sleep dependency` (indication tokens: Overdosed, Sleep dependency)
+- **Noni juice (Morinda citrifolia)** — tag `Immunity · Antioxidant claims` (indication tokens: Immunity, Antioxidant claims)
+- **Comfrey root tea (internal)** — tag `PA hepatotoxicity` (indication tokens: PA hepatotoxicity)
+- **Foxglove (Digitalis purpurea)** — tag `Cardiac glycoside · Fatal` (indication tokens: Cardiac glycoside, Fatal)
+- **Hydrazine sulfate** — tag `Cancer cachexia claims · Toxic` (indication tokens: Cancer cachexia claims, Toxic)
+- **Laetrile (amygdalin / vitamin B17)** — tag `Cyanide · Cancer fraud` (indication tokens: Cyanide, Cancer fraud)
+- **Raw thyroid glandulars** — tag `Thyrotoxicosis · Hormonal` (indication tokens: Thyrotoxicosis, Hormonal)
+- **Strychnine (nux vomica)** — tag `Neurotoxin · Fatal seizures` (indication tokens: Neurotoxin, Fatal seizures)
+- **Red yeast rice** — tag `Cholesterol · Cardiovascular` (indication tokens: Cholesterol, Cardiovascular)
+- **Lavender oil oral (Silexan)** — tag `Anxiety · Sleep · GAD` (indication tokens: Anxiety, Sleep, GAD)
+- **Betaine TMG (trimethylglycine)** — tag `Methylation · Homocysteine · Liver` (indication tokens: Methylation, Homocysteine, Liver)
+- **Glucomannan (konjac root)** — tag `Weight management · Cholesterol · Fibre` (indication tokens: Weight management, Cholesterol, Fibre)
+- **Krill oil** — tag `Cardiovascular · Inflammation · Joints` (indication tokens: Cardiovascular, Inflammation, Joints)
+- **Cacao flavanols** — tag `Cardiovascular · Cognition · Blood pressure` (indication tokens: Cardiovascular, Cognition, Blood pressure)
+- **Pantethine** — tag `Cholesterol · Triglycerides · CoA precursor` (indication tokens: Cholesterol, Triglycerides, CoA precursor)
+- **Magnesium taurate** — tag `Cardiovascular · Blood pressure · Arrhythmia` (indication tokens: Cardiovascular, Blood pressure, Arrhythmia)
+- **Aged garlic extract (Kyolic)** — tag `Cardiovascular · Blood pressure · Immune` (indication tokens: Cardiovascular, Blood pressure, Immune)
+- **Lactobacillus acidophilus** — tag `Gut · Vaginal health · Cholesterol` (indication tokens: Gut, Vaginal health, Cholesterol)
+- **Lactobacillus reuteri** — tag `Gut · Bone · Oral health · Infant colic` (indication tokens: Gut, Bone, Oral health, Infant colic)
+- **Vitamin C (liposomal)** — tag `Immunity · Absorption · Antioxidant` (indication tokens: Immunity)
+- **Resistant starch (prebiotic)** — tag `Gut microbiome · Glucose · Satiety` (indication tokens: Gut microbiome, Glucose, Satiety)
+- **GlyNAC (Glycine + NAC)** — tag `Aging · Glutathione · Mitochondria` (indication tokens: Aging, Glutathione, Mitochondria)
+- **HMB free acid** — tag `Muscle · Rapid absorption · Athletic` (indication tokens: Muscle, Rapid absorption)
+- **Pelargonium sidoides (Umckaloabo)** — tag `Acute bronchitis · Cold · Respiratory` (indication tokens: Acute bronchitis, Cold, Respiratory)
+- **Echinacea purpurea** — tag `Cold prevention · Immunity` (indication tokens: Cold prevention, Immunity)
+- **Akkermansia muciniphila** — tag `Gut barrier · Metabolic · Obesity` (indication tokens: Gut barrier, Metabolic, Obesity)
+- **Postbiotics (heat-killed probiotics)** — tag `Gut · Immunity · Shelf-stable` (indication tokens: Gut, Immunity, Shelf-stable)
+- **Phosphatidic acid** — tag `Muscle signaling · mTOR · Strength` (indication tokens: Muscle signaling, mTOR, Strength)
+- **Flaxseed oil (ALA omega-3)** — tag `Plant omega-3 · Inflammation · Heart` (indication tokens: Plant omega-3, Inflammation, Heart)
+- **Ergothioneine** — tag `Antioxidant · Longevity · Neuroprotection` (indication tokens: Neuroprotection)
+- **Fisetin** — tag `Senolytic · Anti-aging · Inflammation` (indication tokens: Senolytic, Anti-aging, Inflammation)
+- **Creatine HCl** — tag `Performance · Solubility · GI tolerance` (indication tokens: Solubility, GI tolerance)
+- **Modified citrus pectin** — tag `Heavy metals · Cancer adjunct · Immunity` (indication tokens: Heavy metals, Cancer adjunct, Immunity)
+- **Black pepper extract (piperine)** — tag `Bioavailability · Absorption enhancer` (indication tokens: Absorption enhancer)
+- **Wild yam (Dioscorea villosa)** — tag `Menopause · Hormonal claims` (indication tokens: Menopause, Hormonal claims)
+- **Dandelion root (Taraxacum officinale)** — tag `Liver · Diuretic · Digestion` (indication tokens: Liver, Diuretic, Digestion)
+- **Vitamin D2 (ergocalciferol)** — tag `Bone · Immunity · Vegan source` (indication tokens: Bone, Immunity, Vegan source)
+- **Aloe vera (oral supplement)** — tag `Gut · Glucose · Skin (oral)` (indication tokens: Gut, Glucose, Skin (oral))
+- **Coconut oil (supplement form)** — tag `MCTs · Energy · Antimicrobial claims` (indication tokens: MCTs, Energy, Antimicrobial claims)
+- **Wheatgrass** — tag `Antioxidant · Detox claims · Nutrition` (indication tokens: Detox claims, Nutrition)
+- **Bone broth protein** — tag `Collagen · Gut · Joint claims` (indication tokens: Collagen, Gut, Joint claims)
+- **Black walnut hull** — tag `Antimicrobial · Antiparasitic · Gut` (indication tokens: Antimicrobial, Antiparasitic, Gut)
+- **Tryptophan (L-tryptophan)** — tag `Sleep · Mood · Serotonin precursor` (indication tokens: Sleep, Mood, Serotonin precursor)
+- **Mullein leaf (Verbascum thapsus)** — tag `Respiratory · Cough · Ear infections` (indication tokens: Respiratory, Cough, Ear infections)
+- **Oil of wintergreen (oral)** — tag `Methyl salicylate · Fatal toxicity` (indication tokens: Methyl salicylate, Fatal toxicity)
+- **Amanita muscaria (fly agaric)** — tag `Neurotoxin · Psychoactive · Unpredictable` (indication tokens: Neurotoxin, Psychoactive, Unpredictable)
+- **Camphor oil (oral)** — tag `Seizures · Organ failure · Fatal` (indication tokens: Seizures, Organ failure, Fatal)
+- **Calamus root (Acorus calamus)** — tag `Carcinogen · Beta-asarone` (indication tokens: Carcinogen, Beta-asarone)
+- **Miracle Mineral Supplement (MMS / chlorine dioxide)** — tag `Chemical burn · Organ damage · Fraud` (indication tokens: Chemical burn, Organ damage, Fraud)
+- **Devil's claw (Harpagophytum procumbens)** — tag `Joint pain · Back pain · Inflammation` (indication tokens: Joint pain, Back pain, Inflammation)
+- **White willow bark (Salix alba)** — tag `Pain · Inflammation · Back pain` (indication tokens: Pain, Inflammation, Back pain)
+- **American ginseng (Panax quinquefolius)** — tag `Immunity · Blood sugar · Cognition` (indication tokens: Immunity, Blood sugar, Cognition)
+- **Korean red ginseng (fermented)** — tag `Sexual health · Energy · Immunity` (indication tokens: Sexual health, Energy, Immunity)
+- **Ivy leaf extract (Hedera helix)** — tag `Cough · Bronchitis · Respiratory` (indication tokens: Cough, Bronchitis, Respiratory)
+- **Thyme extract (Thymus vulgaris)** — tag `Cough · Bronchitis · Antimicrobial` (indication tokens: Cough, Bronchitis, Antimicrobial)
+- **Maitake mushroom (Grifola frondosa)** — tag `Immunity · Blood sugar · Cancer adjunct` (indication tokens: Immunity, Blood sugar, Cancer adjunct)
+- **Pea protein** — tag `Muscle · Vegan protein · Satiety` (indication tokens: Muscle, Vegan protein, Satiety)
+- **Egg white protein** — tag `Muscle · Low-fat · Complete protein` (indication tokens: Muscle, Low-fat, Complete protein)
+- **VSL#3 / Visbiome (multi-strain)** — tag `IBD · Pouchitis · Gut barrier` (indication tokens: IBD, Pouchitis, Gut barrier)
+- **Lactobacillus casei Shirota** — tag `Gut · Immunity · Mood` (indication tokens: Gut, Immunity, Mood)
+- **Cod liver oil** — tag `Omega-3 · Vitamin A · Vitamin D` (indication tokens: Omega-3, Vitamin A, Vitamin D)
+- **Calcium hydroxyapatite (MCHC)** — tag `Bone · Osteoporosis · Mineral complex` (indication tokens: Bone, Osteoporosis, Mineral complex)
+- **Nicotinamide riboside (NR)** — tag `NAD+ · Aging · Cellular energy` (indication tokens: NAD+, Aging, Cellular energy)
+- **Melatonin extended-release** — tag `Sleep maintenance · Older adults` (indication tokens: Sleep maintenance, Older adults)
+- **Lumbrokinase** — tag `Fibrinolysis · Circulation · Cardiovascular` (indication tokens: Fibrinolysis, Circulation, Cardiovascular)
+- **Pancreatin (porcine digestive enzymes)** — tag `Pancreatic insufficiency · Digestion · Fat absorption` (indication tokens: Pancreatic insufficiency, Digestion, Fat absorption)
+- **Algal EPA (standalone)** — tag `Cardiovascular · Anti-inflammatory · Vegan` (indication tokens: Cardiovascular, Anti-inflammatory)
+- **Diosmin** — tag `Varicose veins · Hemorrhoids · Venous insufficiency` (indication tokens: Varicose veins, Hemorrhoids, Venous insufficiency)
+- **Banaba leaf (corosolic acid)** — tag `Blood sugar · Insulin sensitivity` (indication tokens: Blood sugar, Insulin sensitivity)
+- **Bitter melon (Momordica charantia)** — tag `Blood sugar · Diabetes · Metabolic` (indication tokens: Blood sugar, Diabetes, Metabolic)
+- **Pomegranate extract (ellagic acid)** — tag `Cardiovascular · Antioxidant · Prostate` (indication tokens: Cardiovascular, Prostate)
+- **Arjuna bark (Terminalia arjuna)** — tag `Heart failure · Angina · Cholesterol` (indication tokens: Heart failure, Angina, Cholesterol)
+- **Amla / Indian gooseberry (Phyllanthus emblica)** — tag `Antioxidant · Cholesterol · Vitamin C` (indication tokens: Cholesterol, Vitamin C)
+- **Vitamin D3 liquid drops** — tag `Bone · Immunity · Flexible dosing` (indication tokens: Bone, Immunity, Flexible dosing)
+- **Korean mistletoe (Viscum album)** — tag `Cancer adjunct · Immunity · Quality of life` (indication tokens: Cancer adjunct, Immunity, Quality of life)
+- **Magnolia bark (honokiol + magnolol)** — tag `Anxiety · Sleep · Cortisol` (indication tokens: Anxiety, Sleep, Cortisol)
+- **Goldenseal (Hydrastis canadensis)** — tag `Antimicrobial · Gut · Upper respiratory` (indication tokens: Antimicrobial, Gut, Upper respiratory)
+- **California poppy (Eschscholzia californica)** — tag `Anxiety · Sleep · Mild sedation` (indication tokens: Anxiety, Sleep, Mild sedation)
+- **Eleuthero (Eleutherococcus senticosus)** — tag `Adaptogen · Endurance · Stress` (indication tokens: Stress)
+- **Guggul (Commiphora mukul)** — tag `Cholesterol · Thyroid · Inflammation` (indication tokens: Cholesterol, Thyroid, Inflammation)
+- **Red sage / Danshen (Salvia miltiorrhiza)** — tag `Cardiovascular · Circulation · Liver` (indication tokens: Cardiovascular, Circulation, Liver)
+- **Fadogia agrestis** — tag `Testosterone · Libido · Athletic` (indication tokens: Testosterone, Libido)
+- **Turmeric whole root powder** — tag `Inflammation · Antioxidant · Culinary` (indication tokens: Inflammation, Culinary)
+- **Eyebright (Euphrasia officinalis)** — tag `Eye health · Allergies · Conjunctivitis` (indication tokens: Eye health, Allergies, Conjunctivitis)
+- **White peony (Paeonia lactiflora)** — tag `Autoimmune · Hormonal · Liver` (indication tokens: Autoimmune, Hormonal, Liver)
+- **Senna leaf (Cassia senna)** — tag `Constipation · Laxative` (indication tokens: Constipation, Laxative)
+- **Cascara sagrada** — tag `Constipation · Stimulant laxative` (indication tokens: Constipation, Stimulant laxative)
+- **Sage extract (Salvia officinalis)** — tag `Cognition · Menopause · Blood sugar` (indication tokens: Cognition, Menopause, Blood sugar)
+- **Rosemary extract (carnosic acid)** — tag `Cognition · Antioxidant · Neuroprotection` (indication tokens: Cognition, Neuroprotection)
+- **Calendula (Calendula officinalis)** — tag `Wound healing · Skin · Anti-inflammatory` (indication tokens: Wound healing, Skin, Anti-inflammatory)
+- **Raspberry leaf (Rubus idaeus)** — tag `Pregnancy · Uterine toning · Labour` (indication tokens: Pregnancy, Uterine toning, Labour)
+- **Japanese knotweed (Reynoutria japonica)** — tag `Resveratrol source · Lyme protocol · Anti-inflammatory` (indication tokens: Resveratrol source, Lyme protocol, Anti-inflammatory)
+- **Neem (Azadirachta indica)** — tag `Antimicrobial · Dental · Blood sugar` (indication tokens: Antimicrobial, Dental, Blood sugar)
+- **Tremella fuciformis (snow fungus)** — tag `Skin hydration · Antioxidant · Immunity` (indication tokens: Skin hydration, Immunity)
+- **Shiitake extract (lentinan)** — tag `Immunity · Cancer adjunct · Cholesterol` (indication tokens: Immunity, Cancer adjunct, Cholesterol)
+- **L-Ornithine** — tag `Sleep · Ammonia detox · Exercise recovery` (indication tokens: Sleep, Ammonia detox)
+- **D-Aspartic acid** — tag `Testosterone · Fertility · Athletic` (indication tokens: Testosterone, Fertility)
+- **Hemp protein** — tag `Plant protein · Omega fatty acids · Fibre` (indication tokens: Plant protein, Omega fatty acids, Fibre)
+- **Collagen type III** — tag `Skin · Blood vessels · Gut lining` (indication tokens: Skin, Blood vessels, Gut lining)
+- **L-Histidine** — tag `Joint · Anaemia · Immune modulation` (indication tokens: Joint, Anaemia, Immune modulation)
+- **L-Serine** — tag `Neuroprotection · ALS · Sleep` (indication tokens: Neuroprotection, ALS, Sleep)
+- **Lactobacillus fermentum** — tag `Gut · Immunity · Women's health` (indication tokens: Gut, Immunity, Women's health)
+- **Streptococcus thermophilus** — tag `Gut · Lactose digestion · Immunity` (indication tokens: Gut, Lactose digestion, Immunity)
+- **Soil-based organisms (SBO probiotics)** — tag `Gut · Shelf-stable · IBS` (indication tokens: Gut, Shelf-stable, IBS)
+- **Beta-carotene (standalone supplement)** — tag `Antioxidant · Vision · Immune` (indication tokens: Vision, Immune)
+- **Magnesium orotate** — tag `Cardiovascular · Athletic · Energy` (indication tokens: Cardiovascular, Energy)
+- **7-Keto DHEA** — tag `Metabolism · Weight · Thermogenesis` (indication tokens: Metabolism, Weight, Thermogenesis)
+- **Mixed carotenoids** — tag `Antioxidant · Eye health · Skin` (indication tokens: Eye health, Skin)
+- **Papain** — tag `Digestion · Inflammation · Wound debridement` (indication tokens: Digestion, Inflammation, Wound debridement)
+- **Perilla seed oil** — tag `Plant omega-3 · Allergies · Inflammation` (indication tokens: Plant omega-3, Allergies, Inflammation)
+- **Sea buckthorn oil (full spectrum)** — tag `Skin · Mucous membranes · Vaginal dryness` (indication tokens: Skin, Mucous membranes, Vaginal dryness)
+- **White mulberry leaf (Morus alba)** — tag `Blood sugar · Alpha-glucosidase inhibitor` (indication tokens: Blood sugar, Alpha-glucosidase inhibitor)
+- **Salacia reticulata** — tag `Blood sugar · Weight · Metabolic` (indication tokens: Blood sugar, Weight, Metabolic)
+- **Pterocarpus marsupium (Vijaysar)** — tag `Blood sugar · Diabetes · Beta-cell regeneration` (indication tokens: Blood sugar, Diabetes, Beta-cell regeneration)
+- **Phycocyanin (spirulina blue pigment)** — tag `Antioxidant · Anti-inflammatory · Recovery` (indication tokens: Anti-inflammatory)
+- **Black rice extract (anthocyanins)** — tag `Antioxidant · Cardiovascular · Anti-inflammatory` (indication tokens: Cardiovascular, Anti-inflammatory)
+- **Acai berry extract** — tag `Antioxidant · Energy claims · Weight claims` (indication tokens: Energy claims, Weight claims)
+- **Goji berry extract (Lycium barbarum)** — tag `Antioxidant · Eye health · Immunity` (indication tokens: Eye health, Immunity)
+- **Mangosteen (Garcinia mangostana)** — tag `Antioxidant · Inflammation · Xanthones` (indication tokens: Inflammation, Xanthones)
+- **Baobab powder** — tag `Vitamin C · Fibre · Prebiotic` (indication tokens: Vitamin C, Fibre, Prebiotic)
+- **Camu camu (Myrciaria dubia)** — tag `Vitamin C · Antioxidant · Anti-inflammatory` (indication tokens: Vitamin C, Anti-inflammatory)
+- **Oat straw extract (Avena sativa)** — tag `Cognition · Anxiety · Sexual health` (indication tokens: Cognition, Anxiety, Sexual health)
+- **Jujube (Ziziphus jujuba)** — tag `Sleep · Anxiety · Digestion` (indication tokens: Sleep, Anxiety, Digestion)
+- **Rooibos extract (Aspalathus linearis)** — tag `Antioxidant · Skin · Cardiovascular` (indication tokens: Skin, Cardiovascular)
+- **Nopal cactus / Prickly pear (Opuntia ficus-indica)** — tag `Blood sugar · Hangover · Cholesterol` (indication tokens: Blood sugar, Hangover, Cholesterol)
+- **Barberry (Berberis vulgaris)** — tag `Berberine source · Gut · Antimicrobial` (indication tokens: Berberine source, Gut, Antimicrobial)
+- **Ashitaba (Angelica keiskei)** — tag `Longevity · Autophagy · Antioxidant` (indication tokens: Autophagy)
+- **Belladonna (Atropa belladonna)** — tag `Anticholinergic · Delirium · Fatal` (indication tokens: Anticholinergic, Delirium, Fatal)
+- **Raw adrenal glandulars** — tag `Cortisol · Adrenal fatigue · Hormonal` (indication tokens: Cortisol, Adrenal fatigue, Hormonal)
+- **Khat (Catha edulis)** — tag `Stimulant · Addiction · Cardiovascular` (indication tokens: Stimulant, Addiction, Cardiovascular)
+- **Black salve (escharotic)** — tag `Tissue destruction · Cancer fraud · Disfigurement` (indication tokens: Tissue destruction, Cancer fraud, Disfigurement)
+- **Turpentine (oral)** — tag `Organ damage · Chemical poisoning` (indication tokens: Organ damage, Chemical poisoning)
+- **Yellow oleander (Thevetia peruviana)** — tag `Cardiac glycoside · Fatal arrhythmia` (indication tokens: Cardiac glycoside, Fatal arrhythmia)
+- **Poke root (Phytolacca americana)** — tag `Emetic · Organ damage · Blood disorders` (indication tokens: Emetic, Organ damage, Blood disorders)
+- **Croton oil (Croton tiglium)** — tag `Vesicant · GI hemorrhage · Carcinogen` (indication tokens: Vesicant, GI hemorrhage, Carcinogen)
+- **Thunder god vine (Tripterygium wilfordii)** — tag `Immunosuppression · Infertility · Organ damage` (indication tokens: Immunosuppression, Infertility, Organ damage)
+- **Jimsonweed (Datura stramonium)** — tag `Anticholinergic · Delirium · Fatal` (indication tokens: Anticholinergic, Delirium, Fatal)
+- **Omega-3 triglyceride form (rTG)** — tag `Cardiovascular · Absorption · Quality` (indication tokens: Cardiovascular, Quality)
+- **Oyster mushroom extract (Pleurotus ostreatus)** — tag `Cholesterol · Immunity · Antioxidant` (indication tokens: Cholesterol, Immunity)
+- **Meadowsweet (Filipendula ulmaria)** — tag `Digestive · Anti-inflammatory · Pain` (indication tokens: Digestive, Anti-inflammatory, Pain)
+- **Vitamin B1 (Thiamine)** — tag `Nerve function · Energy metabolism · Deficiency` (indication tokens: Nerve function, Energy metabolism, Deficiency)
+- **Magnesium bisglycinate** — tag `Sleep · Anxiety · Bioavailability` (indication tokens: Sleep, Anxiety)
+- **Phosphorus** — tag `Bone · Energy metabolism · Cell function` (indication tokens: Bone, Energy metabolism, Cell function)
+- **Zeaxanthin (standalone)** — tag `Eye health · Macular pigment · AMD` (indication tokens: Eye health, Macular pigment, AMD)
+- **Inositol (high-dose, psychiatric)** — tag `OCD · Panic disorder · Mood` (indication tokens: OCD, Panic disorder, Mood)
+- **Myrrh resin (Commiphora molmol)** — tag `Antimicrobial · Oral health · Gut` (indication tokens: Antimicrobial, Oral health, Gut)
+- **Lutein (standalone)** — tag `Eye health · Blue light · Macular` (indication tokens: Eye health, Blue light, Macular)
+- **Boswellic acids AKBA (standardised)** — tag `Joint pain · IBD · 5-LOX inhibitor` (indication tokens: Joint pain, IBD, 5-LOX inhibitor)
+- **Theaflavins (black tea extract)** — tag `Cardiovascular · Cholesterol · Antioxidant` (indication tokens: Cardiovascular, Cholesterol)
+- **Zinc picolinate** — tag `Immunity · Absorption · Taste and smell` (indication tokens: Immunity, Taste and smell)
+- **Calcium fructoborate** — tag `Bone · Joint · Testosterone` (indication tokens: Bone, Joint, Testosterone)
+- **Hydroxytyrosol (olive extract)** — tag `Cardiovascular · Antioxidant · EFSA approved` (indication tokens: Cardiovascular, EFSA approved)
+- **Lactase enzyme** — tag `Lactose intolerance · Dairy digestion` (indication tokens: Lactose intolerance, Dairy digestion)
+- **Saffron Affron (standardised extract)** — tag `Depression · PMS · Cognition` (indication tokens: Depression, PMS, Cognition)
+- **Chromium GTF (brewer's yeast form)** — tag `Insulin sensitivity · Glucose · Metabolic` (indication tokens: Insulin sensitivity, Glucose, Metabolic)
+- **Hesperidin methyl chalcone** — tag `Leg swelling · Circulation · Venous tone` (indication tokens: Leg swelling, Circulation, Venous tone)
+- **Phosphatidylserine (plant-derived)** — tag `Cognition · Cortisol · Memory` (indication tokens: Cognition, Cortisol, Memory)
+- **L-Carnosine** — tag `Anti-glycation · Stomach health · Aging` (indication tokens: Anti-glycation, Stomach health, Aging)
+- **Butyrate tributyrin (odourless)** — tag `Gut integrity · Colon health · Microbiome` (indication tokens: Gut integrity, Colon health, Microbiome)
+- **Saccharomyces cerevisiae beta-glucan** — tag `Immunity · Respiratory infections · Natural killer cells` (indication tokens: Immunity, Respiratory infections, Natural killer cells)
+- **Choline bitartrate** — tag `Cognition · Liver · Methylation` (indication tokens: Cognition, Liver, Methylation)
+- **Olive polyphenol complex (EVOO)** — tag `Cardiovascular · Mediterranean diet · Antioxidant` (indication tokens: Cardiovascular, Mediterranean diet)
+- **Hyaluronic acid + Chondroitin stack** — tag `Joint · Skin · Connective tissue` (indication tokens: Joint, Skin, Connective tissue)
+- **PharmaGABA** — tag `Stress · Sleep · Relaxation` (indication tokens: Stress, Sleep, Relaxation)
+- **Silymarin phytosome (Siliphos)** — tag `Liver protection · NASH · Bioavailable milk thistle` (indication tokens: Liver protection, NASH, Bioavailable milk thistle)
+- **Nigella sativa standardised (TQ)** — tag `Metabolic · Glucose · Lipids` (indication tokens: Metabolic, Glucose, Lipids)
+- **Dihydroberberine (DHB)** — tag `Blood sugar · Bioavailability · Metabolic` (indication tokens: Blood sugar, Metabolic)
+- **Palmitoylethanolamide co-micronised (m-PEA)** — tag `Chronic pain · Fibromyalgia · Neuropathic pain` (indication tokens: Chronic pain, Fibromyalgia, Neuropathic pain)
+- **Galangal root (Alpinia)** — tag `Digestive · Nausea · Anti-inflammatory` (indication tokens: Digestive, Nausea, Anti-inflammatory)
+- **Caprylic acid C8 (targeted MCT)** — tag `Ketosis · Cognition · Gut antimicrobial` (indication tokens: Ketosis, Cognition, Gut antimicrobial)
+- **Chlorogenic acid (green coffee extract)** — tag `Glucose · Blood pressure · Weight` (indication tokens: Glucose, Blood pressure, Weight)
+- **Algal DHA (vegan omega-3)** — tag `Brain health · Pregnancy · Vegan omega-3` (indication tokens: Brain health, Pregnancy, Vegan omega-3)
+- **Taurine (cardiac and metabolic)** — tag `Cardiovascular · Metabolic · Aging` (indication tokens: Cardiovascular, Metabolic, Aging)
+- **Policosanol (Cuban, unconfirmed)** — tag `Cholesterol · Cardiovascular` (indication tokens: Cholesterol, Cardiovascular)
+- **Proline (L-Proline)** — tag `Collagen synthesis · Wound healing · Skin` (indication tokens: Collagen synthesis, Wound healing, Skin)
+- **Silicon (orthosilicic acid)** — tag `Bone · Hair thickness · Nails` (indication tokens: Bone, Hair thickness, Nails)
+- **Adaptogen stack (Ashwagandha + Rhodiola)** — tag `Stress · Energy · Adaptogen combo` (indication tokens: Stress, Energy, Adaptogen combo)
+- **Tocotrienols (annatto-derived)** — tag `Cardiovascular · Neuroprotection · Vitamin E` (indication tokens: Cardiovascular, Neuroprotection, Vitamin E)
+- **Andrographis (maintenance dose)** — tag `Immunity · Anti-inflammatory · Adaptogen` (indication tokens: Immunity, Anti-inflammatory)
+- **Vitamin B2 (Riboflavin low-dose)** — tag `Energy metabolism · Cellular function · B2` (indication tokens: Energy metabolism, Cellular function, B2)
+- **Caffeine (standardised)** — tag `Performance · Alertness · Endurance` (indication tokens: Alertness)
+- **Vitamin B1 (Thiamine, clinical)** — tag `Neurology · Alcohol recovery · Energy` (indication tokens: Neurology, Alcohol recovery, Energy)
+- **Electrolyte replacement (clinical)** — tag `Hydration · Exercise · Heat illness` (indication tokens: Hydration, Exercise, Heat illness)
+- **Sodium bicarbonate (exercise buffer)** — tag `Performance · Acid buffering · Endurance` (indication tokens: Acid buffering)
+- **Oral rehydration salts (WHO formula)** — tag `Diarrhoea · Dehydration · Clinical` (indication tokens: Diarrhoea, Dehydration, Clinical)
+- **Calcium carbonate/citrate (bone health)** — tag `Bone density · Osteoporosis · Pregnancy` (indication tokens: Bone density, Osteoporosis, Pregnancy)
+- **Protein supplementation (clinical sarcopenia)** — tag `Muscle · Aging · Sarcopenia` (indication tokens: Muscle, Aging, Sarcopenia)
+- **Potassium supplementation (clinical)** — tag `Blood pressure · Cardiovascular · Electrolyte` (indication tokens: Blood pressure, Cardiovascular, Electrolyte)
+- **Astragalus membranaceus (Huang Qi)** — tag `Immunity · TCM adaptogen · Cardiovascular` (indication tokens: Immunity, TCM adaptogen, Cardiovascular)
+- **Rehmannia glutinosa (Shu Di Huang)** — tag `TCM tonic · Kidney Yin · Blood nourishment` (indication tokens: TCM tonic, Kidney Yin, Blood nourishment)
+- **Dan Shen compound (Salvia miltiorrhiza)** — tag `Cardiovascular · TCM · Circulation` (indication tokens: Cardiovascular, TCM, Circulation)
+- **Guduchi (Tinospora cordifolia)** — tag `Ayurveda · Immunity · Fever` (indication tokens: Ayurveda, Immunity, Fever)
+- **Punarnava (Boerhavia diffusa)** — tag `Ayurveda · Kidney support · Diuretic` (indication tokens: Ayurveda, Kidney support, Diuretic)
+- **Shankhpushpi (Convolvulus pluricaulis)** — tag `Ayurveda · Cognition · Anxiety` (indication tokens: Ayurveda, Cognition, Anxiety)
+- **Amalaki/Amla (Emblica officinalis, standardised)** — tag `Ayurveda · Antioxidant · Vitamin C source` (indication tokens: Ayurveda, Vitamin C source)
+- **Terminalia arjuna (Arjuna standardised extract)** — tag `Cardiovascular · Heart failure · Angina` (indication tokens: Cardiovascular, Heart failure, Angina)
+- **Beta-hydroxy-beta-methylbutyrate free acid (HMB-FA)** — tag `Muscle preservation · Recovery · Clinical nutrition` (indication tokens: Muscle preservation, Clinical nutrition)
+- **Carnosyn beta-alanine (sustained release)** — tag `Performance · Endurance · Muscle endurance` (indication tokens: Muscle endurance)
+- **Cluster dextrin (HBCD)** — tag `Intra-workout fuel · Endurance · Gastric emptying` (indication tokens: Intra-workout fuel, Gastric emptying)
+- **Glycerol hyperhydration** — tag `Endurance · Thermoregulation · Hyperhydration` (indication tokens: Thermoregulation, Hyperhydration)
+- **Arachidonic acid (ARA)** — tag `Muscle growth · Inflammation signalling · Strength` (indication tokens: Muscle growth, Inflammation signalling, Strength)
+- **Tributyrin (gut barrier, targeted)** — tag `Gut barrier · IBS · Microbiome support` (indication tokens: Gut barrier, IBS, Microbiome support)
+- **Partially hydrolysed guar gum (PHGG)** — tag `IBS · Prebiotic · Gut regularity` (indication tokens: IBS, Prebiotic, Gut regularity)
+- **Saccharomyces boulardii CNCM I-745** — tag `Gut health · Antibiotic-associated diarrhoea · C. diff prevention` (indication tokens: Gut health, Antibiotic-associated diarrhoea, C. diff prevention)
+- **Bifidobacterium longum BB536** — tag `Gut health · Immunity · Allergy` (indication tokens: Gut health, Immunity, Allergy)
+- **Lactobacillus helveticus/B. longum R0052/R0175** — tag `Gut-brain axis · Stress · Mood` (indication tokens: Gut-brain axis, Stress, Mood)
+- **Limosilactobacillus reuteri DSM 17938** — tag `Infant colic · Gut health · Bone density` (indication tokens: Infant colic, Gut health, Bone density)
+- **Lion's mane (Hericium erinaceus, fruiting body)** — tag `Neuroprotection · NGF · Cognition` (indication tokens: Neuroprotection, NGF, Cognition)
+- **Emodin-free rhubarb extract** — tag `Digestive · Liver protection · Anti-inflammatory` (indication tokens: Digestive, Liver protection, Anti-inflammatory)
+- **Pueraria mirifica (Kwao Krua)** — tag `Menopause · Phytoestrogen · Women's health` (indication tokens: Menopause, Phytoestrogen, Women's health)
+- **Evening primrose oil (EPO)** — tag `Women's health · PMS · Skin` (indication tokens: Women's health, PMS, Skin)
+- **Chasteberry/Vitex standardised (BNO 1095)** — tag `PMS · Menstrual regulation · Women's health` (indication tokens: PMS, Menstrual regulation, Women's health)
+- **Red raspberry leaf (pregnancy toning)** — tag `Pregnancy · Uterine toning · Traditional midwifery` (indication tokens: Pregnancy, Uterine toning, Traditional midwifery)
+- **Centella asiatica (Gotu kola, standardised TTFCA)** — tag `Venous insufficiency · Wound healing · Cognition` (indication tokens: Venous insufficiency, Wound healing, Cognition)
+- **Berberis aristata (Indian barberry)** — tag `Ayurveda · Glucose · Eye health` (indication tokens: Ayurveda, Glucose, Eye health)
+- **Spilanthes acmella (toothache plant)** — tag `Oral health · Analgesic · Traditional` (indication tokens: Oral health, Analgesic, Traditional)
+- **Cistanche tubulosa (Rou Cong Rong)** — tag `TCM tonic · Anti-aging · Cognition` (indication tokens: TCM tonic, Anti-aging, Cognition)
+- **Polygala tenuifolia (Yuan Zhi)** — tag `TCM nootropic · Memory · Neuroprotection` (indication tokens: TCM nootropic, Memory, Neuroprotection)
+- **Lycium barbarum (goji berry extract, standardised)** — tag `Eye health · Antioxidant · TCM longevity` (indication tokens: Eye health, TCM longevity)
+- **He Shou Wu (processed Polygonum multiflorum)** — tag `TCM longevity · Hair · Anti-aging` (indication tokens: TCM longevity, Hair, Anti-aging)
+- **Jiaogulan (Gynostemma pentaphyllum)** — tag `Adaptogen · Metabolic · AMPK activator` (indication tokens: Metabolic, AMPK activator)
+- **Dendrobium officinale (Shi Hu)** — tag `TCM tonic · Yin nourishment · Gastric protection` (indication tokens: TCM tonic, Yin nourishment, Gastric protection)
+- **Coriolus versicolor PSP/PSK (turkey tail polysaccharide)** — tag `Immunity · Cancer adjunct · Gut microbiome` (indication tokens: Immunity, Cancer adjunct, Gut microbiome)
+- **Hericium erinaceus mycelium (Amyloban 3399)** — tag `Neuroprotection · Mood · Cognitive decline` (indication tokens: Neuroprotection, Mood, Cognitive decline)
+- **Nootropic peptide selank (synthetic)** — tag `Nootropic · Anxiety · Synthetic peptide` (indication tokens: Anxiety, Synthetic peptide)
+- **Aniracetam** — tag `Nootropic · Anxiety · AMPA modulation` (indication tokens: Anxiety, AMPA modulation)
+- **Phenylpiracetam (Phenotropil)** — tag `Nootropic · Stimulant · Cold tolerance` (indication tokens: Stimulant, Cold tolerance)
+- **Oxiracetam** — tag `Nootropic · Memory · Focus` (indication tokens: Memory, Focus)
+- **Piracetam** — tag `Nootropic · Original racetam · Cognitive decline` (indication tokens: Original racetam, Cognitive decline)
+- **Methylene blue (pharmaceutical grade)** — tag `Nootropic · Mitochondrial · Anti-aging` (indication tokens: Mitochondrial, Anti-aging)
+- **Cycloastragenol (TA-65)** — tag `Telomere · Anti-aging · Telomerase activation` (indication tokens: Telomere, Anti-aging, Telomerase activation)
+- **NR + Pterostilbene stack (basis-type)** — tag `NAD+ · Anti-aging · Sirtuin activation` (indication tokens: NAD+, Anti-aging, Sirtuin activation)
+- **Rapamycin (off-label longevity)** — tag `Anti-aging · mTOR inhibition · Experimental` (indication tokens: Anti-aging, mTOR inhibition)
+- **GHK-Cu peptide (copper peptide)** — tag `Skin aging · Wound healing · Collagen` (indication tokens: Skin aging, Wound healing, Collagen)
+- **BPC-157 (body protection compound)** — tag `Healing · Gut repair · Peptide` (indication tokens: Healing, Gut repair, Peptide)
+- **Semax (synthetic ACTH analogue)** — tag `Nootropic · Neuroprotection · Synthetic peptide` (indication tokens: Neuroprotection, Synthetic peptide)
+- **Ketone esters (exogenous ketones)** — tag `Cognitive fuel · Endurance · Metabolic` (indication tokens: Cognitive fuel, Metabolic)
+- **Sabroxy (Oroxylum indicum)** — tag `Nootropic · Focus · Dopamine` (indication tokens: Focus, Dopamine)
+- **Palmitoyl tripeptide-1 (matrixyl, oral)** — tag `Skin anti-aging · Collagen · Peptide` (indication tokens: Skin anti-aging, Collagen, Peptide)
+- **Tung oil tree extract (Vernicia fordii)** — tag `Experimental · Anti-inflammatory · Traditional` (indication tokens: Anti-inflammatory, Traditional)
+- **C60 fullerene (carbon 60)** — tag `Anti-aging · Antioxidant · Experimental` (indication tokens: Anti-aging)
+- **Coenzyme PQQ (pyrroloquinoline quinone, mitochondrial)** — tag `Mitochondrial biogenesis · Cognition · Anti-aging` (indication tokens: Mitochondrial biogenesis, Cognition, Anti-aging)
+- **MOTS-c (mitochondrial peptide)** — tag `Anti-aging · Metabolic · Exercise mimetic` (indication tokens: Anti-aging, Metabolic, Exercise mimetic)
+- **NAD+ IV infusion therapy** — tag `Anti-aging · Energy · Clinic-based` (indication tokens: Anti-aging, Energy, Clinic-based)
+- **Epicatechin (dark chocolate flavanol)** — tag `Muscle growth · Blood flow · Myostatin inhibition` (indication tokens: Muscle growth, Blood flow, Myostatin inhibition)
+- **Pinella ternata (Ban Xia)** — tag `TCM · Nausea · Phlegm-resolving` (indication tokens: TCM, Nausea, Phlegm-resolving)
+- **Codonopsis pilosula (Dang Shen)** — tag `TCM · Energy · Qi tonic` (indication tokens: TCM, Energy, Qi tonic)
+- **Dong quai (Angelica sinensis, low-dose)** — tag `TCM blood tonic · Women's health · Circulation` (indication tokens: TCM blood tonic, Women's health, Circulation)
+- **Black ant extract (Polyrhachis)** — tag `TCM tonic · Zinc source · Traditional` (indication tokens: TCM tonic, Zinc source, Traditional)
+- **Deer placenta extract** — tag `Anti-aging · Collagen · Women's health` (indication tokens: Anti-aging, Collagen, Women's health)
+- **Stem cell supplements (oral)** — tag `Anti-aging · Regenerative · Unproven` (indication tokens: Anti-aging, Regenerative, Unproven)
+- **Hydrogen water (molecular hydrogen)** — tag `Antioxidant · Anti-inflammatory · Trending` (indication tokens: Anti-inflammatory)
+- **Tremella fuciformis polysaccharide (beauty mushroom)** — tag `Skin hydration · Hyaluronic acid alternative · Beauty` (indication tokens: Skin hydration, Hyaluronic acid alternative, Beauty)
+- **Clenbuterol (weight loss/muscle)** — tag `Cardiac toxicity · Banned substance · Veterinary drug` (indication tokens: Cardiac toxicity, Banned substance, Veterinary drug)
+- **2,4-Dinitrophenol (DNP)** — tag `Lethal thermogenesis · Weight loss · No safe dose` (indication tokens: Lethal thermogenesis, Weight loss, No safe dose)
+- **Sibutramine (hidden in supplements)** — tag `Cardiovascular death · Banned drug · Adulteration` (indication tokens: Cardiovascular death, Banned drug, Adulteration)
+- **Phenolphthalein (hidden laxative)** — tag `Carcinogen · Hidden ingredient · Weight loss` (indication tokens: Carcinogen, Hidden ingredient, Weight loss)
+- **Higenamine (norcoclaurine, pre-workout)** — tag `Cardiac arrhythmia · Banned stimulant · Pre-workout` (indication tokens: Cardiac arrhythmia, Banned stimulant)
+- **Licorice root (high-dose/chronic)** — tag `Hypertension · Hypokalaemia · Adrenal disruption` (indication tokens: Hypertension, Hypokalaemia, Adrenal disruption)
+- **Aconitum (monkshood/aconite)** — tag `Lethal arrhythmia · TCM toxin · Cardiac arrest` (indication tokens: Lethal arrhythmia, TCM toxin, Cardiac arrest)
+- **Pyrrolizidine alkaloid herbs (comfrey/borage/coltsfoot)** — tag `Liver veno-occlusive disease · Carcinogen · Cumulative toxicity` (indication tokens: Liver veno-occlusive disease, Carcinogen, Cumulative toxicity)
+- **Cesium chloride (high pH therapy)** — tag `Cardiac arrest · Pseudoscience · Lethal` (indication tokens: Cardiac arrest, Pseudoscience, Lethal)
+- **GHB precursors (1,4-butanediol/GBL)** — tag `Respiratory arrest · Addiction · Date rape drug` (indication tokens: Respiratory arrest, Addiction, Date rape drug)
+- **Sodium chlorite (MMS/Miracle Mineral Supplement)** — tag `Chemical burn · Bleach ingestion · Fraud` (indication tokens: Chemical burn, Bleach ingestion, Fraud)
+- **Oleander extract (Nerium oleander)** — tag `Cardiac glycoside toxicity · Lethal · Cancer fraud` (indication tokens: Cardiac glycoside toxicity, Lethal, Cancer fraud)
+- **Apricot kernels/Laetrile (amygdalin)** — tag `Cyanide poisoning · Cancer fraud · Lethal` (indication tokens: Cyanide poisoning, Cancer fraud, Lethal)
+- **Andarine (S-4, SARM)** — tag `Vision damage · Liver toxicity · Banned substance` (indication tokens: Vision damage, Liver toxicity, Banned substance)
+- **Ostarine (MK-2866/Enobosarm, SARM)** — tag `Liver damage · Hormonal suppression · Banned` (indication tokens: Liver damage, Hormonal suppression, Banned)
+- **Diuretic supplements (herbal water pills)** — tag `Electrolyte depletion · Dehydration · Kidney damage` (indication tokens: Electrolyte depletion, Dehydration, Kidney damage)
+- **Tiratricol (TRIAC, thyroid hormone analogue)** — tag `Thyrotoxicosis · Cardiac arrest · Weight loss fraud` (indication tokens: Thyrotoxicosis, Cardiac arrest, Weight loss fraud)
+- **Strychnos nux-vomica (strychnine-containing)** — tag `Convulsions · Lethal · Traditional misuse` (indication tokens: Convulsions, Lethal, Traditional misuse)
+- **Thyroid glandular supplements (desiccated)** — tag `Thyrotoxicosis · Hormonal disruption · Undeclared hormones` (indication tokens: Thyrotoxicosis, Hormonal disruption, Undeclared hormones)
+- **Khat extract (Catha edulis)** — tag `Cardiovascular toxicity · Addiction · Banned substance` (indication tokens: Cardiovascular toxicity, Addiction, Banned substance)
+- **Calcium alpha-ketoglutarate (Ca-AKG)** — tag `Longevity · TCA cycle · Epigenetics · Biological age · Muscle` (indication tokens: TCA cycle, Epigenetics, Biological age, Muscle)
+- **Chondroitin sulfate (standalone)** — tag `Osteoarthritis · Cartilage preservation · Joint space · GAIT trial` (indication tokens: Osteoarthritis, Cartilage preservation, Joint space, GAIT trial)
+- **Lactobacillus gasseri** — tag `Weight management · Vaginal microbiome · H. pylori · Visceral fat` (indication tokens: Weight management, Vaginal microbiome, H. pylori, Visceral fat)
+- **Hydroxocobalamin** — tag `B12 form · Long-acting · Cyanide antidote · Nitric oxide scavenger` (indication tokens: B12 form, Long-acting, Cyanide antidote, Nitric oxide scavenger)
+- **TTFD / Allithiamine (fat-soluble B1)** — tag `Fat-soluble thiamine · Neurological · Dysautonomia · Blood-brain barrier` (indication tokens: Fat-soluble thiamine, Neurological, Dysautonomia, Blood-brain barrier)
+- **CoQ10 (ubiquinone, classic form)** — tag `Mitochondrial · Antioxidant · Statin users · Converts to ubiquinol` (indication tokens: Mitochondrial, Statin users, Converts to ubiquinol)
+- **L-Leucine (standalone)** — tag `Muscle protein synthesis · mTOR · Sarcopenia · Leucine threshold` (indication tokens: Muscle protein synthesis, mTOR, Sarcopenia, Leucine threshold)
+- **Vinpocetine** — tag `Cerebral blood flow · PDE1 inhibitor · Memory · Regulatory grey area` (indication tokens: Cerebral blood flow, PDE1 inhibitor, Memory, Regulatory grey area)
+- **Acacia fiber (prebiotic)** — tag `Prebiotic · IBS · Cholesterol · Bifidobacterium · Gentle · SIBO-safe` (indication tokens: Prebiotic, IBS, Cholesterol, Bifidobacterium, Gentle, SIBO-safe)
+- **Fucoxanthin** — tag `Visceral fat · Thermogenesis · Blood sugar · Brown seaweed · UCP1` (indication tokens: Visceral fat, Thermogenesis, Blood sugar, Brown seaweed, UCP1)
+- **Ferulic acid** — tag `Antioxidant · Muscle recovery · Bone health · Coffee phenolic` (indication tokens: Muscle recovery, Bone health, Coffee phenolic)
+- **Honokiol (magnolia bark isolate)** — tag `Anxiety · Neuroprotection · GABA modulator · Anti-inflammatory` (indication tokens: Anxiety, Neuroprotection, GABA modulator, Anti-inflammatory)
+- **Kaempferol** — tag `Flavonoid · Autophagy · Senolytic · Anti-inflammatory · Longevity` (indication tokens: Flavonoid, Autophagy, Senolytic, Anti-inflammatory)
+- **Pine pollen extract** — tag `Phytoandrogenic · Adaptogen · Hormonal · Allergenic risk` (indication tokens: Phytoandrogenic, Hormonal, Allergenic risk)
+- **NAD+ (direct oral supplement)** — tag `Bioavailability problem · Precursors preferred · NMN better · Longevity` (indication tokens: Bioavailability problem, Precursors preferred, NMN better)
+- **Folic acid (synthetic)** — tag `Pregnancy · Neural tube defects · Prenatal · MTHFR consideration` (indication tokens: Pregnancy, Neural tube defects, Prenatal, MTHFR consideration)
+- **L-Theanine + caffeine (cognitive stack)** — tag `Focus · Alertness · No jitters · 2:1 ratio · Studied combination` (indication tokens: Focus, Alertness, No jitters, 2:1 ratio, Studied combination)
+- **Barley grass powder** — tag `Nutrient-dense · Chlorophyll · Antioxidant · Green powder · Alkaline` (indication tokens: Nutrient-dense, Chlorophyll, Green powder, Alkaline)
+- **Melanotan II (tanning peptide)** — tag `Illegal peptide · Melanoma risk · Priapism · Cardiovascular · Banned` (indication tokens: Illegal peptide, Melanoma risk, Priapism, Cardiovascular, Banned)
+- **Peptide secretagogues (GHRP/ipamorelin)** — tag `Unapproved peptide · Banned by WADA · GH secretion · Cancer risk · Injection` (indication tokens: Unapproved peptide, Banned by WADA, GH secretion, Cancer risk, Injection)
+- **Uridine monophosphate (UMP)** — tag `Cognition · Brain health · Mood` (indication tokens: Cognition, Brain health, Mood)
+- **Galacto-oligosaccharides (GOS)** — tag `Gut health · Prebiotic · Immunity` (indication tokens: Gut health, Prebiotic, Immunity)
+- **Diindolylmethane (DIM)** — tag `Hormonal · Oestrogen balance · Detox` (indication tokens: Hormonal, Oestrogen balance, Detox)
+- **L-Cysteine** — tag `Hair · Skin · Glutathione · Detox` (indication tokens: Hair, Skin, Glutathione, Detox)
+- **Acerola cherry extract** — tag `Immunity · Antioxidant · Skin · Vitamin C` (indication tokens: Immunity, Skin, Vitamin C)
+- **Capsinoids (CH-19 sweet pepper)** — tag `Weight management · Thermogenesis · Metabolic` (indication tokens: Weight management, Thermogenesis, Metabolic)
+- **Luteolin** — tag `Cognition · Neuroprotection · Inflammation` (indication tokens: Cognition, Neuroprotection, Inflammation)
+- **Icariin (Epimedium extract)** — tag `Bone health · Testosterone · Cardiovascular` (indication tokens: Bone health, Testosterone, Cardiovascular)
+- **Lemon verbena extract** — tag `Recovery · Cognition · Antioxidant` (indication tokens: Cognition)
+- **Inositol hexanicotinate** — tag `Cardiovascular · Lipids · Niacin` (indication tokens: Cardiovascular, Lipids, Niacin)
+- **Plant ceramides** — tag `Skin · Gut barrier · Hydration` (indication tokens: Skin, Gut barrier, Hydration)
+- **White kidney bean extract** — tag `Weight management · Starch blocker · Blood sugar` (indication tokens: Weight management, Starch blocker, Blood sugar)
+- **Alpha-ketoglutarate (aKG)** — tag `Longevity · Mitochondria · Protein synthesis` (indication tokens: Mitochondria, Protein synthesis)
+- **Trehalose** — tag `Gut health · Autophagy · Neuroprotection` (indication tokens: Gut health, Autophagy, Neuroprotection)
+- **D-Glucuronolactone** — tag `Energy · Detox · Liver support` (indication tokens: Energy, Detox, Liver support)
+- **Phloretin** — tag `Antioxidant · Skin · Insulin sensitivity` (indication tokens: Skin, Insulin sensitivity)
+- **Ellagic acid** — tag `Antioxidant · Gut health · Anti-inflammatory` (indication tokens: Gut health, Anti-inflammatory)
+- **Yohimbine HCl** — tag `Fat loss · Stimulant · Alpha-2 antagonist` (indication tokens: Fat loss, Stimulant, Alpha-2 antagonist)
+- **Protocatechuic acid** — tag `Antioxidant · Cardiovascular · Neuroprotection` (indication tokens: Cardiovascular, Neuroprotection)
+- **Bladderwrack (Fucus vesiculosus)** — tag `Thyroid · Iodine · Metabolic · Sea vegetable` (indication tokens: Thyroid, Iodine, Metabolic, Sea vegetable)
+- **Sarsaparilla root** — tag `Inflammation · Hormonal · Gut detox` (indication tokens: Inflammation, Hormonal, Gut detox)
+- **Carob extract** — tag `Gut health · IBS · Diarrhoea · Blood sugar` (indication tokens: Gut health, IBS, Diarrhoea, Blood sugar)
+- **Blackcurrant extract** — tag `Eye health · Immunity · Circulation · Antioxidant` (indication tokens: Eye health, Immunity, Circulation)
+- **Oat avenanthramides** — tag `Cardiovascular · Anti-inflammatory · Skin` (indication tokens: Cardiovascular, Anti-inflammatory, Skin)
+- **Idebenone** — tag `Mitochondrial · Cognition · Vision` (indication tokens: Mitochondrial, Cognition, Vision)
+- **MitoQ** — tag `Mitochondrial · Antioxidant · Ageing` (indication tokens: Mitochondrial, Ageing)
+- **Gamma-tocopherol** — tag `Vitamin E · Cardiovascular · Anti-inflammatory` (indication tokens: Vitamin E, Cardiovascular, Anti-inflammatory)
+- **Delta-tocotrienol** — tag `Cardiovascular · Anti-inflammatory · Cancer adjunct` (indication tokens: Cardiovascular, Anti-inflammatory, Cancer adjunct)
+- **Squalene** — tag `Skin · Cardiovascular · Liver` (indication tokens: Skin, Cardiovascular, Liver)
+- **Green-lipped mussel (Perna canaliculus)** — tag `Joint · Anti-inflammatory · Omega-3` (indication tokens: Joint, Anti-inflammatory, Omega-3)
+- **Chanca piedra (Phyllanthus niruri)** — tag `Kidney stones · Liver · Urinary` (indication tokens: Kidney stones, Liver, Urinary)
+- **Uva ursi (Arctostaphylos uva-ursi)** — tag `UTI · Urinary antiseptic` (indication tokens: UTI, Urinary antiseptic)
+- **Corydalis yanhusuo** — tag `Pain · Traditional Chinese · Dopamine` (indication tokens: Pain, Traditional Chinese, Dopamine)
+- **Phellinus linteus (Meshimakobu)** — tag `Immune · Mushroom · Traditional` (indication tokens: Immune, Mushroom, Traditional)
+- **Damiana (Turnera diffusa)** — tag `Libido · Mood · Traditional` (indication tokens: Libido, Mood, Traditional)
+- **Guarana (Paullinia cupana)** — tag `Energy · Cognition · Stimulant` (indication tokens: Energy, Cognition, Stimulant)
+- **Yerba mate (Ilex paraguayensis)** — tag `Energy · Antioxidant · Metabolic` (indication tokens: Energy, Metabolic)
+- **Alfalfa leaf (Medicago sativa)** — tag `Fibre · Nutrient-dense · Cholesterol` (indication tokens: Fibre, Nutrient-dense, Cholesterol)
+- **Maqui berry (Aristotelia chilensis)** — tag `Antioxidant · Metabolic · Eye health` (indication tokens: Metabolic, Eye health)
+- **Soursop / Graviola leaf (Annona muricata)** — tag `Traditional · Antioxidant · Potential neurotoxicity` (indication tokens: Traditional, Potential neurotoxicity)
+- **Korean red ginseng (Panax ginseng)** — tag `Adaptogen · Energy · Sexual function` (indication tokens: Energy, Sexual function)
+- **Japanese knotweed (Polygonum cuspidatum)** — tag `Resveratrol source · Lyme adjunct` (indication tokens: Resveratrol source, Lyme adjunct)
+- **Naringenin** — tag `Citrus flavonoid · Metabolic · Antiviral` (indication tokens: Citrus flavonoid, Metabolic, Antiviral)
+- **Nicotinic acid (Niacin, flush form)** — tag `Lipids · Cardiovascular · Vitamin B3` (indication tokens: Lipids, Cardiovascular, Vitamin B3)
+- **Adenosylcobalamin (dibencozide)** — tag `Vitamin B12 · Mitochondrial · Energy` (indication tokens: Vitamin B12, Mitochondrial, Energy)
+- **Folinic acid (5-formyl-THF)** — tag `Folate · Autism · Methylation` (indication tokens: Folate, Autism, Methylation)
+- **Calcium pantothenate (Vitamin B5)** — tag `Vitamin B5 · Adrenal · Skin` (indication tokens: Vitamin B5, Adrenal, Skin)
+- **B-complex (balanced)** — tag `Multi-B vitamin · Energy · Methylation` (indication tokens: Multi-B vitamin, Energy, Methylation)
+- **DMG (Dimethylglycine)** — tag `Methyl donor · Performance · Immune` (indication tokens: Methyl donor, Immune)
+- **Bacillus subtilis (spore probiotic)** — tag `Probiotic · Gut · Immune` (indication tokens: Probiotic, Gut, Immune)
+- **Bacillus clausii** — tag `Probiotic · Antibiotic-associated diarrhoea` (indication tokens: Probiotic, Antibiotic-associated diarrhoea)
+- **DLPA (DL-Phenylalanine)** — tag `Mood · Pain · Catecholamines` (indication tokens: Mood, Pain, Catecholamines)
+- **Oleoylethanolamide (OEA)** — tag `Satiety · Metabolic · Endocannabinoid-like` (indication tokens: Satiety, Metabolic, Endocannabinoid-like)
+- **Helichrysum italicum (immortelle)** — tag `Topical · Anti-inflammatory · Wound healing` (indication tokens: Topical, Anti-inflammatory, Wound healing)
+- **Zinc bisglycinate** — tag `Zinc form · Chelated mineral` (indication tokens: Zinc form, Chelated mineral)
+- **Zinc gluconate** — tag `Zinc form · Cold duration · Immune` (indication tokens: Zinc form, Cold duration, Immune)
+- **Magnesium chloride (topical)** — tag `Magnesium form · Topical · Muscle` (indication tokens: Magnesium form, Topical, Muscle)
+- **Potassium gluconate** — tag `Potassium form · Electrolyte` (indication tokens: Potassium form, Electrolyte)
+- **Chromium nicotinate (polynicotinate)** — tag `Chromium form · Glucose · Metabolic` (indication tokens: Chromium form, Glucose, Metabolic)
+- **Boron glycinate** — tag `Boron form · Bone · Hormonal` (indication tokens: Boron form, Bone, Hormonal)
+- **Sacha inchi oil (Plukenetia volubilis)** — tag `Omega-3 · ALA · Plant-based` (indication tokens: Omega-3, ALA, Plant-based)
+- **Perilla oil** — tag `Omega-3 · ALA · Allergy` (indication tokens: Omega-3, ALA, Allergy)
+- **Borage oil (GLA)** — tag `Omega-6 GLA · Skin · Inflammation` (indication tokens: Omega-6 GLA, Skin, Inflammation)
+- **Calamari oil (high-DHA)** — tag `Omega-3 · DHA-rich · Sustainable` (indication tokens: Omega-3, DHA-rich, Sustainable)
+- **Algal oil (vegan DHA/EPA)** — tag `Omega-3 · Vegan · DHA` (indication tokens: Omega-3, DHA)
+- **Chia seed oil** — tag `Omega-3 · ALA · Plant-based` (indication tokens: Omega-3, ALA, Plant-based)
+- **Gamma-oryzanol (rice bran)** — tag `Lipids · Menopause · Antioxidant` (indication tokens: Lipids, Menopause)
+- **Fenugreek seed extract (Testofen / standardised)** — tag `Libido · Blood sugar · Lactation` (indication tokens: Libido, Blood sugar, Lactation)
+- **Phytosterols (beta-sitosterol complex)** — tag `Cholesterol · Heart` (indication tokens: Cholesterol, Heart)
+- **Eggshell membrane (NEM)** — tag `Joint · Connective tissue · Collagen` (indication tokens: Joint, Connective tissue, Collagen)
+- **Cannabigerol (CBG)** — tag `Cannabinoid · Anti-inflammatory · Focus` (indication tokens: Cannabinoid, Anti-inflammatory, Focus)
+- **Gotu kola (Centella asiatica)** — tag `Adaptogen · Cognition · Wound healing` (indication tokens: Cognition, Wound healing)
+- **Mucuna pruriens (velvet bean)** — tag `Dopamine precursor · Mood · Movement` (indication tokens: Dopamine precursor, Mood, Movement)
+- **Reishi spore oil (triterpenoid extract)** — tag `Adaptogen · Immune · Liver` (indication tokens: Immune, Liver)
+- **Ho-shou-wu (Polygonum multiflorum / Fo-ti)** — tag `Adaptogen · Hair · Hepatotoxicity risk` (indication tokens: Hair, Hepatotoxicity risk)
+- **Gynostemma pentaphyllum (Jiaogulan)** — tag `Adaptogen · Glycaemic · Cardiovascular` (indication tokens: Glycaemic, Cardiovascular)
+- **Tongkat Ali (Eurycoma longifolia)** — tag `Libido · Free testosterone · Stress` (indication tokens: Libido, Free testosterone, Stress)
+- **Sulforaphane (broccoli isothiocyanate)** — tag `Nrf2 activation · Detox enzymes · Antioxidant` (indication tokens: Nrf2 activation, Detox enzymes)
+- **Broccoli sprout extract (BroccoMax / Avmacol)** — tag `Sulforaphane source · Detox · Liver` (indication tokens: Sulforaphane source, Detox, Liver)
+- **Anthocyanin concentrate (bilberry / blackcurrant)** — tag `Vascular · Vision · Polyphenol` (indication tokens: Vascular, Vision, Polyphenol)
+- **Capsaicin (standardised)** — tag `Thermogenesis · Pain · Metabolic` (indication tokens: Thermogenesis, Pain, Metabolic)
+- **EGCG concentrate (decaffeinated green-tea catechin)** — tag `Antioxidant · Metabolic · Hepatotoxicity risk at high dose` (indication tokens: Metabolic, Hepatotoxicity risk at high dose)
+- **Olive-leaf polyphenols (oleuropein)** — tag `Cardiovascular · Antimicrobial · Antioxidant` (indication tokens: Cardiovascular, Antimicrobial)
+- **BPC-157 (oral pentadecapeptide)** — tag `Peptide · Tissue repair · Regulatory uncertainty` (indication tokens: Peptide, Tissue repair, Regulatory uncertainty)
+- **GHK-Cu (copper tripeptide, topical)** — tag `Skin · Wound healing · Hair` (indication tokens: Skin, Wound healing, Hair)
+- **NRH (dihydronicotinamide riboside)** — tag `NAD+ precursor · Longevity · Energy` (indication tokens: NAD+ precursor, Energy)
+- **Senolytic stack (quercetin + dasatinib protocols)** — tag `Senescent cell clearance · Experimental · Intermittent` (indication tokens: Senescent cell clearance, Intermittent)
+- **Pterostilbene** — tag `Resveratrol analogue · Cognition · Lipids` (indication tokens: Resveratrol analogue, Cognition, Lipids)
+- **Adenosylcobalamin (active B12, mitochondrial)** — tag `B12 active form · Mitochondrial · Energy` (indication tokens: B12 active form, Mitochondrial, Energy)
+- **Riboflavin-5-phosphate (active B2)** — tag `Active B2 · Migraine · Mitochondrial` (indication tokens: Active B2, Migraine, Mitochondrial)
+- **Thiamine TTFD (sulbutiamine-related)** — tag `Active B1 · Cognition · Mitochondrial` (indication tokens: Active B1, Cognition, Mitochondrial)
+- **Magnafolate (calcium L-methylfolate)** — tag `Active folate · MTHFR · Methylation` (indication tokens: Active folate, MTHFR, Methylation)
+- **Choline bitartrate (precursor, cost-effective)** — tag `Acetylcholine precursor · Liver · Cost-value` (indication tokens: Acetylcholine precursor, Liver, Cost-value)
+- **Trimethylglycine (TMG / betaine anhydrous)** — tag `Methyl donor · Homocysteine · Performance` (indication tokens: Methyl donor, Homocysteine)
+- **Hibiscus sabdariffa** — tag `Cardiovascular · Blood pressure · Polyphenol` (indication tokens: Cardiovascular, Blood pressure, Polyphenol)
+- **Grapefruit seed extract** — tag `CYP3A4 modulator · Citrus polyphenol · Caution` (indication tokens: CYP3A4 modulator, Citrus polyphenol, Caution)
+- **AHCC (active hexose correlated compound)** — tag `Mushroom mycelium · Immune · Oncology context` (indication tokens: Mushroom mycelium, Immune, Oncology context)
+- **Pumpkin seed oil** — tag `Men's health · BPH · Phytosterol` (indication tokens: Men's health, BPH, Phytosterol)
+- **Hops (Humulus lupulus)** — tag `Sleep · Phytoestrogen · GABAergic` (indication tokens: Sleep, Phytoestrogen, GABAergic)
+- **Vanadium (ultra-trace)** — tag `Trace mineral · Glucose · Caution` (indication tokens: Trace mineral, Glucose, Caution)
+- **Jambolan (Syzygium cumini)** — tag `Ayurvedic · Glucose · Limited evidence` (indication tokens: Ayurvedic, Glucose, Limited evidence)
+- **Partially hydrolyzed guar gum** — tag `Soluble fibre · IBS · Prebiotic` (indication tokens: Soluble fibre, IBS, Prebiotic)
+- **Iberogast (STW 5)** — tag `Functional dyspepsia · Multi-herb · German RCT` (indication tokens: Functional dyspepsia, Multi-herb, German RCT)
+- **Urolithin A (Mitopure)** — tag `Mitophagy · Longevity · Pomegranate-derived` (indication tokens: Mitophagy, Pomegranate-derived)
+- **Mitoquinol (MitoQ)** — tag `Mitochondrial · CoQ10 derivative · Longevity` (indication tokens: Mitochondrial, CoQ10 derivative)
+- **Methylene blue (oral)** — tag `Research-only · MAO-A inhibitor · Risky` (indication tokens: Research-only, MAO-A inhibitor, Risky)
+- **GlyNAC (glycine + NAC stack)** — tag `Glutathione precursor · Aging · Methylation` (indication tokens: Glutathione precursor, Aging, Methylation)
+- **Lactobacillus plantarum 299v** — tag `Probiotic strain · IBS · Iron absorption` (indication tokens: Probiotic strain, IBS, Iron absorption)
+- **Bifidobacterium infantis EVC001** — tag `Probiotic strain · Pediatric · Breastfed infant` (indication tokens: Probiotic strain, Pediatric, Breastfed infant)
+- **Bacillus coagulans GBI-30 (BC30)** — tag `Probiotic strain · Spore-former · Shelf-stable` (indication tokens: Probiotic strain, Spore-former, Shelf-stable)
+- **Lactobacillus acidophilus NCFM (DDS-1)** — tag `Probiotic strain · Lactose · Vaginal health` (indication tokens: Probiotic strain, Lactose, Vaginal health)
+- **PSK / PSP (Coriolus / Turkey Tail polysaccharides)** — tag `Mushroom · Immune · Oncology adjunct` (indication tokens: Mushroom, Immune, Oncology adjunct)
+- **Tremella fuciformis** — tag `Mushroom · Skin hydration · Polysaccharide` (indication tokens: Mushroom, Skin hydration, Polysaccharide)
+- **Schisandra chinensis** — tag `Adaptogen · Liver · Cognition` (indication tokens: Liver, Cognition)
+- **Moringa oleifera** — tag `Nutrient-dense · Adaptogen · Plant protein` (indication tokens: Nutrient-dense, Plant protein)
+- **Goji berry (Lycium barbarum)** — tag `Polysaccharide · Eye health · Antioxidant` (indication tokens: Polysaccharide, Eye health)
+- **BMPEA (β-methylphenethylamine)** — tag `Stimulant · Banned · Risky` (indication tokens: Stimulant, Banned, Risky)
+- **Methylsynephrine (oxilofrine)** — tag `Stimulant · Banned · Risky` (indication tokens: Stimulant, Banned, Risky)
+- **Hordenine** — tag `Stimulant · MAO-B inhibitor · Caution` (indication tokens: Stimulant, MAO-B inhibitor, Caution)
+- **7-Hydroxymitragynine (concentrated kratom alkaloid)** — tag `Opioid agonist · Concentrated kratom · Risky` (indication tokens: Opioid agonist, Concentrated kratom, Risky)
+
+## Forward partials — review whether uncovered tokens deserve a condition row
+
+- **Omega-3 (EPA/DHA)** — tag `Cardiovascular · Inflammation` — covered: Inflammation; uncovered: Cardiovascular
+- **Vitamin D3** — tag `Bone · Immunity · Muscle` — covered: Bone, Muscle; uncovered: Immunity
+- **Magnesium** — tag `Sleep · Cognition · Metabolic` — covered: Sleep, Metabolic; uncovered: Cognition
+- **Ashwagandha (KSM-66)** — tag `Stress · Anxiety · Sleep` — covered: Stress, Anxiety; uncovered: Sleep
+- **Berberine** — tag `Metabolic · Glucose · Lipids` — covered: Metabolic, Glucose; uncovered: Lipids
+- **Probiotics** — tag `Gut · Immunity · RTI` — covered: Gut; uncovered: Immunity, RTI
+- **CoQ10 (Ubiquinol)** — tag `Heart failure · Statin users` — covered: Heart failure; uncovered: Statin users
+- **Rhodiola rosea** — tag `Endurance · Stress · Fatigue` — covered: Stress; uncovered: Fatigue
+- **L-Theanine** — tag `Relaxation · Focus · Sleep` — covered: Sleep; uncovered: Relaxation, Focus
+- **Lutein + Zeaxanthin** — tag `Eye health · AMD` — covered: Eye health; uncovered: AMD
+- **Iron** — tag `Deficiency · Fatigue · Anaemia` — covered: Deficiency; uncovered: Fatigue, Anaemia
+- **Vitamin K2 (MK-7)** — tag `Bone · Vascular calcification` — covered: Bone; uncovered: Vascular calcification
+- **Folate (5-MTHF)** — tag `Pregnancy · Methylation · Mood` — covered: Pregnancy, Mood; uncovered: Methylation
+- **Saffron (Crocus sativus)** — tag `Depression · Anxiety · Cognition` — covered: Depression, Anxiety; uncovered: Cognition
+- **Acetyl-L-Carnitine (ALCAR)** — tag `Cognitive aging · Neuropathy` — covered: Neuropathy; uncovered: Cognitive aging
+- **Myo-inositol** — tag `PCOS · Metabolic · Mental health` — covered: PCOS; uncovered: Metabolic, Mental health
+- **Glycine** — tag `Sleep · Collagen synthesis · Metabolic` — covered: Sleep; uncovered: Collagen synthesis, Metabolic
+- **Iodine** — tag `Thyroid function · Deficiency` — covered: Thyroid function; uncovered: Deficiency
+- **Selenium** — tag `Thyroid · Antioxidant · Immune` — covered: Thyroid; uncovered: Immune
+- **Peppermint oil (enteric-coated)** — tag `IBS · Gut motility · Pain` — covered: IBS; uncovered: Gut motility, Pain
+- **Riboflavin (Vitamin B2)** — tag `Migraine prevention · Energy metabolism` — covered: Migraine prevention; uncovered: Energy metabolism
+- **Choline** — tag `Cognition · Liver · Methylation` — covered: Liver; uncovered: Cognition, Methylation
+- **Olive leaf extract** — tag `Blood pressure · Antiviral · Antioxidant` — covered: Blood pressure; uncovered: Antiviral
+- **Psyllium husk (Plantago ovata)** — tag `Cholesterol · Gut · Glucose` — covered: Cholesterol; uncovered: Gut, Glucose
+- **Quercetin** — tag `Anti-inflammatory · Antiviral · Longevity` — covered: Anti-inflammatory; uncovered: Antiviral
+- **Saw palmetto (Serenoa repens)** — tag `BPH · Urinary symptoms · Prostate` — covered: BPH, Prostate; uncovered: Urinary symptoms
+- **Chromium picolinate** — tag `Insulin sensitivity · Glucose · Weight` — covered: Insulin sensitivity, Glucose; uncovered: Weight
+- **Oregano oil (Origanum vulgare)** — tag `Antimicrobial · Gut · Antifungal` — covered: Gut; uncovered: Antimicrobial, Antifungal
+- **Vitamin E (mixed tocopherols)** — tag `Antioxidant · Skin · NAFLD` — covered: NAFLD; uncovered: Skin
+- **Lactoferrin** — tag `Iron absorption · Immunity · Gut` — covered: Iron absorption; uncovered: Immunity, Gut
+- **Calcium** — tag `Bone · Muscle · Nerve` — covered: Bone; uncovered: Muscle, Nerve
+- **S-Adenosylmethionine (SAMe)** — tag `Depression · Joint · Liver` — covered: Depression; uncovered: Joint, Liver
+- **PQQ (Pyrroloquinoline quinone)** — tag `Mitochondria · Cognition · Energy` — covered: Energy; uncovered: Mitochondria, Cognition
+- **Apigenin** — tag `Sleep · Anxiety · Neuroprotection` — covered: Sleep; uncovered: Anxiety, Neuroprotection
+- **Stinging nettle root (Urtica dioica)** — tag `Prostate · Allergies · Inflammation` — covered: Prostate; uncovered: Allergies, Inflammation
+- **Saccharomyces boulardii** — tag `Gut · C. diff · Traveller diarrhoea` — covered: Gut; uncovered: C. diff, Traveller diarrhoea
+- **Black cohosh (Cimicifuga racemosa)** — tag `Menopause · Hot flashes · Mood` — covered: Menopause; uncovered: Hot flashes, Mood
+- **Slippery elm (Ulmus rubra)** — tag `Gut · GERD · Sore throat` — covered: Gut, GERD; uncovered: Sore throat
+- **Biotin (low-dose, deficiency)** — tag `Hair · Nails · Metabolism` — covered: Hair; uncovered: Nails, Metabolism
+- **Beta-sitosterol** — tag `Prostate · Cholesterol` — covered: Prostate; uncovered: Cholesterol
+- **Feverfew (Tanacetum parthenium)** — tag `Migraine prevention · Inflammation` — covered: Migraine prevention; uncovered: Inflammation
+- **Lycopene** — tag `Prostate · Cardiovascular · Skin` — covered: Prostate; uncovered: Cardiovascular, Skin
+- **Collagen type II (undenatured, UC-II)** — tag `Joint · Cartilage · Autoimmune` — covered: Joint, Cartilage; uncovered: Autoimmune
+- **Artichoke extract (Cynara scolymus)** — tag `Liver · Digestion · Cholesterol` — covered: Liver; uncovered: Digestion, Cholesterol
+- **Bilberry extract** — tag `Eye health · Circulation · Antioxidant` — covered: Eye health; uncovered: Circulation
+- **Butterbur (Petasites hybridus)** — tag `Migraine prevention · Allergies` — covered: Migraine prevention; uncovered: Allergies
+- **DGL Licorice (deglycyrrhizinated)** — tag `GERD · Ulcer · Gut lining` — covered: GERD; uncovered: Ulcer, Gut lining
+- **TUDCA (tauroursodeoxycholic acid)** — tag `Liver · Bile flow · Neuroprotection` — covered: Liver; uncovered: Bile flow, Neuroprotection
+- **Red clover (Trifolium pratense)** — tag `Menopause · Bone · Isoflavones` — covered: Menopause; uncovered: Bone, Isoflavones
+- **Marshmallow root (Althaea officinalis)** — tag `Gut soothing · GERD · Cough` — covered: GERD; uncovered: Gut soothing, Cough
+- **D-Ribose** — tag `Energy · Heart failure · Fibromyalgia` — covered: Energy, Heart failure; uncovered: Fibromyalgia
+- **NADH (Coenzyme 1)** — tag `Energy · Chronic fatigue · Cognition` — covered: Energy, Chronic fatigue; uncovered: Cognition
+- **L-Arginine** — tag `Blood flow · Erectile function · Blood pressure` — covered: Erectile function; uncovered: Blood flow, Blood pressure
+- **Marine collagen (fish-derived)** — tag `Skin · Joint · Bioavailability` — covered: Skin; uncovered: Joint
+- **Bifidobacterium infantis 35624** — tag `IBS · Bloating · Gut-brain axis` — covered: IBS; uncovered: Bloating, Gut-brain axis
+- **Lactobacillus crispatus** — tag `Vaginal health · UTI · BV prevention` — covered: UTI; uncovered: Vaginal health, BV prevention
+- **Magnesium citrate** — tag `Constipation · General Mg · Bioavailability` — covered: Constipation; uncovered: General Mg
+- **Magnesium malate** — tag `Energy · Muscle · Fibromyalgia` — covered: Fibromyalgia; uncovered: Energy, Muscle
+- **Chamomile extract (Matricaria chamomilla)** — tag `Anxiety · Sleep · Digestive` — covered: Sleep; uncovered: Anxiety, Digestive
+- **Nettle leaf (Urtica dioica leaf)** — tag `Allergies · Hayfever · Anti-inflammatory` — covered: Allergies; uncovered: Hayfever, Anti-inflammatory
+- **Carnitine tartrate** — tag `Fat metabolism · Muscle recovery · Male fertility` — covered: Male fertility; uncovered: Fat metabolism, Muscle recovery
+- **Benfotiamine (fat-soluble B1)** — tag `Neuropathy · AGE prevention · B1 bioavailability` — covered: Neuropathy; uncovered: AGE prevention, B1 bioavailability
+- **Pycnogenol (pine bark, branded)** — tag `Circulation · Cognition · OA` — covered: OA; uncovered: Circulation, Cognition
+- **Methylcobalamin (high-dose neurological)** — tag `Neuropathy · Nerve repair · Sleep-wake cycle` — covered: Neuropathy; uncovered: Nerve repair, Sleep-wake cycle
+- **Inositol myo-form (PCOS/metabolic)** — tag `PCOS · Insulin sensitivity · Ovulation` — covered: Insulin sensitivity; uncovered: PCOS, Ovulation
+- **Curcumin Meriva (phytosome)** — tag `Joint · Inflammation · Bioavailable curcumin` — covered: Joint, Inflammation; uncovered: Bioavailable curcumin
+- **Ferrous bisglycinate (gentle iron)** — tag `Anaemia · Pregnancy · Iron deficiency` — covered: Iron deficiency; uncovered: Anaemia, Pregnancy
+- **Tongkat ali (Eurycoma longifolia, standardised)** — tag `Testosterone · Stress · Men's health` — covered: Testosterone, Men's health; uncovered: Stress
+- **Cranberry PAC (A-type proanthocyanidins)** — tag `UTI prevention · Urinary tract · Women's health` — covered: Women's health; uncovered: UTI prevention, Urinary tract
+- **Niacinamide (nicotinamide)** — tag `Knee OA · NAD precursor · Skin · No flush · B3 form` — covered: Skin; uncovered: Knee OA, NAD precursor, No flush, B3 form
+- **Soy isoflavones** — tag `Menopause · Bone density · Phytoestrogen · Equol · Cardiovascular` — covered: Menopause; uncovered: Bone density, Phytoestrogen, Equol, Cardiovascular
+- **D-Chiro Inositol** — tag `PCOS · Insulin sensitivity · Ovulation · 40:1 ratio · Hormone balance` — covered: PCOS; uncovered: Insulin sensitivity, Ovulation, 40:1 ratio, Hormone balance
+- **Glucosamine HCl (standalone)** — tag `Joint health · OA · HCl form · Shellfish · Cartilage` — covered: Joint health, OA, Cartilage; uncovered: HCl form, Shellfish
+- **Beef organ complex (desiccated)** — tag `Bioavailable iron · B12 · Copper · CoQ10 · Ancestral · Whole food` — covered: Bioavailable iron; uncovered: B12, Copper, CoQ10, Ancestral, Whole food
+- **Bergamot citrus polyphenol extract** — tag `LDL cholesterol · Triglycerides · Blood sugar · Statin-like · BGE` — covered: LDL cholesterol; uncovered: Triglycerides, Blood sugar, Statin-like, BGE
+- **Oat beta-glucan (cholesterol)** — tag `LDL cholesterol · FDA health claim · Soluble fibre · Heart health · Evidence` — covered: LDL cholesterol; uncovered: FDA health claim, Soluble fibre, Heart health, Evidence
+- **Magnesium glycinate** — tag `Magnesium form · Sleep · Anxiety` — covered: Sleep; uncovered: Magnesium form, Anxiety
+
+## Reverse mismatches — supplement listed under a condition with no obvious overlap
+
+- **Vitamin D3** under `pregnant` (Pregnancy) — supplement tag `Bone · Immunity · Muscle`
+- **Iodine** under `pregnant` (Pregnancy) — supplement tag `Thyroid function · Deficiency`
+- **Magnesium** under `pregnant` (Pregnancy) — supplement tag `Sleep · Cognition · Metabolic`
+- **Calcium** under `pregnant` (Pregnancy) — supplement tag `Bone · Muscle · Nerve`
+- **Choline** under `pregnant` (Pregnancy) — supplement tag `Cognition · Liver · Methylation`
+- **Iron** under `pregnant` (Pregnancy) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Magnesium** under `anxiety` (Anxiety / Stress) — supplement tag `Sleep · Cognition · Metabolic`
+- **Saccharomyces boulardii** under `gut` (Digestive issues) — supplement tag `Gut · C. diff · Traveller diarrhoea`
+- **Probiotics** under `gut` (Digestive issues) — supplement tag `Gut · Immunity · RTI`
+- **Peppermint oil (enteric-coated)** under `gut` (Digestive issues) — supplement tag `IBS · Gut motility · Pain`
+- **Glutamine (standalone, healthy adults)** under `gut` (Digestive issues) — supplement tag `Gut health / Immunity`
+- **Digestive enzymes** under `gut` (Digestive issues) — supplement tag `IBS · Food intolerance · Bloating`
+- **Quercetin** under `inflammation` (Inflammation) — supplement tag `Anti-inflammatory · Antiviral · Longevity`
+- **NAC (N-Acetyl Cysteine)** under `inflammation` (Inflammation) — supplement tag `Antioxidant · OCD · Addiction`
+- **Omega-3 (EPA/DHA)** under `cholesterol` (High cholesterol) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin K2 (MK-7)** under `cholesterol` (High cholesterol) — supplement tag `Bone · Vascular calcification`
+- **CoQ10 (Ubiquinol)** under `bp` (High blood pressure) — supplement tag `Heart failure · Statin users`
+- **Omega-3 (EPA/DHA)** under `pcos` (PCOS) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `pcos` (PCOS) — supplement tag `Bone · Immunity · Muscle`
+- **Berberine** under `pcos` (PCOS) — supplement tag `Metabolic · Glucose · Lipids`
+- **NAC (N-Acetyl Cysteine)** under `pcos` (PCOS) — supplement tag `Antioxidant · OCD · Addiction`
+- **CoQ10 (Ubiquinol)** under `migraine` (Migraines) — supplement tag `Heart failure · Statin users`
+- **Magnesium** under `migraine` (Migraines) — supplement tag `Sleep · Cognition · Metabolic`
+- **Riboflavin (Vitamin B2)** under `migraine` (Migraines) — supplement tag `Migraine prevention · Energy metabolism`
+- **Feverfew (Tanacetum parthenium)** under `migraine` (Migraines) — supplement tag `Migraine prevention · Inflammation`
+- **Butterbur (Petasites hybridus)** under `migraine` (Migraines) — supplement tag `Migraine prevention · Allergies`
+- **Chromium picolinate** under `diabetes` (Type 2 diabetes) — supplement tag `Insulin sensitivity · Glucose · Weight`
+- **Vitamin D3** under `diabetes` (Type 2 diabetes) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `diabetes` (Type 2 diabetes) — supplement tag `Sleep · Cognition · Metabolic`
+- **Zinc** under `thyroid` (Thyroid issues) — supplement tag `Immunity · Cold duration`
+- **Vitamin D3** under `thyroid` (Thyroid issues) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin D3** under `menopause` (Menopause) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin K2 (MK-7)** under `menopause` (Menopause) — supplement tag `Bone · Vascular calcification`
+- **Magnesium** under `menopause` (Menopause) — supplement tag `Sleep · Cognition · Metabolic`
+- **Calcium** under `menopause` (Menopause) — supplement tag `Bone · Muscle · Nerve`
+- **Saffron (Crocus sativus)** under `menopause` (Menopause) — supplement tag `Depression · Anxiety · Cognition`
+- **Probiotics** under `uti` (Recurring UTIs) — supplement tag `Gut · Immunity · RTI`
+- **Vitamin C (moderate dose)** under `uti` (Recurring UTIs) — supplement tag `Immunity · Collagen · Antioxidant`
+- **Magnesium** under `bone` (Bone health / Osteoporosis) — supplement tag `Sleep · Cognition · Metabolic`
+- **Zinc** under `hair` (Hair loss / Thinning) — supplement tag `Immunity · Cold duration`
+- **Vitamin D3** under `hair` (Hair loss / Thinning) — supplement tag `Bone · Immunity · Muscle`
+- **Collagen peptides** under `hair` (Hair loss / Thinning) — supplement tag `Skin · Joint · Connective tissue`
+- **Iron** under `hair` (Hair loss / Thinning) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Pycnogenol (pine bark, branded)** under `skin_aging` (Skin elasticity / aging) — supplement tag `Circulation · Cognition · OA`
+- **Vitamin C (moderate dose)** under `skin_aging` (Skin elasticity / aging) — supplement tag `Immunity · Collagen · Antioxidant`
+- **Omega-3 (EPA/DHA)** under `depression` (Depression / Low mood) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `depression` (Depression / Low mood) — supplement tag `Bone · Immunity · Muscle`
+- **Zinc** under `prostate` (Prostate health) — supplement tag `Immunity · Cold duration`
+- **Omega-3 (EPA/DHA)** under `eye` (Eye health / Vision) — supplement tag `Cardiovascular · Inflammation`
+- **Zinc** under `eye` (Eye health / Vision) — supplement tag `Immunity · Cold duration`
+- **Astaxanthin** under `eye` (Eye health / Vision) — supplement tag `Antioxidant · Skin · Recovery`
+- **Vitamin C (moderate dose)** under `eye` (Eye health / Vision) — supplement tag `Immunity · Collagen · Antioxidant`
+- **NAC (N-Acetyl Cysteine)** under `liver` (Liver support) — supplement tag `Antioxidant · OCD · Addiction`
+- **Bromelain** under `allergy` (Seasonal allergies) — supplement tag `Inflammation · Sinusitis · Recovery`
+- **Probiotics** under `allergy` (Seasonal allergies) — supplement tag `Gut · Immunity · RTI`
+- **Vitamin C (moderate dose)** under `allergy` (Seasonal allergies) — supplement tag `Immunity · Collagen · Antioxidant`
+- **Quercetin** under `allergy` (Seasonal allergies) — supplement tag `Anti-inflammatory · Antiviral · Longevity`
+- **CoQ10 (Ubiquinol)** under `atrial_fibrillation` (Atrial fibrillation (AFib)) — supplement tag `Heart failure · Statin users`
+- **Taurine** under `atrial_fibrillation` (Atrial fibrillation (AFib)) — supplement tag `Cardiovascular · Metabolic · Aging`
+- **Magnesium** under `atrial_fibrillation` (Atrial fibrillation (AFib)) — supplement tag `Sleep · Cognition · Metabolic`
+- **Magnesium** under `heart_failure` (Heart failure) — supplement tag `Sleep · Cognition · Metabolic`
+- **Alpha-Lipoic Acid (ALA)** under `prediabetes` (Prediabetes / Insulin resistance) — supplement tag `Diabetic neuropathy · Antioxidant`
+- **Vitamin D3** under `prediabetes` (Prediabetes / Insulin resistance) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `prediabetes` (Prediabetes / Insulin resistance) — supplement tag `Sleep · Cognition · Metabolic`
+- **Berberine** under `prediabetes` (Prediabetes / Insulin resistance) — supplement tag `Metabolic · Glucose · Lipids`
+- **Omega-3 (EPA/DHA)** under `metabolic_syndrome` (Metabolic syndrome) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `metabolic_syndrome` (Metabolic syndrome) — supplement tag `Bone · Immunity · Muscle`
+- **Bergamot citrus polyphenol extract** under `metabolic_syndrome` (Metabolic syndrome) — supplement tag `LDL cholesterol · Triglycerides · Blood sugar · Statin-like · BGE`
+- **Inositol myo-form (PCOS/metabolic)** under `metabolic_syndrome` (Metabolic syndrome) — supplement tag `PCOS · Insulin sensitivity · Ovulation`
+- **Omega-3 (EPA/DHA)** under `nafld` (NAFLD / MASLD (fatty liver)) — supplement tag `Cardiovascular · Inflammation`
+- **TUDCA (tauroursodeoxycholic acid)** under `nafld` (NAFLD / MASLD (fatty liver)) — supplement tag `Liver · Bile flow · Neuroprotection`
+- **Choline** under `nafld` (NAFLD / MASLD (fatty liver)) — supplement tag `Cognition · Liver · Methylation`
+- **Berberine** under `nafld` (NAFLD / MASLD (fatty liver)) — supplement tag `Metabolic · Glucose · Lipids`
+- **Omega-3 (EPA/DHA)** under `peripheral_artery_disease` (Peripheral artery disease) — supplement tag `Cardiovascular · Inflammation`
+- **Pycnogenol (pine bark, branded)** under `peripheral_artery_disease` (Peripheral artery disease) — supplement tag `Circulation · Cognition · OA`
+- **Ginkgo biloba EGb 761** under `peripheral_artery_disease` (Peripheral artery disease) — supplement tag `Dementia symptoms · Circulation · Cognitive aging`
+- **Acetyl-L-Carnitine (ALCAR)** under `peripheral_artery_disease` (Peripheral artery disease) — supplement tag `Cognitive aging · Neuropathy`
+- **Citrulline (L-citrulline, pure form)** under `peripheral_artery_disease` (Peripheral artery disease) — supplement tag `Blood flow · Exercise · Blood pressure`
+- **Omega-3 (EPA/DHA)** under `ckd_stage_3` (Chronic Kidney Disease (Stage 3)) — supplement tag `Cardiovascular · Inflammation`
+- **Iron** under `ckd_stage_3` (Chronic Kidney Disease (Stage 3)) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Iron** under `ckd_stage_4_5` (Chronic Kidney Disease (Stage 4-5 / dialysis)) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Vitamin B6 (P5P)** under `kidney_stones` (Kidney stones (recurrent)) — supplement tag `PMS · Pregnancy nausea · OCP support`
+- **Pyridoxal 5-phosphate (P5P)** under `kidney_stones` (Kidney stones (recurrent)) — supplement tag `Vitamin B6 · Neurotransmitters · Homocysteine`
+- **Magnesium citrate** under `kidney_stones` (Kidney stones (recurrent)) — supplement tag `Constipation · General Mg · Bioavailability`
+- **Pantothenic acid (Vitamin B5)** under `kidney_stones` (Kidney stones (recurrent)) — supplement tag `Energy · Adrenal support · Skin`
+- **Peppermint oil (enteric-coated)** under `ibs_d` (IBS — diarrhea-predominant) — supplement tag `IBS · Gut motility · Pain`
+- **Bifidobacterium infantis 35624** under `ibs_d` (IBS — diarrhea-predominant) — supplement tag `IBS · Bloating · Gut-brain axis`
+- **Psyllium husk (soluble fibre)** under `ibs_c` (IBS — constipation-predominant) — supplement tag `Cholesterol · Gut regularity · Glucose`
+- **Probiotics** under `ibs_c` (IBS — constipation-predominant) — supplement tag `Gut · Immunity · RTI`
+- **Omega-3 (EPA/DHA)** under `ibd_uc` (Ulcerative colitis) — supplement tag `Cardiovascular · Inflammation`
+- **Curcumin (bioavailable form)** under `ibd_uc` (Ulcerative colitis) — supplement tag `Inflammation · OA · Metabolic`
+- **Vitamin D3** under `ibd_uc` (Ulcerative colitis) — supplement tag `Bone · Immunity · Muscle`
+- **Probiotics** under `ibd_uc` (Ulcerative colitis) — supplement tag `Gut · Immunity · RTI`
+- **Saccharomyces boulardii** under `ibd_uc` (Ulcerative colitis) — supplement tag `Gut · C. diff · Traveller diarrhoea`
+- **Folate (5-MTHF)** under `ibd_uc` (Ulcerative colitis) — supplement tag `Pregnancy · Methylation · Mood`
+- **Curcumin Meriva (phytosome)** under `ibd_uc` (Ulcerative colitis) — supplement tag `Joint · Inflammation · Bioavailable curcumin`
+- **Omega-3 (EPA/DHA)** under `ibd_crohn` (Crohn's disease) — supplement tag `Cardiovascular · Inflammation`
+- **Curcumin (bioavailable form)** under `ibd_crohn` (Crohn's disease) — supplement tag `Inflammation · OA · Metabolic`
+- **Zinc** under `ibd_crohn` (Crohn's disease) — supplement tag `Immunity · Cold duration`
+- **Vitamin B12** under `ibd_crohn` (Crohn's disease) — supplement tag `Vegans · Elderly · Cognition`
+- **Magnesium** under `ibd_crohn` (Crohn's disease) — supplement tag `Sleep · Cognition · Metabolic`
+- **Calcium** under `ibd_crohn` (Crohn's disease) — supplement tag `Bone · Muscle · Nerve`
+- **Iron** under `ibd_crohn` (Crohn's disease) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Folate (5-MTHF)** under `ibd_crohn` (Crohn's disease) — supplement tag `Pregnancy · Methylation · Mood`
+- **Probiotics** under `gerd` (GERD / Acid reflux) — supplement tag `Gut · Immunity · RTI`
+- **Melatonin (0.1-0.5 mg physiological dose)** under `gerd` (GERD / Acid reflux) — supplement tag `Sleep onset · Jet lag · Circadian · Low dose · No grogginess`
+- **Saccharomyces boulardii** under `sibo` (SIBO (Small intestinal bacterial overgrowth)) — supplement tag `Gut · C. diff · Traveller diarrhoea`
+- **Berberine-containing Coptis (Huang Lian)** under `sibo` (SIBO (Small intestinal bacterial overgrowth)) — supplement tag `TCM · Antimicrobial · Glucose metabolism`
+- **Oregano oil (Origanum vulgare)** under `sibo` (SIBO (Small intestinal bacterial overgrowth)) — supplement tag `Antimicrobial · Gut · Antifungal`
+- **Berberine** under `sibo` (SIBO (Small intestinal bacterial overgrowth)) — supplement tag `Metabolic · Glucose · Lipids`
+- **Zinc** under `celiac` (Celiac disease) — supplement tag `Immunity · Cold duration`
+- **Probiotics** under `celiac` (Celiac disease) — supplement tag `Gut · Immunity · RTI`
+- **Vitamin B12** under `celiac` (Celiac disease) — supplement tag `Vegans · Elderly · Cognition`
+- **Magnesium** under `celiac` (Celiac disease) — supplement tag `Sleep · Cognition · Metabolic`
+- **Calcium** under `celiac` (Celiac disease) — supplement tag `Bone · Muscle · Nerve`
+- **Iron** under `celiac` (Celiac disease) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Folate (5-MTHF)** under `celiac` (Celiac disease) — supplement tag `Pregnancy · Methylation · Mood`
+- **Omega-3 (EPA/DHA)** under `adhd` (ADHD) — supplement tag `Cardiovascular · Inflammation`
+- **Zinc** under `adhd` (ADHD) — supplement tag `Immunity · Cold duration`
+- **N-Acetyl Tyrosine (NALT)** under `adhd` (ADHD) — supplement tag `Focus · Stress resilience`
+- **Magnesium glycinate** under `adhd` (ADHD) — supplement tag `Magnesium form · Sleep · Anxiety`
+- **L-Theanine** under `adhd` (ADHD) — supplement tag `Relaxation · Focus · Sleep`
+- **Saffron (Crocus sativus)** under `adhd` (ADHD) — supplement tag `Depression · Anxiety · Cognition`
+- **Iron** under `adhd` (ADHD) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Omega-3 (EPA/DHA)** under `ptsd` (PTSD) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `ptsd` (PTSD) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `ptsd` (PTSD) — supplement tag `Sleep · Cognition · Metabolic`
+- **L-Theanine** under `ptsd` (PTSD) — supplement tag `Relaxation · Focus · Sleep`
+- **Saffron (Crocus sativus)** under `ptsd` (PTSD) — supplement tag `Depression · Anxiety · Cognition`
+- **NAC (N-Acetyl Cysteine)** under `ptsd` (PTSD) — supplement tag `Antioxidant · OCD · Addiction`
+- **Omega-3 (EPA/DHA)** under `bipolar` (Bipolar disorder) — supplement tag `Cardiovascular · Inflammation`
+- **NAC (N-Acetyl Cysteine)** under `bipolar` (Bipolar disorder) — supplement tag `Antioxidant · OCD · Addiction`
+- **Vitamin D3** under `restless_legs` (Restless legs syndrome) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium glycinate** under `restless_legs` (Restless legs syndrome) — supplement tag `Magnesium form · Sleep · Anxiety`
+- **Vitamin B12** under `restless_legs` (Restless legs syndrome) — supplement tag `Vegans · Elderly · Cognition`
+- **Magnesium** under `restless_legs` (Restless legs syndrome) — supplement tag `Sleep · Cognition · Metabolic`
+- **Iron** under `restless_legs` (Restless legs syndrome) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Folate (5-MTHF)** under `restless_legs` (Restless legs syndrome) — supplement tag `Pregnancy · Methylation · Mood`
+- **Omega-3 (EPA/DHA)** under `sleep_apnea` (Obstructive sleep apnea) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `sleep_apnea` (Obstructive sleep apnea) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin D3** under `neuropathy` (Peripheral neuropathy) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin B12** under `neuropathy` (Peripheral neuropathy) — supplement tag `Vegans · Elderly · Cognition`
+- **Magnesium** under `neuropathy` (Peripheral neuropathy) — supplement tag `Sleep · Cognition · Metabolic`
+- **Glycine** under `insomnia` (Insomnia) — supplement tag `Sleep · Collagen synthesis · Metabolic`
+- **Tart cherry (Montmorency)** under `insomnia` (Insomnia) — supplement tag `Sleep · Recovery · Inflammation`
+- **Magnesium glycinate** under `insomnia` (Insomnia) — supplement tag `Magnesium form · Sleep · Anxiety`
+- **Melatonin (0.1-0.5 mg physiological dose)** under `insomnia` (Insomnia) — supplement tag `Sleep onset · Jet lag · Circadian · Low dose · No grogginess`
+- **L-Theanine** under `insomnia` (Insomnia) — supplement tag `Relaxation · Focus · Sleep`
+- **Apigenin** under `insomnia` (Insomnia) — supplement tag `Sleep · Anxiety · Neuroprotection`
+- **Chamomile extract (Matricaria chamomilla)** under `insomnia` (Insomnia) — supplement tag `Anxiety · Sleep · Digestive`
+- **Omega-3 (EPA/DHA)** under `rheumatoid_arthritis` (Rheumatoid arthritis) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `rheumatoid_arthritis` (Rheumatoid arthritis) — supplement tag `Bone · Immunity · Muscle`
+- **Folate (5-MTHF)** under `rheumatoid_arthritis` (Rheumatoid arthritis) — supplement tag `Pregnancy · Methylation · Mood`
+- **Omega-3 (EPA/DHA)** under `lupus` (Lupus (SLE)) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `lupus` (Lupus (SLE)) — supplement tag `Bone · Immunity · Muscle`
+- **Omega-3 (EPA/DHA)** under `psoriasis` (Psoriasis) — supplement tag `Cardiovascular · Inflammation`
+- **Curcumin (bioavailable form)** under `psoriasis` (Psoriasis) — supplement tag `Inflammation · OA · Metabolic`
+- **Vitamin D3** under `psoriasis` (Psoriasis) — supplement tag `Bone · Immunity · Muscle`
+- **Zinc** under `psoriasis` (Psoriasis) — supplement tag `Immunity · Cold duration`
+- **Folate (5-MTHF)** under `psoriasis` (Psoriasis) — supplement tag `Pregnancy · Methylation · Mood`
+- **Zinc** under `hashimotos` (Hashimoto's thyroiditis) — supplement tag `Immunity · Cold duration`
+- **Vitamin D3** under `hashimotos` (Hashimoto's thyroiditis) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `hashimotos` (Hashimoto's thyroiditis) — supplement tag `Sleep · Cognition · Metabolic`
+- **Iron** under `hashimotos` (Hashimoto's thyroiditis) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **L-Carnitine** under `graves` (Graves' disease) — supplement tag `Male fertility · Cardiac · Fat metabolism · Exercise recovery`
+- **Omega-3 (EPA/DHA)** under `multiple_sclerosis` (Multiple sclerosis) — supplement tag `Cardiovascular · Inflammation`
+- **Biotin (high-dose)** under `multiple_sclerosis` (Multiple sclerosis) — supplement tag `Hair · Nails · Skin`
+- **Vitamin D3** under `multiple_sclerosis` (Multiple sclerosis) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin B12** under `multiple_sclerosis` (Multiple sclerosis) — supplement tag `Vegans · Elderly · Cognition`
+- **Magnesium** under `multiple_sclerosis` (Multiple sclerosis) — supplement tag `Sleep · Cognition · Metabolic`
+- **Omega-3 (EPA/DHA)** under `endometriosis` (Endometriosis) — supplement tag `Cardiovascular · Inflammation`
+- **Curcumin (bioavailable form)** under `endometriosis` (Endometriosis) — supplement tag `Inflammation · OA · Metabolic`
+- **Vitamin D3** under `endometriosis` (Endometriosis) — supplement tag `Bone · Immunity · Muscle`
+- **Pycnogenol (pine bark, branded)** under `endometriosis` (Endometriosis) — supplement tag `Circulation · Cognition · OA`
+- **Magnesium** under `endometriosis` (Endometriosis) — supplement tag `Sleep · Cognition · Metabolic`
+- **NAC (N-Acetyl Cysteine)** under `endometriosis` (Endometriosis) — supplement tag `Antioxidant · OCD · Addiction`
+- **Curcumin (bioavailable form)** under `fibroids` (Uterine fibroids) — supplement tag `Inflammation · OA · Metabolic`
+- **Green tea extract (EGCG)** under `fibroids` (Uterine fibroids) — supplement tag `Weight loss / Antioxidant`
+- **Vitamin D3** under `fibroids` (Uterine fibroids) — supplement tag `Bone · Immunity · Muscle`
+- **Omega-3 (EPA/DHA)** under `perimenopause` (Perimenopause) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `perimenopause` (Perimenopause) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `perimenopause` (Perimenopause) — supplement tag `Sleep · Cognition · Metabolic`
+- **Calcium** under `perimenopause` (Perimenopause) — supplement tag `Bone · Muscle · Nerve`
+- **Saffron (Crocus sativus)** under `perimenopause` (Perimenopause) — supplement tag `Depression · Anxiety · Cognition`
+- **Vitex / Chasteberry (Vitex agnus-castus)** under `perimenopause` (Perimenopause) — supplement tag `PMS · Cycle regulation · Prolactin`
+- **Black cohosh (Cimicifuga racemosa)** under `perimenopause` (Perimenopause) — supplement tag `Menopause · Hot flashes · Mood`
+- **Vitamin E (mixed tocopherols)** under `male_fertility` (Male fertility) — supplement tag `Antioxidant · Skin · NAFLD`
+- **Selenium** under `male_fertility` (Male fertility) — supplement tag `Thyroid · Antioxidant · Immune`
+- **Folate (5-MTHF)** under `male_fertility` (Male fertility) — supplement tag `Pregnancy · Methylation · Mood`
+- **Vitamin C (moderate dose)** under `male_fertility` (Male fertility) — supplement tag `Immunity · Collagen · Antioxidant`
+- **CoQ10 (Ubiquinol)** under `male_fertility` (Male fertility) — supplement tag `Heart failure · Statin users`
+- **Omega-3 (EPA/DHA)** under `male_fertility` (Male fertility) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `male_fertility` (Male fertility) — supplement tag `Bone · Immunity · Muscle`
+- **Acetyl-L-Carnitine (ALCAR)** under `male_fertility` (Male fertility) — supplement tag `Cognitive aging · Neuropathy`
+- **CoQ10 (Ubiquinol)** under `female_fertility` (Female fertility) — supplement tag `Heart failure · Statin users`
+- **Omega-3 (EPA/DHA)** under `female_fertility` (Female fertility) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `female_fertility` (Female fertility) — supplement tag `Bone · Immunity · Muscle`
+- **Myo-inositol** under `female_fertility` (Female fertility) — supplement tag `PCOS · Metabolic · Mental health`
+- **Iron** under `female_fertility` (Female fertility) — supplement tag `Deficiency · Fatigue · Anaemia`
+- **Folate (5-MTHF)** under `female_fertility` (Female fertility) — supplement tag `Pregnancy · Methylation · Mood`
+- **NAC (N-Acetyl Cysteine)** under `female_fertility` (Female fertility) — supplement tag `Antioxidant · OCD · Addiction`
+- **Saw palmetto (Serenoa repens)** under `bph` (BPH (benign prostatic hyperplasia)) — supplement tag `BPH · Urinary symptoms · Prostate`
+- **Pygeum africanum** under `bph` (BPH (benign prostatic hyperplasia)) — supplement tag `Prostate · Urinary health`
+- **Lycopene** under `bph` (BPH (benign prostatic hyperplasia)) — supplement tag `Prostate · Cardiovascular · Skin`
+- **Beta-sitosterol** under `bph` (BPH (benign prostatic hyperplasia)) — supplement tag `Prostate · Cholesterol`
+- **Stinging nettle root (Urtica dioica)** under `bph` (BPH (benign prostatic hyperplasia)) — supplement tag `Prostate · Allergies · Inflammation`
+- **Zinc** under `ed` (Erectile dysfunction) — supplement tag `Immunity · Cold duration`
+- **Pycnogenol (pine bark, branded)** under `ed` (Erectile dysfunction) — supplement tag `Circulation · Cognition · OA`
+- **Vitamin D3** under `ed` (Erectile dysfunction) — supplement tag `Bone · Immunity · Muscle`
+- **Panax ginseng** under `ed` (Erectile dysfunction) — supplement tag `Cognitive / Fatigue / Sexual health`
+- **Maca (Lepidium meyenii)** under `ed` (Erectile dysfunction) — supplement tag `Libido · Energy · Fertility`
+- **Citrulline (L-citrulline, pure form)** under `ed` (Erectile dysfunction) — supplement tag `Blood flow · Exercise · Blood pressure`
+- **Zinc** under `low_t` (Low testosterone (men)) — supplement tag `Immunity · Cold duration`
+- **Omega-3 (EPA/DHA)** under `low_t` (Low testosterone (men)) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `low_t` (Low testosterone (men)) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `low_t` (Low testosterone (men)) — supplement tag `Sleep · Cognition · Metabolic`
+- **Ashwagandha (KSM-66)** under `low_t` (Low testosterone (men)) — supplement tag `Stress · Anxiety · Sleep`
+- **Omega-3 (EPA/DHA)** under `sarcopenia` (Sarcopenia / Muscle loss with aging) — supplement tag `Cardiovascular · Inflammation`
+- **Collagen peptides (type I, exercise recovery)** under `sarcopenia` (Sarcopenia / Muscle loss with aging) — supplement tag `Tendon · Ligament · Exercise recovery`
+- **Boron** under `osteoporosis` (Osteoporosis) — supplement tag `Joint health · Testosterone · Bone`
+- **Vitamin D3** under `osteoporosis` (Osteoporosis) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin K2 (MK-7)** under `osteoporosis` (Osteoporosis) — supplement tag `Bone · Vascular calcification`
+- **Magnesium** under `osteoporosis` (Osteoporosis) — supplement tag `Sleep · Cognition · Metabolic`
+- **Calcium** under `osteoporosis` (Osteoporosis) — supplement tag `Bone · Muscle · Nerve`
+- **Tart cherry (Montmorency)** under `gout` (Gout) — supplement tag `Sleep · Recovery · Inflammation`
+- **Magnesium** under `gout` (Gout) — supplement tag `Sleep · Cognition · Metabolic`
+- **Vitamin C (moderate dose)** under `gout` (Gout) — supplement tag `Immunity · Collagen · Antioxidant`
+- **Quercetin** under `gout` (Gout) — supplement tag `Anti-inflammatory · Antiviral · Longevity`
+- **CoQ10 (Ubiquinol)** under `fibromyalgia` (Fibromyalgia) — supplement tag `Heart failure · Statin users`
+- **Omega-3 (EPA/DHA)** under `fibromyalgia` (Fibromyalgia) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `fibromyalgia` (Fibromyalgia) — supplement tag `Bone · Immunity · Muscle`
+- **Magnesium** under `fibromyalgia` (Fibromyalgia) — supplement tag `Sleep · Cognition · Metabolic`
+- **Acetyl-L-Carnitine (ALCAR)** under `fibromyalgia` (Fibromyalgia) — supplement tag `Cognitive aging · Neuropathy`
+- **S-Adenosylmethionine (SAMe)** under `fibromyalgia` (Fibromyalgia) — supplement tag `Depression · Joint · Liver`
+- **CoQ10 (Ubiquinol)** under `long_covid` (Long COVID) — supplement tag `Heart failure · Statin users`
+- **Omega-3 (EPA/DHA)** under `long_covid` (Long COVID) — supplement tag `Cardiovascular · Inflammation`
+- **Vitamin D3** under `long_covid` (Long COVID) — supplement tag `Bone · Immunity · Muscle`
+- **Vitamin B12** under `long_covid` (Long COVID) — supplement tag `Vegans · Elderly · Cognition`
+- **Magnesium** under `long_covid` (Long COVID) — supplement tag `Sleep · Cognition · Metabolic`
+- **CoQ10 (Ubiquinol)** under `cfs` (Chronic fatigue syndrome (ME/CFS)) — supplement tag `Heart failure · Statin users`
+- **Magnesium** under `cfs` (Chronic fatigue syndrome (ME/CFS)) — supplement tag `Sleep · Cognition · Metabolic`
+- **D-Ribose** under `cfs` (Chronic fatigue syndrome (ME/CFS)) — supplement tag `Energy · Heart failure · Fibromyalgia`
+- **Acetyl-L-Carnitine (ALCAR)** under `cfs` (Chronic fatigue syndrome (ME/CFS)) — supplement tag `Cognitive aging · Neuropathy`

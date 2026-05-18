@@ -1,0 +1,776 @@
+{
+  "generated": "2026-05-18",
+  "source": "compare/index.html",
+  "total": 76,
+  "comparisons": [
+    {
+      "href": "compare/alpha-lipoic-acid-vs-acetyl-l-carnitine.html",
+      "title": "Alpha-Lipoic Acid vs Acetyl-L-Carnitine — two mitochondrial cofactors compared",
+      "sides": [
+        "Alpha-Lipoic Acid",
+        "Acetyl-L-Carnitine"
+      ],
+      "topic": "Energy",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/apigenin-vs-magnesium-for-sleep.html",
+      "title": "Apigenin vs Magnesium for sleep — what the human evidence actually says",
+      "sides": [
+        "Apigenin",
+        "Magnesium"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/ashwagandha-vs-l-theanine-for-stress.html",
+      "title": "Ashwagandha vs L-Theanine for stress — chronic vs acute, with caveats",
+      "sides": [
+        "Ashwagandha",
+        "L-Theanine"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/ashwagandha-vs-rhodiola.html",
+      "title": "Ashwagandha vs Rhodiola — which adaptogen actually fits your problem?",
+      "sides": [
+        "Ashwagandha",
+        "Rhodiola"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/astaxanthin-vs-krill-oil.html",
+      "title": "Astaxanthin vs Krill oil — antioxidant vs phospholipid omega-3, compared",
+      "sides": [
+        "Astaxanthin",
+        "Krill oil"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/beetroot-vs-citrulline-for-pumps.html",
+      "title": "Beetroot vs Citrulline for pumps and performance — two routes to nitric oxide compared",
+      "sides": [
+        "Beetroot",
+        "Citrulline"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/berberine-vs-cinnamon.html",
+      "title": "Berberine vs Cinnamon — which one actually moves blood sugar?",
+      "sides": [
+        "Berberine",
+        "Cinnamon"
+      ],
+      "topic": "Thyroid & metabolic",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/beta-alanine-vs-citrulline.html",
+      "title": "Beta-Alanine vs Citrulline — which performance supplement matches your training?",
+      "sides": [
+        "Beta-Alanine",
+        "Citrulline"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/black-cohosh-vs-red-clover-for-menopause.html",
+      "title": "Black Cohosh vs Red Clover for menopause — what the head-to-head evidence actually shows",
+      "sides": [
+        "Black Cohosh",
+        "Red Clover"
+      ],
+      "topic": "Hormones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/carnitine-vs-coq10-for-energy.html",
+      "title": "Carnitine vs CoQ10 for energy — two mitochondrial supplements compared",
+      "sides": [
+        "Carnitine",
+        "CoQ10"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/citicoline-vs-alpha-gpc.html",
+      "title": "Citicoline vs Alpha-GPC — two cholinergic compounds compared",
+      "sides": [
+        "Citicoline",
+        "Alpha-GPC"
+      ],
+      "topic": "Cognition",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/citrulline-vs-arginine.html",
+      "title": "L-Citrulline vs L-Arginine — which one actually raises nitric oxide",
+      "sides": [
+        "L-Citrulline",
+        "L-Arginine"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/collagen-vs-vitamin-c-for-skin.html",
+      "title": "Collagen vs Vitamin C for skin — different mechanisms, often combined",
+      "sides": [
+        "Collagen",
+        "Vitamin C"
+      ],
+      "topic": "Skin & eyes",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/coq10-vs-pqq.html",
+      "title": "CoQ10 vs PQQ — does the trendy mitochondrial supplement actually work?",
+      "sides": [
+        "CoQ10",
+        "PQQ"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/creatine-vs-bcaas.html",
+      "title": "Creatine vs BCAAs — which actually builds muscle?",
+      "sides": [
+        "Creatine",
+        "BCAAs"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/curcumin-vs-boswellia.html",
+      "title": "Curcumin vs Boswellia — anti-inflammatory botanicals compared",
+      "sides": [
+        "Curcumin",
+        "Boswellia"
+      ],
+      "topic": "Joints & inflammation",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/curcumin-vs-ginger-for-inflammation.html",
+      "title": "Curcumin vs Ginger for inflammation — what each does in pain, OA, and metabolic markers",
+      "sides": [
+        "Curcumin",
+        "Ginger"
+      ],
+      "topic": "Joints & inflammation",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/d-mannose-vs-cranberry-for-uti.html",
+      "title": "D-Mannose vs Cranberry for UTI prevention — which actually works?",
+      "sides": [
+        "D-Mannose",
+        "Cranberry"
+      ],
+      "topic": "Gut",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/elderberry-vs-zinc-for-colds.html",
+      "title": "Elderberry vs Zinc for colds — duration reduction with caveats",
+      "sides": [
+        "Elderberry",
+        "Zinc"
+      ],
+      "topic": "Immune",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/epa-vs-dha.html",
+      "title": "EPA vs DHA — when each omega-3 actually outperforms the other",
+      "sides": [
+        "EPA",
+        "DHA"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/fish-oil-vs-algal-oil.html",
+      "title": "Fish Oil vs Algal Oil — bioequivalence, contaminants, and what the trials show",
+      "sides": [
+        "Fish Oil",
+        "Algal Oil"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/ginkgo-vs-bacopa-for-memory.html",
+      "title": "Ginkgo vs Bacopa for memory — which actually has trial evidence in adults",
+      "sides": [
+        "Ginkgo",
+        "Bacopa"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/glucosamine-vs-msm.html",
+      "title": "Glucosamine vs MSM — which joint supplement actually helps?",
+      "sides": [
+        "Glucosamine",
+        "MSM"
+      ],
+      "topic": "Joints & inflammation",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/glycine-vs-l-theanine.html",
+      "title": "Glycine vs L-Theanine — calm without sedation, with different mechanisms",
+      "sides": [
+        "Glycine",
+        "L-Theanine"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/hawthorn-vs-garlic-for-blood-pressure.html",
+      "title": "Hawthorn vs Aged Garlic for blood pressure — herbal cardio compared",
+      "sides": [
+        "Hawthorn",
+        "Aged Garlic"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/hibiscus-vs-pomegranate-for-blood-pressure.html",
+      "title": "Hibiscus vs Pomegranate for blood pressure — two polyphenol-rich plants",
+      "sides": [
+        "Hibiscus",
+        "Pomegranate"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/holy-basil-vs-ashwagandha.html",
+      "title": "Holy basil (Tulsi) vs Ashwagandha — adaptogens for stress, compared",
+      "sides": [
+        "Holy basil (Tulsi)",
+        "Ashwagandha"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/inositol-vs-berberine-for-pcos.html",
+      "title": "Inositol vs Berberine for PCOS — which one fits which presentation?",
+      "sides": [
+        "Inositol",
+        "Berberine"
+      ],
+      "topic": "Hormones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/iron-bisglycinate-vs-sulfate.html",
+      "title": "Ferrous bisglycinate vs ferrous sulfate — which iron, when, and why",
+      "sides": [
+        "Ferrous bisglycinate",
+        "ferrous sulfate"
+      ],
+      "topic": "Energy",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/k2-mk4-vs-mk7.html",
+      "title": "Vitamin K2: MK-4 vs MK-7 — what's actually different",
+      "sides": [
+        "Vitamin K2: MK-4",
+        "MK-7"
+      ],
+      "topic": "Bones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/l-theanine-vs-magnesium-for-sleep.html",
+      "title": "L-Theanine vs Magnesium for sleep — which one fits which problem?",
+      "sides": [
+        "L-Theanine",
+        "Magnesium"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/lions-mane-vs-bacopa.html",
+      "title": "Lion's Mane vs Bacopa — which nootropic actually has the trial weight?",
+      "sides": [
+        "Lion's Mane",
+        "Bacopa"
+      ],
+      "topic": "Cognition",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/lutein-vs-astaxanthin.html",
+      "title": "Lutein vs Astaxanthin — which carotenoid does what",
+      "sides": [
+        "Lutein",
+        "Astaxanthin"
+      ],
+      "topic": "Skin & eyes",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/lutein-vs-zeaxanthin.html",
+      "title": "Lutein vs Zeaxanthin — the two macular pigment carotenoids",
+      "sides": [
+        "Lutein",
+        "Zeaxanthin"
+      ],
+      "topic": "Skin & eyes",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/maca-vs-ashwagandha.html",
+      "title": "Maca vs Ashwagandha — libido, stress, and hormones compared",
+      "sides": [
+        "Maca",
+        "Ashwagandha"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/magnesium-citrate-vs-oxide.html",
+      "title": "Magnesium Citrate vs Magnesium Oxide — absorption, bowel effect, cost",
+      "sides": [
+        "Magnesium Citrate",
+        "Magnesium Oxide"
+      ],
+      "topic": "Gut",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/magnesium-glycinate-vs-threonate.html",
+      "title": "Magnesium Glycinate vs Threonate — sleep, cognition, and the premium question",
+      "sides": [
+        "Magnesium Glycinate",
+        "Threonate"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/magnesium-vs-calcium-for-bone.html",
+      "title": "Magnesium vs Calcium for bone health — which one actually matters more",
+      "sides": [
+        "Magnesium",
+        "Calcium"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/magnesium-vs-zinc-for-sleep.html",
+      "title": "Magnesium vs Zinc for sleep — what the trial evidence supports",
+      "sides": [
+        "Magnesium",
+        "Zinc"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/melatonin-vs-magnesium-glycinate.html",
+      "title": "Melatonin vs magnesium glycinate — which is better for sleep?",
+      "sides": [
+        "Melatonin",
+        "magnesium glycinate"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/methylcobalamin-vs-cyanocobalamin.html",
+      "title": "Methylcobalamin vs Cyanocobalamin — which B12 form is actually better?",
+      "sides": [
+        "Methylcobalamin",
+        "Cyanocobalamin"
+      ],
+      "topic": "Methylation",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/methylfolate-vs-folic-acid.html",
+      "title": "Methylfolate vs Folic Acid — the MTHFR question, compared honestly",
+      "sides": [
+        "Methylfolate",
+        "Folic Acid"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/nac-vs-glutathione.html",
+      "title": "NAC vs glutathione — supplement the precursor or the molecule itself?",
+      "sides": [
+        "NAC",
+        "glutathione"
+      ],
+      "topic": "Liver",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/nmn-vs-nr.html",
+      "title": "NMN vs NR — the NAD+ precursors compared honestly",
+      "sides": [
+        "NMN",
+        "NR"
+      ],
+      "topic": "Energy",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/olive-leaf-vs-garlic-for-blood-pressure.html",
+      "title": "Olive Leaf vs Garlic for blood pressure — what the trial evidence actually shows",
+      "sides": [
+        "Olive Leaf",
+        "Garlic"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/phosphatidylserine-vs-bacopa.html",
+      "title": "Phosphatidylserine vs Bacopa monnieri — membrane lipid vs Ayurvedic nootropic",
+      "sides": [
+        "Phosphatidylserine",
+        "Bacopa monnieri"
+      ],
+      "topic": "Cognition",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/probiotic-strains.html",
+      "title": "Which probiotic strain for which condition",
+      "sides": [
+        "Which probiotic strain for which condition"
+      ],
+      "topic": "Gut",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/probiotics-vs-prebiotics.html",
+      "title": "Probiotics vs Prebiotics — live bacteria vs the fibre that feeds them",
+      "sides": [
+        "Probiotics",
+        "Prebiotics"
+      ],
+      "topic": "Gut",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/quercetin-vs-bromelain.html",
+      "title": "Quercetin vs Bromelain — which one fits which inflammatory complaint?",
+      "sides": [
+        "Quercetin",
+        "Bromelain"
+      ],
+      "topic": "Joints & inflammation",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/reishi-vs-cordyceps.html",
+      "title": "Reishi vs Cordyceps — functional mushrooms, compared honestly",
+      "sides": [
+        "Reishi",
+        "Cordyceps"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/riboflavin-vs-coq10-for-migraine.html",
+      "title": "Riboflavin vs CoQ10 for migraine prevention — two mitochondrial cofactors",
+      "sides": [
+        "Riboflavin",
+        "CoQ10"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/saffron-vs-5-htp-for-mood.html",
+      "title": "Saffron vs 5-HTP for mood — the RCT-backed extract vs the precursor",
+      "sides": [
+        "Saffron",
+        "5-HTP"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/saw-palmetto-vs-beta-sitosterol.html",
+      "title": "Saw Palmetto vs Beta-Sitosterol — BPH evidence, head-to-head",
+      "sides": [
+        "Saw Palmetto",
+        "Beta-Sitosterol"
+      ],
+      "topic": "Hormones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/saw-palmetto-vs-pygeum-for-bph.html",
+      "title": "Saw Palmetto vs Pygeum for BPH — what the prostate trials actually show",
+      "sides": [
+        "Saw Palmetto",
+        "Pygeum"
+      ],
+      "topic": "Hormones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/selenium-vs-iodine-for-thyroid.html",
+      "title": "Selenium vs Iodine for thyroid — when each helps and when iodine harms",
+      "sides": [
+        "Selenium",
+        "Iodine"
+      ],
+      "topic": "Thyroid & metabolic",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/spermidine-vs-resveratrol.html",
+      "title": "Spermidine vs Resveratrol — two longevity bets that haven't paid off",
+      "sides": [
+        "Spermidine",
+        "Resveratrol"
+      ],
+      "topic": "Longevity",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/spirulina-vs-chlorella.html",
+      "title": "Spirulina vs Chlorella — algae compared honestly",
+      "sides": [
+        "Spirulina",
+        "Chlorella"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/spirulina-vs-moringa.html",
+      "title": "Spirulina vs Moringa — two \"superfood\" green powders compared honestly",
+      "sides": [
+        "Spirulina",
+        "Moringa"
+      ],
+      "topic": "Other",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/theanine-vs-lemon-balm-for-anxiety.html",
+      "title": "L-Theanine vs Lemon Balm for anxiety — daytime calm compared",
+      "sides": [
+        "L-Theanine",
+        "Lemon Balm"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/tmg-vs-same-for-methylation.html",
+      "title": "TMG vs SAMe — methyl donor vs activated methyl carrier",
+      "sides": [
+        "TMG",
+        "SAMe"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/tongkat-ali-vs-fadogia-agrestis.html",
+      "title": "Tongkat Ali vs Fadogia Agrestis — what does the human evidence actually look like?",
+      "sides": [
+        "Tongkat Ali",
+        "Fadogia Agrestis"
+      ],
+      "topic": "Hormones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/tudca-vs-nac-for-liver.html",
+      "title": "TUDCA vs NAC for liver — bile acids, antioxidants, and what each actually does",
+      "sides": [
+        "TUDCA",
+        "NAC"
+      ],
+      "topic": "Liver",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/tyrosine-vs-rhodiola-for-fatigue.html",
+      "title": "Tyrosine vs Rhodiola for fatigue — acute precursor vs chronic adaptogen",
+      "sides": [
+        "Tyrosine",
+        "Rhodiola"
+      ],
+      "topic": "Stress & mood",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/ubiquinone-vs-ubiquinol.html",
+      "title": "CoQ10: ubiquinone vs ubiquinol — does the form matter?",
+      "sides": [
+        "CoQ10: ubiquinone",
+        "ubiquinol"
+      ],
+      "topic": "Heart & BP",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/valerian-vs-hops-for-sleep.html",
+      "title": "Valerian vs Hops for sleep — herbal sedatives, compared",
+      "sides": [
+        "Valerian",
+        "Hops"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/vitamin-d3-vs-d2.html",
+      "title": "Vitamin D3 vs D2 — which form should you actually buy?",
+      "sides": [
+        "Vitamin D3",
+        "D2"
+      ],
+      "topic": "Bones",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/whey-vs-casein.html",
+      "title": "Whey vs Casein protein — which one, when, and why",
+      "sides": [
+        "Whey",
+        "Casein protein"
+      ],
+      "topic": "Sleep",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/whey-vs-plant-protein.html",
+      "title": "Whey vs Plant Protein — leucine, MPS, and what the head-to-head trials show",
+      "sides": [
+        "Whey",
+        "Plant Protein"
+      ],
+      "topic": "Performance",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/zinc-picolinate-vs-zinc-citrate.html",
+      "title": "Zinc Picolinate vs Zinc Citrate — absorption and practical fit",
+      "sides": [
+        "Zinc Picolinate",
+        "Zinc Citrate"
+      ],
+      "topic": "Immune",
+      "kind": "binary"
+    },
+    {
+      "href": "compare/adaptogens.html",
+      "title": "Ashwagandha vs Rhodiola vs Cordyceps",
+      "sides": [
+        "Ashwagandha",
+        "Rhodiola",
+        "Cordyceps"
+      ],
+      "topic": "Stress & mood",
+      "kind": "multi"
+    },
+    {
+      "href": "compare/creatine-forms.html",
+      "title": "Monohydrate vs HCl vs ethyl ester vs buffered",
+      "sides": [
+        "Monohydrate",
+        "HCl",
+        "ethyl ester",
+        "buffered"
+      ],
+      "topic": "Performance",
+      "kind": "multi"
+    },
+    {
+      "href": "compare/curcumin-formulations.html",
+      "title": "Standard vs Meriva vs Theracurmin vs liposomal vs piperine",
+      "sides": [
+        "Standard",
+        "Meriva",
+        "Theracurmin",
+        "liposomal",
+        "piperine"
+      ],
+      "topic": "Joints & inflammation",
+      "kind": "multi"
+    },
+    {
+      "href": "compare/magnesium-forms.html",
+      "title": "Magnesium glycinate vs citrate vs L-threonate",
+      "sides": [
+        "Magnesium glycinate",
+        "citrate",
+        "L-threonate"
+      ],
+      "topic": "Sleep",
+      "kind": "multi"
+    },
+    {
+      "href": "compare/omega-3-forms.html",
+      "title": "EPA vs DHA vs ALA omega-3",
+      "sides": [
+        "EPA",
+        "DHA",
+        "ALA omega-3"
+      ],
+      "topic": "Cognition",
+      "kind": "multi"
+    },
+    {
+      "href": "compare/protein-powders.html",
+      "title": "Whey vs casein vs pea protein",
+      "sides": [
+        "Whey",
+        "casein",
+        "pea protein"
+      ],
+      "topic": "Performance",
+      "kind": "multi"
+    },
+    {
+      "href": "compare/serotonin-precursors.html",
+      "title": "5-HTP vs L-tryptophan vs SAMe",
+      "sides": [
+        "5-HTP",
+        "L-tryptophan",
+        "SAMe"
+      ],
+      "topic": "Stress & mood",
+      "kind": "multi"
+    }
+  ]
+}
