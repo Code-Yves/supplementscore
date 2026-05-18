@@ -7,7 +7,14 @@
  * so users always get fresh data within one navigation.
  */
 
-const CACHE_VERSION = 'v2026-05-18-modal-chrome-25';
+/* CACHE_VERSION bumped 2026-05-18 (v26) to invalidate stale caches after
+   a batch of JS/CSS edits: modal back-stack (modal-stack.js + closeArtModal
+   pop, supplement-modal.js push), Further Reading reroute (supplement.html),
+   Recommended For de-link, autocomplete z-index, supplement footer removal,
+   V2 brand-teal filter buttons (styles.css). Without this bump, the SW's
+   stale-while-revalidate flow serves users yesterday's JS even after a
+   hard-reload — bumping forces a full SW reinstall and cache wipe. */
+const CACHE_VERSION = 'v2026-05-18-modal-stack-26';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
@@ -23,6 +30,7 @@ const PRECACHE_URLS = [
   '/search-index.js',
   '/nav-search.js',
   '/supplement-modal.js',
+  '/modal-stack.js',
   '/data/pairings.json'
 ];
 

@@ -1317,51 +1317,9 @@ body{ overflow-x:clip; }
 .cdd-btn svg{flex-shrink:0;transition:transform .15s}
 .cdd-open .cdd-btn svg{transform:rotate(180deg)}
 
-/* Index filter buttons — V2 solid-brand treatment (2026-05-13).
-   See mockup-filter-buttons-color-variants.html for the picker. The
-   production default (background: bg-secondary, color: text-secondary)
-   was near-invisible against the page's cream background. This scoped
-   override gives the Goal / Age & Sex / Symptom row solid brand teal
-   with white icon + label so the buttons read as clearly tappable.
-   Scope is .sfbar only — other dropdowns elsewhere on the site keep
-   the original muted treatment. Icon SVGs use stroke="currentColor"
-   so they pick up the white color automatically.
-   ------------------------------------------------------------------
-   States:
-     base        — solid brand
-     :hover      — brand-hover (darker), lifted shadow
-     .cdd-open   — brand-hover + outer ring
-     .on         — keep the existing brand→brand-hover gradient so the
-                   selected filter still reads distinct from base. The
-                   inset highlight adds a subtle "pressed" feel. */
-.sfbar .cdd-btn{
-  background: var(--color-brand);
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 2px 6px rgba(31,122,107,.18);
-}
-.sfbar .cdd-btn:hover{
-  background: var(--color-brand-hover);
-  border-color: transparent;
-  box-shadow: 0 4px 12px rgba(31,122,107,.28);
-}
-.sfbar .cdd-open .cdd-btn{
-  background: var(--color-brand-hover);
-  border-color: transparent;
-  box-shadow: 0 0 0 2px rgba(31,122,107,.35), 0 4px 12px rgba(31,122,107,.28);
-}
-.sfbar .cdd-btn.on{
-  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
-}
-.sfbar .cdd-btn.on:hover{
-  filter: brightness(1.06);
-}
-.sfbar .cdd-open .cdd-btn.on{
-  box-shadow: 0 0 0 2px rgba(31,122,107,.4), 0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
-}
+/* (V2 filter button override originally added here was redundant —
+   the real definition lives in the "Style D" block further down at
+   the .sfbar section. Removed to avoid duplicate rules.) */
 
 .cdd-menu{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:160px;max-height:280px;overflow-y:auto;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200;padding:4px}
 .cdd-menu.open{display:block}
@@ -2231,8 +2189,13 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    scards below for one continuous surface.
 ═════════════════════════════════════════════════════════════════ */
 
-/* — Style D: icon-block filter buttons — */
-.sfbar{display:flex;flex-wrap:nowrap;gap:0;padding:10px 0;align-items:stretch;width:100%}
+/* — Style D: icon-block filter buttons — V2 solid-brand colorway
+   (2026-05-18). Layout stays vertical (icon stacked above label, equal-
+   width 3-column row). Colors swap from the previous near-invisible
+   cream/grey treatment to solid brand teal with white icon + label so
+   the Goal / Age & Sex / Symptom row reads as clearly tappable.
+   See mockup-filter-buttons-color-variants.html for the picker. */
+.sfbar{display:flex;flex-wrap:nowrap;gap:8px;padding:10px 0;align-items:stretch;width:100%}
 /* Each .cdd expands equally to fill the row */
 .sfbar .cdd{flex:1 1 0;min-width:0}
 .sfbar .cdd-btn{
@@ -2243,39 +2206,48 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   gap:5px;
   padding:10px 8px;
   border-radius:10px;
-  border:.5px solid var(--color-border-tertiary);
-  background:var(--color-background-primary);
-  color:var(--color-text-secondary);
+  border:1px solid transparent;
+  background:var(--color-brand);
+  color:#fff;
   font-family:inherit;
   display:flex;
-  box-shadow:none;
-  transition:border-color .15s, color .15s, background .15s;
+  box-shadow:0 2px 6px rgba(31,122,107,.18);
+  transition:background .15s, box-shadow .15s, transform .12s;
 }
-.sfbar .cdd-ico{width:18px;height:18px;flex-shrink:0;color:#1d7a5a;display:block}
-.sfbar .cdd-lbl{font-size:11px;font-weight:500;line-height:1;color:var(--color-text-secondary)}
+.sfbar .cdd-ico{width:18px;height:18px;flex-shrink:0;color:#fff;display:block}
+.sfbar .cdd-lbl{font-size:11px;font-weight:600;line-height:1;color:#fff;letter-spacing:.01em}
 .sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
 .sfbar .cdd-btn:hover:not(.on){
-  border-color:var(--color-border-secondary);
-  background:var(--color-background-secondary);
+  background:var(--color-brand-hover);
+  box-shadow:0 4px 12px rgba(31,122,107,.28);
+  transform:translateY(-1px);
 }
-/* Active: teal fill */
+.sfbar .cdd-btn:active{transform:translateY(0)}
+/* Active filter selected — gradient + inset highlight so selected state
+   still reads distinct from the solid-brand base. */
 .sfbar .cdd-btn.on{
-  background:#e3f4ef;
-  border-color:#1d7a5a;
-  box-shadow:none;
+  background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
+  border-color:transparent;
+  box-shadow:0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
   filter:none;
 }
-.sfbar .cdd-btn.on .cdd-ico{color:#0d5c40}
-.sfbar .cdd-btn.on .cdd-lbl{color:#0d5c40}
-.sfbar .cdd-btn.on:hover{background:#d4edea;filter:none}
+.sfbar .cdd-btn.on .cdd-ico{color:#fff}
+.sfbar .cdd-btn.on .cdd-lbl{color:#fff}
+.sfbar .cdd-btn.on:hover{
+  filter:brightness(1.06);
+  transform:translateY(-1px);
+}
 /* Dropdown-open ring */
 .sfbar .cdd-open .cdd-btn{
-  border-color:#1d7a5a;
-  box-shadow:0 0 0 1px rgba(29,122,107,.15);
+  background:var(--color-brand-hover);
+  box-shadow:0 0 0 2px rgba(31,122,107,.35), 0 4px 12px rgba(31,122,107,.28);
+}
+.sfbar .cdd-open .cdd-btn.on{
+  box-shadow:0 0 0 2px rgba(31,122,107,.4), 0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
 }
 .sfbar .cdd-btn:focus-visible{
-  outline:2px solid var(--color-brand);
-  outline-offset:2px;
+  outline:2px solid #fff;
+  outline-offset:-3px;
 }
 
 /* — Context title card — tier-aware, docks into cards below — */
