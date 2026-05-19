@@ -189,3 +189,23 @@
 | 2026-05-18 | dasatinib-plus-quercetin-senolytic-therapy-the-2024-2025-human-trial-update | Breakthrough | 870 | 7 | public:6, industry:1 | evergreen |
 | 2026-05-18 | zinc-lozenges-for-childrens-colds-what-the-pediatric-trials-show | Kids | 830 | 7 | public:6, nonprofit:1 | evergreen |
 | 2026-05-18 | vitamin-d-drops-overdose-in-infants-case-reports-and-the-aap-warning | Kids | 850 | 6 | public:3, nonprofit:3 | evergreen |
+| 2026-05-19 | fish-oil-and-atrial-fibrillation-what-the-omega-3-cardiac-trials-now-show | Research-Update | 870 | 8 | industry:2, public:4, nonprofit:2 | evergreen |
+| 2026-05-19 | vitamin-k2-mk-7-vs-mk-4-for-arterial-calcification-the-form-debate | Research-Update | 880 | 8 | industry:4, public:3, nonprofit:1 | evergreen |
+| 2026-05-19 | butterbur-petadolex-for-migraine-prevention-and-the-pyrrolizidine-question | Research-Update | 870 | 8 | industry:3, public:3, nonprofit:2 | evergreen |
+| 2026-05-19 | taurine-and-blood-pressure-what-the-2024-2025-meta-analyses-show | Research-Update | 870 | 7 | public:5, nonprofit:2 | evergreen |
+| 2026-05-19 | glycine-and-sleep-architecture-the-slow-wave-trial-evidence | Research-Update | 860 | 8 | industry:4, public:3, nonprofit:1 | evergreen |
+| 2026-05-19 | tart-cherry-juice-for-sleep-melatonin-content-and-trial-effects | Research-Update | 860 | 7 | industry:3, public:3, nonprofit:1 | evergreen |
+| 2026-05-19 | folate-vs-methylfolate-and-mthfr-variants-what-genetic-testing-companies-don-t-tell-you | Guide | 870 | 7 | nonprofit:2, public:4, industry:1 | evergreen |
+| 2026-05-19 | cyanocobalamin-vs-methylcobalamin-vs-hydroxocobalamin-does-the-b12-form-matter | Guide | 880 | 8 | public:5, industry:1, nonprofit:2 | evergreen |
+| 2026-05-19 | reading-omega-3-labels-epa-dha-and-the-ratio-that-actually-matters | Guide | 880 | 8 | industry:3, public:5 | evergreen |
+| 2026-05-19 | vitamin-k1-vs-k2-different-vitamins-despite-the-shared-letter | Guide | 890 | 8 | industry:2, public:4, nonprofit:2 | evergreen |
+| 2026-05-19 | kelp-supplements-and-iodine-overdose-when-more-iodine-harms-the-thyroid | Safety | 900 | 8 | public:5, nonprofit:3 | evergreen |
+| 2026-05-19 | glutathione-iv-for-skin-whitening-the-off-label-cosmetic-risk | Safety | 880 | 8 | public:4, industry:1, nonprofit:3 | evergreen |
+| 2026-05-19 | pregnenolone-the-master-hormone-supplement-and-its-unregulated-steroid-cascade | Safety | 880 | 8 | public:6, nonprofit:2 | evergreen |
+| 2026-05-19 | graviola-soursop-as-cancer-cure-the-fda-warning-and-the-cell-line-gap | Myth | 880 | 8 | public:6, nonprofit:2 | evergreen |
+| 2026-05-19 | hydrogen-water-the-antioxidant-claim-and-the-dissolution-problem | Myth | 900 | 8 | public:5, industry:1, nonprofit:2 | evergreen |
+| 2026-05-19 | elderberry-and-the-cytokine-storm-myth-that-wouldn-t-die | Myth | 900 | 8 | industry:3, public:5 | evergreen |
+| 2026-05-19 | dhea-and-aging-what-the-2024-2025-trials-show-in-older-adults | Breakthrough | 890 | 8 | nonprofit:2, public:5, industry:1 | evergreen |
+| 2026-05-19 | potassium-and-blood-pressure-the-mineral-most-people-under-consume | Breakthrough | 890 | 8 | public:4, nonprofit:4 | evergreen |
+| 2026-05-19 | manuka-honey-for-pediatric-cough-what-the-trials-show-and-the-one-year-cutoff | Kids | 880 | 8 | industry:3, public:1, nonprofit:4 | evergreen |
+| 2026-05-19 | vitamin-d-for-autistic-children-what-the-rcts-actually-show | Kids | 880 | 8 | public:6, nonprofit:2 | evergreen |

@@ -26,19 +26,21 @@
   + '.ssm-bd{position:absolute;inset:0;background:rgba(15,12,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer}'
   + '.ssm-card{position:relative;max-width:980px;width:calc(100% - 32px);margin:32px auto;height:calc(100vh - 64px);background:var(--color-background-secondary,#ebe5d9);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(10px) scale(.99);transition:transform .2s ease;border:1px solid var(--color-border-tertiary,#dcdad7)}'
   + '.ssm.open .ssm-card{transform:translateY(0) scale(1)}'
-  + '.ssm-x{position:absolute;top:14px;right:14px;z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border-tertiary,#dcdad7);background:var(--color-background-primary,#f6f2ea);color:var(--color-text-primary,#0c0a09);font-size:20px;font-weight:400;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;transition:all .15s;font-family:inherit;box-shadow:0 2px 6px rgba(0,0,0,.08)}'
-  + '.ssm-x:hover{background:var(--color-background-secondary,#ebe5d9);transform:scale(1.06)}'
+  /* Top chrome (2026-05-18) — v2 treatment to match the article-modal
+     v2-chrome look: transparent buttons, simple text + icon, no
+     shadow/border. Matches the Prev/Next/Share/X bar in screenshot 1. */
+  + '.ssm-x{position:absolute;top:12px;right:14px;z-index:5;width:auto;height:auto;border-radius:6px;border:none;background:transparent;color:#9CA3AF;font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:6px 8px;transition:color .12s;font-family:inherit}'
+  + '.ssm-x:hover{background:transparent;color:#0c0a09;transform:none}'
   + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
-  + '.ssm-x svg{width:16px;height:16px;display:block}'
-  /* Share button — sits LEFT of the close X. Same pill height (36px),
-     matches the brand chrome. Native share sheet on mobile, copy-link
-     fallback on desktop. */
-  + '.ssm-share{position:absolute;top:14px;right:60px;z-index:5;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--color-border-tertiary,#dcdad7);background:var(--color-background-primary,#f6f2ea);color:var(--color-text-primary,#0c0a09);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:all .15s;font-family:inherit;box-shadow:0 2px 6px rgba(0,0,0,.08)}'
-  + '.ssm-share:hover{background:var(--color-background-secondary,#ebe5d9);transform:scale(1.04)}'
+  + '.ssm-x svg{width:14px;height:14px;display:block}'
+  + '.ssm-share{position:absolute;top:12px;right:54px;z-index:5;height:auto;padding:6px 10px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:color .12s;font-family:inherit}'
+  + '.ssm-share:hover{background:transparent;color:#0c0a09;transform:none}'
   + '.ssm-share:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
-  + '.ssm-share.copied{background:#E6F7F5;color:#065F56;border-color:#9DD3CC}'
-  + '.ssm-share svg{width:14px;height:14px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-  + '@media(max-width:500px){.ssm-share{padding:0;width:36px;justify-content:center;border-radius:50%}.ssm-share .ssm-share-lbl{display:none}.ssm-share{right:60px}}'
+  + '.ssm-share.copied{background:transparent;color:var(--color-brand,#1F7A6B)}'
+  + '.ssm-share svg{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+  /* Subtle divider between Share and X, mirrors v2-chrome */
+  + '.ssm-x::before{content:"";display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary,#E8E5DF);margin-right:6px;vertical-align:middle}'
+  + '@media(max-width:500px){.ssm-share{padding:6px;right:46px}.ssm-share .ssm-share-lbl{display:none}}'
   + '.ssm-toast{position:absolute;top:60px;right:14px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'

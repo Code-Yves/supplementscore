@@ -138,7 +138,26 @@
   + 'html.ss-in-iframe .reader-close-fab,'
   + 'html.ss-in-iframe .pg-close-fab,'
   + 'html.ss-in-iframe .hub-close-fab,'
-  + 'html.ss-in-iframe .ssux-lang{display:none !important}';
+  + 'html.ss-in-iframe .ssux-lang{display:none !important}'
+    /* Standalone article — render the page inside an .art-modal-style
+       frame so /a/<slug>.html looks identical to opening the article
+       from the index modal (matches the v2 chrome treatment). */
+  + 'body.ssa-standalone-modal{overflow:hidden;margin:0;height:100vh}'
+  + 'body.ssa-standalone-modal > :not(.ssa-modal):not(script):not(.ssux-pmbadge-mount){display:none !important}'
+  + '.ssa-modal{position:fixed;inset:0;display:flex;justify-content:center;align-items:flex-start;z-index:1100;'
+  +   'background:linear-gradient(180deg, rgba(248,244,237,1) 0%, rgba(235,229,217,.96) 100%);overflow-y:auto;padding:24px 16px}'
+  + '.ssa-pane{position:relative;width:100%;max-width:820px;margin:0 auto;background:var(--color-background-primary,#f8f4ed);'
+  +   'border-radius:20px;border:1px solid var(--color-border-tertiary,#dcdad7);'
+  +   'box-shadow:0 30px 80px rgba(0,0,0,.16);overflow:hidden;display:flex;flex-direction:column;min-height:calc(100vh - 48px)}'
+  + '.ssa-chrome{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;'
+  +   'padding:10px 12px;background:var(--color-background-primary,#f8f4ed);'
+  +   'border-bottom:1px solid var(--color-border-tertiary,#dcdad7);border-radius:20px 20px 0 0}'
+  + '.ssa-chrome .art-modal-nav{display:flex;align-items:center;gap:8px}'
+  + '.ssa-chrome .art-modal-actions{display:flex;align-items:center;gap:8px}'
+  + '.ssa-body{flex:1;padding:0;overflow:visible}'
+  + '.ssa-body .ar-wrap{max-width:none;margin:0;padding:24px 28px 56px}'
+  + '@media(max-width:600px){.ssa-modal{padding:0}.ssa-pane{border-radius:0;border:none;min-height:100vh;max-width:100%}'
+  +   '.ssa-chrome{border-radius:0}.ssa-body .ar-wrap{padding:16px 18px 40px}}';
   var styleEl = document.createElement('style');
   styleEl.textContent = css;
   document.head.appendChild(styleEl);
@@ -834,19 +853,131 @@
       var floatingToc = document.querySelector('nav.ssux-toc');
       if (floatingToc && floatingToc.parentNode) floatingToc.parentNode.removeChild(floatingToc);
     }
-    /* Rewrite the standalone close FAB so it returns to the Research
-       feed tab rather than the home Index tab. The href stays
-       relative for portability; the onclick now defaults to
-       index.html#research when there's no same-origin referrer to
-       go-back to. */
-    var fab = document.querySelector('.pg-close-fab, .reader-close-fab');
-    if (fab && /\/index\.html$/.test(fab.getAttribute('href')||'')){
-      fab.setAttribute('href', '../index.html#research');
-      fab.setAttribute('onclick',
-        "event.preventDefault();" +
-        "if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}" +
-        "else{location.href='../index.html#research';}");
+    /* Wrap the article in a modal-style frame matching the in-modal
+       presentation: centered ~780px card on a blurred backdrop, with
+       a sticky top chrome carrying Prev/Next + Share + X. Reuses the
+       existing .art-modal / .art-modal-pane / .art-modal-chrome
+       classes from styles.css so the look is identical. */
+    if (!document.querySelector('.ssa-modal')){
+      var artTitle = (h1.textContent || '').trim();
+      var chromeHtml =
+          '<div class="art-modal ssa-modal v2-chrome open" role="dialog" aria-modal="true" aria-label="' + artTitle.replace(/[<&"]/g, function(c){return {'<':'&lt;','&':'&amp;','"':'&quot;'}[c];}) + '">'
+        +   '<div class="art-modal-pane ssa-pane">'
+        +     '<div class="art-modal-chrome ssa-chrome">'
+        +       '<div class="art-modal-nav">'
+        +         '<button type="button" id="ssa-prev" class="art-nav-btn" aria-label="Previous article" disabled>'
+        +           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>'
+        +         '</button>'
+        +         '<button type="button" id="ssa-next" class="art-nav-btn" aria-label="Next article" disabled>'
+        +           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>'
+        +         '</button>'
+        +       '</div>'
+        +       '<div class="art-modal-actions">'
+        +         '<button type="button" id="ssa-share" class="art-share-btn" aria-label="Share article" title="Share article">'
+        +           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
+        +           '<span class="art-share-label">Share</span>'
+        +         '</button>'
+        +         '<button type="button" id="ssa-close" class="art-modal-close" aria-label="Close">'
+        +           '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+        +         '</button>'
+        +       '</div>'
+        +     '</div>'
+        +     '<div id="ssa-toast" class="art-share-toast" role="status" aria-live="polite"></div>'
+        +     '<div class="art-modal-body ssa-body"></div>'
+        +   '</div>'
+        + '</div>';
+      /* Inject the modal frame into the body, move the existing wrap
+         INTO the body slot of the frame, and remove the now-redundant
+         legacy close FAB (the chrome X handles closing now). */
+      document.body.insertAdjacentHTML('beforeend', chromeHtml);
+      var bodySlot = document.querySelector('.ssa-modal .ssa-body');
+      bodySlot.appendChild(wrap);
+      /* Drop any standalone-page close FAB; the modal chrome owns this now. */
+      document.querySelectorAll('.pg-close-fab, .reader-close-fab').forEach(function(el){
+        if (el.parentNode) el.parentNode.removeChild(el);
+      });
+      /* Style the host page: hide overflow on body so the modal owns
+         the viewport, drop site-nav/footer if present. */
+      document.body.classList.add('ssa-standalone-modal');
+      /* Wire chrome buttons */
+      var goBack = function(){
+        if (document.referrer && document.referrer.indexOf(location.origin) === 0 && history.length > 1){
+          history.back();
+        } else {
+          location.href = '../index.html#research';
+        }
+      };
+      var closeBtn = document.getElementById('ssa-close');
+      if (closeBtn) closeBtn.addEventListener('click', goBack);
+      var shareBtn = document.getElementById('ssa-share');
+      if (shareBtn) shareBtn.addEventListener('click', function(){
+        var url = location.href;
+        var data = { title: artTitle + ' — SupplementScore', text: artTitle, url: url };
+        var toast = function(msg){
+          var t = document.getElementById('ssa-toast');
+          if (!t) return;
+          t.textContent = msg;
+          t.classList.add('show');
+          setTimeout(function(){ t.classList.remove('show'); }, 1600);
+        };
+        if (navigator.share && /Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){
+          navigator.share(data).catch(function(err){
+            if (err && err.name !== 'AbortError'){
+              if (navigator.clipboard) navigator.clipboard.writeText(url).then(function(){ toast('Link copied'); });
+            }
+          });
+        } else if (navigator.clipboard){
+          navigator.clipboard.writeText(url).then(function(){ toast('Link copied'); shareBtn.classList.add('copied'); setTimeout(function(){ shareBtn.classList.remove('copied'); }, 1400); });
+        }
+      });
+      /* Esc closes */
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') goBack();
+      });
+      /* Wire Prev/Next via sitemap-articles.xml (cached in sessionStorage). */
+      _ssaWirePrevNext();
     }
+  }
+
+  /* Fetch and cache the article slug ordering, then wire Prev/Next on
+     the standalone-article modal frame. Order matches sitemap-articles.xml. */
+  function _ssaWirePrevNext(){
+    var here = location.pathname.replace(/^.*\/a\//, 'a/');
+    var SLUG_CACHE_KEY = 'ssa-article-slugs-v1';
+    function attach(slugs){
+      if (!slugs || !slugs.length) return;
+      var idx = slugs.indexOf(here);
+      var prevBtn = document.getElementById('ssa-prev');
+      var nextBtn = document.getElementById('ssa-next');
+      if (!prevBtn || !nextBtn) return;
+      if (idx > 0){
+        prevBtn.disabled = false;
+        prevBtn.addEventListener('click', function(){ location.href = '../' + slugs[idx-1]; });
+      }
+      if (idx >= 0 && idx < slugs.length - 1){
+        nextBtn.disabled = false;
+        nextBtn.addEventListener('click', function(){ location.href = '../' + slugs[idx+1]; });
+      }
+    }
+    try {
+      var cached = sessionStorage.getItem(SLUG_CACHE_KEY);
+      if (cached){
+        var arr = JSON.parse(cached);
+        if (Array.isArray(arr) && arr.length){ attach(arr); return; }
+      }
+    } catch(_){}
+    /* Fetch + parse sitemap-articles.xml at the site root */
+    var sitemapUrl = location.pathname.replace(/\/a\/[^/]+$/, '/sitemap-articles.xml');
+    if (!/\/sitemap-articles\.xml$/.test(sitemapUrl)) sitemapUrl = '/sitemap-articles.xml';
+    fetch(sitemapUrl).then(function(r){ return r.ok ? r.text() : null; }).then(function(text){
+      if (!text) return;
+      var slugs = [];
+      var re = /<loc>https?:\/\/[^/]+\/a\/([^<]+)<\/loc>/g;
+      var m;
+      while ((m = re.exec(text))){ slugs.push('a/' + m[1]); }
+      try { sessionStorage.setItem(SLUG_CACHE_KEY, JSON.stringify(slugs)); } catch(_){}
+      attach(slugs);
+    }).catch(function(){});
   }
 
   function boot(){

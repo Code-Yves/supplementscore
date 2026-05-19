@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260518a">
+<link rel="stylesheet" href="styles.css?v=20260518b">
 <style>
 /* ============================================================ */
 /*  Detail page — V5 hero + Body B (consolidated 2026-04-29)    */
@@ -175,6 +175,16 @@ body.is-modal .site-nav{display:none}
 body.is-modal .det-back{display:none}
 body.is-modal .det-wrap{padding-top:18px}
 body.is-modal .det-jump{top:0}
+/* In-modal "Compare with another" — restyled to v2-chrome look (2026-05-18):
+   transparent text button matching the article modal's chrome treatment,
+   not the pill-with-border style used on the standalone supplement page. */
+body.is-modal .det-compare-btn{
+  background:transparent;border:none;color:#6B7280;font-size:12px;font-weight:500;
+  padding:6px 10px;border-radius:6px;transition:color .12s;
+  margin:8px 0 14px;
+}
+body.is-modal .det-compare-btn:hover{background:transparent;color:#0c0a09}
+body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
 
 /* ── Pairings module (Treatment B pilot, 2026-05-13; simplified 2026-05-13 v2) ──
    Renders below the Protocol + Evidence sections. Pilot scope: Vitamin D3
@@ -266,7 +276,7 @@ body.is-modal .det-jump{top:0}
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=20260518c" defer></script>
+  <script src="_site-ux.js?v=20260518d" defer></script>
 </head>
 <body>
 <div class="beta-bar" role="status" aria-live="polite">
