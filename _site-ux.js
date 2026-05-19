@@ -133,10 +133,16 @@
   + '  p,li{page-break-inside:avoid}'
   + '}'
   + '.ssux-print-banner{display:none}'
-    /* iframe-context: hide the inner close FAB and the lang switcher when
-       embedded so they don't collide with the parent modal's chrome. */
+    /* iframe-context: hide chrome that would collide with the parent
+       modal's controls.
+       NOTE (2026-05-19): removed `.pg-close-fab` from this hide list.
+       Supplement-modal.js already hides its outer X via .hide-chrome when
+       the iframe is on a non-supplement page, so hiding the inner FAB too
+       left users on condition / compare deep-dives with zero close
+       affordance. The inner FAB now stays visible — it's the only X on
+       those pages, and its history.back() inside the iframe returns the
+       user to the supplement card they came from. */
   + 'html.ss-in-iframe .reader-close-fab,'
-  + 'html.ss-in-iframe .pg-close-fab,'
   + 'html.ss-in-iframe .hub-close-fab,'
   + 'html.ss-in-iframe .ssux-lang{display:none !important}'
     /* Standalone article — render the page inside an .art-modal-style
