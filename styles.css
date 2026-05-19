@@ -2197,31 +2197,35 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    cream/grey treatment to solid brand teal with white icon + label so
    the Goal / Age & Sex / Symptom row reads as clearly tappable.
    See mockup-filter-buttons-color-variants.html for the picker. */
-.sfbar{display:flex;flex-wrap:nowrap;gap:8px;padding:10px 0;align-items:stretch;width:100%}
+.sfbar{display:flex;flex-wrap:nowrap;gap:8px;padding:8px 0;align-items:stretch;width:100%}
 /* Each .cdd expands equally to fill the row */
 .sfbar .cdd{flex:1 1 0;min-width:0}
+/* Buttons trimmed down 2026-05-19 (per user feedback "feels heavy on the
+   page"). Reduced vertical padding 10→6, icon 18→15, gap 5→3, shadow
+   softened — net height drops ~14px and the row reads lighter while
+   keeping the V2 brand-teal visibility. */
 .sfbar .cdd-btn{
   width:100%;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:5px;
-  padding:10px 8px;
-  border-radius:10px;
+  gap:3px;
+  padding:6px 8px;
+  border-radius:9px;
   border:1px solid transparent;
   background:var(--color-brand);
   color:#fff;
   font-family:inherit;
   display:flex;
-  box-shadow:0 2px 6px rgba(31,122,107,.18);
+  box-shadow:0 1px 3px rgba(31,122,107,.14);
   transition:background .15s, box-shadow .15s, transform .12s;
 }
-.sfbar .cdd-ico{width:18px;height:18px;flex-shrink:0;color:#fff;display:block}
-.sfbar .cdd-lbl{font-size:11px;font-weight:600;line-height:1;color:#fff;letter-spacing:.01em}
+.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:#fff;display:block}
+.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:#fff;letter-spacing:.01em}
 .sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
 .sfbar .cdd-btn:hover:not(.on){
   background:var(--color-brand-hover);
-  box-shadow:0 4px 12px rgba(31,122,107,.28);
+  box-shadow:0 2px 8px rgba(31,122,107,.22);
   transform:translateY(-1px);
 }
 .sfbar .cdd-btn:active{transform:translateY(0)}
@@ -2230,7 +2234,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .sfbar .cdd-btn.on{
   background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
   border-color:transparent;
-  box-shadow:0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
+  box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
   filter:none;
 }
 .sfbar .cdd-btn.on .cdd-ico{color:#fff}
@@ -2242,10 +2246,10 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 /* Dropdown-open ring */
 .sfbar .cdd-open .cdd-btn{
   background:var(--color-brand-hover);
-  box-shadow:0 0 0 2px rgba(31,122,107,.35), 0 4px 12px rgba(31,122,107,.28);
+  box-shadow:0 0 0 2px rgba(31,122,107,.30), 0 2px 8px rgba(31,122,107,.22);
 }
 .sfbar .cdd-open .cdd-btn.on{
-  box-shadow:0 0 0 2px rgba(31,122,107,.4), 0 2px 6px rgba(31,122,107,.30), inset 0 1px 0 rgba(255,255,255,.18);
+  box-shadow:0 0 0 2px rgba(31,122,107,.35), 0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
 }
 .sfbar .cdd-btn:focus-visible{
   outline:2px solid #fff;
