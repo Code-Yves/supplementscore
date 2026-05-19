@@ -2415,11 +2415,16 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
 .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 @media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}
-/* Hide the page-level close X when this page is rendered inside another
-   page's iframe-modal — the outer modal already has its own close button,
-   and showing both stacks two Xs in the corner. The .is-embedded class is
-   set by inline script in <head> when window.self !== window.top. */
-html.is-embedded .pg-close-fab{display:none}
+/* (2026-05-19) The previous rule "html.is-embedded .pg-close-fab{display:none}"
+   was meant to dedupe stacked close Xs when a page renders inside an iframe.
+   In practice it caused the OPPOSITE bug: supplement-modal.js already hides
+   its outer ssm-x for non-supplement iframe contents (via .hide-chrome), so
+   condition / compare / article deep-dives ended up with ZERO close buttons.
+   We now KEEP the inner .pg-close-fab visible when embedded — it's the only
+   close affordance for those pages, and clicking it does history.back()
+   inside the iframe, which returns the user to the supplement card they
+   came from. The .is-embedded class stays on <html> for any other future
+   embed-specific tweaks. */
 
 /* ============================================================
    Site footer — dark brand-teal close (added 2026-05-02)
