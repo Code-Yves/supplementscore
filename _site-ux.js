@@ -522,6 +522,10 @@
     var crumbs = inferCrumbs(p);
     if (!crumbs) return;
     if (document.querySelector('.ssux-bc')) return;
+    /* If the page already has an inline breadcrumb nav (.ss-breadcrumb
+       injected statically by the breadcrumb-schema task), skip — we'd
+       otherwise render two stacked breadcrumb rows. */
+    if (document.querySelector('nav.ss-breadcrumb')) return;
     var anchor = document.querySelector('main, .ar-wrap, body > div:first-of-type');
     if (!anchor) return;
     var nav = document.createElement('nav');
@@ -824,6 +828,24 @@
       /* Insert TOC after the Bottom Line if present, else after the trust strip */
       var anchor = wrap.querySelector('.bl') || wrap.querySelector('.trust');
       if (anchor) anchor.insertAdjacentHTML('afterend', tocHtml);
+      /* Remove the older floating sticky TOC — v2 inline TOC supersedes
+         it on this page. The floating .ssux-toc visually clashes with
+         the close FAB at top-right and duplicates the same content. */
+      var floatingToc = document.querySelector('nav.ssux-toc');
+      if (floatingToc && floatingToc.parentNode) floatingToc.parentNode.removeChild(floatingToc);
+    }
+    /* Rewrite the standalone close FAB so it returns to the Research
+       feed tab rather than the home Index tab. The href stays
+       relative for portability; the onclick now defaults to
+       index.html#research when there's no same-origin referrer to
+       go-back to. */
+    var fab = document.querySelector('.pg-close-fab, .reader-close-fab');
+    if (fab && /\/index\.html$/.test(fab.getAttribute('href')||'')){
+      fab.setAttribute('href', '../index.html#research');
+      fab.setAttribute('onclick',
+        "event.preventDefault();" +
+        "if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}" +
+        "else{location.href='../index.html#research';}");
     }
   }
 
