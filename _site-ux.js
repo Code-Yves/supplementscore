@@ -9,6 +9,22 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
+  /* ---------- iframe-context detection (2026-05-18) ----------
+     When this page is rendered inside the supplement-modal iframe (.ssm)
+     or any other parent overlay, the parent already shows its own close
+     chrome at the same top-right coordinates as our `.reader-close-fab`.
+     Mark <html> with `.ss-in-iframe` so the inner close FAB hides via
+     CSS — bulletproofs against the duplicate-X regardless of whether
+     the parent's hide-chrome timing wins.                              */
+  try {
+    if (window !== window.top) {
+      document.documentElement.classList.add('ss-in-iframe');
+    }
+  } catch (_) {
+    /* Cross-origin parent — being framed at all is enough to hide our FAB. */
+    document.documentElement.classList.add('ss-in-iframe');
+  }
+
   /* ---------- shared style block ---------- */
   var css = ''
     /* back-to-top */
@@ -116,7 +132,13 @@
   + '  h1,h2,h3,h4{color:#000;page-break-after:avoid}'
   + '  p,li{page-break-inside:avoid}'
   + '}'
-  + '.ssux-print-banner{display:none}';
+  + '.ssux-print-banner{display:none}'
+    /* iframe-context: hide the inner close FAB and the lang switcher when
+       embedded so they don't collide with the parent modal's chrome. */
+  + 'html.ss-in-iframe .reader-close-fab,'
+  + 'html.ss-in-iframe .pg-close-fab,'
+  + 'html.ss-in-iframe .hub-close-fab,'
+  + 'html.ss-in-iframe .ssux-lang{display:none !important}';
   var styleEl = document.createElement('style');
   styleEl.textContent = css;
   document.head.appendChild(styleEl);
@@ -639,6 +661,172 @@
     pubmedBadge(m, mount);
   }
 
+  /* ---------- article v2 template enhancer (2026-05-18) ----------
+     Standalone /a/<slug>.html pages historically used a legacy layout
+     (.ar-cat / .ar-meta + flat body). The modal version (app.js
+     goArticle()) renders a richer v2 layout: kicker + .v2-h1 + trust
+     strip + Bottom Line + On-This-Page TOC + section wrappers.
+     This routine applies the same v2 layer in-place on the standalone
+     page so the two contexts present identically. Skips when the page
+     is in an iframe (modal will apply its own v2). Idempotent. */
+  function _v2Slug(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60)||'section'; }
+  function _v2AccentFromCat(txt){
+    if (!txt) return 'stack';
+    var t = String(txt).toLowerCase();
+    if (/safety/.test(t)) return 'safety';
+    if (/reality|myth/.test(t)) return 'myth';
+    if (/breakthrough|research update/.test(t)) return 'breakthrough';
+    if (/kids|teen|infant/.test(t)) return 'kids';
+    if (/stack/.test(t)) return 'stack';
+    if (/quick read/.test(t)) return 'quickread';
+    if (/guide|featured/.test(t)) return 'guide';
+    return 'stack';
+  }
+  function _v2ReadMin(text){
+    var words = String(text||'').trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(words/200));
+  }
+  function _v2CountStudies(wrap){
+    var n = 0;
+    /* Count distinct PMID references (PubMed links or PMID:N labels). */
+    var anchors = wrap.querySelectorAll('a[href*="pubmed"], a[href*="doi.org"]');
+    var seen = {};
+    for (var i=0; i<anchors.length; i++){
+      var k = anchors[i].getAttribute('href') || anchors[i].textContent;
+      if (k && !seen[k]){ seen[k] = 1; n++; }
+    }
+    /* Also pick up inline "PMID 12345678" mentions. */
+    var pmidMatches = (wrap.textContent.match(/PMID[:\s]*\d{6,9}/g) || []);
+    pmidMatches.forEach(function(p){ if (!seen[p]){ seen[p] = 1; n++; }});
+    return n;
+  }
+  function _v2EvidenceLevel(studies, cat){
+    /* Coarse heuristic — myth/safety articles often cite fewer because
+       they're rebutting weak claims rather than synthesising RCTs.
+       Use the citation count as a proxy. */
+    if (studies >= 12) return { label: 'Strong', bars: 3 };
+    if (studies >= 6)  return { label: 'Moderate', bars: 2 };
+    if (studies >= 1)  return { label: 'Mixed', bars: 1 };
+    return { label: 'Limited', bars: 1 };
+  }
+  function _v2FormatDate(iso){
+    try {
+      var d = new Date(iso + 'T00:00');
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    } catch(_){ return iso; }
+  }
+  function initArticleV2(){
+    /* Only on standalone /a/<slug>.html pages, when NOT in an iframe */
+    if (!/^\/a\/[^/]+\.html$/.test(location.pathname)) return;
+    if (window !== window.top) return; /* modal context — skip */
+    var wrap = document.querySelector('.ar-wrap');
+    if (!wrap) return;
+    if (wrap.classList.contains('article-v2')) return; /* idempotent */
+    var h1 = wrap.querySelector('h1');
+    var cat = wrap.querySelector('.ar-cat');
+    var meta = wrap.querySelector('.ar-meta');
+    if (!h1) return;
+    var catTxt = cat ? cat.textContent.trim() : 'Guide';
+    var accentKey = _v2AccentFromCat(catTxt);
+    /* Compute studies/words/read-time from the whole wrap, BEFORE we
+       inject the new chrome. */
+    var bodyText = wrap.textContent || '';
+    var studies = _v2CountStudies(wrap);
+    var readMin = _v2ReadMin(bodyText);
+    var ev = _v2EvidenceLevel(studies, accentKey);
+    /* Pull reviewed date from <!-- last-reviewed: YYYY-MM-DD --> comment
+       OR from existing meta line if present. */
+    var reviewedISO = null;
+    var html = document.documentElement.outerHTML;
+    var lrm = html.match(/<!--\s*last-reviewed:\s*(\d{4}-\d{2}-\d{2})\s*-->/);
+    if (lrm) reviewedISO = lrm[1];
+    if (!reviewedISO && meta){
+      var mm = meta.textContent.match(/(\w+ \d{1,2}, \d{4})/);
+      if (mm) reviewedISO = mm[1]; /* leave as human-formatted */
+    }
+    var reviewedHuman = reviewedISO && /^\d{4}-\d{2}-\d{2}$/.test(reviewedISO)
+      ? _v2FormatDate(reviewedISO) : (reviewedISO || '');
+    /* Mark wrap with v2 + accent */
+    wrap.classList.add('article-v2');
+    wrap.setAttribute('data-accent', accentKey);
+    /* Rename .ar-cat → .cat (preserves text) */
+    if (cat){ cat.classList.remove('ar-cat'); cat.classList.add('cat'); }
+    /* Promote h1 to .v2-h1 */
+    h1.classList.add('v2-h1');
+    /* Hide the legacy .ar-meta (we'll show a richer trust strip instead).
+       Keep it in the DOM as fallback for non-JS / screen-readers. */
+    if (meta){ meta.style.display = 'none'; meta.setAttribute('aria-hidden','true'); }
+    /* Build the trust strip and insert after h1 */
+    var bars = '';
+    for (var b=0; b<3; b++) bars += '<span' + (b<ev.bars?' class="on"':'') + '></span>';
+    var trustHtml =
+        '<div class="trust">'
+      +   '<span class="trust-item"><b>' + readMin + ' min</b> read</span>'
+      + (studies>0 ? '<span class="trust-item"><b>' + studies + '</b> studies cited</span>' : '')
+      +   '<span class="trust-item"><span class="trust-bars">' + bars + '</span><b>' + ev.label + '</b> evidence</span>'
+      + (reviewedHuman ? '<span class="trust-rev">Reviewed · ' + reviewedHuman + '</span>' : '')
+      + '</div>';
+    h1.insertAdjacentHTML('afterend', trustHtml);
+    /* Build the Bottom Line — first <p> that follows .trust */
+    var firstP = wrap.querySelector('.trust ~ p, .ar-meta + p');
+    if (!firstP){
+      firstP = wrap.querySelector('p');
+    }
+    if (firstP && firstP.textContent.trim().length > 40){
+      var lede = firstP.textContent.trim();
+      /* Use the full first paragraph as the headline, with sensible
+         truncation if it overruns. Cap ≈ 320 chars on a sentence
+         boundary so it stays readable as a "Bottom Line" callout. */
+      var head = lede;
+      if (head.length > 320){
+        var cut = head.slice(0, 320);
+        var lastDot = cut.lastIndexOf('.');
+        if (lastDot > 150) head = cut.slice(0, lastDot + 1);
+        else head = cut.trim() + '…';
+      }
+      var blHtml =
+          '<div class="bl">'
+        +   '<div class="bl-k">The Bottom Line</div>'
+        +   '<div class="bl-v">' + head.replace(/[<&]/g, function(c){return c==='<'?'&lt;':'&amp;';}) + '</div>'
+        + '</div>';
+      firstP.insertAdjacentHTML('beforebegin', blHtml);
+    }
+    /* Build the TOC from h2/h3 — skips Sources */
+    var heads = Array.prototype.slice.call(wrap.querySelectorAll('h2, h3')).filter(function(h){
+      var t = (h.textContent||'').trim();
+      return t && !/^sources?$/i.test(t) && !/^references?$/i.test(t);
+    });
+    if (heads.length >= 2){
+      var totalMin = 0;
+      var items = heads.map(function(h, i){
+        if (!h.id) h.id = 'sec-' + (i+1) + '-' + _v2Slug(h.textContent);
+        /* Compute per-section text up to next heading */
+        var txt = '';
+        var cur = h.nextElementSibling;
+        while (cur && !/^H[23]$/.test(cur.tagName)){
+          txt += ' ' + (cur.textContent||'');
+          cur = cur.nextElementSibling;
+        }
+        var m = _v2ReadMin(txt);
+        totalMin += m;
+        var num = String(i+1).padStart(2,'0');
+        var onCls = i === 0 ? ' on' : '';
+        return '<li class="toc-li' + onCls + '"><a href="#' + h.id + '"><span class="toc-num">' + num + '</span><span>' + (h.textContent||'').trim().replace(/[<&]/g, function(c){return c==='<'?'&lt;':'&amp;';}) + '</span><span class="toc-time">' + m + ' min</span></a></li>';
+      }).join('');
+      var tocHtml =
+          '<nav class="toc" aria-label="On this page">'
+        +   '<div class="toc-h">On this page'
+        +     '<span class="toc-meta">' + heads.length + ' sections · ' + totalMin + ' min</span>'
+        +   '</div>'
+        +   '<ul class="toc-l">' + items + '</ul>'
+        + '</nav>';
+      /* Insert TOC after the Bottom Line if present, else after the trust strip */
+      var anchor = wrap.querySelector('.bl') || wrap.querySelector('.trust');
+      if (anchor) anchor.insertAdjacentHTML('afterend', tocHtml);
+    }
+  }
+
   function boot(){
     initBackToTop();
     initReadingProgress();
@@ -649,6 +837,7 @@
     initClinicianHandout();
     initBreadcrumbs();
     initPubMedOnArticle();
+    initArticleV2();
   }
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', boot);

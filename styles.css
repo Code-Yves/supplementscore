@@ -1117,9 +1117,11 @@ a.site-nav-tab{
      keeps them inside the 44px-tall fixed filter bar (with 6px
      padding above/below). Touch target is below Apple's HIG min but
      the chips are wide and well-spaced so mis-taps are rare. */
-  /* Style D block buttons: auto height, no gap between blocks */
+  /* Style D block buttons: auto height, visible gap between blocks (2026-05-18:
+     was gap:0 which fused the Goal / Age & Sex / Symptom pills edge-to-edge on
+     iPhone — bumped to 6px so the touch targets read as distinct controls). */
   .sfbar .cdd-btn{ height:auto !important; min-height:0 !important; padding:10px 6px !important; }
-  .sfbar{ gap:0 !important; }
+  .sfbar{ gap:6px !important; }
 
   /* (#3) A-Z letter buttons — 36px with at-least-8px gap so the row
      is reliably tappable. */
@@ -1177,7 +1179,7 @@ body{ overflow-x:clip; }
   .site-nav-tab:hover{background:transparent!important;color:var(--color-text-secondary)!important;}
   .site-nav-tab.active:hover{background:var(--color-brand)!important;color:#fff!important;}
 }
-@media(max-width:420px){.site-nav-tab{min-height:20px;height:20px;padding:0 8px;font-size:11px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}
+@media(max-width:420px){.site-nav-tab{min-height:24px;height:24px;padding:0 8px;font-size:11px;display:inline-flex;align-items:center}.pf-sex-opt{font-size:11px}
   /* In the very-narrow layout, keep the tab horizontal padding tight so
      INDEX / RESEARCH / PROFILE all fit in their share of the pill.
      Note: the ≤600px block above already locks the icon-tab to flex:1 1 0
