@@ -145,6 +145,37 @@
   + 'html.ss-in-iframe .reader-close-fab,'
   + 'html.ss-in-iframe .hub-close-fab,'
   + 'html.ss-in-iframe .ssux-lang{display:none !important}'
+    /* ============================================================
+       Share FAB — V2 chrome pill, auto-injected next to .pg-close-fab
+       (2026-05-19). Echoes the article modal's Share button so deep-
+       dive pages (condition / compare / about / terms / standalone
+       articles) share the same chrome treatment. The button is added
+       by initShareFab() below — no per-page markup needed. New pages
+       inherit the treatment as long as they include the standard
+       .pg-close-fab anchor.
+       ============================================================ */
+  + '.pg-share-fab{position:fixed;top:16px;right:68px;height:40px;padding:0 14px 0 12px;'
+  +   'border-radius:20px;background:var(--color-background-primary,#f6f2ea);'
+  +   'border:1px solid var(--color-border-secondary,#d6d3d1);'
+  +   'box-shadow:0 2px 12px rgba(0,0,0,.14);color:var(--color-text-secondary,#57534e);'
+  +   'cursor:pointer;display:inline-flex;align-items:center;gap:6px;'
+  +   'font-family:inherit;font-size:13px;font-weight:600;z-index:50;'
+  +   'transition:transform .15s,color .15s,background .15s,border-color .15s}'
+  + '.pg-share-fab svg{width:14px;height:14px;fill:none;stroke:currentColor;'
+  +   'stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}'
+  + '.pg-share-fab:hover{transform:scale(1.04);color:var(--color-text-primary,#0c0a09)}'
+  + '.pg-share-fab:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
+  + '.pg-share-fab.copied{background:#E6F7F5;color:#065F56;border-color:#9DD3CC}'
+  + '@media(max-width:760px){'
+  +   '.pg-share-fab{top:12px;right:60px;height:36px;padding:0;width:36px;'
+  +     'justify-content:center;border-radius:50%}'
+  +   '.pg-share-fab .pg-share-lbl{display:none}'
+  + '}'
+  + '.pg-share-toast{position:fixed;top:64px;right:16px;background:#0c0a09;color:#fff;'
+  +   'font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;'
+  +   'box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);'
+  +   'transition:opacity .18s,transform .18s;pointer-events:none;z-index:51}'
+  + '.pg-share-toast.show{opacity:1;transform:translateY(0)}'
     /* Standalone article — render the page inside an .art-modal-style
        frame so /a/<slug>.html looks identical to opening the article
        from the index modal (matches the v2 chrome treatment). */
@@ -997,6 +1028,102 @@
     initBreadcrumbs();
     initPubMedOnArticle();
     initArticleV2();
+    initShareFab();
+  }
+
+  /* ============================================================
+     Share FAB auto-injection (2026-05-19)
+     ------------------------------------------------------------
+     Any page that ships the standard .pg-close-fab (condition deep-
+     dives, compare guides, /a/ standalone articles, about, terms,
+     accessibility, bibliography) automatically gets a matching
+     Share pill rendered to the left of the close X. This means new
+     condition pages need NO template changes — they inherit the
+     V2 chrome treatment just by including the existing close FAB.
+
+     Behavior:
+       Mobile (iOS/Android): native share sheet via navigator.share
+       Desktop:              copy canonical URL to clipboard + toast
+     ============================================================ */
+  function initShareFab(){
+    if (document.querySelector('.pg-share-fab')) return;       // already injected
+    var closeFab = document.querySelector('.pg-close-fab');
+    if (!closeFab) return;                                      // no chrome anchor on this page
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pg-share-fab';
+    btn.setAttribute('aria-label', 'Share this page');
+    btn.title = 'Share — copies link';
+    btn.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true">'
+      +   '<circle cx="18" cy="5" r="3"/>'
+      +   '<circle cx="6"  cy="12" r="3"/>'
+      +   '<circle cx="18" cy="19" r="3"/>'
+      +   '<line x1="8.59"  y1="13.51" x2="15.42" y2="17.49"/>'
+      +   '<line x1="15.41" y1="6.51"  x2="8.59"  y2="10.49"/>'
+      + '</svg>'
+      + '<span class="pg-share-lbl">Share</span>';
+
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var title = (document.querySelector('h1') || {}).textContent || document.title || 'SupplementScore';
+      title = String(title).trim();
+      /* Prefer canonical URL if present — gives recipients the clean
+         link even when the user is on a tracking-tagged variant. */
+      var canonical = document.querySelector('link[rel="canonical"]');
+      var url = (canonical && canonical.href) || location.href;
+      var data = { title: title, url: url, text: title };
+      if (navigator.share && /Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){
+        navigator.share(data).catch(function(err){
+          if (err && err.name !== 'AbortError') _copyShareUrl(url);
+        });
+      } else {
+        _copyShareUrl(url);
+      }
+    });
+
+    /* Insert BEFORE the close FAB in DOM so screen readers hit Share
+       first (matches the article modal's Share→Close order). */
+    closeFab.parentNode.insertBefore(btn, closeFab);
+  }
+
+  function _copyShareUrl(url){
+    var done = function(){
+      _showShareToast('Link copied');
+      var btn = document.querySelector('.pg-share-fab');
+      if (btn){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); }, 1400); }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done).catch(function(){ _legacyCopy(url); done(); });
+    } else {
+      _legacyCopy(url); done();
+    }
+  }
+  function _legacyCopy(text){
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    } catch(_){}
+  }
+  function _showShareToast(msg){
+    var toast = document.querySelector('.pg-share-toast');
+    if (!toast){
+      toast = document.createElement('div');
+      toast.className = 'pg-share-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    /* requestAnimationFrame so the CSS transition fires reliably even
+       when the toast was just created in this tick. */
+    requestAnimationFrame(function(){ toast.classList.add('show'); });
+    clearTimeout(_showShareToast._t);
+    _showShareToast._t = setTimeout(function(){ toast.classList.remove('show'); }, 1800);
   }
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', boot);
