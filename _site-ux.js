@@ -142,7 +142,6 @@
        affordance. The inner FAB now stays visible — it's the only X on
        those pages, and its history.back() inside the iframe returns the
        user to the supplement card they came from. */
-  + 'html.ss-in-iframe .reader-close-fab,'
   + 'html.ss-in-iframe .hub-close-fab,'
   + 'html.ss-in-iframe .ssux-lang{display:none !important}'
     /* ============================================================
@@ -1047,7 +1046,11 @@
      ============================================================ */
   function initShareFab(){
     if (document.querySelector('.pg-share-fab')) return;       // already injected
-    var closeFab = document.querySelector('.pg-close-fab');
+    /* Look for either close-FAB variant — condition / standalone-article
+       pages use `.pg-close-fab`; /compare/ guides use the visually
+       identical `.reader-close-fab`. Both anchor the Share pill the same
+       way (top:16 right:16). Take the first one we find. */
+    var closeFab = document.querySelector('.pg-close-fab, .reader-close-fab');
     if (!closeFab) return;                                      // no chrome anchor on this page
 
     var btn = document.createElement('button');

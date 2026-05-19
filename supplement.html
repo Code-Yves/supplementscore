@@ -276,7 +276,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=20260519d" defer></script>
+  <script src="_site-ux.js?v=20260519e" defer></script>
 </head>
 <body>
 <div class="beta-bar" role="status" aria-live="polite">
@@ -691,12 +691,13 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   if (pairingsHtml) jumpLinks.unshift('<a href="#det-pairings">Pairings</a>');
   if (artiles.length) jumpLinks.push('<a href="#det-sources">Sources</a>');
 
+  /* "Compare with another" button removed 2026-05-19 per user feedback —
+     was cluttering the top of the supplement card. Comparison guides are
+     still surfaced contextually via loadCompares() further down the page.
+     CSS rules at .det-compare-btn are now orphaned but harmless; left in
+     place in case the button is reintroduced. */
   root.innerHTML =
     '<a class="det-back" href="search.html?q='+encodeURIComponent(s.n)+'">‹ Back to search</a>'
-    + '<a class="det-compare-btn" href="compare.html?a='+encodeURIComponent(s.n)+'" title="Compare '+escAttr(s.n)+' with another supplement">'
-    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M21 16l-4 4-4-4"/></svg>'
-    + 'Compare with another'
-    + '</a>'
     + '<div class="det-page '+escAttr(s.t)+'">'
 
       // HERO V5
