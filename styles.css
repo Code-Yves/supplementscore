@@ -2497,9 +2497,18 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 }
 .site-footer-col a:hover{color:#F8F4ED;text-decoration:underline;text-underline-offset:3px}
 .site-footer-bottom{
+  /* Span the full footer grid (5 columns on desktop, fewer at narrower
+     breakpoints) so the disclaimer reads as one horizontal line at the
+     bottom of the footer instead of being stuck in a single column. */
+  grid-column:1 / -1;
   border-top:0.5px solid rgba(248,244,237,.18);
   margin-top:20px;padding-top:14px;
   font-size:11.5px;color:rgba(248,244,237,.6);text-align:center;line-height:1.6;
+  /* Keep on one line on wider viewports; allow natural wrapping below ~720px. */
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:720px){
+  .site-footer-bottom{white-space:normal;overflow:visible;text-overflow:clip}
 }
 
 /* Hide the entire site footer when My Profile tab is active */
