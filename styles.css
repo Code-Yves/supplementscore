@@ -21,6 +21,9 @@
   --t2c:#5A7BC4;--t2bg:#ECF0F7;--t2tx:#2D3F6E;
   --t3c:#C2872B;--t3bg:#FBF1DE;--t3tx:#6B4716;
   --t4c:#B85046;--t4bg:#FAE8E5;--t4tx:#6B231D;
+  /* Quick Reads — warm slate-taupe; neutral against the cream BG and
+     distinct from the four evidence-tier chromatic colors above. */
+  --t5c:#6B6256;--t5bg:#EFE9DD;--t5tx:#3F3A33;
   --slp:#5E59B2;--slpbg:#EDECF7;--slptx:#26215C;
   /* Warning / medical-alert */
   --color-warn-bg: #FBF1DE;
@@ -1281,6 +1284,12 @@ body{ overflow-x:clip; }
 .article-card[data-category="kids"] .article-side svg,.article-card[data-category="kids"] .article-side-stat{color:var(--color-brand)}
 .article-card[data-category="kids"] .article-side-div{background:var(--color-brand);opacity:.2}
 .article-card[data-category="kids"] .article-side-label{color:var(--color-brand);opacity:.5}
+/* quickread — neutral warm slate-taupe (--t5c) for listicle / digest content;
+   sits comfortably next to the chromatic tiers without competing for attention. */
+.article-card[data-category="quickread"] .article-side{background:color-mix(in srgb,var(--t5c) 12%,transparent)}
+.article-card[data-category="quickread"] .article-side svg,.article-card[data-category="quickread"] .article-side-stat{color:var(--t5c)}
+.article-card[data-category="quickread"] .article-side-div{background:var(--t5c);opacity:.2}
+.article-card[data-category="quickread"] .article-side-label{color:var(--t5c);opacity:.55}
 .article-content{flex:1;min-width:0;padding:.85rem 1rem}
 .article-cat{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
 .article-card[data-category="guide"] .article-cat{color:var(--t2c)}
@@ -1288,6 +1297,7 @@ body{ overflow-x:clip; }
 .article-card[data-category="myth"] .article-cat{color:var(--t3c)}
 .article-card[data-category="safety"] .article-cat{color:var(--t4c)}
 .article-card[data-category="kids"] .article-cat{color:var(--color-brand)}
+.article-card[data-category="quickread"] .article-cat{color:var(--t5c)}
 .article-title{font-size:13px;font-weight:600;color:var(--color-text-primary);line-height:1.4;margin-bottom:3px}
 .article-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
 .article-meta{font-size:10px;color:var(--color-text-tertiary);margin-top:4px}
