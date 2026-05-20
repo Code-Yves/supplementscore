@@ -2502,9 +2502,9 @@ function renderSuppCards(recs,mi,bwResults){
         </div>`;
       }
     }
-    /* Action row — primary "Full Supplement Card" + optional Research articles. */
+    /* Action row — primary "View Supplement Card" + optional Research articles. */
     const actionsHtml = `<div class="b-actions">
-        <button class="b-cta primary" onclick="rnOpenFullSupp('${_nm}',event)">Full Supplement Card</button>
+        <button class="b-cta primary" onclick="rnOpenFullSupp('${_nm}',event)">View Supplement Card</button>
         ${hasArts ? `<button class="b-cta" onclick="rnOpenArticles('${_nm2}',event)">Research articles</button>` : ''}
       </div>`;
     /* Round-7: with TAKE removed, the Why block becomes full-width; the

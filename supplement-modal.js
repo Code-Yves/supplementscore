@@ -26,22 +26,26 @@
   + '.ssm-bd{position:absolute;inset:0;background:rgba(15,12,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer}'
   + '.ssm-card{position:relative;max-width:980px;width:calc(100% - 32px);margin:32px auto;height:calc(100vh - 64px);background:var(--color-background-secondary,#ebe5d9);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(10px) scale(.99);transition:transform .2s ease;border:1px solid var(--color-border-tertiary,#dcdad7)}'
   + '.ssm.open .ssm-card{transform:translateY(0) scale(1)}'
-  /* Top chrome (2026-05-18) — v2 treatment to match the article-modal
-     v2-chrome look: transparent buttons, simple text + icon, no
-     shadow/border. Matches the Prev/Next/Share/X bar in screenshot 1. */
-  + '.ssm-x{position:absolute;top:12px;right:14px;z-index:5;width:auto;height:auto;border-radius:6px;border:none;background:transparent;color:#9CA3AF;font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:6px 8px;transition:color .12s;font-family:inherit}'
-  + '.ssm-x:hover{background:transparent;color:#0c0a09;transform:none}'
-  + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
-  + '.ssm-x svg{width:14px;height:14px;display:block}'
-  + '.ssm-share{position:absolute;top:12px;right:54px;z-index:5;height:auto;padding:6px 10px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:color .12s;font-family:inherit}'
+  /* Top chrome (2026-05-20) — V2 chrome bar matching .art-modal.v2-chrome
+     in styles.css: a static-positioned, padded bar with a hairline
+     border-bottom; transparent inline Share + X buttons separated by a
+     thin divider. Replaces the older absolute-positioned floating
+     buttons that overlapped iframe content. */
+  + '.ssm-chrome{flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:0;padding:14px 22px;background:var(--color-background-secondary,#ebe5d9);border-bottom:1px solid var(--color-border-tertiary,#E8E5DF);position:relative;z-index:5}'
+  + '.ssm-actions{display:flex;align-items:center;gap:0;position:relative}'
+  /* Hairline divider sits between Share and X via order on the X button */
+  + '.ssm-actions::before{content:"";display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary,#E8E5DF);margin:0 6px;align-self:center;order:1}'
+  + '.ssm-share{order:0;height:auto;padding:6px 10px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:color .12s;font-family:inherit}'
   + '.ssm-share:hover{background:transparent;color:#0c0a09;transform:none}'
   + '.ssm-share:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
   + '.ssm-share.copied{background:transparent;color:var(--color-brand,#1F7A6B)}'
   + '.ssm-share svg{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-  /* Subtle divider between Share and X, mirrors v2-chrome */
-  + '.ssm-x::before{content:"";display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary,#E8E5DF);margin-right:6px;vertical-align:middle}'
-  + '@media(max-width:500px){.ssm-share{padding:6px;right:46px}.ssm-share .ssm-share-lbl{display:none}}'
-  + '.ssm-toast{position:absolute;top:60px;right:14px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
+  + '.ssm-x{order:2;width:auto;height:auto;padding:6px 8px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;transition:color .12s;font-family:inherit}'
+  + '.ssm-x:hover{background:transparent;color:#0c0a09;transform:none}'
+  + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
+  + '.ssm-x svg{width:13px;height:13px;display:block}'
+  + '@media(max-width:500px){.ssm-share{padding:6px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:10px 14px}}'
+  + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'
   + '.ssm-frame{flex:1;border:none;width:100%;background:var(--color-background-secondary,#ebe5d9)}'
@@ -51,11 +55,10 @@
      (styles.css). Previously 680px, which left a 32px floating
      margin on the 601-680px range while .art-modal already went
      full-bleed there — visually inconsistent. */
-  + '@media(max-width:600px){.ssm-card{margin:0;width:100%;height:100vh;border-radius:0;border:none}.ssm-share{right:60px}.ssm-x{top:10px;right:10px}}'
-  /* Hide Share + X when the iframe is showing a non-supplement page
-     (e.g. a /compare/ guide). That page has its own close FAB at the
-     same coordinates; without this rule the two stacks overlap. */
-  + '.ssm.hide-chrome .ssm-share,.ssm.hide-chrome .ssm-x{display:none !important}'
+  + '@media(max-width:600px){.ssm-card{margin:0;width:100%;height:100vh;border-radius:0;border:none}}'
+  /* Hide chrome when the iframe is showing a non-supplement page
+     (e.g. a /compare/ guide) — that page owns its own chrome. */
+  + '.ssm.hide-chrome .ssm-chrome{display:none !important}'
   + 'body.ssm-locked{overflow:hidden}';
   document.head.appendChild(styleEl);
 
@@ -68,13 +71,17 @@
   modal.innerHTML =
       '<div class="ssm-bd" data-ssm-close></div>'
     + '<div class="ssm-card">'
-    +   '<button type="button" class="ssm-share" data-ssm-share aria-label="Share supplement" title="Share — copies link">'
-    +     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
-    +     '<span class="ssm-share-lbl">Share</span>'
-    +   '</button>'
-    +   '<button type="button" class="ssm-x" data-ssm-close aria-label="Close detail">'
-    +     '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3 L13 13 M13 3 L3 13"/></svg>'
-    +   '</button>'
+    +   '<div class="ssm-chrome">'
+    +     '<div class="ssm-actions">'
+    +       '<button type="button" class="ssm-share" data-ssm-share aria-label="Share supplement" title="Share — copies link">'
+    +         '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
+    +         '<span class="ssm-share-lbl">Share</span>'
+    +       '</button>'
+    +       '<button type="button" class="ssm-x" data-ssm-close aria-label="Close detail">'
+    +         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+    +       '</button>'
+    +     '</div>'
+    +   '</div>'
     +   '<div class="ssm-toast" role="status" aria-live="polite"></div>'
     +   '<div class="ssm-loading">Loading…</div>'
     +   '<iframe class="ssm-frame" title="Supplement detail" loading="lazy"></iframe>'
