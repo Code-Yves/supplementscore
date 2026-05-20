@@ -209,3 +209,23 @@
 | 2026-05-19 | potassium-and-blood-pressure-the-mineral-most-people-under-consume | Breakthrough | 890 | 8 | public:4, nonprofit:4 | evergreen |
 | 2026-05-19 | manuka-honey-for-pediatric-cough-what-the-trials-show-and-the-one-year-cutoff | Kids | 880 | 8 | industry:3, public:1, nonprofit:4 | evergreen |
 | 2026-05-19 | vitamin-d-for-autistic-children-what-the-rcts-actually-show | Kids | 880 | 8 | public:6, nonprofit:2 | evergreen |
+| 2026-05-20 | nmn-vs-nr-head-to-head-bioavailability-and-nad-elevation-trial-data | Research-Update | 880 | 9 | industry:2, public:7 | evergreen |
+| 2026-05-20 | creatine-and-brain-function-in-older-adults-the-2024-2025-rct-update | Research-Update | 890 | 10 | public:8, industry:1, public:1 | evergreen |
+| 2026-05-20 | saffron-versus-ssris-for-major-depression-the-head-to-head-trial-record | Research-Update | 900 | 9 | public:8, nonprofit:1 | evergreen |
+| 2026-05-20 | bovine-colostrum-for-athlete-immunity-what-the-2024-2025-trials-measured | Research-Update | 880 | 8 | industry:3, public:4, mixed:1 | evergreen |
+| 2026-05-20 | curcumin-phytosome-vs-piperine-enhanced-curcumin-the-absorption-head-to-head | Research-Update | 900 | 8 | industry:2, public:5, nonprofit:1 | evergreen |
+| 2026-05-20 | tongkat-ali-for-testosterone-the-2024-2025-trial-evidence-update | Research-Update | 870 | 8 | industry:4, public:3, nonprofit:1 | evergreen |
+| 2026-05-20 | reading-a-magnesium-label-matching-the-form-to-the-goal | Guide | 900 | 8 | public:6, industry:1, nonprofit:1 | evergreen |
+| 2026-05-20 | reading-a-probiotic-label-strain-identifiers-and-cfu-at-end-of-shelf-life | Guide | 890 | 8 | nonprofit:3, public:3, industry:2 | evergreen |
+| 2026-05-20 | iron-supplement-forms-guide-ferrous-sulfate-vs-bisglycinate-vs-heme-iron | Guide | 920 | 9 | public:7, industry:2 | evergreen |
+| 2026-05-20 | vitamin-d-dosing-daily-vs-weekly-vs-monthly-bolus-pharmacokinetics | Guide | 920 | 8 | public:5, nonprofit:3 | evergreen |
+| 2026-05-20 | green-tea-extract-hepatotoxicity-egcg-dose-threshold-and-the-efsa-limits | Safety | 880 | 7 | public:6, nonprofit:1 | evergreen |
+| 2026-05-20 | alpha-lipoic-acid-and-insulin-autoimmune-syndrome-hirata-disease-cases | Safety | 900 | 8 | public:7, nonprofit:1 | evergreen |
+| 2026-05-20 | curcumin-induced-liver-injury-the-dilin-case-series-and-what-to-watch-for | Safety | 900 | 7 | public:6, nonprofit:1 | evergreen |
+| 2026-05-20 | mushroom-coffee-for-focus-what-the-lions-mane-and-cordyceps-claims-actually-show | Myth | 900 | 8 | public:8 | evergreen |
+| 2026-05-20 | quercetin-as-a-zinc-ionophore-what-cell-biology-versus-marketing-tells-us | Myth | 920 | 8 | public:7, industry:1 | evergreen |
+| 2026-05-20 | cellular-methylation-support-stacks-what-folate-b12-and-tmg-actually-do | Myth | 900 | 8 | public:6, nonprofit:2 | evergreen |
+| 2026-05-20 | psyllium-fiber-and-glp-1-satiety-stacking-what-the-trial-signals-show | Breakthrough | 880 | 8 | public:7, nonprofit:1 | evergreen |
+| 2026-05-20 | prenatal-choline-supplementation-and-offspring-brain-development-the-trial-record | Breakthrough | 900 | 8 | public:6, nonprofit:2 | evergreen |
+| 2026-05-20 | omega-3-for-pediatric-adhd-the-2024-2025-meta-analysis-evidence | Kids | 890 | 8 | public:6, nonprofit:2 | evergreen |
+| 2026-05-20 | vitamin-b12-deficiency-in-vegan-children-screening-and-supplementation | Kids | 880 | 8 | public:5, nonprofit:3 | evergreen |

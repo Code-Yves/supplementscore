@@ -218,6 +218,24 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
 @media(max-width:560px){.det-pair-row{padding:14px 16px}.det-pair-row-top{gap:8px}}
 </style>
   <link rel="canonical" href="https://supplementscore.org/supplement.html">
+  <script>
+  /* Dynamic canonical + og:url: when this SPA page is accessed via
+     /supplement.html?slug=<X>, point search engines at the pre-rendered
+     /s/<X>.html static version so ranking signals consolidate there.
+     Without this, Google reports the ?slug= URLs as "Crawled - currently
+     not indexed" duplicates. (Added 2026-05-20 — see reviews/seo-improvements.) */
+  (function(){
+    try {
+      var slug = new URLSearchParams(location.search).get('slug');
+      if (!slug || !/^[a-z0-9-]+$/.test(slug)) return;
+      var staticUrl = 'https://supplementscore.org/s/' + slug + '.html';
+      var c = document.querySelector('link[rel="canonical"]');
+      if (c) c.href = staticUrl;
+      var og = document.querySelector('meta[property="og:url"]');
+      if (og) og.setAttribute('content', staticUrl);
+    } catch (_) {}
+  })();
+  </script>
   <meta property="og:title" content="Supplement detail | SupplementScore">
   <meta property="og:description" content="Detailed evidence profile for any supplement: tier, score, dose, timing, interactions, and citations.">
   <meta property="og:url" content="https://supplementscore.org/supplement.html">

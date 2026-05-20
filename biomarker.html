@@ -30,6 +30,21 @@
 .sup-list .note{font-size:12px;color:var(--color-text-tertiary);margin-top:3px}
 </style>
   <link rel="canonical" href="https://supplementscore.org/biomarker.html">
+  <script>
+  /* /biomarker.html?slug=<X>: no static counterpart yet, so noindex the
+     query-versioned variants to keep Google's index clean. The slug-less
+     /biomarker.html landing page remains indexable. (Added 2026-05-20.) */
+  (function(){
+    try {
+      var slug = new URLSearchParams(location.search).get('slug');
+      if (!slug) return;
+      var m = document.createElement('meta');
+      m.name = 'robots';
+      m.content = 'noindex,follow';
+      document.head.appendChild(m);
+    } catch (_) {}
+  })();
+  </script>
   <meta property="og:title" content="Biomarkers | SupplementScore">
   <meta property="og:description" content="Find supplements that influence specific lab markers — cholesterol, glucose, ferritin, vitamin D, and more.">
   <meta property="og:url" content="https://supplementscore.org/biomarker.html">
