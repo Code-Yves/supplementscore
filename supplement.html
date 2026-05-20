@@ -173,7 +173,11 @@ body.is-modal{padding:0}
 body.is-modal .beta-bar,
 body.is-modal .site-nav{display:none}
 body.is-modal .det-back{display:none}
-body.is-modal .det-wrap{padding-top:18px}
+/* Reserve space at top so the modal's Share + X chrome (positioned at
+   top:12px of the modal card, ~30px tall) doesn't overlap the hero's
+   SCORE label and score number in the top-right corner. */
+body.is-modal .det-wrap{padding-top:48px}
+@media(max-width:680px){body.is-modal .det-wrap{padding-top:44px}}
 body.is-modal .det-jump{top:0}
 /* In-modal "Compare with another" — restyled to v2-chrome look (2026-05-18):
    transparent text button matching the article modal's chrome treatment,
