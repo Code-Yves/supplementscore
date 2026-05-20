@@ -23,19 +23,24 @@
   },
   {
     "section": "for",
-    "disk": 48,
-    "linked_before": 47,
-    "linked_after": 48,
+    "disk": 50,
+    "linked_before": 48,
+    "linked_after": 50,
     "orphans_detected": [
-      "high-cholesterol-patients.html"
+      "high-altitude-travelers.html",
+      "people-on-metformin.html"
     ],
     "orphans_registered": [
       {
-        "file": "high-cholesterol-patients.html",
-        "title": "Supplements for high-cholesterol patients"
+        "file": "high-altitude-travelers.html",
+        "title": "Supplements for high-altitude travelers"
+      },
+      {
+        "file": "people-on-metformin.html",
+        "title": "Supplements for people on metformin"
       }
     ],
-    "backup": "index.html.bak-20260520T1734Z",
+    "backup": "index.html.bak-20260520T1737Z",
     "rollback": false,
     "rollback_reason": null
   },
@@ -53,38 +58,11 @@
   {
     "section": "m",
     "disk": 10,
-    "linked_before": 6,
+    "linked_before": 11,
     "linked_after": 11,
-    "orphans_detected": [
-      "bupropion.html",
-      "fluoxetine.html",
-      "furosemide.html",
-      "hydrochlorothiazide.html",
-      "prednisone.html"
-    ],
-    "orphans_registered": [
-      {
-        "file": "bupropion.html",
-        "title": "Bupropion and supplements: interactions, cautions, and safe stacks"
-      },
-      {
-        "file": "fluoxetine.html",
-        "title": "Fluoxetine and supplements: interactions, cautions, and safe stacks"
-      },
-      {
-        "file": "furosemide.html",
-        "title": "Furosemide and supplements: interactions, cautions, and safe stacks"
-      },
-      {
-        "file": "hydrochlorothiazide.html",
-        "title": "Hydrochlorothiazide and supplements: interactions, cautions, and safe stacks"
-      },
-      {
-        "file": "prednisone.html",
-        "title": "Prednisone and supplements: interactions, cautions, and safe stacks"
-      }
-    ],
-    "backup": "index.html.bak-20260520T1734Z",
+    "orphans_detected": [],
+    "orphans_registered": [],
+    "backup": null,
     "rollback": false,
     "rollback_reason": null
   }
