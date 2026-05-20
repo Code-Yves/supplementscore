@@ -224,27 +224,34 @@ const ARTICLE_CAT_LABELS={all:'All Articles',quickread:'Quick Reads',guide:'Guid
    We match a card to an identifier by parsing either its onclick attribute
    (showArticle\((\d+)\)) or its href attribute. */
 (function curateTopArticles(){
+  /* Rebalanced 2026-05-20: previous order was 10 Quick Reads + 10 others
+     interleaved 1:1, which still made every second card a Quick Read and
+     visually dominated the Research feed. New mix targets ~6 Quick Reads
+     across the top 20 (~30%) with the remaining 14 slots split across
+     Reality Checks, Guides, Safety Alerts, and Breakthroughs so no single
+     category dominates the first viewport. Featured Guide (id 1) sits
+     above this list and is unaffected. */
   var TOP_20 = [
-    'a/the-10-most-dangerous-supplements-still-legally-sold.html',
-    3,   /* Why "Detox" Supplements Are a $3 Billion Scam (Reality Check) */
-    'a/the-10-most-overhyped-supplements-of-2026.html',
-    4,   /* CDC Warning: Kava Poisoning (Safety Alert) */
-    'a/12-supplement-mistakes-you-should-literally-never-make.html',
-    10,  /* Magnesium Forms Explained (Guide) */
-    'a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html',
-    11,  /* Ashwagandha: The Most Overhyped Supplement (Reality Check) */
-    'a/the-10-safest-supplements-on-earth.html',
-    5,   /* Creatine for Brain Health (Breakthrough) */
-    'a/10-supplements-that-interact-with-the-most-prescription-drugs.html',
-    15,  /* Are Multivitamins a Waste of Money? (Reality Check) */
-    'a/10-wild-fun-facts-about-the-supplement-industry.html',
-    2,   /* The Evidence-Based Sleep Stack (Guide) */
-    'a/the-10-most-studied-supplements-on-earth.html',
-    9,   /* 5 Supplements That Dangerously Interact (Safety Alert) */
-    'a/10-hidden-gem-supplements-no-one-markets.html',
-    8,   /* The Truth About Collagen Supplements (Reality Check) */
-    'a/the-10-supplements-people-are-actually-deficient-in.html',
-    6    /* NMN and NAD: Why Raising a Biomarker Isn't Slowing Aging (Reality Check) */
+    3,   /* Reality Check — Detox Supplements $3 Billion Scam */
+    4,   /* Safety Alert — CDC Warning: Kava Poisoning */
+    'a/the-10-most-dangerous-supplements-still-legally-sold.html', /* Quick Read */
+    10,  /* Guide — Magnesium Forms Explained */
+    5,   /* Breakthrough — Creatine for Brain Health */
+    'a/the-10-most-overhyped-supplements-of-2026.html',            /* Quick Read */
+    11,  /* Reality Check — Ashwagandha: Most Overhyped */
+    2,   /* Guide — Evidence-Based Sleep Stack */
+    'a/12-supplement-mistakes-you-should-literally-never-make.html', /* Quick Read */
+    9,   /* Safety Alert — 5 Supplements That Dangerously Interact */
+    6,   /* Breakthrough — NMN and NAD */
+    'a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html', /* Quick Read */
+    15,  /* Reality Check — Are Multivitamins a Waste of Money? */
+    7,   /* Guide */
+    'a/the-10-safest-supplements-on-earth.html',                   /* Quick Read */
+    17,  /* Safety Alert */
+    8,   /* Breakthrough — Collagen */
+    'a/the-10-most-studied-supplements-on-earth.html',             /* Quick Read */
+    16,  /* Reality Check */
+    12   /* Guide */
   ];
 
   function cardKey(card){

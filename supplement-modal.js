@@ -23,6 +23,10 @@
   styleEl.textContent =
     '.ssm{position:fixed;inset:0;z-index:1000;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}'
   + '.ssm.open{opacity:1;visibility:visible;transition:opacity .18s ease}'
+  /* Raise above the article modal (.art-modal has z-index:1100) when this
+     supplement is opened from inside an article — otherwise it'd render
+     behind the article it was launched from. */
+  + '.ssm.over-art{z-index:1200}'
   + '.ssm-bd{position:absolute;inset:0;background:rgba(15,12,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer}'
   + '.ssm-card{position:relative;max-width:980px;width:calc(100% - 32px);margin:32px auto;height:calc(100vh - 64px);background:var(--color-background-secondary,#ebe5d9);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(10px) scale(.99);transition:transform .2s ease;border:1px solid var(--color-border-tertiary,#dcdad7)}'
   + '.ssm.open .ssm-card{transform:translateY(0) scale(1)}'
@@ -127,16 +131,27 @@
        Excludes the case where we're restoring from the stack ourselves
        (fromHistory) and the case where the current modal IS this same
        supplement (handled by the early-return above). */
+    var openingOverArticle = false;
     if (!fromHistory && window.SSModalStack) {
       try {
         var snap = window.SSModalStack.snapshot();
         if (snap && !(snap.type === 'supplement' && snap.slug === slug)) {
           window.SSModalStack.push(snap);
         }
+        /* If an article modal is currently open, we need to render above it.
+           Article modal sits at z-index 1100; default .ssm is 1000. */
+        if (snap && snap.type === 'article') openingOverArticle = true;
       } catch(_){}
+    }
+    /* Belt-and-braces — also check the DOM directly in case SSModalStack
+       isn't loaded yet (initial page load races). */
+    if (!openingOverArticle) {
+      var artEl = document.getElementById('art-modal');
+      if (artEl && artEl.classList.contains('open')) openingOverArticle = true;
     }
     attachModal();
     openSlug = slug;
+    modal.classList.toggle('over-art', openingOverArticle);
     modal.classList.remove('loaded');
     var _x = modal.querySelector('.ssm-x'); if (_x) _x.style.visibility = '';
     frame.src = 'supplement.html?slug=' + encodeURIComponent(slug) + '&modal=1';
@@ -155,6 +170,7 @@
     openSlug = null;
     modal.classList.remove('open');
     modal.classList.remove('loaded');
+    modal.classList.remove('over-art');
     document.body.classList.remove('ssm-locked');
     setTimeout(function(){ if (!openSlug) frame.src = 'about:blank'; }, 220);
     if (!fromHistory && history.state && history.state.ssm) {

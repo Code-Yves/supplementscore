@@ -3102,56 +3102,21 @@ body.tab-profile .site-footer{display:none !important}
    Renders a compact multi-column list of links to child pages
    so Googlebot finds them without executing JavaScript.
    See /reviews/seo-improvements-2026-05-13.md for context.
+
+   2026-05-20: Visually hidden but kept in the DOM. The user-facing
+   hub tiles above already cover the same destinations, so the
+   duplicate list was redundant on screen. Crawlers and screen
+   readers still see it (this uses the standard "visually-hidden"
+   pattern — not display:none, which would also hide it from bots).
    ============================================================ */
 .ss-static-index {
-  max-width: 1100px;
-  margin: 4rem auto 2rem;
-  padding: 0 1.25rem;
-  border-top: 1px solid #e7e5e4;
-  padding-top: 2rem;
-}
-.ss-static-index-h {
-  font-family: var(--font-display, "Mona Sans", system-ui, sans-serif);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text-primary, #0c0a09);
-  margin: 0 0 0.5rem;
-  letter-spacing: -0.01em;
-}
-.ss-static-index-p {
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--color-text-secondary, #57534e);
-  margin: 0 0 1.25rem;
-  max-width: 60ch;
-}
-.ss-static-index-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  columns: 2;
-  column-gap: 1.5rem;
-}
-@media (min-width: 700px) {
-  .ss-static-index-ul { columns: 3; }
-}
-@media (min-width: 1000px) {
-  .ss-static-index-ul { columns: 4; }
-}
-.ss-static-index-ul li {
-  break-inside: avoid;
-  margin: 0 0 0.4rem;
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
-.ss-static-index-ul a {
-  color: var(--color-text-secondary, #57534e);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-}
-.ss-static-index-ul a:hover,
-.ss-static-index-ul a:focus-visible {
-  color: var(--color-brand, #1F7A6B);
-  border-bottom-color: var(--color-brand-soft, #7CC4B6);
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
