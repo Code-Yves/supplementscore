@@ -64,29 +64,82 @@
     .cmp-sug:hover, .cmp-sug.on { background: rgba(31,122,107,.06); }
     .cmp-sug:last-child { border-bottom: 0; }
 
-    .cmp-result { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 0; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 14px; overflow: hidden; }
+    /* Verdict-first layout (2026-05-20 · mockup Treatment B promoted to prod).
+       The result region is now three stacked blocks: a Bottom-Line verdict card,
+       a paired header card row, then a vertically stacked diverging-bar table.
+       The old wide grid table is gone. */
+    .cmp-result { display: block; }
     .cmp-result.hidden { display: none; }
-    .cmp-row { display: contents; }
-    .cmp-row > div { padding: 14px 18px; border-bottom: 0.5px dashed var(--color-border-tertiary); font-size: 13.5px; line-height: 1.55; }
-    .cmp-row.head > div { background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); padding-top: 16px; padding-bottom: 16px; }
-    .cmp-row.head .cmp-name { font-size: 17px; font-weight: 800; }
-    .cmp-row > div:first-child { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); border-right: 0.5px solid var(--color-border-tertiary); }
-    .cmp-row > div:nth-child(2) { border-right: 0.5px solid var(--color-border-tertiary); }
-    .cmp-row.last > div { border-bottom: 0; }
-    .cmp-score-pill { display: inline-flex; align-items: baseline; gap: 6px; }
-    .cmp-score-num { font-size: 22px; font-weight: 800; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
-    .cmp-tier { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 6px; vertical-align: middle; }
+    .cmp-tier { display: inline-flex; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 6px; vertical-align: middle; }
     .cmp-tier.t1 { background: var(--t1bg); color: var(--t1tx); }
     .cmp-tier.t2 { background: var(--t2bg); color: var(--t2tx); }
     .cmp-tier.t3 { background: var(--t3bg); color: var(--t3tx); }
     .cmp-tier.t4 { background: var(--t4bg); color: var(--t4tx); }
-    .cmp-bar { display: inline-block; width: 80px; height: 6px; background: var(--color-background-secondary); border-radius: 3px; overflow: hidden; vertical-align: middle; margin-left: 6px; }
-    .cmp-bar > span { display: block; height: 100%; background: var(--color-brand); border-radius: 3px; }
+
+    /* Bottom-Line verdict card — names which supplement wins on which dimension
+       and which are tied. Copy is rule-based so it stays in sync with the data. */
+    .cmpb-verdict { background: linear-gradient(135deg, rgba(31,122,107,.06), rgba(124,196,182,.04)); border: 0.5px solid rgba(31,122,107,.18); border-left: 4px solid var(--color-brand); border-radius: 12px; padding: 20px 22px; margin-bottom: 22px; }
+    .cmpb-verdict-eyebrow { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand); margin-bottom: 8px; }
+    .cmpb-verdict-headline { font-size: 17px; font-weight: 700; letter-spacing: -.2px; line-height: 1.45; margin-bottom: 6px; }
+    .cmpb-verdict-headline em { font-style: normal; background: rgba(31,122,107,.12); color: var(--color-brand); padding: 1px 7px; border-radius: 4px; font-weight: 700; }
+    .cmpb-verdict-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; max-width: 720px; }
+    .cmpb-verdict-wins { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .cmpb-win { display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px; background: rgba(31,122,107,.08); border: 0.5px solid rgba(31,122,107,.22); border-radius: 999px; font-size: 11.5px; font-weight: 600; color: var(--color-brand); }
+    .cmpb-win.b { background: rgba(90,123,196,.08); border-color: rgba(90,123,196,.22); color: var(--t2tx); }
+    .cmpb-win.tie { background: var(--color-background-secondary); border-color: var(--color-border-tertiary); color: var(--color-text-tertiary); }
+    .cmpb-win .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .cmpb-win.tie .dot { background: transparent; border-top: 2px solid currentColor; border-radius: 0; height: 0; width: 10px; }
+
+    /* Paired header cards — the two supplements with score + tier */
+    .cmpb-header-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 18px; border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; background: var(--color-background-primary); }
+    .cmpb-head-card { padding: 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+    .cmpb-head-card:first-child { border-right: 0.5px solid var(--color-border-tertiary); }
+    .cmpb-head-card .name { font-size: 17px; font-weight: 800; letter-spacing: -.2px; line-height: 1.25; }
+    .cmpb-head-card .name small { display: block; font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); margin-top: 2px; letter-spacing: 0; }
+    .cmpb-head-card .row { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+    .cmpb-head-card .score { font-size: 30px; font-weight: 800; letter-spacing: -.8px; line-height: 1; font-variant-numeric: tabular-nums; color: var(--color-brand); }
+    .cmpb-head-card.b .score { color: var(--t2tx); }
+
+    /* Diverging-bar rows */
+    .cmpb-rows { border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; background: var(--color-background-primary); }
+    .cmpb-row { display: grid; grid-template-columns: 130px 1fr 1fr; align-items: center; padding: 13px 18px; border-bottom: 0.5px dashed var(--color-border-tertiary); gap: 14px; }
+    .cmpb-row:last-child { border-bottom: 0; }
+    .cmpb-row-label { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); }
+    .cmpb-row-label small { display: block; font-size: 10.5px; font-weight: 500; color: var(--color-text-tertiary); margin-top: 2px; text-transform: none; letter-spacing: 0; }
+    .cmpb-div { position: relative; height: 22px; display: flex; align-items: center; }
+    .cmpb-div.left { justify-content: flex-end; padding-right: 18px; }
+    .cmpb-div.right { justify-content: flex-start; padding-left: 18px; }
+    .cmpb-div-track { height: 8px; background: var(--color-background-secondary); border-radius: 4px; flex: 1; max-width: 220px; position: relative; overflow: hidden; }
+    .cmpb-div-fill { position: absolute; top: 0; bottom: 0; background: var(--color-text-tertiary); opacity: .4; border-radius: 4px; }
+    .cmpb-div.left .cmpb-div-fill { right: 0; }
+    .cmpb-div.right .cmpb-div-fill { left: 0; }
+    .cmpb-div.win .cmpb-div-fill { background: var(--color-brand); opacity: 1; }
+    .cmpb-div.win.b .cmpb-div-fill { background: var(--t2c); opacity: .95; }
+    .cmpb-div-num { font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 26px; text-align: center; }
+    .cmpb-div.left .cmpb-div-num { margin-left: 10px; }
+    .cmpb-div.right .cmpb-div-num { margin-right: 10px; }
+    .cmpb-gap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 9.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+    .cmpb-gap.tie { background: var(--color-background-secondary); color: var(--color-text-tertiary); border-color: transparent; }
+
+    /* Chip rows for dose / time of day / cycling — short tagged values
+       rather than prose dumps */
+    .cmpb-chip-row { display: grid; grid-template-columns: 130px 1fr 1fr; gap: 14px; padding: 13px 18px; border-bottom: 0.5px dashed var(--color-border-tertiary); align-items: center; }
+    .cmpb-chip-row:last-child { border-bottom: 0; }
+    .cmpb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cmpb-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; background: var(--color-background-secondary); border-radius: 999px; font-size: 11.5px; color: var(--color-text-primary); font-weight: 600; }
+    .cmpb-chip.tone { background: rgba(31,122,107,.08); color: var(--color-brand); }
+    .cmpb-chip.warn { background: var(--color-accent-coral-soft, #F5C9B8); color: #6B231D; }
+    .cmpb-chip.empty { background: transparent; color: var(--color-text-tertiary); font-style: italic; padding-left: 0; }
+
     .cmp-foot { margin-top: 18px; font-size: 12px; color: var(--color-text-tertiary); padding: 10px 0; border-top: 0.5px solid var(--color-border-tertiary); }
     @media (max-width: 700px){
       .cmp-pickers { grid-template-columns: 1fr; }
       .cmp-vs { padding: 6px 0; }
-      .cmp-result { grid-template-columns: 130px 1fr 1fr; }
+      .cmpb-row, .cmpb-chip-row { grid-template-columns: 90px 1fr 1fr; gap: 8px; padding: 12px 14px; }
+      .cmpb-div-track { max-width: 100%; }
+      .cmpb-gap { font-size: 9px; padding: 1px 5px; }
+      .cmpb-head-card { padding: 14px 16px; }
+      .cmpb-verdict { padding: 16px 18px; }
     }
   </style>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
@@ -302,34 +355,165 @@ function cmpClose(){
   bindPicker('cmp-a', 'cmp-sug-a');
   bindPicker('cmp-b', 'cmp-sug-b');
 
+  /* ── Verdict-first comparison render (Treatment B · 2026-05-20) ──
+     Layout: [Bottom-Line verdict card]
+             [Two header cards: name + score + tier]
+             [Diverging-bar table — each sub-score is one row]
+             [Chip rows for dose / time of day / cycling]
+     The verdict copy is rule-based, deterministic from the two data records.
+     Winner of each sub-score gets a coloured fill (brand-green for A,
+     blue for B); ties get a neutral pill that reads "tied".
+     Chips are split on commas, semicolons or " · " separators. */
+  var SUB_DEFS = [
+    { key: 'e', label: 'Efficacy',        hint: '1–5 evidence scale' },
+    { key: 's', label: 'Safety',          hint: 'adverse-event signal' },
+    { key: 'r', label: 'Research depth',  hint: '# pivotal trials' },
+    { key: 'o', label: 'Onset',           hint: 'time-to-effect' },
+    { key: 'c', label: 'Cost',            hint: 'per serving' },
+    { key: 'd', label: 'Drug interaction',hint: '5 = lowest risk' }
+  ];
+  function subVal(s, k){ return s[k] != null ? s[k] : (k === 'e' || k === 's' ? 1 : 1); }
+  function fmtGap(g){ var sign = g > 0 ? '+' : ''; return sign + g.toFixed(1).replace(/\.0$/, '') + '.0'.slice(g % 1 === 0 ? 0 : 2); }
+  function gapLabel(g){
+    if (g === 0) return 'tied';
+    var sign = g > 0 ? '+' : '−';
+    var abs = Math.abs(g);
+    var pretty = abs % 1 === 0 ? abs.toFixed(1) : abs.toFixed(1);
+    return sign + pretty;
+  }
+  function chipify(text, opts){
+    opts = opts || {};
+    if (!text) return '<span class="cmpb-chip empty">' + escape(opts.empty || '—') + '</span>';
+    /* Split on common separators. Keep short tokens, drop "and"/"or" connectors. */
+    var parts = String(text).split(/\s*[·;]\s*|,\s+(?![0-9])/);
+    parts = parts.map(function(p){ return p.trim().replace(/\.$/, ''); }).filter(function(p){ return p.length && p.length < 90; });
+    if (!parts.length) parts = [String(text)];
+    return parts.map(function(p, i){
+      var cls = 'cmpb-chip';
+      if (i === 0 && opts.firstTone) cls += ' tone';
+      if (/\b(avoid|warning|caution|do not|don'?t|risk)\b/i.test(p)) cls += ' warn';
+      return '<span class="' + cls + '">' + escape(p) + '</span>';
+    }).join('');
+  }
+  function buildVerdict(a, b, wins) {
+    var aName = '<em>' + escape(a.n) + '</em>';
+    var bName = '<em>' + escape(b.n) + '</em>';
+    var aWins = wins.filter(function(w){ return w.winner === 'a'; }).map(function(w){ return w.label.toLowerCase(); });
+    var bWins = wins.filter(function(w){ return w.winner === 'b'; }).map(function(w){ return w.label.toLowerCase(); });
+    var ties  = wins.filter(function(w){ return w.winner === 'tie'; }).map(function(w){ return w.label.toLowerCase(); });
+    var scoreA = calcScore(a), scoreB = calcScore(b);
+    var headline;
+    if (Math.abs(scoreA - scoreB) <= 3) {
+      headline = aName + ' and ' + bName + ' score within ' + Math.abs(scoreA - scoreB) + ' points (' + scoreA + ' vs ' + scoreB + ') — the better pick depends on what you\'re solving for.';
+    } else if (scoreA > scoreB) {
+      headline = aName + ' scores higher overall (' + scoreA + ' vs ' + scoreB + '), but ' + bName + ' wins on ' + (bWins.length ? bWins.slice(0,2).join(' and ') : 'specific use-cases') + '.';
+    } else {
+      headline = bName + ' scores higher overall (' + scoreB + ' vs ' + scoreA + '), but ' + aName + ' wins on ' + (aWins.length ? aWins.slice(0,2).join(' and ') : 'specific use-cases') + '.';
+    }
+    /* Body: tier alignment + safety/interaction note */
+    var body = '';
+    if (a.t === b.t) {
+      body = 'Both are ' + tierLbl(a.t) + '. ';
+    } else {
+      body = tierLbl(a.t) + ' (' + escape(a.n) + ') vs ' + tierLbl(b.t) + ' (' + escape(b.n) + '). ';
+    }
+    if (ties.length) {
+      body += 'Tied on ' + ties.join(', ') + '.';
+    } else {
+      body += 'Clear differences on every dimension.';
+    }
+    return { headline: headline, body: body };
+  }
+
   function render() {
     var a = S.find(function(s){ return s.n === document.getElementById('cmp-a').value; });
     var b = S.find(function(s){ return s.n === document.getElementById('cmp-b').value; });
     var box = document.getElementById('cmp-result');
     if (!a || !b) { box.classList.add('hidden'); box.innerHTML = ''; return; }
 
-    var rows = [
-      ['', '<div class="cmp-name">' + escape(a.n) + '</div>', '<div class="cmp-name">' + escape(b.n) + '</div>', 'head'],
-      ['Score',         '<span class="cmp-score-pill"><span class="cmp-score-num">' + calcScore(a) + '</span><span class="cmp-tier ' + a.t + '">' + tierLbl(a.t) + '</span></span>',
-                        '<span class="cmp-score-pill"><span class="cmp-score-num">' + calcScore(b) + '</span><span class="cmp-tier ' + b.t + '">' + tierLbl(b.t) + '</span></span>'],
-      ['Category',      escape(a.tag||'—'), escape(b.tag||'—')],
-      ['Efficacy',      a.e + '/5 ' + bar(a.e, 5), b.e + '/5 ' + bar(b.e, 5)],
-      ['Safety',        a.s + '/5 ' + bar(a.s, 5), b.s + '/5 ' + bar(b.s, 5)],
-      ['Research depth',(a.r||1) + '/5 ' + bar(a.r||1, 5), (b.r||1) + '/5 ' + bar(b.r||1, 5)],
-      ['Onset',         (a.o||1) + '/5 ' + bar(a.o||1, 5), (b.o||1) + '/5 ' + bar(b.o||1, 5)],
-      ['Cost',          (a.c||1) + '/5 ' + bar(a.c||1, 5), (b.c||1) + '/5 ' + bar(b.c||1, 5)],
-      ['Drug-interaction risk (5=lowest)', (a.d||1) + '/5 ' + bar(a.d||1, 5), (b.d||1) + '/5 ' + bar(b.d||1, 5)],
-      ['Dose',          escape(a.dose||'—'), escape(b.dose||'—')],
-      ['Time of day',   escape(a.tips||'—'), escape(b.tips||'—')],
-      ['Cycling',       escape(a.cycle||'See cycling guidance on the supplement page'), escape(b.cycle||'See cycling guidance on the supplement page')],
-    ];
+    /* Compute per-sub-score winner + gap */
+    var wins = SUB_DEFS.map(function(d){
+      var va = subVal(a, d.key);
+      var vb = subVal(b, d.key);
+      var winner = va === vb ? 'tie' : (va > vb ? 'a' : 'b');
+      var gap = (va - vb);
+      return { key: d.key, label: d.label, hint: d.hint, va: va, vb: vb, winner: winner, gap: gap };
+    });
 
-    box.innerHTML = rows.map(function(r, i){
-      var cls = 'cmp-row';
-      if (r[3] === 'head') cls += ' head';
-      if (i === rows.length - 1) cls += ' last';
-      return '<div class="' + cls + '"><div>' + r[0] + '</div><div>' + r[1] + '</div><div>' + r[2] + '</div></div>';
+    var verdict = buildVerdict(a, b, wins);
+
+    /* Verdict card */
+    var winsHtml = wins.map(function(w){
+      var label = w.label + (w.hint && w.winner !== 'tie' ? '' : '');
+      if (w.winner === 'tie') {
+        return '<span class="cmpb-win tie"><span class="dot"></span>Tied · ' + escape(w.label.toLowerCase()) + '</span>';
+      }
+      var cls = w.winner === 'b' ? 'cmpb-win b' : 'cmpb-win';
+      var name = w.winner === 'b' ? b.n : a.n;
+      return '<span class="' + cls + '"><span class="dot"></span>' + escape(name.split(' ')[0]) + ' wins · ' + escape(w.label.toLowerCase()) + '</span>';
     }).join('');
+
+    var verdictHtml =
+      '<div class="cmpb-verdict">' +
+        '<div class="cmpb-verdict-eyebrow">Bottom Line</div>' +
+        '<div class="cmpb-verdict-headline">' + verdict.headline + '</div>' +
+        '<div class="cmpb-verdict-body">' + verdict.body + '</div>' +
+        '<div class="cmpb-verdict-wins">' + winsHtml + '</div>' +
+      '</div>';
+
+    /* Header cards */
+    var headerHtml =
+      '<div class="cmpb-header-row">' +
+        '<div class="cmpb-head-card">' +
+          '<div class="name">' + escape(a.n) + (a.tag ? '<small>' + escape(a.tag) + '</small>' : '') + '</div>' +
+          '<div class="row"><span class="score">' + calcScore(a) + '</span><span class="cmp-tier ' + a.t + '">' + tierLbl(a.t) + '</span></div>' +
+        '</div>' +
+        '<div class="cmpb-head-card b">' +
+          '<div class="name">' + escape(b.n) + (b.tag ? '<small>' + escape(b.tag) + '</small>' : '') + '</div>' +
+          '<div class="row"><span class="score">' + calcScore(b) + '</span><span class="cmp-tier ' + b.t + '">' + tierLbl(b.t) + '</span></div>' +
+        '</div>' +
+      '</div>';
+
+    /* Diverging-bar rows for each sub-score */
+    function pct(v){ return Math.round(v / 5 * 100); }
+    var rowsHtml = wins.map(function(w){
+      var leftCls = 'cmpb-div left' + (w.winner === 'a' ? ' win' : '');
+      var rightCls = 'cmpb-div right' + (w.winner === 'b' ? ' win b' : '');
+      var gapCls = w.winner === 'tie' ? 'cmpb-gap tie' : 'cmpb-gap';
+      var gapText = w.winner === 'tie' ? 'tied' : gapLabel(w.gap);
+      return '<div class="cmpb-row">' +
+        '<div class="cmpb-row-label">' + escape(w.label) + (w.hint ? '<small>' + escape(w.hint) + '</small>' : '') + '</div>' +
+        '<div class="' + leftCls + '">' +
+          '<div class="cmpb-div-track"><span class="cmpb-div-fill" style="width:' + pct(w.va) + '%"></span></div>' +
+          '<span class="cmpb-div-num">' + w.va + '</span>' +
+          '<span class="' + gapCls + '">' + gapText + '</span>' +
+        '</div>' +
+        '<div class="' + rightCls + '">' +
+          '<span class="cmpb-div-num">' + w.vb + '</span>' +
+          '<div class="cmpb-div-track"><span class="cmpb-div-fill" style="width:' + pct(w.vb) + '%"></span></div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    /* Chip rows */
+    var chipsHtml =
+      '<div class="cmpb-chip-row">' +
+        '<div class="cmpb-row-label">Dose</div>' +
+        '<div class="cmpb-chips">' + chipify(a.dose, { firstTone: true }) + '</div>' +
+        '<div class="cmpb-chips">' + chipify(b.dose, { firstTone: true }) + '</div>' +
+      '</div>' +
+      '<div class="cmpb-chip-row">' +
+        '<div class="cmpb-row-label">Time of day</div>' +
+        '<div class="cmpb-chips">' + chipify(a.tips, { firstTone: true }) + '</div>' +
+        '<div class="cmpb-chips">' + chipify(b.tips, { firstTone: true }) + '</div>' +
+      '</div>' +
+      '<div class="cmpb-chip-row">' +
+        '<div class="cmpb-row-label">Cycling</div>' +
+        '<div class="cmpb-chips">' + chipify(a.cycle, { empty: 'See supplement page' }) + '</div>' +
+        '<div class="cmpb-chips">' + chipify(b.cycle, { empty: 'See supplement page' }) + '</div>' +
+      '</div>';
+
+    box.innerHTML = verdictHtml + headerHtml + '<div class="cmpb-rows">' + rowsHtml + chipsHtml + '</div>';
     box.classList.remove('hidden');
     history.replaceState(null, '', '?a=' + encodeURIComponent(a.n) + '&b=' + encodeURIComponent(b.n));
   }

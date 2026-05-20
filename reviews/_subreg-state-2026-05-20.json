@@ -1,0 +1,91 @@
+[
+  {
+    "section": "compare",
+    "disk": 114,
+    "linked_before": 123,
+    "linked_after": 123,
+    "orphans_detected": [],
+    "orphans_registered": [],
+    "backup": null,
+    "rollback": false,
+    "rollback_reason": null
+  },
+  {
+    "section": "condition",
+    "disk": 121,
+    "linked_before": 122,
+    "linked_after": 122,
+    "orphans_detected": [],
+    "orphans_registered": [],
+    "backup": null,
+    "rollback": false,
+    "rollback_reason": null
+  },
+  {
+    "section": "for",
+    "disk": 48,
+    "linked_before": 47,
+    "linked_after": 48,
+    "orphans_detected": [
+      "high-cholesterol-patients.html"
+    ],
+    "orphans_registered": [
+      {
+        "file": "high-cholesterol-patients.html",
+        "title": "Supplements for high-cholesterol patients"
+      }
+    ],
+    "backup": "index.html.bak-20260520T1734Z",
+    "rollback": false,
+    "rollback_reason": null
+  },
+  {
+    "section": "stack",
+    "disk": 3,
+    "linked_before": 4,
+    "linked_after": 4,
+    "orphans_detected": [],
+    "orphans_registered": [],
+    "backup": null,
+    "rollback": false,
+    "rollback_reason": null
+  },
+  {
+    "section": "m",
+    "disk": 10,
+    "linked_before": 6,
+    "linked_after": 11,
+    "orphans_detected": [
+      "bupropion.html",
+      "fluoxetine.html",
+      "furosemide.html",
+      "hydrochlorothiazide.html",
+      "prednisone.html"
+    ],
+    "orphans_registered": [
+      {
+        "file": "bupropion.html",
+        "title": "Bupropion and supplements: interactions, cautions, and safe stacks"
+      },
+      {
+        "file": "fluoxetine.html",
+        "title": "Fluoxetine and supplements: interactions, cautions, and safe stacks"
+      },
+      {
+        "file": "furosemide.html",
+        "title": "Furosemide and supplements: interactions, cautions, and safe stacks"
+      },
+      {
+        "file": "hydrochlorothiazide.html",
+        "title": "Hydrochlorothiazide and supplements: interactions, cautions, and safe stacks"
+      },
+      {
+        "file": "prednisone.html",
+        "title": "Prednisone and supplements: interactions, cautions, and safe stacks"
+      }
+    ],
+    "backup": "index.html.bak-20260520T1734Z",
+    "rollback": false,
+    "rollback_reason": null
+  }
+]

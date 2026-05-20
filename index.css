@@ -247,7 +247,11 @@
 .ix-hero{
   max-width: 1180px;
   margin: 0 auto 0;
-  padding: 14px 24px 4px;
+  /* Direction A — Tighter Editorial (2026-05-20): top breathing room lifted
+     from 14px to 40px so the eyebrow stat-line sits below the nav with
+     editorial generosity; bottom padding bumped 4→24 to match the new
+     hairline-rule sources block below. */
+  padding: 40px 24px 24px;
   text-align: center;
   /* Provide a positioning context for the ambient hub & spoke background
      canvas (.ix-hero-bg). overflow:hidden keeps any spokes that drift past
@@ -280,42 +284,63 @@
   .ix-hero-bg{ display: none; }
 }
 .ix-hero .eb{ display: none; }
+/* Direction A — Tighter Editorial (2026-05-20):
+   gap 8→12, margin-bottom 10→22 (more confident eyebrow separation),
+   tracking .14em→.18em on stats. Divider weight thinned, opacity .35→.5
+   to read as an editorial slash mark rather than a pipe. */
 .ix-hero-stats{
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: 12px;
   color: #1F7A6B;
-  margin-bottom: 10px;
+  margin-bottom: 22px;
 }
 .ix-hero-stat{
-  font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
 }
 .ix-hero-stat-divider{
-  font-size: 10px; opacity: .35;
+  font-size: 11px; font-weight: 400; opacity: .5;
 }
+/* Direction A — Tighter Editorial (2026-05-20):
+   headline scale lifted 34→40 floor, 56→64 ceiling; tighter tracking
+   (-1.4 → -1.8) and line-height (1.08 → 1.04) gives a more confident
+   masthead. Cap measure at 14ch so the headline always wraps to the
+   intended two-line shape regardless of viewport. */
 .ix-hero h1{
-  font-size: clamp(34px, 5.5vw, 56px);
-  font-weight: 700; letter-spacing: -1.4px;
-  line-height: 1.08; margin: 0 0 10px;
+  font-size: clamp(40px, 5.8vw, 64px);
+  font-weight: 700; letter-spacing: -1.8px;
+  line-height: 1.04; margin: 0 auto 18px;
+  max-width: 14ch;
   color: var(--color-text-primary);
 }
+/* Direction A: lede 16→17 and measure 600px→56ch for a calmer rag.
+   Margin bumps so the search field below has more breathing room. */
 .ix-hero p.lede{
-  font-size: 16px; color: var(--color-text-secondary);
-  max-width: 600px; margin: 0 auto 20px;
+  font-size: 17px; color: var(--color-text-secondary);
+  max-width: 56ch; margin: 0 auto 28px;
   line-height: 1.55;
 }
 .ix-sources{
   /* Was 640px when the strip was a wrap-flex of inline logos. The new
      5-col grid needs ~860px; bumping this wrapper to 900px gives it
-     room without affecting the rest of the hero centering. */
-  max-width: 900px; margin: 0 auto 0;
-  padding: 6px 20px;
+     room without affecting the rest of the hero centering.
+
+     Direction A — Tighter Editorial (2026-05-20): adds a hairline rule
+     above the sources strip so the headline cluster reads as a complete
+     editorial unit; the rule replaces a filled-card separator while
+     respecting the no-filled-callouts brand rule. */
+  max-width: 900px; margin: 32px auto 0;
+  padding: 22px 20px 6px;
+  border-top: 1px solid var(--color-border-soft, rgba(0,0,0,.06));
 }
 /* Hide the source-logos block on phones — eats vertical space and pushes
    the actual list below the fold. Logos remain on tablet/desktop. */
 @media (max-width: 600px){ .ix-sources{ display: none; } }
+/* Direction A — Tighter Editorial (2026-05-20):
+   tracking .12em→.22em and size 9→9.5 nudge "Sources from" toward a
+   small-caps masthead feel. */
 .ix-sources-label{
-  font-size: 9px; font-weight: 600; letter-spacing: .12em;
+  font-size: 9.5px; font-weight: 600; letter-spacing: .22em;
   text-transform: uppercase; color: var(--color-text-tertiary);
-  text-align: center; margin-bottom: 8px;
+  text-align: center; margin-bottom: 16px;
 }
 /* ============================================================
    Source-logos strip
