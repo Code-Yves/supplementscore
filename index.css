@@ -1089,8 +1089,22 @@
        * lede                14 → 13
        * stats vertical gap  6  → 2 (and font 11 → 10)
        * margins between hero blocks   16 → 10 */
-  .ix-hero{ padding: 12px 16px 10px !important; }
-  .ix-hero h1{ font-size: 26px !important; margin: 0 0 6px !important; line-height: 1.08 !important; letter-spacing: -0.5px; }
+  /* Banner is fixed:22px on mobile but body padding-top was 70 (legacy for
+     the now-hidden nav row). That left a 48 px void above the stats. Pin
+     body padding-top to the banner height + small breathing room. */
+  body.tab-supplements,
+  html.tab-supplements body{ padding-top: 30px !important; }
+
+  .ix-hero{ padding: 8px 16px 10px !important; }
+  /* h1 has max-width:14ch from the desktop rule; we MUST restore
+     margin:0 auto here or the constrained box left-aligns and the page
+     looks lopsided. (This was the root of the "not centered" comment.) */
+  .ix-hero h1{
+    font-size: 26px !important;
+    margin: 0 auto 6px !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.5px;
+  }
   .ix-hero .lede{ font-size: 12.5px !important; margin: 0 auto 10px !important; max-width: 300px !important; line-height: 1.5; }
 
   /* Stats row stacked vertically — tighter gap so it doesn't feel like a list. */
@@ -1105,10 +1119,18 @@
   .ix-hero-stat{ white-space: nowrap; text-align: center; }
   .ix-hero-stat-divider{ display: none !important; }
 
-  /* Hero search visible at the top. */
+  /* Hero search visible at the top AND sticky while inside the hero. The
+     hero search itself becomes a sticky element pinned just below the
+     banner (22 px). Once .ix-hero scrolls fully past, the search leaves
+     with it — at which point the existing IntersectionObserver swaps in
+     the in-panel search, so the user sees a continuous search bar from
+     the top of the page through to the bottom of the supplements list. */
   .ix-hero .ix-search{
     display: flex !important;
     margin: 0 auto !important;
+    position: sticky !important;
+    top: 22px !important;                 /* matches mobile banner height */
+    z-index: 55;
   }
 
   /* Rotating-article hero — fine-tuned for mobile:
@@ -1122,9 +1144,12 @@
        markup; just shrink them so they fit cleanly) */
   /* min-height required because .hero-slide is position:absolute and doesn't
      contribute to the height of #hero. 200 px gives room for 2-line headline +
-     clamped description + meta + controls without overflow. */
+     clamped description + meta + controls without overflow.
+     Bottom margin trimmed to 4 (was 10) — combined with the sticky panel's
+     mobile margin-top (also trimmed below) the visible gap between the
+     rotating-hero card and the filter pills lands at ~16 px instead of 42. */
   #hero{
-    margin: 10px 0 !important;
+    margin: 8px 0 4px !important;
     height: auto !important;
     min-height: 200px !important;
     padding: 14px 16px 12px !important;
@@ -1180,7 +1205,7 @@
      search so a search bar is always visible. Only ONE bar shows at a time. */
   #main-sticky.sticky-bar{
     padding: 8px 12px !important;
-    margin: 12px -12px 0 !important;
+    margin: 4px -12px 0 !important;        /* tightened from 12 → 4 */
     width: calc(100% + 24px);
   }
   /* By default on mobile: sticky-panel search hidden (hero one visible). */

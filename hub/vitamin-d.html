@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Vitamin D hub — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Everything you need to know about vitamin D — bone evidence, the VITAL trial, fall prevention, pediatric dosing, why bolus dosing harmed older adults, and the D3 vs D2 evidence.">
+  <link rel="canonical" href="https://supplementscore.org/hub/vitamin-d.html">
+  <meta property="og:title" content="Vitamin D hub — SupplementScore">
+  <meta property="og:description" content="Everything you need to know about vitamin D — bone evidence, the VITAL trial, fall prevention, pediatric dosing, why bolus dosing harmed older adults, and the D3 vs D2 evidence.">
+  <meta property="og:url" content="https://supplementscore.org/hub/vitamin-d.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://supplementscore.org/og/hub/vitamin-d.png">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vitamin D hub — SupplementScore">
+  <meta name="twitter:description" content="Everything you need to know about vitamin D — bone evidence, the VITAL trial, fall prevention, pediatric dosing, why bolus dosing harmed older adults, and the D3 vs D2 evidence.">
+  <meta name="twitter:image" content="https://supplementscore.org/og/hub/vitamin-d.png">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#1F7A6B">
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=20260518b">
+  <style>
+    body { background: var(--color-background-primary); color: var(--color-text-primary); }
+    .hub-wrap { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+    .hub-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; }
+    .hub-back:hover { color: var(--color-brand); }
+    .hub-crumb { font-size: 12.5px; color: var(--color-text-tertiary); margin: 0 0 14px; line-height: 1.4; }
+    .hub-crumb a { color: inherit; text-decoration: none; }
+    .hub-hero { padding: 6px 0 14px; border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); margin-bottom: 28px; }
+    .hub-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand, #1F7A6B); margin: 0 0 6px; }
+    .hub-title { font-size: 36px; font-weight: 800; letter-spacing: -.6px; margin: 0 0 10px; line-height: 1.1; }
+    .hub-tagline { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 8px; }
+    .hub-h2 { font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 28px 0 12px; }
+    .hub-section { margin: 30px 0; }
+    .hub-tldr { border-left: 3px solid var(--color-brand, #1F7A6B); padding: 6px 0 6px 16px; margin: 18px 0 26px; font-size: 15px; line-height: 1.65; color: var(--color-text-primary); }
+    .hub-tldr .hub-tldr-lbl { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-overview { font-size: 15px; line-height: 1.65; color: var(--color-text-primary); margin: 0 0 16px; }
+    .hub-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 10px 0 22px; }
+    .hub-stat { background: var(--color-background-secondary); padding: 12px 14px; border-radius: 8px; }
+    .hub-stat-lbl { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-stat-val { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--color-text-primary); }
+    .hub-sup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .hub-sup-card { display: flex; gap: 14px; padding: 14px; border: 1px solid var(--color-border-tertiary, #e5e7eb); border-radius: 12px; text-decoration: none; color: inherit; background: var(--color-background-primary); transition: border-color .15s, transform .15s; }
+    .hub-sup-card:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-sup-score { width: 62px; height: 62px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; flex-shrink: 0; }
+    .hub-sup-score.s-hi { background: linear-gradient(135deg, #0D9488, #14B8A6); }
+    .hub-sup-score.s-mid { background: linear-gradient(135deg, #4B7BE5, #60A5FA); }
+    .hub-sup-score.s-low { background: linear-gradient(135deg, #CA8A04, #FBBF24); }
+    .hub-sup-score.s-bad { background: linear-gradient(135deg, #B91C1C, #EF4444); }
+    .hub-sup-score-num { font-size: 22px; line-height: 1; }
+    .hub-sup-score-lbl { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-top: 3px; }
+    .hub-sup-body { min-width: 0; }
+    .hub-sup-name { font-size: 15.5px; font-weight: 700; line-height: 1.25; margin: 0 0 4px; color: var(--color-text-primary); }
+    .hub-sup-meta { font-size: 11.5px; color: var(--color-text-tertiary); margin: 0 0 6px; }
+    .hub-sup-desc { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+    .hub-art-group { margin: 18px 0; }
+    .hub-art-cat { font-size: 13.5px; font-weight: 700; letter-spacing: .01em; margin: 0 0 10px; color: var(--color-text-primary); }
+    .hub-art-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .hub-art-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--color-border-tertiary, #e5e7eb); transition: border-color .15s, background .15s; }
+    .hub-art-list li a:hover { border-color: var(--color-brand, #1F7A6B); background: var(--color-background-secondary); }
+    .hub-art-title { display: block; font-weight: 600; font-size: 14px; line-height: 1.35; color: var(--color-text-primary); }
+    .hub-art-blurb { display: block; font-size: 12.5px; color: var(--color-text-tertiary); margin-top: 3px; line-height: 1.4; }
+    .hub-simple-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+    .hub-simple-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--color-text-primary); border: 1px solid var(--color-border-tertiary, #e5e7eb); font-size: 14px; font-weight: 500; }
+    .hub-simple-list li a:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-faq-item { border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); padding: 12px 0; }
+    .hub-faq-item summary { cursor: pointer; font-weight: 700; font-size: 15px; color: var(--color-text-primary); list-style: revert; }
+    .hub-faq-item p { margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .hub-sources { font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); padding-left: 22px; }
+    .hub-sources a { color: var(--color-brand, #1F7A6B); text-decoration: underline; text-underline-offset: 2px; }
+    .hub-foot { margin-top: 40px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); text-align: center; }
+    .hub-foot a { color: inherit; text-decoration: underline; }
+  </style>
+  <script src="../_site-ux.js?v=20260519e" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Vitamin D hub \u2014 SupplementScore",
+  "url": "https://supplementscore.org/hub/vitamin-d.html",
+  "description": "Everything you need to know about vitamin D \u2014 bone evidence, the VITAL trial, fall prevention, pediatric dosing, why bolus dosing harmed older adults, and the D3 vs D2 evidence.",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org/"
+  },
+  "mainEntity": [
+    {
+      "@type": "DietarySupplement",
+      "name": "Vitamin D3",
+      "url": "https://supplementscore.org/s/vitamin-d3.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Vitamin D3 liquid drops",
+      "url": "https://supplementscore.org/s/vitamin-d3-liquid-drops.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "K2 + D3 combo",
+      "url": "https://supplementscore.org/s/k2-d3-combo.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Vitamin D2 (ergocalciferol)",
+      "url": "https://supplementscore.org/s/vitamin-d2.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D and cancer mortality: what the VITAL extended follow-up shows",
+      "url": "https://supplementscore.org/a/vitamin-d-and-cancer-mortality-what-the-vital-extended-follow-up-shows.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D and respiratory infections: the post-VITAL 2024-2025 update",
+      "url": "https://supplementscore.org/a/vitamin-d-and-respiratory-infections-the-post-vital-2024-2025-update.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D and falls in older adults: the conflicting STURDY and VITAL trial record",
+      "url": "https://supplementscore.org/a/vitamin-d-and-falls-in-older-adults-the-conflicting-sturdy-and-vital-trial-record.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D for fall prevention in older adults: what recent meta-analyses show",
+      "url": "https://supplementscore.org/a/vitamin-d-for-fall-prevention-in-older-adults-what-recent-meta-analyses-show.html"
+    },
+    {
+      "@type": "Article",
+      "name": "High-dose vitamin D bolus therapy: why large single doses increased fractures and falls",
+      "url": "https://supplementscore.org/a/high-dose-vitamin-d-bolus-therapy-why-large-single-doses-increased-fractures-and-falls.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D dosing: daily vs weekly vs monthly bolus pharmacokinetics",
+      "url": "https://supplementscore.org/a/vitamin-d-dosing-daily-vs-weekly-vs-monthly-bolus-pharmacokinetics.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D: how much do you really need?",
+      "url": "https://supplementscore.org/a/vitamin-d-how-much-do-you-really-need.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D3 vs D2: why the form on your label matters",
+      "url": "https://supplementscore.org/a/vitamin-d3-vs-d2-why-the-form-on-your-label-matters.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Why most vitamin D studies are misleading",
+      "url": "https://supplementscore.org/a/why-most-vitamin-d-studies-are-misleading.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D for kids: dosing, deficiency, and when to test",
+      "url": "https://supplementscore.org/a/vitamin-d-for-kids-dosing-deficiency-and-when-to-test.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Infant vitamin D drops: AAP's 400 IU/day rule and why breastfed babies need them",
+      "url": "https://supplementscore.org/a/infant-vitamin-d-drops-aap-s-400-iu-day-rule-and-why-breastfed-babies-need-them.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D for breastfed infants: why AAP recommends 400 IU from birth",
+      "url": "https://supplementscore.org/a/vitamin-d-for-breastfed-infants-why-aap-recommends-400-iu-from-birth.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D drops overdose in infants: case reports and the AAP warning",
+      "url": "https://supplementscore.org/a/vitamin-d-drops-overdose-in-infants-case-reports-and-the-aap-warning.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D for autistic children: what the RCTs actually show",
+      "url": "https://supplementscore.org/a/vitamin-d-for-autistic-children-what-the-rcts-actually-show.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Vitamin D for adolescent acne: the IGF-1 and sebum trial evidence",
+      "url": "https://supplementscore.org/a/vitamin-d-for-adolescent-acne-the-igf-1-and-sebum-trial-evidence.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Kids multivitamin gummies: when daily use is justified and when just vitamin D is enough",
+      "url": "https://supplementscore.org/a/kids-multivitamin-gummies-when-daily-use-is-actually-justified-and-when-just-vitamin-d-is-enough.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Osteoporosis stack",
+      "url": "https://supplementscore.org/condition/osteoporosis-stack.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Osteopenia",
+      "url": "https://supplementscore.org/condition/osteopenia.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Osteoarthritis (knee)",
+      "url": "https://supplementscore.org/condition/osteoarthritis-knee.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Seasonal affective disorder",
+      "url": "https://supplementscore.org/condition/seasonal-affective-disorder.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Sarcopenia stack",
+      "url": "https://supplementscore.org/condition/sarcopenia-stack.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Vitamin D3 vs D2",
+      "url": "https://supplementscore.org/compare/vitamin-d3-vs-d2.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Vitamin K2 MK-4 vs MK-7 (companion mineral)",
+      "url": "https://supplementscore.org/compare/k2-mk4-vs-mk7.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "SupplementScore",
+      "item": "https://supplementscore.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Topic hubs",
+      "item": "https://supplementscore.org/hub/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Vitamin D",
+      "item": "https://supplementscore.org/hub/vitamin-d.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much vitamin D should an adult take daily?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For adults with no documented deficiency, 1,000-2,000 IU/day of vitamin D3 is a defensible maintenance range, especially in winter or at higher latitudes. Adults with documented deficiency (25-OH-D below 20 ng/mL) usually need 4,000-5,000 IU/day for 8-12 weeks under monitoring, then a maintenance dose. Avoid bolus dosing schedules; the trial record there is unambiguously negative."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is vitamin D3 better than vitamin D2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "D3 (cholecalciferol) raises and sustains 25-OH-D more reliably than D2 (ergocalciferol). D2 is the vegan/vegetarian option and is still effective, but typical doses must be roughly 2-3 times higher to match D3 outcomes. For non-vegans, D3 is the standard choice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need vitamin K2 alongside vitamin D?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For most people taking 1,000-2,000 IU/day of D3, a co-administered K2 is not clinically necessary. K2 may matter more at higher D3 doses (5,000+ IU/day chronically) or in people with calcification concerns. The strongest K2 trials use MK-7 at 90-180 mcg/day. If in doubt, take K2 from food (natto, hard cheeses, egg yolks) rather than escalating doses on the supplement side."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should breastfed babies take vitamin D drops?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The American Academy of Pediatrics recommends 400 IU/day from the first few days of life through the first year, because human breast milk does not contain enough vitamin D to prevent rickets in exclusively or predominantly breastfed infants. Drops should be precisely measured \u2014 overdose cases from concentrated formulations are documented."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does vitamin D really prevent falls or fractures?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When combined with calcium in older adults with low baseline 25-OH-D, yes \u2014 vitamin D reduces fracture risk modestly. In replete adults the trial record is much weaker, and high-dose bolus schedules have actually increased falls and fractures. The story is: replete the deficient, do not over-treat the rest."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<!-- last-reviewed: 2026-05-21 -->
+<main class="hub-wrap">
+  <a href="../index.html" class="hub-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to Supplement Score
+  </a>
+
+  <nav class="hub-crumb" aria-label="Breadcrumb">
+    <a href="../index.html">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <a href="./index.html">Topic hubs</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <span aria-current="page" style="color:var(--color-text-secondary)">Vitamin D</span>
+  </nav>
+
+  <header class="hub-hero">
+    <p class="hub-eyebrow">Topic hub</p>
+    <h1 class="hub-title">Everything you need to know about Vitamin D</h1>
+    <p class="hub-tagline">Everything you need to know about vitamin D — the steroid hormone often mis-classified as a vitamin, with strong bone evidence and a complicated trial record on almost everything else.</p>
+    <p class="hub-tagline" style="font-size:14.5px;margin-top:6px">Vitamin D status matters; routine high-dose supplementation in already-replete adults often does not. Form (D3 vs D2), dosing schedule (daily vs weekly vs bolus), and baseline 25-OH-D level decide most clinical outcomes.</p>
+  </header>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">The short version</h2>
+    <div class="hub-tldr">
+      <span class="hub-tldr-lbl">TL;DR</span>
+      <strong>Who this matters for:</strong> people with documented 25-OH-D below 20-30 ng/mL, breastfed infants, older adults at fall risk, people with darker skin or limited sun exposure, and patients on glucocorticoids or with malabsorption (IBD, post-bariatric, cystic fibrosis).<br>
+      <strong>What the evidence shows:</strong> Tier 1 evidence for treating documented deficiency, preventing rickets, and reducing fracture risk when combined with calcium in deficient older adults. Tier 2 / 3 for cancer mortality, respiratory infection, falls, and autoimmune outcomes — the VITAL extended follow-up is mixed. Bolus dosing (large monthly/quarterly doses) increased fractures and falls and should be avoided.<br>
+      <strong>Top three picks:</strong> Vitamin D3 — the workhorse and best-studied form; Vitamin D3 liquid drops — for infants and dose precision; K2 + D3 combo — when calcium-traffic concerns drive the choice.
+    </div>
+    <p class="hub-overview">Vitamin D is the most-tested nutrient in primary care and the most-debated in the supplement world. The bone case is solid: combined with calcium, vitamin D reduces fragility fractures in deficient older adults, and breastfed infants need supplementation from birth. Beyond bone, the VITAL trial and its extended follow-ups have produced mixed signals on cancer mortality, cardiovascular events, fall prevention, and respiratory infection. Form and schedule matter — D3 raises 25-OH-D more reliably than D2, daily dosing outperforms weekly which outperforms bolus, and high single-dose schedules have actively increased fractures and falls in trials. SupplementScore tracks 4 distinct vitamin D supplements across 16 in-depth articles and 5 condition protocols.</p>
+    <div class="hub-stats">
+      <div class="hub-stat"><div class="hub-stat-lbl">Supplements in hub</div><div class="hub-stat-val">4</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Articles linked</div><div class="hub-stat-val">16</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Conditions</div><div class="hub-stat-val">5</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Comparisons</div><div class="hub-stat-val">2</div></div>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Top supplements in the vitamin d cluster</h2>
+    <p class="hub-overview" style="margin-bottom:16px">Each card shows the SupplementScore composite rating, evidence sub-scores, and a one-line summary. Click through for full dosing, timing, and safety detail.</p>
+    <div class="hub-sup-grid">
+      <a class="hub-sup-card" href="../s/vitamin-d3.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">83</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Vitamin D3</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 4/5 · Bone · Immunity · Muscle</div>
+          <p class="hub-sup-desc">About 40% of adults worldwide are deficient, especially those who spend little time outdoors. Essential for bone density, calcium absorption, immune function, a…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/vitamin-d3-liquid-drops.html">
+        <div class="hub-sup-score s-hi"><span class="hub-sup-score-num">77</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Vitamin D3 liquid drops</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 4/5 · Flexible dosing · Infants</div>
+          <p class="hub-sup-desc">Liquid vitamin D3 in MCT oil that allows precise dose adjustments down to 200 IU per drop. Better absorbed than tablets because it is already dissolved in fat.…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/k2-d3-combo.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">62</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">K2 + D3 combo</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 5/5 · Bone · Calcium traffic</div>
+          <p class="hub-sup-desc">Vitamin D3 increases calcium absorption while K2 (MK-7) directs that calcium into bones and away from arteries via carboxylation of osteocalcin and MGP. The com…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/vitamin-d2.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">61</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Vitamin D2 (ergocalciferol)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Vegan source · Less potent</div>
+          <p class="hub-sup-desc">The plant-derived form of vitamin D, obtained from UV-irradiated mushrooms or yeast. Multiple trials show D2 is less effective than D3 at raising and maintainin…</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Articles in this hub</h2>
+    <p class="hub-overview" style="margin-bottom:8px">In-depth explainers, breakthrough research updates, and myth checks — grouped by editorial category.</p>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Research updates</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/vitamin-d-and-cancer-mortality-what-the-vital-extended-follow-up-shows.html"><span class="hub-art-title">Vitamin D and cancer mortality: what the VITAL extended follow-up shows</span><span class="hub-art-blurb">The VITAL extended-follow-up cancer signal.</span></a></li>
+        <li><a href="../a/vitamin-d-and-respiratory-infections-the-post-vital-2024-2025-update.html"><span class="hub-art-title">Vitamin D and respiratory infections: the post-VITAL 2024-2025 update</span><span class="hub-art-blurb">Where the respiratory-infection meta-analyses now sit.</span></a></li>
+        <li><a href="../a/vitamin-d-and-falls-in-older-adults-the-conflicting-sturdy-and-vital-trial-record.html"><span class="hub-art-title">Vitamin D and falls in older adults: the conflicting STURDY and VITAL trial record</span><span class="hub-art-blurb">STURDY, VITAL, and the conflicting falls trial record.</span></a></li>
+        <li><a href="../a/vitamin-d-for-fall-prevention-in-older-adults-what-recent-meta-analyses-show.html"><span class="hub-art-title">Vitamin D for fall prevention in older adults: what recent meta-analyses show</span><span class="hub-art-blurb">Updated meta-analyses for fall prevention.</span></a></li>
+        <li><a href="../a/high-dose-vitamin-d-bolus-therapy-why-large-single-doses-increased-fractures-and-falls.html"><span class="hub-art-title">High-dose vitamin D bolus therapy: why large single doses increased fractures and falls</span><span class="hub-art-blurb">Why bolus dosing trials backfired.</span></a></li>
+        <li><a href="../a/vitamin-d-dosing-daily-vs-weekly-vs-monthly-bolus-pharmacokinetics.html"><span class="hub-art-title">Vitamin D dosing: daily vs weekly vs monthly bolus pharmacokinetics</span><span class="hub-art-blurb">Daily vs weekly vs bolus pharmacokinetics.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Guides</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/vitamin-d-how-much-do-you-really-need.html"><span class="hub-art-title">Vitamin D: how much do you really need?</span><span class="hub-art-blurb">The IU-per-day question, by life stage and baseline level.</span></a></li>
+        <li><a href="../a/vitamin-d3-vs-d2-why-the-form-on-your-label-matters.html"><span class="hub-art-title">Vitamin D3 vs D2: why the form on your label matters</span><span class="hub-art-blurb">Why D3 outperforms D2 head-to-head.</span></a></li>
+        <li><a href="../a/why-most-vitamin-d-studies-are-misleading.html"><span class="hub-art-title">Why most vitamin D studies are misleading</span><span class="hub-art-blurb">How baseline level and dose ceilings confound the trial record.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Kids &amp; pediatric</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/vitamin-d-for-kids-dosing-deficiency-and-when-to-test.html"><span class="hub-art-title">Vitamin D for kids: dosing, deficiency, and when to test</span><span class="hub-art-blurb">Pediatric dosing and the case for testing.</span></a></li>
+        <li><a href="../a/infant-vitamin-d-drops-aap-s-400-iu-day-rule-and-why-breastfed-babies-need-them.html"><span class="hub-art-title">Infant vitamin D drops: AAP&#x27;s 400 IU/day rule and why breastfed babies need them</span><span class="hub-art-blurb">AAP rule and why breastfed infants need a drop daily.</span></a></li>
+        <li><a href="../a/vitamin-d-for-breastfed-infants-why-aap-recommends-400-iu-from-birth.html"><span class="hub-art-title">Vitamin D for breastfed infants: why AAP recommends 400 IU from birth</span><span class="hub-art-blurb">The AAP rationale and how breast milk falls short.</span></a></li>
+        <li><a href="../a/vitamin-d-drops-overdose-in-infants-case-reports-and-the-aap-warning.html"><span class="hub-art-title">Vitamin D drops overdose in infants: case reports and the AAP warning</span><span class="hub-art-blurb">Dosing-error case reports and dropper safety.</span></a></li>
+        <li><a href="../a/vitamin-d-for-autistic-children-what-the-rcts-actually-show.html"><span class="hub-art-title">Vitamin D for autistic children: what the RCTs actually show</span><span class="hub-art-blurb">Reading the autism RCT record clearly.</span></a></li>
+        <li><a href="../a/vitamin-d-for-adolescent-acne-the-igf-1-and-sebum-trial-evidence.html"><span class="hub-art-title">Vitamin D for adolescent acne: the IGF-1 and sebum trial evidence</span><span class="hub-art-blurb">Adolescent acne, IGF-1, and sebum production.</span></a></li>
+        <li><a href="../a/kids-multivitamin-gummies-when-daily-use-is-actually-justified-and-when-just-vitamin-d-is-enough.html"><span class="hub-art-title">Kids multivitamin gummies: when daily use is justified and when just vitamin D is enough</span><span class="hub-art-blurb">When kids really only need vitamin D, not a gummy multivitamin.</span></a></li>
+      </ul>
+    </div>
+  </section>
+  <section class="hub-section">
+    <h2 class="hub-h2">Conditions where vitamin d is part of the protocol</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../condition/osteoporosis-stack.html">Osteoporosis stack</a></li>
+      <li><a href="../condition/osteopenia.html">Osteopenia</a></li>
+      <li><a href="../condition/osteoarthritis-knee.html">Osteoarthritis (knee)</a></li>
+      <li><a href="../condition/seasonal-affective-disorder.html">Seasonal affective disorder</a></li>
+      <li><a href="../condition/sarcopenia-stack.html">Sarcopenia stack</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h2 class="hub-h2">Head-to-head comparisons</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../compare/vitamin-d3-vs-d2.html">Vitamin D3 vs D2</a></li>
+      <li><a href="../compare/k2-mk4-vs-mk7.html">Vitamin K2 MK-4 vs MK-7 (companion mineral)</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h2 class="hub-h2">Common questions</h2>
+      <details class="hub-faq-item">
+        <summary>How much vitamin D should an adult take daily?</summary>
+        <p>For adults with no documented deficiency, 1,000-2,000 IU/day of vitamin D3 is a defensible maintenance range, especially in winter or at higher latitudes. Adults with documented deficiency (25-OH-D below 20 ng/mL) usually need 4,000-5,000 IU/day for 8-12 weeks under monitoring, then a maintenance dose. Avoid bolus dosing schedules; the trial record there is unambiguously negative.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Is vitamin D3 better than vitamin D2?</summary>
+        <p>D3 (cholecalciferol) raises and sustains 25-OH-D more reliably than D2 (ergocalciferol). D2 is the vegan/vegetarian option and is still effective, but typical doses must be roughly 2-3 times higher to match D3 outcomes. For non-vegans, D3 is the standard choice.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Do I need vitamin K2 alongside vitamin D?</summary>
+        <p>For most people taking 1,000-2,000 IU/day of D3, a co-administered K2 is not clinically necessary. K2 may matter more at higher D3 doses (5,000+ IU/day chronically) or in people with calcification concerns. The strongest K2 trials use MK-7 at 90-180 mcg/day. If in doubt, take K2 from food (natto, hard cheeses, egg yolks) rather than escalating doses on the supplement side.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Should breastfed babies take vitamin D drops?</summary>
+        <p>Yes. The American Academy of Pediatrics recommends 400 IU/day from the first few days of life through the first year, because human breast milk does not contain enough vitamin D to prevent rickets in exclusively or predominantly breastfed infants. Drops should be precisely measured — overdose cases from concentrated formulations are documented.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Does vitamin D really prevent falls or fractures?</summary>
+        <p>When combined with calcium in older adults with low baseline 25-OH-D, yes — vitamin D reduces fracture risk modestly. In replete adults the trial record is much weaker, and high-dose bolus schedules have actually increased falls and fractures. The story is: replete the deficient, do not over-treat the rest.</p>
+      </details>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Evidence sources</h2>
+    <ol class="hub-sources">
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/38447020/" rel="noopener" target="_blank">38447020</a> — LeBoff MS et al. 2024 — VITAL extended-follow-up cancer mortality.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/30415629/" rel="noopener" target="_blank">30415629</a> — Manson JE et al. 2019 — VITAL primary results (cancer/CVD).</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/30575485/" rel="noopener" target="_blank">30575485</a> — Bischoff-Ferrari HA et al. 2018 — Vitamin D and fall prevention.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/20460620/" rel="noopener" target="_blank">20460620</a> — Sanders KM et al. 2010 — Annual high-dose vitamin D and fractures/falls (bolus harm).</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/21646368/" rel="noopener" target="_blank">21646368</a> — Holick MF et al. 2011 — Endocrine Society vitamin D guideline.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/27484065/" rel="noopener" target="_blank">27484065</a> — Tripkovic L et al. 2017 — D3 vs D2 head-to-head review.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/22552031/" rel="noopener" target="_blank">22552031</a> — Wagner CL et al. 2008 — AAP rationale for infant 400 IU/day.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/33077577/" rel="noopener" target="_blank">33077577</a> — Martineau AR et al. 2019 — Vitamin D and acute respiratory infection meta-analysis.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/32652515/" rel="noopener" target="_blank">32652515</a> — LeBlanc ES et al. 2020 — Vitamin D and falls in older adults (STURDY).</li>
+    </ol>
+  </section>
+
+  <div class="hub-foot">
+    Educational reference, not medical advice. Last reviewed 2026-05-21. <a href="../about.html">About</a> · <a href="../methodology.html">Methodology</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a>
+  </div>
+</main>
+</body>
+</html>
