@@ -1178,4 +1178,27 @@ body.on-profile #main-sticky{
   display: none !important;
 }
 
+/* ---------- Rotating-article hero: A2 lighter palette, reversed gradient ----------
+   The legacy .hero (styles.css:1206) was a dark-teal slab — visually the
+   heaviest element on the Index. Per the A→G mockup review, we landed on
+   variant A2 (lighter mid-teal #4DA095/#3A8276) BUT with the gradient
+   reversed so the DARKER tone sits on the LEFT where the headline + dek
+   render, keeping the copy on the higher-contrast end of the gradient. */
+.hero{
+  background: linear-gradient(90deg, #3A8276 0%, #4DA095 100%) !important;
+  height: auto !important;
+  min-height: 240px !important;
+  box-shadow: 0 2px 10px rgba(74, 160, 149, 0.16) !important;
+  margin-bottom: 1.5rem !important;
+}
+/* Drop the two giant glow circles — they only made sense against the deep
+   dark teal of the original. On the lighter palette they read as foggy
+   smudges, not radiant highlights. */
+.hero::before,
+.hero::after{ display: none !important; }
+/* Simplify the SVG bar-chart patterns — they were tuned to high contrast
+   on dark teal and look muddy on the lighter background. Hiding them
+   removes the busiest visual layer; the slide content stays. */
+.hero-pattern-bg{ display: none !important; }
+
 /* End 2026-05-21 follow-up block */
