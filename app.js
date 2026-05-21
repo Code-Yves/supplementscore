@@ -5105,10 +5105,14 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
 function _artPick(v){
   const CAT_LABELS={all:'All articles',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
   const lbl=CAT_LABELS[v]||'Articles';
-  _ddLabel('art-filter',lbl);
+  /* Reset siblings FIRST, then set the art-filter label last. The earlier
+     replace_all auto-injected an art-filter reset onto the pop-filter reset
+     line, which (when run after the lbl set) was clobbering the chosen
+     category back to "Articles". Ordering siblings → art-filter avoids that. */
   _ddLabel('cat-filter','Goal');
-  _ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');
+  _ddLabel('pop-filter','Age & Sex');
   _ddLabel('sx-filter','Symptom');
+  _ddLabel('art-filter',lbl);
   document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');
   _ddActive('art-filter');
   af='art';
@@ -5138,8 +5142,12 @@ function _artPick(v){
      #research-view ancestor, so they apply here too. */
   const cards=matched.map(c=>{
     const clone=c.cloneNode(true);
-    // Strip the tier-hidden helper class if it was applied for the lazy-render limit in the Research view
+    // Strip helper classes that hide the card inside the Research view:
+    //   tier-hidden        — supplements-list lazy-load helper
+    //   article-hidden     — articles-list lazy-load helper (display:none !important)
+    // Both must come off, otherwise the cloned cards render zero-height in #s-content.
     clone.classList.remove('tier-hidden');
+    clone.classList.remove('article-hidden');
     clone.style.display='';
     return clone.outerHTML;
   }).join('');

@@ -831,11 +831,11 @@ if (typeof renderAll === 'function') {
   var navPillInput= document.getElementById('nav-search-inp');
   if(!heroForm || !stickyBar) return;
 
-  // On mobile (<=600px) the sticky search bar is pinned below the nav
-  // via CSS and the nav pill is hidden. JS scroll logic only runs the
-  // nav-pill path on desktop.
+  // 2026-05-21 — Top nav row is hidden in the merged Index, so the old
+  // 90 px desktop offset (50 nav + 40 banner) is wrong. Only the ~38 px
+  // green banner sits above the sticky bar now.
   var IS_MOBILE = window.innerWidth <= 600;
-  var NAV_TOP = IS_MOBILE ? 48 : 90;
+  var NAV_TOP = IS_MOBILE ? 38 : 38;
 
   function setFilterTop(searchVisible) {
     if(!filterBar) return;
@@ -864,18 +864,19 @@ if (typeof renderAll === 'function') {
     var heroVisible = entries[0].isIntersecting;
     var searchShowing = !heroVisible && isOnIndex();
 
-    if (IS_MOBILE) {
-      // Mobile: search lives inside the nav pill (always visible via CSS).
-      // Nothing to toggle — the pill is shown unconditionally on mobile.
-      // stickyBar is display:none on mobile so no need to touch it.
-    } else {
-      // Desktop: pill inside the nav replaces the sticky bar
-      if (siteNav) siteNav.classList.toggle('site-nav--search-visible', searchShowing);
-      if (navPill) navPill.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
-      if (navPillInput) navPillInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
-      // Filter bar sits directly below nav — no extra sticky-bar height
-      setTimeout(function(){ setFilterTop(false); }, 10);
-    }
+    // 2026-05-21 — Nav row is hidden, so the old "fade search into the nav
+    // pill" path on desktop never had anything to fade into. Both desktop
+    // AND mobile now show the same #ix-sticky-bar, sitting under the green
+    // banner. Pills (#main-sticky) are pushed down by setFilterTop() so
+    // they land directly under the sticky search.
+    stickyBar.classList.toggle('visible', searchShowing);
+    stickyBar.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
+    if (stickyInput) stickyInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
+    // Keep the legacy nav-pill toggles in case any non-Index page still uses them
+    if (siteNav) siteNav.classList.toggle('site-nav--search-visible', searchShowing);
+    if (navPill) navPill.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
+    if (navPillInput) navPillInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
+    setTimeout(function(){ setFilterTop(searchShowing); }, 10);
   }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
   obs.observe(heroForm);
 

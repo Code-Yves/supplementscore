@@ -939,3 +939,178 @@
     .rc-chart-leg{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;color:#4b5563;font-weight:600}
     .rc-chart-leg .sw{width:10px;height:10px;border-radius:3px}
     @media(max-width:560px){.rc-chart-row{grid-template-columns:100px 1fr 48px;gap:8px}.rc-chart-label{font-size:.76rem}.rc-chart-label small{font-size:.66rem}}
+
+/* ============================================================
+   2026-05-21 — Index + Research merge follow-up fixes.
+
+   This block is intentionally at the bottom of index.css so it
+   wins on cascade order over the older rules above. All changes
+   below are scoped to the post-merge Index layout (no nav row,
+   search + filter pills sticky-together, 1024px max-width).
+   ============================================================ */
+
+/* (a) Page width: cap the whole Index at 1024px. The hero
+       headline, search, rotating-article hero, filter pill row,
+       and supplements list all live under #supplements-view, so
+       constraining that container is enough. Footer + green
+       banner stay full-width. */
+#supplements-view{
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+/* The .ix-hero already centers its inner content; explicit
+   max-width prevents any descendant from breaking out wider. */
+.ix-hero{ max-width: 1024px; margin: 0 auto; }
+
+/* The rotating-article hero and the sticky filter bar are
+   siblings of .ix-hero inside #supplements-view, so they
+   inherit the cap automatically. */
+
+/* ---------- Sticky search + filter pills ---------- */
+
+/* The nav row is now hidden, so the original top:90px assumed
+   nav-height(50) + green-banner(40). With nav gone, dock the
+   sticky bar directly under the ~38px green banner. */
+#ix-sticky-bar{
+  top: 38px;
+  background: var(--color-background-primary);
+  border-bottom: 1px solid var(--color-border-tertiary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  z-index: 30;             /* over the rotating-hero (z 1) and pills row */
+  padding-bottom: 6px;
+}
+
+/* Make the sticky search input sit on the same horizontal line
+   as the 4 filter pills so they read as one panel. */
+#ix-sticky-bar .ix-search-sticky{
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* When the sticky bar is visible, push the filter pills down to
+   land directly under it instead of overlapping. The exact
+   px offset is also set inline by setFilterTop() in index.js
+   so JS can adapt to the actual bar height — this is a fallback. */
+#main-sticky{
+  top: 38px;
+  background: var(--color-background-primary);
+  border-bottom: 1px solid var(--color-border-tertiary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  z-index: 25;             /* under #ix-sticky-bar (z 30) */
+  padding: 6px 1rem;
+}
+#ix-sticky-bar.visible ~ * #main-sticky,
+body:has(#ix-sticky-bar.visible) #main-sticky{
+  top: 96px;               /* 38 banner + ~58 sticky bar */
+}
+
+/* Opaque background so the rotating-article hero and supplement
+   cards don't bleed through while the user scrolls. */
+.sticky-bar{
+  background: var(--color-background-primary) !important;
+  z-index: 25;
+  position: sticky;
+  top: 38px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* ---------- Search autocomplete: must float above the rotating hero ---------- */
+
+/* Two problems to solve so the typeahead suggestions overlay the
+   rotating-article carousel below them:
+     1. .ix-hero had overflow:hidden (to clip its decorative hub-spoke
+        ambient canvas). That ALSO clips the absolutely-positioned
+        .gs-ac dropdown whenever it extends past the hero's bottom.
+        The canvas itself is z-index:0 and width:100% — sizing it to
+        the container — so removing overflow:hidden doesn't actually
+        let any decorative pixels escape.
+     2. Stacking contexts: the rotating .hero element has descendants
+        at z-index 3 (.hero-slide.active). Lifting .ix-hero above
+        that lets the dropdown stay over the carousel. */
+.ix-hero{
+  position: relative;
+  z-index: 40;
+  overflow: visible;
+}
+.ix-search{ position: relative; z-index: 50; }
+#ix-hero-form{ position: relative; z-index: 50; }
+.gs-ac,
+#ix-ac,
+#ix-sticky-ac{
+  z-index: 60 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  background: var(--color-background-primary);
+}
+/* The rotating hero must stay BELOW the search dropdown. */
+#hero{ position: relative; z-index: 2; }
+
+/* ---------- Active filter pill: darker teal + ring ---------- */
+
+/* Inactive pills keep the production brand teal; the selected
+   one drops to a deeper teal and gains an outer ring so it's
+   unmistakable at a glance. The icon stroke also bumps weight. */
+.cdd-btn.on{
+  background: var(--color-brand-dark, #155A4E) !important;
+  color: #fff !important;
+  box-shadow:
+    0 0 0 2px var(--color-background-primary),
+    0 0 0 4px var(--color-brand, #1F7A6B),
+    0 2px 6px rgba(15, 60, 50, 0.18) !important;
+  position: relative;
+}
+.cdd-btn.on .cdd-ico{ stroke-width: 2.1; }
+.cdd-btn.on .cdd-lbl{ font-weight: 700; }
+
+/* ---------- Article cards rendered inside #s-content (via _artPick) ---------- */
+
+/* Override the .scards grid CSS that #s-content normally uses
+   for supplement cards — when we render articles into the same
+   container we want a single column of cards, not a grid. */
+.art-pill-list{
+  display: block;
+}
+.art-pill-list .article-card{
+  margin-bottom: 12px;
+}
+
+/* ---------- Mobile: hero search must always be visible ---------- */
+
+@media(max-width: 600px){
+  /* The .ix-hero search was getting hidden along with the nav
+     pill on mobile. Force it visible so the user can always
+     search from the top of the page. */
+  .ix-hero .ix-search{
+    display: flex !important;
+    margin: 14px auto !important;
+  }
+
+  /* The 4 filter pills need to wrap to 2 rows on narrow phones
+     so they remain tappable. */
+  #sfbar-main{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+  }
+  #sfbar-main .cdd{ width: 100%; }
+  #sfbar-main .cdd-btn{ width: 100%; justify-content: center; }
+
+  /* Sticky bar drops under the 38px banner cleanly on phones too. */
+  #ix-sticky-bar{ top: 38px !important; padding: 6px 12px; }
+  #main-sticky{ top: 38px !important; }
+}
+
+/* ---------- Footer: tighter columns + smaller heading copy ---------- */
+
+.site-footer-grid{
+  gap: 18px !important;             /* was wider — was making columns feel airy */
+}
+@media (min-width: 720px){
+  .site-footer-grid{
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    column-gap: 22px;
+  }
+}
+
+/* End 2026-05-21 follow-up block */
