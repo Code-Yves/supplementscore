@@ -477,6 +477,57 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   var artiles = window.SS.articlesForSupplement(s.n) || [];
   var bioms   = window.SS.biomarkersForSupplement(s.n) || [];
 
+  /* Sources & Further Reading — cap at the 20 most relevant articles
+     (2026-05-21 per user feedback). Some supplements have 30–40 mapped
+     articles, most of which are general "Top 10" guides only loosely
+     related. Re-rank by topical fit, keep curated order as tiebreaker,
+     then slice. Scoring tiers:
+       3: title contains the full supplement name ("Magnesium for Anxiety")
+       2: title contains a meaningful word from the supplement name
+          (skip generic forms like "vitamin", "complex")
+       1: title contains a short token (D3, K2, B12) as whole word
+       0: no match — general guide
+     The cap is intentionally generous (20) so power users still get
+     plenty of further reading; the order is what changes. */
+  if (artiles.length > 20) {
+    var SUPP_LC  = String(s.n || '').toLowerCase().trim();
+    /* GENERIC stoplist intentionally short — articlesForSupplement returns
+       a per-supplement curated list, so even "vitamin" matching within e.g.
+       Vitamin D3's curated list is a positive signal (it surfaces "Vitamin
+       D: How Much" alongside "Vitamin D3 vs D2"). Only strip words that
+       carry no topical weight at all. */
+    var GENERIC  = ['extract','complex','supplement','supplements',
+                    'powder','capsule','liquid','blend','formula'];
+    var SUPP_TOK = SUPP_LC.split(/[^a-z0-9]+/).filter(Boolean);
+    var BIG_TOK  = SUPP_TOK.filter(function(w){
+      return w.length >= 4 && GENERIC.indexOf(w) < 0;
+    });
+    var SMALL_TOK = SUPP_TOK.filter(function(w){
+      return w.length >= 2 && w.length < 4;
+    });
+    function _artRelevance(a){
+      var t = String(a.t || '').toLowerCase();
+      if (!t) return 0;
+      if (SUPP_LC && t.indexOf(SUPP_LC) >= 0) return 3;
+      for (var i = 0; i < BIG_TOK.length; i++){
+        if (t.indexOf(BIG_TOK[i]) >= 0) return 2;
+      }
+      for (var j = 0; j < SMALL_TOK.length; j++){
+        // Whole-word match for short tokens so "d3" doesn't match "od3..."
+        if (new RegExp('\\b' + SMALL_TOK[j] + '\\b').test(t)) return 1;
+      }
+      return 0;
+    }
+    artiles = artiles
+      .map(function(a, i){ return { a:a, i:i, r:_artRelevance(a) }; })
+      .sort(function(x, y){
+        if (y.r !== x.r) return y.r - x.r;   // higher relevance first
+        return x.i - y.i;                    // stable: curated order as tiebreaker
+      })
+      .slice(0, 20)
+      .map(function(o){ return o.a; });
+  }
+
   var tldr = tldrFromDesc(s.desc);
   var dose = compactDose(s.dose);
   var cycle = cycleSummary(s.cycle);

@@ -14,7 +14,7 @@
    V2 brand-teal filter buttons (styles.css). Without this bump, the SW's
    stale-while-revalidate flow serves users yesterday's JS even after a
    hard-reload — bumping forces a full SW reinstall and cache wipe. */
-const CACHE_VERSION = 'v2026-05-21-no-jump-nav';
+const CACHE_VERSION = 'v2026-05-21-sources-cap20';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
