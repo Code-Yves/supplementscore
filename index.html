@@ -325,7 +325,8 @@
     .catch(function(){ /* silent fallback to the default text */ });
 })();
 </script>
-<nav class="site-nav" aria-label="Primary">
+<!-- 2026-05-21 — Top nav row hidden. Green status banner above stays; Index/Research/Profile tabs are no longer surfaced. The Research and Profile views are still reachable via the footer (Site column → "Research & Articles" and "Custom Profile"). Markup is kept in the DOM with display:none so the existing URL-hash routing (#research, #profile, #supplements) and the pre-paint tab-restore script at the top of the file continue to work without modification. -->
+<nav class="site-nav" aria-label="Primary" style="display:none">
   <div class="site-nav-inner">
     <div class="site-nav-tabs">
       <a class="site-nav-tab active" id="tab-supplements" href="#supplements" style="text-decoration:none" onclick="window._tabSwitchByUser=true">Index</a>
@@ -497,7 +498,8 @@
     <div class="gs-ac" id="ix-ac" role="listbox" aria-label="Search suggestions"></div>
   </form>
 
-  <div class="ix-sources">
+  <!-- 2026-05-21 — Source-logos strip hidden from the Index hero. Markup is kept so the existing #sources-modal trigger ("View all 51 other sources") still resolves correctly when reached from the footer's Methodology → "Sources we trust" link. The visual logo strip is replaced just below by the rotating-article hero (#hero). -->
+  <div class="ix-sources" style="display:none">
     <div class="ix-sources-label">Sources from</div>
     <div class="ix-sources-logos">
       <img src="source-logos/nih.svg"       alt="NIH" width="120" height="32" loading="lazy" decoding="async">
@@ -517,6 +519,445 @@
     </div>
   </div>
 </section>
+
+<!-- ROTATING ARTICLE HERO — moved to Index page on 2026-05-21 (was inside #research-view). Shows up where the source-logos block used to be. The hero JS is keyed to #hero id, so all heroNext / heroPrev / heroReadActive handlers continue to work. -->
+    <!-- HERO CAROUSEL -->
+    <div class="hero" id="hero">
+      <!-- Background patterns (rotate randomly on each slide change) -->
+      <div class="hero-pattern-bg hero-pattern-A">
+        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="areaFillA" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.13)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+            <linearGradient id="areaLineA" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.08)"/><stop offset="100%" stop-color="rgba(255,255,255,0.22)"/></linearGradient>
+          </defs>
+          <path d="M0,270 C140,255 240,235 360,215 C480,195 600,165 720,140 C840,115 960,90 1100,60 L1100,320 L0,320 Z" fill="url(#areaFillA)"/>
+          <path d="M0,270 C140,255 240,235 360,215 C480,195 600,165 720,140 C840,115 960,90 1100,60" fill="none" stroke="url(#areaLineA)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="hero-pattern-bg hero-pattern-B">
+        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lineB1" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="30%" stop-color="rgba(255,255,255,0.07)"/><stop offset="100%" stop-color="rgba(255,255,255,0.22)"/></linearGradient>
+            <linearGradient id="lineB2" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="30%" stop-color="rgba(255,255,255,0.05)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
+            <linearGradient id="lineB3" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="30%" stop-color="rgba(255,255,255,0.04)"/><stop offset="100%" stop-color="rgba(255,255,255,0.12)"/></linearGradient>
+          </defs>
+          <path d="M0,260 Q180,240 340,215 T680,160 T1100,90" fill="none" stroke="url(#lineB1)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M0,285 Q200,275 360,250 T700,195 T1100,135" fill="none" stroke="url(#lineB2)" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M0,240 Q160,230 320,200 T660,140 T1100,50" fill="none" stroke="url(#lineB3)" stroke-width="1.4" stroke-linecap="round"/>
+          <g fill="rgba(255,255,255,0.2)">
+            <circle cx="1080" cy="92" r="2.5"/>
+            <circle cx="1080" cy="137" r="2"/>
+            <circle cx="1080" cy="52" r="2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="hero-pattern-bg hero-pattern-C">
+        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="barGradC" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.17)"/><stop offset="100%" stop-color="rgba(255,255,255,0.02)"/></linearGradient>
+          </defs>
+          <g fill="url(#barGradC)">
+            <rect x="40" y="260" width="36" height="60" rx="2"/>
+            <rect x="110" y="245" width="36" height="75" rx="2"/>
+            <rect x="180" y="225" width="36" height="95" rx="2"/>
+            <rect x="250" y="240" width="36" height="80" rx="2"/>
+            <rect x="320" y="210" width="36" height="110" rx="2"/>
+            <rect x="390" y="195" width="36" height="125" rx="2"/>
+            <rect x="460" y="220" width="36" height="100" rx="2"/>
+            <rect x="530" y="175" width="36" height="145" rx="2"/>
+            <rect x="600" y="160" width="36" height="160" rx="2"/>
+            <rect x="670" y="180" width="36" height="140" rx="2"/>
+            <rect x="740" y="140" width="36" height="180" rx="2"/>
+            <rect x="810" y="125" width="36" height="195" rx="2"/>
+            <rect x="880" y="145" width="36" height="175" rx="2"/>
+            <rect x="950" y="95" width="36" height="225" rx="2"/>
+            <rect x="1020" y="75" width="36" height="245" rx="2"/>
+          </g>
+          <line x1="0" y1="320" x2="1100" y2="320" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="hero-pattern-bg hero-pattern-D">
+        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dotFadeD" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0.28)"/></linearGradient>
+            <linearGradient id="regLineD" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.04)"/><stop offset="100%" stop-color="rgba(255,255,255,0.2)"/></linearGradient>
+          </defs>
+          <g fill="url(#dotFadeD)">
+            <circle cx="50" cy="265" r="3"/><circle cx="95" cy="250" r="2.5"/><circle cx="140" cy="272" r="3"/><circle cx="185" cy="230" r="2.5"/><circle cx="230" cy="248" r="3"/><circle cx="275" cy="215" r="2.5"/><circle cx="320" cy="232" r="3"/><circle cx="365" cy="205" r="3.5"/><circle cx="410" cy="220" r="2.5"/><circle cx="455" cy="192" r="3"/><circle cx="500" cy="175" r="3"/><circle cx="545" cy="200" r="2.5"/><circle cx="590" cy="160" r="3"/><circle cx="635" cy="178" r="3"/><circle cx="680" cy="142" r="2.5"/><circle cx="725" cy="155" r="3"/><circle cx="770" cy="118" r="3.5"/><circle cx="815" cy="135" r="2.5"/><circle cx="860" cy="100" r="3"/><circle cx="905" cy="115" r="3"/><circle cx="950" cy="85" r="3.5"/><circle cx="995" cy="95" r="3"/><circle cx="1040" cy="70" r="3"/>
+          </g>
+          <path d="M20,275 L1080,55" fill="none" stroke="url(#regLineD)" stroke-width="1.5" stroke-dasharray="5 6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="hero-pattern-bg hero-pattern-E">
+        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="areaE1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.14)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+            <linearGradient id="areaE2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.07)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+            <linearGradient id="lineE1" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.10)"/><stop offset="100%" stop-color="rgba(255,255,255,0.25)"/></linearGradient>
+            <linearGradient id="lineE2" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.06)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
+          </defs>
+          <path d="M0,290 C180,270 300,270 440,245 C580,220 700,230 840,200 C960,175 1020,180 1100,160 L1100,320 L0,320 Z" fill="url(#areaE2)"/>
+          <path d="M0,290 C180,270 300,270 440,245 C580,220 700,230 840,200 C960,175 1020,180 1100,160" fill="none" stroke="url(#lineE2)" stroke-width="1.3"/>
+          <path d="M0,250 C160,245 280,210 420,180 C560,150 680,160 820,125 C940,95 1020,85 1100,55 L1100,320 L0,320 Z" fill="url(#areaE1)"/>
+          <path d="M0,250 C160,245 280,210 420,180 C560,150 680,160 820,125 C940,95 1020,85 1100,55" fill="none" stroke="url(#lineE1)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="hero-counter" id="hero-current">1 / 21</div>
+
+      <div class="hero-slide active" onclick="location.href='a/the-10-most-dangerous-supplements-still-legally-sold.html'">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>New</span>
+          <span class="hero-slide-badge">Quick Reads</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">The 10 Most Dangerous Supplements (Still Legally Sold)</h2>
+          <p class="hero-slide-desc">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="location.href='a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html'">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
+          <span class="hero-slide-badge">Quick Reads</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">The Cheapest Effective Supplements vs the Priciest Hyped Ones</h2>
+          <p class="hero-slide-desc">$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(92)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Editor's Pick</span>
+          <span class="hero-slide-badge">Breakthrough</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Psyllium Husk: 420 Clinical Trials and an FDA Health Claim for Cholesterol Reduction</h2>
+          <p class="hero-slide-desc">More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it. LDL down 15 mg/dL. HbA1c down 0.4%. FDA-approved heart health claim since 1998. Here is why nobody is talking about it.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 11 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 17, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(18)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
+          <span class="hero-slide-badge">Reality Check</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Berberine: Is It Really Nature's Ozempic?</h2>
+          <p class="hero-slide-desc">Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence. Here's what a 500mg dose actually does, and what it doesn't.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 8, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(4)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Breaking</span>
+          <span class="hero-slide-badge">Safety Alert</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</h2>
+          <p class="hero-slide-desc">The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024. Kratom co-use is driving the worst cases.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 24, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(2)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">The Evidence-Based Sleep Stack: What to Take and When</h2>
+          <p class="hero-slide-desc">Magnesium, L-theanine, and melatonin timed correctly can meaningfully improve sleep quality — if you take them right. The trial data says timing matters more than dose.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 5, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(3)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>Popular</span>
+          <span class="hero-slide-badge">Reality Check</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Why "Detox" Supplements Are a $3 Billion Scam</h2>
+          <p class="hero-slide-desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 29, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(5)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>New Science</span>
+          <span class="hero-slide-badge">Breakthrough</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Creatine for Brain Health: What the New Meta-Analyses Actually Show</h2>
+          <p class="hero-slide-desc">Two new meta-analyses (Prokopidis 2023, Xu 2024) confirm creatine improves memory and cognition in healthy adults — not just athletes. The effect is real, but smaller than the marketing claims.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 24, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(20)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>Essential</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Magnesium Deficiency: The Most Overlooked Health Problem</h2>
+          <p class="hero-slide-desc">An estimated 48% of Americans don't get enough magnesium. Here's how to tell if you're deficient, and which form of supplement actually works for you.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 2, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(16)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Important</span>
+          <span class="hero-slide-badge">Safety Alert</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation</h2>
+          <p class="hero-slide-desc">High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity. We break down who's at risk, what dose is safe, and which forms to avoid.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 9, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(12)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Foundational</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Vitamin D: How Much Do You Really Need?</h2>
+          <p class="hero-slide-desc">Optimal dosing, when to test, what deficiency looks like, and why "more is better" thinking can backfire. The VITAL trial changed what we thought we knew.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 9, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(6)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Hype Check</span>
+          <span class="hero-slide-badge">Reality Check</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">NAD+ Precursors: Separating Hype from Longevity Evidence</h2>
+          <p class="hero-slide-desc">NMN and NR are sold as anti-aging miracles. The mouse data is compelling — but human trials tell a much more nuanced story. Here's what's real.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 11, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(53)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Performance</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">The Supplement Stack for Runners</h2>
+          <p class="hero-slide-desc">From iron and vitamin D to beetroot juice and caffeine — what the evidence actually supports for endurance performance and recovery. Legal ergogenic aids only.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 11, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(7)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Breakthrough</span>
+          <span class="hero-slide-badge">Research Update</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Fish Oil: What the REDUCE-IT Trial Actually Found</h2>
+          <p class="hero-slide-desc">A 25% reduction in cardiovascular events from 4g daily EPA — here's why the dose and purified form matter more than most fish oil capsules suggest.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 3, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(11)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>Essential</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Ashwagandha for Stress: What Eight Clinical Trials Reveal</h2>
+          <p class="hero-slide-desc">A systematic review of eight randomized trials shows consistent cortisol reduction — but the benefit depends on the extract, dose, and how long you take it.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 25, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(32)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Hype Check</span>
+          <span class="hero-slide-badge">Reality Check</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Why Most Probiotic Supplements Don't Actually Work</h2>
+          <p class="hero-slide-desc">The problem isn't probiotics — it's that most brands don't contain what they advertise. Here are the three strains with real clinical evidence, and which products pass lab testing.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 7, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(8)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Hype Check</span>
+          <span class="hero-slide-badge">Reality Check</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Collagen Peptides: Are You Paying $40 for Gelatin?</h2>
+          <p class="hero-slide-desc">The skin and joint claims have more marketing than evidence behind them. Here's what hydrolyzed collagen actually does — and a cheaper alternative that works just as well.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 4, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(14)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Important</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Iron Deficiency in Women: The Silent Epidemic</h2>
+          <p class="hero-slide-desc">An estimated 1 in 5 women of reproductive age are iron deficient — and the fatigue is often misdiagnosed as stress or burnout. Here's how to test, treat, and avoid the gut side effects.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 1, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(24)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Foundational</span>
+          <span class="hero-slide-badge">Guide</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Zinc for Colds: Does It Actually Shorten Them?</h2>
+          <p class="hero-slide-desc">The Cochrane review found zinc lozenges cut cold duration by about a day — but only if you take them fast enough, in the right form, and at a high enough dose. The details matter.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 5 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 30, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(42)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>New Science</span>
+          <span class="hero-slide-badge">Breakthrough</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Spermidine and Longevity: Promising or Premature?</h2>
+          <p class="hero-slide-desc">Wheat germ, aged cheese, and natto are the dietary heavyweights for spermidine. The 2016 mouse lifespan finding drove the entire supplement category; the 2025 human trials are still short, small, and focused on intermediate markers.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 6, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(120)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Breaking</span>
+          <span class="hero-slide-badge">Safety Alert</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Green Tea Extract: When 'Healthy' Damages Your Liver</h2>
+          <p class="hero-slide-desc">Published case series tie high-dose EGCG extracts to acute liver injury and transplant. Brewed green tea is safe — but the concentrated capsules are a very different story.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 26, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(64)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>Popular</span>
+          <span class="hero-slide-badge">Reality Check</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">LMNT vs Liquid IV vs DIY: The Electrolyte Price War</h2>
+          <p class="hero-slide-desc">Electrolyte mixes have gone mainstream. We compare sodium-to-sugar ratios, cost per serving, and whether you can make the same thing at home for a fraction of the price.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 10, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-slide" onclick="showArticle(10)">
+        <div class="hero-slide-top">
+          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
+          <span class="hero-slide-badge">Breakthrough</span>
+        </div>
+        <div class="hero-slide-body">
+          <h2 class="hero-slide-headline">Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide</h2>
+          <p class="hero-slide-desc">The only magnesium form proven to cross the blood-brain barrier in animal studies. But do the human trials actually back up the cognitive claims? We dig into all four studies.</p>
+        </div>
+        <div class="hero-slide-meta">
+          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 8, 2026</span>
+          <span class="hero-slide-read">Read article →</span>
+        </div>
+      </div>
+
+      <div class="hero-dots" id="hero-dots"></div>
+      <div class="hero-controls">
+        <button class="hero-arrow" onclick="event.stopPropagation();heroPrev()" aria-label="Previous article"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="hero-arrow" onclick="event.stopPropagation();heroNext()" aria-label="Next article"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <button type="button" class="hero-cta" onclick="event.stopPropagation();heroReadActive()" aria-label="Read featured article">Read article</button>
+      </div>
+      <div class="hero-progress" aria-hidden="true"><div class="hero-progress-fill" id="hero-progress-fill"></div></div>
+    </div>
+<!-- /ROTATING ARTICLE HERO -->
 
 <script>
 /* ix-hero ambient background — variant A "3 hubs".
@@ -1783,442 +2224,6 @@
     })();
     </script>
 
-    <!-- HERO CAROUSEL -->
-    <div class="hero" id="hero">
-      <!-- Background patterns (rotate randomly on each slide change) -->
-      <div class="hero-pattern-bg hero-pattern-A">
-        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="areaFillA" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.13)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
-            <linearGradient id="areaLineA" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.08)"/><stop offset="100%" stop-color="rgba(255,255,255,0.22)"/></linearGradient>
-          </defs>
-          <path d="M0,270 C140,255 240,235 360,215 C480,195 600,165 720,140 C840,115 960,90 1100,60 L1100,320 L0,320 Z" fill="url(#areaFillA)"/>
-          <path d="M0,270 C140,255 240,235 360,215 C480,195 600,165 720,140 C840,115 960,90 1100,60" fill="none" stroke="url(#areaLineA)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="hero-pattern-bg hero-pattern-B">
-        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="lineB1" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="30%" stop-color="rgba(255,255,255,0.07)"/><stop offset="100%" stop-color="rgba(255,255,255,0.22)"/></linearGradient>
-            <linearGradient id="lineB2" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="30%" stop-color="rgba(255,255,255,0.05)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
-            <linearGradient id="lineB3" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="30%" stop-color="rgba(255,255,255,0.04)"/><stop offset="100%" stop-color="rgba(255,255,255,0.12)"/></linearGradient>
-          </defs>
-          <path d="M0,260 Q180,240 340,215 T680,160 T1100,90" fill="none" stroke="url(#lineB1)" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M0,285 Q200,275 360,250 T700,195 T1100,135" fill="none" stroke="url(#lineB2)" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M0,240 Q160,230 320,200 T660,140 T1100,50" fill="none" stroke="url(#lineB3)" stroke-width="1.4" stroke-linecap="round"/>
-          <g fill="rgba(255,255,255,0.2)">
-            <circle cx="1080" cy="92" r="2.5"/>
-            <circle cx="1080" cy="137" r="2"/>
-            <circle cx="1080" cy="52" r="2"/>
-          </g>
-        </svg>
-      </div>
-      <div class="hero-pattern-bg hero-pattern-C">
-        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="barGradC" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.17)"/><stop offset="100%" stop-color="rgba(255,255,255,0.02)"/></linearGradient>
-          </defs>
-          <g fill="url(#barGradC)">
-            <rect x="40" y="260" width="36" height="60" rx="2"/>
-            <rect x="110" y="245" width="36" height="75" rx="2"/>
-            <rect x="180" y="225" width="36" height="95" rx="2"/>
-            <rect x="250" y="240" width="36" height="80" rx="2"/>
-            <rect x="320" y="210" width="36" height="110" rx="2"/>
-            <rect x="390" y="195" width="36" height="125" rx="2"/>
-            <rect x="460" y="220" width="36" height="100" rx="2"/>
-            <rect x="530" y="175" width="36" height="145" rx="2"/>
-            <rect x="600" y="160" width="36" height="160" rx="2"/>
-            <rect x="670" y="180" width="36" height="140" rx="2"/>
-            <rect x="740" y="140" width="36" height="180" rx="2"/>
-            <rect x="810" y="125" width="36" height="195" rx="2"/>
-            <rect x="880" y="145" width="36" height="175" rx="2"/>
-            <rect x="950" y="95" width="36" height="225" rx="2"/>
-            <rect x="1020" y="75" width="36" height="245" rx="2"/>
-          </g>
-          <line x1="0" y1="320" x2="1100" y2="320" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="hero-pattern-bg hero-pattern-D">
-        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="dotFadeD" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0.28)"/></linearGradient>
-            <linearGradient id="regLineD" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.04)"/><stop offset="100%" stop-color="rgba(255,255,255,0.2)"/></linearGradient>
-          </defs>
-          <g fill="url(#dotFadeD)">
-            <circle cx="50" cy="265" r="3"/><circle cx="95" cy="250" r="2.5"/><circle cx="140" cy="272" r="3"/><circle cx="185" cy="230" r="2.5"/><circle cx="230" cy="248" r="3"/><circle cx="275" cy="215" r="2.5"/><circle cx="320" cy="232" r="3"/><circle cx="365" cy="205" r="3.5"/><circle cx="410" cy="220" r="2.5"/><circle cx="455" cy="192" r="3"/><circle cx="500" cy="175" r="3"/><circle cx="545" cy="200" r="2.5"/><circle cx="590" cy="160" r="3"/><circle cx="635" cy="178" r="3"/><circle cx="680" cy="142" r="2.5"/><circle cx="725" cy="155" r="3"/><circle cx="770" cy="118" r="3.5"/><circle cx="815" cy="135" r="2.5"/><circle cx="860" cy="100" r="3"/><circle cx="905" cy="115" r="3"/><circle cx="950" cy="85" r="3.5"/><circle cx="995" cy="95" r="3"/><circle cx="1040" cy="70" r="3"/>
-          </g>
-          <path d="M20,275 L1080,55" fill="none" stroke="url(#regLineD)" stroke-width="1.5" stroke-dasharray="5 6" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="hero-pattern-bg hero-pattern-E">
-        <svg aria-hidden="true" viewBox="0 0 1100 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="areaE1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.14)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
-            <linearGradient id="areaE2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.07)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
-            <linearGradient id="lineE1" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.10)"/><stop offset="100%" stop-color="rgba(255,255,255,0.25)"/></linearGradient>
-            <linearGradient id="lineE2" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.06)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
-          </defs>
-          <path d="M0,290 C180,270 300,270 440,245 C580,220 700,230 840,200 C960,175 1020,180 1100,160 L1100,320 L0,320 Z" fill="url(#areaE2)"/>
-          <path d="M0,290 C180,270 300,270 440,245 C580,220 700,230 840,200 C960,175 1020,180 1100,160" fill="none" stroke="url(#lineE2)" stroke-width="1.3"/>
-          <path d="M0,250 C160,245 280,210 420,180 C560,150 680,160 820,125 C940,95 1020,85 1100,55 L1100,320 L0,320 Z" fill="url(#areaE1)"/>
-          <path d="M0,250 C160,245 280,210 420,180 C560,150 680,160 820,125 C940,95 1020,85 1100,55" fill="none" stroke="url(#lineE1)" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="hero-counter" id="hero-current">1 / 21</div>
-
-      <div class="hero-slide active" onclick="location.href='a/the-10-most-dangerous-supplements-still-legally-sold.html'">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>New</span>
-          <span class="hero-slide-badge">Quick Reads</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The 10 Most Dangerous Supplements (Still Legally Sold)</h2>
-          <p class="hero-slide-desc">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html'">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
-          <span class="hero-slide-badge">Quick Reads</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The Cheapest Effective Supplements vs the Priciest Hyped Ones</h2>
-          <p class="hero-slide-desc">$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(92)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Editor's Pick</span>
-          <span class="hero-slide-badge">Breakthrough</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Psyllium Husk: 420 Clinical Trials and an FDA Health Claim for Cholesterol Reduction</h2>
-          <p class="hero-slide-desc">More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it. LDL down 15 mg/dL. HbA1c down 0.4%. FDA-approved heart health claim since 1998. Here is why nobody is talking about it.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 11 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 17, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(18)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
-          <span class="hero-slide-badge">Reality Check</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Berberine: Is It Really Nature's Ozempic?</h2>
-          <p class="hero-slide-desc">Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence. Here's what a 500mg dose actually does, and what it doesn't.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 8, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(4)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Breaking</span>
-          <span class="hero-slide-badge">Safety Alert</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</h2>
-          <p class="hero-slide-desc">The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024. Kratom co-use is driving the worst cases.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 24, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(2)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The Evidence-Based Sleep Stack: What to Take and When</h2>
-          <p class="hero-slide-desc">Magnesium, L-theanine, and melatonin timed correctly can meaningfully improve sleep quality — if you take them right. The trial data says timing matters more than dose.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 5, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(3)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>Popular</span>
-          <span class="hero-slide-badge">Reality Check</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Why "Detox" Supplements Are a $3 Billion Scam</h2>
-          <p class="hero-slide-desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 29, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(5)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>New Science</span>
-          <span class="hero-slide-badge">Breakthrough</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Creatine for Brain Health: What the New Meta-Analyses Actually Show</h2>
-          <p class="hero-slide-desc">Two new meta-analyses (Prokopidis 2023, Xu 2024) confirm creatine improves memory and cognition in healthy adults — not just athletes. The effect is real, but smaller than the marketing claims.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 24, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(20)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>Essential</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Magnesium Deficiency: The Most Overlooked Health Problem</h2>
-          <p class="hero-slide-desc">An estimated 48% of Americans don't get enough magnesium. Here's how to tell if you're deficient, and which form of supplement actually works for you.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 2, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(16)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Important</span>
-          <span class="hero-slide-badge">Safety Alert</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation</h2>
-          <p class="hero-slide-desc">High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity. We break down who's at risk, what dose is safe, and which forms to avoid.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(12)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Foundational</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Vitamin D: How Much Do You Really Need?</h2>
-          <p class="hero-slide-desc">Optimal dosing, when to test, what deficiency looks like, and why "more is better" thinking can backfire. The VITAL trial changed what we thought we knew.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(6)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Hype Check</span>
-          <span class="hero-slide-badge">Reality Check</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">NAD+ Precursors: Separating Hype from Longevity Evidence</h2>
-          <p class="hero-slide-desc">NMN and NR are sold as anti-aging miracles. The mouse data is compelling — but human trials tell a much more nuanced story. Here's what's real.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 11, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(53)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Performance</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The Supplement Stack for Runners</h2>
-          <p class="hero-slide-desc">From iron and vitamin D to beetroot juice and caffeine — what the evidence actually supports for endurance performance and recovery. Legal ergogenic aids only.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 11, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(7)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Breakthrough</span>
-          <span class="hero-slide-badge">Research Update</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Fish Oil: What the REDUCE-IT Trial Actually Found</h2>
-          <p class="hero-slide-desc">A 25% reduction in cardiovascular events from 4g daily EPA — here's why the dose and purified form matter more than most fish oil capsules suggest.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 3, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(11)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>Essential</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Ashwagandha for Stress: What Eight Clinical Trials Reveal</h2>
-          <p class="hero-slide-desc">A systematic review of eight randomized trials shows consistent cortisol reduction — but the benefit depends on the extract, dose, and how long you take it.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 25, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(32)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Hype Check</span>
-          <span class="hero-slide-badge">Reality Check</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Why Most Probiotic Supplements Don't Actually Work</h2>
-          <p class="hero-slide-desc">The problem isn't probiotics — it's that most brands don't contain what they advertise. Here are the three strains with real clinical evidence, and which products pass lab testing.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 7, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(8)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Hype Check</span>
-          <span class="hero-slide-badge">Reality Check</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Collagen Peptides: Are You Paying $40 for Gelatin?</h2>
-          <p class="hero-slide-desc">The skin and joint claims have more marketing than evidence behind them. Here's what hydrolyzed collagen actually does — and a cheaper alternative that works just as well.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 4, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(14)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Important</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Iron Deficiency in Women: The Silent Epidemic</h2>
-          <p class="hero-slide-desc">An estimated 1 in 5 women of reproductive age are iron deficient — and the fatigue is often misdiagnosed as stress or burnout. Here's how to test, treat, and avoid the gut side effects.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 1, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(24)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Foundational</span>
-          <span class="hero-slide-badge">Guide</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Zinc for Colds: Does It Actually Shorten Them?</h2>
-          <p class="hero-slide-desc">The Cochrane review found zinc lozenges cut cold duration by about a day — but only if you take them fast enough, in the right form, and at a high enough dose. The details matter.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 5 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 30, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(42)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>New Science</span>
-          <span class="hero-slide-badge">Breakthrough</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Spermidine and Longevity: Promising or Premature?</h2>
-          <p class="hero-slide-desc">Wheat germ, aged cheese, and natto are the dietary heavyweights for spermidine. The 2016 mouse lifespan finding drove the entire supplement category; the 2025 human trials are still short, small, and focused on intermediate markers.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 6, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(120)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Breaking</span>
-          <span class="hero-slide-badge">Safety Alert</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Green Tea Extract: When 'Healthy' Damages Your Liver</h2>
-          <p class="hero-slide-desc">Published case series tie high-dose EGCG extracts to acute liver injury and transplant. Brewed green tea is safe — but the concentrated capsules are a very different story.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 26, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(64)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>Popular</span>
-          <span class="hero-slide-badge">Reality Check</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">LMNT vs Liquid IV vs DIY: The Electrolyte Price War</h2>
-          <p class="hero-slide-desc">Electrolyte mixes have gone mainstream. We compare sodium-to-sugar ratios, cost per serving, and whether you can make the same thing at home for a fraction of the price.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 10, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(10)">
-        <div class="hero-slide-top">
-          <span class="hero-slide-featured"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trending</span>
-          <span class="hero-slide-badge">Breakthrough</span>
-        </div>
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide</h2>
-          <p class="hero-slide-desc">The only magnesium form proven to cross the blood-brain barrier in animal studies. But do the human trials actually back up the cognitive claims? We dig into all four studies.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>⏱ 8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 8, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-dots" id="hero-dots"></div>
-      <div class="hero-controls">
-        <button class="hero-arrow" onclick="event.stopPropagation();heroPrev()" aria-label="Previous article"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-        <button class="hero-arrow" onclick="event.stopPropagation();heroNext()" aria-label="Next article"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-        <button type="button" class="hero-cta" onclick="event.stopPropagation();heroReadActive()" aria-label="Read featured article">Read article</button>
-      </div>
-      <div class="hero-progress" aria-hidden="true"><div class="hero-progress-fill" id="hero-progress-fill"></div></div>
-    </div>
 
     <!-- Toolbar: category dropdown + search input on a single row -->
     <div class="rs-toolbar">
@@ -22963,6 +22968,12 @@
       <div>
         <div class="site-footer-h">Site</div>
         <div class="site-footer-col">
+          <!-- 2026-05-21 — Custom Profile and Research & Articles links promoted into the footer Site column.
+               The hrefs are URL-hash routes that the pre-paint tab-restore script at the very top of index.html
+               picks up (look for TAB_HASHES = {research:1, about:1, profile:1, supplements:1}). Hitting them
+               restores the right view even though the top tab pills are no longer visible. -->
+          <a href="#profile" onclick="window._tabSwitchByUser=true">Custom Profile</a>
+          <a href="#research" onclick="window._tabSwitchByUser=true">Research &amp; Articles</a>
           <a href="about.html">About</a>
           <a href="privacy.html">Terms &amp; Privacy</a>
         </div>

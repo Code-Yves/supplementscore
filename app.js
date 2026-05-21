@@ -4875,10 +4875,10 @@ function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';c
 if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('unproven',items.length,initShow):''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label),items.length+' supplement'+(items.length===1?'':'s'),m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn(t.id,items.length,initShow):''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
-function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(cat),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(cat),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 var _initialLoad=true;
-function setFilter(id,el){_ddLabel('cat-filter','Helps With');_ddLabel('az-filter','A\u2013Z');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddActive(null);af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
-function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Helps With');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setFilter(id,el){_ddLabel('cat-filter','Helps With');_ddLabel('az-filter','A\u2013Z');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');_ddActive(null);af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Helps With');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 let _allTabInit=false;
 const CATS=['Performance','Cognition','Sleep','Immunity','Cardiovascular','Joint','Mood','Gut','Metabolic','Inflammation','Skin','Bone','Energy','Hormonal','Neuropathy','Antioxidant','Weight','UTI','Migraine','Liver','Eye health','Pregnancy'];
 const AZ_PAIRS=[['A','B'],['C','D'],['E','F'],['G','H'],['I','J'],['K','L'],['M','N'],['O','P'],['Q','R'],['S','T'],['U','V'],['W','X'],['Y','Z']];
@@ -4941,7 +4941,9 @@ function _filterBanner(title,lead,desc,icon,accentKey){const cls=accentKey?' hea
 var _DD_ICONS={
   'cat-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>',
   'pop-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
-  'sx-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'
+  'sx-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+  // 2026-05-21 — fourth filter pill: Articles. Icon mirrors the "article" / chat-bubble glyph used on the Research page header so the visual vocabulary matches.
+  'art-filter':'<svg class="cdd-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13a3 3 0 013 3v10a3 3 0 01-3 3H8l-4 3z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/></svg>'
 };
 function _dd(id,label,opts,onSelect){
   const icoHtml=_DD_ICONS[id]||'';
@@ -4978,7 +4980,22 @@ function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById(
 // "Filter by:" inline label — anchors the row left so the filter chips read
 // as a coherent group. The legacy Sort dropdown was removed; default sort
 // (by composite score) is applied at render time and not user-configurable.
-sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
+// 2026-05-21 — fourth pill added: Articles. Categories mirror the existing
+// research-view category dropdown (#rs-cat-dd) so users see the same taxonomy
+// in both places. Picking a category calls _artPick(), which swaps #s-content
+// for an article-card list (instead of the supplements list). Choosing any of
+// the other three filters restores the supplements list via their existing
+// renderAll() / setPopFilter / set*Filter paths.
+var artOpts=[
+  {val:'all',label:'All articles'},
+  {val:'quickread',label:'Quick Reads'},
+  {val:'guide',label:'Guide'},
+  {val:'breakthrough',label:'Breakthrough'},
+  {val:'kids',label:'Kids'},
+  {val:'myth',label:'Reality Check'},
+  {val:'safety',label:'Safety Alert'}
+];
+sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Articles',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {
   Sleep:['sleep','insomnia'],
   Anxiety:['anxiety','stress','adapt'],
@@ -5032,7 +5049,7 @@ var SX_META = {
 function _sxPick(v){
   var keys=SX_KEYWORDS[v]||[];var label=SX_LABELS[v]||v;
   _ddLabel('sx-filter',label);_ddActive('sx-filter');
-  _ddLabel('cat-filter','Goal');_ddLabel('pop-filter','Age & Sex');
+  _ddLabel('cat-filter','Goal');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');
   document.querySelectorAll('.sfbtn').forEach(function(b){b.className='sfbtn';});
   af='sx';
   var items=S.filter(function(s){
@@ -5056,12 +5073,12 @@ function _sxPick(v){
   var content=document.getElementById('s-content');
   if(content){var stickyH=document.querySelector('.sticky-bar');var offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;var top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}
 }
-function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Goal');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddActive('tier-filter');af=v;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Goal');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');_ddActive('tier-filter');af=v;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function _azPick(v){_ddLabel('az-filter',v==='all'?'All A\u2013Z':v.charAt(0)+' & '+v.charAt(1));_ddActive(v==='all'?null:'az-filter');setAzFilter(v);}
 function _catPick(v){
   if(v==='__trending__'){
     _ddLabel('cat-filter','\u{1F4C8} Trending');_ddActive('cat-filter');
-    _ddLabel('pop-filter','Age & Sex');
+    _ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');
     document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');
     af='t3';
     const items=S.filter(s=>s.tr).sort((a,b)=>calcScore(b)-calcScore(a));
@@ -5074,6 +5091,72 @@ function _catPick(v){
   _ddLabel('cat-filter',v);_ddActive('cat-filter');setCatFilter(v);
 }
 function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
+/* 2026-05-21 — Articles pill picker.
+   Swaps #s-content (the supplements list) for an article-card list filtered to
+   the chosen category, OR shows all articles when 'all' is picked. Article
+   cards are sourced from the existing #research-list-view nodes — those are
+   already rendered in the DOM (hidden inside #research-view) and tagged with
+   data-category. We clone (not move) their outerHTML so the Research view
+   stays intact and re-clicking Goal / Age & Sex / Symptom restores the
+   supplements list via renderAll() in setCatFilter / setPopFilter etc.
+   Article-card click handlers are preserved because the clone retains the
+   inline `onclick="showArticle(n)"` and the `href` attributes from the
+   originals. */
+function _artPick(v){
+  const CAT_LABELS={all:'All articles',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
+  const lbl=CAT_LABELS[v]||'Articles';
+  _ddLabel('art-filter',lbl);
+  _ddLabel('cat-filter','Goal');
+  _ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Articles');
+  _ddLabel('sx-filter','Symptom');
+  document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');
+  _ddActive('art-filter');
+  af='art';
+
+  const src=document.querySelectorAll('#research-list-view .article-card');
+  let matched=Array.from(src).filter(card=>{
+    if(v==='all')return true;
+    return (card.getAttribute('data-category')||'')===v;
+  });
+
+  const m={
+    all:{title:'Articles',desc:'Every article in the Research library, freshest first.'},
+    quickread:{title:'Quick Reads',desc:'Short, scannable explainers — a few minutes each.'},
+    guide:{title:'Guides',desc:'Deeper how-to articles for choosing, dosing, and stacking supplements.'},
+    breakthrough:{title:'Breakthroughs',desc:'New science changing what we know about a supplement or pathway.'},
+    kids:{title:'For Kids',desc:'Pediatric-specific evidence, dosing, and safety considerations.'},
+    myth:{title:'Reality Check',desc:'Popular claims vs. what the trials actually show.'},
+    safety:{title:'Safety Alerts',desc:'Warnings, interactions, recalls, and supplements to avoid.'}
+  }[v]||{title:lbl,desc:''};
+
+  const icon='<path d="M4 4h13a3 3 0 013 3v10a3 3 0 01-3 3H8l-4 3z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/>';
+  const banner=_filterBanner(escHtml(m.title),matched.length+' article'+(matched.length===1?'':'s'),m.desc,icon);
+
+  /* Render each clone in a light grid wrapper so the article-card CSS layouts
+     work even though we're outside the Research view. The .articles-grid +
+     .article-card styles live in styles.css and are not scoped to the
+     #research-view ancestor, so they apply here too. */
+  const cards=matched.map(c=>{
+    const clone=c.cloneNode(true);
+    // Strip the tier-hidden helper class if it was applied for the lazy-render limit in the Research view
+    clone.classList.remove('tier-hidden');
+    clone.style.display='';
+    return clone.outerHTML;
+  }).join('');
+
+  const html=matched.length
+    ? '<div class="tier-sec">'+banner+'<div class="articles-grid art-pill-list">'+cards+'</div></div>'
+    : '<div class="empty">No articles found in this category.</div>';
+
+  const content=document.getElementById('s-content');
+  if(content){
+    content.innerHTML=html;
+    const stickyH=document.querySelector('.sticky-bar');
+    const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;
+    const top=content.getBoundingClientRect().top+window.pageYOffset-offset;
+    if(!_initialLoad)window.scrollTo({top:top,behavior:'smooth'});
+  }
+}
 function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Goal');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=POP_META[key]||{};const banner=_filterBanner('Recommended for <b>'+escHtml(p.label)+'</b>',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('pop',items.length,rowLimit):''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function sw(n){const p1=document.getElementById('p1'),p2=document.getElementById('p2');if(p1)p1.style.display=n===1?'block':'none';if(p2)p2.style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');if(tb1){tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-pressed',n===1);}if(tb2){tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-pressed',n===2);}if(n===2&&typeof initAllTab==='function')initAllTab();/* Round-8: toggle a body class so the recently-viewed strip can be hidden via CSS whenever the profile view is active. */document.body.classList.toggle('on-profile',n===1);}
 let selectedConds=new Set();

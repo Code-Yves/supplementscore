@@ -709,14 +709,21 @@ if (typeof renderAll === 'function') {
     const type=item.dataset.type||'supp';
     ac.classList.remove('vis');ixAcIdx=-1;
     if(type==='supp'){
-      /* Direct-to-card navigation (2026-05-13).
-         Was: inp.value = name; inp.form.submit();   // → search.html
-         Now: navigate straight to supplement.html?slug=...
-         Picking a specific supplement from the autocomplete is an
-         unambiguous selection — sending the user to a search-results
-         listing was an extra hop. window.SS.slugify / window.SS.urlFor
-         are exposed globally by search-index.js. */
+      /* Direct-to-card behaviour (2026-05-21 update).
+         Was: location.href = supplement.html?slug=...  — that opened the
+         standalone full-screen supplement page, which is a different shell
+         from the rest of the Index UX. The bug report was that picking from
+         the typeahead felt like leaving the Index, while clicking a card from
+         the list opens the modal (openSuppModal) inline. We now match the list
+         card behaviour: open the modal first, fall back to navigation only if
+         the modal function isn't on the page (e.g. if this script ever runs
+         standalone on a page that doesn't include app.js). */
       const name = item.dataset.name;
+      inp.value='';
+      if (typeof window.openSuppModal === 'function') {
+        window.openSuppModal(name);
+        return;
+      }
       const slug = (window.SS && window.SS.slugify)
         ? window.SS.slugify(name)
         : String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
