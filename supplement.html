@@ -720,10 +720,11 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
       + '</div></div>';
   }
 
-  // Jump-nav links — only show sections that exist
-  var jumpLinks = ['<a href="#det-protocol">Protocol</a>','<a href="#det-evidence">Evidence</a>','<a href="#det-related">Related</a>'];
-  if (pairingsHtml) jumpLinks.unshift('<a href="#det-pairings">Pairings</a>');
-  if (artiles.length) jumpLinks.push('<a href="#det-sources">Sources</a>');
+  /* Jump-nav removed 2026-05-21 per user feedback — the chip row felt
+     redundant since users naturally scroll the card, and it added vertical
+     weight between the hero and the first content section. Section IDs
+     (#det-protocol, #det-evidence, #det-related, #det-sources, #det-pairings)
+     remain intact for deep-linking from external pages or search. */
 
   /* "Compare with another" button removed 2026-05-19 per user feedback —
      was cluttering the top of the supplement card. Comparison guides are
@@ -750,8 +751,8 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
       +   '</div>'
       + '</div>'
 
-      // Jump nav
-      + '<div class="det-jump"><div class="det-jump-inner"><span class="det-jump-lbl">Jump to</span>'+jumpLinks.join('')+'</div></div>'
+      // Jump nav removed 2026-05-21 — see comment above the deleted
+      // jumpLinks block. Going straight from hero into body now.
 
       // Body
       + '<div class="det-body">'
