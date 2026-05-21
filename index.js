@@ -835,12 +835,13 @@ if (typeof renderAll === 'function') {
   var navPillInput= document.getElementById('nav-search-inp');
   if(!heroForm || !stickyBar) return;
 
-  // 2026-05-21 — Nav row hidden + banner measured at exactly 32 px tall.
-  // Sticky offsets MUST match the banner height; using 38 (the previous
-  // guess) left a 6-pixel band where supplement-list content was visible
-  // bleeding between the green banner and the sticky panel.
+  // 2026-05-21 — Nav row hidden. Banner height DIFFERS between viewports:
+  //   desktop ≤960px+: .beta-bar is 32px (styles.css:630)
+  //   mobile  ≤560px : .beta-bar is 22px (styles.css:1007, dodges the notch)
+  // Sticky offsets MUST match the banner height per viewport or content
+  // bleeds through the gap.
   var IS_MOBILE = window.innerWidth <= 600;
-  var NAV_TOP = 32;
+  var NAV_TOP = IS_MOBILE ? 22 : 32;
 
   function setFilterTop(searchVisible) {
     if(!filterBar) return;
@@ -869,10 +870,12 @@ if (typeof renderAll === 'function') {
     var heroVisible = entries[0].isIntersecting;
     var searchShowing = !heroVisible && isOnIndex();
 
-    // 2026-05-21 (consolidated) — sticky search input now lives INSIDE
-    // #main-sticky, so we don't need to fade #ix-sticky-bar in/out anymore.
-    // We just leave the legacy nav-pill toggles in place for non-Index pages
-    // that might still rely on them.
+    // 2026-05-21 — sticky search input lives INSIDE #main-sticky.
+    // body.hero-search-gone is a class toggled here based on whether the
+    // hero search has scrolled out of view. On mobile, CSS uses this to
+    // reveal the sticky-panel search ONLY after the hero one is gone, so
+    // exactly ONE search bar is visible at any time.
+    document.body.classList.toggle('hero-search-gone', searchShowing);
     if (stickyInput) stickyInput.setAttribute('tabindex', '0');
     if (siteNav) siteNav.classList.toggle('site-nav--search-visible', searchShowing);
     if (navPill) navPill.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
@@ -900,7 +903,7 @@ if (typeof renderAll === 'function') {
   // when the user rotated the iPhone or used browser back/forward.
   function refreshMobile(){
     IS_MOBILE = window.innerWidth <= 600;
-    NAV_TOP = 32;   /* matches .beta-bar height; was a guess (48/90) before */
+    NAV_TOP = IS_MOBILE ? 22 : 32;   /* per-viewport banner height */
   }
   window.addEventListener('resize', refreshMobile);
   window.addEventListener('orientationchange', refreshMobile);

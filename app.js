@@ -5015,7 +5015,7 @@ function _artLbl(label, cat){
   return n ? label + ' (' + n + ')' : label;
 }
 var artOpts=[
-  {val:'all',         label:_artLbl('All articles',  'all')},
+  {val:'all',         label:_artLbl('Research & Articles',  'all')},
   {val:'quickread',   label:_artLbl('Quick Reads',   'quickread')},
   {val:'guide',       label:_artLbl('Guide',         'guide')},
   {val:'breakthrough',label:_artLbl('Breakthrough',  'breakthrough')},
@@ -5131,7 +5131,7 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
 function _artPick(v){
-  const CAT_LABELS={all:'All articles',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
+  const CAT_LABELS={all:'Research & Articles',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
   const lbl=CAT_LABELS[v]||'Articles';
   /* Reset siblings FIRST, then set the art-filter label last. The earlier
      replace_all auto-injected an art-filter reset onto the pop-filter reset

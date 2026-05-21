@@ -1083,9 +1083,26 @@
 @media(max-width: 600px){
   /* Tighter vertical rhythm — was cavernous on a phone. */
   .ix-hero{ padding: 18px 16px 16px !important; }
-  .ix-hero-stats{ margin-bottom: 12px !important; font-size: 11px; }
   .ix-hero h1{ font-size: 36px !important; margin: 0 0 12px !important; line-height: 1.05 !important; }
   .ix-hero .lede{ font-size: 14px !important; margin-bottom: 14px !important; }
+
+  /* Stats row: stack vertically on a phone. Three labels with the / dividers
+     on one row didn't fit — each stat wrapped to its own 3-line block and
+     the columns drifted out of horizontal alignment. Vertical stack is more
+     legible and self-aligning. The / dividers are hidden — they were only
+     meaningful as inline separators. */
+  .ix-hero-stats{
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    margin-bottom: 14px !important;
+  }
+  .ix-hero-stat{
+    white-space: nowrap;
+    text-align: center;
+  }
+  .ix-hero-stat-divider{ display: none !important; }
 
   /* Hero search visible at the top. */
   .ix-hero .ix-search{
@@ -1096,13 +1113,25 @@
   /* Rotating-article hero immediately follows the search, no extra space. */
   #hero{ margin: 16px 0 !important; height: auto !important; min-height: 240px; }
 
-  /* Mobile: sticky panel = PILLS ONLY (no second search bar). The hero's
-     own search input is the one source of truth on phones. */
-  #main-sticky .sticky-bar-search{ display: none !important; }
+  /* Mobile sticky panel — search + pills. The hero search at the top is
+     visible at landing; once the user scrolls past it, the IntersectionObserver
+     in index.js toggles body.hero-search-gone, which reveals the sticky-panel
+     search so a search bar is always visible. Only ONE bar shows at a time. */
   #main-sticky.sticky-bar{
     padding: 8px 12px !important;
     margin: 12px -12px 0 !important;
     width: calc(100% + 24px);
+  }
+  /* By default on mobile: sticky-panel search hidden (hero one visible). */
+  #main-sticky .sticky-bar-search{ display: none !important; }
+  /* When user has scrolled past the hero search: show the sticky-panel search. */
+  body.hero-search-gone #main-sticky .sticky-bar-search{
+    display: block !important;
+    max-width: 100%;
+    margin: 0 0 8px;
+  }
+  body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
+    margin: 0;
   }
 
   /* 4 pills wrap to 2 rows for tappability. */
@@ -1114,9 +1143,13 @@
   #sfbar-main .cdd{ width: 100%; }
   #sfbar-main .cdd-btn{ width: 100%; justify-content: center; }
 
-  /* Sticky panel docks under the 32px banner exactly. */
-  #ix-sticky-bar{ top: 32px !important; padding: 6px 12px; }
-  #main-sticky{ top: 32px !important; }
+  /* Banner is 22px tall on mobile (styles.css:1007 shrinks it to dodge
+     the iPhone notch — see the calc(22px + safe-area-inset-top) rule).
+     The desktop sticky uses top:32; on mobile we MUST use top:22 or the
+     10-pixel difference becomes a band where supplement-list content
+     visibly scrolls between the banner and the pills. */
+  #ix-sticky-bar{ top: 22px !important; padding: 6px 12px; }
+  #main-sticky{ top: 22px !important; margin-top: 0 !important; }
 }
 
 /* ---------- Footer: tighter columns + smaller heading copy ---------- */
