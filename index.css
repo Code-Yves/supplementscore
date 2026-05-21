@@ -967,54 +967,50 @@
    siblings of .ix-hero inside #supplements-view, so they
    inherit the cap automatically. */
 
-/* ---------- Sticky search + filter pills ---------- */
+/* ---------- Consolidated sticky panel: search + filter pills as ONE ---------- */
 
-/* The nav row is now hidden, so the original top:90px assumed
-   nav-height(50) + green-banner(40). With nav gone, dock the
-   sticky bar directly under the ~38px green banner. */
-#ix-sticky-bar{
-  top: 38px;
-  background: var(--color-background-primary);
-  border-bottom: 1px solid var(--color-border-tertiary);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  z-index: 30;             /* over the rotating-hero (z 1) and pills row */
-  padding-bottom: 6px;
-}
+/* The legacy #ix-sticky-bar (position:fixed at top:38) and #main-sticky
+   (position:sticky lower in the page) used to be two separate panels with
+   a band of supplement-list content visible between them. Now both live
+   inside #main-sticky as siblings, so there's no inter-panel gap by
+   construction. Both backgrounds match the page background — no "white
+   box" effect behind the pills. */
+#ix-sticky-bar{ display: none !important; }   /* empty placeholder; legacy queries no-op */
 
-/* Make the sticky search input sit on the same horizontal line
-   as the 4 filter pills so they read as one panel. */
-#ix-sticky-bar .ix-search-sticky{
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-/* When the sticky bar is visible, push the filter pills down to
-   land directly under it instead of overlapping. The exact
-   px offset is also set inline by setFilterTop() in index.js
-   so JS can adapt to the actual bar height — this is a fallback. */
-#main-sticky{
-  top: 38px;
-  background: var(--color-background-primary);
-  border-bottom: 1px solid var(--color-border-tertiary);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  z-index: 25;             /* under #ix-sticky-bar (z 30) */
-  padding: 6px 1rem;
-}
-#ix-sticky-bar.visible ~ * #main-sticky,
-body:has(#ix-sticky-bar.visible) #main-sticky{
-  top: 96px;               /* 38 banner + ~58 sticky bar */
-}
-
-/* Opaque background so the rotating-article hero and supplement
-   cards don't bleed through while the user scrolls. */
-.sticky-bar{
-  background: var(--color-background-primary) !important;
-  z-index: 25;
+#main-sticky.sticky-bar{
   position: sticky;
   top: 38px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  z-index: 30;
+  /* Match the page background so the panel doesn't look like a floating
+     white card sitting on top of the cream-coloured Index. */
+  background: var(--color-background-secondary, #F8F4ED) !important;
+  border-bottom: 1px solid var(--color-border-tertiary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);   /* single shadow at the bottom */
+  padding: 10px 1rem 10px;
+  margin: 16px -1rem 0;                      /* gutter for the .pg padding */
+  width: calc(100% + 2rem);
 }
+
+/* Search bar lives directly above the 4 filter pills, both centred to
+   the 1024 px content cap. */
+#main-sticky .sticky-bar-search{
+  max-width: 1024px;
+  margin: 0 auto 10px;
+}
+#main-sticky .sticky-bar-search .ix-search-sticky{
+  margin: 0;
+  /* Pull the autocomplete dropdown above the rotating-article hero — same
+     trick used on the hero search at the top of the page. */
+  position: relative; z-index: 50;
+}
+#main-sticky .sfbar-row{
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+/* Autocomplete dropdown inside the sticky bar must float over everything
+   below — supplements list, filter pills, etc. */
+#ix-sticky-ac{ z-index: 60 !important; }
 
 /* ---------- Search autocomplete: must float above the rotating hero ---------- */
 
@@ -1111,6 +1107,20 @@ body:has(#ix-sticky-bar.visible) #main-sticky{
     grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
     column-gap: 22px;
   }
+}
+
+/* ---------- Custom Profile view: hide the rotating-article hero ---------- */
+
+/* The rotating #hero lives inside #supplements-view (we moved it there during
+   the Index + Research merge). When the user navigates to the Custom Profile
+   page (#profile), switchTab() in app.js keeps #supplements-view visible
+   because the profile gate is rendered inside it — but the rotating article
+   hero shouldn't be surfaced on the Profile page. switchTab adds
+   body.on-profile when the profile view is active, so a single CSS rule
+   suffices and we don't have to touch the JS routing. */
+body.on-profile #hero,
+body.on-profile #main-sticky{
+  display: none !important;
 }
 
 /* End 2026-05-21 follow-up block */

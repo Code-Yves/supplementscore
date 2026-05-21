@@ -709,24 +709,28 @@ if (typeof renderAll === 'function') {
     const type=item.dataset.type||'supp';
     ac.classList.remove('vis');ixAcIdx=-1;
     if(type==='supp'){
-      /* Direct-to-card behaviour (2026-05-21 update).
-         Was: location.href = supplement.html?slug=...  — that opened the
-         standalone full-screen supplement page, which is a different shell
-         from the rest of the Index UX. The bug report was that picking from
-         the typeahead felt like leaving the Index, while clicking a card from
-         the list opens the modal (openSuppModal) inline. We now match the list
-         card behaviour: open the modal first, fall back to navigation only if
-         the modal function isn't on the page (e.g. if this script ever runs
-         standalone on a page that doesn't include app.js). */
+      /* Direct-to-card (2026-05-21, third revision).
+         The right preference order is the one the list-card handler in
+         app.js (~line 2624) uses:
+            1. window.SSModal.open(slug)   — the NEW iframe-based modal that
+               renders the current supplement.html design inline. This is what
+               the rest of the site uses.
+            2. supplement.html?slug=...    — direct navigation to the full
+               standalone page (also picks up SSModal interception via the
+               click-on-anchor handler, if present).
+            3. openSuppModal(name)         — LEGACY fallback (old card design),
+               only reached if neither of the above is loaded. The user
+               reported the old card design appearing here; the fix is to
+               route through SSModal first, NOT openSuppModal. */
       const name = item.dataset.name;
       inp.value='';
-      if (typeof window.openSuppModal === 'function') {
-        window.openSuppModal(name);
-        return;
-      }
       const slug = (window.SS && window.SS.slugify)
         ? window.SS.slugify(name)
         : String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      if (window.SSModal && typeof window.SSModal.open === 'function'){
+        window.SSModal.open(slug);
+        return;
+      }
       const href = (window.SS && window.SS.urlFor)
         ? window.SS.urlFor('supplement', slug)
         : ('supplement.html?slug=' + encodeURIComponent(slug));
@@ -864,19 +868,14 @@ if (typeof renderAll === 'function') {
     var heroVisible = entries[0].isIntersecting;
     var searchShowing = !heroVisible && isOnIndex();
 
-    // 2026-05-21 — Nav row is hidden, so the old "fade search into the nav
-    // pill" path on desktop never had anything to fade into. Both desktop
-    // AND mobile now show the same #ix-sticky-bar, sitting under the green
-    // banner. Pills (#main-sticky) are pushed down by setFilterTop() so
-    // they land directly under the sticky search.
-    stickyBar.classList.toggle('visible', searchShowing);
-    stickyBar.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
-    if (stickyInput) stickyInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
-    // Keep the legacy nav-pill toggles in case any non-Index page still uses them
+    // 2026-05-21 (consolidated) — sticky search input now lives INSIDE
+    // #main-sticky, so we don't need to fade #ix-sticky-bar in/out anymore.
+    // We just leave the legacy nav-pill toggles in place for non-Index pages
+    // that might still rely on them.
+    if (stickyInput) stickyInput.setAttribute('tabindex', '0');
     if (siteNav) siteNav.classList.toggle('site-nav--search-visible', searchShowing);
     if (navPill) navPill.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
     if (navPillInput) navPillInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
-    setTimeout(function(){ setFilterTop(searchShowing); }, 10);
   }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
   obs.observe(heroForm);
 

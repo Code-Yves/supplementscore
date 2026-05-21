@@ -4356,24 +4356,37 @@ function articleRelatedHtml(articleId){
   return '<div class="aend"><div class="aend-k"><span>Related articles</span><span class="aend-k-r">'+label+'</span></div><div class="rel-list">'+rows+'</div></div>';
 }
 let _currentSuppName=null;
-function openSuppModal(name){const s=_suppByName.get(name);if(!s)return;_currentSuppName=name;
-/* If the article modal is already open (e.g. user clicked a supplement
-   card inside an open article), stack the supp-modal ABOVE it. Without
-   this, both modals share z-index:999 and the visual result depends on
-   DOM order — fragile. We also remember whether art-modal was open so
-   closeSuppModal can leave body.overflow:hidden in place for it. */
-try{var _am=document.getElementById('art-modal');var _smEl=document.getElementById('supp-modal');if(_smEl){if(_am&&_am.classList.contains('open')){_smEl.style.zIndex='1001';_smEl.dataset.overArticle='1';}else{_smEl.style.zIndex='';_smEl.dataset.overArticle='';}}}catch(_){}
-try{if(typeof window.ssTrackView==='function'){var _slug=(window.SS&&window.SS.slugify?window.SS.slugify(name):String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''));window.ssTrackView(name,calcScore(s),_slug);}}catch(_){}setTimeout(function(){try{if(typeof window.ssPubMedBadgeFor==='function'){var mb=document.querySelector('#supp-modal-body .article-meta-row');if(mb){var mt=document.createElement('span');mt.className='ssux-pmbadge-mount';mt.dataset.pmq=name;mt.style.marginLeft='8px';mb.appendChild(mt);window.ssPubMedBadgeFor(name,mt);}}}catch(_){}},50);const sc=calcScore(s),rd=s.r||1,so=s.o||1,et=eTier(s);const grad=sc>=80?'linear-gradient(180deg,#16A34A,#15803D)':sc>=60?'linear-gradient(180deg,#CA8A04,#A16207)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';const tags=s.tag.split(' · ').map(t=>'<span style="font-size:9px;padding:2px 7px;border-radius:7px;background:'+TM[et].bg+';color:'+TM[et].tx+'">'+t.trim()+'</span>').join('');const modal=document.getElementById('supp-modal');const body=document.getElementById('supp-modal-body');/* Phase 0 / Item #9 + #10: last-reviewed badge and feedback trigger in supp modal. */
-const _lrSupp=lastReviewedFor(s.n);
-const _lrSuppHtml=_lrSupp?'<span class="article-reviewed" title="Reviewed against PubMed and listed sources. Tier-4 safety entries are reviewed more often.">Last reviewed: '+fmtReviewDate(_lrSupp)+'</span>':'';
-const _flagSuppBtn='<button type="button" class="article-flag-btn" onclick="openFeedback(\'supplement\',\''+escAttr(s.n)+'\')">Flag inaccuracy</button>';
-/* Phase 3 / Item #6 — form-specific evidence callout when the supplement is one of
-   several forms sharing an article. */
-const _formNote=(typeof FORM_EVIDENCE_NOTES!=='undefined'&&FORM_EVIDENCE_NOTES[s.n])?FORM_EVIDENCE_NOTES[s.n]:null;
-const _formNoteHtml=_formNote?'<div class="supp-modal-section supp-form-note"><div class="supp-modal-label supp-form-note-label">Form-specific evidence</div><div class="supp-modal-val">'+escHtml(_formNote.note)+'</div></div>':'';
-body.innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:12px;background:${grad};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:22px;font-weight:800;color:#fff">${sc}</div><div style="font-size:6px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65)">Score</div></div><div><div style="font-size:18px;font-weight:700;color:var(--color-text-primary)">${s.n}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${tags}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11px;color:var(--color-text-tertiary)"><span>Efficacy: <b style="color:${barClr(s.e)}">${s.e}/5</b></span><span>Safety: <b style="color:${barClr(s.s)}">${s.s}/5</b></span><span>Research: <b style="color:${barClr(rd)}">${rd}/5</b></span><span>Onset: <b style="color:var(--color-text-secondary)">${OL_SHORT[so]||'Varies'}</b></span></div><div class="supp-modal-section"><div class="supp-modal-label">Dose</div><div class="supp-modal-val">${s.dose}</div></div>${s.tips?'<div class="supp-modal-section"><div class="supp-modal-label">How to take</div><div class="supp-modal-val">'+s.tips+'</div></div>':''}<div class="supp-modal-section"><div class="supp-modal-label">Cycling &amp; Duration</div><div class="supp-modal-val">${cycleInfo(s)}</div></div><div class="supp-modal-section"><div class="supp-modal-label">Overview</div><div class="supp-modal-val">${s.desc}</div></div>${_formNoteHtml}<div class="article-meta-row" style="margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb">${_lrSuppHtml}${_flagSuppBtn}</div>`;modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;}
-function closeSuppModal(){const m=document.getElementById('supp-modal');if(m){m.classList.remove('open');/* Only release body.overflow if NO other modal is still open. The
-     article modal underneath needs the body locked too. */var _overArt=m.dataset.overArticle==='1';m.style.zIndex='';m.dataset.overArticle='';if(!_overArt){document.body.style.overflow='';}}else{document.body.style.overflow='';}_currentSuppName=null;}
+/* 2026-05-21 — Legacy openSuppModal/closeSuppModal removed. The old inline
+   #supp-modal rendered a stripped-down card design that diverged from the
+   canonical supplement.html page. Both functions are now thin delegates onto
+   window.SSModal (supplement-modal.js) which renders the live supplement page
+   as an iframe modal — same UX as clicking a card from the list. Any caller
+   still using these names gets the correct, current modal transparently.
+   The matching #supp-modal markup in index.html has been deleted. */
+function openSuppModal(name){
+  const s = _suppByName.get(name);
+  if (!s) return;
+  _currentSuppName = name;
+  const slug = (window.SS && window.SS.slugify)
+    ? window.SS.slugify(name)
+    : String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  if (window.SSModal && typeof window.SSModal.open === 'function'){
+    window.SSModal.open(slug);
+    return;
+  }
+  // Final fallback if SSModal failed to load: direct navigation to the standalone page.
+  if (slug) location.href = 'supplement.html?slug=' + encodeURIComponent(slug);
+}
+function closeSuppModal(){
+  if (window.SSModal && typeof window.SSModal.close === 'function') window.SSModal.close();
+  _currentSuppName = null;
+}
+/* 2026-05-21 — ~6 KB of legacy openSuppModal / closeSuppModal implementation
+   removed from this position. The old function built HTML and injected it
+   into #supp-modal-body — both of which no longer exist. The new delegates
+   above route through window.SSModal (supplement-modal.js → iframe loading
+   supplement.html), which is the modal the rest of the site uses. If you
+   need the previous behaviour for any reason, recover from git history. */
 /* ===== Share button on the supplement modal — same UX as article share =====
    Mobile (iOS/Android): native share sheet via navigator.share.
    Desktop: copy the deep-link URL to clipboard, flash the button + toast. */

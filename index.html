@@ -460,17 +460,12 @@
   </div>
 </div>
 
-<!-- Sticky search bar — appears when hero search scrolls out of view -->
-<div id="ix-sticky-bar" aria-hidden="true">
-  <form class="ix-search ix-search-sticky" role="search" action="search.html" method="GET" tabindex="-1">
-    <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-      <circle cx="7" cy="7" r="5"/>
-      <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
-    </svg>
-    <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index" tabindex="-1">
-    <div class="gs-ac" id="ix-sticky-ac" role="listbox" aria-label="Search suggestions"></div>
-  </form>
-</div>
+<!-- 2026-05-21 — #ix-sticky-bar REMOVED. Its search input was consolidated
+     into #main-sticky below so the sticky panel is one element (search + 4
+     filter pills together, no inter-panel gap). Empty placeholder kept so
+     any legacy JS that queries #ix-sticky-bar gets a harmless no-op element
+     instead of null. -->
+<div id="ix-sticky-bar" aria-hidden="true" style="display:none"></div>
 
 <!-- New Index hero (legacy trust hero above is hidden via .legacy-trust-hero) -->
 <section class="ix-hero">
@@ -482,11 +477,13 @@
        pipe dividers swapped for `/` to read as editorial slash marks.
        CSS thins their weight and bumps tracking on the labels. -->
   <div class="ix-hero-stats">
-    <span class="ix-hero-stat">733 Supplements</span>
+    <span class="ix-hero-stat">700+ Supplements Analyzed</span>
     <span class="ix-hero-stat-divider">/</span>
-    <span class="ix-hero-stat">27,000+ Studies</span>
+    <span class="ix-hero-stat">27,000+ Clinical Studies</span>
+    <span class="ix-hero-stat-divider">/</span>
+    <span class="ix-hero-stat">0 Endorsements</span>
   </div>
-  <h1>Unbiased and<br><span style="color:var(--t1c)">conflict&#8209;free</span>.</h1>
+  <h1>Know which<br><span style="color:var(--t1c)">supplements</span> actually work.</h1>
   <p class="lede">Every score derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
 
   <form class="ix-search" id="ix-hero-form" role="search" action="search.html" method="GET">
@@ -1244,10 +1241,26 @@
 
 <div class="pg">
 
+<!-- 2026-05-21 (consolidated) — single sticky panel: search input + 4 filter
+     pills inside ONE element so there's no gap between them and content can't
+     bleed through. The search form below is the same #ix-sticky-search that
+     used to live in #ix-sticky-bar; ix-sticky-bar is now removed because this
+     element supersedes it. JS sync in index.js keeps it in lockstep with the
+     hero search and the (now hidden) nav-pill search. -->
 <div class="sticky-bar" id="main-sticky">
-<div class="sfbar-row">
-  <div class="sfbar" id="sfbar-main"></div>
-</div>
+  <div class="sticky-bar-search">
+    <form class="ix-search ix-search-sticky" role="search" action="search.html" method="GET" tabindex="-1">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="7" cy="7" r="5"/>
+        <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
+      </svg>
+      <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index">
+      <div class="gs-ac" id="ix-sticky-ac" role="listbox" aria-label="Search suggestions"></div>
+    </form>
+  </div>
+  <div class="sfbar-row">
+    <div class="sfbar" id="sfbar-main"></div>
+  </div>
 </div>
 <div class="gs-res" id="gs-res">
   <div class="gs-meta" id="gs-meta"></div>
@@ -22911,6 +22924,7 @@
 </div>
 </div><!-- end about-view -->
 
+<!-- SS_FOOTER_BEGIN -->
 <footer class="site-footer" role="contentinfo">
   <div class="site-footer-inner">
     <div class="site-footer-contrib">
@@ -22941,42 +22955,39 @@
       <div>
         <div class="site-footer-h">Methodology</div>
         <div class="site-footer-col">
-          <a href="methodology.html">How scores work</a>
-          <a href="sources.html">Sources we trust</a>
-          <a href="funder-policy.html">Funder policy</a>
-          <a href="changed-our-mind.html">Changed our mind</a>
+          <a href="/methodology.html">How scores work</a>
+          <a href="/sources.html">Sources we trust</a>
+          <a href="/funder-policy.html">Funder policy</a>
+          <a href="/changed-our-mind.html">Changed our mind</a>
         </div>
       </div>
       <div>
         <div class="site-footer-h">Browse</div>
         <div class="site-footer-col">
-          <a href="condition/index.html">Conditions</a>
-          <a href="sx/index.html">By symptom</a>
-          <a href="for/index.html">By population</a>
-          <a href="m/index.html">Medications</a>
+          <a href="/condition/index.html">Conditions</a>
+          <a href="/sx/index.html">By symptom</a>
+          <a href="/for/index.html">By population</a>
+          <a href="/m/index.html">Medications</a>
         </div>
       </div>
       <div>
         <div class="site-footer-h">Go Deeper</div>
         <div class="site-footer-col">
-          <a href="compare/index.html">Compare</a>
-          <a href="stack/index.html">Stacks</a>
-          <a href="bibliography.html">Bibliography</a>
-          <a href="glossary.html">Glossary</a>
+          <a href="/compare/index.html">Compare</a>
+          <a href="/stack/index.html">Stacks</a>
+          <a href="/bibliography.html">Bibliography</a>
+          <a href="/glossary.html">Glossary</a>
         </div>
       </div>
       <div>
         <div class="site-footer-h">Site</div>
         <div class="site-footer-col">
-          <!-- 2026-05-21 — Custom Profile and Research & Articles links promoted into the footer Site column.
-               The hrefs are URL-hash routes that the pre-paint tab-restore script at the very top of index.html
-               picks up (look for TAB_HASHES = {research:1, about:1, profile:1, supplements:1}). Hitting them
-               restores the right view even though the top tab pills are no longer visible. -->
-          <a href="#profile" onclick="window._tabSwitchByUser=true">Custom Profile</a>
-          <a href="#research" onclick="window._tabSwitchByUser=true">Research &amp; Articles</a>
-          <a href="about.html">About</a>
-          <a href="privacy.html">Terms &amp; Privacy</a>
+          <a href="/#profile" onclick="window._tabSwitchByUser=true">Custom Profile</a>
+          <a href="/#research" onclick="window._tabSwitchByUser=true">Research &amp; Articles</a>
+          <a href="/about.html">About</a>
+          <a href="/privacy.html">Terms &amp; Privacy</a>
         </div>
+      </div>
     </div>
     <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
@@ -23009,6 +23020,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 };
 </script>
 </footer>
+<!-- SS_FOOTER_END -->
 </div>
 </div>
 <!-- Article modal overlay -->
@@ -23037,22 +23049,16 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     <div role="dialog" aria-modal="true" id="art-modal-body" class="art-modal-body"></div>
   </div>
 </div>
-<!-- Supplement detail modal overlay -->
-<div role="dialog" aria-modal="true" id="supp-modal" class="art-modal" onclick="if(event.target===this)closeSuppModal()">
-  <div role="dialog" aria-modal="true" class="art-modal-pane" style="max-width:560px">
-    <div role="dialog" aria-modal="true" class="art-modal-actions" style="position:absolute;top:10px;right:12px;display:flex;align-items:center;gap:8px;z-index:3">
-      <button id="supp-share-btn" class="art-share-btn" onclick="shareSupp()" aria-label="Share supplement" title="Share supplement">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        <span class="art-share-label">Share</span>
-      </button>
-      <button class="art-modal-close" onclick="closeSuppModal()" aria-label="Close" style="position:static">
-        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div id="supp-share-toast" class="art-share-toast" role="status" aria-live="polite"></div>
-    <div id="supp-modal-body" style="padding:1.5rem 2rem 2rem"></div>
-  </div>
-</div>
+<!-- 2026-05-21 — Legacy #supp-modal markup REMOVED.
+     The old stripped-down inline modal has been replaced site-wide by the
+     iframe-based SSModal (supplement-modal.js → loads supplement.html). All
+     openers (list cards, typeahead, related-supplement links inside articles)
+     now route through SSModal.open(slug). The legacy openSuppModal /
+     closeSuppModal functions in app.js have been demoted to thin delegates
+     onto SSModal so any older caller still using them gets the correct
+     current modal. Don't reintroduce a separate inline supplement modal —
+     edit supplement.html if you need to change the layout. -->
+<div id="supp-modal" hidden></div>
 <!-- Phase 0 / Item #10 — Feedback modal: report an inaccuracy -->
 <div id="fb-modal" class="art-modal" onclick="if(event.target===this)closeFeedback()" role="dialog" aria-labelledby="fb-title" aria-modal="true">
   <div role="dialog" aria-modal="true" class="art-modal-pane" style="max-width:520px">
