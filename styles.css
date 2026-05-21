@@ -632,6 +632,14 @@ body.on-profile .ssux-recent{display:none !important}
 .beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:#6EE7B7;flex:0 0 auto;box-shadow:0 0 6px rgba(110,231,183,.9),0 0 0 0 rgba(110,231,183,.7);animation:ss-beta-pulse 1.8s ease-out infinite}
 .beta-bar-num{font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.01em}
 .beta-bar-sep{padding:0 2px}
+/* 2026-05-21 — Beta-bar trust-stats row.
+   .beta-bar-stat / .beta-bar-stat-sep are the new spans introduced when the
+   banner's "X studies in last 72h · Actively refining · Updated …" content
+   was replaced with the trust-stats triplet. New classes (not the legacy
+   .beta-bar-tag / .beta-bar-sep) so the mobile hide-rule below leaves them
+   visible. */
+.beta-bar-stat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.92);white-space:nowrap}
+.beta-bar-stat-sep{font-size:10px;font-weight:400;opacity:.55;color:rgba(255,255,255,.85)}
 @keyframes ss-beta-pulse{0%{box-shadow:0 0 6px rgba(110,231,183,.95),0 0 0 0 rgba(110,231,183,.7)}70%{box-shadow:0 0 6px rgba(110,231,183,.95),0 0 0 7px rgba(110,231,183,0)}100%{box-shadow:0 0 6px rgba(110,231,183,.95),0 0 0 0 rgba(110,231,183,0)}}
 @media(prefers-reduced-motion:reduce){.beta-bar-pulse{animation:none;box-shadow:0 0 6px rgba(110,231,183,.95)}}
 @media(max-width:560px){.beta-bar{font-size:10.5px;gap:6px}.beta-bar-tag{display:none}.beta-bar-sep{display:none}}
@@ -1019,7 +1027,17 @@ a.site-nav-tab{
     color:rgba(255,255,255,.85) !important;
     z-index:31 !important;
     box-shadow:none !important;
+    gap:4px !important;
   }
+  /* 2026-05-21 — Trust-stats inside the green banner on mobile.
+     Type and tracking are compressed so all three stats + two slash
+     dividers fit on a single line at ≥360 CSS-px viewports. Pulse dot is
+     hidden because (a) the 22px banner has no vertical room for both the
+     dot and uppercase letters at a readable size, and (b) the dot eats
+     ~13px of horizontal width that the stats need. */
+  .beta-bar-pulse{display:none !important;}
+  .beta-bar-stat{font-size:8.5px !important;letter-spacing:.04em !important;}
+  .beta-bar-stat-sep{font-size:8.5px !important;}
 
   /* === Bar 1: nav === */
   /* Sits directly below the beta-bar — its `top` must include the
@@ -1211,7 +1229,13 @@ body{ overflow-x:clip; }
 .hero-pattern-bg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero-pattern-A,.hero-pattern-C,.hero-pattern-D{background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:48px 48px}
 .hero-pattern-B,.hero-pattern-E{background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:linear-gradient(115deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(115deg,#000 0%,#000 55%,transparent 100%)}
-.hero-counter{position:absolute;top:26px;right:32px;z-index:4;font-family:'Mona Sans',var(--font-display,inherit);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(248,244,237,.62);font-variant-numeric:tabular-nums}
+/* 2026-05-21 — Counter top:26 → 44 so its baseline lines up with the
+   BREAKING / GUIDE / etc. pill row in .hero-slide-top on the left.
+   .hero-slide is inset 36px from the top of the card; the pills have
+   ~4px top padding and ~10px font, so the pill text-center sits ≈ y 47.
+   With counter font 11px line-height ≈ 1, top:44 puts its visual
+   center near y 49 — close enough that the two read as one row. */
+.hero-counter{position:absolute;top:44px;right:32px;z-index:4;font-family:'Mona Sans',var(--font-display,inherit);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(248,244,237,.62);font-variant-numeric:tabular-nums}
 .hero-counter::before{content:'EDITOR\'S PICK · ';color:rgba(248,244,237,.78)}
 .hero-slide{position:absolute;inset:36px 36px 80px 36px;z-index:3;opacity:0;transition:opacity .5s ease,transform .6s ease;transform:translateY(8px);pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
 .hero-slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
@@ -1337,11 +1361,15 @@ body{ overflow-x:clip; }
 .cdd-menu.open{display:block}
 .cdd-item{padding:6px 10px;font-size:12px;color:var(--color-text-secondary);border-radius:6px;cursor:pointer;transition:background .1s;white-space:nowrap}
 .cdd-item:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
-#pop-filter-menu{min-width:200px}
-#pop-filter-menu .cdd-item{padding:9px 10px;display:block}
-#pop-filter-menu .pop-lbl{color:var(--color-text-primary);display:block;line-height:1.3;font-size:12px}
-#pop-filter-menu .pop-ct{color:var(--color-text-tertiary);font-size:10.5px;font-weight:500;display:block;margin-top:2px;letter-spacing:.01em}
-#pop-filter-menu .cdd-item:hover .pop-lbl{color:var(--color-brand)}
+#pop-filter-menu,#cat-filter-menu,#sx-filter-menu{min-width:200px}
+/* 2026-05-21 — Goal + Symptom dropdowns reuse the two-line item layout
+   originally written for #pop-filter-menu (Age & Sex), so the .pop-lbl
+   primary label and .pop-ct count line render identically across all
+   three filter dropdowns. */
+#pop-filter-menu .cdd-item,#cat-filter-menu .cdd-item,#sx-filter-menu .cdd-item{padding:9px 10px;display:block}
+#pop-filter-menu .pop-lbl,#cat-filter-menu .pop-lbl,#sx-filter-menu .pop-lbl{color:var(--color-text-primary);display:block;line-height:1.3;font-size:12px}
+#pop-filter-menu .pop-ct,#cat-filter-menu .pop-ct,#sx-filter-menu .pop-ct{color:var(--color-text-tertiary);font-size:10.5px;font-weight:500;display:block;margin-top:2px;letter-spacing:.01em}
+#pop-filter-menu .cdd-item:hover .pop-lbl,#cat-filter-menu .cdd-item:hover .pop-lbl,#sx-filter-menu .cdd-item:hover .pop-lbl{color:var(--color-brand)}
 
 /* ── Article full body ── */
 .article-full{max-width:720px;margin:0 auto}

@@ -296,13 +296,26 @@
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <noscript><div class="noscript-msg" role="alert">This site requires JavaScript to display supplement data and interactive features. Please enable JavaScript in your browser settings.</div></noscript>
+<!-- 2026-05-21 — Beta-bar content replaced with the trust-stats row
+     (Supplements / Clinical Studies / Endorsements). The previous
+     "X new studies reviewed in the last 72h · Actively refining · Updated"
+     framing was the only place that surfaced freshness data, but it duplicated
+     other on-page signals and crowded the bar on mobile. The new spans use
+     dedicated classes (.beta-bar-stat / .beta-bar-stat-sep) so the legacy
+     mobile hide-rules on .beta-bar-tag / .beta-bar-sep don't apply, and the
+     stats stay visible on every viewport.
+     The pulse dot is retained as a subtle "still-running" cue; it hides on
+     very narrow viewports via CSS to give the text more horizontal room.
+     The orphaned #ss-live-count / #ss-last-updated scripts (nav-search.js
+     live-counter, GitHub commit fetch below) early-return when their target
+     elements aren't found, so no JS cleanup is required here. -->
 <div class="beta-bar" role="status" aria-live="polite">
   <span class="beta-bar-pulse" aria-hidden="true"></span>
-  <span class="beta-bar-live"><span class="beta-bar-num" id="ss-live-count">1,247</span> new studies reviewed in the last 72&thinsp;hours</span>
-  <span class="beta-bar-sep" aria-hidden="true">·</span>
-  <span class="beta-bar-tag">Actively refining for accuracy</span>
-  <span class="beta-bar-sep" aria-hidden="true">·</span>
-  <span class="beta-bar-tag" id="ss-last-updated">Updated recently</span>
+  <span class="beta-bar-stat">700+ Supplements Analyzed</span>
+  <span class="beta-bar-stat-sep" aria-hidden="true">/</span>
+  <span class="beta-bar-stat">27,000+ Clinical Studies</span>
+  <span class="beta-bar-stat-sep" aria-hidden="true">/</span>
+  <span class="beta-bar-stat">0 Endorsements</span>
 </div>
 <script>
 /* Last-updated indicator — pulls the date of the most recent commit on main
@@ -473,18 +486,21 @@
        prefers-reduced-motion via index.css. Animation logic in the
        <script> after </section>. -->
   <canvas class="ix-hero-bg" aria-hidden="true"></canvas>
-  <!-- Direction A — Tighter Editorial (2026-05-20):
-       pipe dividers swapped for `/` to read as editorial slash marks.
-       CSS thins their weight and bumps tracking on the labels. -->
-  <div class="ix-hero-stats">
-    <span class="ix-hero-stat">700+ Supplements Analyzed</span>
-    <span class="ix-hero-stat-divider">/</span>
-    <span class="ix-hero-stat">27,000+ Clinical Studies</span>
-    <span class="ix-hero-stat-divider">/</span>
-    <span class="ix-hero-stat">0 Endorsements</span>
-  </div>
-  <h1>Know which<br><span style="color:var(--t1c)">supplements</span> actually work.</h1>
-  <p class="lede">Every score derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+  <!-- 2026-05-21 — Inline .ix-hero-stats row removed; the same three stats
+       now render in the green banner at the very top of the page, so keeping
+       them inline below the banner produced a duplicate row. The .ix-hero-stats
+       CSS rules in index.css are left in place (harmless when no markup
+       targets them) in case the inline row needs to be restored. -->
+
+  <!-- 2026-05-21 — H1 line break moved after the "supplements" span so the
+       headline reads as exactly 2 lines on every viewport: "Know which
+       supplements" / "actually work." (was 3 lines on both desktop and mobile
+       because the <br> sat after "Know which"). Desktop max-width on .ix-hero h1
+       widened from 14ch → 22ch in index.css to fit the longer first line. -->
+  <h1>Know which <span style="color:var(--t1c)">supplements</span><br>actually work.</h1>
+  <!-- "Every score" stripped from the lede per copy direction; new first word
+       capitalised so the sentence still reads as a complete statement. -->
+  <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
 
   <form class="ix-search" id="ix-hero-form" role="search" action="search.html" method="GET">
     <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">

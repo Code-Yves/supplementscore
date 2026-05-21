@@ -4970,26 +4970,41 @@ function closeDD(id){document.getElementById(id+'-menu').classList.remove('open'
 function _ddLabel(id,txt){const lbl=document.querySelector('#'+id+'-wrap .cdd-lbl');if(lbl)lbl.textContent=txt;}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}
 document.addEventListener('click',function(e){if(!e.target.closest('.cdd'))document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');m.parentElement.classList.remove('cdd-open');});});
-function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const trCount=S.filter(s=>s.tr).length;const catOpts=CATS.map(c=>({val:c,label:c}));const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+(tr?tr.count:0)+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);if(t)tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});var sxOpts=[
-  {val:'Sleep',label:'Sleep'},
-  {val:'Anxiety',label:'Anxiety / Stress'},
-  {val:'Mood',label:'Mood / Depression'},
-  {val:'Cognition',label:'Memory / Focus'},
-  {val:'Cardio',label:'Cardiovascular'},
-  {val:'Glucose',label:'Blood sugar'},
-  {val:'Joint',label:'Joint / Pain'},
-  {val:'Gut',label:'Gut / Digestion'},
-  {val:'Immunity',label:'Immunity'},
-  {val:'Skin',label:'Skin / Hair / Nails'},
-  {val:'Energy',label:'Energy / Fatigue'},
-  {val:'Performance',label:'Athletic performance'},
-  {val:'Bone',label:'Bone / Calcium'},
-  {val:'Hormone',label:'Hormonal balance'},
-  {val:'Liver',label:'Liver'},
-  {val:'Eye',label:'Eye / Vision'},
-  {val:'Pregnancy',label:'Pregnancy / Fertility'},
-  {val:'Kids',label:'Kids / Pediatric'}
+function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const trCount=S.filter(s=>s.tr).length;
+/* 2026-05-21 \u2014 Goal + Symptom dropdowns now show a per-option supplement
+   count beneath the label, matching the Age & Sex dropdown's two-line item
+   layout (.pop-lbl + .pop-ct). Counts use the SAME filter predicates as the
+   pick handlers (setCatFilter / _sxPick) so the dropdown number always
+   matches what the user sees after picking the option. */
+const _ddCount=(n)=>'<span class="pop-ct">'+n+' supplement'+(n===1?'':'s')+'</span>';
+const _catCount=(c)=>S.filter(s=>(s.tag||'').toLowerCase().includes(c.toLowerCase())).length;
+const _sxCount=(v)=>{const ks=(typeof SX_KEYWORDS!=='undefined'&&SX_KEYWORDS[v])||[];if(!ks.length)return 0;return S.filter(s=>{if(s.t==='t4')return false;const hay=((s.tag||'')+' '+(s.desc||'')).toLowerCase();return ks.some(k=>hay.indexOf(k)!==-1);}).length;};
+const catOpts=CATS.map(c=>{const n=_catCount(c);return{val:c,label:'<span class="pop-lbl">'+c+'</span>'+_ddCount(n)};});
+const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+(tr?tr.count:0)+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);if(t)tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});
+/* Symptom options now wrap the user-facing label in .pop-lbl and append a
+   .pop-ct count line. Keeping the val keys identical to before so
+   _sxPick(val) and SX_KEYWORDS / SX_LABELS lookups all still resolve. */
+var _sxItems=[
+  ['Sleep','Sleep'],
+  ['Anxiety','Anxiety / Stress'],
+  ['Mood','Mood / Depression'],
+  ['Cognition','Memory / Focus'],
+  ['Cardio','Cardiovascular'],
+  ['Glucose','Blood sugar'],
+  ['Joint','Joint / Pain'],
+  ['Gut','Gut / Digestion'],
+  ['Immunity','Immunity'],
+  ['Skin','Skin / Hair / Nails'],
+  ['Energy','Energy / Fatigue'],
+  ['Performance','Athletic performance'],
+  ['Bone','Bone / Calcium'],
+  ['Hormone','Hormonal balance'],
+  ['Liver','Liver'],
+  ['Eye','Eye / Vision'],
+  ['Pregnancy','Pregnancy / Fertility'],
+  ['Kids','Kids / Pediatric']
 ];
+var sxOpts=_sxItems.map(function(it){var n=_sxCount(it[0]);return{val:it[0],label:'<span class="pop-lbl">'+it[1]+'</span>'+_ddCount(n)};});
 // "Filter by:" inline label — anchors the row left so the filter chips read
 // as a coherent group. The legacy Sort dropdown was removed; default sort
 // (by composite score) is applied at render time and not user-configurable.

@@ -302,13 +302,18 @@
 /* Direction A — Tighter Editorial (2026-05-20):
    headline scale lifted 34→40 floor, 56→64 ceiling; tighter tracking
    (-1.4 → -1.8) and line-height (1.08 → 1.04) gives a more confident
-   masthead. Cap measure at 14ch so the headline always wraps to the
-   intended two-line shape regardless of viewport. */
+   masthead.
+   2026-05-21 — max-width 14ch → 22ch. The markup now breaks after the
+   "supplements" span (was after "Know which"), so the first line is
+   "Know which supplements" (22 chars including spaces). 14ch wrapped
+   that first line into 2 sub-lines on desktop, producing 3 visible
+   lines total; 22ch fits the new first line exactly, so the headline
+   reads as the intended 2 lines on every viewport. */
 .ix-hero h1{
   font-size: clamp(40px, 5.8vw, 64px);
   font-weight: 700; letter-spacing: -1.8px;
   line-height: 1.04; margin: 0 auto 18px;
-  max-width: 14ch;
+  max-width: 22ch;
   color: var(--color-text-primary);
 }
 /* Direction A: lede 16→17 and measure 600px→56ch for a calmer rag.
@@ -1153,6 +1158,22 @@
     top: 22px !important;                 /* matches mobile banner height */
     z-index: 55;
   }
+  /* 2026-05-21 — Mobile search field shrink. Desktop input is 14px font /
+     12px vertical padding; on mobile this read as oversized next to the
+     freshly-compressed lede (12px) and stats (8.5px). Trimmed font to
+     13px and padding to 9/14 so the field height drops from ~46px to
+     ~34px without affecting tap-target comfort (still > 32px). Icon and
+     left-padding also nudged in by 4px so the placeholder text starts
+     closer to the icon. */
+  .ix-hero .ix-search input{
+    font-size: 13px !important;
+    padding: 9px 16px 9px 38px !important;
+  }
+  .ix-hero .ix-search .ico{
+    width: 14px !important;
+    height: 14px !important;
+    left: 14px !important;
+  }
 
   /* Rotating-article hero — fine-tuned for mobile:
      - tighter padding so badges and counter aren't crammed against the edges
@@ -1209,10 +1230,15 @@
     font-size: 11.5px !important;
     border-radius: 6px !important;
   }
-  /* Counter — smaller font, sits cleanly top-right without crowding pills */
+  /* Counter — smaller font, sits cleanly top-right without crowding pills.
+     2026-05-21 — top:12 → 16 to align the counter's baseline with the
+     BREAKING / GUIDE pills row on the left at mobile sizes. Slide inset
+     top is 14px and pills add ~2px padding-top, so the pill text starts
+     near y 16 from the card top; matching the counter top puts the two
+     on a shared visual row. */
   #hero .hero-counter{
     font-size: 9.5px !important;
-    top: 12px !important;
+    top: 16px !important;
     right: 14px !important;
     left: auto !important;
     letter-spacing: 0.4px;
