@@ -121,13 +121,26 @@
   <script src="_site-ux.js?v=20260519e" defer></script>
 </head>
 <body>
-<main class="meth-wrap">
+<!-- 2026-05-21 — Methodology page restyled to match the .ar-wrap article
+     template (used by every a/*.html page). The container now carries
+     BOTH .ar-wrap (for article-style padding, max-width, typography) and
+     .meth-wrap (for the original methodology-specific TOC + table styles).
+     Breadcrumb + .ar-cat eyebrow + .ar-lede subtitle bring this page into
+     visual line with the rest of the editorial content. -->
+<main class="ar-wrap meth-wrap">
   <a href="index.html" class="pg-close-fab" onclick="event.preventDefault();if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='index.html';}" aria-label="Close and return">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </a>
 
+  <nav class="ss-breadcrumb" aria-label="Breadcrumb" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 14px;line-height:1.4">
+    <a href="index.html" style="color:inherit;text-decoration:none">SupplementScore</a>
+    <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <span aria-current="page" style="color:var(--color-text-secondary)">Methodology</span>
+  </nav>
+  <div class="ar-cat">Evidence methodology</div>
   <h1>Methodology</h1>
-  <p class="meth-sub">How tier calls, sub-scores, source weighting, and review cycles work — published in full so anyone can audit our calls.</p>
+  <div class="ar-meta">Last reviewed May 21, 2026 · 9 sections<span class="ar-byline" style="display:block;margin-top:4px;color:var(--color-text-tertiary,#6b7280)">Maintained by the <a href="about.html" style="color:inherit;text-decoration:underline;text-underline-offset:2px">SupplementScore Editorial Team</a> · Open for review under <a href="https://creativecommons.org/licenses/by/4.0/" style="color:inherit;text-decoration:underline;text-underline-offset:2px" rel="noopener" target="_blank">CC-BY 4.0</a></span></div>
+  <p class="ar-lede meth-sub">How tier calls, sub-scores, source weighting, and review cycles work — published in full so anyone can audit our calls.</p>
 
   <div class="meth-toc">
     <strong>On this page</strong>

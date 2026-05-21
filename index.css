@@ -977,32 +977,26 @@
    box" effect behind the pills. */
 #ix-sticky-bar{ display: none !important; }   /* empty placeholder; legacy queries no-op */
 
+/* 2026-05-21 — Final sticky shape:
+   - ONE search bar (the hero's). The sticky panel's search is hidden
+     site-wide (was only hidden on mobile in the prior pass).
+   - Pills-only sticky panel; no border, no shadow. Background matches
+     the page so the panel reads as a continuation of the layout, not
+     a floating "box around the buttons". */
 #main-sticky.sticky-bar{
   position: sticky;
-  top: 32px;   /* matches .beta-bar height exactly — no gap, no bleed-through */
-  z-index: 30;
-  /* Match the page background so the panel doesn't look like a floating
-     white card sitting on top of the cream-coloured Index. */
+  top: 32px;                                  /* aligns with .beta-bar bottom */
+  z-index: 80;                                /* under banner (90), above hero */
   background: var(--color-background-secondary, #F8F4ED) !important;
-  border-bottom: 1px solid var(--color-border-tertiary);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);   /* single shadow at the bottom */
+  border-bottom: none !important;
+  box-shadow: none !important;
   padding: 10px 1rem 10px;
-  margin: 16px -1rem 0;                      /* gutter for the .pg padding */
+  margin: 16px -1rem 0;
   width: calc(100% + 2rem);
 }
-
-/* Search bar lives directly above the 4 filter pills, both centred to
-   the 1024 px content cap. */
-#main-sticky .sticky-bar-search{
-  max-width: 1024px;
-  margin: 0 auto 10px;
-}
-#main-sticky .sticky-bar-search .ix-search-sticky{
-  margin: 0;
-  /* Pull the autocomplete dropdown above the rotating-article hero — same
-     trick used on the hero search at the top of the page. */
-  position: relative; z-index: 50;
-}
+/* Hide the in-panel search input everywhere — user wants only the hero
+   search to be the source of truth. */
+#main-sticky .sticky-bar-search{ display: none !important; }
 #main-sticky .sfbar-row{
   max-width: 1024px;
   margin: 0 auto;
@@ -1012,19 +1006,25 @@
    below — supplements list, filter pills, etc. */
 #ix-sticky-ac{ z-index: 60 !important; }
 
-/* ---------- Search autocomplete: must float above the rotating hero ---------- */
+/* ---------- z-index ladder for the Index landing ----------
+   Designed top-down so each layer's relationships are explicit:
 
-/* Two problems to solve so the typeahead suggestions overlay the
-   rotating-article carousel below them:
-     1. .ix-hero had overflow:hidden (to clip its decorative hub-spoke
-        ambient canvas). That ALSO clips the absolutely-positioned
-        .gs-ac dropdown whenever it extends past the hero's bottom.
-        The canvas itself is z-index:0 and width:100% — sizing it to
-        the container — so removing overflow:hidden doesn't actually
-        let any decorative pixels escape.
-     2. Stacking contexts: the rotating .hero element has descendants
-        at z-index 3 (.hero-slide.active). Lifting .ix-hero above
-        that lets the dropdown stay over the carousel. */
+     90  .beta-bar         green status banner — ALWAYS on top
+     80  #main-sticky      sticky filter pills (under banner only)
+     60  .gs-ac autocomplete  search dropdown (above hero subtree)
+     50  .ix-search        the hero search container
+     40  .ix-hero          headline + lede + search wrapper
+      2  #hero             rotating-article carousel
+      0  .ix-hero-bg       (hidden anyway)
+
+   Earlier this was tangled — the banner sat at z=20 which is BELOW
+   the .ix-hero stacking context I introduced (z=40) to keep the
+   autocomplete above the carousel. Result: the headline visibly
+   bled OVER the banner when scrolling. Banner now wins.
+
+   .ix-hero needs overflow:visible too so its absolutely-positioned
+   autocomplete dropdown isn't clipped at the hero's bottom edge. */
+.beta-bar{ z-index: 90 !important; }
 .ix-hero{
   position: relative;
   z-index: 40;
@@ -1039,7 +1039,6 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
   background: var(--color-background-primary);
 }
-/* The rotating hero must stay BELOW the search dropdown. */
 #hero{ position: relative; z-index: 2; }
 
 /* ---------- Active filter pill: darker teal fill, no outer ring ---------- */
