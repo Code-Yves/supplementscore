@@ -835,11 +835,12 @@ if (typeof renderAll === 'function') {
   var navPillInput= document.getElementById('nav-search-inp');
   if(!heroForm || !stickyBar) return;
 
-  // 2026-05-21 — Top nav row is hidden in the merged Index, so the old
-  // 90 px desktop offset (50 nav + 40 banner) is wrong. Only the ~38 px
-  // green banner sits above the sticky bar now.
+  // 2026-05-21 — Nav row hidden + banner measured at exactly 32 px tall.
+  // Sticky offsets MUST match the banner height; using 38 (the previous
+  // guess) left a 6-pixel band where supplement-list content was visible
+  // bleeding between the green banner and the sticky panel.
   var IS_MOBILE = window.innerWidth <= 600;
-  var NAV_TOP = IS_MOBILE ? 38 : 38;
+  var NAV_TOP = 32;
 
   function setFilterTop(searchVisible) {
     if(!filterBar) return;
@@ -899,7 +900,7 @@ if (typeof renderAll === 'function') {
   // when the user rotated the iPhone or used browser back/forward.
   function refreshMobile(){
     IS_MOBILE = window.innerWidth <= 600;
-    NAV_TOP = IS_MOBILE ? 48 : 90;
+    NAV_TOP = 32;   /* matches .beta-bar height; was a guess (48/90) before */
   }
   window.addEventListener('resize', refreshMobile);
   window.addEventListener('orientationchange', refreshMobile);

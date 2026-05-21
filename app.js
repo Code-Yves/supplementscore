@@ -4999,14 +4999,29 @@ function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById(
 // for an article-card list (instead of the supplements list). Choosing any of
 // the other three filters restores the supplements list via their existing
 // renderAll() / setPopFilter / set*Filter paths.
+//
+// Counts come from the actual rendered .article-card[data-category] nodes
+// in #research-list-view, so they stay in sync as articles are added/removed
+// without anyone having to remember to update a hardcoded list here.
+var _artCardEls = document.querySelectorAll('#research-list-view .article-card');
+var _artCounts = {all: _artCardEls.length};
+_artCardEls.forEach(function(c){
+  var cat = (c.getAttribute('data-category') || '').trim();
+  if (!cat) return;
+  _artCounts[cat] = (_artCounts[cat] || 0) + 1;
+});
+function _artLbl(label, cat){
+  var n = _artCounts[cat] || 0;
+  return n ? label + ' (' + n + ')' : label;
+}
 var artOpts=[
-  {val:'all',label:'All articles'},
-  {val:'quickread',label:'Quick Reads'},
-  {val:'guide',label:'Guide'},
-  {val:'breakthrough',label:'Breakthrough'},
-  {val:'kids',label:'Kids'},
-  {val:'myth',label:'Reality Check'},
-  {val:'safety',label:'Safety Alert'}
+  {val:'all',         label:_artLbl('All articles',  'all')},
+  {val:'quickread',   label:_artLbl('Quick Reads',   'quickread')},
+  {val:'guide',       label:_artLbl('Guide',         'guide')},
+  {val:'breakthrough',label:_artLbl('Breakthrough',  'breakthrough')},
+  {val:'kids',        label:_artLbl('Kids',          'kids')},
+  {val:'myth',        label:_artLbl('Reality Check', 'myth')},
+  {val:'safety',      label:_artLbl('Safety Alert',  'safety')}
 ];
 sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Articles',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {

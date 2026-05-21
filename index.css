@@ -979,7 +979,7 @@
 
 #main-sticky.sticky-bar{
   position: sticky;
-  top: 38px;
+  top: 32px;   /* matches .beta-bar height exactly — no gap, no bleed-through */
   z-index: 30;
   /* Match the page background so the panel doesn't look like a floating
      white card sitting on top of the cream-coloured Index. */
@@ -1042,18 +1042,16 @@
 /* The rotating hero must stay BELOW the search dropdown. */
 #hero{ position: relative; z-index: 2; }
 
-/* ---------- Active filter pill: darker teal + ring ---------- */
+/* ---------- Active filter pill: darker teal fill, no outer ring ---------- */
 
-/* Inactive pills keep the production brand teal; the selected
-   one drops to a deeper teal and gains an outer ring so it's
-   unmistakable at a glance. The icon stroke also bumps weight. */
+/* Earlier I gave the active pill a white-on-teal outer ring to make it
+   stand out. The ring read as a "box around the buttons" against the
+   cream page background. Simpler treatment: darker teal fill + a slim
+   inner highlight at the top of the pill, no outline. */
 .cdd-btn.on{
   background: var(--color-brand-dark, #155A4E) !important;
   color: #fff !important;
-  box-shadow:
-    0 0 0 2px var(--color-background-primary),
-    0 0 0 4px var(--color-brand, #1F7A6B),
-    0 2px 6px rgba(15, 60, 50, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12) !important;
   position: relative;
 }
 .cdd-btn.on .cdd-ico{ stroke-width: 2.1; }
@@ -1071,19 +1069,44 @@
   margin-bottom: 12px;
 }
 
-/* ---------- Mobile: hero search must always be visible ---------- */
+/* ---------- Hero background animation: disabled site-wide ---------- */
+
+/* The decorative .ix-hero-bg canvas (hub-spoke graph) and .gate-bg helix
+   were too busy behind the headline copy. Hiding entirely also saves the
+   requestAnimationFrame loop's CPU on long sessions. */
+.ix-hero-bg,
+#profile-gate .gate-bg{
+  display: none !important;
+}
+
+/* ---------- Mobile: ONE search bar only (the hero one), sticky pills below ---------- */
 
 @media(max-width: 600px){
-  /* The .ix-hero search was getting hidden along with the nav
-     pill on mobile. Force it visible so the user can always
-     search from the top of the page. */
+  /* Tighter vertical rhythm — was cavernous on a phone. */
+  .ix-hero{ padding: 18px 16px 16px !important; }
+  .ix-hero-stats{ margin-bottom: 12px !important; font-size: 11px; }
+  .ix-hero h1{ font-size: 36px !important; margin: 0 0 12px !important; line-height: 1.05 !important; }
+  .ix-hero .lede{ font-size: 14px !important; margin-bottom: 14px !important; }
+
+  /* Hero search visible at the top. */
   .ix-hero .ix-search{
     display: flex !important;
-    margin: 14px auto !important;
+    margin: 0 auto !important;
   }
 
-  /* The 4 filter pills need to wrap to 2 rows on narrow phones
-     so they remain tappable. */
+  /* Rotating-article hero immediately follows the search, no extra space. */
+  #hero{ margin: 16px 0 !important; height: auto !important; min-height: 240px; }
+
+  /* Mobile: sticky panel = PILLS ONLY (no second search bar). The hero's
+     own search input is the one source of truth on phones. */
+  #main-sticky .sticky-bar-search{ display: none !important; }
+  #main-sticky.sticky-bar{
+    padding: 8px 12px !important;
+    margin: 12px -12px 0 !important;
+    width: calc(100% + 24px);
+  }
+
+  /* 4 pills wrap to 2 rows for tappability. */
   #sfbar-main{
     display: grid !important;
     grid-template-columns: 1fr 1fr;
@@ -1092,9 +1115,9 @@
   #sfbar-main .cdd{ width: 100%; }
   #sfbar-main .cdd-btn{ width: 100%; justify-content: center; }
 
-  /* Sticky bar drops under the 38px banner cleanly on phones too. */
-  #ix-sticky-bar{ top: 38px !important; padding: 6px 12px; }
-  #main-sticky{ top: 38px !important; }
+  /* Sticky panel docks under the 32px banner exactly. */
+  #ix-sticky-bar{ top: 32px !important; padding: 6px 12px; }
+  #main-sticky{ top: 32px !important; }
 }
 
 /* ---------- Footer: tighter columns + smaller heading copy ---------- */
