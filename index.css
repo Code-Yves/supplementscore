@@ -1081,27 +1081,28 @@
 /* ---------- Mobile: ONE search bar only (the hero one), sticky pills below ---------- */
 
 @media(max-width: 600px){
-  /* Tighter vertical rhythm — was cavernous on a phone. */
-  .ix-hero{ padding: 18px 16px 16px !important; }
-  .ix-hero h1{ font-size: 36px !important; margin: 0 0 12px !important; line-height: 1.05 !important; }
-  .ix-hero .lede{ font-size: 14px !important; margin-bottom: 14px !important; }
+  /* 2026-05-21 — Mobile spacing pass v2. Earlier pass left the headline
+     and stats too tall on a 390px viewport — page was loose, the rotating
+     hero pushed below the fold needlessly. Tightened across the board:
+       * hero outer padding  18 → 14
+       * h1                  36 → 28
+       * lede                14 → 13
+       * stats vertical gap  6  → 2 (and font 11 → 10)
+       * margins between hero blocks   16 → 10 */
+  .ix-hero{ padding: 14px 16px 12px !important; }
+  .ix-hero h1{ font-size: 28px !important; margin: 0 0 8px !important; line-height: 1.08 !important; letter-spacing: -0.5px; }
+  .ix-hero .lede{ font-size: 13px !important; margin-bottom: 10px !important; max-width: 320px !important; }
 
-  /* Stats row: stack vertically on a phone. Three labels with the / dividers
-     on one row didn't fit — each stat wrapped to its own 3-line block and
-     the columns drifted out of horizontal alignment. Vertical stack is more
-     legible and self-aligning. The / dividers are hidden — they were only
-     meaningful as inline separators. */
+  /* Stats row stacked vertically — tighter gap so it doesn't feel like a list. */
   .ix-hero-stats{
     flex-direction: column !important;
     align-items: center !important;
-    gap: 6px !important;
-    font-size: 11px !important;
-    margin-bottom: 14px !important;
+    gap: 2px !important;
+    font-size: 10px !important;
+    margin-bottom: 10px !important;
+    line-height: 1.5;
   }
-  .ix-hero-stat{
-    white-space: nowrap;
-    text-align: center;
-  }
+  .ix-hero-stat{ white-space: nowrap; text-align: center; }
   .ix-hero-stat-divider{ display: none !important; }
 
   /* Hero search visible at the top. */
@@ -1110,8 +1111,23 @@
     margin: 0 auto !important;
   }
 
-  /* Rotating-article hero immediately follows the search, no extra space. */
-  #hero{ margin: 16px 0 !important; height: auto !important; min-height: 240px; }
+  /* Rotating-article hero: tighter on mobile.
+     - smaller min-height
+     - clamp the long description so the Read CTA doesn't overlap the text
+     - smaller headline + meta inside the card */
+  #hero{ margin: 10px 0 !important; height: auto !important; min-height: 200px; padding: 18px 20px 16px !important; }
+  #hero .hero-slide-headline{ font-size: 19px !important; line-height: 1.25 !important; }
+  #hero .hero-slide-desc{
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;            /* clamp long article descriptions */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 8px !important;
+  }
+  #hero .hero-slide-meta{ font-size: 11.5px !important; margin-top: 4px; }
+  #hero .hero-slide{ inset: 18px 18px 70px 18px !important; }
 
   /* Mobile sticky panel — search + pills. The hero search at the top is
      visible at landing; once the user scrolls past it, the IntersectionObserver
