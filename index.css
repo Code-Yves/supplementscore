@@ -1096,28 +1096,49 @@
   html.tab-supplements body{ padding-top: 30px !important; }
 
   .ix-hero{ padding: 8px 16px 10px !important; }
-  /* h1 has max-width:14ch from the desktop rule; we MUST restore
-     margin:0 auto here or the constrained box left-aligns and the page
-     looks lopsided. (This was the root of the "not centered" comment.) */
+  /* 2026-05-21 — h1 + lede compression pass. Earlier mobile rule inherited
+     `max-width:14ch` from desktop which forced "supplements actually work."
+     onto a second wrap, producing 3 visible lines. Releasing the constraint
+     and trimming font to 24 lets the headline shape to: "Know which" /
+     "supplements actually work." — exactly 2 lines on a 390px viewport. */
   .ix-hero h1{
-    font-size: 26px !important;
+    font-size: 24px !important;
     margin: 0 auto 6px !important;
-    line-height: 1.08 !important;
+    line-height: 1.1 !important;
     letter-spacing: -0.5px;
+    max-width: none !important;
   }
-  .ix-hero .lede{ font-size: 12.5px !important; margin: 0 auto 10px !important; max-width: 300px !important; line-height: 1.5; }
+  /* Lede widened from 300→360 with a slightly tighter font so the copy
+     reads as 2 paragraph lines on standard mobile (≥390 CSS px). On the
+     very narrowest screens it may relax to 3 lines, which is acceptable
+     since the type stays readable. */
+  .ix-hero .lede{ font-size: 12px !important; margin: 0 auto 10px !important; max-width: 360px !important; line-height: 1.45; }
 
-  /* Stats row stacked vertically — tighter gap so it doesn't feel like a list. */
+  /* 2026-05-21 — Stats row restored to a single inline editorial row with
+     slash dividers (matching desktop), per user direction. Earlier pass
+     stacked them vertically; now we shrink type + tracking instead so all
+     three fit on one line at ~390 CSS px. flex-wrap:wrap is a safety net:
+     if a narrower viewport (≤360px) can't fit, the third stat slides to a
+     second line rather than overflowing horizontally. */
   .ix-hero-stats{
-    flex-direction: column !important;
+    flex-direction: row !important;
     align-items: center !important;
-    gap: 1px !important;
-    font-size: 9.5px !important;
-    margin-bottom: 8px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 3px 5px !important;
+    margin-bottom: 10px !important;
     line-height: 1.5;
   }
-  .ix-hero-stat{ white-space: nowrap; text-align: center; }
-  .ix-hero-stat-divider{ display: none !important; }
+  .ix-hero-stat{
+    font-size: 8.5px !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap;
+  }
+  .ix-hero-stat-divider{
+    display: inline !important;
+    font-size: 8.5px !important;
+    opacity: .5 !important;
+  }
 
   /* Hero search visible at the top AND sticky while inside the hero. The
      hero search itself becomes a sticky element pinned just below the
@@ -1273,7 +1294,14 @@ body.on-profile #main-sticky{
 .hero{
   background: linear-gradient(90deg, #3A8276 0%, #4DA095 100%) !important;
   height: auto !important;
-  min-height: 240px !important;
+  /* 2026-05-21 — bumped 240→300 to fix the bottom-right controls
+     overlapping the description on cards with a 2-line desc. .hero-slide
+     is position:absolute with `inset:36 36 92 36`, so at 240px the slide
+     box was only ~112px tall — not enough for headline + 2-line desc +
+     meta, so content overflowed past the slide bottom and rendered
+     behind the absolutely-positioned arrows + Read article CTA.
+     300px gives the slide ~172px, room for the full content stack. */
+  min-height: 300px !important;
   box-shadow: 0 2px 10px rgba(74, 160, 149, 0.16) !important;
   margin-bottom: 1.5rem !important;
 }

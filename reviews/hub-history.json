@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-05-17",
+  "last_run": "2026-05-21",
   "hubs_generated": [
     {
       "slug": "magnesium",
@@ -36,6 +36,42 @@
       "stacks_linked": 0,
       "compares_linked": 2,
       "total_internal_links": 45
+    },
+    {
+      "slug": "omega-3",
+      "first_generated": "2026-05-21",
+      "last_regenerated": "2026-05-21",
+      "word_count": 1526,
+      "supplements_linked": 10,
+      "articles_linked": 17,
+      "conditions_linked": 7,
+      "stacks_linked": 0,
+      "compares_linked": 4,
+      "total_internal_links": 38
+    },
+    {
+      "slug": "vitamin-d",
+      "first_generated": "2026-05-21",
+      "last_regenerated": "2026-05-21",
+      "word_count": 1580,
+      "supplements_linked": 4,
+      "articles_linked": 16,
+      "conditions_linked": 5,
+      "stacks_linked": 0,
+      "compares_linked": 2,
+      "total_internal_links": 27
+    },
+    {
+      "slug": "athletic-performance",
+      "first_generated": "2026-05-21",
+      "last_regenerated": "2026-05-21",
+      "word_count": 1692,
+      "supplements_linked": 10,
+      "articles_linked": 27,
+      "conditions_linked": 6,
+      "stacks_linked": 1,
+      "compares_linked": 13,
+      "total_internal_links": 57
     }
   ]
 }
