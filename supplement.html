@@ -222,20 +222,33 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
 </style>
   <link rel="canonical" href="https://supplementscore.org/supplement.html">
   <script>
-  /* Dynamic canonical + og:url: when this SPA page is accessed via
-     /supplement.html?slug=<X>, point search engines at the pre-rendered
-     /s/<X>.html static version so ranking signals consolidate there.
-     Without this, Google reports the ?slug= URLs as "Crawled - currently
-     not indexed" duplicates. (Added 2026-05-20 — see reviews/seo-improvements.) */
+  /* Dynamic canonical / noindex for the supplement-detail SPA.
+     Handles two URL forms that Google has crawled:
+       (a) /supplement.html?slug=<lowercase-kebab>  → canonical to /s/<slug>.html (modern form)
+       (b) /supplement.html?n=<Name+with+spaces>     → noindex (legacy form, not in sitemap)
+     Updated 2026-05-20 after GSC review showed ?n= variants were missed. */
   (function(){
+    function addNoindex() {
+      var m = document.createElement('meta');
+      m.name = 'robots';
+      m.content = 'noindex,follow';
+      document.head.appendChild(m);
+    }
     try {
-      var slug = new URLSearchParams(location.search).get('slug');
-      if (!slug || !/^[a-z0-9-]+$/.test(slug)) return;
-      var staticUrl = 'https://supplementscore.org/s/' + slug + '.html';
-      var c = document.querySelector('link[rel="canonical"]');
-      if (c) c.href = staticUrl;
-      var og = document.querySelector('meta[property="og:url"]');
-      if (og) og.setAttribute('content', staticUrl);
+      var qp = new URLSearchParams(location.search);
+      var slug = qp.get('slug');
+      var name = qp.get('n');
+      if (slug && /^[a-z0-9-]+$/.test(slug)) {
+        var staticUrl = 'https://supplementscore.org/s/' + slug + '.html';
+        var c = document.querySelector('link[rel="canonical"]');
+        if (c) c.href = staticUrl;
+        var og = document.querySelector('meta[property="og:url"]');
+        if (og) og.setAttribute('content', staticUrl);
+      } else if (slug || name) {
+        // Has a query that triggers SPA detail mode but doesn't map to a clean
+        // static counterpart — noindex to keep Google's index clean.
+        addNoindex();
+      }
     } catch (_) {}
   })();
   </script>

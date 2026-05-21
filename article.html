@@ -31,19 +31,30 @@
 </style>
   <link rel="canonical" href="https://supplementscore.org/article.html">
   <script>
-  /* Dynamic canonical: /article.html?id=<X> → canonical /a/<X>.html (the
-     pre-rendered static article). Consolidates ranking signals on the
-     indexable URL. (Added 2026-05-20 — fixes "Crawled - currently not indexed"
-     soft-duplicate signal for query-versioned URLs.) */
+  /* Dynamic canonical / noindex for the article SPA.
+     Static article files live at /a/<kebab-slug>.html — there's no
+     /a/<numeric-id>.html. So:
+       (a) /article.html?id=<kebab-slug>  → canonical to /a/<slug>.html
+       (b) /article.html?id=<number>      → noindex (legacy; no static counterpart at this path)
+     Updated 2026-05-20: was setting canonical to /a/<numeric-id>.html which 404s. */
   (function(){
     try {
       var id = new URLSearchParams(location.search).get('id');
-      if (!id || !/^[a-z0-9-]+$/.test(id)) return;
-      var staticUrl = 'https://supplementscore.org/a/' + id + '.html';
-      var c = document.querySelector('link[rel="canonical"]');
-      if (c) c.href = staticUrl;
-      var og = document.querySelector('meta[property="og:url"]');
-      if (og) og.setAttribute('content', staticUrl);
+      if (!id) return;
+      if (/^[a-z0-9-]+$/.test(id) && !/^\d+$/.test(id)) {
+        // Kebab slug — map to static file
+        var staticUrl = 'https://supplementscore.org/a/' + id + '.html';
+        var c = document.querySelector('link[rel="canonical"]');
+        if (c) c.href = staticUrl;
+        var og = document.querySelector('meta[property="og:url"]');
+        if (og) og.setAttribute('content', staticUrl);
+      } else {
+        // Numeric or non-slug — legacy form, noindex to keep Google's index clean
+        var m = document.createElement('meta');
+        m.name = 'robots';
+        m.content = 'noindex,follow';
+        document.head.appendChild(m);
+      }
     } catch (_) {}
   })();
   </script>

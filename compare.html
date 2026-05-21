@@ -13,22 +13,33 @@
   <meta name="twitter:description" content="Side-by-side scores, dose, evidence, and interactions for any two supplements.">
   <link rel="canonical" href="https://supplementscore.org/compare.html">
   <script>
-  /* Dynamic canonical: /compare.html?a=<A>&b=<B> → canonical /compare/<A>-vs-<B>.html
-     The convention used in /compare/<slug>.html is alphabetical order of the
-     pair. (Added 2026-05-20.) */
+  /* Dynamic canonical / noindex for the comparison SPA.
+       (a) /compare.html?a=<A>&b=<B> with kebab slugs → canonical /compare/<lo>-vs-<hi>.html
+       (b) /compare.html?a=<X> alone (no b) or non-kebab values → noindex (incomplete; no static counterpart)
+     Updated 2026-05-20 after GSC review showed `?a=` without `b=` was missed. */
   (function(){
+    function addNoindex() {
+      var m = document.createElement('meta');
+      m.name = 'robots';
+      m.content = 'noindex,follow';
+      document.head.appendChild(m);
+    }
     try {
       var qp = new URLSearchParams(location.search);
       var a = qp.get('a'), b = qp.get('b');
       var ok = function(s) { return s && /^[a-z0-9-]+$/.test(s); };
-      if (!ok(a) || !ok(b)) return;
-      var lo = a < b ? a : b;
-      var hi = a < b ? b : a;
-      var staticUrl = 'https://supplementscore.org/compare/' + lo + '-vs-' + hi + '.html';
-      var c = document.querySelector('link[rel="canonical"]');
-      if (c) c.href = staticUrl;
-      var og = document.querySelector('meta[property="og:url"]');
-      if (og) og.setAttribute('content', staticUrl);
+      if (ok(a) && ok(b)) {
+        var lo = a < b ? a : b;
+        var hi = a < b ? b : a;
+        var staticUrl = 'https://supplementscore.org/compare/' + lo + '-vs-' + hi + '.html';
+        var c = document.querySelector('link[rel="canonical"]');
+        if (c) c.href = staticUrl;
+        var og = document.querySelector('meta[property="og:url"]');
+        if (og) og.setAttribute('content', staticUrl);
+      } else if (a || b) {
+        // Incomplete or non-kebab query — keep out of the index
+        addNoindex();
+      }
     } catch (_) {}
   })();
   </script>
