@@ -229,3 +229,23 @@
 | 2026-05-20 | prenatal-choline-supplementation-and-offspring-brain-development-the-trial-record | Breakthrough | 900 | 8 | public:6, nonprofit:2 | evergreen |
 | 2026-05-20 | omega-3-for-pediatric-adhd-the-2024-2025-meta-analysis-evidence | Kids | 890 | 8 | public:6, nonprofit:2 | evergreen |
 | 2026-05-20 | vitamin-b12-deficiency-in-vegan-children-screening-and-supplementation | Kids | 880 | 8 | public:5, nonprofit:3 | evergreen |
+| 2026-05-21 | vitamin-d-and-falls-in-older-adults-the-conflicting-sturdy-and-vital-trial-record | Research-Update | 611 | 8 | public:7, nonprofit:1 | evergreen |
+| 2026-05-21 | curcumin-for-major-depression-the-head-to-head-ssri-trial-record | Research-Update | 632 | 7 | public:4, industry:2, nonprofit:1 | evergreen |
+| 2026-05-21 | selenium-and-prostate-cancer-the-select-trial-long-term-follow-up | Research-Update | 642 | 7 | public:7 | evergreen |
+| 2026-05-21 | resveratrol-and-metabolic-markers-the-2024-2025-glucose-and-lipid-trial-update | Research-Update | 598 | 7 | public:7 | evergreen |
+| 2026-05-21 | yeast-beta-glucan-vs-oat-beta-glucan-immune-and-cholesterol-trial-divergence | Research-Update | 608 | 6 | public:4, industry:2 | evergreen |
+| 2026-05-21 | saw-palmetto-plus-nettle-root-for-bph-the-2024-2025-combination-trial-evidence | Research-Update | 648 | 7 | nonprofit:2, industry:3, public:2 | evergreen |
+| 2026-05-21 | how-to-read-a-fish-oil-coa-peroxide-value-anisidine-value-and-totox-explained | Guide | 765 | 6 | nonprofit:2, public:3, industry:1 | evergreen |
+| 2026-05-21 | the-full-thiamine-family-explained-hcl-mononitrate-benfotiamine-sulbutiamine-and-ttfd | Guide | 668 | 7 | public:5, industry:2 | evergreen |
+| 2026-05-21 | calcium-dose-splitting-why-doses-above-500-mg-waste-absorption | Guide | 716 | 6 | public:5, nonprofit:1 | evergreen |
+| 2026-05-21 | phosphorus-in-your-supplements-the-silent-excess-most-labels-hide | Guide | 707 | 6 | public:5, nonprofit:1 | evergreen |
+| 2026-05-21 | adrenal-cortex-extract-bovine-gland-tablets-sold-as-adrenal-support | Safety | 771 | 6 | public:4, nonprofit:2 | evergreen |
+| 2026-05-21 | nad-iv-drips-why-bypassing-the-gut-is-not-bypassing-the-biology | Safety | 766 | 5 | public:5 | evergreen |
+| 2026-05-21 | beta-sitosterol-supplements-the-prostate-angle-and-the-cholesterol-absorption-tradeoff | Safety | 729 | 7 | public:4, nonprofit:3 | evergreen |
+| 2026-05-21 | coconut-water-as-natural-gatorade-the-electrolyte-profile-reality | Myth | 733 | 5 | public:4, nonprofit:1 | evergreen |
+| 2026-05-21 | klotho-boosting-supplements-marketing-vs-the-actual-longevity-biology | Myth | 778 | 6 | public:5, industry:1 | evergreen |
+| 2026-05-21 | apple-polyphenols-what-apple-peel-extract-claims-actually-deliver | Myth | 766 | 5 | public:5 | evergreen |
+| 2026-05-21 | glucoraphanin-sgs-the-stable-sulforaphane-precursor-and-what-trials-show | Breakthrough | 692 | 7 | public:7 | evergreen |
+| 2026-05-21 | spermidine-and-rapamycin-the-autophagy-stacking-hypothesis-and-the-human-trial-gap | Breakthrough | 734 | 7 | public:5, nonprofit:2 | evergreen |
+| 2026-05-21 | iron-drops-for-breastfed-infants-the-aap-guideline-rationale-and-timing | Kids | 806 | 6 | nonprofit:3, public:3 | evergreen |
+| 2026-05-21 | toddler-choline-gummies-the-rising-trend-without-an-established-pediatric-rda | Kids | 832 | 6 | public:6 | evergreen |
