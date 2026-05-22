@@ -57,6 +57,24 @@ body{
 }
 input,button{font-family:inherit}
 .container{max-width:1200px;margin:0 auto;position:relative}
+/* 2026-05-21 — Site-wide width cap (900px).
+   Single override that caps every top-level layout container to a 900px
+   ceiling regardless of any per-section max-widths declared further down
+   in this file or in index.css. Narrower constraints (e.g. .hero at 760px
+   for the rotating article card) still apply because they're smaller than
+   the cap. To raise the cap globally, change only this value. */
+.container,
+.site-nav-inner,
+.site-footer-inner,
+.articles-section,
+.ix-hero,
+#supplements-view,
+.abt-hero,
+.abt-sec,
+.abt-mission,
+.disc-c-wrap{
+  max-width: 900px !important;
+}
 .page-header{padding:2.25rem 0 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
 .page-title{font-size:48px;font-weight:600;letter-spacing:-1.4px;color:var(--color-text-primary);margin:0;line-height:1.1}
 @media(max-width:900px){.page-title{font-size:40px;letter-spacing:-1.2px}}
