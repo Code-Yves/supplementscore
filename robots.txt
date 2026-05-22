@@ -16,3 +16,4 @@ Sitemap: https://supplementscore.org/sitemap-compare.xml
 Sitemap: https://supplementscore.org/sitemap-for.xml
 Sitemap: https://supplementscore.org/sitemap-medications.xml
 Sitemap: https://supplementscore.org/sitemap-stacks.xml
+Sitemap: https://supplementscore.org/sitemap-hubs.xml

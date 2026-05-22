@@ -86,3 +86,16 @@
 | 2026-05-22 | supplements-and-warfarin-interactions-that-cause-bleeding | 585 | safety | 817 | 7 |
 | 2026-05-22 | nattokinase-for-cardiovascular-health-japan-s-fermented-soy-enzyme-under-scrutiny | 586 | research-update | 682 | 4 |
 | 2026-05-22 | methylene-blue-cognitive-enhancer-or-serotonin-syndrome-risk | 587 | safety | 741 | 3 [new AM keys: Methylene blue (pharmaceutical grade); Methylene blue (oral)] |
+| 2026-05-22 | nattokinase-for-cardiovascular-health-japan-s-fermented-soy-enzyme-under-scrutin | 588 | research-update | 43 | 1 |
+| 2026-05-22 | folate-vs-methylfolate-and-mthfr-variants-what-genetic-testing-companies-don-t-t | 589 | guide | 38 | 1 |
+| 2026-05-22 | recent-supplement-recalls-amp-fda-warnings-the-roll-call | 590 | guide | 45 | 1 |
+| 2026-05-22 | cat-s-claw-uncaria-tomentosa-for-immunity-and-arthritis-big-claims-thin-trial-re | 591 | myth | 43 | 1 |
+| 2026-05-22 | st-john-39-s-wort-drug-interactions-the-cyp3a4-inducer-problem | 592 | safety | 44 | 1 |
+| 2026-05-22 | mitoq-for-parkinson-39-s-disease-where-the-evidence-stands | 593 | breakthrough | 41 | 1 |
+| 2026-05-22 | ergothioneine-the-longevity-vitamin-from-mushrooms-and-its-cellular-antioxidant- | 594 | breakthrough | 42 | 1 |
+| 2026-05-22 | children-s-electrolyte-powders-safe-alternatives-to-sports-drinks-for-sick-and-a | 595 | kids | 39 | 0 |
+| 2026-05-22 | senna-and-stimulant-laxatives-why-quot-natural-quot-doesn-t-mean-safe-for-daily- | 596 | safety | 43 | 0 |
+| 2026-05-22 | theacrine-the-caffeine-alternative-from-kucha-tea-with-bold-39-no-tolerance-39-c | 597 | breakthrough | 58 | 2 |
+| 2026-05-22 | kids-39-multivitamin-gummies-when-daily-use-is-actually-justified-and-when-just- | 598 | kids | 58 | 0 |
+| 2026-05-22 | lion-39-s-mane-hericium-erinaceus-and-cognition-what-the-controlled-trials-show | 599 | breakthrough | 60 | 1 |
+| 2026-05-22 | quot-liver-detox-quot-supplements-what-milk-thistle-actually-does-and-doesn-t-do | 600 | myth | 45 | 2 |
