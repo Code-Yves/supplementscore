@@ -65,3 +65,24 @@
 | 2026-05-22 | hydrogen-water-the-antioxidant-claim-and-the-dissolution-problem | 564 | myth | 664 | 2 [new AM keys: Hydrogen water (molecular hydrogen)] |
 | 2026-05-22 | dhea-and-aging-what-the-2024-2025-trials-show-in-older-adults | 565 | breakthrough | 634 | 1 |
 | 2026-05-22 | bovine-colostrum-for-athlete-immunity-what-the-2024-2025-trials-measured | 566 | research-update | 627 | 3 |
+| 2026-05-22 | iron-supplement-forms-guide-ferrous-sulfate-vs-bisglycinate-vs-heme-iron | 567 | guide | 663 | 3 |
+| 2026-05-22 | kelp-supplements-and-iodine-overdose-when-more-iodine-harms-the-thyroid | 568 | safety | 679 | 3 |
+| 2026-05-22 | curcumin-phytosome-vs-piperine-enhanced-curcumin-the-absorption-head-to-head | 569 | research-update | 601 | 3 [new AM keys: Curcumin Meriva (phytosome)] |
+| 2026-05-22 | saffron-versus-ssris-for-major-depression-the-head-to-head-trial-record | 570 | research-update | 608 | 1 |
+| 2026-05-22 | nmn-vs-nr-head-to-head-bioavailability-and-nad-elevation-trial-data | 571 | research-update | 699 | 1 |
+| 2026-05-22 | chlorella-and-heavy-metals-what-the-binding-studies-actually-show | 572 | safety | 624 | 3 |
+| 2026-05-22 | vitamin-k2-mk-7-vs-mk-4-for-arterial-calcification-the-form-debate | 573 | research-update | 606 | 3 |
+| 2026-05-22 | tongkat-ali-for-testosterone-the-2024-2025-trial-evidence-update | 574 | research-update | 609 | 3 [new AM keys: Tongkat ali (Eurycoma longifolia, standardised); Tongkat Ali (Eurycoma longifolia)] |
+| 2026-05-22 | tart-cherry-juice-for-sleep-melatonin-content-and-trial-effects | 575 | research-update | 590 | 6 |
+| 2026-05-22 | pregnenolone-the-master-hormone-supplement-and-its-unregulated-steroid-cascade | 576 | safety | 605 | 3 |
+| 2026-05-22 | potassium-and-blood-pressure-the-mineral-most-people-under-consume | 577 | breakthrough | 640 | 1 |
+| 2026-05-22 | manuka-honey-for-pediatric-cough-what-the-trials-show-and-the-one-year-cutoff | 578 | kids | 671 | 1 [new AM keys: Manuka honey (medicinal grade)] |
+| 2026-05-22 | glutathione-iv-for-skin-whitening-the-off-label-cosmetic-risk | 579 | safety | 639 | 6 |
+| 2026-05-22 | folate-vs-methylfolate-and-mthfr-variants-what-genetic-testing-companies-don-t-tell-you | 580 | guide | 599 | 3 |
+| 2026-05-22 | butterbur-petadolex-for-migraine-prevention-and-the-pyrrolizidine-question | 581 | research-update | 527 | 2 |
+| 2026-05-22 | cdc-warning-kava-poisoning-calls-have-climbed-sharply-here-s-what-the-data-actua | 582 | safety | 1180 | 2 |
+| 2026-05-22 | lithium-orotate-microdosing-what-the-thin-evidence-actually-shows | 583 | research-update | 647 | 1 [new AM keys: Lithium orotate (low-dose)] |
+| 2026-05-22 | iodine-deficiency-the-silent-return-of-a-public-health-crisis | 584 | research-update | 750 | 1 |
+| 2026-05-22 | supplements-and-warfarin-interactions-that-cause-bleeding | 585 | safety | 817 | 7 |
+| 2026-05-22 | nattokinase-for-cardiovascular-health-japan-s-fermented-soy-enzyme-under-scrutiny | 586 | research-update | 682 | 4 |
+| 2026-05-22 | methylene-blue-cognitive-enhancer-or-serotonin-syndrome-risk | 587 | safety | 741 | 3 [new AM keys: Methylene blue (pharmaceutical grade); Methylene blue (oral)] |
