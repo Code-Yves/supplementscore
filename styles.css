@@ -651,7 +651,16 @@ body.on-profile .ssux-recent{display:none !important}
    Background stays solid (not transparent) so when content scrolls under
    the sticky bar it can't bleed through. Text and pulse use the brand
    teal so the row still reads as a deliberate masthead band. */
-.beta-bar{background:var(--color-background-secondary);color:var(--color-brand);text-align:center;padding:0 1rem;font-size:9px;font-weight:500;letter-spacing:.02em;margin:0 -1rem;width:calc(100% + 2rem);position:sticky;top:0;z-index:20;height:32px;display:flex;align-items:center;justify-content:center;gap:8px;line-height:1}
+/* 2026-05-22 — Beta-bar de-stickied on desktop.
+   Previously position:sticky;top:0;z-index:20 — pinned to viewport top so the
+   trust-stats row stayed visible on scroll. Per design pass: row felt glued to
+   the very top edge and competed with the nav for sticky real-estate, so it's
+   now in normal flow with a 20px top margin to "drop" it down a bit and give
+   the page some breathing room above the masthead band. The site-nav rule
+   below is updated to stick at top:0 (was top:32px) so it still pins cleanly
+   once the beta-bar scrolls off-screen. Mobile rule at @media(max-width:600px)
+   still uses position:fixed (notch / safe-area handling) and is unaffected. */
+.beta-bar{background:var(--color-background-secondary);color:var(--color-brand);text-align:center;padding:0 1rem;font-size:9px;font-weight:500;letter-spacing:.02em;margin:20px -1rem 0;width:calc(100% + 2rem);height:32px;display:flex;align-items:center;justify-content:center;gap:8px;line-height:1}
 .beta-bar-badge{background:rgba(31,122,107,.10);padding:1px 7px;border-radius:8px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:6px;color:var(--color-brand)}
 .beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:var(--color-brand);flex:0 0 auto;box-shadow:0 0 6px rgba(31,122,107,.5),0 0 0 0 rgba(31,122,107,.45);animation:ss-beta-pulse 1.8s ease-out infinite}
 .beta-bar-num{font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.01em}
@@ -747,7 +756,10 @@ body.hero-search-gone .beta-bar-search input{tab-index:0;}
 .az-letter-heading{font-size:20px;font-weight:700;color:var(--color-text-primary);padding:1rem 0 .5rem;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:.5rem;scroll-margin-top:140px}
 
 /* ── Site navigation ── */
-.site-nav{background:var(--color-background-secondary);border-bottom:none;position:sticky;top:32px;z-index:15;margin:0 -1rem;padding:18px 1rem 12px;width:calc(100% + 2rem);box-shadow:none}
+/* 2026-05-22 — top changed from 32px to 0. The beta-bar above is no longer
+   sticky on desktop, so the nav no longer needs to offset around it; it pins
+   to the very top of the viewport once the beta-bar scrolls past. */
+.site-nav{background:var(--color-background-secondary);border-bottom:none;position:sticky;top:0;z-index:15;margin:0 -1rem;padding:18px 1rem 12px;width:calc(100% + 2rem);box-shadow:none}
 /* Grid: brand-left | tabs-centered | empty-right.
    Two equal `1fr` columns on either side keep the centered tabs perfectly
    centered relative to the viewport. No search bar in this layout.
@@ -783,11 +795,19 @@ body.hero-search-gone .beta-bar-search input{tab-index:0;}
 .site-nav--search-visible .site-nav-search-pill{
   opacity:1;transform:translateX(0);pointer-events:auto;
 }
-/* Desktop: hide the nav search pill outright. The hero's own search field
-   covers desktop search; we don't want a second one in the nav. */
-@media (min-width: 601px){
-  .site-nav-search-pill{display:none !important;}
-}
+/* 2026-05-22 — Desktop hide rule REMOVED.
+   Previously the nav pill was hidden outright on ≥601px because the hero's
+   own large search field covered desktop search, AND the beta-bar revealed a
+   search field on scroll. Now that the beta-bar is non-sticky and scrolls
+   away, desktop loses its post-scroll search affordance — so the nav pill
+   takes over that role here. It still inherits the default
+   opacity:0;pointer-events:none from the base rule above, and only fades in
+   when index.js adds .site-nav--search-visible (same toggle that flips
+   body.hero-search-gone when the hero search scrolls out of view).
+   Net effect on desktop: pill is invisible at the top of the page (hero
+   search is the primary entry), then fades in once the hero scrolls off.
+   The right-column grid slot was already reserved by .site-nav-inner's
+   1fr auto 1fr template, so layout doesn't shift when the pill appears. */
 .site-nav-search-pill form{
   position:relative;display:flex;align-items:center;gap:5px;
   background:rgba(31,122,107,.07);
