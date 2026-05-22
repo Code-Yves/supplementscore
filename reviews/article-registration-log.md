@@ -52,3 +52,16 @@
 | 2026-05-17 | fenugreek-for-blood-sugar-and-testosterone-what-controlled-trials-show | 438 | guide | 541 | 3 |
 | 2026-05-17 | diosmin-and-hesperidin-mpff-for-chronic-venous-insufficiency | 439 | guide | 546 | 3 |
 | 2026-05-17 | valerian-root-for-sleep-dose-form-and-the-controlled-trial-record | 440 | guide | 587 | 7 |
+| 2026-05-22 | creatine-and-brain-function-in-older-adults-the-2024-2025-rct-update | 554 | research-update | 664 | 1 |
+| 2026-05-22 | vitamin-d-for-autistic-children-what-the-rcts-actually-show | 555 | kids | 615 | 2 |
+| 2026-05-22 | vitamin-d-dosing-daily-vs-weekly-vs-monthly-bolus-pharmacokinetics | 556 | guide | 668 | 2 [new AM keys: Vitamin D2 (ergocalciferol)] |
+| 2026-05-22 | reading-omega-3-labels-epa-dha-and-the-ratio-that-actually-matters | 557 | guide | 581 | 4 |
+| 2026-05-22 | supplements-and-thyroid-medication-what-blocks-absorption | 558 | safety | 807 | 8 [new AM keys: Kelp (iodine-rich)] |
+| 2026-05-22 | reading-a-magnesium-label-matching-the-form-to-the-goal | 559 | guide | 753 | 10 |
+| 2026-05-22 | phosphatidylserine-and-memory-what-19-rcts-show | 560 | research-update | 746 | 3 |
+| 2026-05-22 | selenium-and-hashimoto-s-thyroiditis-why-brazil-nuts-aren-t-a-drug | 561 | research-update | 696 | 2 |
+| 2026-05-22 | reading-a-probiotic-label-strain-identifiers-and-cfu-at-end-of-shelf-life | 562 | guide | 722 | 6 [new AM keys: VSL#3 / Visbiome (multi-strain)] |
+| 2026-05-22 | l-tryptophan-vs-5-htp-serotonin-precursors-with-different-safety-profiles | 563 | research-update | 588 | 2 |
+| 2026-05-22 | hydrogen-water-the-antioxidant-claim-and-the-dissolution-problem | 564 | myth | 664 | 2 [new AM keys: Hydrogen water (molecular hydrogen)] |
+| 2026-05-22 | dhea-and-aging-what-the-2024-2025-trials-show-in-older-adults | 565 | breakthrough | 634 | 1 |
+| 2026-05-22 | bovine-colostrum-for-athlete-immunity-what-the-2024-2025-trials-measured | 566 | research-update | 627 | 3 |
