@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#F8F4ED"/>
+  <rect x="0" y="0" width="1200" height="14" fill="#1F7A6B"/>
+
+  <!-- Article badge -->
+  <rect x="80" y="80" rx="22" ry="22" width="180" height="56" fill="#1F7A6B"/>
+  <text x="170" y="118" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22"
+        font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">ARTICLE</text>
+
+<text x="80" y="232" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="600" fill="#5A5852" letter-spacing="2">SUPPLEMENTSCORE</text>
+
+<text x="80" y="280" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="56" font-weight="800" fill="#0F172A" letter-spacing="-1.2">5-Aminolevulinic Acid: The</text>
+<text x="80" y="350" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="56" font-weight="800" fill="#0F172A" letter-spacing="-1.2">Mitochondrial Compound for Blood</text>
+<text x="80" y="420" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="56" font-weight="800" fill="#0F172A" letter-spacing="-1.2">Sugar Control</text>
+
+
+  <!-- Footer wordmark -->
+  <text x="80" y="582" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22"
+        font-weight="700" fill="#5A5852" letter-spacing="2">SUPPLEMENTSCORE.ORG</text>
+  <text x="1120" y="582" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="28"
+        font-weight="800" fill="#1F7A6B" text-anchor="end">supplementscore<tspan fill="#8A8780">.org</tspan></text>
+</svg>

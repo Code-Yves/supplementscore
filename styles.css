@@ -2599,28 +2599,23 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   font-family:inherit;
 }
 .site-footer-inner{max-width:1200px;margin:0 auto}
-/* Proportional columns so the link groups distribute across the full width
-   of the footer instead of huddling against the right edge. Brand is given
-   a slightly bigger share (~1.6x) because it carries the tagline and meta
-   line; the three link columns are equal-width. */
+/* Four equal columns distributed evenly across the footer width. Brand block
+   sits in the first column; the three link groups (Browse / Go Deeper / Site)
+   take one column each. `minmax(0,1fr)` ensures no column can blow past its
+   share and create dead-space on the right.
+   2026-05-22 — was `1.6fr 1fr 1fr 1fr`; the wider brand column left visible
+   empty space to the right of the Site links on desktop. Switched to four
+   equal tracks for even distribution at all viewport widths. */
 .site-footer-grid{
   display:grid;
-  /* 2026-05-21 — Was 5 columns (brand + Methodology + Browse + Go Deeper
-     + Site) but the Methodology column was collapsed into the Site
-     column. The grid template was left at 5 tracks, so an empty 5th
-     column was being reserved on the right of the footer — visible as
-     dead space beside the Site links. Dropped to 4 tracks to match the
-     4 children that actually exist. The orphan `:nth-child(5)` rules
-     below are kept for now (no-ops with only 4 children) so the
-     breakpoint stack reads as one unit; safe to delete entirely. */
-  grid-template-columns:1.6fr 1fr 1fr 1fr;
-  column-gap:28px;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  column-gap:32px;
   row-gap:0;
   align-items:start;
 }
-@media(max-width:980px){.site-footer-grid{grid-template-columns:1.4fr 1fr 1fr 1fr;column-gap:28px;row-gap:32px}.site-footer-grid > *:nth-child(5){grid-column:span 4}}
-@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;column-gap:32px;row-gap:28px}.site-footer-grid > *:nth-child(5){grid-column:auto}}
-@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}.site-footer-grid > *:nth-child(5){grid-column:auto}}
+@media(max-width:980px){.site-footer-grid{grid-template-columns:repeat(4, minmax(0, 1fr));column-gap:24px;row-gap:32px}}
+@media(max-width:760px){.site-footer-grid{grid-template-columns:repeat(2, minmax(0, 1fr));column-gap:32px;row-gap:28px}}
+@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}}
 .site-footer-brand-row{display:flex;align-items:center;gap:0;margin-bottom:0}
 .site-footer-leaf{
   width:22px;height:22px;border-radius:6px;
