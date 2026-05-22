@@ -250,8 +250,13 @@
   /* Direction A — Tighter Editorial (2026-05-20): top breathing room lifted
      from 14px to 40px so the eyebrow stat-line sits below the nav with
      editorial generosity; bottom padding bumped 4→24 to match the new
-     hairline-rule sources block below. */
-  padding: 40px 24px 24px;
+     hairline-rule sources block below.
+     2026-05-21 — Variant A (Generous spacing) applied: padding 40/24/24
+     → 96/24/56 so the headline cluster has clear vertical breathing room
+     under the de-greened banner. The bar no longer reads as a heavy
+     coloured slab, so the H1 was floating too close to the top edge of
+     the cream surface. */
+  padding: 96px 24px 56px;
   text-align: center;
   /* Provide a positioning context for the ambient hub & spoke background
      canvas (.ix-hero-bg). overflow:hidden keeps any spokes that drift past
@@ -1100,7 +1105,11 @@
   body.tab-supplements,
   html.tab-supplements body{ padding-top: 30px !important; }
 
-  .ix-hero{ padding: 8px 16px 10px !important; }
+  /* 2026-05-21 — Mobile hero padding bumped from 8/16/10 to 48/16/28 to
+     mirror the desktop Variant A generosity at mobile scale. The
+     de-greened banner above no longer carries enough visual weight on
+     its own; the H1 needs explicit top-padding to feel anchored. */
+  .ix-hero{ padding: 48px 16px 28px !important; }
   /* 2026-05-21 — h1 + lede compression pass. Earlier mobile rule inherited
      `max-width:14ch` from desktop which forced "supplements actually work."
      onto a second wrap, producing 3 visible lines. Releasing the constraint
@@ -1330,6 +1339,19 @@ body.on-profile #main-sticky{
   min-height: 300px !important;
   box-shadow: 0 2px 10px rgba(74, 160, 149, 0.16) !important;
   margin-bottom: 1.5rem !important;
+}
+/* 2026-05-21 — Desktop max-width on the rotating article hero.
+   At 1024px container widths the card was running edge-to-edge, which
+   made it visually outsize the headline cluster above it. Capping at
+   760px and centring keeps the card proportional to the H1 + lede +
+   search block (which sit on a 480px search / 56ch lede measure).
+   Scoped to ≥601px so the mobile rule (full-bleed) is untouched. */
+@media (min-width: 601px){
+  .hero{
+    max-width: 760px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
 /* Drop the two giant glow circles — they only made sense against the deep
    dark teal of the original. On the lighter palette they read as foggy

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banner without green · SupplementScore</title>
+<style>
+  /* Brand variables match styles.css */
+  :root{
+    --bg: #ebe5d9;            /* page background */
+    --bg-card: #f6f2ea;       /* card / pill surfaces */
+    --bg-tint: #e2dccf;       /* half-tone darker cream for subtle stripe */
+    --txt: #0c0a09;
+    --txt-2: #57534e;
+    --txt-3: #8a8378;
+    --brand: #1F7A6B;
+    --t1c: #1F8A7A;
+    --hairline: rgba(12,10,9,.10);
+    --hairline-soft: rgba(12,10,9,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#d6cfc2;color:var(--txt);font-family:'Mona Sans',-apple-system,BlinkMacSystemFont,'Inter',Helvetica,Arial,sans-serif;}
+  body{padding:32px;line-height:1.5;}
+
+  .intro{
+    max-width: 1180px; margin: 0 auto 36px;
+    padding: 18px 22px; background: var(--bg-card); border-radius: 12px;
+    font-size: 13px; color: var(--txt-2); line-height: 1.55;
+  }
+  .intro h1{ margin: 0 0 6px; font-size: 18px; color: var(--txt); }
+
+  .variant-label{
+    max-width: 1180px; margin: 0 auto 12px;
+    font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--brand);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .variant-label::before{
+    content:""; display:inline-block; width: 22px; height:1px; background:var(--brand);
+  }
+  .variant-label small{
+    margin-left: 8px; color: var(--txt-2); font-weight: 500; letter-spacing: .04em; text-transform: none;
+  }
+
+  .variant-frame{
+    max-width: 1180px; margin: 0 auto 48px;
+    background: var(--bg);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(12,10,9,.08);
+  }
+
+  /* ────────────────────────────────────────────
+     Shared hero (Variant A applied to all)
+     padding-top 96, padding-bottom 56 — same as
+     "Variant A — Generous spacing" from the prior mockup.
+     ──────────────────────────────────────────── */
+  .hero{ padding: 96px 24px 56px; text-align: center; }
+  .h1{
+    font-size: clamp(40px, 5.8vw, 64px);
+    font-weight: 700; letter-spacing: -1.8px;
+    line-height: 1.04; margin: 0 auto 18px;
+    max-width: 22ch;
+  }
+  .h1 .accent{ color: var(--t1c); }
+  .lede{
+    font-size: 17px; color: var(--txt-2);
+    max-width: 56ch; margin: 0 auto 28px;
+    line-height: 1.55;
+  }
+  .search-wrap{ max-width: 480px; margin: 0 auto; position: relative; }
+  .search-input{
+    width: 100%; padding: 12px 20px 12px 44px;
+    font-family: inherit; font-size: 14px;
+    background: var(--bg-card);
+    border: 1.5px solid rgba(0,0,0,.08);
+    color: var(--txt); outline: 0;
+    border-radius: 999px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.08);
+  }
+  .search-icon{
+    position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; color: var(--txt-3);
+  }
+
+  /* Article card placeholder */
+  .article-card{
+    margin: 0 24px 32px;
+    background: linear-gradient(90deg, #3A8276 0%, #4DA095 100%);
+    color: #F8F4ED;
+    border-radius: 14px;
+    padding: 32px 36px 28px;
+    min-height: 200px;
+    position: relative;
+  }
+  .article-card .pills{ display: flex; gap: 8px; align-items: center; }
+  .article-card .pill{
+    font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+    background: rgba(255,255,255,.2); color:#fff;
+  }
+  .article-card .pill.featured{
+    background: rgba(255,215,0,.25); color:#FFE066;
+    border: 1px solid rgba(255,215,0,.4); border-radius: 4px;
+  }
+  .article-card .counter{
+    position: absolute; top: 44px; right: 32px;
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(248,244,237,.62);
+  }
+  .article-card h2{ font-size: 28px; font-weight: 800; line-height: 1.2; margin: 14px 0 12px; color:#fff; max-width: 720px; }
+  .article-card .desc{ font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.88); max-width: 660px; }
+
+  /* ────────────────────────────────────────────
+     Banner option styles
+     The stats text stays identical in every option; only its
+     surrounding treatment changes.
+     ──────────────────────────────────────────── */
+  .stats{
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    font-size: 11px;
+  }
+  .stats .pulse{
+    width: 7px; height: 7px; border-radius: 50%; background: var(--brand);
+    box-shadow: 0 0 6px rgba(31,122,107,.5);
+    margin-right: 4px;
+  }
+  .stats .s{
+    font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--brand);
+  }
+  .stats .sep{
+    opacity: .35; color: var(--brand); font-weight: 400;
+  }
+
+  /* Option 1 — Bare. Stats simply sit on the cream page, no container. */
+  .opt-1 .banner{ padding: 18px 24px 0; }
+
+  /* Option 2 — Hairline-bracketed. Thin lines top + bottom. */
+  .opt-2 .banner{
+    padding: 16px 24px;
+    border-top: 1px solid var(--hairline-soft);
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  /* Option 3 — Subtle tint stripe. A half-tone darker cream band. */
+  .opt-3 .banner{
+    padding: 16px 24px;
+    background: var(--bg-tint);
+  }
+
+  /* Option 4 — Pill. The whole stats string sits in a rounded pill. */
+  .opt-4 .banner{ padding: 22px 24px 0; }
+  .opt-4 .stats{
+    display: inline-flex;
+    background: var(--bg-card);
+    border: 1px solid var(--hairline-soft);
+    border-radius: 999px;
+    padding: 8px 18px;
+    box-shadow: 0 1px 2px rgba(12,10,9,.04);
+  }
+  .opt-4 .banner-wrap{ text-align: center; }
+
+  /* Reset article-card bottom margin on each frame's last child */
+  .variant-frame > .article-card{ margin-bottom: 28px; }
+
+  @media (max-width: 720px){
+    body{padding: 16px;}
+    .hero{ padding: 56px 18px 32px; }
+    .article-card{ margin: 0 16px 24px; padding: 22px; }
+    .article-card .counter{ top: 22px; right: 16px; font-size: 9.5px; }
+    .article-card h2{ font-size: 18px; }
+    .article-card .desc{ font-size: 12px; }
+    .stats{ gap: 6px 8px; flex-wrap: wrap; }
+    .stats .s, .stats .sep{ font-size: 9px; letter-spacing: .08em; }
+    .opt-2 .banner, .opt-3 .banner{ padding: 12px 18px; }
+    .opt-4 .stats{ padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Banner without green — 4 options on top of Variant A</h1>
+  Every option below uses <strong>Variant A's spacing</strong> (96 / 56 padding on the hero) and removes the
+  teal banner background. The stats content is identical in all four; only the surrounding treatment differs.
+  Compare them and tell me which to wire in.
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Option 1 — Bare
+     No banner background, no rules. The stats simply sit at the top of
+     the cream page as the first row before the headline cluster.
+     Cheapest visually. Risk: feels a bit unmoored without something
+     framing it.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Option 1 — Bare <small>no background, no rules, just text on cream</small></div>
+<div class="variant-frame opt-1">
+  <div class="banner banner-wrap">
+    <div class="stats">
+      <span class="pulse"></span>
+      <span class="s">700+ Supplements Analyzed</span>
+      <span class="sep">/</span>
+      <span class="s">27,000+ Clinical Studies</span>
+      <span class="sep">/</span>
+      <span class="s">0 Endorsements</span>
+    </div>
+  </div>
+  <section class="hero">
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Option 2 — Hairline-bracketed
+     Thin 1px rules top + bottom of the stats row. Frames the content as
+     a deliberate masthead band without using a fill colour. Quietly
+     "editorial". Risk: the top hairline can feel like a missing nav.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Option 2 — Hairline-bracketed <small>1px rules above and below, no fill</small></div>
+<div class="variant-frame opt-2">
+  <div class="banner banner-wrap">
+    <div class="stats">
+      <span class="pulse"></span>
+      <span class="s">700+ Supplements Analyzed</span>
+      <span class="sep">/</span>
+      <span class="s">27,000+ Clinical Studies</span>
+      <span class="sep">/</span>
+      <span class="s">0 Endorsements</span>
+    </div>
+  </div>
+  <section class="hero">
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Option 3 — Subtle tint stripe
+     A half-tone darker cream band (#e2dccf vs page #ebe5d9). Reads as
+     a clear "stripe" without the high-contrast teal punch. Closest in
+     spirit to the original green banner but quiet.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Option 3 — Subtle tint stripe <small>same family, one shade darker than the page</small></div>
+<div class="variant-frame opt-3">
+  <div class="banner banner-wrap">
+    <div class="stats">
+      <span class="pulse"></span>
+      <span class="s">700+ Supplements Analyzed</span>
+      <span class="sep">/</span>
+      <span class="s">27,000+ Clinical Studies</span>
+      <span class="sep">/</span>
+      <span class="s">0 Endorsements</span>
+    </div>
+  </div>
+  <section class="hero">
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Option 4 — Pill
+     The whole stats string sits inside a single rounded white pill
+     centred on the page background. Reads as a "trust chip" rather than
+     a band. Most decorative; clearest visual focus.
+     Risk: feels a touch promotional / banner-ad-like at large sizes.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Option 4 — Centred pill <small>stats inside a single rounded chip</small></div>
+<div class="variant-frame opt-4">
+  <div class="banner banner-wrap">
+    <div class="stats">
+      <span class="pulse"></span>
+      <span class="s">700+ Supplements Analyzed</span>
+      <span class="sep">/</span>
+      <span class="s">27,000+ Clinical Studies</span>
+      <span class="sep">/</span>
+      <span class="s">0 Endorsements</span>
+    </div>
+  </div>
+  <section class="hero">
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+</body>
+</html>

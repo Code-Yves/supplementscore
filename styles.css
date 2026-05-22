@@ -627,21 +627,29 @@ body.on-profile .ssux-recent{display:none !important}
 .ev-sidebar{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1.25rem;background:var(--color-background-primary);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 
 /* ── Utility classes extracted from inline styles ── */
-.beta-bar{background:var(--color-brand);color:rgba(255,255,255,.75);text-align:center;padding:0 1rem;font-size:9px;font-weight:500;letter-spacing:.02em;margin:0 -1rem;width:calc(100% + 2rem);position:sticky;top:0;z-index:20;height:32px;display:flex;align-items:center;justify-content:center;gap:8px;line-height:1}
-.beta-bar-badge{background:rgba(255,255,255,.2);padding:1px 7px;border-radius:8px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
-.beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:#6EE7B7;flex:0 0 auto;box-shadow:0 0 6px rgba(110,231,183,.9),0 0 0 0 rgba(110,231,183,.7);animation:ss-beta-pulse 1.8s ease-out infinite}
+/* 2026-05-21 — Beta-bar de-greened (Option 1 / "Bare" from the mockup
+   round): the teal fill + white text is replaced with the same cream as
+   the page surface (--color-background-secondary) and brand-teal text.
+   Background stays solid (not transparent) so when content scrolls under
+   the sticky bar it can't bleed through. Text and pulse use the brand
+   teal so the row still reads as a deliberate masthead band. */
+.beta-bar{background:var(--color-background-secondary);color:var(--color-brand);text-align:center;padding:0 1rem;font-size:9px;font-weight:500;letter-spacing:.02em;margin:0 -1rem;width:calc(100% + 2rem);position:sticky;top:0;z-index:20;height:32px;display:flex;align-items:center;justify-content:center;gap:8px;line-height:1}
+.beta-bar-badge{background:rgba(31,122,107,.10);padding:1px 7px;border-radius:8px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:6px;color:var(--color-brand)}
+.beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:var(--color-brand);flex:0 0 auto;box-shadow:0 0 6px rgba(31,122,107,.5),0 0 0 0 rgba(31,122,107,.45);animation:ss-beta-pulse 1.8s ease-out infinite}
 .beta-bar-num{font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.01em}
 .beta-bar-sep{padding:0 2px}
 /* 2026-05-21 — Beta-bar trust-stats row.
-   .beta-bar-stat / .beta-bar-stat-sep are the new spans introduced when the
+   .beta-bar-stat / .beta-bar-stat-sep are the spans introduced when the
    banner's "X studies in last 72h · Actively refining · Updated …" content
    was replaced with the trust-stats triplet. New classes (not the legacy
    .beta-bar-tag / .beta-bar-sep) so the mobile hide-rule below leaves them
-   visible. */
-.beta-bar-stat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.92);white-space:nowrap}
-.beta-bar-stat-sep{font-size:10px;font-weight:400;opacity:.55;color:rgba(255,255,255,.85)}
-@keyframes ss-beta-pulse{0%{box-shadow:0 0 6px rgba(110,231,183,.95),0 0 0 0 rgba(110,231,183,.7)}70%{box-shadow:0 0 6px rgba(110,231,183,.95),0 0 0 7px rgba(110,231,183,0)}100%{box-shadow:0 0 6px rgba(110,231,183,.95),0 0 0 0 rgba(110,231,183,0)}}
-@media(prefers-reduced-motion:reduce){.beta-bar-pulse{animation:none;box-shadow:0 0 6px rgba(110,231,183,.95)}}
+   visible. Colours match the de-greened bar above — brand teal on cream. */
+.beta-bar-stat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
+.beta-bar-stat-sep{font-size:10px;font-weight:400;opacity:.35;color:var(--color-brand)}
+/* Keyframe glow retinted from mint (110,231,183) to brand teal (31,122,107)
+   to stay coherent with the new colourway. */
+@keyframes ss-beta-pulse{0%{box-shadow:0 0 6px rgba(31,122,107,.55),0 0 0 0 rgba(31,122,107,.45)}70%{box-shadow:0 0 6px rgba(31,122,107,.55),0 0 0 7px rgba(31,122,107,0)}100%{box-shadow:0 0 6px rgba(31,122,107,.55),0 0 0 0 rgba(31,122,107,0)}}
+@media(prefers-reduced-motion:reduce){.beta-bar-pulse{animation:none;box-shadow:0 0 6px rgba(31,122,107,.6)}}
 @media(max-width:560px){.beta-bar{font-size:10.5px;gap:6px}.beta-bar-tag{display:none}.beta-bar-sep{display:none}}
 .page-header--center{text-align:center;border-bottom:none}
 .page-logo-label{font-size:13.5px;font-weight:800;color:var(--color-brand);letter-spacing:.07em;text-transform:uppercase;margin-bottom:16px}
@@ -1023,8 +1031,11 @@ a.site-nav-tab{
     padding:env(safe-area-inset-top) calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)) !important;
     box-sizing:border-box !important;
     font-size:10px !important;
-    background:var(--color-brand) !important;
-    color:rgba(255,255,255,.85) !important;
+    /* 2026-05-21 — Mobile banner de-greened to match desktop Option 1.
+       Cream background masks scrolling content from showing through the
+       fixed bar; teal text is set by the base .beta-bar-stat rule above. */
+    background:var(--color-background-secondary) !important;
+    color:var(--color-brand) !important;
     z-index:31 !important;
     box-shadow:none !important;
     gap:4px !important;

@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero breathing-room mockups · SupplementScore</title>
+<style>
+  /* Brand variables lifted directly from styles.css so the mockups match
+     the live site 1:1. */
+  :root{
+    --bg: #ebe5d9;
+    --bg-card: #f6f2ea;
+    --txt: #0c0a09;
+    --txt-2: #57534e;
+    --txt-3: #8a8378;
+    --brand: #1F7A6B;
+    --t1c: #1F8A7A;
+    --hairline: rgba(12,10,9,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#d6cfc2;color:var(--txt);font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Inter', Helvetica, Arial, sans-serif;}
+  body{padding:32px;line-height:1.5;}
+
+  /* Page-level label above each variant so they're easy to discuss. */
+  .variant-label{
+    max-width: 1180px; margin: 0 auto 12px;
+    font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--brand);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .variant-label::before{
+    content: ""; display:inline-block; width: 22px; height:1px; background:var(--brand);
+  }
+  .variant-label small{
+    margin-left: 8px; color:var(--txt-2); font-weight: 500; letter-spacing: .04em; text-transform: none;
+  }
+  .variant-frame{
+    max-width: 1180px; margin: 0 auto 48px;
+    background: var(--bg);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(12,10,9,.08);
+  }
+
+  /* ────────────────────────────────────────────
+     Shared elements (match live site)
+     ──────────────────────────────────────────── */
+
+  /* Green banner */
+  .banner{
+    background: var(--brand);
+    color: rgba(255,255,255,.92);
+    height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+    font-size: 10px;
+  }
+  .banner .pulse{
+    width: 7px; height: 7px; border-radius: 50%; background:#6EE7B7;
+    box-shadow: 0 0 6px rgba(110,231,183,.9);
+  }
+  .banner .s{ font-weight:600; letter-spacing:.12em; text-transform:uppercase; }
+  .banner .sep{ opacity: .55; }
+
+  /* H1, lede, search — base styles match index.css .ix-hero */
+  .hero{
+    padding: 40px 24px 24px;
+    text-align: center;
+  }
+  .h1{
+    font-size: clamp(40px, 5.8vw, 64px);
+    font-weight: 700; letter-spacing: -1.8px;
+    line-height: 1.04; margin: 0 auto 18px;
+    max-width: 22ch;
+  }
+  .h1 .accent{ color: var(--t1c); }
+  .lede{
+    font-size: 17px; color: var(--txt-2);
+    max-width: 56ch; margin: 0 auto 28px;
+    line-height: 1.55;
+  }
+  .search-wrap{
+    max-width: 480px; margin: 0 auto;
+    position: relative;
+  }
+  .search-input{
+    width: 100%; padding: 12px 20px 12px 44px;
+    font-family: inherit; font-size: 14px;
+    background: var(--bg-card);
+    border: 1.5px solid rgba(0,0,0,.08);
+    color: var(--txt); outline: 0;
+    border-radius: 999px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.08);
+  }
+  .search-icon{
+    position: absolute; left: 18px; top: 50%;
+    transform: translateY(-50%);
+    width: 16px; height: 16px;
+    color: var(--txt-3);
+  }
+
+  /* Article card placeholder (visual filler so we can judge balance) */
+  .article-card{
+    margin: 0 24px 32px;
+    background: linear-gradient(90deg, #3A8276 0%, #4DA095 100%);
+    color: #F8F4ED;
+    border-radius: 14px;
+    padding: 32px 36px 28px;
+    min-height: 200px;
+    position: relative;
+  }
+  .article-card .pills{ display: flex; gap: 8px; align-items: center; }
+  .article-card .pill{
+    font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+    background: rgba(255,255,255,.2); color:#fff;
+  }
+  .article-card .pill.featured{
+    background: rgba(255,215,0,.25); color:#FFE066;
+    border: 1px solid rgba(255,215,0,.4); border-radius: 4px;
+  }
+  .article-card .counter{
+    position: absolute; top: 44px; right: 32px;
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(248,244,237,.62);
+  }
+  .article-card h2{
+    font-size: 28px; font-weight: 800; line-height: 1.2;
+    margin: 14px 0 12px; color:#fff; max-width: 720px;
+  }
+  .article-card .desc{
+    font-size: 14px; line-height: 1.6;
+    color: rgba(255,255,255,.88); max-width: 660px;
+  }
+
+  /* ────────────────────────────────────────────
+     Variant-specific styles
+     ──────────────────────────────────────────── */
+
+  /* A — Generous spacing (just more padding) */
+  .v-a .hero{ padding: 96px 24px 56px; }
+
+  /* B — Editorial eyebrow + hairline below search */
+  .v-b .hero{ padding: 64px 24px 24px; }
+  .v-b .eyebrow{
+    font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 22px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .v-b .eyebrow::before,
+  .v-b .eyebrow::after{
+    content:""; display:inline-block; width: 28px; height:1px; background: var(--brand); opacity:.5;
+  }
+  .v-b .hero::after{
+    content:""; display:block;
+    width: 64px; height: 1px; background: var(--hairline);
+    margin: 40px auto 0;
+  }
+
+  /* C — Smaller H1 + reflow */
+  .v-c .hero{ padding: 80px 24px 44px; }
+  .v-c .h1{
+    font-size: clamp(34px, 4.6vw, 52px);
+    letter-spacing: -1.2px;
+    max-width: 22ch;
+    margin-bottom: 14px;
+  }
+  .v-c .lede{ font-size: 16px; margin-bottom: 24px; }
+
+  /* D — Ornament/icon above H1 */
+  .v-d .hero{ padding: 72px 24px 36px; }
+  .v-d .ornament{
+    width: 44px; height: 44px;
+    margin: 0 auto 22px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+    background: rgba(31,138,122,.10);
+    color: var(--brand);
+  }
+  .v-d .ornament svg{ width: 22px; height: 22px; }
+
+  /* Mobile reduction of frame margins so variants don't bust out */
+  @media (max-width: 720px){
+    body{padding: 16px;}
+    .article-card{ margin: 0 16px 24px; padding: 22px; }
+    .article-card .counter{ top: 22px; right: 16px; font-size: 9.5px; }
+    .article-card h2{ font-size: 18px; }
+    .article-card .desc{ font-size: 12px; }
+    .v-a .hero{ padding: 56px 18px 32px; }
+    .v-b .hero{ padding: 40px 18px 18px; }
+    .v-c .hero{ padding: 44px 18px 28px; }
+    .v-d .hero{ padding: 44px 18px 24px; }
+  }
+
+  /* Intro */
+  .intro{
+    max-width: 1180px; margin: 0 auto 36px;
+    padding: 18px 22px; background: var(--bg-card); border-radius: 12px;
+    font-size: 13px; color: var(--txt-2); line-height: 1.55;
+  }
+  .intro h1{ margin: 0 0 6px; font-size: 18px; color: var(--txt); }
+  .intro code{
+    background: rgba(0,0,0,.05); padding: 1px 6px; border-radius: 4px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Hero breathing-room — 4 options to pick from</h1>
+  Each variant keeps the green banner and the rotating-article card identical, and only changes what happens
+  between them (the headline cluster). Sizes/spacing are tuned to render at desktop widths; the mobile media
+  query inside this file shrinks each variant so you can preview both behaviours by resizing the window.
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Variant A — Generous spacing
+     Padding-top lifted from 40px → 96px and bottom 24 → 56 so the headline
+     cluster has clear vertical room. Nothing else changes; cheapest fix.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Variant A — Generous spacing <small>just more padding</small></div>
+<div class="variant-frame v-a">
+  <div class="banner">
+    <span class="pulse"></span>
+    <span class="s">700+ Supplements Analyzed</span>
+    <span class="sep">/</span>
+    <span class="s">27,000+ Clinical Studies</span>
+    <span class="sep">/</span>
+    <span class="s">0 Endorsements</span>
+  </div>
+  <section class="hero">
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Variant B — Editorial eyebrow + hairline rule
+     Adds a small "THE SUPPLEMENT INDEX" eyebrow with flanking rules above
+     the H1, plus a 64px hairline under the search to close the cluster.
+     Anchors the H1 visually so it stops feeling "loose at the top".
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Variant B — Editorial eyebrow <small>small label + hairline anchor</small></div>
+<div class="variant-frame v-b">
+  <div class="banner">
+    <span class="pulse"></span>
+    <span class="s">700+ Supplements Analyzed</span>
+    <span class="sep">/</span>
+    <span class="s">27,000+ Clinical Studies</span>
+    <span class="sep">/</span>
+    <span class="s">0 Endorsements</span>
+  </div>
+  <section class="hero">
+    <div class="eyebrow">The Supplement Index</div>
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Variant C — Smaller H1, calmer rhythm
+     H1 ceiling 64px → 52px, lede 17px → 16px, margins relaxed slightly.
+     The whole cluster takes less vertical space so the surrounding
+     padding does its job better.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Variant C — Compressed H1 <small>smaller type, calmer rhythm</small></div>
+<div class="variant-frame v-c">
+  <div class="banner">
+    <span class="pulse"></span>
+    <span class="s">700+ Supplements Analyzed</span>
+    <span class="sep">/</span>
+    <span class="s">27,000+ Clinical Studies</span>
+    <span class="sep">/</span>
+    <span class="s">0 Endorsements</span>
+  </div>
+  <section class="hero">
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     Variant D — Small ornament above the H1
+     A 44px teal-tinted square holding a flask/data icon — sits as a
+     decorative anchor that breaks the empty space without adding words.
+     Cheaper than an eyebrow if you want zero extra copy.
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-label">Variant D — Ornament above H1 <small>icon-only anchor, no extra copy</small></div>
+<div class="variant-frame v-d">
+  <div class="banner">
+    <span class="pulse"></span>
+    <span class="s">700+ Supplements Analyzed</span>
+    <span class="sep">/</span>
+    <span class="s">27,000+ Clinical Studies</span>
+    <span class="sep">/</span>
+    <span class="s">0 Endorsements</span>
+  </div>
+  <section class="hero">
+    <div class="ornament" aria-hidden="true">
+      <!-- Mini "evidence" mark: stylised flask + check, 1.5 px stroke -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 3h6"/>
+        <path d="M10 3v6L4 19a2 2 0 001.7 3h12.6A2 2 0 0020 19l-6-10V3"/>
+        <path d="M8.5 14h7"/>
+      </svg>
+    </div>
+    <h1 class="h1">Know which <span class="accent">supplements</span><br>actually work.</h1>
+    <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="search-input" type="search" placeholder="Search supplements, categories, or conditions…">
+    </div>
+  </section>
+  <div class="article-card">
+    <div class="pills"><span class="pill featured">★ POPULAR</span><span class="pill">REALITY CHECK</span></div>
+    <div class="counter">Editor's Pick · 7 / 23</div>
+    <h2>Why "Detox" Supplements Are a $3 Billion Scam</h2>
+    <div class="desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</div>
+  </div>
+</div>
+
+</body>
+</html>
