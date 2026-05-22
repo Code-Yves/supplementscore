@@ -646,6 +646,36 @@ body.on-profile .ssux-recent{display:none !important}
    visible. Colours match the de-greened bar above — brand teal on cream. */
 .beta-bar-stat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
 .beta-bar-stat-sep{font-size:10px;font-weight:400;opacity:.35;color:var(--color-brand)}
+/* 2026-05-21 — Banner search state.
+   Pre-scroll: .beta-bar-search is hidden, .beta-bar-stats sit centred via
+   the parent's existing justify-content:center.
+   Post-scroll (body.hero-search-gone): banner switches to space-between,
+   stats shift LEFT, and a compact search field appears on the RIGHT. The
+   stats group keeps its inline flex layout so the slashes / labels stay
+   together as one unit. */
+.beta-bar-stats{display:inline-flex;align-items:center;gap:8px;}
+.beta-bar-search{display:none;align-items:center;gap:6px;background:rgba(255,255,255,.55);border:1px solid rgba(31,122,107,.18);border-radius:999px;padding:3px 12px 3px 10px;margin:0;height:22px;box-sizing:border-box;transition:background .15s,border-color .15s;}
+.beta-bar-search:hover,.beta-bar-search:focus-within{background:#fff;border-color:rgba(31,122,107,.35);}
+.beta-bar-search-ico{width:11px;height:11px;color:var(--color-brand);flex:0 0 auto;opacity:.75;}
+.beta-bar-search input{
+  border:0;background:transparent;outline:0;
+  font-family:inherit;font-size:11px;color:var(--color-brand);
+  width:180px;padding:0;line-height:1;
+}
+.beta-bar-search input::placeholder{color:rgba(31,122,107,.55);}
+body.hero-search-gone .beta-bar{justify-content:space-between;padding:0 1.25rem;gap:16px;}
+body.hero-search-gone .beta-bar .beta-bar-pulse{order:-1;}
+body.hero-search-gone .beta-bar-search{display:inline-flex;}
+body.hero-search-gone .beta-bar-search input{tab-index:0;}
+/* Mobile (≤600px) keeps the existing UX: banner is 22px tall and
+   already shows just the stats; the sticky search lives inside
+   #main-sticky and toggles via the same .hero-search-gone class.
+   Hiding .beta-bar-search at narrow widths prevents both searches
+   from competing for the same space. */
+@media(max-width:600px){
+  body.hero-search-gone .beta-bar-search{display:none !important;}
+  body.hero-search-gone .beta-bar{justify-content:center !important;padding:0 1rem !important;}
+}
 /* Keyframe glow retinted from mint (110,231,183) to brand teal (31,122,107)
    to stay coherent with the new colourway. */
 @keyframes ss-beta-pulse{0%{box-shadow:0 0 6px rgba(31,122,107,.55),0 0 0 0 rgba(31,122,107,.45)}70%{box-shadow:0 0 6px rgba(31,122,107,.55),0 0 0 7px rgba(31,122,107,0)}100%{box-shadow:0 0 6px rgba(31,122,107,.55),0 0 0 0 rgba(31,122,107,0)}}
@@ -2499,9 +2529,15 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    line; the three link columns are equal-width. */
 .site-footer-grid{
   display:grid;
-  /* 5 columns: brand block + 4 link columns (Methodology, Browse,
-     Go Deeper, Site). Brand gets a wider share for the tagline. */
-  grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;
+  /* 2026-05-21 — Was 5 columns (brand + Methodology + Browse + Go Deeper
+     + Site) but the Methodology column was collapsed into the Site
+     column. The grid template was left at 5 tracks, so an empty 5th
+     column was being reserved on the right of the footer — visible as
+     dead space beside the Site links. Dropped to 4 tracks to match the
+     4 children that actually exist. The orphan `:nth-child(5)` rules
+     below are kept for now (no-ops with only 4 children) so the
+     breakpoint stack reads as one unit; safe to delete entirely. */
+  grid-template-columns:1.6fr 1fr 1fr 1fr;
   column-gap:28px;
   row-gap:0;
   align-items:start;

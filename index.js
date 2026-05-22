@@ -833,6 +833,12 @@ if (typeof renderAll === 'function') {
   var siteNav     = document.querySelector('.site-nav');
   var navPill     = document.getElementById('nav-search-pill');
   var navPillInput= document.getElementById('nav-search-inp');
+  /* 2026-05-21 — Banner-side search input. Appears on the right of the
+     .beta-bar after the user scrolls past the hero (CSS reveal via
+     body.hero-search-gone). Wired into the same input-sync loop as the
+     other search fields so the query string stays consistent regardless
+     of which input the user types into. */
+  var bannerInput = document.getElementById('ix-banner-search');
   if(!heroForm || !stickyBar) return;
 
   // 2026-05-21 — Nav row hidden. Banner height DIFFERS between viewports:
@@ -880,6 +886,9 @@ if (typeof renderAll === 'function') {
     if (siteNav) siteNav.classList.toggle('site-nav--search-visible', searchShowing);
     if (navPill) navPill.setAttribute('aria-hidden', searchShowing ? 'false' : 'true');
     if (navPillInput) navPillInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
+    /* Banner-side search becomes focusable only while visible so it
+       doesn't trap keyboard tab-order while hidden under the stats. */
+    if (bannerInput) bannerInput.setAttribute('tabindex', searchShowing ? '0' : '-1');
   }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
   obs.observe(heroForm);
 
@@ -887,14 +896,22 @@ if (typeof renderAll === 'function') {
   heroInput.addEventListener('input', function(){
     stickyInput.value = heroInput.value;
     if (navPillInput) navPillInput.value = heroInput.value;
+    if (bannerInput)  bannerInput.value  = heroInput.value;
   });
   stickyInput.addEventListener('input', function(){
     heroInput.value = stickyInput.value;
     if (navPillInput) navPillInput.value = stickyInput.value;
+    if (bannerInput)  bannerInput.value  = stickyInput.value;
   });
   if (navPillInput) navPillInput.addEventListener('input', function(){
     heroInput.value = navPillInput.value;
     stickyInput.value = navPillInput.value;
+    if (bannerInput) bannerInput.value = navPillInput.value;
+  });
+  if (bannerInput) bannerInput.addEventListener('input', function(){
+    heroInput.value = bannerInput.value;
+    stickyInput.value = bannerInput.value;
+    if (navPillInput) navPillInput.value = bannerInput.value;
   });
 
   // Recalc on resize / orientation change / bfcache restore so the
