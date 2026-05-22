@@ -492,12 +492,13 @@
        CSS rules in index.css are left in place (harmless when no markup
        targets them) in case the inline row needs to be restored. -->
 
-  <!-- 2026-05-21 — H1 line break moved after the "supplements" span so the
-       headline reads as exactly 2 lines on every viewport: "Know which
-       supplements" / "actually work." (was 3 lines on both desktop and mobile
-       because the <br> sat after "Know which"). Desktop max-width on .ix-hero h1
-       widened from 14ch → 22ch in index.css to fit the longer first line. -->
-  <h1>Know which <span style="color:var(--t1c)">supplements</span><br>actually work.</h1>
+  <!-- 2026-05-21 — H1 reverted to 3 lines per user direction:
+       "Know which" / "supplements" / "actually work." Both <br>s are explicit
+       so the shape is identical on every viewport regardless of font-size or
+       max-width. The desktop max-width on .ix-hero h1 (22ch) stays, but it's
+       no longer load-bearing — every line is < 14 chars, so the breaks come
+       from the markup, not the cap. -->
+  <h1>Know which<br><span style="color:var(--t1c)">supplements</span><br>actually work.</h1>
   <!-- "Every score" stripped from the lede per copy direction; new first word
        capitalised so the sentence still reads as a complete statement. -->
   <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
