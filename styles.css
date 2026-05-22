@@ -2599,22 +2599,22 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   font-family:inherit;
 }
 .site-footer-inner{max-width:1200px;margin:0 auto}
-/* Four equal columns distributed evenly across the footer width. Brand block
-   sits in the first column; the three link groups (Browse / Go Deeper / Site)
-   take one column each. `minmax(0,1fr)` ensures no column can blow past its
-   share and create dead-space on the right.
-   2026-05-22 — was `1.6fr 1fr 1fr 1fr`; the wider brand column left visible
-   empty space to the right of the Site links on desktop. Switched to four
-   equal tracks for even distribution at all viewport widths. */
+/* Three columns: brand / Go Deeper / Site. Evenly distributed across the
+   footer width with `minmax(0,1fr)` so no column can blow past its share
+   and create dead-space.
+   2026-05-22 — was 4 columns (brand + Browse + Go Deeper + Site).
+   The Browse column was removed because its links duplicate the main-page
+   tab nav. Conditions was preserved and moved to the top of Go Deeper.
+   Brand is given slightly extra share (1.3fr) to absorb the tagline text. */
 .site-footer-grid{
   display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
-  column-gap:32px;
+  grid-template-columns:1.3fr minmax(0, 1fr) minmax(0, 1fr);
+  column-gap:48px;
   row-gap:0;
   align-items:start;
 }
-@media(max-width:980px){.site-footer-grid{grid-template-columns:repeat(4, minmax(0, 1fr));column-gap:24px;row-gap:32px}}
-@media(max-width:760px){.site-footer-grid{grid-template-columns:repeat(2, minmax(0, 1fr));column-gap:32px;row-gap:28px}}
+@media(max-width:980px){.site-footer-grid{grid-template-columns:1.2fr minmax(0, 1fr) minmax(0, 1fr);column-gap:32px;row-gap:32px}}
+@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;column-gap:32px;row-gap:28px}}
 @media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}}
 .site-footer-brand-row{display:flex;align-items:center;gap:0;margin-bottom:0}
 .site-footer-leaf{
