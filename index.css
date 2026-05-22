@@ -987,26 +987,57 @@
    box" effect behind the pills. */
 #ix-sticky-bar{ display: none !important; }   /* empty placeholder; legacy queries no-op */
 
-/* 2026-05-21 — Final sticky shape:
-   - ONE search bar (the hero's). The sticky panel's search is hidden
-     site-wide (was only hidden on mobile in the prior pass).
-   - Pills-only sticky panel; no border, no shadow. Background matches
-     the page so the panel reads as a continuation of the layout, not
-     a floating "box around the buttons". */
+/* 2026-05-22 — Sticky panel reshaped.
+   - top: 0 (was 32px). The beta-bar is no longer sticky on desktop, so the
+     old "aligns with .beta-bar bottom" offset is obsolete. With z-index:80
+     vs the site-nav's z-index:15, #main-sticky now fully covers the site-nav
+     when stuck — i.e. when the user scrolls past the hero, the visible top
+     of the page becomes ONLY the sticky panel (search + filter pills). This
+     fixes the visible bleed/gap between the nav and the sticky pills that
+     the user reported when both were stuck at different y-offsets.
+   - margin-top reduced to 0; the 16px margin existed to space the panel
+     down from the beta-bar bottom, which no longer applies.
+   - The panel now also contains the desktop in-panel search (rule below),
+     so padding-bottom is slightly larger to balance the row.
+   - subtle bottom hairline restored — gives the panel a clean edge against
+     the scrolling content underneath. */
 #main-sticky.sticky-bar{
   position: sticky;
-  top: 32px;                                  /* aligns with .beta-bar bottom */
-  z-index: 80;                                /* under banner (90), above hero */
+  top: 0;
+  z-index: 80;                                /* above site-nav (15), above hero */
   background: var(--color-background-secondary, #F8F4ED) !important;
-  border-bottom: none !important;
-  box-shadow: none !important;
-  padding: 10px 1rem 10px;
-  margin: 16px -1rem 0;
+  border-bottom: 1px solid var(--color-border-tertiary) !important;
+  box-shadow: 0 4px 14px -10px rgba(12, 10, 9, .15) !important;
+  padding: 12px 1rem 12px;
+  margin: 0 -1rem 0;
   width: calc(100% + 2rem);
 }
-/* Hide the in-panel search input everywhere — user wants only the hero
-   search to be the source of truth. */
-#main-sticky .sticky-bar-search{ display: none !important; }
+/* 2026-05-22 — Desktop in-panel search.
+   Previously hidden site-wide; now revealed once the user scrolls past the
+   hero (same gating as the mobile version below — body.hero-search-gone is
+   toggled by the IntersectionObserver in index.js). The search field shares
+   the .ix-search base styling (rounded pill, soft shadow, autocomplete
+   anchored to #ix-sticky-ac). Autocomplete logic is attached in index.js
+   Block 6 alongside the hero search. */
+#main-sticky .sticky-bar-search{ display: none; }
+body.hero-search-gone #main-sticky .sticky-bar-search{
+  display: block;
+  max-width: 720px;
+  margin: 0 auto 10px;
+}
+body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
+  max-width: 720px;
+  margin: 0 auto;
+}
+/* Inputs inside the sticky-bar-search inherit the .ix-search input rules
+   (rounded pill, 12px vertical padding). Override the box-shadow to be a
+   touch lighter so it doesn't compete with the panel's own bottom shadow. */
+#main-sticky .sticky-bar-search .ix-search input{
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+#main-sticky .sticky-bar-search .ix-search input:focus{
+  box-shadow: 0 4px 14px rgba(0,0,0,.10);
+}
 #main-sticky .sfbar-row{
   max-width: 1024px;
   margin: 0 auto;
