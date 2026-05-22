@@ -626,26 +626,28 @@ if (typeof renderAll === 'function') {
   };
 }
 
-/* ===== Block 6 (from line 17135, 154 lines) ===== */
+/* ===== Block 6 (autocomplete) =====
+   2026-05-22 — bind autocomplete to BOTH search inputs.
+   Earlier this listener was wired only to #ix-hero-search + #ix-ac.
+   On mobile, once the user scrolls past the hero the page swaps in the
+   sticky-panel search (#ix-sticky-search + #ix-sticky-ac), and that input
+   had no autocomplete handler — typing into it produced nothing.
+   Fix: extract a `bind(input, ac)` factory and call it for each
+   (input, ac) pair that exists in the DOM. The suggestion-builder,
+   keyboard-nav, and pick handlers are shared; the visible AC element
+   used at any moment is the one belonging to the input the user is
+   typing into, so it renders below the correct field. */
 (function(){
-  const inp = document.getElementById('ix-hero-search');
-  const ac  = document.getElementById('ix-ac');
-  if (!inp || !ac) return;
+  const inputs = [
+    { inp: document.getElementById('ix-hero-search'),   ac: document.getElementById('ix-ac')        },
+    { inp: document.getElementById('ix-sticky-search'), ac: document.getElementById('ix-sticky-ac') },
+  ].filter(p => p.inp && p.ac);
+  if (!inputs.length) return;
 
-  // Typewriter placeholder removed 2026-05-02 — replaced with a static
-  // descriptive placeholder set in the HTML ("Search supplements, categories,
-  // or conditions…"). The animation pulled focus from the rest of the hero,
-  // and a static example list reads better for screen readers and tab-focused
-  // users. The userTyped flag is preserved because the autocomplete logic
-  // below references it.
-  let userTyped=false;
-
-  // ── Autocomplete ────────────────────────────────────────────────────────
+  // ── Shared helpers ──────────────────────────────────────────────────────
   function escH(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
   function escA(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-  let ixAcIdx=-1;
 
-  // Scroll the page to the supplement list
   function scrollToList(){
     const el=document.getElementById('s-content')||document.getElementById('main-ui');
     if(!el)return;
@@ -654,18 +656,18 @@ if (typeof renderAll === 'function') {
     window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-offset,behavior:'smooth'});
   }
 
-  function showIxAc(q){
+  /* Build the suggestions HTML for the query — pure function, no DOM
+     state. Each (inp, ac) pair uses this to populate its own dropdown. */
+  function buildHtml(q){
     q=String(q||'').trim();
-    if(!q){hideIxAc();return;}
-    if(typeof S==='undefined'||!S.length){hideIxAc();return;}
+    if(!q) return '';
+    if(typeof S==='undefined'||!S.length) return '';
     const ql=q.toLowerCase();
 
-    // ── Supplements (max 5) ──
     const swS=S.filter(s=>s.n.toLowerCase().startsWith(ql));
     const incS=S.filter(s=>!s.n.toLowerCase().startsWith(ql)&&s.n.toLowerCase().includes(ql));
     const suppHits=[...swS,...incS].slice(0,5);
 
-    // ── Conditions (max 3) ──
     const condHits=[];
     if(typeof CONDITIONS!=='undefined'){
       Object.entries(CONDITIONS).forEach(([key,cond])=>{
@@ -675,7 +677,6 @@ if (typeof renderAll === 'function') {
       condHits.splice(3);
     }
 
-    // ── Categories (max 2) ──
     const catHits=[];
     if(typeof CATS!=='undefined'){
       CATS.forEach(c=>{if(c.toLowerCase().includes(ql))catHits.push(c);});
@@ -683,8 +684,7 @@ if (typeof renderAll === 'function') {
       catHits.splice(2);
     }
 
-    if(!suppHits.length&&!condHits.length&&!catHits.length){hideIxAc();return;}
-    ixAcIdx=-1;
+    if(!suppHits.length&&!condHits.length&&!catHits.length) return '';
 
     let html='';
     if(suppHits.length){
@@ -699,31 +699,24 @@ if (typeof renderAll === 'function') {
       html+=`<div class="gs-ac-hdr">Categories</div>`;
       html+=catHits.map(c=>`<div class="gs-ac-item" role="option" data-type="cat" data-name="${escA(c)}" onmousedown="event.preventDefault()"><span>${escH(c)}</span><span class="gs-ac-tag">Category</span></div>`).join('');
     }
-    ac.innerHTML=html;
-    ac.classList.add('vis');
+    return html;
   }
 
-  function hideIxAc(){setTimeout(()=>ac.classList.remove('vis'),150);}
+  /* Clear value across all sibling inputs so the input the user picked
+     from doesn't keep its query while its mate (hidden behind the
+     scroll line) holds stale text. */
+  function clearAllInputs(){
+    inputs.forEach(p => { p.inp.value = ''; });
+  }
 
-  function pickIxAc(item){
+  function hideAc(ac){ setTimeout(()=>ac.classList.remove('vis'), 150); }
+
+  function pick(item){
     const type=item.dataset.type||'supp';
-    ac.classList.remove('vis');ixAcIdx=-1;
+    inputs.forEach(p => p.ac.classList.remove('vis'));
     if(type==='supp'){
-      /* Direct-to-card (2026-05-21, third revision).
-         The right preference order is the one the list-card handler in
-         app.js (~line 2624) uses:
-            1. window.SSModal.open(slug)   — the NEW iframe-based modal that
-               renders the current supplement.html design inline. This is what
-               the rest of the site uses.
-            2. supplement.html?slug=...    — direct navigation to the full
-               standalone page (also picks up SSModal interception via the
-               click-on-anchor handler, if present).
-            3. openSuppModal(name)         — LEGACY fallback (old card design),
-               only reached if neither of the above is loaded. The user
-               reported the old card design appearing here; the fix is to
-               route through SSModal first, NOT openSuppModal. */
       const name = item.dataset.name;
-      inp.value='';
+      clearAllInputs();
       const slug = (window.SS && window.SS.slugify)
         ? window.SS.slugify(name)
         : String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -737,8 +730,7 @@ if (typeof renderAll === 'function') {
       location.href = href;
       return;
     } else if(type==='cond'){
-      // Show supplements for this condition from the CONDITIONS list
-      inp.value='';
+      clearAllInputs();
       const key=item.dataset.key;
       if(typeof CONDITIONS!=='undefined'&&CONDITIONS[key]){
         const wanted=new Set(CONDITIONS[key].supps);
@@ -750,71 +742,82 @@ if (typeof renderAll === 'function') {
         }
       }
     } else if(type==='cat'){
-      inp.value='';
+      clearAllInputs();
       if(typeof setCatFilter==='function'){setCatFilter(item.dataset.name);scrollToList();}
     }
   }
 
-  // Click on suggestion
-  ac.addEventListener('click',e=>{
-    const item=e.target.closest('.gs-ac-item');
-    if(item)pickIxAc(item);
-  });
+  const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
 
-  const debIx=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
-  const debouncedShow=debIx(showIxAc,120);
+  /* Bind events to one (input, ac) pair. Each pair maintains its own
+     keyboard-cursor index so up/down arrows in one search field don't
+     affect the other. The companion input is kept in sync via the
+     existing block-8 input-sync handler. */
+  function bind(inp, ac){
+    let acIdx = -1;
 
-  inp.addEventListener('input',e=>{
-    userTyped=true;
-    debouncedShow(e.target.value);
-  });
-  inp.addEventListener('focus',e=>{
-    if(e.target.value.trim())showIxAc(e.target.value);
-  });
-  inp.addEventListener('blur',hideIxAc);
-  inp.addEventListener('keydown',e=>{
-    const items=ac.classList.contains('vis')?ac.querySelectorAll('.gs-ac-item'):[];
-    if(e.key==='ArrowDown'&&items.length){
-      e.preventDefault();ixAcIdx=Math.min(ixAcIdx+1,items.length-1);
-      items.forEach((it,i)=>it.classList.toggle('active',i===ixAcIdx));
-    } else if(e.key==='ArrowUp'&&items.length){
-      e.preventDefault();ixAcIdx=Math.max(ixAcIdx-1,0);
-      items.forEach((it,i)=>it.classList.toggle('active',i===ixAcIdx));
-    } else if(e.key==='Enter'){
-      if(ixAcIdx>=0&&items[ixAcIdx]){e.preventDefault();pickIxAc(items[ixAcIdx]);}
-      // else let the form submit naturally
-      ac.classList.remove('vis');
-    } else if(e.key==='Escape'){
-      ac.classList.remove('vis');ixAcIdx=-1;
+    function show(q){
+      const html = buildHtml(q);
+      if (!html) { ac.classList.remove('vis'); return; }
+      acIdx = -1;
+      ac.innerHTML = html;
+      ac.classList.add('vis');
     }
-  });
+    const debouncedShow = deb(show, 120);
 
-  /* Exact-name submit shortcut (2026-05-13).
-     If the user types a query that exactly matches a supplement
-     name (case-insensitive, trimmed) and hits Enter without picking
-     from the autocomplete, send them straight to that supplement's
-     card instead of the search-results listing.
-     Ambiguous / partial / non-matching queries still submit to
-     search.html as before — so "antioxidant" still lists results,
-     but "NAC (N-Acetyl Cysteine)" opens the card. */
-  if (inp.form) {
-    inp.form.addEventListener('submit', function(e){
-      const q = String(inp.value || '').trim();
-      if (!q) return;
-      if (typeof S === 'undefined' || !S.length) return;
-      const ql = q.toLowerCase();
-      const exact = S.find(function(s){ return s.n.toLowerCase() === ql; });
-      if (!exact) return; // fall through to search.html
-      e.preventDefault();
-      const slug = (window.SS && window.SS.slugify)
-        ? window.SS.slugify(exact.n)
-        : exact.n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-      const href = (window.SS && window.SS.urlFor)
-        ? window.SS.urlFor('supplement', slug)
-        : ('supplement.html?slug=' + encodeURIComponent(slug));
-      location.href = href;
+    ac.addEventListener('click', e => {
+      const item = e.target.closest('.gs-ac-item');
+      if (item) pick(item);
     });
+
+    inp.addEventListener('input', e => debouncedShow(e.target.value));
+    inp.addEventListener('focus', e => { if (e.target.value.trim()) show(e.target.value); });
+    inp.addEventListener('blur', () => hideAc(ac));
+    inp.addEventListener('keydown', e => {
+      const items = ac.classList.contains('vis') ? ac.querySelectorAll('.gs-ac-item') : [];
+      if (e.key === 'ArrowDown' && items.length){
+        e.preventDefault(); acIdx = Math.min(acIdx + 1, items.length - 1);
+        items.forEach((it, i) => it.classList.toggle('active', i === acIdx));
+      } else if (e.key === 'ArrowUp' && items.length){
+        e.preventDefault(); acIdx = Math.max(acIdx - 1, 0);
+        items.forEach((it, i) => it.classList.toggle('active', i === acIdx));
+      } else if (e.key === 'Enter'){
+        if (acIdx >= 0 && items[acIdx]){ e.preventDefault(); pick(items[acIdx]); }
+        ac.classList.remove('vis');
+      } else if (e.key === 'Escape'){
+        ac.classList.remove('vis'); acIdx = -1;
+      }
+    });
+
+    /* Exact-name submit shortcut (originally 2026-05-13).
+       If the user types a query that exactly matches a supplement name
+       and hits Enter without picking from the AC, jump straight to the
+       supplement card. Bound per-form so it works for hero OR sticky. */
+    if (inp.form) {
+      inp.form.addEventListener('submit', function(e){
+        const q = String(inp.value || '').trim();
+        if (!q) return;
+        if (typeof S === 'undefined' || !S.length) return;
+        const ql = q.toLowerCase();
+        const exact = S.find(function(s){ return s.n.toLowerCase() === ql; });
+        if (!exact) return;
+        e.preventDefault();
+        const slug = (window.SS && window.SS.slugify)
+          ? window.SS.slugify(exact.n)
+          : exact.n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+        if (window.SSModal && typeof window.SSModal.open === 'function'){
+          window.SSModal.open(slug);
+          return;
+        }
+        const href = (window.SS && window.SS.urlFor)
+          ? window.SS.urlFor('supplement', slug)
+          : ('supplement.html?slug=' + encodeURIComponent(slug));
+        location.href = href;
+      });
+    }
   }
+
+  inputs.forEach(p => bind(p.inp, p.ac));
 })();
 
 /* ===== Block 7 (from line 17370, 4 lines) ===== */
