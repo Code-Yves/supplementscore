@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>About — SupplementScore</title>
+  <title>About &amp; Methodology — SupplementScore</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
-  <meta name="description" content="Who builds SupplementScore, how the editorial process works, our funding model, and our conflict-of-interest policy.">
+  <meta name="description" content="Who builds SupplementScore, how every score is generated, the source hierarchy, funding policy, and review cadence — published in full.">
   <link rel="canonical" href="https://supplementscore.org/about.html">
-  <meta property="og:title" content="About — SupplementScore">
-  <meta property="og:description" content="Editorial process, funding, and conflict-of-interest policy for SupplementScore.">
+  <meta property="og:title" content="About &amp; Methodology — SupplementScore">
+  <meta property="og:description" content="Editorial process, funding, methodology, and conflict-of-interest policy for SupplementScore.">
   <meta property="og:url" content="https://supplementscore.org/about.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SupplementScore">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="About — SupplementScore">
-  <meta name="twitter:description" content="Editorial process, funding, and COI policy.">
+  <meta name="twitter:title" content="About &amp; Methodology — SupplementScore">
+  <meta name="twitter:description" content="Editorial process, funding, methodology, and COI policy.">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html{color-scheme:light}</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,91 +22,102 @@
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260518b">
   <style>
+    /* Article-style template (mirrors /a/*.html) ----------------------- */
     body { background: var(--color-background-primary); color: var(--color-text-primary); }
-    /* The rich .abt-* layout is sized for a 960px container; styles live in
-       styles.css. We only need a wrapper + close-FAB here. */
-    .abt-page-wrap { max-width: 960px; margin: 0 auto; padding: 36px 24px 64px; }
+    .ar-wrap { max-width: 760px; margin: 0 auto; padding: 32px 24px 64px; line-height: 1.75; font-size: 16px; }
+    .ar-cat { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand); margin-bottom: 8px; }
+    .ar-wrap h1 { font-size: 2.1rem; font-weight: 800; letter-spacing: -.6px; line-height: 1.15; margin: 0 0 10px; }
+    .ar-meta { font-size: 13px; color: var(--color-text-tertiary); margin-bottom: 32px; padding-bottom: 18px; border-bottom: 1px solid var(--color-border-tertiary); }
+    .ar-wrap h2 { font-size: 1.45rem; font-weight: 700; margin: 44px 0 6px; letter-spacing: -.2px; }
+    .ar-wrap h3 { font-size: 1.1rem; font-weight: 700; margin: 22px 0 6px; }
+    .ar-wrap p { margin-bottom: 14px; }
+    .ar-wrap ol, .ar-wrap ul { margin: 8px 0 18px 22px; }
+    .ar-wrap li { margin-bottom: 6px; }
+    .ar-wrap a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 2px; }
+    .ar-lede { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-secondary); margin-bottom: 28px; }
+    .ar-foot { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
+    .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
+    .ar-wrap { overflow-wrap: break-word; }
 
-    /* Hero — page-specific, the rest of the layout uses styled .abt-* from styles.css */
-    .abt-hero { padding: 8px 0 40px; border-bottom: 1px solid var(--color-border-tertiary); margin-bottom: 36px; }
-    .abt-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--color-brand); margin-bottom: 14px; }
-    .abt-hero h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -.6px; line-height: 1.1; color: var(--color-text-primary); margin: 0 0 18px; max-width: 820px; }
-    .abt-lede { font-size: 15px; line-height: 1.6; color: var(--color-text-secondary); max-width: 720px; margin: 0 0 28px; }
-    .abt-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .abt-hs { background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: 10px; padding: 14px 16px; }
-    .abt-hs-num { font-size: 22px; font-weight: 800; letter-spacing: -.3px; color: var(--color-text-primary); line-height: 1; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
-    .abt-hs-lbl { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.35; }
-    @media (max-width: 720px){ .abt-hero-stats { grid-template-columns: repeat(2, 1fr); } }
+    /* Stats row under the lede */
+    .ab-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 32px; }
+    .ab-stat { border: 1px solid var(--color-border-tertiary); border-radius: 10px; padding: 12px 14px; background: var(--color-background-primary); }
+    .ab-stat-num { font-size: 20px; font-weight: 800; letter-spacing: -.3px; color: var(--color-text-primary); line-height: 1; font-variant-numeric: tabular-nums; }
+    .ab-stat-lbl { font-size: 11px; color: var(--color-text-tertiary); margin-top: 4px; line-height: 1.35; }
+    @media (max-width: 600px) { .ab-stats { grid-template-columns: repeat(2, 1fr); } }
 
-    /* Section spacing — looser than the dense in-modal version for a standalone page */
-    .abt-sec { margin-bottom: 56px; }
-    .abt-sec h2 { font-size: 24px; font-weight: 800; letter-spacing: -.3px; margin-bottom: 6px; }
-    .abt-sec > p.abt-sec-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 22px; line-height: 1.55; }
+    /* Table-of-contents pill row */
+    .ab-toc { background: var(--color-background-secondary); padding: 14px 18px; border-radius: 8px; font-size: 13px; margin: 0 0 28px; line-height: 1.9; }
+    .ab-toc strong { display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-secondary); }
+    .ab-toc a { color: var(--color-text-primary); text-decoration: none; margin-right: 14px; }
+    .ab-toc a:hover { color: var(--color-brand); text-decoration: underline; }
 
-    /* ── Standalone-page font-size overrides ─────────────────────────────
-       The shared .abt-* rules in styles.css are calibrated for the cramped
-       in-page modal context — some sizes drop to 8–10px. At full page width
-       that reads as too small, so we bump them to comfortable reading sizes
-       here. Scoped to .abt-page-wrap so the in-modal version stays untouched. */
-    .abt-page-wrap .abt-tier-card { transition: box-shadow .2s, transform .2s; }
-    .abt-page-wrap .abt-tier-card:hover { transform: translateY(-1px); }
-    .abt-page-wrap .abt-tc-bar { height: 4px; }
-    .abt-page-wrap .abt-tc-body { padding: 20px 22px 22px; }
-    .abt-page-wrap .abt-tc-num { font-size: 32px; margin-bottom: 6px; }
-    .abt-page-wrap .abt-tc-name { font-size: 15px; margin-bottom: 8px; }
-    .abt-page-wrap .abt-tc-desc { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); margin-bottom: 14px; }
-    .abt-page-wrap .abt-tc-pill { font-size: 10.5px; padding: 3px 10px; }
+    /* Tables and callouts (shared with the prior methodology page) */
+    .ar-wrap table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 12px 0 22px; }
+    .ar-wrap th, .ar-wrap td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--color-border-tertiary); vertical-align: top; }
+    .ar-wrap th { background: var(--color-background-secondary); font-weight: 700; }
+    .ar-wrap code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius: 4px; }
+    .ab-tier { display: inline-block; padding: 2px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+    .ab-tier.t1 { background: var(--t1bg); color: var(--t1tx); }
+    .ab-tier.t2 { background: var(--t2bg); color: var(--t2tx); }
+    .ab-tier.t3 { background: var(--t3bg); color: var(--t3tx); }
+    .ab-tier.t4 { background: var(--t4bg); color: var(--t4tx); }
+    .ab-callout { background: rgba(31,122,107,.05); border-left: 3px solid var(--color-brand); padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 14px; line-height: 1.65; }
+    .ab-callout strong { color: var(--color-brand); }
+    .ab-warn { background: var(--color-warn-bg); border-left: 3px solid var(--color-warn-border); padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 14px; color: var(--color-warn-text); line-height: 1.65; }
 
-    .abt-page-wrap .abt-feature-card { padding: 22px; }
-    .abt-page-wrap .abt-feature-icon-badge { width: 48px; height: 48px; margin-bottom: 14px; }
-    .abt-page-wrap .abt-feature-step { font-size: 10px; margin-bottom: 6px; }
-    .abt-page-wrap .abt-feature-title { font-size: 16px; margin-bottom: 6px; }
-    .abt-page-wrap .abt-feature-text { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
-    .abt-page-wrap .abt-how-status { font-size: 10px; padding: 3px 9px; margin-bottom: 10px; }
+    /* Source-hierarchy pyramid */
+    .ab-pyramid { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 14px auto 22px; max-width: 460px; }
+    .ab-pyramid > div { padding: 8px 16px; text-align: center; font-size: 12.5px; font-weight: 600; border-radius: 6px; color: #fff; }
+    .ab-pyramid > div small { display: block; font-size: 10px; font-weight: 400; opacity: .85; margin-top: 2px; }
+    .ab-pyr-1 { width: 30%; background: #0D9488; }
+    .ab-pyr-2 { width: 45%; background: #14b8a6; }
+    .ab-pyr-3 { width: 60%; background: #4B7BE5; }
+    .ab-pyr-4 { width: 75%; background: #818cf8; }
+    .ab-pyr-5 { width: 88%; background: #CA8A04; }
+    .ab-pyr-6 { width: 100%; background: #B91C1C; }
 
-    .abt-page-wrap .abt-road-card { padding: 22px; }
-    .abt-page-wrap .abt-road-card::before { width: 4px; }
-    .abt-page-wrap .abt-road-stage { font-size: 10px; }
-    .abt-page-wrap .abt-road-badge { font-size: 10px; padding: 3px 10px; }
-    .abt-page-wrap .abt-road-title { font-size: 16px; margin: 8px 0 6px; }
-    .abt-page-wrap .abt-road-desc { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+    /* Roadmap rail */
+    .ab-roadmap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0 22px; }
+    .ab-road { padding: 14px 16px; border: 1px solid var(--color-border-tertiary); border-left: 3px solid var(--color-brand); border-radius: 6px; background: var(--color-background-primary); }
+    .ab-road.in-prog { border-left-color: #4B7BE5; }
+    .ab-road.soon { border-left-color: #CA8A04; }
+    .ab-road.plan { border-left-color: var(--color-text-tertiary); }
+    .ab-road-stage { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 6px; }
+    .ab-road h3 { font-size: 15px; margin: 0 0 4px; }
+    .ab-road p { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+    @media (max-width: 600px) { .ab-roadmap { grid-template-columns: 1fr; } }
 
-    .abt-page-wrap .abt-mission-sec { padding: 36px 36px 32px; border-radius: 16px; }
-    .abt-page-wrap .abt-mission-heading { font-size: 28px; letter-spacing: -.4px; margin-bottom: 22px; }
-    .abt-page-wrap .abt-mission-text { font-size: 14.5px; line-height: 1.7; margin-bottom: 14px; }
-    .abt-page-wrap .abt-mission-pullstat { padding: 22px 24px; border-radius: 14px; margin-bottom: 14px; }
-    .abt-page-wrap .abt-pull-num { font-size: 36px; }
-    .abt-page-wrap .abt-pull-label { font-size: 12.5px; line-height: 1.55; margin-top: 6px; }
-    .abt-page-wrap .abt-values-list { gap: 8px; }
-    .abt-page-wrap .abt-values-list li { padding: 12px 14px; gap: 12px; }
-    .abt-page-wrap .abt-value-icon { min-width: 34px; height: 34px; }
-    .abt-page-wrap .abt-value-title { font-size: 13px; margin-bottom: 3px; }
-    .abt-page-wrap .abt-value-desc { font-size: 11.5px; line-height: 1.55; }
-    @media (max-width: 720px) { .abt-page-wrap .abt-mission-sec { padding: 24px 20px; } }
+    /* Contributor form */
+    .ab-cta { margin-top: 40px; padding: 22px 24px; background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: 12px; }
+    .ab-cta h2 { margin: 0 0 6px; font-size: 1.2rem; }
+    .ab-cta p { font-size: 14px; color: var(--color-text-secondary); margin: 0 0 14px; }
+    .ab-cta-row { display: flex; gap: 8px; max-width: 480px; }
+    .ab-cta-row input { flex: 1; min-width: 0; padding: 9px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; font: inherit; background: var(--color-background-primary); color: var(--color-text-primary); }
+    .ab-cta-row button { padding: 9px 16px; background: var(--color-brand); color: #fff; border: 0; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .ab-cta-row button:hover { filter: brightness(.95); }
+    .ab-cta-note { font-size: 12px; color: var(--color-text-tertiary); margin-top: 10px; }
 
-    .abt-page-wrap .abt-disclaimer { padding: 20px 24px; border-radius: 12px; }
-    .abt-page-wrap .abt-disclaimer-title { font-size: 12px; margin-bottom: 10px; }
-    .abt-page-wrap .abt-disclaimer ul { font-size: 13px; line-height: 1.7; padding-left: 20px; }
-    .abt-page-wrap .abt-disclaimer li { margin-bottom: 5px; }
+    /* Recent revisions */
+    .ab-rev { margin-top: 40px; padding: 18px 22px; background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: 10px; }
+    .ab-rev-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--color-text-tertiary); margin-bottom: 12px; }
+    .ab-rev-row { font-size: 13px; line-height: 1.55; margin-bottom: 8px; display: grid; grid-template-columns: 92px 1fr; gap: 12px; }
+    .ab-rev-date { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
 
-    .abt-page-wrap .abt-m1-cta { margin-top: 36px; }
-
-    /* Latest data revisions — bump the .rev-* sizes; the shared rules in
-       styles.css are calibrated for the dense Articles-page footer. */
-    .abt-revisions { margin-top: 56px; padding: 24px 28px; background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: 12px; }
-    .abt-revisions-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--color-text-tertiary); margin-bottom: 16px; }
-    .abt-revisions .revs-cols { column-gap: 36px; }
-    .abt-revisions .rev-row { font-size: 12.5px; line-height: 1.55; margin-bottom: 10px; gap: 12px; }
-    .abt-revisions .rev-date { min-width: 88px; }
-    @media (max-width: 600px) { .abt-revisions { padding: 18px 20px; } }
-
+    /* Close button (matches articles) */
     .pg-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;color:var(--color-text-secondary);transition:transform .15s,color .15s;padding:0;text-decoration:none}
     .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
     .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
     @media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}
+
+    @media (max-width: 600px) {
+      .ar-wrap { padding: 24px 18px 48px; }
+      .ar-wrap h1 { font-size: 1.7rem; letter-spacing: -.4px; }
+      .ar-wrap h2 { font-size: 1.2rem; margin-top: 36px; }
+      .ar-lede { font-size: 1rem; }
+    }
   </style>
-  <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
-       Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
@@ -123,25 +134,18 @@
   "@graph": [
     {
       "@type": "AboutPage",
-      "name": "About SupplementScore",
+      "name": "About & Methodology — SupplementScore",
       "url": "https://supplementscore.org/about.html",
-      "description": "Who builds SupplementScore, how the editorial process works, our funding model, and our conflict-of-interest policy.",
-      "mainEntity": {
-        "@id": "https://supplementscore.org/#organization"
-      },
-      "isPartOf": {
-        "@id": "https://supplementscore.org/#website"
-      }
+      "description": "Who builds SupplementScore, how every score is generated, the source hierarchy, funding policy, and review cadence — published in full.",
+      "mainEntity": { "@id": "https://supplementscore.org/#organization" },
+      "isPartOf": { "@id": "https://supplementscore.org/#website" }
     },
     {
       "@id": "https://supplementscore.org/#organization",
       "@type": "Organization",
       "name": "SupplementScore",
       "url": "https://supplementscore.org",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://supplementscore.org/og/default.png"
-      },
+      "logo": { "@type": "ImageObject", "url": "https://supplementscore.org/og/default.png" },
       "description": "Evidence-based, independently-rated dietary supplement reference. Independent, ad-free, no affiliate links.",
       "foundingDate": "2024",
       "knowsAbout": [
@@ -153,18 +157,14 @@
         "Drug-supplement interactions",
         "Pharmacology"
       ],
-      "sameAs": [
-        "https://twitter.com/SupplementScore"
-      ]
+      "sameAs": [ "https://twitter.com/SupplementScore" ]
     },
     {
       "@id": "https://supplementscore.org/#website",
       "@type": "WebSite",
       "name": "SupplementScore",
       "url": "https://supplementscore.org",
-      "publisher": {
-        "@id": "https://supplementscore.org/#organization"
-      }
+      "publisher": { "@id": "https://supplementscore.org/#organization" }
     }
   ]
 }
@@ -175,18 +175,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://supplementscore.org/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "About",
-      "item": "https://supplementscore.org/about.html"
-    }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://supplementscore.org/" },
+    { "@type": "ListItem", "position": 2, "name": "About", "item": "https://supplementscore.org/about.html" }
   ]
 }
   </script>
@@ -197,249 +187,206 @@
 <a href="index.html" class="pg-close-fab" onclick="event.preventDefault();if(document.referrer&&document.referrer.indexOf(location.origin)===0&&history.length>1){history.back();}else{location.href='index.html';}" aria-label="Close and return">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 </a>
-<main class="abt-page-wrap">
-  <div class="abt-body">
+<main class="ar-wrap">
+  <nav class="ss-breadcrumb" aria-label="Breadcrumb" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 14px;line-height:1.4">
+    <a href="index.html" style="color:inherit;text-decoration:none">SupplementScore</a>
+    <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <span aria-current="page" style="color:var(--color-text-secondary)">About &amp; Methodology</span>
+  </nav>
 
-    <!-- Hero -->
-    <header class="abt-hero">
-      <span class="abt-eyebrow">About SupplementScore</span>
-      <h1>Honest, independent supplement evidence — free for everyone.</h1>
-      <p class="abt-lede">SupplementScore is a public, free reference that grades dietary supplements against published clinical trials. Every score traces back to peer-reviewed research. No sponsorships, no affiliates, no ads.</p>
-      <div class="abt-hero-stats">
-        <div class="abt-hs"><div class="abt-hs-num">733+</div><div class="abt-hs-lbl">Supplements scored</div></div>
-        <div class="abt-hs"><div class="abt-hs-num">61</div><div class="abt-hs-lbl">Research sources</div></div>
-        <div class="abt-hs"><div class="abt-hs-num">27,000+</div><div class="abt-hs-lbl">Studies reviewed</div></div>
-        <div class="abt-hs"><div class="abt-hs-num">$0</div><div class="abt-hs-lbl">Industry funding</div></div>
-      </div>
-    </header>
+  <div class="ar-cat">About SupplementScore</div>
+  <h1>Honest, independent supplement evidence — free for everyone.</h1>
+  <div class="ar-meta">Last reviewed May 22, 2026 · Maintained by the <a href="#contribute" style="color:inherit;text-decoration:underline;text-underline-offset:2px">SupplementScore Editorial Team</a> · Published under <a href="https://creativecommons.org/licenses/by/4.0/" style="color:inherit;text-decoration:underline;text-underline-offset:2px" rel="noopener" target="_blank">CC-BY 4.0</a></div>
 
-    <!-- Evidence Tiers — uses styled .abt-tier-card with color modifiers from styles.css -->
-    <section class="abt-sec" id="tiers">
-      <h2>Evidence tiers</h2>
-      <p class="abt-sec-sub">Every supplement is classified by the strength and consistency of its human clinical data.</p>
-      <div class="abt-tiers-grid">
-        <article class="abt-tier-card abt-tc-green">
-          <div class="abt-tc-bar"></div>
-          <div class="abt-tc-body">
-            <div class="abt-tc-num">01</div>
-            <div class="abt-tc-name">Proven Effective</div>
-            <div class="abt-tc-desc">Backed by multiple large clinical trials, systematic reviews, and meta-analyses. Consistent, replicated results across independent research groups. Considered safe and effective by the WHO, NIH, and EFSA.</div>
-            <div class="abt-tc-pill">RCTs &amp; meta-analyses</div>
-          </div>
-        </article>
-        <article class="abt-tier-card abt-tc-blue">
-          <div class="abt-tc-bar"></div>
-          <div class="abt-tc-body">
-            <div class="abt-tc-num">02</div>
-            <div class="abt-tc-name">Promising</div>
-            <div class="abt-tc-desc">Supported by clinical trials but evidence is limited to specific populations, conditions, or dosages. Shows real potential but may not benefit everyone equally — awaiting larger confirmatory studies.</div>
-            <div class="abt-tc-pill">Smaller RCTs</div>
-          </div>
-        </article>
-        <article class="abt-tier-card abt-tc-amber">
-          <div class="abt-tc-bar"></div>
-          <div class="abt-tc-body">
-            <div class="abt-tc-num">03</div>
-            <div class="abt-tc-name">Unproven</div>
-            <div class="abt-tc-desc">Limited or conflicting human data. Marketing claims often exceed the research. Many popular supplements fall here — strong animal data does not equal clinical evidence. Approach with skepticism.</div>
-            <div class="abt-tc-pill">Animal / in-vitro / pilot</div>
-          </div>
-        </article>
-        <article class="abt-tier-card abt-tc-red">
-          <div class="abt-tc-bar"></div>
-          <div class="abt-tc-body">
-            <div class="abt-tc-num">04</div>
-            <div class="abt-tc-name">Risky</div>
-            <div class="abt-tc-desc">Documented safety risks including organ damage, severe drug interactions, or death. Regulatory warnings issued by the FDA, WHO, or equivalents. Includes banned substances and compounds with no safe dose.</div>
-            <div class="abt-tc-pill">Safety concerns</div>
-          </div>
-        </article>
-      </div>
-    </section>
+  <p class="ar-lede">SupplementScore is a free, public reference that grades dietary supplements against published clinical trials. Every score traces back to peer-reviewed research. No sponsorships, no affiliates, no ads. This page covers who we are, how scoring works, and the policies that keep the calls honest.</p>
 
-    <!-- How scoring works — uses styled .abt-feature-card -->
-    <section class="abt-sec" id="how">
-      <h2>How scoring works</h2>
-      <p class="abt-sec-sub">Four steps from the literature to a score you can trust.</p>
-      <div class="abt-feature-rows">
-        <article class="abt-feature-card">
-          <div class="abt-feature-icon-badge" style="background:var(--color-brand)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
-          <div class="abt-feature-step">Step 01</div>
-          <span class="abt-how-status done">Active</span>
-          <div class="abt-feature-title">Literature search</div>
-          <p class="abt-feature-text">Priority for systematic reviews, meta-analyses, and Cochrane reviews. Individual RCTs used when no meta-analysis exists. Industry-funded studies flagged and weighted lower.</p>
-        </article>
-        <article class="abt-feature-card">
-          <div class="abt-feature-icon-badge" style="background:#4B7BE5"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="abt-feature-step">Step 02</div>
-          <span class="abt-how-status done">Active</span>
-          <div class="abt-feature-title">Quality grading</div>
-          <p class="abt-feature-text">Each study graded for blinding, allocation concealment, sample size, and statistical power. Effect sizes and confidence intervals recorded for every key outcome.</p>
-        </article>
-        <article class="abt-feature-card">
-          <div class="abt-feature-icon-badge" style="background:var(--t1c)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><polyline points="7 14 11 10 15 14 21 8"/></svg></div>
-          <div class="abt-feature-step">Step 03</div>
-          <span class="abt-how-status done">Active</span>
-          <div class="abt-feature-title">Score calculation</div>
-          <p class="abt-feature-text">Rated across 6 dimensions: <b>Efficacy</b>, <b>Safety</b>, <b>Research depth</b>, <b>Onset</b>, <b>Cost-effectiveness</b>, and <b>Drug interactions</b>. Efficacy weighted highest. Only human clinical data.</p>
-        </article>
-        <article class="abt-feature-card">
-          <div class="abt-feature-icon-badge" style="background:var(--color-text-tertiary)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.5 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg></div>
-          <div class="abt-feature-step">Step 04</div>
-          <span class="abt-how-status planned">Advisory board planned</span>
-          <div class="abt-feature-title">Ongoing review</div>
-          <p class="abt-feature-text">Scores evolve as new evidence is published. AI-assisted synthesis cross-referenced against Cochrane, PubMed, NIH, and WHO. Content reviewed and updated regularly.</p>
-        </article>
-      </div>
-    </section>
+  <div class="ab-stats">
+    <div class="ab-stat"><div class="ab-stat-num">733+</div><div class="ab-stat-lbl">Supplements scored</div></div>
+    <div class="ab-stat"><div class="ab-stat-num">80+</div><div class="ab-stat-lbl">Trusted sources</div></div>
+    <div class="ab-stat"><div class="ab-stat-num">27,000+</div><div class="ab-stat-lbl">Studies reviewed</div></div>
+    <div class="ab-stat"><div class="ab-stat-num">$0</div><div class="ab-stat-lbl">Industry funding</div></div>
+  </div>
 
-    <!-- Roadmap — uses styled .abt-road-card with status modifier classes -->
-    <section class="abt-sec" id="roadmap">
-      <h2>Roadmap</h2>
-      <p class="abt-sec-sub">Four stages toward hyper-personalized supplement recommendations.</p>
-      <div class="abt-road">
-        <article class="abt-road-card st-done">
-          <div class="abt-road-card-top">
-            <span class="abt-road-stage">Stage 01</span>
-            <span class="abt-road-badge badge-active">Active</span>
-          </div>
-          <div class="abt-road-title">Comprehensive supplement database</div>
-          <div class="abt-road-desc">733+ supplements evaluated across 6 clinical dimensions, every rating derived from systematic reviews, meta-analyses, and human clinical trials across 61 peer-reviewed sources. Continuously updated.</div>
-        </article>
-        <article class="abt-road-card st-prog">
-          <div class="abt-road-card-top">
-            <span class="abt-road-stage">Stage 02</span>
-            <span class="abt-road-badge badge-progress">In progress</span>
-          </div>
-          <div class="abt-road-title">Personalized recommendations</div>
-          <div class="abt-road-desc">Profile-based engine that generates a custom supplement plan from your age, sex, goals, conditions, and medications — what to take, what to avoid, dosing, timing, and interactions.</div>
-        </article>
-        <article class="abt-road-card st-soon">
-          <div class="abt-road-card-top">
-            <span class="abt-road-stage">Stage 03</span>
-            <span class="abt-road-badge badge-soon">Coming soon</span>
-          </div>
-          <div class="abt-road-title">Blood work &amp; lab integration</div>
-          <div class="abt-road-desc">Upload blood panels or urine tests to identify specific deficiencies. Results are analysed against optimal ranges to recommend targeted supplements for what your body actually needs.</div>
-        </article>
-        <article class="abt-road-card st-plan">
-          <div class="abt-road-card-top">
-            <span class="abt-road-stage">Stage 04</span>
-            <span class="abt-road-badge badge-planned">Planned</span>
-          </div>
-          <div class="abt-road-title">DNA-based hyper-personalization</div>
-          <div class="abt-road-desc">Incorporate MTHFR, VDR, CYP, and APOE variants to refine recommendations based on how you absorb, metabolise, and respond to specific nutrients — the most precise level of personalization.</div>
-        </article>
-      </div>
-    </section>
+  <div class="ab-toc">
+    <strong>On this page</strong>
+    <a href="#why">Why we exist</a>
+    <a href="#tiers">Evidence tiers</a>
+    <a href="#scores">Sub-scores</a>
+    <a href="#promotion">How tiers move</a>
+    <a href="#sources">Sources</a>
+    <a href="#funding">Funding policy</a>
+    <a href="#cadence">Review cadence</a>
+    <a href="#interactions">Interactions</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#limits">What we don't claim</a>
+    <a href="#feedback">Flag an error</a>
+    <a href="#contribute">Contribute</a>
+  </div>
 
-    <!-- Mission — uses styled .abt-mission-sec / -grid / -pullstat / -text / .abt-values-list -->
-    <section class="abt-mission-sec" id="mission">
-      <div class="abt-mission-heading">Why <em style="font-style:normal;color:var(--color-brand)">we exist.</em></div>
-      <div class="abt-mission-grid">
-        <div>
-          <p class="abt-mission-text">The right supplement can genuinely change someone's quality of life. Better sleep. Less joint pain. More energy. Reduced anxiety. For people managing health conditions, nutrient deficiencies, or simply trying to age well, the difference between the right supplement and the wrong one can be profound. But finding honest information is nearly impossible — the supplement industry generates over $50 billion a year, and most of what you read online is written by someone trying to sell you something.</p>
-          <p class="abt-mission-text">We built SupplementScore to fix that. Our goal is to use the latest advances in AI and machine learning to curate precise, personalized supplement regimens based on each individual's blood work, lab results, and eventually DNA.</p>
-          <p class="abt-mission-text">We don't sell supplements. We don't accept sponsorships. We don't run affiliate links. <b style="color:var(--color-text-primary)">Our goal is to keep SupplementScore free and transparent for everyone to use.</b></p>
-        </div>
-        <div>
-          <div class="abt-mission-pullstat">
-            <div class="abt-pull-num">$50B+</div>
-            <div class="abt-pull-label">spent annually on supplements in the U.S. alone — most without sufficient evidence to justify the claim on the label.</div>
-          </div>
-          <ul class="abt-values-list">
-            <li>
-              <div class="abt-value-icon"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><circle cx="11" cy="11" r="3"/></svg></div>
-              <div>
-                <div class="abt-value-title">Radical transparency</div>
-                <div class="abt-value-desc">Every score is fully traceable to its source studies. No black boxes, ever.</div>
-              </div>
-            </li>
-            <li>
-              <div class="abt-value-icon"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
-              <div>
-                <div class="abt-value-title">Independence first</div>
-                <div class="abt-value-desc">Zero industry funding. Zero affiliate deals with brands we score. Full stop.</div>
-              </div>
-            </li>
-            <li>
-              <div class="abt-value-icon"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
-              <div>
-                <div class="abt-value-title">Living knowledge</div>
-                <div class="abt-value-desc">Scores evolve as evidence evolves. Science is never settled, and neither are we.</div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+  <h2 id="why">Why we exist</h2>
+  <p>The right supplement can genuinely change someone's life — better sleep, less joint pain, more energy, fewer migraines. The wrong one can drain a wallet, interact with a prescription, or harm an organ. But finding honest information is nearly impossible. The supplement industry generates over $50 billion a year in the US alone, and most of what you read online is written by someone trying to sell you something.</p>
+  <p>We built SupplementScore to fix that. The long-term goal is to use the best of clinical evidence, and eventually blood work and DNA, to curate precise, personalized supplement guidance for each individual. We don't sell supplements. We don't accept sponsorships. We don't run affiliate links. SupplementScore is, and will remain, free.</p>
 
-    <!-- Disclaimer — uses styled .abt-disclaimer -->
-    <section class="abt-disclaimer" id="disclaimer">
-      <div class="abt-disclaimer-title">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Important disclaimer
-      </div>
-      <ul>
-        <li><b>Educational reference, not a medical device</b> — SupplementScore is not reviewed by the FDA, Health Canada, or any regulatory body.</li>
-        <li>Scores reflect <b>group-level clinical data</b>; individual responses vary by genetics, diet, health status, medications, and pre-existing conditions.</li>
-        <li>Supplement quality varies dramatically between brands. We do not test, certify, or endorse specific products.</li>
-        <li>Nothing here is intended to diagnose, treat, cure, or prevent any disease. Always consult a qualified healthcare provider before starting, stopping, or changing supplements — especially if you are pregnant, nursing, or on medications.</li>
-        <li>In a medical emergency, contact your local emergency services immediately.</li>
-      </ul>
-    </section>
+  <div class="ab-callout">
+    <strong>Our values.</strong> Radical transparency — every score is fully traceable to its source studies. Independence first — zero industry funding, zero affiliate deals with brands we score. Living knowledge — scores evolve as the evidence evolves. Science is never settled, and neither are we.
+  </div>
 
-    <!-- Become a Contributor — uses styled .abt-m1-cta block -->
-    <section class="abt-m1-cta" id="contribute">
-      <div class="abt-m1-cta-inner">
-        <div>
-          <div class="abt-m1-cta-k">Contribute</div>
-          <h3>Help us make the data <em>even better.</em></h3>
-          <p class="lead">SupplementScore is a community effort. Clinicians, researchers, and developers make our data better every day — corrections, new evidence, or partnership all welcome.</p>
-          <div class="abt-m1-cta-roles">
-            <div class="abt-m1-cta-role"><span class="d" style="background:#4ade80"></span>Clinicians</div>
-            <div class="abt-m1-cta-role"><span class="d" style="background:#60a5fa"></span>Researchers</div>
-            <div class="abt-m1-cta-role"><span class="d" style="background:#c084fc"></span>Developers</div>
-            <div class="abt-m1-cta-role"><span class="d" style="background:#facc15"></span>Corrections</div>
-            <div class="abt-m1-cta-role"><span class="d" style="background:#f472b6"></span>Funding</div>
-            <div class="abt-m1-cta-role"><span class="d" style="background:#38bdf8"></span>Social media</div>
-          </div>
-        </div>
-        <div class="abt-m1-cta-form">
-          <label>Get in touch</label>
-          <div class="abt-m1-cta-row">
-            <input type="email" id="contrib-email" placeholder="your@email.com" aria-label="Your email address">
-            <button type="button" onclick="submitContrib()">Reach out →</button>
-          </div>
-          <div class="abt-m1-cta-note">We'll respond within 2 business days. No newsletters — just real conversations.</div>
-          <div id="contrib-success" role="status" aria-live="polite" style="display:none;font-size:12px;color:#4ade80;font-weight:700;margin-top:12px">✓ Thanks! We'll be in touch.</div>
-        </div>
-      </div>
-    </section>
+  <h2 id="tiers">The four evidence tiers</h2>
+  <p>Every supplement on the site is placed in one of four tiers. The tier is the headline call: how confident the evidence is, and what kind of risk profile the supplement carries.</p>
 
-    <!-- Latest data revisions — moved from the Articles page so it lives where the audit trail belongs -->
-    <section class="abt-revisions" id="revisions" aria-label="Latest data revisions">
-      <div class="abt-revisions-title">Latest data revisions</div>
-      <div class="revs-cols">
-        <div class="rev-row"><span class="rev-date">Apr 16, 2026</span><span class="rev-txt">Added 50 new supplements (733 total) spanning mitochondrial, vitamin E isomers, HMO prebiotics, omega-3 plant oils, and chelated mineral forms. Added 12 new sources across academic centres, systematic reviews, and specialty journals (55 total).</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 15, 2026</span><span class="rev-txt">Added 25 new supplements (653 total). Added 4 new sources: European Journal of Nutrition, Frontiers in Nutrition, International Osteoporosis Foundation, American Diabetes Association (43 total).</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 14, 2026</span><span class="rev-txt">Added 5 new sources: ClinicalTrials.gov, AHRQ, Annals of Internal Medicine, American Botanical Council, WADA (39 total).</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 11, 2026</span><span class="rev-txt">Added 50 new supplements (628 total). Added cycling/duration guidance.</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 10, 2026</span><span class="rev-txt">Updated Omega-3 description &mdash; corrected VITAL trial data attribution.</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 10, 2026</span><span class="rev-txt">Vitamin K2 drug interaction score upgraded to &ldquo;significant&rdquo; (warfarin).</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 9, 2026</span><span class="rev-txt">Added 3 new sources: BMJ, JAMA Network, FDA Database.</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 8, 2026</span><span class="rev-txt">Creatine for Brain Health article published.</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 5, 2026</span><span class="rev-txt">Sleep Stack protocol article published.</span></div>
-        <div class="rev-row"><span class="rev-date">Apr 1, 2026</span><span class="rev-txt">Improved recommendation engine for seniors &mdash; added Calcium, Phosphatidylserine.</span></div>
-      </div>
-    </section>
+  <table>
+    <thead><tr><th>Tier</th><th>What it means</th><th>What moves a supplement here</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="ab-tier t1">Tier 1</span></td>
+        <td><strong>Proven effective.</strong> Backed by multiple large RCTs and meta-analyses with consistent, replicated results across independent research groups.</td>
+        <td>≥1 systematic review or meta-analysis showing a meaningful effect, plus ≥1 independently-funded confirmatory RCT. Industry-only evidence cannot drive a Tier 1 call.</td>
+      </tr>
+      <tr>
+        <td><span class="ab-tier t2">Tier 2</span></td>
+        <td><strong>Promising.</strong> Supported by clinical trials, but limited to specific populations, conditions, or dosages. Real potential — awaiting larger confirmatory studies.</td>
+        <td>≥2 RCTs in a defined population with a consistent direction of effect, but small total N or no meta-analysis yet.</td>
+      </tr>
+      <tr>
+        <td><span class="ab-tier t3">Tier 3</span></td>
+        <td><strong>Unproven.</strong> Limited or conflicting human data. Marketing claims often outrun the research. Many popular supplements live here.</td>
+        <td>Mechanistic plausibility, animal data, or single small RCTs only. Surfaced so readers can see what the evidence does and doesn't say.</td>
+      </tr>
+      <tr>
+        <td><span class="ab-tier t4">Tier 4</span></td>
+        <td><strong>Risky / avoid.</strong> Documented safety risks including organ damage, severe drug interactions, or death. Regulatory warnings issued. Do not use.</td>
+        <td>FDA warning letter or recall, EMA / EFSA negative opinion, multiple peer-reviewed case reports of serious adverse events, or banned status in any major jurisdiction.</td>
+      </tr>
+    </tbody>
+  </table>
 
+  <h2 id="scores">The six sub-scores</h2>
+  <p>Each supplement carries six 1–5 sub-scores. They roll up into the headline 0–100 score shown on the card, with efficacy and safety weighted highest. The sub-scores let you see <em>why</em> a supplement scores the way it does, instead of treating the headline as a black box. The exact formula lives in <code>app.js</code> under <code>calcScore</code> and is open for inspection.</p>
+
+  <table>
+    <thead><tr><th>Field</th><th>What 1 means</th><th>What 5 means</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Efficacy</strong></td><td>Insufficient evidence of benefit</td><td>Conclusive — meta-analytic evidence with consistent direction</td></tr>
+      <tr><td><strong>Safety</strong></td><td>Documented serious harm at typical doses</td><td>Excellent — no adverse signals across large population studies</td></tr>
+      <tr><td><strong>Research depth</strong></td><td>Minimal — &lt;3 published trials</td><td>Extensive — &gt;20 trials including meta-analyses</td></tr>
+      <tr><td><strong>Onset</strong></td><td>8+ weeks before noticeable effect</td><td>Immediate / hours</td></tr>
+      <tr><td><strong>Cost / value</strong></td><td>High cost for marginal benefit</td><td>Meaningful effect for low cost</td></tr>
+      <tr><td><strong>Drug-interaction risk</strong></td><td>Severe interactions documented</td><td>None known</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="promotion">How tiers move</h2>
+  <p>Tier is a function of the composite score <em>and</em> a citation gate. A high score alone is not enough for Tier 1; a low score alone is not enough to demote from Tier 1. A supplement only moves between tiers when both conditions for the new tier are satisfied at the same time:</p>
+  <ul>
+    <li><strong>Score band.</strong> The composite must fall inside the new tier's range (T1 ≥72, T2 60–71, T3 40–59, T4 &lt;40).</li>
+    <li><strong>Citation gate (T1 only).</strong> At least one pivotal PubMed-indexed study with a public or nonprofit funder.</li>
+    <li><strong>Safety floor (T1 + T2 only).</strong> No active FDA / EFSA / TGA / Health Canada warning that renders the supplement inappropriate for the general adult population.</li>
+    <li><strong>Replication (T1 only).</strong> The pivotal effect has been seen in at least two independent samples — not necessarily two trials, but two analyses that don't share a single research group's data.</li>
+  </ul>
+  <p>Safety-driven moves are an exception: if a major regulator issues a contraindication or recall, the supplement moves to T4 within one deploy cycle regardless of efficacy score. In the prior 12 months: 12 net promotions, 4 demotions, and 1 safety-driven move. The full audit trail lives in <code>_archive/score-changes.csv</code>.</p>
+
+  <div class="ab-callout">
+    <strong>Worked example — psyllium husk.</strong> Sat at 70 (T2) for two years on the strength of older trials. A 2024 NIH-supported meta-analysis of 27 RCTs (PMID 38688104) lifted the efficacy score to 74. Replication was already met. Promoted T2 → T1 in April 2026.
+  </div>
+
+  <h2 id="sources">Where the evidence comes from</h2>
+  <p>Not all citations are equal. Where multiple sources speak to a single claim, the higher-tier source carries more weight.</p>
+
+  <div class="ab-pyramid">
+    <div class="ab-pyr-1">Meta-analysis<small>Pooled effect across RCTs</small></div>
+    <div class="ab-pyr-2">Cochrane systematic review<small>Risk-of-bias graded</small></div>
+    <div class="ab-pyr-3">Regulator dossier<small>FDA / EFSA / EMA / NIH ODS / Health Canada</small></div>
+    <div class="ab-pyr-4">RCT (independently funded)<small>Direct evidence in humans</small></div>
+    <div class="ab-pyr-5">Cohort / observational<small>Useful for safety signals</small></div>
+    <div class="ab-pyr-6">Mechanistic / animal / anecdote<small>Hypothesis-generating only</small></div>
+  </div>
+
+  <p>The primary sources every score draws from include <strong>PubMed</strong>, the <strong>Cochrane Library</strong>, <strong>ClinicalTrials.gov</strong>, <strong>NIH Office of Dietary Supplements</strong>, <strong>NCCIH</strong>, <strong>EFSA</strong>, <strong>EMA HMPC</strong>, <strong>Health Canada NNHPD</strong>, <strong>openFDA FAERS</strong>, <strong>FDA MedWatch</strong>, <strong>WHO monographs</strong>, <strong>USDA FoodData Central</strong>, <strong>DrugBank</strong>, the <strong>USPSTF</strong>, and top-tier journals (NEJM, Lancet, JAMA, BMJ, AJCN, JISSN). Critical-appraisal frameworks include <strong>GRADE</strong>, <strong>Cochrane RoB 2</strong>, <strong>AMSTAR-2</strong>, <strong>CONSORT</strong>, and <strong>PRISMA</strong>. The complete registry of 80+ sources is in <code>sources/registry.json</code>; <a href="bibliography.html">browse the bibliography →</a></p>
+
+  <p>What we explicitly do <em>not</em> use as primary sources: manufacturer literature, affiliate-driven supplement review sites, nutritional industry trade publications, celebrity-endorsed product pages, retailer product pages, multilevel-marketing materials, and influencer or podcast claims. They may appear in an article only as evidence of a marketing claim being analysed.</p>
+
+  <h2 id="funding">Funding policy</h2>
+  <p>Industry-funded supplement trials report effect sizes ~20–30% larger on average than independently-funded ones, after controlling for design quality. We don't pretend this away.</p>
+  <ul>
+    <li>Every cited study is tagged with funder, funder type (<code>public</code>, <code>industry</code>, <code>mixed</code>, <code>nonprofit</code>, <code>none_disclosed</code>), and a competing-interest flag.</li>
+    <li>When pooled effect sizes come from industry-funded trials, we apply a <strong>~25% downward adjustment</strong> in the narrative. The adjustment is documented per supplement.</li>
+    <li>A Tier 1 call requires at least one <code>public</code> or <code>nonprofit</code>-funded confirmatory study. Industry-only evidence cannot promote a supplement to Tier 1.</li>
+    <li>Citations visually flag industry funding (amber) and competing-interest disclosures (red) so readers can weigh them themselves.</li>
+  </ul>
+  <p><strong>Why 25% and not 0%:</strong> industry-funded trials are not worthless. Many are well-designed and add real evidence. We discount rather than discard. The number is a judgment call drawn from meta-research on funding bias; we'll revise as our own tracking accumulates.</p>
+
+  <p>Our own COI policy: SupplementScore is operated as a non-profit. We accept no funding from manufacturers, distributors, retailers, or affiliate programs. We do not run advertising. Hosting and tooling are paid from individual reader donations and the operator's personal funds. Editorial staff disclose any holdings (equity, consulting, speakerships) related to the supplement industry within the prior three years; anyone with active industry ties cannot author or second-read entries where the conflict applies.</p>
+
+  <h2 id="cadence">Review cadence</h2>
+  <p>Different content carries different stakes. We review accordingly:</p>
+  <table>
+    <thead><tr><th>Content</th><th>Cadence</th><th>Triggers</th></tr></thead>
+    <tbody>
+      <tr><td>Tier 4 (risky/avoid) and safety articles</td><td><strong>14 days</strong> or on regulator alert</td><td>PubMed + openFDA FAERS + FDA MedWatch RSS + EFSA alerts</td></tr>
+      <tr><td>Tier 1 and breakthrough articles</td><td>30 days</td><td>PubMed + Cochrane</td></tr>
+      <tr><td>Pediatric supplements</td><td>30 days</td><td>PubMed + AAP + NIH ODS pediatric</td></tr>
+      <tr><td>Tier 2 / Tier 3 supplements</td><td>60 days</td><td>PubMed + ODS / EMA</td></tr>
+      <tr><td>Evergreen guides and myth-busting</td><td>90 days</td><td>PubMed</td></tr>
+    </tbody>
+  </table>
+  <p>If FDA MedWatch or EFSA publishes an alert for a supplement we track, it jumps the queue regardless of its last-reviewed date. Every supplement card and article shows its <em>Last reviewed</em> date so readers can see how fresh the call is.</p>
+
+  <h2 id="interactions">How interactions are modeled</h2>
+  <p>The interactions system is built on three pieces. <strong>Pairs</strong> capture explicit positive synergies — vitamin D3 + K2 for bone density, iron + vitamin C for absorption — each with a 1–5 strength rating. <strong>Cautions</strong> capture explicit negative pair interactions with severity: either <code>caution</code> (additive risk that warrants attention) or <code>avoid</code> (combinations to skip). St. John's Wort + SSRIs is an <code>avoid</code> for serotonin syndrome; ashwagandha + thyroid medication is a <code>caution</code>. <strong>Mechanism groups</strong> bundle supplements that share a pathway (bleed, serotonin, sedation, stimulant, hepatotoxic, hypoglycemic, hypotensive, thyroid modulator, and others) and auto-flag any two members against each other.</p>
+  <p>When you build a stack in your profile, the system flags conflicts in three places: a chip on each card, a grouped row inside the card describing the mechanism, and a top-of-plan banner enumerating every conflict. Drug-supplement interactions are a separate parallel system, currently in build-out as Phase 2 of the roadmap.</p>
+
+  <h2 id="roadmap">Roadmap</h2>
+  <p>Four stages toward hyper-personalized supplement recommendations.</p>
+  <div class="ab-roadmap">
+    <div class="ab-road"><div class="ab-road-stage">Stage 01 · Active</div><h3>Comprehensive database</h3><p>733+ supplements evaluated across six clinical dimensions, every rating derived from systematic reviews, meta-analyses, and human trials across 80+ peer-reviewed sources. Continuously updated.</p></div>
+    <div class="ab-road in-prog"><div class="ab-road-stage">Stage 02 · In progress</div><h3>Personalized recommendations</h3><p>Profile-based engine that generates a custom supplement plan from your age, sex, goals, conditions, and medications — what to take, what to avoid, dosing, timing, and interactions.</p></div>
+    <div class="ab-road soon"><div class="ab-road-stage">Stage 03 · Coming soon</div><h3>Blood work &amp; lab integration</h3><p>Upload blood panels or urine tests to identify specific deficiencies. Results analysed against optimal ranges to recommend targeted supplements for what your body actually needs.</p></div>
+    <div class="ab-road plan"><div class="ab-road-stage">Stage 04 · Planned</div><h3>DNA-based personalization</h3><p>Incorporate MTHFR, VDR, CYP, and APOE variants to refine recommendations based on how you absorb, metabolise, and respond to specific nutrients.</p></div>
+  </div>
+
+  <h2 id="limits">What we don't claim</h2>
+  <div class="ab-warn">
+    <strong>SupplementScore is an educational reference, not medical advice and not a medical device.</strong> We summarise evidence and provide tier calls. Individual dosing, diagnosis, and treatment decisions belong to a qualified clinician who knows your specific history.
+  </div>
+  <p>Specifically, we do not diagnose conditions or recommend supplements as treatment for a diagnosed condition, provide individualised dosing (the doses shown are population-level ranges from clinical trials), replace pharmacist or physician review of supplement-medication interactions, endorse specific brands, or claim that any supplement prevents, treats, or cures any disease.</p>
+  <p>Scores reflect group-level clinical data; individual responses vary by genetics, diet, health status, medications, and pre-existing conditions. Supplement quality varies dramatically between brands — we do not test, certify, or endorse specific products. Always consult a qualified healthcare provider before starting, stopping, or changing supplements, especially if you are pregnant, nursing, or on medications. In a medical emergency, contact your local emergency services immediately.</p>
+
+  <h2 id="feedback">Flag an error</h2>
+  <p>If you spot an inaccurate claim, click the <strong>Flag inaccuracy</strong> button on the affected article or supplement card. The form asks for three things: the claim you think is wrong, what you think it should say, and a citation URL (PubMed, DOI, regulator dossier, or peer-reviewed paper).</p>
+  <p>The citation is required up front because it turns reader feedback into a signal we can act on. Every submission with a citation gets triaged. Submissions touching Tier 4 safety or drug interactions are escalated to same-day review — wrong information about high-stakes content is the highest-liability content on the site, and we treat it that way.</p>
+
+  <section class="ab-cta" id="contribute">
+    <h2 style="margin-top:0">Help build the database</h2>
+    <p>SupplementScore is a community effort. Clinicians, researchers, developers, and writers make the data better every day. Corrections, new evidence, or partnership all welcome.</p>
+    <div class="ab-cta-row">
+      <input type="email" id="contrib-email" placeholder="your@email.com" aria-label="Your email address">
+      <button type="button" onclick="submitContrib()">Reach out →</button>
+    </div>
+    <div class="ab-cta-note">We'll respond within 2 business days. No newsletters — just real conversations.</div>
+    <div id="contrib-success" role="status" aria-live="polite" style="display:none;font-size:13px;color:#1F7A6B;font-weight:600;margin-top:10px">✓ Thanks! We'll be in touch.</div>
+  </section>
+
+  <section class="ab-rev" id="revisions" aria-label="Latest data revisions">
+    <div class="ab-rev-title">Latest data revisions</div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 16, 2026</span><span>Added 50 new supplements (733 total) spanning mitochondrial compounds, vitamin E isomers, HMO prebiotics, omega-3 plant oils, and chelated mineral forms. Added 12 new sources (55 total).</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 15, 2026</span><span>Added 25 new supplements (653 total). Added 4 new sources: European Journal of Nutrition, Frontiers in Nutrition, International Osteoporosis Foundation, American Diabetes Association.</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 14, 2026</span><span>Added 5 new sources: ClinicalTrials.gov, AHRQ, Annals of Internal Medicine, American Botanical Council, WADA.</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 11, 2026</span><span>Added 50 new supplements (628 total). Added cycling and duration guidance.</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 10, 2026</span><span>Updated Omega-3 description — corrected VITAL trial data attribution. Vitamin K2 drug-interaction score upgraded to "significant" (warfarin).</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 9, 2026</span><span>Added 3 new sources: BMJ, JAMA Network, FDA Database.</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 8, 2026</span><span>Creatine for Brain Health article published.</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 5, 2026</span><span>Sleep Stack protocol article published.</span></div>
+    <div class="ab-rev-row"><span class="ab-rev-date">Apr 1, 2026</span><span>Improved recommendation engine for seniors — added Calcium, Phosphatidylserine.</span></div>
+  </section>
+
+  <div class="ar-foot">
+    <strong>References</strong>
+    Methodology, source registry, and the full audit trail of score changes are public. See <a href="bibliography.html">bibliography</a>, <a href="privacy.html">terms &amp; privacy</a>, and the <code>_archive/score-changes.csv</code> log in the public repository.
   </div>
 </main>
+
 <script>
-/* Minimal contributor-form handler — same Formspree endpoint as the main app
-   so submissions land in the same inbox. Avoids loading data.js / app.js on
-   this static page just for one button. */
+/* Minimal contributor-form handler — same Formspree endpoint as the footer form. */
 function submitContrib(){
   var inp = document.getElementById('contrib-email');
   if (!inp) return;
@@ -449,7 +396,7 @@ function submitContrib(){
     setTimeout(function(){ inp.style.borderColor = ''; }, 2000);
     return;
   }
-  var btn = document.querySelector('.abt-m1-cta-row button');
+  var btn = document.querySelector('.ab-cta-row button');
   if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
   fetch('https://formspree.io/f/mnjoylkz', {
     method: 'POST',
@@ -457,14 +404,11 @@ function submitContrib(){
     body: JSON.stringify({ email: email, source: 'contributor', date: new Date().toISOString() })
   }).then(function(r){
     if (r.ok) {
-      var form = document.querySelector('.abt-m1-cta-form');
-      var ok   = document.getElementById('contrib-success');
-      if (form) {
-        var row = form.querySelector('.abt-m1-cta-row');
-        var note = form.querySelector('.abt-m1-cta-note');
-        if (row) row.style.display = 'none';
-        if (note) note.style.display = 'none';
-      }
+      var row = document.querySelector('.ab-cta-row');
+      var note = document.querySelector('.ab-cta-note');
+      var ok = document.getElementById('contrib-success');
+      if (row) row.style.display = 'none';
+      if (note) note.style.display = 'none';
       if (ok) ok.style.display = 'block';
     } else if (btn) {
       btn.textContent = 'Try again'; btn.disabled = false;
@@ -499,13 +443,9 @@ function submitContrib(){
           </span>
           <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
         </div>
-        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
+        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 733+ supplements, 27,000+ studies, $0 industry funding.</div>
         <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
       </div>
-      <!-- 2026-05-21 — Methodology column collapsed.
-           sources.html / funder-policy.html / changed-our-mind.html were
-           absorbed into methodology.html. A single Methodology link in the
-           Site column replaces the 4-link Methodology column. -->
       <div>
         <div class="site-footer-h">Browse</div>
         <div class="site-footer-col">
@@ -529,7 +469,6 @@ function submitContrib(){
         <div class="site-footer-col">
           <a href="/#profile" onclick="window._tabSwitchByUser=true">Custom Profile</a>
           <a href="/#research" onclick="window._tabSwitchByUser=true">Research &amp; Articles</a>
-          <a href="/methodology.html">Methodology</a>
           <a href="/about.html">About</a>
           <a href="/privacy.html">Terms &amp; Privacy</a>
         </div>
@@ -538,10 +477,6 @@ function submitContrib(){
     <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
-/* Footer contributor form — small handler shared by every page that ships the
-   shared site-footer. Defined once on window so re-loads on subsequent pages
-   are no-ops. Posts to the same Formspree endpoint as the about-page form,
-   tagged with source='contributor-footer' so leads from here are attributable. */
 window.ssFooterContrib = window.ssFooterContrib || function(e){
   e.preventDefault();
   var form = e.target;
