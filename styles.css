@@ -2373,6 +2373,44 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   outline-offset:-3px;
 }
 
+/* 2026-05-22 — Option A: outlined Articles button.
+   The 4th .cdd in .sfbar (#art-filter-wrap) is a different *kind* of
+   action — it jumps to the article library, not a supplement filter.
+   Styling it as a secondary CTA (cream fill, brand-teal border, brand-
+   deep text) makes that distinction read instantly while preserving
+   the existing flex-row layout and JS behaviour. The 3 filter buttons
+   (Goal / Age & Sex / Symptom) keep their solid-brand fill. */
+.sfbar #art-filter-wrap .cdd-btn{
+  background:var(--color-background-secondary, #fbf8f1);
+  color:var(--color-brand-hover, #155A50);
+  border:1.5px solid var(--color-brand);
+  box-shadow:none;
+}
+.sfbar #art-filter-wrap .cdd-ico,
+.sfbar #art-filter-wrap .cdd-lbl{
+  color:var(--color-brand-hover, #155A50);
+}
+.sfbar #art-filter-wrap .cdd-btn:hover:not(.on){
+  background:rgba(31,122,107,.08);
+  box-shadow:0 2px 8px rgba(31,122,107,.10);
+  transform:translateY(-1px);
+}
+/* When the Articles dropdown is active/open, fall back to solid brand
+   so the selected state still reads loud — mirrors the other filters. */
+.sfbar #art-filter-wrap.cdd-open .cdd-btn,
+.sfbar #art-filter-wrap .cdd-btn.on{
+  background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
+}
+.sfbar #art-filter-wrap.cdd-open .cdd-ico,
+.sfbar #art-filter-wrap.cdd-open .cdd-lbl,
+.sfbar #art-filter-wrap .cdd-btn.on .cdd-ico,
+.sfbar #art-filter-wrap .cdd-btn.on .cdd-lbl{
+  color:#fff;
+}
+
 /* — Context title card — tier-aware, docks into cards below — */
 .pop-head{
   --pop-accent:var(--color-brand);

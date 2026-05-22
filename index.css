@@ -704,8 +704,34 @@
   .ix-hero p.lede{ margin-bottom: 8px; } /* search form hidden on mobile — reclaim orphan gap */
 }
 
-.sfbar-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+.sfbar-row{display:flex;flex-direction:column;align-items:stretch;gap:4px;}
 .sfbar-row .sfbar{flex:1;margin:0;padding:8px 0;min-width:0;}
+/* 2026-05-22 — V3 label treatment: "Search supplements by" sits above
+   the filter row in brand green with a trailing hairline rule at .35
+   opacity. Mirrors the mockup in mockup-search-by-final-v3-green.html.
+   Hairline acts as a quiet section divider; the label colour matches
+   so they read as one unit. */
+.sfbar-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--color-brand);
+  padding:6px 4px 0;
+}
+.sfbar-label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--color-brand);
+  opacity:.35;
+}
+@media(max-width:600px){
+  .sfbar-label{font-size:10px;letter-spacing:.16em;padding:4px 2px 0;}
+}
 /* Sort chip lives INSIDE .sfbar (injected by initAllTab) so it shares the
    same flex-wrap row as Goal / Age & Sex / Symptom on every viewport.
    margin-left:auto pushes it to the right end of whatever wrap row it lands on. */
@@ -1145,12 +1171,15 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
      `max-width:14ch` from desktop which forced "supplements actually work."
      onto a second wrap, producing 3 visible lines. Releasing the constraint
      and trimming font to 24 lets the headline shape to: "Know which" /
-     "supplements actually work." — exactly 2 lines on a 390px viewport. */
+     "supplements actually work." — exactly 2 lines on a 390px viewport.
+     2026-05-22 — font bumped 24 → 34 per user direction (mobile title felt
+     too small relative to the lede/search below). Letter-spacing tightened
+     from -0.5 → -0.9 to keep the new larger type from feeling loose. */
   .ix-hero h1{
-    font-size: 24px !important;
-    margin: 0 auto 6px !important;
-    line-height: 1.1 !important;
-    letter-spacing: -0.5px;
+    font-size: 34px !important;
+    margin: 0 auto 8px !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.9px;
     max-width: none !important;
   }
   /* Lede widened from 300→360 with a slightly tighter font so the copy
