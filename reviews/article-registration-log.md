@@ -99,3 +99,4 @@
 | 2026-05-22 | kids-39-multivitamin-gummies-when-daily-use-is-actually-justified-and-when-just- | 598 | kids | 58 | 0 |
 | 2026-05-22 | lion-39-s-mane-hericium-erinaceus-and-cognition-what-the-controlled-trials-show | 599 | breakthrough | 60 | 1 |
 | 2026-05-22 | quot-liver-detox-quot-supplements-what-milk-thistle-actually-does-and-doesn-t-do | 600 | myth | 45 | 2 |
+| 2026-05-23 | WATCHDOG-ORPHANS | 69 orphans found → 0 registered, 69 skipped (title-dups), 69 deleted. Generator bug — see reviews/article-registration-2026-05-23.md |
