@@ -14,7 +14,12 @@
    V2 brand-teal filter buttons (styles.css). Without this bump, the SW's
    stale-while-revalidate flow serves users yesterday's JS even after a
    hard-reload — bumping forces a full SW reinstall and cache wipe. */
-const CACHE_VERSION = 'v2026-05-23-reg601';
+/* 2026-05-22 — bumped to invalidate the SW-cached /styles.css after the
+   footer-grid rebalance, section-banner unboxing, and supplement-pill
+   transparent-bg changes. HTML query-string busters don't reach the SW
+   cache (it keys on the URL without query); only a CACHE_VERSION bump
+   makes the SW reinstall and re-fetch. */
+const CACHE_VERSION = 'v2026-05-22-footerpill';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
