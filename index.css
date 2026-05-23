@@ -1013,14 +1013,15 @@
    box" effect behind the pills. */
 #ix-sticky-bar{ display: none !important; }   /* empty placeholder; legacy queries no-op */
 
-/* 2026-05-23 — Sticky panel card treatment removed (was: cream background,
-   bottom hairline, drop shadow on #main-sticky.sticky-bar). The card look
-   became more visible after the 800px width cap (panel is full-bleed
-   relative to its container, so the cream tint contrasted with the page
-   background on either side). Panel now blends into the page in all states
-   — both at rest and when stuck to the viewport top during scroll. Layout
-   geometry (sticky positioning, z-index, padding, full-bleed margin) is
-   unchanged so behavior is identical, just visually quieter.
+/* 2026-05-23 — Sticky panel card treatment removed but background kept
+   OPAQUE (matches the page body, which uses --color-background-secondary).
+   - Earlier same-day attempt used `background: transparent` to make the
+     panel blend in. That caused scrolled supplement-list content to bleed
+     visibly THROUGH the panel — exactly what a sticky bar must prevent.
+   - The "card" look users were seeing was actually from the box-shadow +
+     border-bottom, NOT the background (which already matched the page).
+     So we keep the matched cream background and drop only the shadow +
+     hairline, which is what actually created the floating-card effect.
 
    2026-05-22 — Sticky panel reshaped: top:0 (was 32px), z-index:80 so the
    panel fully covers the site-nav when stuck. Beta-bar offsets retired. */
@@ -1028,7 +1029,7 @@
   position: sticky;
   top: 0;
   z-index: 80;                                /* above site-nav (15), above hero */
-  background: transparent !important;
+  background: var(--color-background-secondary, #ebe5d9) !important;
   border-bottom: none !important;
   box-shadow: none !important;
   padding: 12px 1rem 12px;

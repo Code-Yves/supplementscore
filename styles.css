@@ -1161,10 +1161,11 @@ a.site-nav-tab{
     padding:8px calc(12px + env(safe-area-inset-right)) 8px calc(12px + env(safe-area-inset-left)) !important;
     height:auto !important;
     z-index:27 !important;
-    /* 2026-05-23 — card treatment removed on mobile to match the desktop
-       change in index.css (#main-sticky.sticky-bar). Panel blends into the
-       page background in all states. Was: background:var(--color-background-secondary) !important. */
-    background:transparent !important;
+    /* 2026-05-23 — Background kept OPAQUE (same cream as the page body)
+       so scrolled content can't bleed through the sticky panel on mobile.
+       Card look was from box-shadow, not background — shadow stays off,
+       background stays solid. */
+    background:var(--color-background-secondary) !important;
     box-shadow:none;
     box-sizing:border-box;
   }
