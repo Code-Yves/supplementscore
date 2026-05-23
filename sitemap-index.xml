@@ -2,19 +2,19 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>https://supplementscore.org/sitemap.xml</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-supplements.xml</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-articles.xml</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-compare.xml</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-conditions.xml</loc>
@@ -22,18 +22,22 @@
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-for.xml</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-stacks.xml</loc>
-    <lastmod>2026-05-21</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-medications.xml</loc>
-    <lastmod>2026-05-14</lastmod>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-hubs.xml</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-23</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://supplementscore.org/sitemap-news.xml</loc>
+    <lastmod>2026-05-23</lastmod>
   </sitemap>
 </sitemapindex>
