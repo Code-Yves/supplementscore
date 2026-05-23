@@ -2636,12 +2636,13 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .site-footer-brand{font-size:18px;font-weight:600;color:#F8F4ED;letter-spacing:-.2px;line-height:1}
 .site-footer-brand-tld{color:rgba(248,244,237,.6);font-weight:400}
 .site-footer-tag{
-  /* Direction B (2026-05-23) — centered tagline with a wider, balanced cap
-     so it reads as 2 lines on desktop, 2-3 on mobile. margin auto centers
-     the block inside .site-footer-inner (text-align:center). */
+  /* Direction B (2026-05-23, updated to fit on 1 line at desktop widths) —
+     wider cap so the full statement reads as a single line on the 800px-
+     capped desktop layout. Mobile naturally wraps (the 720px cap is more
+     than the phone viewport, so wrapping kicks in via content length). */
   font-size:13px;color:rgba(248,244,237,.75);
   line-height:1.6;
-  max-width:520px;margin:14px auto 28px;
+  max-width:720px;margin:14px auto 28px;
 }
 @media(max-width:600px){
   .site-footer-tag{max-width:none;margin:12px 0 22px}
@@ -2726,8 +2727,10 @@ body.tab-profile .site-footer{display:none !important}
   letter-spacing:-.2px;
 }
 .site-footer-contrib-desc{
+  /* Direction B (2026-05-23, updated) — wider cap so the description
+     reads as a single line on desktop. Mobile naturally wraps. */
   font-size:13px;line-height:1.6;color:rgba(248,244,237,.75);
-  max-width:480px;margin:0 auto 18px;
+  max-width:720px;margin:0 auto 18px;
 }
 /* Inline form on desktop (input + button side by side, centered). Stacks
    on phones for tap-target comfort. */
