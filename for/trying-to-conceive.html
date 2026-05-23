@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260522b">
+  <link rel="stylesheet" href="../styles.css?v=20260522c">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
   <meta name="theme-color" content="#1F7A6B">
@@ -227,62 +227,43 @@
 <script src="../supplement-modal.js?v=20260518a" defer></script>
 
 <!-- SS_FOOTER_BEGIN -->
+<!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
+     the mockup review). Single vertical axis: brand → tagline → inline link
+     row (hairlines top/bottom) → centered contributor CTA → legal at bottom.
+     The previous brand+3-column grid is gone; .site-footer-grid and
+     .site-footer-col classes are no longer emitted. Old CSS rules for those
+     remain in place harmlessly (no markup references them). -->
 <footer class="site-footer" role="contentinfo">
   <div class="site-footer-inner">
+    <div class="site-footer-brand-row">
+      <span class="site-footer-leaf" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+      </span>
+      <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
+    </div>
+    <p class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</p>
+    <nav class="site-footer-links" aria-label="Footer navigation">
+      <a href="/condition/index.html">Conditions</a>
+      <a href="/compare/index.html">Compare</a>
+      <a href="/stack/index.html">Stacks</a>
+      <a href="/bibliography.html">Bibliography</a>
+      <a href="/glossary.html">Glossary</a>
+      <a href="/#research" onclick="window._tabSwitchByUser=true">Research &amp; Articles</a>
+      <a href="/#profile" onclick="window._tabSwitchByUser=true">Custom Profile</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Terms &amp; Privacy</a>
+    </nav>
     <div class="site-footer-contrib">
-      <div class="site-footer-contrib-inner">
-        <div class="site-footer-contrib-text">
-          <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
-          <div class="site-footer-contrib-title">Help build the database</div>
-          <div class="site-footer-contrib-desc">Clinicians, researchers, developers, and writers who can flag bad evidence, contribute corrections, or help us scale — get in touch.</div>
-        </div>
-        <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
-          <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
-          <button type="submit">Reach out →</button>
-          <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
-        </form>
-      </div>
+      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-title">Help build the database</div>
+      <div class="site-footer-contrib-desc">Clinicians, researchers, developers, and writers who can flag bad evidence, contribute corrections, or help us scale — get in touch.</div>
+      <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
+        <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
+        <button type="submit">Reach out →</button>
+        <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
+      </form>
     </div>
-    <div class="site-footer-grid">
-      <div>
-        <div class="site-footer-brand-row">
-          <span class="site-footer-leaf" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
-          </span>
-          <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
-        </div>
-        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
-        <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
-      </div>
-      <!-- 2026-05-23 — Footer link area is now a 3×3 grid (9 links across
-           three thematic columns: Browse / Reference / About). The previous
-           "Go Deeper" and "Site" section headers were removed; the links
-           themselves carry the uppercase eyebrow treatment so they read as
-           a balanced typographic row. Layout is brand + 3 link columns
-           (4 grid tracks total) on desktop, collapsing on narrower viewports. -->
-      <div>
-        <div class="site-footer-col">
-          <a href="/condition/index.html">Conditions</a>
-          <a href="/compare/index.html">Compare</a>
-          <a href="/stack/index.html">Stacks</a>
-        </div>
-      </div>
-      <div>
-        <div class="site-footer-col">
-          <a href="/bibliography.html">Bibliography</a>
-          <a href="/glossary.html">Glossary</a>
-          <a href="/#research" onclick="window._tabSwitchByUser=true">Research &amp; Articles</a>
-        </div>
-      </div>
-      <div>
-        <div class="site-footer-col">
-          <a href="/#profile" onclick="window._tabSwitchByUser=true">Custom Profile</a>
-          <a href="/about.html">About</a>
-          <a href="/privacy.html">Terms &amp; Privacy</a>
-        </div>
-      </div>
-    </div>
-    <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
 /* Footer contributor form — small handler shared by every page that ships the

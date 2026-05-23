@@ -721,6 +721,14 @@
   text-transform:uppercase;
   color:var(--color-brand);
   padding:6px 4px 0;
+  /* 2026-05-22 — Cap label width so the trailing hairline ends at the
+     right edge of the 3rd button (Symptom), not at the Articles button.
+     With 4 equal flex columns + 8px gap, the right edge of button 3 sits
+     at calc(75% - 2px) of the row width:
+       3 * ((W - 3*8) / 4) + 2*8  =  (3W - 8) / 4  =  0.75W - 2px
+     This visually de-couples the "Search supplements by" caption from
+     the Articles button (which is a different kind of action). */
+  max-width:calc(75% - 2px);
 }
 .sfbar-label::after{
   content:'';
@@ -730,7 +738,9 @@
   opacity:.35;
 }
 @media(max-width:600px){
-  .sfbar-label{font-size:10px;letter-spacing:.16em;padding:4px 2px 0;}
+  /* Mobile: #sfbar-main becomes a 2-col grid, so the "3 of 4" cap
+     doesn't apply — let the label span the full available width. */
+  .sfbar-label{font-size:10px;letter-spacing:.16em;padding:4px 2px 0;max-width:none;}
 }
 /* Sort chip lives INSIDE .sfbar (injected by initAllTab) so it shares the
    same flex-wrap row as Goal / Age & Sex / Symptom on every viewport.
@@ -1370,17 +1380,12 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
   #main-sticky{ top: 22px !important; margin-top: 0 !important; }
 }
 
-/* ---------- Footer: tighter columns + smaller heading copy ---------- */
-
-.site-footer-grid{
-  gap: 18px !important;             /* was wider — was making columns feel airy */
-}
-@media (min-width: 720px){
-  .site-footer-grid{
-    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
-    column-gap: 22px;
-  }
-}
+/* ---------- Footer override block — retired 2026-05-23 ----------
+   Direction B reshape (centered single-column) removed .site-footer-grid
+   from the emitted markup. The previous 5-column override here is now a
+   no-op selector and would only matter if a legacy snapshot still emits
+   .site-footer-grid; left intentionally empty to preserve line-number
+   stability for nearby comments above. */
 
 /* ---------- Custom Profile view: hide the rotating-article hero ---------- */
 
