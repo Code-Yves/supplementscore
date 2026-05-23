@@ -18,11 +18,12 @@
   --color-surface: #f6f2ea;
   --color-page: #ebe5d9;
   /* 2026-05-23 — Dedicated card-surface token. Sits between --color-surface
-     (near-white #f6f2ea) and --color-page (cream #ebe5d9) — a midpoint
-     tint at #f1ecdf — so supplement-row and article-row cards read as a
-     clearly defined surface against the page without looking near-white.
-     Used by .sc / .sr-card / .article-card. */
-  --color-card: #f1ecdf;
+     (near-white #f6f2ea) and --color-page (cream #ebe5d9) — leaning closer
+     to surface for a brighter, more luminous tint while still reading as a
+     defined surface against the page. Used by .sc / .sr-card / .article-card.
+     History: started at #f1ecdf (true 50% midpoint); brightened one notch
+     to #f4efe6 per user feedback. */
+  --color-card: #f4efe6;
   /* Deprecated aliases — keep until references are migrated. */
   --color-background-primary: var(--color-surface);
   --color-background-secondary: var(--color-page);
