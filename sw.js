@@ -19,7 +19,7 @@
    transparent-bg changes. HTML query-string busters don't reach the SW
    cache (it keys on the URL without query); only a CACHE_VERSION bump
    makes the SW reinstall and re-fetch. */
-const CACHE_VERSION = 'v2026-05-22-footerpill';
+const CACHE_VERSION = 'v2026-05-22-scardstrip';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 

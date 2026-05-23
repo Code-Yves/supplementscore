@@ -315,22 +315,15 @@
    lines total; 22ch fits the new first line exactly, so the headline
    reads as the intended 2 lines on every viewport. */
 .ix-hero h1{
-  /* 2026-05-22 — Clamp rebalanced. Was clamp(40px, 5.8vw, 64px), which
-     capped at 64px on viewports ≥1103px AND had a 40px floor that made
-     the title feel small at narrow-desktop widths (~700–1100px) where
-     the hero carousel below already fills near the page max-width.
-     New scaling:
-       • Min 48px (was 40px) — keeps the title visually dominant at the
-         smallest desktop viewport and reduces the jump from the 34px
-         mobile rule at the 600px breakpoint.
-       • Rate 6.4vw (was 5.8vw) — grows faster across the tablet/laptop
-         range so it stays proportional to the surrounding content.
-       • Max 80px (was 64px) — lets the title breathe on large displays
-         (≥1250px) where the page container is at its 1180px cap.
-     Letter-spacing tightened proportionally so the larger sizes don't
-     feel loose. */
-  font-size: clamp(48px, 6.4vw, 80px);
-  font-weight: 700; letter-spacing: -2.2px;
+  /* 2026-05-22 — Desktop title is FIXED at 64px across every desktop
+     viewport (per user direction "fixed at 64px at all desktop scales,
+     only changes sizes on mobile"). Previously this was a clamp that
+     scaled with vw — that produced a sub-64px size at narrow-desktop
+     widths and looked disproportionate to the carousel beneath.
+     The 34px mobile override below the @media (max-width:600px) rule
+     is the only sub-64px size now. */
+  font-size: 64px;
+  font-weight: 700; letter-spacing: -1.8px;
   line-height: 1.04; margin: 0 auto 18px;
   max-width: 22ch;
   color: var(--color-text-primary);
@@ -1198,16 +1191,18 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
   /* 2026-05-21 — h1 + lede compression pass. Earlier mobile rule inherited
      `max-width:14ch` from desktop which forced "supplements actually work."
      onto a second wrap, producing 3 visible lines. Releasing the constraint
-     and trimming font to 24 lets the headline shape to: "Know which" /
+     and trimming the font to 24 lets the headline shape to: "Know which" /
      "supplements actually work." — exactly 2 lines on a 390px viewport.
-     2026-05-22 — font bumped 24 → 34 per user direction (mobile title felt
-     too small relative to the lede/search below). Letter-spacing tightened
-     from -0.5 → -0.9 to keep the new larger type from feeling loose. */
+     2026-05-22 — font bumped 24 → 34, then 34 → 40 per user direction
+     ("make mobile 40px"). Letter-spacing tightened from -0.9 → -1.1 to keep
+     the larger type tight; line-height nudged from 1.08 → 1.05 so the
+     three-line "Know which / supplements / actually work." shape stays
+     compact on phones. */
   .ix-hero h1{
-    font-size: 34px !important;
+    font-size: 40px !important;
     margin: 0 auto 8px !important;
-    line-height: 1.08 !important;
-    letter-spacing: -0.9px;
+    line-height: 1.05 !important;
+    letter-spacing: -1.1px;
     max-width: none !important;
   }
   /* Lede widened from 300→360 with a slightly tighter font so the copy

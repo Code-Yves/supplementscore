@@ -2487,25 +2487,24 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 /* Unproven banner uses amber/caution tone — distinct from Trending (purple) to signal 'evidence unclear'. */
 .pop-head.head-unproven{--pop-accent:#B45309;--pop-accent-bg:#FEF3C7;--pop-accent-ink:#78350F}
 
-/* Dock the pop-head to the cards below: pop-head has rounded top only,
-   cards form a shared container with rounded bottom. */
+/* 2026-05-22 — Was a "docked" pop-head + .scards group (banner + filled
+   card-list container with a shared rounded border). The banner is now
+   transparent, so the docked treatment no longer makes sense. .scards now
+   inherits the page background and the individual .sc rows carry their own
+   rounded borders, giving a cleaner editorial list look. */
 .pop-head + .scards{
-  border:1px solid var(--color-border-tertiary);
-  border-top:0;
-  border-radius:0 0 12px 12px;
-  overflow:hidden;
-  background:var(--color-background-primary);
-  padding:10px;
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  background:transparent;
+  padding:0;
   margin-top:0;
 }
-/* When docked, tighten card spacing and make each feel part of the group */
 .pop-head + .scards .sc,
 .pop-head + .scards .sr-card{
-  margin-bottom:8px;
+  margin-bottom:0;
   box-shadow:none;
 }
-.pop-head + .scards .sc:last-child,
-.pop-head + .scards .sr-card:last-child{margin-bottom:0}
 
 /* When no title card (e.g. search results), scards stays standalone */
 .tier-sec > .scards:first-child{
@@ -2609,7 +2608,12 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .site-footer{
   background:var(--color-brand);
   color:rgba(248,244,237,.94);
-  padding:0 1.5rem 24px;
+  /* 2026-05-23 — Top padding bumped from 0 → 40px. The Direction B
+     centered footer leads with the brand mark; with 0 top padding the
+     brand was sitting flush against the cream→teal boundary, making it
+     look clipped/orphaned at the top edge of the footer band. 40px gives
+     it the same breathing room as the contributor section gets below. */
+  padding:40px 1.5rem 24px;
   /* 64px → 36px. 64px was leaving ~128px total stacked gap below the
      Articles list (combined with .articles-section bottom padding). */
   margin:36px -1rem 0;
