@@ -57,8 +57,8 @@ body{
 }
 input,button{font-family:inherit}
 .container{max-width:1200px;margin:0 auto;position:relative}
-/* 2026-05-21 — Site-wide width cap (900px).
-   Single override that caps every top-level layout container to a 900px
+/* 2026-05-23 — Site-wide width cap (800px).
+   Single override that caps every top-level layout container to an 800px
    ceiling regardless of any per-section max-widths declared further down
    in this file or in index.css. Narrower constraints (e.g. .hero at 760px
    for the rotating article card) still apply because they're smaller than
@@ -73,7 +73,7 @@ input,button{font-family:inherit}
 .abt-sec,
 .abt-mission,
 .disc-c-wrap{
-  max-width: 900px !important;
+  max-width: 800px !important;
 }
 .page-header{padding:2.25rem 0 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
 .page-title{font-size:48px;font-weight:600;letter-spacing:-1.4px;color:var(--color-text-primary);margin:0;line-height:1.1}
@@ -2599,23 +2599,39 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   font-family:inherit;
 }
 .site-footer-inner{max-width:1200px;margin:0 auto}
-/* Three columns: brand / Go Deeper / Site. Evenly distributed across the
-   footer width with `minmax(0,1fr)` so no column can blow past its share
-   and create dead-space.
-   2026-05-22 — was 4 columns (brand + Browse + Go Deeper + Site).
-   The Browse column was removed because its links duplicate the main-page
-   tab nav. Conditions was preserved and moved to the top of Go Deeper.
-   Brand is given slightly extra share (1.3fr) to absorb the tagline text. */
+/* Four columns: brand + three equally-distributed link columns (3 links each).
+   2026-05-23 — was 3 columns (brand + Go Deeper + Site). Section headers
+   were removed; links themselves carry the uppercase eyebrow treatment, so
+   a 3×3 grid reads as a single typographic row across the footer.
+   Brand keeps a slightly larger share (1.4fr) to absorb the tagline text.
+   `minmax(0,1fr)` on link columns so they share leftover space evenly and
+   never blow out past their track. */
 .site-footer-grid{
   display:grid;
-  grid-template-columns:1.3fr minmax(0, 1fr) minmax(0, 1fr);
-  column-gap:48px;
+  grid-template-columns:1.4fr minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  column-gap:40px;
   row-gap:0;
   align-items:start;
 }
-@media(max-width:980px){.site-footer-grid{grid-template-columns:1.2fr minmax(0, 1fr) minmax(0, 1fr);column-gap:32px;row-gap:32px}}
-@media(max-width:760px){.site-footer-grid{grid-template-columns:1fr 1fr;column-gap:32px;row-gap:28px}}
-@media(max-width:480px){.site-footer-grid{grid-template-columns:1fr;row-gap:24px}}
+/* Tablet — keep 4 columns but tighten gaps so nothing wraps awkwardly. */
+@media(max-width:980px){
+  .site-footer-grid{
+    grid-template-columns:1.3fr minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+    column-gap:28px;row-gap:28px;
+  }
+}
+/* Mid-tablet/large-phone — brand on its own row, link columns inline below. */
+@media(max-width:760px){
+  .site-footer-grid{
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    column-gap:24px;row-gap:28px;
+  }
+  .site-footer-grid > div:first-child{grid-column:1 / -1}
+}
+/* Phone — brand + single-column stack of links. */
+@media(max-width:480px){
+  .site-footer-grid{grid-template-columns:1fr;row-gap:22px}
+}
 .site-footer-brand-row{display:flex;align-items:center;gap:0;margin-bottom:0}
 .site-footer-leaf{
   width:22px;height:22px;border-radius:6px;
@@ -2631,14 +2647,22 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   line-height:1.65;margin-top:12px;max-width:280px;
 }
 .site-footer-meta{font-size:11px;color:rgba(248,244,237,.55);margin-top:14px}
+/* Section headers were retired 2026-05-23 (footer now uses a header-less
+   3×3 link grid). Class kept here in case any legacy markup still references
+   it; if present, render it identically to a link so it reads consistently. */
 .site-footer-h{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   font-weight:600;margin-bottom:12px;color:rgba(248,244,237,.6);
 }
-.site-footer-col{display:flex;flex-direction:column;gap:5px}
+.site-footer-col{display:flex;flex-direction:column;gap:12px}
+/* Footer links carry the same uppercase eyebrow treatment as the
+   contributor-band eyebrow above — letter-spaced, semibold, lifted color —
+   so the 3×3 grid reads as a balanced typographic row instead of body copy. */
 .site-footer-col a{
-  color:rgba(248,244,237,.94);text-decoration:none;font-size:13.5px;
-  line-height:1.4;
+  color:rgba(248,244,237,.85);text-decoration:none;
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  line-height:1.3;
   transition:color .12s;
 }
 .site-footer-col a:hover{color:#F8F4ED;text-decoration:underline;text-underline-offset:3px}
