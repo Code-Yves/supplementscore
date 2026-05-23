@@ -13,6 +13,22 @@
         "osteopenia",
         "depression-mild-moderate"
       ]
+    },
+    {
+      "date": "2026-05-23",
+      "slugs": [
+        "peptic-ulcer-disease",
+        "copd-adjunct",
+        "alopecia-areata"
+      ],
+      "all_topics_in_window": [
+        "type-2-diabetes",
+        "osteopenia",
+        "depression-mild-moderate",
+        "peptic-ulcer-disease",
+        "copd-adjunct",
+        "alopecia-areata"
+      ]
     }
   ]
 }
