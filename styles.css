@@ -2754,6 +2754,18 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   margin-top:8px;padding-top:18px;
   font-size:11.5px;color:rgba(248,244,237,.6);text-align:center;line-height:1.6;
 }
+/* 2026-05-23 — Inline links inside the legal bottom line (e.g. "Terms &
+   Privacy" — moved here from the main nav row). Inherit the surrounding
+   small muted-cream type so they read as part of the disclaimer copy,
+   not as a separate nav action. */
+.site-footer-bottom a{
+  color:inherit;text-decoration:underline;text-underline-offset:2px;
+  text-decoration-color:rgba(248,244,237,.3);
+  transition:color .12s, text-decoration-color .12s;
+}
+.site-footer-bottom a:hover{
+  color:#F8F4ED;text-decoration-color:#F8F4ED;
+}
 
 /* Hide the entire site footer when My Profile tab is active */
 body.tab-profile .site-footer{display:none !important}
