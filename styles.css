@@ -17,6 +17,12 @@
      deferred — risk-free incremental adoption. */
   --color-surface: #f6f2ea;
   --color-page: #ebe5d9;
+  /* 2026-05-23 — Dedicated card-surface token. Sits between --color-surface
+     (near-white #f6f2ea) and --color-page (cream #ebe5d9) — a midpoint
+     tint at #f1ecdf — so supplement-row and article-row cards read as a
+     clearly defined surface against the page without looking near-white.
+     Used by .sc / .sr-card / .article-card. */
+  --color-card: #f1ecdf;
   /* Deprecated aliases — keep until references are migrated. */
   --color-background-primary: var(--color-surface);
   --color-background-secondary: var(--color-page);
@@ -181,7 +187,12 @@ a.src-card-c-name:hover{color:var(--color-text-primary)}
    border keep the row identifiable without a filled panel.
    `!important` defends against any earlier or more-specific rule that re-
    introduces a card background (some pages still cache older builds). */
-.sc,.sr-card{background:transparent !important;border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer;text-decoration:none;color:inherit}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.04);transform:translateY(-1px)}
+/* 2026-05-23 — Supplement row cards now use the dedicated --color-card
+   token (tinted cream between near-white and the page) so the rows read
+   as a clearly defined surface against the page background. Was `transparent`
+   per the 2026-05-22 "sit transparent on the cream page" decision; user
+   feedback wanted a more visible card surface. */
+.sc,.sr-card{background:var(--color-card) !important;border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer;text-decoration:none;color:inherit}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.04);transform:translateY(-1px)}
 .sc .lc-mid,.sc .lc-arr,.sr-card .lc-mid,.sr-card .lc-arr{background:transparent !important}
 .sc-score-side{width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;flex-shrink:0}
 .sc-score-side.score-high{background:linear-gradient(180deg,var(--t1c),#0F766E)}.sc-score-side.score-mid{background:linear-gradient(180deg,var(--t2c),#3B5FC0)}.sc-score-side.score-low{background:linear-gradient(180deg,var(--t3c),#A16207)}.sc-score-side.score-bad{background:linear-gradient(180deg,var(--t4c),#991B1B)}
@@ -1385,7 +1396,7 @@ body{ overflow-x:clip; }
 .feat-kicker{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border-radius:4px;background:rgba(75,123,229,.1);color:#4B7BE5;margin-right:5px;vertical-align:middle}
 .feat-kicker svg{width:8px;height:8px}
 .article-list{display:flex;flex-direction:column;gap:8px}
-.article-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;display:flex;cursor:pointer;transition:all .15s}
+.article-card{background:var(--color-card);border:1px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;display:flex;cursor:pointer;transition:all .15s}
 .article-card:hover{border-color:var(--color-border-tertiary);box-shadow:0 2px 12px rgba(0,0,0,.06);transform:translateY(-1px)}
 .article-side{width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;flex-shrink:0;gap:4px}
 .article-side-div{width:24px;height:1px;margin:2px 0}
@@ -2351,21 +2362,19 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    scards below for one continuous surface.
 ═════════════════════════════════════════════════════════════════ */
 
-/* — Style E: outlined filter buttons — unified treatment (2026-05-23).
-   All 4 pills (Goal / Age & Sex / Symptom / Articles) share the same
-   outlined-CTA look: soft cream tint slightly darker than the page so
-   the pill reads as a defined surface, brand-teal hairline border,
-   brand-deep text + icon. Active filter still flips to solid teal +
-   white so the selected state reads loud.
-
-   Previously: Goal/Age/Symptom were solid teal fills + Articles was the
-   only outlined pill. That made Articles look like a different kind of
-   action; unifying makes the 4-button row read as one consistent surface
-   and lets the row sit lighter on the page. See mockup-filter-buttons-
-   color-variants.html for prior color exploration. */
+/* — Style D: icon-block filter buttons — V2 solid-brand colorway
+   (2026-05-18, restored 2026-05-23 after a brief unified-outlined
+   experiment was reverted per user feedback). Layout stays vertical
+   (icon stacked above label, equal-width 3-column row). Colors are
+   solid brand teal with white icon + label so the Goal / Age & Sex /
+   Symptom row reads as clearly tappable. */
 .sfbar{display:flex;flex-wrap:nowrap;gap:8px;padding:8px 0;align-items:stretch;width:100%}
 /* Each .cdd expands equally to fill the row */
 .sfbar .cdd{flex:1 1 0;min-width:0}
+/* Buttons trimmed down 2026-05-19 (per user feedback "feels heavy on the
+   page"). Reduced vertical padding 10→6, icon 18→15, gap 5→3, shadow
+   softened — net height drops ~14px and the row reads lighter while
+   keeping the V2 brand-teal visibility. */
 .sfbar .cdd-btn{
   width:100%;
   flex-direction:column;
@@ -2374,32 +2383,28 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   gap:3px;
   padding:6px 8px;
   border-radius:9px;
-  /* Soft tinted-cream fill — sits between the page background
-     (--color-background-secondary, ~#ebe5d9) and a pale brand-green
-     wash, so it reads as "filled but soft" rather than a stark white. */
-  background:rgba(31,122,107,.07);
-  color:var(--color-brand-hover, #155A50);
-  border:1.5px solid var(--color-brand);
+  border:1px solid transparent;
+  background:var(--color-brand);
+  color:#fff;
   font-family:inherit;
   display:flex;
-  box-shadow:none;
+  box-shadow:0 1px 3px rgba(31,122,107,.14);
   transition:background .15s, box-shadow .15s, transform .12s;
 }
-.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:var(--color-brand-hover, #155A50);display:block}
-.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:var(--color-brand-hover, #155A50);letter-spacing:.01em}
+.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:#fff;display:block}
+.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:#fff;letter-spacing:.01em}
 .sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
 .sfbar .cdd-btn:hover:not(.on){
-  background:rgba(31,122,107,.13);
-  box-shadow:0 2px 8px rgba(31,122,107,.10);
+  background:var(--color-brand-hover);
+  box-shadow:0 2px 8px rgba(31,122,107,.22);
   transform:translateY(-1px);
 }
 .sfbar .cdd-btn:active{transform:translateY(0)}
-/* Active filter selected — solid teal + white text/icon so the
-   selected state still reads as clearly distinct from the outlined base. */
+/* Active filter selected — gradient + inset highlight so selected state
+   still reads distinct from the solid-brand base. */
 .sfbar .cdd-btn.on{
   background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
   border-color:transparent;
-  color:#fff;
   box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
   filter:none;
 }
@@ -2409,23 +2414,56 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   filter:brightness(1.06);
   transform:translateY(-1px);
 }
-/* Dropdown-open ring — pill is open but not yet selected. Darker tinted
-   fill + brand-color focus ring around the pill. */
+/* Dropdown-open ring */
 .sfbar .cdd-open .cdd-btn{
-  background:rgba(31,122,107,.13);
-  box-shadow:0 0 0 2px rgba(31,122,107,.25);
+  background:var(--color-brand-hover);
+  box-shadow:0 0 0 2px rgba(31,122,107,.30), 0 2px 8px rgba(31,122,107,.22);
 }
 .sfbar .cdd-open .cdd-btn.on{
   box-shadow:0 0 0 2px rgba(31,122,107,.35), 0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
 }
 .sfbar .cdd-btn:focus-visible{
-  outline:2px solid var(--color-brand);
-  outline-offset:2px;
+  outline:2px solid #fff;
+  outline-offset:-3px;
 }
 
-/* The legacy #art-filter-wrap-specific override block was retired with
-   the unified outlined treatment above; the Articles pill now inherits
-   the same base style as the other three filters. */
+/* 2026-05-22 — Option A: outlined Articles button.
+   The 4th .cdd in .sfbar (#art-filter-wrap) is a different *kind* of
+   action — it jumps to the article library, not a supplement filter.
+   Styling it as a secondary CTA (cream fill, brand-teal border, brand-
+   deep text) makes that distinction read instantly while preserving
+   the existing flex-row layout and JS behaviour. The 3 filter buttons
+   (Goal / Age & Sex / Symptom) keep their solid-brand fill. */
+.sfbar #art-filter-wrap .cdd-btn{
+  background:var(--color-background-secondary, #fbf8f1);
+  color:var(--color-brand-hover, #155A50);
+  border:1.5px solid var(--color-brand);
+  box-shadow:none;
+}
+.sfbar #art-filter-wrap .cdd-ico,
+.sfbar #art-filter-wrap .cdd-lbl{
+  color:var(--color-brand-hover, #155A50);
+}
+.sfbar #art-filter-wrap .cdd-btn:hover:not(.on){
+  background:rgba(31,122,107,.08);
+  box-shadow:0 2px 8px rgba(31,122,107,.10);
+  transform:translateY(-1px);
+}
+/* When the Articles dropdown is active/open, fall back to solid brand
+   so the selected state still reads loud — mirrors the other filters. */
+.sfbar #art-filter-wrap.cdd-open .cdd-btn,
+.sfbar #art-filter-wrap .cdd-btn.on{
+  background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
+}
+.sfbar #art-filter-wrap.cdd-open .cdd-ico,
+.sfbar #art-filter-wrap.cdd-open .cdd-lbl,
+.sfbar #art-filter-wrap .cdd-btn.on .cdd-ico,
+.sfbar #art-filter-wrap .cdd-btn.on .cdd-lbl{
+  color:#fff;
+}
 
 /* — Context title — sits directly on the page background, no panel.
    2026-05-22 — Removed the white card background + border + rounded top
