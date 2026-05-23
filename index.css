@@ -1013,27 +1013,24 @@
    box" effect behind the pills. */
 #ix-sticky-bar{ display: none !important; }   /* empty placeholder; legacy queries no-op */
 
-/* 2026-05-22 — Sticky panel reshaped.
-   - top: 0 (was 32px). The beta-bar is no longer sticky on desktop, so the
-     old "aligns with .beta-bar bottom" offset is obsolete. With z-index:80
-     vs the site-nav's z-index:15, #main-sticky now fully covers the site-nav
-     when stuck — i.e. when the user scrolls past the hero, the visible top
-     of the page becomes ONLY the sticky panel (search + filter pills). This
-     fixes the visible bleed/gap between the nav and the sticky pills that
-     the user reported when both were stuck at different y-offsets.
-   - margin-top reduced to 0; the 16px margin existed to space the panel
-     down from the beta-bar bottom, which no longer applies.
-   - The panel now also contains the desktop in-panel search (rule below),
-     so padding-bottom is slightly larger to balance the row.
-   - subtle bottom hairline restored — gives the panel a clean edge against
-     the scrolling content underneath. */
+/* 2026-05-23 — Sticky panel card treatment removed (was: cream background,
+   bottom hairline, drop shadow on #main-sticky.sticky-bar). The card look
+   became more visible after the 800px width cap (panel is full-bleed
+   relative to its container, so the cream tint contrasted with the page
+   background on either side). Panel now blends into the page in all states
+   — both at rest and when stuck to the viewport top during scroll. Layout
+   geometry (sticky positioning, z-index, padding, full-bleed margin) is
+   unchanged so behavior is identical, just visually quieter.
+
+   2026-05-22 — Sticky panel reshaped: top:0 (was 32px), z-index:80 so the
+   panel fully covers the site-nav when stuck. Beta-bar offsets retired. */
 #main-sticky.sticky-bar{
   position: sticky;
   top: 0;
   z-index: 80;                                /* above site-nav (15), above hero */
-  background: var(--color-background-secondary, #F8F4ED) !important;
-  border-bottom: 1px solid var(--color-border-tertiary) !important;
-  box-shadow: 0 4px 14px -10px rgba(12, 10, 9, .15) !important;
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
   padding: 12px 1rem 12px;
   margin: 0 -1rem 0;
   width: calc(100% + 2rem);
@@ -1283,10 +1280,13 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
   }
   #hero .hero-slide{ inset: 14px 14px 56px 14px !important; }
   #hero .hero-slide-top{ gap: 6px !important; }
+  /* 2026-05-23 — Mobile-only: smaller, lighter pills. font-size 10→9,
+     font-weight 700→500 to drop the bold treatment, padding tightened. */
   #hero .hero-slide-featured,
   #hero .hero-slide-badge{
-    font-size: 10px !important;
-    padding: 2px 7px !important;
+    font-size: 9px !important;
+    font-weight: 500 !important;
+    padding: 2px 6px !important;
     letter-spacing: 0.3px !important;
   }
   #hero .hero-slide-headline{

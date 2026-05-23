@@ -1161,7 +1161,10 @@ a.site-nav-tab{
     padding:8px calc(12px + env(safe-area-inset-right)) 8px calc(12px + env(safe-area-inset-left)) !important;
     height:auto !important;
     z-index:27 !important;
-    background:var(--color-background-secondary) !important;
+    /* 2026-05-23 — card treatment removed on mobile to match the desktop
+       change in index.css (#main-sticky.sticky-bar). Panel blends into the
+       page background in all states. Was: background:var(--color-background-secondary) !important. */
+    background:transparent !important;
     box-shadow:none;
     box-sizing:border-box;
   }
@@ -2646,6 +2649,11 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   font-size:12.5px;color:rgba(248,244,237,.75);
   line-height:1.65;margin-top:12px;max-width:280px;
 }
+/* 2026-05-23 — Drop the 280px cap on phones so the tagline fills the
+   full column width and wraps to 2 lines instead of 3. */
+@media(max-width:600px){
+  .site-footer-tag{max-width:none}
+}
 .site-footer-meta{font-size:11px;color:rgba(248,244,237,.55);margin-top:14px}
 /* Section headers were retired 2026-05-23 (footer now uses a header-less
    3×3 link grid). Class kept here in case any legacy markup still references
@@ -2655,13 +2663,14 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   font-weight:600;margin-bottom:12px;color:rgba(248,244,237,.6);
 }
 .site-footer-col{display:flex;flex-direction:column;gap:12px}
-/* Footer links carry the same uppercase eyebrow treatment as the
-   contributor-band eyebrow above — letter-spaced, semibold, lifted color —
-   so the 3×3 grid reads as a balanced typographic row instead of body copy. */
+/* 2026-05-23 — Footer links now match the .site-footer-contrib-eyebrow
+   style verbatim (same font-size, letter-spacing, weight, and lifted-cream
+   opacity) so the eyebrow above the contributor band and the link grid
+   below it read as one consistent typographic family. */
 .site-footer-col a{
-  color:rgba(248,244,237,.85);text-decoration:none;
-  font-size:11.5px;font-weight:600;
-  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(248,244,237,.55);text-decoration:none;
+  font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
   line-height:1.3;
   transition:color .12s;
 }
