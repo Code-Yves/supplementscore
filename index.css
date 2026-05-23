@@ -315,8 +315,22 @@
    lines total; 22ch fits the new first line exactly, so the headline
    reads as the intended 2 lines on every viewport. */
 .ix-hero h1{
-  font-size: clamp(40px, 5.8vw, 64px);
-  font-weight: 700; letter-spacing: -1.8px;
+  /* 2026-05-22 — Clamp rebalanced. Was clamp(40px, 5.8vw, 64px), which
+     capped at 64px on viewports ≥1103px AND had a 40px floor that made
+     the title feel small at narrow-desktop widths (~700–1100px) where
+     the hero carousel below already fills near the page max-width.
+     New scaling:
+       • Min 48px (was 40px) — keeps the title visually dominant at the
+         smallest desktop viewport and reduces the jump from the 34px
+         mobile rule at the 600px breakpoint.
+       • Rate 6.4vw (was 5.8vw) — grows faster across the tablet/laptop
+         range so it stays proportional to the surrounding content.
+       • Max 80px (was 64px) — lets the title breathe on large displays
+         (≥1250px) where the page container is at its 1180px cap.
+     Letter-spacing tightened proportionally so the larger sizes don't
+     feel loose. */
+  font-size: clamp(48px, 6.4vw, 80px);
+  font-weight: 700; letter-spacing: -2.2px;
   line-height: 1.04; margin: 0 auto 18px;
   max-width: 22ch;
   color: var(--color-text-primary);
