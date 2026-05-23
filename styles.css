@@ -2351,19 +2351,21 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    scards below for one continuous surface.
 ═════════════════════════════════════════════════════════════════ */
 
-/* — Style D: icon-block filter buttons — V2 solid-brand colorway
-   (2026-05-18). Layout stays vertical (icon stacked above label, equal-
-   width 3-column row). Colors swap from the previous near-invisible
-   cream/grey treatment to solid brand teal with white icon + label so
-   the Goal / Age & Sex / Symptom row reads as clearly tappable.
-   See mockup-filter-buttons-color-variants.html for the picker. */
+/* — Style E: outlined filter buttons — unified treatment (2026-05-23).
+   All 4 pills (Goal / Age & Sex / Symptom / Articles) share the same
+   outlined-CTA look: soft cream tint slightly darker than the page so
+   the pill reads as a defined surface, brand-teal hairline border,
+   brand-deep text + icon. Active filter still flips to solid teal +
+   white so the selected state reads loud.
+
+   Previously: Goal/Age/Symptom were solid teal fills + Articles was the
+   only outlined pill. That made Articles look like a different kind of
+   action; unifying makes the 4-button row read as one consistent surface
+   and lets the row sit lighter on the page. See mockup-filter-buttons-
+   color-variants.html for prior color exploration. */
 .sfbar{display:flex;flex-wrap:nowrap;gap:8px;padding:8px 0;align-items:stretch;width:100%}
 /* Each .cdd expands equally to fill the row */
 .sfbar .cdd{flex:1 1 0;min-width:0}
-/* Buttons trimmed down 2026-05-19 (per user feedback "feels heavy on the
-   page"). Reduced vertical padding 10→6, icon 18→15, gap 5→3, shadow
-   softened — net height drops ~14px and the row reads lighter while
-   keeping the V2 brand-teal visibility. */
 .sfbar .cdd-btn{
   width:100%;
   flex-direction:column;
@@ -2372,28 +2374,32 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   gap:3px;
   padding:6px 8px;
   border-radius:9px;
-  border:1px solid transparent;
-  background:var(--color-brand);
-  color:#fff;
+  /* Soft tinted-cream fill — sits between the page background
+     (--color-background-secondary, ~#ebe5d9) and a pale brand-green
+     wash, so it reads as "filled but soft" rather than a stark white. */
+  background:rgba(31,122,107,.07);
+  color:var(--color-brand-hover, #155A50);
+  border:1.5px solid var(--color-brand);
   font-family:inherit;
   display:flex;
-  box-shadow:0 1px 3px rgba(31,122,107,.14);
+  box-shadow:none;
   transition:background .15s, box-shadow .15s, transform .12s;
 }
-.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:#fff;display:block}
-.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:#fff;letter-spacing:.01em}
+.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:var(--color-brand-hover, #155A50);display:block}
+.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:var(--color-brand-hover, #155A50);letter-spacing:.01em}
 .sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
 .sfbar .cdd-btn:hover:not(.on){
-  background:var(--color-brand-hover);
-  box-shadow:0 2px 8px rgba(31,122,107,.22);
+  background:rgba(31,122,107,.13);
+  box-shadow:0 2px 8px rgba(31,122,107,.10);
   transform:translateY(-1px);
 }
 .sfbar .cdd-btn:active{transform:translateY(0)}
-/* Active filter selected — gradient + inset highlight so selected state
-   still reads distinct from the solid-brand base. */
+/* Active filter selected — solid teal + white text/icon so the
+   selected state still reads as clearly distinct from the outlined base. */
 .sfbar .cdd-btn.on{
   background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
   border-color:transparent;
+  color:#fff;
   box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
   filter:none;
 }
@@ -2403,56 +2409,23 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   filter:brightness(1.06);
   transform:translateY(-1px);
 }
-/* Dropdown-open ring */
+/* Dropdown-open ring — pill is open but not yet selected. Darker tinted
+   fill + brand-color focus ring around the pill. */
 .sfbar .cdd-open .cdd-btn{
-  background:var(--color-brand-hover);
-  box-shadow:0 0 0 2px rgba(31,122,107,.30), 0 2px 8px rgba(31,122,107,.22);
+  background:rgba(31,122,107,.13);
+  box-shadow:0 0 0 2px rgba(31,122,107,.25);
 }
 .sfbar .cdd-open .cdd-btn.on{
   box-shadow:0 0 0 2px rgba(31,122,107,.35), 0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
 }
 .sfbar .cdd-btn:focus-visible{
-  outline:2px solid #fff;
-  outline-offset:-3px;
+  outline:2px solid var(--color-brand);
+  outline-offset:2px;
 }
 
-/* 2026-05-22 — Option A: outlined Articles button.
-   The 4th .cdd in .sfbar (#art-filter-wrap) is a different *kind* of
-   action — it jumps to the article library, not a supplement filter.
-   Styling it as a secondary CTA (cream fill, brand-teal border, brand-
-   deep text) makes that distinction read instantly while preserving
-   the existing flex-row layout and JS behaviour. The 3 filter buttons
-   (Goal / Age & Sex / Symptom) keep their solid-brand fill. */
-.sfbar #art-filter-wrap .cdd-btn{
-  background:var(--color-background-secondary, #fbf8f1);
-  color:var(--color-brand-hover, #155A50);
-  border:1.5px solid var(--color-brand);
-  box-shadow:none;
-}
-.sfbar #art-filter-wrap .cdd-ico,
-.sfbar #art-filter-wrap .cdd-lbl{
-  color:var(--color-brand-hover, #155A50);
-}
-.sfbar #art-filter-wrap .cdd-btn:hover:not(.on){
-  background:rgba(31,122,107,.08);
-  box-shadow:0 2px 8px rgba(31,122,107,.10);
-  transform:translateY(-1px);
-}
-/* When the Articles dropdown is active/open, fall back to solid brand
-   so the selected state still reads loud — mirrors the other filters. */
-.sfbar #art-filter-wrap.cdd-open .cdd-btn,
-.sfbar #art-filter-wrap .cdd-btn.on{
-  background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
-  border-color:transparent;
-  color:#fff;
-  box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
-}
-.sfbar #art-filter-wrap.cdd-open .cdd-ico,
-.sfbar #art-filter-wrap.cdd-open .cdd-lbl,
-.sfbar #art-filter-wrap .cdd-btn.on .cdd-ico,
-.sfbar #art-filter-wrap .cdd-btn.on .cdd-lbl{
-  color:#fff;
-}
+/* The legacy #art-filter-wrap-specific override block was retired with
+   the unified outlined treatment above; the Articles pill now inherits
+   the same base style as the other three filters. */
 
 /* — Context title — sits directly on the page background, no panel.
    2026-05-22 — Removed the white card background + border + rounded top
