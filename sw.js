@@ -1,34 +1,72 @@
 /* sw.js — service worker for SupplementScore
- * Strategy: network-first with stale-while-revalidate fallback.
- * Critical assets are pre-cached on install so the next visit feels instant
- * even on a flaky connection. Repeat visitors load offline.
  *
- * Cache names are versioned — bump CACHE_VERSION on data.js / app.js changes
- * so users always get fresh data within one navigation.
+ * ═══════════════════════════════════════════════════════════════════
+ * CACHE STRATEGY (one source of truth — read before editing)
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ *  HTML, CSS         → network-first (see fetch handler, lines below)
+ *                      • Always fetched fresh on a normal page load.
+ *                      • Cache is consulted ONLY when the network is
+ *                        unreachable (true offline). That means CSS
+ *                        edits ship the moment the file is deployed;
+ *                        you do NOT need to bump a version to "wake up"
+ *                        users — a normal page load already does it.
+ *
+ *  JS, JSON, images  → stale-while-revalidate
+ *                      • Cached copy is served immediately for speed,
+ *                      • Fresh copy is fetched in the background and
+ *                        stored for the NEXT request.
+ *                      • A code change ships on the user's second load.
+ *                        If you need a hard cut (data.js schema change,
+ *                        breaking app.js refactor), bump CACHE_VERSION
+ *                        below — that triggers a full SW reinstall and
+ *                        drops the runtime cache, forcing fresh JS on
+ *                        the very next request.
+ *
+ *  PRECACHE_URLS     → offline-first install only.
+ *                      The list below is fetched at SW install time so
+ *                      a fresh visitor with a flaky connection still
+ *                      gets a usable shell. It is NOT the runtime cache
+ *                      that serves requests — that's RUNTIME, populated
+ *                      lazily by the fetch handler. CSS is intentionally
+ *                      OMITTED from this list now: network-first makes
+ *                      precaching it pointless (the cached copy is never
+ *                      consulted except offline, and a fallback offline
+ *                      copy isn't worth the cache-version coordination
+ *                      headache when it gets stale).
+ *
+ *  ?v=<hash> on <link href> / <script src> in HTML
+ *                    → cosmetic / defensive only. The SW's network-first
+ *                      flow already guarantees freshness for CSS and
+ *                      HTML; the ?v= parameter is a belt-and-braces hint
+ *                      to any CDN or browser HTTP-cache layer in front
+ *                      of us. Do NOT rely on it as the primary
+ *                      invalidation mechanism — bump CACHE_VERSION here
+ *                      instead when you need a guaranteed cut.
+ *
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ * When to bump CACHE_VERSION:
+ *   • Breaking schema change in data.js / data/pairings.json
+ *   • Major refactor across app.js / supplement-modal.js that older
+ *     cached versions can't co-exist with
+ *   • A bug where users report stale JS persisting past a normal reload
+ * Do NOT bump for:
+ *   • CSS-only changes (network-first picks them up automatically)
+ *   • HTML-only changes (same)
+ *   • Small JS tweaks (stale-while-revalidate picks them up next load)
  */
-
-/* CACHE_VERSION bumped 2026-05-18 (v26) to invalidate stale caches after
-   a batch of JS/CSS edits: modal back-stack (modal-stack.js + closeArtModal
-   pop, supplement-modal.js push), Further Reading reroute (supplement.html),
-   Recommended For de-link, autocomplete z-index, supplement footer removal,
-   V2 brand-teal filter buttons (styles.css). Without this bump, the SW's
-   stale-while-revalidate flow serves users yesterday's JS even after a
-   hard-reload — bumping forces a full SW reinstall and cache wipe. */
-/* 2026-05-22 — bumped to invalidate the SW-cached /styles.css after the
-   footer-grid rebalance, section-banner unboxing, and supplement-pill
-   transparent-bg changes. HTML query-string busters don't reach the SW
-   cache (it keys on the URL without query); only a CACHE_VERSION bump
-   makes the SW reinstall and re-fetch. */
-const CACHE_VERSION = 'v2026-05-22-scardstrip';
+const CACHE_VERSION = 'v2026-05-22-cleanup1';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
+/* CSS is intentionally OMITTED from this list — see the header comment.
+   Network-first makes a pre-warmed CSS cache pointless, and removing it
+   eliminates the "bump CACHE_VERSION just for a CSS change" trap. */
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/landing.html',
-  '/styles.css',
-  '/index.css',
   '/data.js',
   '/app.js',
   '/index.js',
