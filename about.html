@@ -614,9 +614,14 @@ function submitContrib(){
           </span>
           <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
         </div>
-        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 733+ supplements, 27,000+ studies, $0 industry funding.</div>
+        <div class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</div>
         <div class="site-footer-meta">© 2026 · CC-BY 4.0</div>
       </div>
+      <!-- 2026-05-22 — methodology.html removed; methodology absorbed into
+           about.html. Browse column also removed (Conditions / Symptom /
+           Population / Medications are reachable from the main-page tab
+           nav, so they were redundant). Footer is now 3 columns: brand /
+           Go Deeper / Site, evenly spaced. -->
       <div>
         <div class="site-footer-h">Go Deeper</div>
         <div class="site-footer-col">
@@ -640,6 +645,10 @@ function submitContrib(){
     <div class="site-footer-bottom">Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
+/* Footer contributor form — small handler shared by every page that ships the
+   shared site-footer. Defined once on window so re-loads on subsequent pages
+   are no-ops. Posts to the same Formspree endpoint as the about-page form,
+   tagged with source='contributor-footer' so leads from here are attributable. */
 window.ssFooterContrib = window.ssFooterContrib || function(e){
   e.preventDefault();
   var form = e.target;
