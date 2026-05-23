@@ -157,7 +157,12 @@ a.src-card-c-name:hover{color:var(--color-text-primary)}
 .gs-ac-tag{font-size:10px;color:var(--color-text-tertiary);white-space:nowrap}
 .gs-meta{font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem}.gs-meta b{color:var(--color-text-primary)}
 .sr-grid{display:grid;grid-template-columns:1fr;gap:9px}
-.sc,.sr-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.06);transform:translateY(-1px)}
+/* 2026-05-22 — Supplement-row pills (.sc) sit transparent on the cream page
+   background. Was `background:var(--color-background-primary)` which read as
+   a white card; removed to match the lighter, list-style treatment used by
+   the article cards. The tier-tinted score block on the left and the soft
+   border keep the row identifiable without a filled panel. */
+.sc,.sr-card{background:transparent;border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.04);transform:translateY(-1px)}
 .sc-score-side{width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;flex-shrink:0}
 .sc-score-side.score-high{background:linear-gradient(180deg,var(--t1c),#0F766E)}.sc-score-side.score-mid{background:linear-gradient(180deg,var(--t2c),#3B5FC0)}.sc-score-side.score-low{background:linear-gradient(180deg,var(--t3c),#A16207)}.sc-score-side.score-bad{background:linear-gradient(180deg,var(--t4c),#991B1B)}
 .sc-score-num{font-size:20px;font-weight:700;color:#fff;line-height:1}
