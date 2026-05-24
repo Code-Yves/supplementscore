@@ -2428,6 +2428,16 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   outline-offset:-3px;
 }
 
+/* 2026-05-24 — Mobile layout for the Search-supplements-by toolbar.
+   On viewports ≤640px the 4-button row is too cramped. Put Goal /
+   Age & Sex / Symptom together on the first row (each 1/3), then push
+   Research onto its own full-width second row. */
+@media(max-width:640px){
+  .sfbar{flex-wrap:wrap !important;gap:8px !important}
+  .sfbar .cdd{flex:1 1 0 !important;min-width:0}
+  .sfbar #art-filter-wrap{flex:1 1 100% !important;width:100%}
+}
+
 /* 2026-05-22 — Option A: outlined Articles button.
    The 4th .cdd in .sfbar (#art-filter-wrap) is a different *kind* of
    action — it jumps to the article library, not a supplement filter.
