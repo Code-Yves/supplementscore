@@ -25,6 +25,15 @@
   if (window.__rcInit) return;
   window.__rcInit = true;
 
+  /* If we're rendered inside the homepage's research-modal iframe, swap to
+     embedded mode: the parent owns the close chrome, the global footer is
+     hidden, and our X postMessages the parent to close. */
+  var inIframe = false;
+  try { inIframe = window.self !== window.top; } catch(_){ inIframe = true; }
+  if (inIframe){
+    document.documentElement.classList.add('rc-in-iframe');
+  }
+
   /* Locate the article wrapper. Each section uses a different class name; we
      treat them as equivalent. */
   var wrap = document.querySelector('main.ar-wrap, main.sx-wrap, main.ca-wrap, main.sk-wrap');
@@ -133,10 +142,16 @@
     return '';
   }
 
-  /* X-close handler — mirrors the existing .pg-close-fab session-stack logic
-     so we preserve the back-navigation behavior the rest of the site uses. */
+  /* X-close handler — inside the iframe modal, postMessage the parent so
+     it closes the overlay (and doesn't navigate the parent away). When
+     standalone, mirror the existing .pg-close-fab session-stack logic so
+     back-navigation matches the rest of the site. */
   function closeArticle(e){
     if (e && e.preventDefault) e.preventDefault();
+    if (inIframe){
+      try { window.parent.postMessage({ type: 'rc-close' }, '*'); } catch(_){}
+      return;
+    }
     var SKIP = 'ss-art-skip-push', KEY = 'ss-art-stack', OLD = 'ss-art-origin';
     var stack = [];
     try { stack = JSON.parse(sessionStorage.getItem(KEY) || '[]'); if (!Array.isArray(stack)) stack = []; } catch(_){ stack = []; }

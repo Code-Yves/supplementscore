@@ -3400,6 +3400,47 @@ body.tab-profile .site-footer{display:none !important}
    matching the site-wide "no-filled-callouts" convention.
    ═════════════════════════════════════════════════════════════════ */
 
+/* ───── Research modal — iframe overlay opened from homepage cards ───── */
+.rc-modal{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.rc-modal[hidden]{display:none}
+.rc-modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(12,10,9,.6);
+  backdrop-filter:blur(2px);
+  cursor:pointer;
+}
+.rc-modal-panel{
+  position:relative;
+  width:min(900px, calc(100vw - 48px));
+  height:calc(100vh - 48px);
+  background:var(--color-background-primary,#FAF6EE);
+  border-radius:16px;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.45);
+  overflow:hidden;
+  display:flex;
+  z-index:1;
+}
+.rc-modal-frame{
+  flex:1;width:100%;height:100%;
+  border:0;background:transparent;
+}
+html.rc-modal-open{overflow:hidden}
+@media(max-width:640px){
+  .rc-modal{padding:0}
+  .rc-modal-panel{width:100vw;height:100vh;border-radius:0}
+}
+
+/* Inside the iframe — chrome injector adds .rc-in-iframe. Hide the global
+   footer + sticky chrome since the parent modal owns the chrome. */
+html.rc-in-iframe .site-footer,
+html.rc-in-iframe .site-nav,
+html.rc-in-iframe .nav-search-pill{display:none !important}
+html.rc-in-iframe body{background:var(--color-background-primary,#FAF6EE)}
+
 /* When the research-chrome injector is active, suppress the legacy
    site-ux share/close FABs and the inherited kicker / meta strips so
    they don't compete with the new top bar + trust line. */
