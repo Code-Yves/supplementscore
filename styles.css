@@ -546,7 +546,8 @@ body.on-profile .ssux-recent{display:none !important}
    confusion. The 90px value sits below the .beta-bar (32px) + .site-nav
    (~58px content + border). If you change either height, update this. */
 .sticky-bar{position:static;padding:.5rem 0;margin:0 -1rem;padding-left:1rem;padding-right:1rem;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
-.sfbar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0;padding:8px 0}
+/* .sfbar layout consolidated to the canonical Grid block further down
+   (search "Sfbar layout: all 4 buttons"). Only .sfbtn styling lives here. */
 .sfbtn{padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s}.sfbtn:hover:not([class*=on-]){background:var(--color-background-primary);border-color:var(--color-border-primary)}
 .sfbtn.on-all{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
 .sfbtn.on-az{background:#2d2d2d;color:#fff;border-color:transparent}.sfbtn.on-t1{background:linear-gradient(135deg,var(--t1c),#0F766E);color:#fff;border-color:transparent}
@@ -1262,7 +1263,7 @@ a.site-nav-tab{
      was gap:0 which fused the Goal / Age & Sex / Symptom pills edge-to-edge on
      iPhone — bumped to 6px so the touch targets read as distinct controls). */
   .sfbar .cdd-btn{ height:auto !important; min-height:0 !important; padding:10px 6px !important; }
-  .sfbar{ gap:6px !important; }
+  /* .sfbar gap is handled by the canonical block + its @media(640px) override */
 
   /* (#3) A-Z letter buttons — 36px with at-least-8px gap so the row
      is reliably tappable. */
@@ -2337,8 +2338,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .src-is{font-size:10.5px;line-height:1.35}
 /* Source grid: 7px→8px gap, consistent with 8-unit spacing rhythm */
 .src-grid{gap:8px}
-/* Filter chip bar: 5px→6px gap for better button separation */
-.sfbar{gap:6px}
+/* Filter chip bar gap is handled in the canonical sfbar block below. */
 /* WCAG 2.1 AA — honor prefers-reduced-motion for users with vestibular sensitivity. */
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
@@ -2369,9 +2369,10 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    (icon stacked above label, equal-width 3-column row). Colors are
    solid brand teal with white icon + label so the Goal / Age & Sex /
    Symptom row reads as clearly tappable. */
-.sfbar{display:flex;flex-wrap:nowrap;gap:8px;padding:8px 0;align-items:stretch;width:100%}
-/* Each .cdd expands equally to fill the row */
-.sfbar .cdd{flex:1 1 0;min-width:0}
+/* .sfbar container layout — see the canonical Grid block ~50 lines below.
+   This historical flex rule was deleted 2026-05-24 along with three other
+   stray .sfbar declarations; the Grid rule is the single source of truth. */
+.sfbar .cdd{min-width:0}
 /* Buttons trimmed down 2026-05-19 (per user feedback "feels heavy on the
    page"). Reduced vertical padding 10→6, icon 18→15, gap 5→3, shadow
    softened — net height drops ~14px and the row reads lighter while
@@ -2437,7 +2438,6 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
   grid-auto-rows:1fr !important;
   gap:8px !important;
-  flex-wrap:nowrap !important;
   padding:8px 0 !important;
   width:100% !important;
 }
