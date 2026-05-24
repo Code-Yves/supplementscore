@@ -117,17 +117,14 @@
   gap: 10px;
   align-items: stretch;
   flex-wrap: wrap;
-  /* Sticky: chain directly under the now-sticky beta-bar (32px tall).
-     site-nav is display:none so the legacy 84px desktop offset is gone;
-     beta-bar at top:0 + rs-toolbar at top:32px closes the gap that let
-     article content bleed through. Border-top added so the seam between
-     beta-bar and toolbar reads cleanly when both are sticking. */
+  /* Sticky: pin to the very top of the viewport. The beta-bar scrolls
+     away normally (as it does on every other page); the toolbar covers
+     0-to-its-height so article content can't bleed through. */
   position: sticky;
-  top: 32px;
+  top: 0;
   z-index: 25;
   background: var(--color-background-secondary);
   border-bottom: 0.5px solid var(--color-border-tertiary);
-  border-top: 0.5px solid var(--color-border-tertiary);
 }
 .rs-toolbar .rs-search{
   flex: 1;
@@ -145,9 +142,9 @@
 @media (max-width: 700px){
   .rs-toolbar{flex-wrap: nowrap;}
   .rs-toolbar .rs-search{min-width: 0; height: 44px;}
-  /* Mobile sticky offset: beta-bar 22px (site-nav is display:none).
-     The toolbar pins directly under the beta-bar with no gap. */
-  .rs-toolbar{top: calc(22px + env(safe-area-inset-top));}
+  /* Mobile sticky offset: pin to the very top with safe-area for the
+     iPhone notch. */
+  .rs-toolbar{top: env(safe-area-inset-top);}
   /* Note: input font-size stays at 16px globally on mobile (iOS-zoom
      prevention rule in styles.css), so we don't override it here. */
 }
@@ -255,10 +252,8 @@
   /* Mobile: zero side padding too — .articles-section already provides
      16px gutters via its own padding. Adding more here would push the
      toolbar narrower than the cards above and below it. */
-  /* top: aligns with the sticky beta-bar at top:0 (22px on mobile via the
-     @media block below it). Old 70px value left a 48px gap above the
-     toolbar that article content scrolled through. */
-  .rs-toolbar{ padding: 6px 0; gap: 8px; top: calc(22px + env(safe-area-inset-top)); }
+  /* Mobile sticky offset already pins to top with safe-area-inset above. */
+  .rs-toolbar{ padding: 6px 0; gap: 8px; }
   .rs-cat-dd-btn{ height: 44px; padding: 0 12px; font-size: 13px; }
   .rs-cat.rs-cat-dd-panel{ min-width: 220px; }
 }
