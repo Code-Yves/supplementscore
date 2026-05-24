@@ -656,6 +656,42 @@ if (typeof renderAll === 'function') {
     window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-offset,behavior:'smooth'});
   }
 
+  /* Build an article search-index lazily from every .article-card on the
+     page. Captures: title, href (for <a> cards) or articleId (for showArticle
+     numbered cards), category, and read-time minutes. Cached after first
+     build; cleared if the page injects more cards dynamically. */
+  let _artIndex = null;
+  function buildArtIndex(){
+    if (_artIndex) return _artIndex;
+    _artIndex = [];
+    document.querySelectorAll('.article-card,.article-featured').forEach(card => {
+      const titleEl = card.querySelector('.article-title');
+      if (!titleEl) return;
+      const title = (titleEl.textContent || '').trim();
+      if (!title) return;
+      const catEl = card.querySelector('.article-cat');
+      const cat = (catEl ? catEl.textContent.trim() : '') || (card.getAttribute('data-category') || '');
+      const minEl = card.querySelector('.article-side-stat');
+      const min = minEl ? (minEl.textContent || '').trim() : '';
+      const href = card.tagName === 'A' ? card.getAttribute('href') : '';
+      const onclickAttr = card.getAttribute('onclick') || '';
+      const showMatch = onclickAttr.match(/showArticle\((\d+)\)/);
+      const articleId = showMatch ? parseInt(showMatch[1], 10) : 0;
+      if (!href && !articleId) return;
+      _artIndex.push({ title, cat, min, href, articleId });
+    });
+    return _artIndex;
+  }
+
+  /* Category eyebrow colour map for the Research section rows.
+     Safety/Reality Check use red; everything else uses brand-green. */
+  function artCatClass(cat){
+    const c = (cat || '').toLowerCase();
+    if (/safety|alert/.test(c)) return 'gs-ac-art-cat gs-ac-art-cat-safety';
+    if (/reality|myth/.test(c)) return 'gs-ac-art-cat gs-ac-art-cat-reality';
+    return 'gs-ac-art-cat';
+  }
+
   /* Build the suggestions HTML for the query — pure function, no DOM
      state. Each (inp, ac) pair uses this to populate its own dropdown. */
   function buildHtml(q){
@@ -667,6 +703,12 @@ if (typeof renderAll === 'function') {
     const swS=S.filter(s=>s.n.toLowerCase().startsWith(ql));
     const incS=S.filter(s=>!s.n.toLowerCase().startsWith(ql)&&s.n.toLowerCase().includes(ql));
     const suppHits=[...swS,...incS].slice(0,5);
+
+    /* Articles — match against title + category. starts-with ranks first. */
+    const arts = buildArtIndex();
+    const swA = arts.filter(a => a.title.toLowerCase().startsWith(ql));
+    const incA = arts.filter(a => !a.title.toLowerCase().startsWith(ql) && a.title.toLowerCase().includes(ql));
+    const artHits = [...swA, ...incA].slice(0, 4);
 
     const condHits=[];
     if(typeof CONDITIONS!=='undefined'){
@@ -684,12 +726,22 @@ if (typeof renderAll === 'function') {
       catHits.splice(2);
     }
 
-    if(!suppHits.length&&!condHits.length&&!catHits.length) return '';
+    if(!suppHits.length&&!artHits.length&&!condHits.length&&!catHits.length) return '';
 
     let html='';
     if(suppHits.length){
       html+=`<div class="gs-ac-hdr">Supplements</div>`;
       html+=suppHits.map(s=>`<div class="gs-ac-item" role="option" data-type="supp" data-name="${escA(s.n)}" onmousedown="event.preventDefault()"><span>${escH(s.n)}</span><span class="gs-ac-tag">${escH((s.tag||'').split(' · ')[0])}</span></div>`).join('');
+    }
+    if(artHits.length){
+      html+=`<div class="gs-ac-hdr">Research</div>`;
+      html+=artHits.map(a=>{
+        const dataAttrs = a.href
+          ? `data-type="art" data-href="${escA(a.href)}"`
+          : `data-type="art" data-art-id="${a.articleId}"`;
+        const eyebrow = a.cat ? `<span class="${artCatClass(a.cat)}">${escH(a.cat)}</span>` : '';
+        return `<div class="gs-ac-item gs-ac-item-art" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-body">${eyebrow}<span class="gs-ac-art-title">${escH(a.title)}</span></span></div>`;
+      }).join('');
     }
     if(condHits.length){
       html+=`<div class="gs-ac-hdr">Conditions &amp; Goals</div>`;
@@ -740,6 +792,22 @@ if (typeof renderAll === 'function') {
           content.innerHTML='<div class="scards">'+items.map(s=>renderCard(s,'')).join('')+'</div>';
           scrollToList();
         }
+      }
+    } else if(type==='art'){
+      /* Research result — articles either open via the existing
+         showArticle(N) modal (numbered/featured cards) or by following
+         the static /a/, /for/, /condition/, /stack/ href, which the
+         research-modal click interceptor will catch on the homepage. */
+      clearAllInputs();
+      const artId = parseInt(item.dataset.artId || '0', 10);
+      if (artId && typeof window.showArticle === 'function'){
+        window.showArticle(artId);
+        return;
+      }
+      const href = item.dataset.href;
+      if (href){
+        location.href = href;
+        return;
       }
     } else if(type==='cat'){
       clearAllInputs();

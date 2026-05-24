@@ -4244,6 +4244,39 @@ function loadMoreTier(btn,tierId){
     if(fillEl) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
   },600);
 }
+/* 2026-05-24: pagination for _artPick (article category filter).
+   Same visual button as tier load-more, but reveals article cards (which use
+   the .art-pill-hidden class) 20 at a time. */
+function _loadMoreArtBtn(total, shown){
+  var pct = Math.max(0, Math.min(100, (shown/total)*100));
+  return '<button type="button" class="tier-more" onclick="loadMoreArt(this)" data-total="'+total+'">'
+    +   '<span class="tier-more-l">'
+    +     '<span class="tier-more-cta"><span class="tier-more-spin"></span><span class="tier-more-text">Load more</span></span>'
+    +     '<span class="tier-more-progress">Showing <b class="tier-more-shown">'+shown+'</b> of <b>'+total+'</b><span class="tier-more-bar"><span class="tier-more-fill" style="width:'+pct.toFixed(1)+'%"></span></span></span>'
+    +   '</span>'
+    +   '<span class="tier-more-arr">›</span>'
+    + '</button>';
+}
+function loadMoreArt(btn){
+  btn.classList.add('loading');
+  btn.disabled=true;
+  var sec=btn.closest('.art-pill-sec')||btn.closest('.tier-sec');
+  setTimeout(function(){
+    var hidden=sec.querySelectorAll('.article-card.art-pill-hidden');
+    var shown=0;
+    hidden.forEach(function(c){if(shown<20){c.classList.remove('art-pill-hidden');shown++;}});
+    btn.classList.remove('loading');
+    btn.disabled=false;
+    var rem=sec.querySelectorAll('.article-card.art-pill-hidden').length;
+    if(!rem){btn.remove();return;}
+    var total=parseInt(btn.dataset.total,10)||0;
+    var visible=total-rem;
+    var shownEl=btn.querySelector('.tier-more-shown');
+    var fillEl=btn.querySelector('.tier-more-fill');
+    if(shownEl) shownEl.textContent=visible;
+    if(fillEl) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
+  },300);
+}
 function calcScore(s){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1;return Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2);}
 var cycleInfo=function(s){if(s.cycle)return s.cycle;var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase(),tips=(s.tips||'').toLowerCase(),dose=(s.dose||'').toLowerCase();if(t==='t4')return 'Do not take. This supplement has documented safety risks.';if(tips.includes('cycle')||dose.includes('cycle'))return tips.includes('cycle')?s.tips:s.dose;if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off. Long-term safety beyond 3 months not well established.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Effectiveness may diminish with continuous use.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('selenium')||n.includes('iodine')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed. Retest blood levels annually if correcting a deficiency.';if(tag.includes('gut')&&(n.includes('lactobacillus')||n.includes('bifidobacterium')||n.includes('probiotic')||n.includes('saccharomyces')))return 'Safe for continuous daily use. No cycling needed. Benefits may diminish if stopped.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine'))return 'Safe for continuous daily use. No cycling needed. Well-studied for long-term safety.';if(n.includes('omega')||n.includes('fish oil')||n.includes('krill')||(n.includes('dha')&&!n.includes('gandha'))||n.includes('epa'))return 'Safe for continuous daily use. No cycling needed. Benefits reverse if stopped.';if(n.includes('melatonin'))return 'Use situationally, not nightly long-term. Best for jet lag or short-term sleep reset (2-4 weeks).';if(tag.includes('adaptogen')||n.includes('ginseng')||n.includes('eleuthero')||n.includes('schisandra'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Not recommended for continuous long-term use.';if(n.includes('john')||n.includes('kava')||n.includes('valerian')||n.includes('black cohosh'))return 'Short-term use recommended (4-8 weeks). Consult a provider before extending.';if(tag.includes('fibre')||tag.includes('prebiotic')||n.includes('psyllium')||n.includes('inulin'))return 'Safe for continuous daily use. No cycling needed.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses. No specific cycling protocol established.';if(s.s===3)return 'Use with caution long-term. Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term safety data. Use for the shortest effective duration.';}
 function eTier(s){const sc=calcScore(s);if(sc>=72)return 't1';if(sc>=60)return 't2';if(sc>=40)return 't3';return 't4';}
@@ -5195,8 +5228,15 @@ function _artPick(v){
   /* Render each clone in a light grid wrapper so the article-card CSS layouts
      work even though we're outside the Research view. The .articles-grid +
      .article-card styles live in styles.css and are not scoped to the
-     #research-view ancestor, so they apply here too. */
-  const cards=matched.map(c=>{
+     #research-view ancestor, so they apply here too.
+
+     2026-05-24: lazy-load — show first 20 cards, hide the rest behind a
+     "Load more" button (loadMoreArt reveals 20 more per click). The hide class
+     `art-pill-hidden` is dedicated to this view so the article-hidden strip
+     below doesn't clobber it. */
+  const ART_PAGE_SIZE=20;
+  const hasMoreArt=matched.length>ART_PAGE_SIZE;
+  const cards=matched.map((c,i)=>{
     const clone=c.cloneNode(true);
     // Strip helper classes that hide the card inside the Research view:
     //   tier-hidden        — supplements-list lazy-load helper
@@ -5205,11 +5245,12 @@ function _artPick(v){
     clone.classList.remove('tier-hidden');
     clone.classList.remove('article-hidden');
     clone.style.display='';
+    if(hasMoreArt&&i>=ART_PAGE_SIZE)clone.classList.add('art-pill-hidden');
     return clone.outerHTML;
   }).join('');
 
   const html=matched.length
-    ? '<div class="tier-sec">'+banner+'<div class="articles-grid art-pill-list">'+cards+'</div></div>'
+    ? '<div class="tier-sec art-pill-sec">'+banner+'<div class="articles-grid art-pill-list">'+cards+'</div>'+(hasMoreArt?_loadMoreArtBtn(matched.length,ART_PAGE_SIZE):'')+'</div>'
     : '<div class="empty">No articles found in this category.</div>';
 
   const content=document.getElementById('s-content');

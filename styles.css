@@ -179,6 +179,23 @@ a.src-card-c-name:hover{color:var(--color-text-primary)}
 .gs-ac-item:last-child{border-bottom:none}
 .gs-ac-item:hover,.gs-ac-item.active{background:var(--color-background-secondary)}
 .gs-ac-tag{font-size:10px;color:var(--color-text-tertiary);white-space:nowrap}
+/* 2026-05-24 — Research rows in the hero search dropdown. Each row stacks
+   a small category eyebrow (GUIDE / QUICK READS / SAFETY) above the
+   article title. Eyebrow colour matches the homepage Research cards. */
+.gs-ac-item-art{align-items:flex-start;padding:9px 14px}
+.gs-ac-art-body{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.gs-ac-art-cat{
+  font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--color-brand,#1F7A6B);
+  line-height:1;
+}
+.gs-ac-art-cat.gs-ac-art-cat-safety{color:#A32D2D}
+.gs-ac-art-cat.gs-ac-art-cat-reality{color:#A32D2D}
+.gs-ac-art-title{
+  font-size:13px;font-weight:500;line-height:1.35;
+  color:var(--color-text-primary);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 .gs-meta{font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem}.gs-meta b{color:var(--color-text-primary)}
 .sr-grid{display:grid;grid-template-columns:1fr;gap:9px}
 /* 2026-05-22 — Supplement-row pills (.sc) sit transparent on the cream page
@@ -1503,6 +1520,11 @@ body{ overflow-x:clip; }
 .article-full .article-cat{margin-bottom:8px}
 .article-full .article-meta{margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--color-border-tertiary)}
 .article-hidden{display:none!important}
+/* 2026-05-24: per-page lazy-load for the article-pill list (_artPick).
+   Distinct from .article-hidden (which is the Research-view lazy-load) so the
+   clone-stripping in _artPick that removes .article-hidden doesn't clobber
+   pagination state. */
+.art-pill-hidden{display:none!important}
 .legend-pill{cursor:pointer;border-radius:8px;padding:4px 8px;transition:background .15s}
 .legend-pill:hover{background:var(--color-background-primary)}
 .legend-pill.active{background:var(--color-background-primary);outline:1.5px solid var(--color-brand)}
