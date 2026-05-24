@@ -2450,20 +2450,23 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   box-shadow:0 2px 8px rgba(31,122,107,.10);
   transform:translateY(-1px);
 }
-/* When the Articles dropdown is active/open, fall back to solid brand
-   so the selected state still reads loud — mirrors the other filters. */
-.sfbar #art-filter-wrap.cdd-open .cdd-btn,
-.sfbar #art-filter-wrap .cdd-btn.on{
-  background:linear-gradient(135deg, var(--color-brand), var(--color-brand-hover));
-  border-color:transparent;
-  color:#fff;
-  box-shadow:0 1px 4px rgba(31,122,107,.24), inset 0 1px 0 rgba(255,255,255,.16);
+/* 2026-05-24 — Research button stays outlined-CTA regardless of state.
+   Per design feedback: selecting a category (Population, Condition, Stack,
+   etc.) should ONLY change the label text — visual treatment never flips
+   to solid-brand like the other three filters. Override the .cdd-btn.on
+   styles that .cdd-btn inherits from the global rule. */
+.sfbar #art-filter-wrap .cdd-btn.on,
+.sfbar #art-filter-wrap.cdd-open .cdd-btn{
+  background:var(--color-background-secondary, #fbf8f1) !important;
+  color:var(--color-brand-hover, #155A50) !important;
+  border:1.5px solid var(--color-brand) !important;
+  box-shadow:none !important;
 }
-.sfbar #art-filter-wrap.cdd-open .cdd-ico,
-.sfbar #art-filter-wrap.cdd-open .cdd-lbl,
 .sfbar #art-filter-wrap .cdd-btn.on .cdd-ico,
-.sfbar #art-filter-wrap .cdd-btn.on .cdd-lbl{
-  color:#fff;
+.sfbar #art-filter-wrap .cdd-btn.on .cdd-lbl,
+.sfbar #art-filter-wrap.cdd-open .cdd-ico,
+.sfbar #art-filter-wrap.cdd-open .cdd-lbl{
+  color:var(--color-brand-hover, #155A50) !important;
 }
 
 /* — Context title — sits directly on the page background, no panel.

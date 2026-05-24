@@ -108,6 +108,28 @@
   window.addEventListener('message', function(e){
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'rc-close') close();
+    /* Supplement link clicked inside the article iframe — open the canonical
+       supplement modal on top of the article overlay. The existing
+       supplement-modal.js exposes window.SSModal.open(slug). */
+    if (e.data.type === 'rc-open-supp' && e.data.slug){
+      if (window.SSModal && typeof window.SSModal.open === 'function'){
+        window.SSModal.open(e.data.slug);
+      } else {
+        /* SSModal not loaded yet (initial-page-load race). Retry briefly. */
+        var tries = 0;
+        var iv = setInterval(function(){
+          tries++;
+          if (window.SSModal && typeof window.SSModal.open === 'function'){
+            clearInterval(iv);
+            window.SSModal.open(e.data.slug);
+          } else if (tries > 20){
+            clearInterval(iv);
+            /* Last-resort fallback: navigate the article iframe */
+            location.href = '/supplement.html?slug=' + encodeURIComponent(e.data.slug);
+          }
+        }, 100);
+      }
+    }
   });
 
   /* If the page loads with #rc=<href> already in the URL (deep link), open

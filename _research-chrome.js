@@ -359,13 +359,19 @@
   /* Render a richer score-card row for a supplement link. Used in the
      "Supplements in this article" aend when supplement-meta.json has a
      match. Score pill on the left, name + efficacy/safety/tag in the
-     middle, tier label + arrow on the right. */
-  function suppRowHtml(href, meta){
+     middle, tier label + arrow on the right.
+
+     The href ALWAYS points to ../supplement.html?slug=<slug> — that's the
+     canonical URL the existing supplement-modal.js intercepts on the
+     homepage. Click handling further wires iframe-context messages so
+     the modal opens cleanly from inside the article overlay too. */
+  function suppRowHtml(slug, meta){
     var efS = meta.efficacy && meta.safety ?
       'Efficacy ' + meta.efficacy + '/5 · Safety ' + meta.safety + '/5' : '';
     var sep = efS && meta.tag ? ' · ' : '';
     var metaLine = efS + sep + (meta.tag || '');
-    return '<a class="rc-supp-row" href="' + href + '">' +
+    var href = '../supplement.html?slug=' + encodeURIComponent(slug);
+    return '<a class="rc-supp-row" href="' + href + '" data-supp-slug="' + slug + '">' +
       '<span class="rc-supp-row-s rc-supp-s-' + (meta.score >= 80 ? 'hi' : meta.score >= 60 ? 'mid' : meta.score >= 40 ? 'low' : 'bad') + '">' + meta.score + '</span>' +
       '<div class="rc-supp-row-body">' +
         '<div class="rc-supp-row-name">' + meta.name + '</div>' +
@@ -428,13 +434,41 @@
         if (!slug || !meta[slug]) return;
         /* Replace the plain row with the rich supp-row */
         var holder = document.createElement('div');
-        holder.innerHTML = suppRowHtml(href, meta[slug]);
+        holder.innerHTML = suppRowHtml(slug, meta[slug]);
         row.parentNode.replaceChild(holder.firstChild, row);
         upgraded++;
       });
       if (upgraded > 0) aend.classList.add('rc-aend-upgraded');
     });
   }
+
+  /* Click interceptor for supplement links — wire to the canonical
+     SSModal supplement overlay when available. Inside the article-iframe,
+     postMessage the parent so it opens the supplement modal on top.
+     If no modal is available (very old browsers, JS disabled), fall back
+     to plain navigation. */
+  document.addEventListener('click', function(e){
+    if (e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('.rc-supp-row[data-supp-slug]');
+    if (!a) return;
+    var slug = a.getAttribute('data-supp-slug');
+    if (!slug) return;
+    /* Iframe context — let the parent handle it via SSModal. */
+    if (inIframe){
+      try {
+        window.parent.postMessage({ type: 'rc-open-supp', slug: slug }, '*');
+        e.preventDefault();
+        return;
+      } catch(_){}
+    }
+    /* Standalone — if SSModal is loaded on this page, use it. Otherwise
+       let the link navigate normally. */
+    if (window.SSModal && typeof window.SSModal.open === 'function'){
+      e.preventDefault();
+      window.SSModal.open(slug);
+    }
+  }, true);
 
   /* Classify a heading text into one of our known tail-block labels */
   function tailLabel(txt){
