@@ -43,6 +43,21 @@
         "condition/nafld-protocol.html",
         "compare/inositol-vs-berberine-for-pcos.html"
       ]
+    },
+    {
+      "date": "2026-05-24",
+      "iso_week": "2026-W21",
+      "seed_note": "Second W21 run; seeded by date 2026-05-24 to avoid colliding with the 2026-05-22 W21 pick set",
+      "pages": [
+        "a/bitter-orange-and-synephrine-the-ephedra-substitute-with-its-own-cardiac-risks.html",
+        "a/black-seed-oil-nigella-sativa-what-the-thymoquinone-trials-show.html",
+        "a/berberine-and-gut-health-a-double-edged-sword.html",
+        "s/anthocyanin-concentrate.html",
+        "s/bacillus-clausii.html",
+        "s/aniracetam.html",
+        "condition/pcos-protocol.html",
+        "compare/l-theanine-vs-magnesium-for-sleep.html"
+      ]
     }
   ]
 }

@@ -100,3 +100,24 @@
 | 2026-05-22 | lion-39-s-mane-hericium-erinaceus-and-cognition-what-the-controlled-trials-show | 599 | breakthrough | 60 | 1 |
 | 2026-05-22 | quot-liver-detox-quot-supplements-what-milk-thistle-actually-does-and-doesn-t-do | 600 | myth | 45 | 2 |
 | 2026-05-23 | WATCHDOG-ORPHANS | 69 orphans found → 0 registered, 69 skipped (title-dups), 69 deleted. Generator bug — see reviews/article-registration-2026-05-23.md |
+| 2026-05-24 | vitamin-d-for-long-covid-recovery-what-the-2025-2026-rcts-show | 601 | research-update | 608 | 1 |
+| 2026-05-24 | curcumin-for-knee-osteoarthritis-vs-diclofenac-the-non-inferiority-trial-record | 602 | research-update | 541 | 2 |
+| 2026-05-24 | berberine-for-nafld-what-17-rcts-show-on-liver-enzymes-and-steatosis | 603 | research-update | 569 | 2 [new AM keys: Dihydroberberine (DHB)] |
+| 2026-05-24 | kefir-vs-yogurt-for-lactose-maldigestion-the-trial-evidence-compared | 604 | research-update | 536 | 1 |
+| 2026-05-24 | lactobacillus-plantarum-299v-iron-absorption-ibs-and-the-strain-specific-trial-record | 605 | research-update | 516 | 7 |
+| 2026-05-24 | pyruvate-for-endurance-and-body-composition-what-the-trial-record-shows-in-2026 | 606 | research-update | 482 | 3 |
+| 2026-05-24 | whey-hydrolysate-vs-isolate-vs-concentrate-absorption-kinetics-and-practical-choice | 607 | guide | 537 | 1 |
+| 2026-05-24 | how-to-pick-a-creatine-powder-creapure-vs-generic-and-the-contamination-question | 608 | guide | 564 | 2 |
+| 2026-05-24 | creatine-loading-and-daily-timing-pre-vs-post-workout-and-the-co-ingestion-trial-evidence | 609 | guide | 519 | 0 |
+| 2026-05-24 | choosing-a-probiotic-for-sibo-and-ibs-strain-level-decision-logic | 610 | guide | 527 | 7 |
+| 2026-05-24 | dnp-as-a-fat-burner-a-lethal-compound-still-sold-online | 611 | safety | 644 | 1 [new AM keys: 2,4-Dinitrophenol (DNP)] |
+| 2026-05-24 | iron-overload-from-daily-high-dose-supplements-why-most-men-do-not-need-a-65-mg-tablet | 612 | safety | 543 | 2 |
+| 2026-05-24 | hidden-anabolic-steroids-in-bodybuilding-supplements-the-2024-2025-recall-record | 613 | safety | 574 | 2 |
+| 2026-05-24 | negative-ion-bracelets-and-mineral-therapy-why-the-trials-show-nothing | 614 | myth | 608 | 1 |
+| 2026-05-24 | goji-berry-superfood-claims-what-the-evidence-actually-says | 615 | myth | 550 | 7 [new AM keys: Lycium barbarum (goji berry extract, standardised); Goji berry (Lycium barbarum)] |
+| 2026-05-24 | the-antioxidant-megadose-myth-why-more-vitamin-c-and-e-is-not-better | 616 | myth | 591 | 11 |
+| 2026-05-24 | mitochondria-derived-peptide-mots-c-from-lab-mice-to-early-human-trials | 617 | breakthrough | 664 | 1 |
+| 2026-05-24 | senolytic-stacking-with-fisetin-plus-quercetin-the-emerging-human-combination-data | 618 | breakthrough | 663 | 2 |
+| 2026-05-24 | bovine-lactoferrin-for-preterm-infant-sepsis-what-the-lift-and-cochrane-updates-show | 619 | kids | 637 | 4 |
+| 2026-05-24 | iodine-in-pregnancy-and-lactation-the-trace-element-behind-pediatric-iq-outcomes | 620 | kids | 747 | 1 |
+| 2026-05-24 | WATCHDOG-CLEAN | 0 orphans found |

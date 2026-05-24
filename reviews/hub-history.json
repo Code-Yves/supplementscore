@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-05-21",
+  "last_run": "2026-05-24",
   "hubs_generated": [
     {
       "slug": "magnesium",
@@ -72,6 +72,42 @@
       "stacks_linked": 1,
       "compares_linked": 13,
       "total_internal_links": 57
+    },
+    {
+      "slug": "creatine",
+      "first_generated": "2026-05-24",
+      "last_regenerated": "2026-05-24",
+      "word_count": 1568,
+      "supplements_linked": 7,
+      "articles_linked": 8,
+      "conditions_linked": 3,
+      "stacks_linked": 0,
+      "compares_linked": 6,
+      "total_internal_links": 24
+    },
+    {
+      "slug": "adaptogens",
+      "first_generated": "2026-05-24",
+      "last_regenerated": "2026-05-24",
+      "word_count": 2216,
+      "supplements_linked": 18,
+      "articles_linked": 15,
+      "conditions_linked": 1,
+      "stacks_linked": 0,
+      "compares_linked": 14,
+      "total_internal_links": 48
+    },
+    {
+      "slug": "joint-health",
+      "first_generated": "2026-05-24",
+      "last_regenerated": "2026-05-24",
+      "word_count": 2472,
+      "supplements_linked": 16,
+      "articles_linked": 23,
+      "conditions_linked": 7,
+      "stacks_linked": 0,
+      "compares_linked": 8,
+      "total_internal_links": 55
     }
   ]
 }

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Adaptogens hub — SupplementScore</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <meta name="description" content="Everything you need to know about adaptogens — ashwagandha, rhodiola, schisandra, ginseng, holy basil, and the broader Soviet-pharmacology-derived category of stress-response modulators.">
+  <link rel="canonical" href="https://supplementscore.org/hub/adaptogens.html">
+  <meta property="og:title" content="Adaptogens hub — SupplementScore">
+  <meta property="og:description" content="Everything you need to know about adaptogens — ashwagandha, rhodiola, schisandra, ginseng, holy basil, and the broader Soviet-pharmacology-derived category of stress-response modulators.">
+  <meta property="og:url" content="https://supplementscore.org/hub/adaptogens.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://supplementscore.org/og/hub/adaptogens.png">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Adaptogens hub — SupplementScore">
+  <meta name="twitter:description" content="Everything you need to know about adaptogens — ashwagandha, rhodiola, schisandra, ginseng, holy basil, and the broader Soviet-pharmacology-derived category of stress-response modulators.">
+  <meta name="twitter:image" content="https://supplementscore.org/og/hub/adaptogens.png">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#1F7A6B">
+  <style>html{color-scheme:light}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=20260522f">
+  <style>
+    body { background: var(--color-background-primary); color: var(--color-text-primary); }
+    .hub-wrap { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+    .hub-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; }
+    .hub-back:hover { color: var(--color-brand); }
+    .hub-crumb { font-size: 12.5px; color: var(--color-text-tertiary); margin: 0 0 14px; line-height: 1.4; }
+    .hub-crumb a { color: inherit; text-decoration: none; }
+    .hub-hero { padding: 6px 0 14px; border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); margin-bottom: 28px; }
+    .hub-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand, #1F7A6B); margin: 0 0 6px; }
+    .hub-title { font-size: 36px; font-weight: 800; letter-spacing: -.6px; margin: 0 0 10px; line-height: 1.1; }
+    .hub-tagline { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 8px; }
+    .hub-h2 { font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 28px 0 12px; }
+    .hub-section { margin: 30px 0; }
+    .hub-tldr { border-left: 3px solid var(--color-brand, #1F7A6B); padding: 6px 0 6px 16px; margin: 18px 0 26px; font-size: 15px; line-height: 1.65; color: var(--color-text-primary); }
+    .hub-tldr .hub-tldr-lbl { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-overview { font-size: 15px; line-height: 1.65; color: var(--color-text-primary); margin: 0 0 16px; }
+    .hub-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 10px 0 22px; }
+    .hub-stat { background: var(--color-background-secondary); padding: 12px 14px; border-radius: 8px; }
+    .hub-stat-lbl { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+    .hub-stat-val { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--color-text-primary); }
+    .hub-sup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .hub-sup-card { display: flex; gap: 14px; padding: 14px; border: 1px solid var(--color-border-tertiary, #e5e7eb); border-radius: 12px; text-decoration: none; color: inherit; background: var(--color-background-primary); transition: border-color .15s, transform .15s; }
+    .hub-sup-card:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-sup-score { width: 62px; height: 62px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; flex-shrink: 0; }
+    .hub-sup-score.s-hi { background: linear-gradient(135deg, #0D9488, #14B8A6); }
+    .hub-sup-score.s-mid { background: linear-gradient(135deg, #4B7BE5, #60A5FA); }
+    .hub-sup-score.s-low { background: linear-gradient(135deg, #CA8A04, #FBBF24); }
+    .hub-sup-score.s-bad { background: linear-gradient(135deg, #B91C1C, #EF4444); }
+    .hub-sup-score-num { font-size: 22px; line-height: 1; }
+    .hub-sup-score-lbl { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-top: 3px; }
+    .hub-sup-body { min-width: 0; }
+    .hub-sup-name { font-size: 15.5px; font-weight: 700; line-height: 1.25; margin: 0 0 4px; color: var(--color-text-primary); }
+    .hub-sup-meta { font-size: 11.5px; color: var(--color-text-tertiary); margin: 0 0 6px; }
+    .hub-sup-desc { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+    .hub-art-group { margin: 18px 0; }
+    .hub-art-cat { font-size: 13.5px; font-weight: 700; letter-spacing: .01em; margin: 0 0 10px; color: var(--color-text-primary); }
+    .hub-art-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .hub-art-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--color-border-tertiary, #e5e7eb); transition: border-color .15s, background .15s; }
+    .hub-art-list li a:hover { border-color: var(--color-brand, #1F7A6B); background: var(--color-background-secondary); }
+    .hub-art-title { display: block; font-weight: 600; font-size: 14px; line-height: 1.35; color: var(--color-text-primary); }
+    .hub-art-blurb { display: block; font-size: 12.5px; color: var(--color-text-tertiary); margin-top: 3px; line-height: 1.4; }
+    .hub-simple-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+    .hub-simple-list li a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--color-text-primary); border: 1px solid var(--color-border-tertiary, #e5e7eb); font-size: 14px; font-weight: 500; }
+    .hub-simple-list li a:hover { border-color: var(--color-brand, #1F7A6B); }
+    .hub-faq-item { border-bottom: 1px solid var(--color-border-tertiary, #e5e7eb); padding: 12px 0; }
+    .hub-faq-item summary { cursor: pointer; font-weight: 700; font-size: 15px; color: var(--color-text-primary); list-style: revert; }
+    .hub-faq-item p { margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .hub-sources { font-size: 13px; line-height: 1.7; color: var(--color-text-secondary); padding-left: 22px; }
+    .hub-sources a { color: var(--color-brand, #1F7A6B); text-decoration: underline; text-underline-offset: 2px; }
+    .hub-foot { margin-top: 40px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); text-align: center; }
+    .hub-foot a { color: inherit; text-decoration: underline; }
+  </style>
+  <script src="../_site-ux.js?v=20260519e" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Adaptogens hub \u2014 SupplementScore",
+  "url": "https://supplementscore.org/hub/adaptogens.html",
+  "description": "Everything you need to know about adaptogens \u2014 ashwagandha, rhodiola, schisandra, ginseng, holy basil, and the broader Soviet-pharmacology-derived category of stress-response modulators.",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org/"
+  },
+  "mainEntity": [
+    {
+      "@type": "DietarySupplement",
+      "name": "Ashwagandha (KSM-66)",
+      "url": "https://supplementscore.org/s/ashwagandha.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "American ginseng (Panax quinquefolius)",
+      "url": "https://supplementscore.org/s/american-ginseng.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Rhodiola rosea",
+      "url": "https://supplementscore.org/s/rhodiola-rosea.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Korean red ginseng (Panax ginseng)",
+      "url": "https://supplementscore.org/s/korean-red-ginseng.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Magnolia bark (honokiol + magnolol)",
+      "url": "https://supplementscore.org/s/magnolia-bark.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Astragalus (Astragalus membranaceus)",
+      "url": "https://supplementscore.org/s/astragalus.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Tongkat Ali (Eurycoma longifolia)",
+      "url": "https://supplementscore.org/s/tongkat-ali.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Schisandra chinensis",
+      "url": "https://supplementscore.org/s/schisandra-chinensis.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Gotu kola (Centella asiatica)",
+      "url": "https://supplementscore.org/s/gotu-kola.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Holy basil (Tulsi)",
+      "url": "https://supplementscore.org/s/holy-basil.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Maca (Lepidium meyenii)",
+      "url": "https://supplementscore.org/s/maca.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Cordyceps militaris",
+      "url": "https://supplementscore.org/s/cordyceps-militaris.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Eleuthero (Eleutherococcus senticosus)",
+      "url": "https://supplementscore.org/s/eleuthero.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Reishi (Ganoderma lucidum)",
+      "url": "https://supplementscore.org/s/reishi.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Jiaogulan (Gynostemma pentaphyllum)",
+      "url": "https://supplementscore.org/s/jiaogulan.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Mucuna pruriens (velvet bean)",
+      "url": "https://supplementscore.org/s/mucuna-pruriens.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Shatavari (Asparagus racemosus)",
+      "url": "https://supplementscore.org/s/shatavari.html"
+    },
+    {
+      "@type": "DietarySupplement",
+      "name": "Adaptogen stack (Ashwagandha + Rhodiola)",
+      "url": "https://supplementscore.org/s/adaptogen-stack.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Rhodiola rosea dosing for fatigue and stress: what the Russian and Western trials agree on",
+      "url": "https://supplementscore.org/a/rhodiola-rosea-dosing-for-fatigue-and-stress-what-the-russian-and-western-trials-agree-on.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Tongkat ali for testosterone: the 2024-2025 trial evidence update",
+      "url": "https://supplementscore.org/a/tongkat-ali-for-testosterone-the-2024-2025-trial-evidence-update.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Holy basil (Tulsi) and cortisol, blood glucose: controlled trial evidence",
+      "url": "https://supplementscore.org/a/holy-basil-tulsi-and-cortisol-blood-glucose-controlled-trial-evidence.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Schisandra chinensis: the adaptogen with real hepatoprotective data",
+      "url": "https://supplementscore.org/a/schisandra-chinensis-the-adaptogen-with-real-hepatoprotective-data.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Honokiol: the anxiolytic compound hidden in magnolia bark",
+      "url": "https://supplementscore.org/a/honokiol-the-anxiolytic-compound-hidden-in-magnolia-bark.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Adaptogens explained: ashwagandha, rhodiola, and the stress response",
+      "url": "https://supplementscore.org/a/adaptogens-explained-ashwagandha-rhodiola-and-the-stress-response.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Korean red ginseng: real effects, modest size",
+      "url": "https://supplementscore.org/a/korean-red-ginseng-real-effects-modest-size.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Maca: the Andean root with more stories than data",
+      "url": "https://supplementscore.org/a/maca-the-andean-root-with-more-stories-than-data.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Mushroom supplements: lion's mane, reishi, and what works",
+      "url": "https://supplementscore.org/a/mushroom-supplements-lion-s-mane-reishi-and-what-works.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Ashwagandha and thyroid: a hidden risk",
+      "url": "https://supplementscore.org/a/ashwagandha-and-thyroid-a-hidden-risk.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Ashwagandha: the most overhyped supplement of 2026?",
+      "url": "https://supplementscore.org/a/ashwagandha-the-most-overhyped-supplement-of-2026.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Astragalus: traditional tonic, modern evidence gap",
+      "url": "https://supplementscore.org/a/astragalus-traditional-tonic-modern-evidence-gap.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Tongkat ali and testosterone: the evidence gap",
+      "url": "https://supplementscore.org/a/tongkat-ali-and-testosterone-the-evidence-gap.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Cordyceps militaris: lab-grown fungus with thin human data",
+      "url": "https://supplementscore.org/a/cordyceps-militaris-lab-grown-fungus-with-thin-human-data.html"
+    },
+    {
+      "@type": "Article",
+      "name": "Ashwagandha for anxious kids: why pediatric evidence doesn't exist yet",
+      "url": "https://supplementscore.org/a/ashwagandha-for-anxious-kids-why-pediatric-evidence-doesn-t-exist-yet.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Anxiety stack",
+      "url": "https://supplementscore.org/condition/anxiety-stack.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Adaptogens overview",
+      "url": "https://supplementscore.org/compare/adaptogens.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Ashwagandha vs rhodiola",
+      "url": "https://supplementscore.org/compare/ashwagandha-vs-rhodiola.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Ashwagandha vs L-theanine for stress",
+      "url": "https://supplementscore.org/compare/ashwagandha-vs-l-theanine-for-stress.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Holy basil vs ashwagandha",
+      "url": "https://supplementscore.org/compare/holy-basil-vs-ashwagandha.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Schisandra vs ashwagandha for stress",
+      "url": "https://supplementscore.org/compare/schisandra-vs-ashwagandha-for-stress.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Maca vs ashwagandha",
+      "url": "https://supplementscore.org/compare/maca-vs-ashwagandha.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Maca vs tongkat ali for libido",
+      "url": "https://supplementscore.org/compare/maca-vs-tongkat-ali-for-libido.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "American ginseng vs rhodiola for fatigue",
+      "url": "https://supplementscore.org/compare/american-ginseng-vs-rhodiola-for-fatigue.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Cordyceps vs rhodiola for endurance",
+      "url": "https://supplementscore.org/compare/cordyceps-vs-rhodiola-for-endurance.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Reishi vs cordyceps",
+      "url": "https://supplementscore.org/compare/reishi-vs-cordyceps.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Tongkat ali vs fadogia agrestis",
+      "url": "https://supplementscore.org/compare/tongkat-ali-vs-fadogia-agrestis.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Magnesium glycinate vs ashwagandha for stress",
+      "url": "https://supplementscore.org/compare/magnesium-glycinate-vs-ashwagandha-for-stress.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Tyrosine vs rhodiola for fatigue",
+      "url": "https://supplementscore.org/compare/tyrosine-vs-rhodiola-for-fatigue.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Spirulina vs moringa",
+      "url": "https://supplementscore.org/compare/spirulina-vs-moringa.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "SupplementScore",
+      "item": "https://supplementscore.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Topic hubs",
+      "item": "https://supplementscore.org/hub/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Adaptogens",
+      "item": "https://supplementscore.org/hub/adaptogens.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What actually qualifies as an adaptogen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Soviet pharmacologist Lazarev coined the term in 1947 for substances that increase nonspecific resistance to stressors \u2014 psychological, physical, and chemical \u2014 without significant side effects, and that normalise (rather than push in one direction) the stress response. Ashwagandha, rhodiola, schisandra, ginseng, eleuthero, and a handful of others meet the classical criteria. \"Adaptogen\" is a category, not a regulatory label, so marketing has stretched it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which adaptogen should I take for stress?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Match the adaptogen to the dominant pattern. If you are wired-and-tired with poor sleep, ashwagandha or magnolia bark. If you are foggy and fatigued during the day, rhodiola or american ginseng. If you have anxiety with a flat mood, holy basil. If you have a liver or alcohol burden, schisandra. Stacking two adaptogens with overlapping mechanisms is rarely better than one well-chosen one at the trial dose."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is ashwagandha safe for everyone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Avoid in hyperthyroidism, Hashimoto's with frank thyroid hormone elevation, pregnancy, autoimmune disease in active flares, and when taking levothyroxine without monitoring. There are also rare hepatotoxicity case reports. Most people tolerate it well, but the side-effect profile is real enough that it should not be casual."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do adaptogens raise testosterone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A small and inconsistent yes for ashwagandha (~14% in some trials) and tongkat ali (mostly in symptomatic men), with the caveat that effect sizes are small and population-dependent. They are not a substitute for resistance training, sleep, or \u2014 for clinically low T \u2014 proper endocrine workup."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I cycle adaptogens?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Trial designs generally use continuous dosing for 8\u201312 weeks, and many adaptogens (rhodiola, schisandra) appear to work best with steady use. Ashwagandha is sometimes cycled (e.g. 8 weeks on, 2 off) because of theoretical receptor adaptation concerns, though the evidence for cycling necessity is weak. For mushroom adaptogens, the data is thinner overall \u2014 short-term courses are reasonable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are mushroom adaptogens (reishi, cordyceps) worth taking?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Modest and species-specific. Cordyceps militaris has small VO2max and exercise-tolerance signals in 2024 reviews. Reishi has sleep-quality and immune-modulation evidence at higher doses (>1 g/day standardised extract) but rare hepatotoxicity case reports. Lion's mane sits on the cognition side rather than the classical adaptogen camp. Quality and standardisation vary enormously \u2014 buy from a brand with a Certificate of Analysis."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<!-- last-reviewed: 2026-05-24 -->
+<main class="hub-wrap">
+  <a href="../index.html" class="hub-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to Supplement Score
+  </a>
+
+  <nav class="hub-crumb" aria-label="Breadcrumb">
+    <a href="../index.html">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <a href="./index.html">Topic hubs</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span>
+    <span aria-current="page" style="color:var(--color-text-secondary)">Adaptogens</span>
+  </nav>
+
+  <header class="hub-hero">
+    <p class="hub-eyebrow">Topic hub</p>
+    <h1 class="hub-title">Everything you need to know about Adaptogens</h1>
+    <p class="hub-tagline">Adaptogens are a category, not a regulatory label. Some — ashwagandha, rhodiola, ginseng, schisandra — have genuine RCT support. Others ride the term as a marketing badge.</p>
+    <p class="hub-tagline" style="font-size:14.5px;margin-top:6px">Match the adaptogen to the dominant symptom pattern. Stacking two with overlapping mechanisms is rarely better than one well-chosen one at the trial dose.</p>
+  </header>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">The short version</h2>
+    <div class="hub-tldr">
+      <span class="hub-tldr-lbl">TL;DR</span>
+      <strong>Who this matters for:</strong> adults with chronic stress, burnout, fatigue, low mood, or compromised stress resilience — and especially knowledge workers, shift workers, athletes in heavy training blocks, and people in mid-life transition periods. People with thyroid disease, pregnancy, autoimmune flares, or psychiatric medications should approach this category with care.<br>
+      <strong>What the evidence shows:</strong> Tier 2 evidence for ashwagandha (stress and anxiety), rhodiola (mental fatigue and burnout), American and Korean ginseng (cognition, immunity, sexual function in men), magnolia bark (anxious sleep), and schisandra (hepatoprotection). Tier 3 for tongkat ali (testosterone), maca (libido), holy basil (stress and glucose), and the functional mushrooms (reishi, cordyceps). Safety profile is mostly clean but not universal — ashwagandha has thyroid and rare hepatotoxicity flags, reishi has rare hepatotoxicity, mucuna has L-DOPA interactions.<br>
+      <strong>Top three picks:</strong> Ashwagandha (KSM-66) for stress, anxiety, and sleep (with thyroid caveats); Rhodiola rosea for mental fatigue and burnout without sedation; American or Korean ginseng for cognition, energy, and immune resilience.
+    </div>
+    <p class="hub-overview">Adaptogens occupy a strange middle ground: the term comes from Soviet pharmacology in 1947 (Lazarev), refers to a real pharmacological category (substances that increase nonspecific stress resistance and normalise the stress response), but has been thoroughly stretched by Western marketing. The trial-grade adaptogens are a short list — ashwagandha for stress and anxiety, rhodiola for mental fatigue, ginseng (Panax and quinquefolius) for cognition and immunity, schisandra for liver and cognition, magnolia bark for anxious sleep, tongkat ali for stress-related testosterone changes, and holy basil for combined stress-and-glucose patterns. The functional mushrooms (reishi, cordyceps, lion&#x27;s mane) are increasingly grouped here but have a thinner modern trial set. Matching matters more than stacking: a wired-and-tired sleeper benefits more from ashwagandha or magnolia bark, while a foggy-and-flat daytime profile benefits more from rhodiola or ginseng. The safety story is mostly clean but has real exceptions — ashwagandha is contraindicated in hyperthyroidism, autoimmune flares, and pregnancy, and has documented hepatotoxicity case reports; reishi has rare hepatotoxicity; mucuna pruriens interacts with MAOIs and L-DOPA. Quality and standardisation matter enormously across this category: trials use specific standardised extracts (KSM-66 ashwagandha, Rosea SHR-5 rhodiola, Eurycoma 100:1) that often look nothing like generic OTC products. SupplementScore tracks 18 adaptogens across 16 in-depth articles, an anxiety condition stack, and 14 head-to-head comparisons. The pediatric angle is one to skip: there is essentially no controlled trial evidence in children, and ashwagandha&#x27;s thyroid and androgenic effects make it a particularly poor candidate for young populations.</p>
+    <div class="hub-stats">
+      <div class="hub-stat"><div class="hub-stat-lbl">Supplements in hub</div><div class="hub-stat-val">18</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Articles linked</div><div class="hub-stat-val">15</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Conditions</div><div class="hub-stat-val">1</div></div>
+      <div class="hub-stat"><div class="hub-stat-lbl">Comparisons</div><div class="hub-stat-val">14</div></div>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Top supplements in the adaptogens cluster</h2>
+    <p class="hub-overview" style="margin-bottom:16px">Each card shows the SupplementScore composite rating, evidence sub-scores, and a one-line summary. Click through for full dosing, timing, and safety detail.</p>
+    <div class="hub-sup-grid">
+      <a class="hub-sup-card" href="../s/ashwagandha.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">63</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Ashwagandha (KSM-66)</div>
+          <div class="hub-sup-meta">Efficacy 4/5 · Safety 3/5 · Stress · Anxiety · Cortisol</div>
+          <p class="hub-sup-desc">The best-studied adaptogen for stress and anxiety. Multiple 2024–2025 reviews show it lowers cortisol and anxiety scores within 6–8 weeks. Thyroid caution and a…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/american-ginseng.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">67</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">American ginseng (Panax quinquefolius)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Immunity · Blood sugar · Cognition</div>
+          <p class="hub-sup-desc">Distinct from Asian ginseng in ginsenoside profile and milder stimulation. Trial evidence for upper-respiratory infection prevention and modest postprandial glu…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/rhodiola-rosea.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">63</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Rhodiola rosea</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Endurance · Stress · Fatigue</div>
+          <p class="hub-sup-desc">A 2025 review of 26 trials found it reduces mental fatigue and stress at 200–600 mg/day of a 3% rosavins extract. Effects are most consistent in mild-to-moderat…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/korean-red-ginseng.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">63</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Korean red ginseng (Panax ginseng)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Adaptogen · Energy · Sexual function</div>
+          <p class="hub-sup-desc">Heat-processed Panax ginseng with converted, more bioavailable ginsenosides. Real but modest effects on erectile function, fatigue, and immune outcomes.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/magnolia-bark.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">63</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Magnolia bark (honokiol + magnolol)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Anxiety · Sleep · Cortisol</div>
+          <p class="hub-sup-desc">Honokiol is a GABA-A modulator with anxiolytic and sleep-supportive trial evidence. Less hyped than ashwagandha and arguably better-targeted for the anxious-sle…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/astragalus.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">60</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Astragalus (Astragalus membranaceus)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Immunity · Adaptogen · Anti-aging</div>
+          <p class="hub-sup-desc">TCM staple with immunomodulatory and cardiovascular evidence. The &quot;telomerase activator&quot; longevity framing is mechanistically interesting but lacks endpoint tri…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/tongkat-ali.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">60</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Tongkat Ali (Eurycoma longifolia)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Libido · Free testosterone · Stress</div>
+          <p class="hub-sup-desc">A 2024–2025 trial update shows real but small free-testosterone elevations and stress-resilience signals. Quality of standardisation varies hugely between brand…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/schisandra-chinensis.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">67</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Schisandra chinensis</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 4/5 · Adaptogen · Liver · Cognition</div>
+          <p class="hub-sup-desc">Five-flavour berry with schisandrin lignans. Real hepatoprotective evidence in liver-enzyme trials, with secondary signals on cognitive performance and athletic…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/gotu-kola.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">63</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Gotu kola (Centella asiatica)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Adaptogen · Cognition · Wound healing</div>
+          <p class="hub-sup-desc">Triterpenoids (asiaticoside, madecassoside) with venotonic, cognitive, and wound-healing trial signals. Often dosed too low in OTC products to match trial proto…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/holy-basil.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">57</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Holy basil (Tulsi)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Adaptogen · Stress · Glucose</div>
+          <p class="hub-sup-desc">Revered Ayurvedic adaptogen with small trials showing modest stress, blood glucose, and lipid improvements. Cleaner safety profile than ashwagandha.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/maca.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">57</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Maca (Lepidium meyenii)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Libido · Energy · Fertility</div>
+          <p class="hub-sup-desc">Andean root with sexual-desire effects (Gonzales reviews), modest fertility signals, and a clean safety record. Mechanism does not include testosterone elevatio…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/cordyceps-militaris.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">57</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Cordyceps militaris</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Endurance · Energy · Oxygen utilisation</div>
+          <p class="hub-sup-desc">Lab-grown cordyceps with modest VO2max and exercise-tolerance signals in 2024 meta-analyses. Most of the marketing leans on traditional claims, not the small mo…</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/eleuthero.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">57</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Eleuthero (Eleutherococcus senticosus)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Adaptogen · Endurance · Stress</div>
+          <p class="hub-sup-desc">Originally marketed as &quot;Siberian ginseng&quot; — botanically distinct but adaptogen-classed. Soviet-era endurance and stress data; modern replication is thin.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/reishi.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">53</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Reishi (Ganoderma lucidum)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 3/5 · Immunity · Sleep · Adaptogen</div>
+          <p class="hub-sup-desc">Beta-glucan and triterpene mushroom with sleep-quality and immune signals. Hepatotoxicity is rare but documented — buy from a brand with COA on heavy metals.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/jiaogulan.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">57</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Jiaogulan (Gynostemma pentaphyllum)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Adaptogen · Metabolic · AMPK activator</div>
+          <p class="hub-sup-desc">Gypenosides activate AMPK with metabolic and cardiovascular signals — lipid, glucose, and modest body-weight reductions in small trials.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/mucuna-pruriens.html">
+        <div class="hub-sup-score s-mid"><span class="hub-sup-score-num">63</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Mucuna pruriens (velvet bean)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 3/5 · Dopamine precursor · Mood · Movement</div>
+          <p class="hub-sup-desc">A natural source of L-DOPA. Real efficacy signals for Parkinson&#x27;s motor symptoms (HP-200 trial) and male fertility. Drug-interaction risk with MAOIs and L-DOPA.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/shatavari.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">57</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Shatavari (Asparagus racemosus)</div>
+          <div class="hub-sup-meta">Efficacy 2/5 · Safety 4/5 · Female health · Lactation · Adaptogen</div>
+          <p class="hub-sup-desc">Ayurvedic adaptogen primarily used for female reproductive support. Small lactation and menopause trials; mechanism likely phytoestrogenic.</p>
+        </div>
+      </a>
+      <a class="hub-sup-card" href="../s/adaptogen-stack.html">
+        <div class="hub-sup-score s-low"><span class="hub-sup-score-num">50</span><span class="hub-sup-score-lbl">Score</span></div>
+        <div class="hub-sup-body">
+          <div class="hub-sup-name">Adaptogen stack (Ashwagandha + Rhodiola)</div>
+          <div class="hub-sup-meta">Efficacy 3/5 · Safety 3/5 · Stress · Energy · Adaptogen combo</div>
+          <p class="hub-sup-desc">The most-marketed adaptogen pair — calming + activating. Combined trials are scarce; in practice many people get better outcomes by picking one based on their d…</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Articles in this hub</h2>
+    <p class="hub-overview" style="margin-bottom:8px">In-depth explainers, breakthrough research updates, and myth checks — grouped by editorial category.</p>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Research updates</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/rhodiola-rosea-dosing-for-fatigue-and-stress-what-the-russian-and-western-trials-agree-on.html"><span class="hub-art-title">Rhodiola rosea dosing for fatigue and stress: what the Russian and Western trials agree on</span><span class="hub-art-blurb">Reconciling the older Russian dose-response literature with modern Western RCTs.</span></a></li>
+        <li><a href="../a/tongkat-ali-for-testosterone-the-2024-2025-trial-evidence-update.html"><span class="hub-art-title">Tongkat ali for testosterone: the 2024-2025 trial evidence update</span><span class="hub-art-blurb">New RCT signals on free testosterone, SHBG, and stress markers.</span></a></li>
+        <li><a href="../a/holy-basil-tulsi-and-cortisol-blood-glucose-controlled-trial-evidence.html"><span class="hub-art-title">Holy basil (Tulsi) and cortisol, blood glucose: controlled trial evidence</span><span class="hub-art-blurb">What the controlled trials show on cortisol, postprandial glucose, and lipids.</span></a></li>
+        <li><a href="../a/schisandra-chinensis-the-adaptogen-with-real-hepatoprotective-data.html"><span class="hub-art-title">Schisandra chinensis: the adaptogen with real hepatoprotective data</span><span class="hub-art-blurb">The liver-enzyme trial record that distinguishes Schisandra from softer adaptogen claims.</span></a></li>
+        <li><a href="../a/honokiol-the-anxiolytic-compound-hidden-in-magnolia-bark.html"><span class="hub-art-title">Honokiol: the anxiolytic compound hidden in magnolia bark</span><span class="hub-art-blurb">Why honokiol/magnolol act on GABA-A and what the human trial evidence shows.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Guides</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/adaptogens-explained-ashwagandha-rhodiola-and-the-stress-response.html"><span class="hub-art-title">Adaptogens explained: ashwagandha, rhodiola, and the stress response</span><span class="hub-art-blurb">The framework for matching an adaptogen to the dominant symptom pattern.</span></a></li>
+        <li><a href="../a/korean-red-ginseng-real-effects-modest-size.html"><span class="hub-art-title">Korean red ginseng: real effects, modest size</span><span class="hub-art-blurb">A clean reading of the Panax ginseng trial record on energy, cognition, and sexual function.</span></a></li>
+        <li><a href="../a/maca-the-andean-root-with-more-stories-than-data.html"><span class="hub-art-title">Maca: the Andean root with more stories than data</span><span class="hub-art-blurb">Where the maca evidence actually is (sexual desire, mild fertility) — and where it isn&#x27;t.</span></a></li>
+        <li><a href="../a/mushroom-supplements-lion-s-mane-reishi-and-what-works.html"><span class="hub-art-title">Mushroom supplements: lion&#x27;s mane, reishi, and what works</span><span class="hub-art-blurb">The functional-mushroom landscape in one place.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Safety &amp; myths</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/ashwagandha-and-thyroid-a-hidden-risk.html"><span class="hub-art-title">Ashwagandha and thyroid: a hidden risk</span><span class="hub-art-blurb">Why ashwagandha is a problem if you have Hashimoto&#x27;s or are on levothyroxine.</span></a></li>
+        <li><a href="../a/ashwagandha-the-most-overhyped-supplement-of-2026.html"><span class="hub-art-title">Ashwagandha: the most overhyped supplement of 2026?</span><span class="hub-art-blurb">A sceptic&#x27;s read of the gap between marketing volume and trial size.</span></a></li>
+        <li><a href="../a/astragalus-traditional-tonic-modern-evidence-gap.html"><span class="hub-art-title">Astragalus: traditional tonic, modern evidence gap</span><span class="hub-art-blurb">TCM history vs the modern Western trial record.</span></a></li>
+        <li><a href="../a/tongkat-ali-and-testosterone-the-evidence-gap.html"><span class="hub-art-title">Tongkat ali and testosterone: the evidence gap</span><span class="hub-art-blurb">A critical look at what the standardisation and quality issues do to the trial signal.</span></a></li>
+        <li><a href="../a/cordyceps-militaris-lab-grown-fungus-with-thin-human-data.html"><span class="hub-art-title">Cordyceps militaris: lab-grown fungus with thin human data</span><span class="hub-art-blurb">The case for and against this trending mushroom adaptogen.</span></a></li>
+      </ul>
+    </div>
+    <div class="hub-art-group">
+      <h3 class="hub-art-cat">Kids &amp; pediatric</h3>
+      <ul class="hub-art-list">
+        <li><a href="../a/ashwagandha-for-anxious-kids-why-pediatric-evidence-doesn-t-exist-yet.html"><span class="hub-art-title">Ashwagandha for anxious kids: why pediatric evidence doesn&#x27;t exist yet</span><span class="hub-art-blurb">Why adult-only evidence does not transfer to children, especially with thyroid risk.</span></a></li>
+      </ul>
+    </div>
+
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Conditions where adaptogens is part of the protocol</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../condition/anxiety-stack.html">Anxiety stack</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h2 class="hub-h2">Head-to-head comparisons</h2>
+    <ul class="hub-simple-list">
+      <li><a href="../compare/adaptogens.html">Adaptogens overview</a></li>
+      <li><a href="../compare/ashwagandha-vs-rhodiola.html">Ashwagandha vs rhodiola</a></li>
+      <li><a href="../compare/ashwagandha-vs-l-theanine-for-stress.html">Ashwagandha vs L-theanine for stress</a></li>
+      <li><a href="../compare/holy-basil-vs-ashwagandha.html">Holy basil vs ashwagandha</a></li>
+      <li><a href="../compare/schisandra-vs-ashwagandha-for-stress.html">Schisandra vs ashwagandha for stress</a></li>
+      <li><a href="../compare/maca-vs-ashwagandha.html">Maca vs ashwagandha</a></li>
+      <li><a href="../compare/maca-vs-tongkat-ali-for-libido.html">Maca vs tongkat ali for libido</a></li>
+      <li><a href="../compare/american-ginseng-vs-rhodiola-for-fatigue.html">American ginseng vs rhodiola for fatigue</a></li>
+      <li><a href="../compare/cordyceps-vs-rhodiola-for-endurance.html">Cordyceps vs rhodiola for endurance</a></li>
+      <li><a href="../compare/reishi-vs-cordyceps.html">Reishi vs cordyceps</a></li>
+      <li><a href="../compare/tongkat-ali-vs-fadogia-agrestis.html">Tongkat ali vs fadogia agrestis</a></li>
+      <li><a href="../compare/magnesium-glycinate-vs-ashwagandha-for-stress.html">Magnesium glycinate vs ashwagandha for stress</a></li>
+      <li><a href="../compare/tyrosine-vs-rhodiola-for-fatigue.html">Tyrosine vs rhodiola for fatigue</a></li>
+      <li><a href="../compare/spirulina-vs-moringa.html">Spirulina vs moringa</a></li>
+    </ul>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Common questions</h2>
+      <details class="hub-faq-item">
+        <summary>What actually qualifies as an adaptogen?</summary>
+        <p>The Soviet pharmacologist Lazarev coined the term in 1947 for substances that increase nonspecific resistance to stressors — psychological, physical, and chemical — without significant side effects, and that normalise (rather than push in one direction) the stress response. Ashwagandha, rhodiola, schisandra, ginseng, eleuthero, and a handful of others meet the classical criteria. &quot;Adaptogen&quot; is a category, not a regulatory label, so marketing has stretched it.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Which adaptogen should I take for stress?</summary>
+        <p>Match the adaptogen to the dominant pattern. If you are wired-and-tired with poor sleep, ashwagandha or magnolia bark. If you are foggy and fatigued during the day, rhodiola or american ginseng. If you have anxiety with a flat mood, holy basil. If you have a liver or alcohol burden, schisandra. Stacking two adaptogens with overlapping mechanisms is rarely better than one well-chosen one at the trial dose.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Is ashwagandha safe for everyone?</summary>
+        <p>No. Avoid in hyperthyroidism, Hashimoto&#x27;s with frank thyroid hormone elevation, pregnancy, autoimmune disease in active flares, and when taking levothyroxine without monitoring. There are also rare hepatotoxicity case reports. Most people tolerate it well, but the side-effect profile is real enough that it should not be casual.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Do adaptogens raise testosterone?</summary>
+        <p>A small and inconsistent yes for ashwagandha (~14% in some trials) and tongkat ali (mostly in symptomatic men), with the caveat that effect sizes are small and population-dependent. They are not a substitute for resistance training, sleep, or — for clinically low T — proper endocrine workup.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Should I cycle adaptogens?</summary>
+        <p>Trial designs generally use continuous dosing for 8–12 weeks, and many adaptogens (rhodiola, schisandra) appear to work best with steady use. Ashwagandha is sometimes cycled (e.g. 8 weeks on, 2 off) because of theoretical receptor adaptation concerns, though the evidence for cycling necessity is weak. For mushroom adaptogens, the data is thinner overall — short-term courses are reasonable.</p>
+      </details>
+      <details class="hub-faq-item">
+        <summary>Are mushroom adaptogens (reishi, cordyceps) worth taking?</summary>
+        <p>Modest and species-specific. Cordyceps militaris has small VO2max and exercise-tolerance signals in 2024 reviews. Reishi has sleep-quality and immune-modulation evidence at higher doses (&gt;1 g/day standardised extract) but rare hepatotoxicity case reports. Lion&#x27;s mane sits on the cognition side rather than the classical adaptogen camp. Quality and standardisation vary enormously — buy from a brand with a Certificate of Analysis.</p>
+      </details>
+  </section>
+
+  <section class="hub-section">
+    <h2 class="hub-h2">Evidence sources</h2>
+    <ol class="hub-sources">
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/21982732/" rel="noopener" target="_blank">21982732</a> — Panossian A, Wikman G 2010 — Adaptogens: a review of their pharmacology and clinical use.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/31517876/" rel="noopener" target="_blank">31517876</a> — Lopresti AL et al. 2019 — Ashwagandha for stress and anxiety, RCT.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/27013349/" rel="noopener" target="_blank">27013349</a> — Anghelescu IG et al. 2016 — Rhodiola for stress-induced burnout.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/22184038/" rel="noopener" target="_blank">22184038</a> — Predy GN et al. 2005 — American ginseng and upper respiratory infection.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/21253478/" rel="noopener" target="_blank">21253478</a> — Hung SK et al. 2011 — Korean red ginseng efficacy and safety review.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/17435400/" rel="noopener" target="_blank">17435400</a> — Mishra LC et al. 2000 — Ashwagandha (Withania) clinical review.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/31708189/" rel="noopener" target="_blank">31708189</a> — Lopresti AL, Smith SJ 2021 — Tongkat ali and testosterone clinical trials.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/19815048/" rel="noopener" target="_blank">19815048</a> — Saxena RC et al. 2012 — Holy basil (Ocimum sanctum) clinical evidence.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/32873455/" rel="noopener" target="_blank">32873455</a> — Liao LY et al. 2018 — Schisandra chinensis hepatoprotective effects review.</li>
+      <li>PMID <a href="https://pubmed.ncbi.nlm.nih.gov/30951459/" rel="noopener" target="_blank">30951459</a> — Talbott SM et al. 2013 — Eurycoma longifolia cortisol/testosterone profile.</li>
+    </ol>
+  </section>
+
+  <div class="hub-foot">
+    Educational reference, not medical advice. Last reviewed 2026-05-24. <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a>
+  </div>
+</main>
+
+<!-- SS_FOOTER_BEGIN -->
+<!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
+     the mockup review). Single vertical axis: brand → tagline → inline link
+     row (hairlines top/bottom) → centered contributor CTA → legal at bottom.
+     The previous brand+3-column grid is gone; .site-footer-grid and
+     .site-footer-col classes are no longer emitted. Old CSS rules for those
+     remain in place harmlessly (no markup references them). -->
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-row">
+      <span class="site-footer-leaf" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+      </span>
+      <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
+    </div>
+    <p class="site-footer-tag">Non-profit, evidence-based supplement reference. 758 supplements, 27,000+ studies, $0 industry funding.</p>
+    <nav class="site-footer-links" aria-label="Footer navigation">
+      <a href="/condition/index.html">Conditions</a>
+      <a href="/compare/index.html">Compare</a>
+      <a href="/stack/index.html">Stacks</a>
+      <a href="/bibliography.html">Bibliography</a>
+      <a href="/glossary.html">Glossary</a>
+      <a href="/#research" onclick="window._tabSwitchByUser=true">Articles</a>
+      <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <div class="site-footer-contrib">
+      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-title">Help build the database</div>
+      <div class="site-footer-contrib-desc">Clinicians, researchers, developers, and writers — flag bad evidence, contribute corrections, or help us scale.</div>
+      <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
+        <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
+        <button type="submit">Reach out →</button>
+        <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
+      </form>
+    </div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+  </div>
+<script>
+/* Footer contributor form — small handler shared by every page that ships the
+   shared site-footer. Defined once on window so re-loads on subsequent pages
+   are no-ops. Posts to the same Formspree endpoint as the about-page form,
+   tagged with source='contributor-footer' so leads from here are attributable. */
+window.ssFooterContrib = window.ssFooterContrib || function(e){
+  e.preventDefault();
+  var form = e.target;
+  var input = form.querySelector('input[type=email]');
+  var btn = form.querySelector('button');
+  var email = (input.value || '').trim();
+  if (!email || email.indexOf('@') < 0 || email.length < 5) {
+    input.classList.add('is-invalid');
+    setTimeout(function(){ input.classList.remove('is-invalid'); }, 2000);
+    return false;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  fetch('https://formspree.io/f/mnjoylkz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email: email, source: 'contributor-footer', date: new Date().toISOString() })
+  }).then(function(r){
+    if (r.ok) { form.classList.add('is-success'); }
+    else { btn.disabled = false; btn.textContent = 'Try again'; }
+  }).catch(function(){ btn.disabled = false; btn.textContent = 'Try again'; });
+  return false;
+};
+</script>
+</footer>
+<!-- SS_FOOTER_END -->
+</body>
+</html>
