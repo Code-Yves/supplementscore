@@ -101,8 +101,18 @@
 
   window.addEventListener('popstate', function(){
     /* If the user presses back while the modal is open, close it. The
-       history.pushState we did above made this work. */
-    if (modal && !modal.hasAttribute('hidden')) close();
+       history.pushState we did above made this work.
+
+       BUT: when a supplement modal opens on top of this rc-modal and the
+       user closes that supplement, SSModal.close() also calls history.back()
+       which fires popstate here. We should only close if the navigation
+       has gone PAST the rc-modal state — i.e. the URL no longer has the
+       #rc=… hash that marks "rc-modal open". If the hash is still there,
+       a supplement-modal popstate just bounced us back TO the rc-modal,
+       and we should stay open. */
+    if (!modal || modal.hasAttribute('hidden')) return;
+    if (location.hash.indexOf('#rc=') === 0) return;
+    close();
   });
 
   window.addEventListener('message', function(e){

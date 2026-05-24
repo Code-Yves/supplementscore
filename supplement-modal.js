@@ -185,6 +185,7 @@
     modal.classList.remove('open');
     modal.classList.remove('loaded');
     modal.classList.remove('over-art');
+    modal.classList.remove('over-rc');
     document.body.classList.remove('ssm-locked');
     setTimeout(function(){ if (!openSlug) frame.src = 'about:blank'; }, 220);
     if (!fromHistory && history.state && history.state.ssm) {
