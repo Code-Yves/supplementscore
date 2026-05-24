@@ -726,8 +726,12 @@ if (typeof renderAll === 'function') {
         const dataAttrs = a.href
           ? `data-type="art" data-href="${escA(a.href)}"`
           : `data-type="art" data-art-id="${a.articleId}"`;
-        const eyebrow = a.cat ? `<span class="${artCatClass(a.cat)}">${escH(a.cat)}</span>` : '';
-        return `<div class="gs-ac-item gs-ac-item-art" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-body">${eyebrow}<span class="gs-ac-art-title">${escH(a.title)}</span></span></div>`;
+        /* 2026-05-24 — Layout was stacked (category eyebrow above title) and
+           rendered centered+broken in the dropdown. Switched to the same
+           name-left / tag-right pattern used by the Supplements rows so the
+           dropdown reads consistently across both sections. */
+        const tag = a.cat ? `<span class="gs-ac-tag ${artCatClass(a.cat)}">${escH(a.cat)}</span>` : '';
+        return `<div class="gs-ac-item" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-title">${escH(a.title)}</span>${tag}</div>`;
       }).join('');
     }
     return html;

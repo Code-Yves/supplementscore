@@ -766,9 +766,12 @@
   opacity:.35;
 }
 @media(max-width:600px){
-  /* Mobile: #sfbar-main becomes a 2-col grid, so the "3 of 4" cap
-     doesn't apply — let the label span the full available width. */
-  .sfbar-label{font-size:10px;letter-spacing:.16em;padding:4px 2px 0;max-width:none;}
+  /* Mobile: keep the desktop "3 of 4" cap (calc(75% - 2px)) so the hairline
+     stops at the right edge of the 3rd button (Symptom) and doesn't run
+     into the 4th (Research). The previous max-width:none override assumed
+     a 2-col mobile grid that no longer applies — .sfbar is repeat(4, 1fr)
+     at every viewport. Override removed 2026-05-24. */
+  .sfbar-label{font-size:10px;letter-spacing:.16em;padding:4px 2px 0;}
 }
 /* Sort chip lives INSIDE .sfbar (injected by initAllTab) so it shares the
    same flex-wrap row as Goal / Age & Sex / Symptom on every viewport.

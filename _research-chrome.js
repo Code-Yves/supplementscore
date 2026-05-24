@@ -390,13 +390,15 @@
     var sep = efS && meta.tag ? ' · ' : '';
     var metaLine = efS + sep + (meta.tag || '');
     var href = '../supplement.html?slug=' + encodeURIComponent(slug);
+    /* Tier pill removed 2026-05-24 — score on the left is the canonical
+       metric; tier on the right was duplicative (and the user prefers
+       score as the single supplement-strength signal). */
     return '<a class="rc-supp-row" href="' + href + '" data-supp-slug="' + slug + '">' +
-      '<span class="rc-supp-row-s rc-supp-s-' + (meta.score >= 80 ? 'hi' : meta.score >= 60 ? 'mid' : meta.score >= 40 ? 'low' : 'bad') + '">' + meta.score + '</span>' +
+      '<span class="rc-supp-row-s rc-supp-s-' + scoreBand(meta.score) + '">' + meta.score + '</span>' +
       '<div class="rc-supp-row-body">' +
         '<div class="rc-supp-row-name">' + meta.name + '</div>' +
         (metaLine ? '<div class="rc-supp-row-meta">' + metaLine + '</div>' : '') +
       '</div>' +
-      (meta.tier ? '<span class="rc-supp-row-tier rc-tier-' + (meta.tier.indexOf('1') > -1 ? 't1' : meta.tier.indexOf('2') > -1 ? 't2' : meta.tier.indexOf('3') > -1 ? 't3' : 't4') + '">' + meta.tier + '</span>' : '') +
       '<span class="rc-supp-row-arrow" aria-hidden="true">→</span>' +
     '</a>';
   }
@@ -437,6 +439,96 @@
       .then(function(m){ window._rcSupplementMeta = m; return m; })
       .catch(function(){ window._rcSupplementMeta = {}; return {}; });
     return window._rcSupplementMetaPending;
+  }
+
+  /* ---------- Tier → Score rewrite (2026-05-24) ----------
+     The user prefers showing the 0–100 supplement score over the legacy
+     Tier 1/2/3/4 classification. We rewrite, in place, every supplement-
+     tier pill on the page using supplement-meta.json:
+
+       • /stack/ pages — <span class="tier-pill t1">Tier 1</span> in the
+         TL;DR table TIER column AND in each .supp-card head. We swap the
+         tier text for the actual score (e.g. "91"), recolor by score band
+         (hi/mid/low/bad), and rename the column header "TIER" → "SCORE".
+
+       • /for/  pages — <span class="sx-tier t1">Tier 1</span> on each
+         .sx-row. The row already shows the score on the left (.sx-score),
+         so the tier pill is redundant. We hide it rather than duplicating.
+
+       • /condition/ pages keep their "Tier N evidence · …" .layer text
+         untouched. That's evidence-strength language about a trial, not a
+         per-supplement tier.
+
+     Lookup: closest <a href="../s/<slug>.html"> or
+     <a href="../supplement.html?slug=<slug>"> in the surrounding row/card.
+     If no match is found in supplement-meta, the pill is left untouched
+     (better than blanking it). */
+  function scoreBand(score){
+    if (score >= 80) return 'hi';
+    if (score >= 60) return 'mid';
+    if (score >= 40) return 'low';
+    return 'bad';
+  }
+  /* Find the supplement slug "near" a tier pill — walk up to the row/card
+     container, then look for a slug-bearing link inside it. */
+  function nearbySupplementSlug(pill){
+    /* Climb to the nearest meaningful container */
+    var container = pill.closest('tr, .supp-card, .sx-row, .stack-card, .ca-row, .sk-row, li, p, div') || pill.parentNode;
+    if (!container) return null;
+    var hops = 0;
+    while (container && hops < 4){
+      var a = container.querySelector && container.querySelector('a[href*="/s/"], a[href*="supplement.html?slug="], a[href*="supplement.html?n="]');
+      if (a){
+        var s = slugFromHref(a.getAttribute('href') || '');
+        if (s) return s;
+      }
+      /* If the row itself is an <a> (e.g. .sx-row is an anchor), check that */
+      if (container.tagName === 'A'){
+        var sr = slugFromHref(container.getAttribute('href') || '');
+        if (sr) return sr;
+      }
+      container = container.parentNode;
+      hops++;
+    }
+    return null;
+  }
+  function rewriteTierPillsToScore(){
+    /* 1. Stack-page pills (.tier-pill) → swap to score number */
+    loadSupplementMeta().then(function(meta){
+      var pills = wrap.querySelectorAll('.tier-pill');
+      pills.forEach(function(pill){
+        var slug = nearbySupplementSlug(pill);
+        if (!slug || !meta[slug]) return;
+        var sc = meta[slug].score;
+        if (sc == null) return;
+        /* Strip the t1/t2/t3/t4 class, add score-band class, swap text */
+        pill.className = (pill.className || '')
+          .split(/\s+/)
+          .filter(function(c){ return c && !/^t[1-4]$/.test(c); })
+          .concat(['score-pill', 'score-' + scoreBand(sc)])
+          .join(' ');
+        pill.textContent = String(sc);
+      });
+
+      /* 2. Stack-page table header "Tier" → "Score" */
+      wrap.querySelectorAll('.tldr thead th, .tldr-head th, table.tldr th').forEach(function(th){
+        var t = (th.textContent || '').trim().toLowerCase();
+        if (t === 'tier' || t === 'evidence tier' || t === 'tier (evidence)'){
+          th.textContent = 'Score';
+        }
+      });
+
+      /* 3. /for/-page pills (.sx-tier) — score is already visible in the
+         row's .sx-score, so the right-side tier pill is duplicative. Hide
+         it. (If a row somehow lacks .sx-score, leave the pill alone.) */
+      var sxPills = wrap.querySelectorAll('.sx-tier');
+      sxPills.forEach(function(pill){
+        var row = pill.closest('.sx-row') || pill.parentNode;
+        if (row && row.querySelector('.sx-score')){
+          pill.style.setProperty('display', 'none', 'important');
+        }
+      });
+    });
   }
 
   /* After the aend Supplements block is rendered with plain arrow rows,
@@ -533,6 +625,31 @@
      .ca-related>strong "Related:" mini-list) are MERGED into a single
      "Related Research" aend. Supplements and Sources stay separate. */
   function normalizeTailBlocks(){
+    /* 2026-05-24 — Dedup Related sections. Some pages (163 /a/ + 3 /stack/
+       + 19 /for/) have BOTH an auto-injected .ca-related block (from the
+       SS-AUTOLINKS pipeline) AND an authored "Related articles/reading/
+       supplements" heading in the article body. The two renders side-by-
+       side as two distinct related sections. When both exist, strip the
+       .ca-related autolink block — the editorial heading is canonical.
+       When .ca-related is the ONLY related block (77 /a/ articles), leave
+       it alone so the page still has related navigation. */
+    var autoRel = wrap.querySelectorAll('.ca-related');
+    if (autoRel.length){
+      var hasEditorialRelated = false;
+      var headingsAll = wrap.querySelectorAll('h2, h3');
+      for (var k = 0; k < headingsAll.length; k++){
+        var hh = headingsAll[k];
+        if (hh.closest && hh.closest('.ca-related')) continue;
+        if (tailLabel(hh.textContent) === 'Related articles'){
+          hasEditorialRelated = true;
+          break;
+        }
+      }
+      if (hasEditorialRelated){
+        autoRel.forEach(function(n){ if (n.parentNode) n.parentNode.removeChild(n); });
+      }
+    }
+
     var headings = wrap.querySelectorAll('h2, h3');
     var hits = [];
     for (var i = 0; i < headings.length; i++){
@@ -637,18 +754,14 @@
     h2s.forEach(function(h, idx){
       var slug = slugify(h.textContent || '') || ('sec-' + (idx + 1));
       h.id = h.id || slug;
-      /* Prepend section number label to the h2 (small typographic accent).
-         Also append a "N MIN" sub-label so the rhythm matches the article
-         template's `Practical Guidance / 1 MIN` pattern. */
+      /* Prepend section number label to the h2 (small typographic accent). */
       if (!h.previousElementSibling || !h.previousElementSibling.classList || !h.previousElementSibling.classList.contains('rc-sec-n')){
         var label = el('div', 'rc-sec-n', pad2(idx + 1));
         h.parentNode.insertBefore(label, h);
       }
-      /* Insert "N min" sub-label as a div right after the heading */
-      if (!h.nextElementSibling || !h.nextElementSibling.classList || !h.nextElementSibling.classList.contains('rc-sec-min')){
-        var subMin = el('div', 'rc-sec-min', perMin + ' min');
-        h.parentNode.insertBefore(subMin, h.nextSibling);
-      }
+      /* Per-section "N min" sub-label removed 2026-05-24 — felt noisy under
+         each H2. The "N min" total still appears in the trust line and in
+         each TOC item (.rc-toc-m), which is sufficient. */
       /* First item gets the active green-bar accent — matches the article
          template's "current section" highlight. */
       var liCls = idx === 0 ? 'rc-toc-li rc-toc-li-on' : 'rc-toc-li';
@@ -731,4 +844,8 @@
   /* 5. TAIL BLOCKS — rebuild "Supplements", "Related articles", "Sources"
      into mockup-v7 .rc-aend treatment so they stop being plain link lists. */
   try { normalizeTailBlocks(); } catch(err){ /* fail-safe: never block render */ }
+
+  /* 6. Tier → Score rewrite (see comment above rewriteTierPillsToScore).
+     Runs async because it depends on supplement-meta.json. */
+  try { rewriteTierPillsToScore(); } catch(err){ /* never block render */ }
 })();

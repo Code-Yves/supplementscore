@@ -1292,9 +1292,13 @@ a.site-nav-tab{
   .hero{ min-height:340px !important; }
   .hero-slide{ inset:32px 16px 80px 16px !important; }
 
-  /* (#7) Footer contributor form input/button — 44px target. */
+  /* (#7) Footer contributor form input/button — 32px after 2026-05-24
+     compaction (icon button + shorter input). 44px tap-target rule
+     intentionally relaxed: the form lives in the bottom footer and is a
+     low-priority CTA, so a smaller target trades acceptable touchability
+     for the vertical-space saving the user requested. */
   .site-footer-contrib-form input,
-  .site-footer-contrib-form button{ min-height:44px !important; }
+  .site-footer-contrib-form button{ min-height:32px !important; }
 }
 
 /* ============================================================
@@ -1378,8 +1382,8 @@ body{ overflow-x:clip; }
 .hero-slide{position:absolute;inset:36px 36px 80px 36px;z-index:3;opacity:0;transition:opacity .5s ease,transform .6s ease;transform:translateY(8px);pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
 .hero-slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
 .hero-slide-top{display:flex;align-items:center;gap:8px}
-.hero-slide-featured{display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;padding:3px 7px;border-radius:4px;background:rgba(255,215,0,0.25);color:#FFE066;text-transform:uppercase;letter-spacing:.08em;border:1px solid rgba(255,215,0,0.4)}
-.hero-slide-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-transform:uppercase;letter-spacing:.08em;color:#fff}
+.hero-slide-featured{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(255,215,0,0.25);color:#FFE066;text-transform:uppercase;letter-spacing:.08em;border:1px solid rgba(255,215,0,0.4)}
+.hero-slide-badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-transform:uppercase;letter-spacing:.08em;color:#fff}
 .hero-slide-body{flex:1;display:flex;flex-direction:column;justify-content:center}
 .hero-slide-headline{font-size:28px;font-weight:800;line-height:1.2;letter-spacing:-.01em;max-width:720px;margin:14px 0 12px;color:#fff}
 .hero-slide-desc{font-size:14px;line-height:1.6;color:rgba(255,255,255,0.88);max-width:660px;margin-bottom:18px}
@@ -1404,7 +1408,7 @@ body{ overflow-x:clip; }
 .hero-progress-fill{position:absolute;left:0;top:0;height:100%;width:0;background:#E8967A;border-radius:0 2px 2px 0;transform-origin:left center}
 .hero-progress-fill.run{animation:heroProgressFill 12s linear forwards}
 @keyframes heroProgressFill{from{width:0}to{width:100%}}
-@media(max-width:600px){.hero{height:auto;min-height:460px}.hero-slide{inset:54px 20px 96px 20px}.hero-slide-headline{font-size:20px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:11px}.hero-slide-featured{font-size:7px}.hero-slide-badge{font-size:7.5px}.hero-arrow{width:36px;height:36px}.hero-counter{top:14px;right:16px;left:16px;text-align:right;font-size:10px}.hero-counter::before{content:'PICK · '}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
+@media(max-width:600px){.hero{height:auto;min-height:460px}.hero-slide{inset:54px 20px 96px 20px}.hero-slide-headline{font-size:20px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:11px}.hero-slide-featured{font-size:10px}.hero-slide-badge{font-size:10px}.hero-arrow{width:36px;height:36px}.hero-counter{top:14px;right:16px;left:16px;text-align:right;font-size:10px}.hero-counter::before{content:'PICK · '}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
 /* Legacy .articles-filter-row + .articles-dd-* + .articles-search-* styles removed
    along with the toolbar redesign (now lives in index.css under .rs-toolbar). */
 .articles-no-results{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:var(--color-background-secondary);border:1px dashed var(--color-border-tertiary);border-radius:12px;margin-bottom:12px}
@@ -2871,9 +2875,12 @@ body.tab-supplements #nav-search-pill{display:none !important}
   max-width:420px;margin:0 auto;
 }
 .site-footer-contrib-form input{flex:1;min-width:0}
-.site-footer-contrib-form button{width:auto;flex-shrink:0;padding:0 22px}
+/* 2026-05-24 — Button collapsed from "Reach out →" text-button to a 32×32
+   square send-icon button to save vertical space and keep the form inline
+   on mobile. */
+.site-footer-contrib-form button{width:32px;height:32px;flex-shrink:0;padding:0;display:inline-flex;align-items:center;justify-content:center}
 .site-footer-contrib-form input{
-  height:38px;padding:0 14px;
+  height:32px;padding:0 12px;
   font-size:13px;font-family:inherit;color:#F8F4ED;
   background:rgba(255,255,255,.10);
   border:1px solid rgba(255,255,255,.20);border-radius:8px;
@@ -2885,12 +2892,11 @@ body.tab-supplements #nav-search-pill{display:none !important}
 }
 .site-footer-contrib-form input.is-invalid{border-color:#FCA5A5}
 .site-footer-contrib-form button{
-  height:38px;padding:0 22px;
-  font-size:13px;font-weight:600;font-family:inherit;
   color:#0F4A41;background:#F8F4ED;
   border:none;border-radius:8px;cursor:pointer;
-  white-space:nowrap;transition:background .15s,opacity .15s;
+  transition:background .15s,opacity .15s;
 }
+.site-footer-contrib-form button svg{display:block}
 .site-footer-contrib-form button:hover{background:#fff}
 .site-footer-contrib-form button:disabled{opacity:.7;cursor:default}
 .site-footer-contrib-success{
@@ -2899,10 +2905,10 @@ body.tab-supplements #nav-search-pill{display:none !important}
 .site-footer-contrib-form.is-success input,
 .site-footer-contrib-form.is-success button{display:none}
 .site-footer-contrib-form.is-success .site-footer-contrib-success{display:block}
-/* Phone — stack the form vertically for comfortable tap targets. */
+/* Phone — keep form inline (was column-stack with full-width button); the
+   icon button is small enough that stacking is no longer needed. */
 @media(max-width:600px){
-  .site-footer-contrib-form{flex-direction:column;max-width:340px}
-  .site-footer-contrib-form button{width:100%}
+  .site-footer-contrib-form{flex-direction:row;max-width:340px}
 }
 
 /* ============================================================
@@ -3854,6 +3860,21 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
 .rc-supp-row-tier.rc-tier-t2{background:#DBEAFE;color:#1D4ED8}
 .rc-supp-row-tier.rc-tier-t3{background:#FEF3C7;color:#92400E}
 .rc-supp-row-tier.rc-tier-t4{background:#FEE2E2;color:#B91C1C}
+
+/* Score pill — runtime swap from .tier-pill (stack pages) when the chrome
+   injector rewrites Tier → Score using supplement-meta.json. Reuses the
+   tier-pill geometry from the per-page CSS and adds score-band colours
+   that match .rc-supp-row-s. */
+.score-pill{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:30px;padding:3px 8px;border-radius:5px;
+  font-size:12px;font-weight:700;letter-spacing:-.01em;
+  color:#fff;line-height:1;
+}
+.score-pill.score-hi{background:#0F766E}
+.score-pill.score-mid{background:#3B82F6}
+.score-pill.score-low{background:#CA8A04}
+.score-pill.score-bad{background:#B91C1C}
 .rc-supp-row-arrow{
   font-size:18px;color:var(--color-text-tertiary,#9ca3af);
   transition:transform .15s;
