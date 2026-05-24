@@ -194,18 +194,38 @@
 
   /* ---------- build the chrome ---------- */
 
-  /* 1. TOP BAR — Prev/Next/Share/X. Prev/Next placeholders are hidden until
-     a category manifest (window.RC_PREV_NEXT) populates them. */
-  var topBar = el('div', 'rc-top');
-  topBar.innerHTML =
-    '<div class="rc-top-grp">' +
-      '<a class="rc-top-link rc-prev" href="#" hidden aria-label="Previous">' +
+  /* 1. TOP BAR — Prev/Next/Share/X.
+     Prev/Next are sourced from <meta name="rc-prev"> / <meta name="rc-next">
+     (or window.RC_PREV_NEXT). When neither prev nor next exists, the whole
+     left group is omitted so the bar reads cleanly. */
+  function metaContent(name){
+    var m = document.querySelector('meta[name="' + name + '"]');
+    return m ? (m.getAttribute('content') || '').trim() : '';
+  }
+  var prevHref = metaContent('rc-prev') || (window.RC_PREV_NEXT && window.RC_PREV_NEXT.prev && window.RC_PREV_NEXT.prev.href) || '';
+  var nextHref = metaContent('rc-next') || (window.RC_PREV_NEXT && window.RC_PREV_NEXT.next && window.RC_PREV_NEXT.next.href) || '';
+
+  var leftGrp = '';
+  if (prevHref || nextHref){
+    leftGrp = '<div class="rc-top-grp">';
+    if (prevHref){
+      leftGrp += '<a class="rc-top-link rc-prev" href="' + prevHref + '" aria-label="Previous">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="15 18 9 12 15 6"/></svg> Prev' +
-      '</a>' +
-      '<a class="rc-top-link rc-next" href="#" hidden aria-label="Next">' +
+      '</a>';
+    }
+    if (nextHref){
+      leftGrp += '<a class="rc-top-link rc-next" href="' + nextHref + '" aria-label="Next">' +
         'Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="9 18 15 12 9 6"/></svg>' +
-      '</a>' +
-    '</div>' +
+      '</a>';
+    }
+    leftGrp += '</div>';
+  } else {
+    /* Empty placeholder keeps Share/Close right-aligned via flex-justify */
+    leftGrp = '<div class="rc-top-grp" aria-hidden="true"></div>';
+  }
+
+  var topBar = el('div', 'rc-top');
+  topBar.innerHTML = leftGrp +
     '<div class="rc-top-grp">' +
       '<button type="button" class="rc-top-link rc-share" aria-label="Share">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share' +
@@ -217,31 +237,20 @@
   topBar.querySelector('.rc-share').addEventListener('click', share);
   topBar.querySelector('.rc-close').addEventListener('click', closeArticle);
 
-  /* Manifest-driven Prev/Next (optional — page can set window.RC_PREV_NEXT) */
-  if (window.RC_PREV_NEXT){
-    var pn = window.RC_PREV_NEXT;
-    if (pn.prev){
-      var p = topBar.querySelector('.rc-prev');
-      p.setAttribute('href', pn.prev.href);
-      p.hidden = false;
-    }
-    if (pn.next){
-      var n = topBar.querySelector('.rc-next');
-      n.setAttribute('href', pn.next.href);
-      n.hidden = false;
-    }
-  }
-
   /* Hide the legacy back buttons / close FABs that the old templates emit —
      our new top bar is now the canonical chrome. Also hide the existing
      kicker / meta lines because the new trust line supersedes them. */
   document.querySelectorAll(
-    '.ar-back, .sx-back, .sk-back, .pg-close-fab, ' +
+    '.ar-back, .sx-back, .sk-back, .pg-close-fab, .pg-share-fab, .pg-share-toast, ' +
     '.ar-cat, .ar-meta, .ca-kicker, .sk-kicker, .sx-kicker, ' +
     '.ss-last-reviewed'
   ).forEach(function(n){
-    n.style.display = 'none';
+    n.style.setProperty('display', 'none', 'important');
   });
+  /* Also block the late-binding share-fab injector in _site-ux.js — it runs
+     after our chrome and re-creates .pg-share-fab. Pre-emptively flag our
+     state so the FAB never gets a second chance. */
+  document.documentElement.classList.add('rc-chrome-active');
 
   /* 2. CATEGORY EYEBROW above the H1 — typographic, no fill (consistent
      with the no-filled-callouts site convention). The legacy kickers are
@@ -330,6 +339,86 @@
       '</div>' +
       '<span class="rc-rel-arrow" aria-hidden="true">→</span>' +
     '</a>';
+  }
+
+  /* Render a richer score-card row for a supplement link. Used in the
+     "Supplements in this article" aend when supplement-meta.json has a
+     match. Score pill on the left, name + efficacy/safety/tag in the
+     middle, tier label + arrow on the right. */
+  function suppRowHtml(href, meta){
+    var efS = meta.efficacy && meta.safety ?
+      'Efficacy ' + meta.efficacy + '/5 · Safety ' + meta.safety + '/5' : '';
+    var sep = efS && meta.tag ? ' · ' : '';
+    var metaLine = efS + sep + (meta.tag || '');
+    return '<a class="rc-supp-row" href="' + href + '">' +
+      '<span class="rc-supp-row-s rc-supp-s-' + (meta.score >= 80 ? 'hi' : meta.score >= 60 ? 'mid' : meta.score >= 40 ? 'low' : 'bad') + '">' + meta.score + '</span>' +
+      '<div class="rc-supp-row-body">' +
+        '<div class="rc-supp-row-name">' + meta.name + '</div>' +
+        (metaLine ? '<div class="rc-supp-row-meta">' + metaLine + '</div>' : '') +
+      '</div>' +
+      (meta.tier ? '<span class="rc-supp-row-tier rc-tier-' + (meta.tier.indexOf('1') > -1 ? 't1' : meta.tier.indexOf('2') > -1 ? 't2' : meta.tier.indexOf('3') > -1 ? 't3' : 't4') + '">' + meta.tier + '</span>' : '') +
+      '<span class="rc-supp-row-arrow" aria-hidden="true">→</span>' +
+    '</a>';
+  }
+
+  /* Extract a supplement slug from a link URL. Handles:
+     - /s/magnesium-glycinate.html  (and ../s/.../ etc.)
+     - /supplement.html?n=Magnesium+glycinate
+     Returns lower-case slug ready for lookup, or null. */
+  function slugFromHref(href){
+    if (!href) return null;
+    /* /s/<slug>.html */
+    var m = href.match(/\/s\/([^/?#]+)\.html(?:[#?]|$)/);
+    if (m) return m[1].toLowerCase();
+    /* supplement.html?n=<name> */
+    m = href.match(/supplement\.html\?[^#]*n=([^&#]+)/);
+    if (m){
+      try { return decodeURIComponent(m[1]).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+      catch(_){ return null; }
+    }
+    return null;
+  }
+
+  /* Fetch the supplement-meta lookup once per page. Returns a promise that
+     resolves to the map (or {} on failure — never rejects). */
+  function loadSupplementMeta(){
+    if (window._rcSupplementMeta) return Promise.resolve(window._rcSupplementMeta);
+    if (window._rcSupplementMetaPending) return window._rcSupplementMetaPending;
+    /* Path is relative to site root; figure it out from the chrome script's
+       own src attribute so we don't hardcode depth. */
+    var src = '/supplement-meta.json';
+    var ownScript = document.querySelector('script[src*="_research-chrome.js"]');
+    if (ownScript){
+      var s = ownScript.getAttribute('src') || '';
+      src = s.replace(/_research-chrome\.js.*$/, 'supplement-meta.json');
+    }
+    window._rcSupplementMetaPending = fetch(src, {credentials: 'omit'})
+      .then(function(r){ return r.ok ? r.json() : {}; })
+      .then(function(m){ window._rcSupplementMeta = m; return m; })
+      .catch(function(){ window._rcSupplementMeta = {}; return {}; });
+    return window._rcSupplementMetaPending;
+  }
+
+  /* After the aend Supplements block is rendered with plain arrow rows,
+     upgrade them in-place to .rc-supp-row when supplement-meta loads. */
+  function upgradeSupplementRows(aend){
+    loadSupplementMeta().then(function(meta){
+      var list = aend.querySelector('.rc-rel-list');
+      if (!list) return;
+      var rows = list.querySelectorAll('.rc-rel-row');
+      var upgraded = 0;
+      rows.forEach(function(row){
+        var href = row.getAttribute('href') || '';
+        var slug = slugFromHref(href);
+        if (!slug || !meta[slug]) return;
+        /* Replace the plain row with the rich supp-row */
+        var holder = document.createElement('div');
+        holder.innerHTML = suppRowHtml(href, meta[slug]);
+        row.parentNode.replaceChild(holder.firstChild, row);
+        upgraded++;
+      });
+      if (upgraded > 0) aend.classList.add('rc-aend-upgraded');
+    });
   }
 
   /* Classify a heading text into one of our known tail-block labels */
@@ -424,6 +513,11 @@
         node = nx;
       }
       if (list) parent.removeChild(list);
+
+      /* Async upgrade Supplements rows to rich score-cards once meta loads */
+      if (hit.label === 'Supplements'){
+        upgradeSupplementRows(aend);
+      }
     });
 
     /* Also catch standalone "Read more:" labelled blocks that don't have a
