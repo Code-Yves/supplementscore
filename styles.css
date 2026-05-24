@@ -3723,11 +3723,15 @@ html.rc-chrome-active main.sx-wrap h3{
 .rc-sec-n + h2,
 .rc-sec-n + h3{margin-top:0 !important}
 
-/* "N min" sub-label below each section heading */
-.rc-sec-min{
-  font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--color-text-tertiary,#9ca3af);
-  margin:4px 0 18px;
+/* 2026-05-24 — per-section "N min" sub-label is permanently hidden per user
+   request. The CSS rule kept here as a tombstone so any older cached JS that
+   still emits the markup doesn't show stray text. The total read time still
+   appears in the trust strip (top of article) and per-section minutes still
+   appear inside each inline TOC item. */
+.rc-sec-min,
+.article-v2 .sec-meta,
+.sec-meta{
+  display:none !important;
 }
 
 /* THE BOTTOM LINE — green left-bar, typographic only, no fill. Matches the

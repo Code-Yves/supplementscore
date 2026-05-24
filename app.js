@@ -4555,15 +4555,17 @@ function articleSectionWrapHtml(body){
     h2.className='sec-h';
     h2.id=h.id;
     h2.textContent=h.textContent;
-    const meta=document.createElement('div');
-    meta.className='sec-meta';
-    meta.innerHTML='<span>'+min+' min</span>'+(srcCount?' <span class="dot"></span><span class="src">'+srcCount+' source'+(srcCount===1?'':'s')+'</span>':'');
+    /* 2026-05-24 — per-section min/sources sub-meta line removed per user
+       request ("remove all 'min' from within the article. It's fine to keep
+       it at the top where it shows the total minutes"). The total read time
+       still renders in the trust strip above the article; the per-section
+       breakdown still renders in the inline TOC. The body just got noisier
+       under each H2 without adding new information. */
     const secN=document.createElement('span');
     secN.className='sec-n';
     secN.textContent=num;
     sec.appendChild(secN);
     sec.appendChild(h2);
-    sec.appendChild(meta);
     collected.forEach(function(n){sec.appendChild(n);});
     h.parentNode.replaceChild(sec,h);
   });
@@ -5071,13 +5073,15 @@ function _artLbl(label, cat){
   return n ? label + ' (' + n + ')' : label;
 }
 var artOpts=[
-  {val:'quickread',   label:_artLbl('Quick Reads',   'quickread')},
+  {val:'quickread',   label:_artLbl('Top 10 Lists',  'quickread')},
   {val:'guide',       label:_artLbl('Guide',         'guide')},
   {val:'breakthrough',label:_artLbl('Breakthrough',  'breakthrough')},
   {val:'kids',        label:_artLbl('Kids',          'kids')},
   {val:'myth',        label:_artLbl('Reality Check', 'myth')},
   {val:'safety',      label:_artLbl('Safety Alert',  'safety')},
-  {val:'population',  label:_artLbl('Population',    'population')},
+  /* 2026-05-24 — Population filter removed per user request. The 11 surfaced
+     /for/ population pages (vegans, pregnancy, seniors, women, men, etc.)
+     are deleted; the dropdown entry no longer makes sense. */
   {val:'condition',   label:_artLbl('Condition',     'condition')},
   {val:'stack',       label:_artLbl('Stack',         'stack')}
 ];
@@ -5189,7 +5193,7 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
 function _artPick(v){
-  const CAT_LABELS={all:'Research',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',population:'Population',condition:'Condition',stack:'Stack'};
+  const CAT_LABELS={all:'Research',quickread:'Top 10 Lists',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',condition:'Condition',stack:'Stack'};
   const lbl=CAT_LABELS[v]||'Research';
   /* Reset siblings FIRST, then set the art-filter label last. The earlier
      replace_all auto-injected an art-filter reset onto the pop-filter reset
@@ -5211,13 +5215,12 @@ function _artPick(v){
 
   const m={
     all:{title:'Research',desc:'Every entry in the Research library, freshest first.'},
-    quickread:{title:'Quick Reads',desc:'Short, scannable explainers — a few minutes each.'},
+    quickread:{title:'Top 10 Lists',desc:'Curated countdown lists — the best, the worst, the most-hyped, the most-evidenced.'},
     guide:{title:'Guides',desc:'Deeper how-to articles for choosing, dosing, and stacking supplements.'},
     breakthrough:{title:'Breakthroughs',desc:'New science changing what we know about a supplement or pathway.'},
     kids:{title:'For Kids',desc:'Pediatric-specific evidence, dosing, and safety considerations.'},
     myth:{title:'Reality Check',desc:'Popular claims vs. what the trials actually show.'},
     safety:{title:'Safety Alerts',desc:'Warnings, interactions, recalls, and supplements to avoid.'},
-    population:{title:'Population',desc:'Evidence-graded supplement guides tailored to specific populations and life stages.'},
     condition:{title:'Condition',desc:'Evidence-based supplement protocols for specific health conditions.'},
     stack:{title:'Stack',desc:'Goal-based supplement stacks — layered, evidence-tiered combinations built around a single outcome.'}
   }[v]||{title:lbl,desc:''};
