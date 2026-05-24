@@ -10,7 +10,13 @@
   <meta property="og:site_name" content="SupplementScore">
   <meta name="twitter:title" content="Glossary — SupplementScore">
   <meta name="twitter:description" content="Plain-language definitions for the research terms used across the site.">
-  <link rel="canonical" href="https://supplementscore.org/glossary.html">
+  <!-- 2026-05-24 — Glossary content absorbed into /about.html#glossary so the
+       site has a single source of truth. This page is kept live so old inbound
+       links don't 404, but search engines should treat the about page as
+       canonical. Human visitors are bounced via meta refresh. -->
+  <link rel="canonical" href="https://supplementscore.org/about.html#glossary">
+  <meta name="robots" content="noindex,follow">
+  <meta http-equiv="refresh" content="0; url=/about.html#glossary">
   <meta property="og:title" content="Glossary — SupplementScore">
   <meta property="og:description" content="Plain-language definitions for the research terms used across the site.">
   <meta property="og:type" content="website">
@@ -535,7 +541,6 @@
     <nav class="site-footer-links" aria-label="Footer navigation">
       <a href="/">Home</a>
       <a href="/compare/index.html">Compare</a>
-      <a href="/glossary.html">Glossary</a>
       <a href="/#research" onclick="window._tabSwitchByUser=true">Research</a>
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>

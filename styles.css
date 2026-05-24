@@ -2428,25 +2428,33 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   outline-offset:-3px;
 }
 
-/* 2026-05-24 — Mobile layout for the Search-supplements-by toolbar.
-   All four buttons (Goal / Age & Sex / Symptom / Research) share one row at
-   every breakpoint. Each gets exactly 1/4 of the available width minus the
-   gap share, and they must NOT wrap. Earlier attempts at 3+1 caused
-   awkward 2+2 with empty cells; one-row is the cleaner answer. */
+/* 2026-05-24 — Sfbar layout: all 4 buttons (Goal / Age & Sex / Symptom /
+   Research) on a single row at every viewport. Earlier flex-based attempts
+   were overridden somewhere in the cascade and ended up wrapping to 2+2 on
+   tablet widths. CSS Grid with explicit 4 columns is bulletproof. */
+.sfbar{
+  display:grid !important;
+  grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+  grid-auto-rows:1fr !important;
+  gap:8px !important;
+  flex-wrap:nowrap !important;
+  padding:8px 0 !important;
+  width:100% !important;
+}
+.sfbar > .cdd{
+  min-width:0 !important;
+  max-width:none !important;
+  width:100% !important;
+}
 @media(max-width:640px){
-  .sfbar{
-    flex-wrap:nowrap !important;
-    gap:6px !important;
-  }
-  .sfbar > .cdd{
-    flex:1 1 0 !important;
-    min-width:0 !important;
-    max-width:none !important;
-    width:auto !important;
-  }
-  /* Make sure the labels fit — slightly tighter type on small screens */
-  .sfbar .cdd-lbl{font-size:9.5px !important}
+  .sfbar{gap:6px !important}
+  .sfbar .cdd-lbl{font-size:10px !important}
   .sfbar .cdd-ico{width:14px !important;height:14px !important}
+}
+@media(max-width:380px){
+  .sfbar{gap:4px !important}
+  .sfbar .cdd-lbl{font-size:9px !important}
+  .sfbar .cdd-btn{padding:6px 4px !important}
 }
 
 /* 2026-05-22 — Option A: outlined Articles button.
