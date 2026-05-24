@@ -702,31 +702,18 @@ if (typeof renderAll === 'function') {
 
     const swS=S.filter(s=>s.n.toLowerCase().startsWith(ql));
     const incS=S.filter(s=>!s.n.toLowerCase().startsWith(ql)&&s.n.toLowerCase().includes(ql));
-    const suppHits=[...swS,...incS].slice(0,5);
+    /* 2026-05-24 — Per-section caps bumped from 5/4 → 10/10. Conditions
+       and Categories sections removed entirely (per user request) so the
+       dropdown surfaces only Supplements + Research. */
+    const suppHits=[...swS,...incS].slice(0,10);
 
     /* Articles — match against title + category. starts-with ranks first. */
     const arts = buildArtIndex();
     const swA = arts.filter(a => a.title.toLowerCase().startsWith(ql));
     const incA = arts.filter(a => !a.title.toLowerCase().startsWith(ql) && a.title.toLowerCase().includes(ql));
-    const artHits = [...swA, ...incA].slice(0, 4);
+    const artHits = [...swA, ...incA].slice(0, 10);
 
-    const condHits=[];
-    if(typeof CONDITIONS!=='undefined'){
-      Object.entries(CONDITIONS).forEach(([key,cond])=>{
-        if(cond.label.toLowerCase().includes(ql))condHits.push({key,label:cond.label});
-      });
-      condHits.sort((a,b)=>a.label.toLowerCase().startsWith(ql)?-1:b.label.toLowerCase().startsWith(ql)?1:0);
-      condHits.splice(3);
-    }
-
-    const catHits=[];
-    if(typeof CATS!=='undefined'){
-      CATS.forEach(c=>{if(c.toLowerCase().includes(ql))catHits.push(c);});
-      catHits.sort((a,b)=>a.toLowerCase().startsWith(ql)?-1:b.toLowerCase().startsWith(ql)?1:0);
-      catHits.splice(2);
-    }
-
-    if(!suppHits.length&&!artHits.length&&!condHits.length&&!catHits.length) return '';
+    if(!suppHits.length&&!artHits.length) return '';
 
     let html='';
     if(suppHits.length){
@@ -742,14 +729,6 @@ if (typeof renderAll === 'function') {
         const eyebrow = a.cat ? `<span class="${artCatClass(a.cat)}">${escH(a.cat)}</span>` : '';
         return `<div class="gs-ac-item gs-ac-item-art" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-body">${eyebrow}<span class="gs-ac-art-title">${escH(a.title)}</span></span></div>`;
       }).join('');
-    }
-    if(condHits.length){
-      html+=`<div class="gs-ac-hdr">Conditions &amp; Goals</div>`;
-      html+=condHits.map(c=>`<div class="gs-ac-item" role="option" data-type="cond" data-key="${escA(c.key)}" data-name="${escA(c.label)}" onmousedown="event.preventDefault()"><span>${escH(c.label)}</span><span class="gs-ac-tag">Condition</span></div>`).join('');
-    }
-    if(catHits.length){
-      html+=`<div class="gs-ac-hdr">Categories</div>`;
-      html+=catHits.map(c=>`<div class="gs-ac-item" role="option" data-type="cat" data-name="${escA(c)}" onmousedown="event.preventDefault()"><span>${escH(c)}</span><span class="gs-ac-tag">Category</span></div>`).join('');
     }
     return html;
   }
