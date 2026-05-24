@@ -3753,9 +3753,17 @@ const DRUG_INTERACTIONS={
     {drug:'cyclosporine',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'P-gp inhibition raises cyclosporine levels',evidence:'B',source:'PK studies'},
     {drug:'cyclosporine',supp:'Black pepper extract (piperine)',severity:'caution',mechanism:'CYP3A4 inhibition raises cyclosporine',evidence:'B',source:'PK studies'},
     {drug:'tacrolimus',supp:'Echinacea purpurea',severity:'avoid',mechanism:'opposes immunosuppression',evidence:'C',source:'NCCIH'},
-    {drug:'tacrolimus',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'P-gp + CYP3A4 inhibition raises tacrolimus levels',evidence:'B',source:'PK studies'}
+    {drug:'tacrolimus',supp:'Curcumin (bioavailable form)',severity:'caution',mechanism:'P-gp + CYP3A4 inhibition raises tacrolimus levels',evidence:'B',source:'PK studies'},
+    {drug:'cladribine',supp:'Curcumin (bioavailable form)',severity:'avoid',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'capecitabine',supp:'Folate (5-MTHF)',severity:'avoid',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'deferiprone',supp:'Milk thistle (Silymarin)',severity:'avoid',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'esomeprazole magnesium',supp:'Iron',severity:'caution',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'lansoprazole',supp:'Iron',severity:'caution',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'sevelamer carbonate',supp:'Iron',severity:'caution',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'naldemedine',supp:'Quercetin',severity:'caution',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'},
+    {drug:'orlistat',supp:'Vitamin E (mixed tocopherols)',severity:'caution',mechanism:'from FDA drug-label drug-interactions section',evidence:'C',source:'openFDA SPL'}
   ]
-};
+};;
 // ── Build lookup structures ──
 const _pairPartner=new Map();SUPP_INTERACTIONS.pairs.forEach(([a,b])=>{if(!_pairPartner.has(a))_pairPartner.set(a,new Set());_pairPartner.get(a).add(b);if(!_pairPartner.has(b))_pairPartner.set(b,new Set());_pairPartner.get(b).add(a);});
 function getPairPartners(name){return _pairPartner.has(name)?[..._pairPartner.get(name)]:[]}
@@ -5030,7 +5038,7 @@ function _artLbl(label, cat){
   return n ? label + ' (' + n + ')' : label;
 }
 var artOpts=[
-  {val:'all',         label:_artLbl('Research & Articles',  'all')},
+  {val:'all',         label:_artLbl('Research',  'all')},
   {val:'quickread',   label:_artLbl('Quick Reads',   'quickread')},
   {val:'guide',       label:_artLbl('Guide',         'guide')},
   {val:'breakthrough',label:_artLbl('Breakthrough',  'breakthrough')},
@@ -5038,7 +5046,7 @@ var artOpts=[
   {val:'myth',        label:_artLbl('Reality Check', 'myth')},
   {val:'safety',      label:_artLbl('Safety Alert',  'safety')}
 ];
-sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Articles',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
+sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Research',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {
   Sleep:['sleep','insomnia'],
   Anxiety:['anxiety','stress','adapt'],
@@ -5146,7 +5154,7 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
 function _artPick(v){
-  const CAT_LABELS={all:'Research & Articles',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
+  const CAT_LABELS={all:'Research',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
   const lbl=CAT_LABELS[v]||'Articles';
   /* Reset siblings FIRST, then set the art-filter label last. The earlier
      replace_all auto-injected an art-filter reset onto the pop-filter reset
