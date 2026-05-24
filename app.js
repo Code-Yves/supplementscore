@@ -19,7 +19,7 @@ function articleReviewedDate(srcEl){if(!srcEl)return '';const html=srcEl.innerHT
    content (safety, Tier 4, kids) gets a faster cadence. Per-entry override possible via
    `lr_cadence` field on a supplement or `cadence` in an ARTICLES_BY_ID record. See
    docs/cadence-policy.md for the policy and the SKILL.md update needed for the daily run. */
-const CADENCE_POLICY={t1:30,t2:60,t3:60,t4:14,safety:14,kids:30,breakthrough:30,guide:90,myth:90};
+const CADENCE_POLICY={t1:30,t2:60,t3:60,t4:30,safety:30,kids:30,breakthrough:30,guide:90,myth:90};
 function cadenceForSupp(supp){if(!supp)return 60;if(supp.lr_cadence)return Number(supp.lr_cadence)||60;const t=supp.t||'t2';return CADENCE_POLICY[t]||60;}
 function cadenceForArticle(articleId){const rec=(typeof ARTICLES_BY_ID!=='undefined')?ARTICLES_BY_ID[articleId]:null;if(!rec)return 90;if(rec.cadence)return Number(rec.cadence)||90;const c=rec.c||'guide';return CADENCE_POLICY[c]||90;}
 /* Days since YYYY-MM-DD relative to today's UTC date — handy for "is this stale?" checks. */
