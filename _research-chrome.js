@@ -273,11 +273,17 @@
 
   /* Hide the legacy back buttons / close FABs that the old templates emit —
      our new top bar is now the canonical chrome. Also hide the existing
-     kicker / meta lines because the new trust line supersedes them. */
+     kicker / meta lines because the new trust line supersedes them, and
+     the SEO breadcrumb (which is noisy inside the modal reading flow). */
   document.querySelectorAll(
+    /* close/back FABs */
     '.ar-back, .sx-back, .sk-back, .pg-close-fab, .pg-share-fab, .pg-share-toast, ' +
-    '.ar-cat, .ar-meta, .ca-kicker, .sk-kicker, .sx-kicker, ' +
-    '.ss-last-reviewed'
+    /* legacy category eyebrows / kickers */
+    '.ar-cat, .ca-kicker, .sk-kicker, .sx-kicker, ' +
+    /* legacy meta / lastreviewed lines — superseded by rc-trust */
+    '.ar-meta, .ca-meta, .sk-meta, .sx-meta, .ss-last-reviewed, ' +
+    /* SEO breadcrumb — keep in source for search engines, hide visually */
+    '.ss-breadcrumb, nav[aria-label="Breadcrumb"]'
   ).forEach(function(n){
     n.style.setProperty('display', 'none', 'important');
   });
