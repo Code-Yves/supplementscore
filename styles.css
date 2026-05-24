@@ -2721,6 +2721,12 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   transition:color .12s;
 }
 .site-footer-links a:hover{color:#F8F4ED;text-decoration:underline;text-underline-offset:3px}
+/* Beta badge inside a footer link (e.g. Profile (Beta)) — slightly smaller,
+   lighter weight, no letter-spacing so it reads as parenthetical, not a label. */
+.site-footer-beta{
+  font-size:9.5px;font-weight:500;letter-spacing:0;
+  text-transform:none;opacity:.7;margin-left:4px;
+}
 @media(max-width:600px){
   .site-footer-links{gap:12px 16px;padding:16px 0;margin-bottom:22px}
 }
