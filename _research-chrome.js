@@ -609,43 +609,19 @@
         return;
       }
 
-      /* Related-type — accumulate. Anchor position to the FIRST related
-         hit's location so the merged block sits in the natural spot. */
-      relatedRows += rowsFromList(list);
-      relatedCount += countItemsInList(list);
-      if (!relatedAnchor) relatedAnchor = h;
-      nodesToRemove.push(h, list);
+      /* Related-type — SKIP. Per user request 2026-05-24: do not emit the
+         merged "Related Research" aend. Leave the article's original
+         "Related articles" heading + list in place, unmodified. */
+      return;
     });
 
-    /* Also catch standalone "Related:" / "Read more:" labelled blocks that
-       don't have a proper heading — older auto-link patterns. Merge them
-       into the same Related Research bucket. */
-    var readmore = wrap.querySelectorAll('.ca-related');
-    readmore.forEach(function(rm){
-      if (rm.querySelector('.rc-aend')) return;
-      var st = rm.querySelector('strong');
-      if (!st || !/(read more|related)/i.test(st.textContent)) return;
-      var ul = rm.querySelector('ul');
-      if (!ul) return;
-      relatedRows += rowsFromList(ul);
-      relatedCount += countItemsInList(ul);
-      if (!relatedAnchor) relatedAnchor = rm;
-      nodesToRemove.push(rm);
-    });
+    /* Standalone "Related:" / "Read more:" labelled blocks (.ca-related):
+       also skipped per 2026-05-24 request — leave the original markup
+       in place rather than rolling it into a Related Research aend. */
 
-    /* Emit the merged Related Research aend at the anchor position. */
-    if (relatedRows){
-      var relAend = buildAend(
-        'Related research',
-        relatedCount + ' related',
-        '<div class="rc-rel-list">' + relatedRows + '</div>'
-      );
-      if (relatedAnchor && relatedAnchor.parentNode){
-        relatedAnchor.parentNode.insertBefore(relAend, relatedAnchor);
-      } else {
-        wrap.appendChild(relAend);
-      }
-    }
+    /* Related Research aend emit removed 2026-05-24. The variables
+       relatedRows / relatedCount / relatedAnchor remain in scope only
+       to keep the rest of this function's structure intact. */
 
     /* Drop all the originals we replaced. */
     nodesToRemove.forEach(function(n){

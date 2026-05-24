@@ -2762,7 +2762,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   display:flex;flex-wrap:wrap;justify-content:center;
   gap:14px 24px;
   padding:20px 0;
-  border-top:0.5px solid rgba(248,244,237,.12);
+  /* border-top removed 2026-05-24 along with the .site-footer-tag tagline above */
   border-bottom:0.5px solid rgba(248,244,237,.12);
   margin:0 auto 28px;
   max-width:760px;
