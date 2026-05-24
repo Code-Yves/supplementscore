@@ -5045,7 +5045,8 @@ var artOpts=[
   {val:'myth',        label:_artLbl('Reality Check', 'myth')},
   {val:'safety',      label:_artLbl('Safety Alert',  'safety')},
   {val:'population',  label:_artLbl('Population',    'population')},
-  {val:'condition',   label:_artLbl('Condition',     'condition')}
+  {val:'condition',   label:_artLbl('Condition',     'condition')},
+  {val:'stack',       label:_artLbl('Stack',         'stack')}
 ];
 sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Research',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {
@@ -5155,7 +5156,7 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
 function _artPick(v){
-  const CAT_LABELS={all:'Research',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',population:'Population',condition:'Condition'};
+  const CAT_LABELS={all:'Research',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',population:'Population',condition:'Condition',stack:'Stack'};
   const lbl=CAT_LABELS[v]||'Research';
   /* Reset siblings FIRST, then set the art-filter label last. The earlier
      replace_all auto-injected an art-filter reset onto the pop-filter reset
@@ -5184,7 +5185,8 @@ function _artPick(v){
     myth:{title:'Reality Check',desc:'Popular claims vs. what the trials actually show.'},
     safety:{title:'Safety Alerts',desc:'Warnings, interactions, recalls, and supplements to avoid.'},
     population:{title:'Population',desc:'Evidence-graded supplement guides tailored to specific populations and life stages.'},
-    condition:{title:'Condition',desc:'Evidence-based supplement protocols for specific health conditions.'}
+    condition:{title:'Condition',desc:'Evidence-based supplement protocols for specific health conditions.'},
+    stack:{title:'Stack',desc:'Goal-based supplement stacks — layered, evidence-tiered combinations built around a single outcome.'}
   }[v]||{title:lbl,desc:''};
 
   const icon='<path d="M4 4h13a3 3 0 013 3v10a3 3 0 01-3 3H8l-4 3z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/>';

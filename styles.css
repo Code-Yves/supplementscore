@@ -3392,3 +3392,142 @@ body.tab-profile .site-footer{display:none !important}
   white-space: nowrap !important;
   border: 0 !important;
 }
+
+/* ═════════════════════════════════════════════════════════════════
+   Research chrome — top bar + trust line + TOC + section numbers
+   Injected by _research-chrome.js on /a/, /for/, /condition/, /stack/
+   pages. Typographic + hairline only — no filled callouts, no gradients,
+   matching the site-wide "no-filled-callouts" convention.
+   ═════════════════════════════════════════════════════════════════ */
+
+/* Top bar — flat text + icon links above a single hairline */
+.rc-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0 12px;
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+  margin-bottom:20px;
+  font-size:13px;
+  font-family:inherit;
+}
+.rc-top-grp{display:inline-flex;align-items:center;gap:14px}
+.rc-top-link{
+  display:inline-flex;align-items:center;gap:5px;
+  background:none;border:0;padding:4px 2px;
+  color:var(--color-text-secondary,#6b7280);
+  font:inherit;font-size:13px;font-weight:500;
+  text-decoration:none;cursor:pointer;
+  transition:color .12s;
+}
+.rc-top-link:hover{color:var(--color-brand,#1F7A6B)}
+.rc-top-link svg{vertical-align:-1px}
+.rc-top-sep{
+  display:inline-block;width:1px;height:14px;
+  background:var(--color-border-tertiary,#e5e7eb);
+}
+.rc-top-link.rc-close{
+  font-size:22px;line-height:1;font-weight:400;
+  width:24px;height:24px;justify-content:center;padding:0;
+}
+
+/* Category eyebrow above H1 (when not already present) — leading dash, small caps */
+.rc-cat{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-brand,#1F7A6B);
+  margin:0 0 8px;
+}
+.rc-cat::before{
+  content:'';display:inline-block;width:18px;height:1px;
+  background:currentColor;
+}
+
+/* Trust line below H1 — read time, sources, reviewed-date pill */
+.rc-trust{
+  display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;
+  margin:10px 0 28px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+  font-size:13px;color:var(--color-text-secondary,#6b7280);
+}
+.rc-trust-item{display:inline-flex;align-items:center;gap:5px}
+.rc-trust-item svg{flex-shrink:0;opacity:.7;vertical-align:-1px}
+.rc-trust-item b{font-weight:600;color:var(--color-text-primary,#0c0a09)}
+.rc-trust-rev{
+  margin-left:auto;
+  font-size:12px;font-weight:500;
+  color:var(--color-text-tertiary,#9ca3af);
+}
+.rc-trust-rev::before{
+  content:'';display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--color-brand,#1F7A6B);margin-right:7px;
+  vertical-align:1px;
+}
+
+/* "On this page" TOC — hairline card, no fill */
+.rc-toc{
+  margin:0 0 36px;
+  padding:14px 0 18px;
+  border-top:1px solid var(--color-border-tertiary,#e5e7eb);
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+}
+.rc-toc-k{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--color-text-secondary,#6b7280);
+  margin-bottom:10px;
+}
+.rc-toc-k-r{
+  font-weight:500;color:var(--color-text-tertiary,#9ca3af);letter-spacing:.08em;
+}
+.rc-toc ul{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-direction:column;gap:2px;
+}
+.rc-toc a{
+  display:flex;align-items:baseline;gap:14px;
+  padding:6px 0;
+  color:var(--color-text-primary,#0c0a09);
+  text-decoration:none;font-size:14.5px;line-height:1.5;
+  transition:color .12s;
+}
+.rc-toc a:hover{color:var(--color-brand,#1F7A6B)}
+.rc-toc-n{
+  flex-shrink:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;color:var(--color-text-tertiary,#9ca3af);
+  letter-spacing:.04em;
+  min-width:22px;
+}
+.rc-toc-t{flex:1}
+.rc-toc-m{
+  flex-shrink:0;font-size:12px;color:var(--color-text-tertiary,#9ca3af);
+}
+
+/* Section number label above each H2 in the body */
+.rc-sec-n{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;font-weight:600;letter-spacing:.08em;
+  color:var(--color-text-tertiary,#9ca3af);
+  margin:36px 0 4px;
+}
+.rc-sec-n + h2,
+.rc-sec-n + h3{margin-top:0 !important}
+
+/* Share-copy toast */
+.rc-toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(8px);
+  background:var(--color-text-primary,#0c0a09);color:#fff;
+  padding:9px 16px;border-radius:8px;
+  font-size:13px;font-weight:500;
+  opacity:0;pointer-events:none;
+  transition:opacity .15s,transform .15s;
+  z-index:9999;
+}
+.rc-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Mobile tweaks — collapse the trust-line's right-aligned reviewed pill below */
+@media(max-width:600px){
+  .rc-trust{gap:10px 14px}
+  .rc-trust-rev{margin-left:0;width:100%;padding-top:6px;border-top:1px dashed var(--color-border-tertiary,#e5e7eb)}
+  .rc-toc a{font-size:13.5px;gap:10px}
+  .rc-toc-m{display:none}
+}
