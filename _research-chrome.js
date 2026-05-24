@@ -578,6 +578,24 @@
       if (list.tagName !== 'UL' && list.tagName !== 'OL') return;
 
       if (hit.label === 'Supplements'){
+        /* Some templates already render a curated supplement list with
+           rich cards / rows. When one of those exists, the auto-injected
+           "Supplement details" autolink block is redundant — drop it
+           from the DOM and skip our own aend so the page doesn't show
+           two parallel supplement lists.
+              /for/   pages → .sx-row inside .sx-results
+              /cond/  pages → .stack-card blocks (layered supplement detail)
+              /stack/ pages → .supp-card blocks (per-supplement detail)
+           Two or more matches are required so a single accidental
+           occurrence doesn't suppress the aend on otherwise-plain pages. */
+        var curatedSuppNodes = wrap.querySelectorAll(
+          '.sx-row, .sx-results .sx-row, .stack-card, .supp-card, .sk-row, .sk-results .sk-row, .ca-row, .ca-results .ca-row'
+        );
+        var hasCuratedSuppList = curatedSuppNodes.length >= 2;
+        if (hasCuratedSuppList){
+          nodesToRemove.push(h, list);
+          return;
+        }
         var suppRows = rowsFromList(list);
         var suppCount = countItemsInList(list);
         var suppAend = buildAend(
