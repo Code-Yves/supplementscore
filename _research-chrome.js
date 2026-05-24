@@ -502,9 +502,36 @@
 
   /* ---------- tail-block normalizer ---------- */
 
+  /* Extract arrow rows from a <ul>/<ol> of links. Each <li><a> becomes one
+     row; em-dashed link text ("Glycine — full scoring") splits into
+     title + eyebrow. Returns the joined HTML string. */
+  function rowsFromList(list){
+    if (!list) return '';
+    var rows = '';
+    list.querySelectorAll('li').forEach(function(li){
+      var a = li.querySelector('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '#';
+      var title = (a.textContent || '').trim();
+      var eyebrow = '';
+      var m = title.match(/^(.+?)\s*[—–-]\s*(.+)$/);
+      if (m && m[2].length < 40){
+        title = m[1];
+        eyebrow = m[2];
+      }
+      rows += arrowRowHtml(href, title, eyebrow);
+    });
+    return rows;
+  }
+  function countItemsInList(list){
+    return list ? list.querySelectorAll('li').length : 0;
+  }
+
   /* Find each known tail heading inside the wrap, capture its sibling
-     <ul>/<ol>, and rewrite as an .rc-aend. Replaces the existing block
-     in-place so the markup stays in the right document position. */
+     <ul>/<ol>, and rewrite as an .rc-aend. All "Related"-type blocks
+     (Related articles, Related reading, Read more, the older
+     .ca-related>strong "Related:" mini-list) are MERGED into a single
+     "Related Research" aend. Supplements and Sources stay separate. */
   function normalizeTailBlocks(){
     var headings = wrap.querySelectorAll('h2, h3');
     var hits = [];
@@ -514,9 +541,16 @@
       if (!label) continue;
       hits.push({el: h, label: label});
     }
+
+    /* Buckets — accumulate items across multiple matching blocks so we
+       can emit one aend per category. */
+    var relatedRows = '';
+    var relatedCount = 0;
+    var relatedAnchor = null;  /* DOM position we'll inject the merged Related aend */
+    var nodesToRemove = [];    /* original headings + lists to drop post-merge */
+
     hits.forEach(function(hit){
       var h = hit.el;
-      /* Grab the next sibling list (ul or ol) */
       var list = h.nextElementSibling;
       while (list && list.nodeType === 1 &&
              list.tagName !== 'UL' && list.tagName !== 'OL' &&
@@ -526,9 +560,7 @@
       }
       if (!list) return;
 
-      var aend;
       if (hit.label === 'Sources'){
-        /* Sources — convert li into clean numbered list with hairline rows */
         if (list.tagName !== 'OL') return;
         var n = list.querySelectorAll('li').length;
         var ol = el('ol', 'rc-src-list');
@@ -537,82 +569,69 @@
           nl.innerHTML = li.innerHTML;
           ol.appendChild(nl);
         });
-        aend = buildAend('Sources', n + ' peer-reviewed', ol);
-      } else {
-        /* Supplements or Related articles — convert <li><a> into arrow rows */
-        if (list.tagName !== 'UL' && list.tagName !== 'OL') return;
-        var rows = '';
-        var items = list.querySelectorAll('li');
-        var nItems = items.length;
-        items.forEach(function(li){
-          var a = li.querySelector('a');
-          if (!a) return;
-          var href = a.getAttribute('href') || '#';
-          var title = (a.textContent || '').trim();
-          /* If the link text contains an em-dash with extra meta after it
-             (e.g. "Glycine — full scoring"), split it into title + eyebrow. */
-          var eyebrow = '';
-          var m = title.match(/^(.+?)\s*[—–-]\s*(.+)$/);
-          if (m && m[2].length < 40){
-            title = m[1];
-            eyebrow = m[2];
-          }
-          rows += arrowRowHtml(href, title, eyebrow);
-        });
-        var countText = '';
-        var labelDisplay = hit.label;
-        if (hit.label === 'Supplements') {
-          countText = nItems + ' supplement' + (nItems === 1 ? '' : 's');
-          labelDisplay = 'Supplements in this article';
-        } else if (hit.label === 'Related articles') {
-          countText = nItems + ' related';
-        }
-        aend = buildAend(labelDisplay, countText, '<div class="rc-rel-list">' + rows + '</div>');
+        var sourcesAend = buildAend('Sources', n + ' peer-reviewed', ol);
+        h.parentNode.insertBefore(sourcesAend, h);
+        nodesToRemove.push(h, list);
+        return;
       }
 
-      /* Replace heading + list with the new .rc-aend. Also remove anything
-         between them that we may have walked past (rare). */
-      var parent = h.parentNode;
-      parent.insertBefore(aend, h);
-      var node = h;
-      while (node && node !== list){
-        var nx = node.nextSibling;
-        parent.removeChild(node);
-        node = nx;
-      }
-      if (list) parent.removeChild(list);
+      if (list.tagName !== 'UL' && list.tagName !== 'OL') return;
 
-      /* Async upgrade Supplements rows to rich score-cards once meta loads */
       if (hit.label === 'Supplements'){
-        upgradeSupplementRows(aend);
+        var suppRows = rowsFromList(list);
+        var suppCount = countItemsInList(list);
+        var suppAend = buildAend(
+          'Supplements in this article',
+          suppCount + ' supplement' + (suppCount === 1 ? '' : 's'),
+          '<div class="rc-rel-list">' + suppRows + '</div>'
+        );
+        h.parentNode.insertBefore(suppAend, h);
+        nodesToRemove.push(h, list);
+        upgradeSupplementRows(suppAend);
+        return;
       }
+
+      /* Related-type — accumulate. Anchor position to the FIRST related
+         hit's location so the merged block sits in the natural spot. */
+      relatedRows += rowsFromList(list);
+      relatedCount += countItemsInList(list);
+      if (!relatedAnchor) relatedAnchor = h;
+      nodesToRemove.push(h, list);
     });
 
-    /* Also catch standalone "Read more:" labelled blocks that don't have a
-       proper heading — common on older /condition/ pages. */
+    /* Also catch standalone "Related:" / "Read more:" labelled blocks that
+       don't have a proper heading — older auto-link patterns. Merge them
+       into the same Related Research bucket. */
     var readmore = wrap.querySelectorAll('.ca-related');
     readmore.forEach(function(rm){
-      if (rm.querySelector('.rc-aend')) return;  /* already done */
+      if (rm.querySelector('.rc-aend')) return;
       var st = rm.querySelector('strong');
-      if (!st || !/read more/i.test(st.textContent)) return;
+      if (!st || !/(read more|related)/i.test(st.textContent)) return;
       var ul = rm.querySelector('ul');
       if (!ul) return;
-      var rows = '';
-      var items = ul.querySelectorAll('li');
-      items.forEach(function(li){
-        var a = li.querySelector('a');
-        if (!a) return;
-        var title = (a.textContent || '').trim();
-        var eyebrow = '';
-        var m = title.match(/^(.+?)\s*[—–-]\s*(.+)$/);
-        if (m && m[2].length < 40){
-          title = m[1];
-          eyebrow = m[2];
-        }
-        rows += arrowRowHtml(a.getAttribute('href') || '#', title, eyebrow);
-      });
-      var aend = buildAend('Related articles', items.length + ' related', '<div class="rc-rel-list">' + rows + '</div>');
-      rm.parentNode.replaceChild(aend, rm);
+      relatedRows += rowsFromList(ul);
+      relatedCount += countItemsInList(ul);
+      if (!relatedAnchor) relatedAnchor = rm;
+      nodesToRemove.push(rm);
+    });
+
+    /* Emit the merged Related Research aend at the anchor position. */
+    if (relatedRows){
+      var relAend = buildAend(
+        'Related research',
+        relatedCount + ' related',
+        '<div class="rc-rel-list">' + relatedRows + '</div>'
+      );
+      if (relatedAnchor && relatedAnchor.parentNode){
+        relatedAnchor.parentNode.insertBefore(relAend, relatedAnchor);
+      } else {
+        wrap.appendChild(relAend);
+      }
+    }
+
+    /* Drop all the originals we replaced. */
+    nodesToRemove.forEach(function(n){
+      if (n && n.parentNode) n.parentNode.removeChild(n);
     });
   }
 

@@ -3489,7 +3489,17 @@ html.rc-chrome-active .ar-meta,
 html.rc-chrome-active .ca-kicker,
 html.rc-chrome-active .sk-kicker,
 html.rc-chrome-active .sx-kicker,
-html.rc-chrome-active .ss-last-reviewed{display:none !important}
+html.rc-chrome-active .ss-last-reviewed,
+/* The .ssa-modal chrome injected by _site-ux.js duplicates our own
+   .rc-top bar (Prev/Next/Share/Close). Suppress the chrome strip + its
+   share toast so the rc-top is the only top bar. The .ssa-modal wrapper
+   itself stays — it provides the centered-card layout. */
+html.rc-chrome-active .ssa-modal .art-modal-chrome,
+html.rc-chrome-active .ssa-modal #ssa-toast,
+html.rc-chrome-active body.ssa-standalone-modal .art-modal-chrome{display:none !important}
+/* When ssa-modal is suppressed, restore the article-body padding the
+   chrome strip used to provide. */
+html.rc-chrome-active .ssa-modal .ssa-body{padding-top:0}
 
 /* Top bar — flat text + icon links above a single hairline */
 .rc-top{
