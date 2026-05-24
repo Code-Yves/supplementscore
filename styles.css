@@ -3681,12 +3681,14 @@ html.rc-chrome-active main.sx-wrap h3{
 }
 .rc-toc-k{
   display:flex;justify-content:space-between;align-items:center;
+  width:100%;gap:14px;
   font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   color:var(--color-text-secondary,#6b7280);
   margin-bottom:10px;
 }
 .rc-toc-k-r{
   font-weight:500;color:var(--color-text-tertiary,#9ca3af);letter-spacing:.08em;
+  margin-left:auto;
 }
 .rc-toc ul{
   list-style:none;margin:0;padding:0;

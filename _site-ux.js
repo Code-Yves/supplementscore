@@ -573,6 +573,10 @@
      Inferred from the URL path; doesn't require markup changes. */
   function initBreadcrumbs(){
     var p = location.pathname;
+    /* 2026-05-24 — Skip the wrapper-router pages (supplement.html,
+       article.html, medication.html). Those pages render a card/detail
+       view via JS and should appear chrome-less per user spec. */
+    if (/\/(supplement|article|medication)\.html$/.test(p)) return;
     /* Skip non-detail pages */
     var crumbs = inferCrumbs(p);
     if (!crumbs) return;
@@ -1023,11 +1027,25 @@
     initHeroFocusPause();
     initStickyToc();
     initRecentlyViewedStrip();
-    initClinicianHandout();
+    /* 2026-05-24 — initClinicianHandout disabled (Print clinician handout
+       button was loading a blank page; user removed the feature). The
+       function body remains below as a tombstone so any legacy
+       .ssux-handout markup that snuck into static pages can still be
+       targeted by CSS, but no new button is injected. */
+    /* initClinicianHandout(); */
     initBreadcrumbs();
     initPubMedOnArticle();
-    initArticleV2();
+    /* 2026-05-24 — initArticleV2 disabled (was duplicating the rich-chrome
+       output of _research-chrome.js, producing two trust strips, two TOCs,
+       etc.). _research-chrome.js is now the single source of truth for
+       /a/ article rich-chrome. */
+    /* initArticleV2(); */
     initShareFab();
+    /* 2026-05-24 — belt-and-braces: also remove any pre-existing
+       .ssux-handout buttons in case an older cached page injected one. */
+    try {
+      document.querySelectorAll('.ssux-handout, .ssux-handout-wrap').forEach(function(el){ el.remove(); });
+    } catch(_) {}
   }
 
   /* ============================================================
