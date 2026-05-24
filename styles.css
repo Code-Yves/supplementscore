@@ -1360,8 +1360,8 @@ body{ overflow-x:clip; }
 .hero-slide{position:absolute;inset:36px 36px 80px 36px;z-index:3;opacity:0;transition:opacity .5s ease,transform .6s ease;transform:translateY(8px);pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
 .hero-slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
 .hero-slide-top{display:flex;align-items:center;gap:8px}
-.hero-slide-featured{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;padding:4px 9px;border-radius:4px;background:rgba(255,215,0,0.25);color:#FFE066;text-transform:uppercase;letter-spacing:.08em;border:1px solid rgba(255,215,0,0.4)}
-.hero-slide-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-transform:uppercase;letter-spacing:.08em;color:#fff}
+.hero-slide-featured{display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;padding:3px 7px;border-radius:4px;background:rgba(255,215,0,0.25);color:#FFE066;text-transform:uppercase;letter-spacing:.08em;border:1px solid rgba(255,215,0,0.4)}
+.hero-slide-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-transform:uppercase;letter-spacing:.08em;color:#fff}
 .hero-slide-body{flex:1;display:flex;flex-direction:column;justify-content:center}
 .hero-slide-headline{font-size:28px;font-weight:800;line-height:1.2;letter-spacing:-.01em;max-width:720px;margin:14px 0 12px;color:#fff}
 .hero-slide-desc{font-size:14px;line-height:1.6;color:rgba(255,255,255,0.88);max-width:660px;margin-bottom:18px}
@@ -2431,11 +2431,33 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 /* 2026-05-24 — Mobile layout for the Search-supplements-by toolbar.
    On viewports ≤640px the 4-button row is too cramped. Put Goal /
    Age & Sex / Symptom together on the first row (each 1/3), then push
-   Research onto its own full-width second row. */
+   Research onto its own full-width second row.
+
+   The earlier attempt with `flex: 1 1 0` on three items + `flex: 1 1 100%`
+   on the fourth let the browser keep all 4 on one row collapsing the first
+   three to 0 width — or, depending on the engine, split 2+2. Using explicit
+   calc-based percentage widths forces a hard wrap at exactly 3 items. */
 @media(max-width:640px){
-  .sfbar{flex-wrap:wrap !important;gap:8px !important}
-  .sfbar .cdd{flex:1 1 0 !important;min-width:0}
-  .sfbar #art-filter-wrap{flex:1 1 100% !important;width:100%}
+  .sfbar{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+    row-gap:8px !important;
+    column-gap:8px !important;
+  }
+  /* First three (Goal, Age & Sex, Symptom) — exactly 1/3 each minus shared gap */
+  .sfbar > .cdd:not(#art-filter-wrap){
+    flex:0 0 calc((100% - 16px) / 3) !important;
+    max-width:calc((100% - 16px) / 3) !important;
+    width:calc((100% - 16px) / 3) !important;
+    min-width:0 !important;
+  }
+  /* Research — own row, full width */
+  .sfbar > #art-filter-wrap{
+    flex:0 0 100% !important;
+    max-width:100% !important;
+    width:100% !important;
+    min-width:0 !important;
+  }
 }
 
 /* 2026-05-22 — Option A: outlined Articles button.
