@@ -29,7 +29,7 @@ SITE_ROOTS = [REPO_ROOT / "site", REPO_ROOT]
 TARGET_DIRS = {"a", "for", "condition", "stack"}
 
 # Cache-bust version — bump this when you ship a new _research-chrome.js / CSS
-VERSION = "20260524-research-r8"
+VERSION = "20260524-research-r10"
 
 # Match the existing <script src=".../_research-chrome.js?..."> so we don't double-inject
 TAG_RE = re.compile(r'<script\s+[^>]*src="[^"]*_research-chrome\.js[^"]*"[^>]*>\s*</script>', re.I)

@@ -3562,7 +3562,7 @@ html.rc-chrome-active .ss-last-reviewed{display:none !important}
   flex-shrink:0;font-size:12px;color:var(--color-text-tertiary,#9ca3af);
 }
 
-/* Section number label above each H2 in the body */
+/* Section number label above each H2/H3 in the body */
 .rc-sec-n{
   font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
   font-size:11px;font-weight:600;letter-spacing:.08em;
@@ -3571,6 +3571,112 @@ html.rc-chrome-active .ss-last-reviewed{display:none !important}
 }
 .rc-sec-n + h2,
 .rc-sec-n + h3{margin-top:0 !important}
+
+/* "N min" sub-label below each section heading */
+.rc-sec-min{
+  font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--color-text-tertiary,#9ca3af);
+  margin:4px 0 18px;
+}
+
+/* THE BOTTOM LINE — green left-bar, typographic only, no fill. Matches the
+   article-template treatment shown in the v7 mockup. */
+.rc-bl{
+  position:relative;
+  margin:0 0 36px;
+  padding:4px 0 4px 22px;
+  border-left:3px solid var(--color-brand,#1F7A6B);
+}
+.rc-bl-k{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-brand,#1F7A6B);
+  margin-bottom:10px;
+}
+.rc-bl-headline{
+  font-size:18px;font-weight:600;line-height:1.45;
+  color:var(--color-text-primary,#0c0a09);
+  margin-bottom:10px;
+}
+.rc-bl-sub{
+  font-size:15.5px;line-height:1.6;
+  color:var(--color-text-secondary,#6b7280);
+}
+.rc-bl-sub p{margin:0 0 8px}
+.rc-bl-sub p:last-child{margin-bottom:0}
+
+/* TOC first/current section accent — green left-bar */
+.rc-toc-li-on > a{color:var(--color-brand,#1F7A6B) !important}
+.rc-toc-li-on > a .rc-toc-n{color:var(--color-brand,#1F7A6B) !important}
+.rc-toc-li-on{
+  position:relative;
+}
+.rc-toc-li-on::before{
+  content:'';position:absolute;left:-12px;top:6px;bottom:6px;
+  width:3px;background:var(--color-brand,#1F7A6B);
+  border-radius:2px;
+}
+.rc-toc ul{padding-left:12px !important}
+
+/* ═════ Typography normalization across all 4 article wrappers
+   Forces /a/, /for/, /condition/, /stack/ pages to render with identical
+   hero, body, and list typography when the chrome injector is active.
+   Each wrapper has its own inline styles that we override here. ═════ */
+html.rc-chrome-active main.ar-wrap,
+html.rc-chrome-active main.sx-wrap,
+html.rc-chrome-active main.ca-wrap,
+html.rc-chrome-active main.sk-wrap{
+  max-width:760px;margin:0 auto;padding:18px 24px 64px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--color-text-primary,#0c0a09);
+}
+html.rc-chrome-active main.ar-wrap h1,
+html.rc-chrome-active main.sx-wrap h1,
+html.rc-chrome-active main.sx-wrap h1.sx-h1,
+html.rc-chrome-active main.ca-wrap h1,
+html.rc-chrome-active main.sk-wrap h1{
+  font-size:2.2rem !important;
+  font-weight:800 !important;
+  letter-spacing:-.6px !important;
+  line-height:1.15 !important;
+  margin:0 0 12px !important;
+  color:var(--color-text-primary,#0c0a09) !important;
+}
+html.rc-chrome-active main.ar-wrap h2,
+html.rc-chrome-active main.sx-wrap h2,
+html.rc-chrome-active main.ca-wrap h2,
+html.rc-chrome-active main.sk-wrap h2,
+html.rc-chrome-active main.ar-wrap h3,
+html.rc-chrome-active main.sx-wrap h3,
+html.rc-chrome-active main.ca-wrap h3,
+html.rc-chrome-active main.sk-wrap h3{
+  font-size:1.4rem !important;
+  font-weight:700 !important;
+  letter-spacing:-.2px !important;
+  line-height:1.25 !important;
+  margin:0 0 12px !important;
+  color:var(--color-text-primary,#0c0a09) !important;
+}
+html.rc-chrome-active main.ar-wrap p,
+html.rc-chrome-active main.sx-wrap p,
+html.rc-chrome-active main.ca-wrap p,
+html.rc-chrome-active main.sk-wrap p{
+  font-size:16px;line-height:1.7;
+  margin:0 0 18px;
+  color:var(--color-text-primary,#0c0a09);
+}
+html.rc-chrome-active main.ar-wrap ul:not(.rc-rel-list ul):not(.rc-toc ul),
+html.rc-chrome-active main.sx-wrap ul:not(.rc-rel-list ul):not(.rc-toc ul),
+html.rc-chrome-active main.ca-wrap ul:not(.rc-rel-list ul):not(.rc-toc ul),
+html.rc-chrome-active main.sk-wrap ul:not(.rc-rel-list ul):not(.rc-toc ul){
+  margin:0 0 20px 0;padding-left:22px;
+  list-style:disc;
+}
+html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li{
+  margin-bottom:10px;line-height:1.6;
+}
+html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
+  color:var(--color-text-tertiary,#9ca3af);
+}
 
 /* Share-copy toast */
 .rc-toast{

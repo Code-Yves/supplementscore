@@ -27,6 +27,11 @@
      supplement is opened from inside an article — otherwise it'd render
      behind the article it was launched from. */
   + '.ssm.over-art{z-index:1200}'
+  /* Raise above the research-modal iframe overlay (.rc-modal sits at
+     z-index 9000) when this supplement is opened from inside a research
+     article modal. Otherwise the supplement card renders behind the
+     article overlay and is invisible. */
+  + '.ssm.over-rc{z-index:9500}'
   + '.ssm-bd{position:absolute;inset:0;background:rgba(15,12,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer}'
   + '.ssm-card{position:relative;max-width:980px;width:calc(100% - 32px);margin:32px auto;height:calc(100vh - 64px);background:var(--color-background-secondary,#ebe5d9);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(10px) scale(.99);transition:transform .2s ease;border:1px solid var(--color-border-tertiary,#dcdad7)}'
   + '.ssm.open .ssm-card{transform:translateY(0) scale(1)}'
@@ -149,9 +154,18 @@
       var artEl = document.getElementById('art-modal');
       if (artEl && artEl.classList.contains('open')) openingOverArticle = true;
     }
+    /* Research-modal iframe overlay (#rc-modal) sits at z-index 9000. If
+       it's open we need to stack the supplement card ABOVE it via the
+       new .ssm.over-rc rule (z-index 9500). Mutually exclusive with the
+       legacy .ssm.over-art (z-index 1200) — pick the higher one. */
+    var openingOverRc = false;
+    var rcEl = document.getElementById('rc-modal');
+    if (rcEl && !rcEl.hasAttribute('hidden')) openingOverRc = true;
+
     attachModal();
     openSlug = slug;
-    modal.classList.toggle('over-art', openingOverArticle);
+    modal.classList.toggle('over-art', openingOverArticle && !openingOverRc);
+    modal.classList.toggle('over-rc', openingOverRc);
     modal.classList.remove('loaded');
     var _x = modal.querySelector('.ssm-x'); if (_x) _x.style.visibility = '';
     frame.src = 'supplement.html?slug=' + encodeURIComponent(slug) + '&modal=1';

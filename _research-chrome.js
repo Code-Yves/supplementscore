@@ -53,6 +53,25 @@
 
   function pad2(n){ return n < 10 ? '0' + n : String(n); }
 
+  /* Detect "byline / meta" paragraphs — class-based (ca-meta, sk-meta,
+     ar-meta, sx-meta) or pattern-based (starts with "Updated YYYY-MM-DD",
+     contains "Reviewed by", etc.). Used by the Bottom Line lede picker so
+     it doesn't accidentally lift the byline. */
+  function isMetaPara(node){
+    if (!node || !node.classList) return false;
+    if (node.classList.contains('ca-meta') || node.classList.contains('sk-meta') ||
+        node.classList.contains('ar-meta') || node.classList.contains('sx-meta') ||
+        node.classList.contains('ss-last-reviewed') ||
+        node.classList.contains('ar-byline')){
+      return true;
+    }
+    var txt = (node.textContent || '').trim();
+    if (/^Updated\s+\d{4}-\d{2}-\d{2}/.test(txt)) return true;
+    if (/^Reviewed by\b/i.test(txt)) return true;
+    if (/^By the\b/.test(txt) && /Editorial/i.test(txt)) return true;
+    return false;
+  }
+
   /* Read time — fall back to ~200wpm word-count estimate when we can't find
      an explicit "N min read" string anywhere in the existing meta. Some
      templates already include one (.ar-meta, .sk-kicker, .ca-kicker). */
@@ -605,12 +624,22 @@
     h2s.forEach(function(h, idx){
       var slug = slugify(h.textContent || '') || ('sec-' + (idx + 1));
       h.id = h.id || slug;
-      /* Prepend section number label to the h2 (small typographic accent) */
+      /* Prepend section number label to the h2 (small typographic accent).
+         Also append a "N MIN" sub-label so the rhythm matches the article
+         template's `Practical Guidance / 1 MIN` pattern. */
       if (!h.previousElementSibling || !h.previousElementSibling.classList || !h.previousElementSibling.classList.contains('rc-sec-n')){
         var label = el('div', 'rc-sec-n', pad2(idx + 1));
         h.parentNode.insertBefore(label, h);
       }
-      tocItems += '<li><a href="#' + h.id + '">' +
+      /* Insert "N min" sub-label as a div right after the heading */
+      if (!h.nextElementSibling || !h.nextElementSibling.classList || !h.nextElementSibling.classList.contains('rc-sec-min')){
+        var subMin = el('div', 'rc-sec-min', perMin + ' min');
+        h.parentNode.insertBefore(subMin, h.nextSibling);
+      }
+      /* First item gets the active green-bar accent — matches the article
+         template's "current section" highlight. */
+      var liCls = idx === 0 ? 'rc-toc-li rc-toc-li-on' : 'rc-toc-li';
+      tocItems += '<li class="' + liCls + '"><a href="#' + h.id + '">' +
                     '<span class="rc-toc-n">' + pad2(idx + 1) + '</span>' +
                     '<span class="rc-toc-t">' + (h.textContent || '').trim() + '</span>' +
                     '<span class="rc-toc-m">' + perMin + ' min</span>' +
@@ -622,6 +651,68 @@
       '<ul>' + tocItems + '</ul>';
     /* Place TOC right before the first h2 so it sits above the body content. */
     h2s[0].parentNode.insertBefore(toc, h2s[0].previousElementSibling /* the sec-n we just inserted */ || h2s[0]);
+
+    /* 4b. THE BOTTOM LINE callout. If the article doesn't already have a
+       hand-authored .bl block, synthesize one from the article lede.
+       Place it BEFORE the TOC. */
+    if (!wrap.querySelector('.rc-bl, .bl')){
+      var ledeParas = [];
+
+      /* (1) Strongest signal: an explicit lede class on the page template */
+      var explicit = wrap.querySelector('.ca-lede, .sk-lede, .ar-lede, .sx-lede, .lede, [data-lede]');
+      if (explicit){
+        ledeParas.push(explicit);
+        /* Optionally include the immediately-following paragraph as sub */
+        var nxt = explicit.nextElementSibling;
+        if (nxt && nxt.tagName === 'P' && !isMetaPara(nxt)){
+          ledeParas.push(nxt);
+        }
+      }
+
+      /* (2) Fall back: walk back from first h2 collecting paragraphs that
+         AREN'T meta/byline paragraphs */
+      if (!ledeParas.length){
+        var firstH = h2s[0];
+        var prev = firstH.previousSibling;
+        while (prev && ledeParas.length < 2){
+          if (prev.nodeType === 1){
+            if (prev.classList && (prev.classList.contains('rc-sec-n') || prev.classList.contains('rc-trust') || prev.classList.contains('rc-cat'))){
+              prev = prev.previousSibling;
+              continue;
+            }
+            if (prev.tagName === 'P' && !isMetaPara(prev)){
+              ledeParas.unshift(prev);
+            } else if (prev.tagName === 'H1'){
+              break;
+            }
+          }
+          prev = prev.previousSibling;
+        }
+      }
+
+      /* (3) Last resort: first non-meta <p> in the wrap */
+      if (!ledeParas.length){
+        var ps = wrap.querySelectorAll('p');
+        for (var i = 0; i < ps.length; i++){
+          if (!isMetaPara(ps[i])){
+            ledeParas.push(ps[i]);
+            break;
+          }
+        }
+      }
+
+      if (ledeParas.length){
+        var headlineText = ledeParas[0].innerHTML;
+        var subText = ledeParas[1] ? ledeParas[1].innerHTML : '';
+        var bl = el('div', 'rc-bl');
+        bl.innerHTML =
+          '<div class="rc-bl-k">The Bottom Line</div>' +
+          '<div class="rc-bl-headline">' + headlineText + '</div>' +
+          (subText ? '<div class="rc-bl-sub">' + subText + '</div>' : '');
+        toc.parentNode.insertBefore(bl, toc);
+        ledeParas.forEach(function(p){ p.style.display = 'none'; });
+      }
+    }
   }
 
   /* 5. TAIL BLOCKS — rebuild "Supplements", "Related articles", "Sources"
