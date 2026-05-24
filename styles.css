@@ -2429,35 +2429,24 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 }
 
 /* 2026-05-24 — Mobile layout for the Search-supplements-by toolbar.
-   On viewports ≤640px the 4-button row is too cramped. Put Goal /
-   Age & Sex / Symptom together on the first row (each 1/3), then push
-   Research onto its own full-width second row.
-
-   The earlier attempt with `flex: 1 1 0` on three items + `flex: 1 1 100%`
-   on the fourth let the browser keep all 4 on one row collapsing the first
-   three to 0 width — or, depending on the engine, split 2+2. Using explicit
-   calc-based percentage widths forces a hard wrap at exactly 3 items. */
+   All four buttons (Goal / Age & Sex / Symptom / Research) share one row at
+   every breakpoint. Each gets exactly 1/4 of the available width minus the
+   gap share, and they must NOT wrap. Earlier attempts at 3+1 caused
+   awkward 2+2 with empty cells; one-row is the cleaner answer. */
 @media(max-width:640px){
   .sfbar{
-    flex-wrap:wrap !important;
-    gap:8px !important;
-    row-gap:8px !important;
-    column-gap:8px !important;
+    flex-wrap:nowrap !important;
+    gap:6px !important;
   }
-  /* First three (Goal, Age & Sex, Symptom) — exactly 1/3 each minus shared gap */
-  .sfbar > .cdd:not(#art-filter-wrap){
-    flex:0 0 calc((100% - 16px) / 3) !important;
-    max-width:calc((100% - 16px) / 3) !important;
-    width:calc((100% - 16px) / 3) !important;
+  .sfbar > .cdd{
+    flex:1 1 0 !important;
     min-width:0 !important;
+    max-width:none !important;
+    width:auto !important;
   }
-  /* Research — own row, full width */
-  .sfbar > #art-filter-wrap{
-    flex:0 0 100% !important;
-    max-width:100% !important;
-    width:100% !important;
-    min-width:0 !important;
-  }
+  /* Make sure the labels fit — slightly tighter type on small screens */
+  .sfbar .cdd-lbl{font-size:9.5px !important}
+  .sfbar .cdd-ico{width:14px !important;height:14px !important}
 }
 
 /* 2026-05-22 — Option A: outlined Articles button.
