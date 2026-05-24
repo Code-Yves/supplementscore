@@ -3524,10 +3524,85 @@ body.tab-profile .site-footer{display:none !important}
 }
 .rc-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ── Tail blocks — Supplements / Related articles / Sources
+   Eyebrow-with-right-count + hairline + arrow rows. Mirrors the mockup-v7
+   .aend pattern. */
+.rc-aend{
+  margin:40px 0 0;
+  padding-top:18px;
+  border-top:1px solid var(--color-border-tertiary,#e5e7eb);
+}
+.rc-aend + .rc-aend{margin-top:32px}
+.rc-aend-k{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-text-secondary,#6b7280);
+  margin-bottom:10px;
+}
+.rc-aend-k-r{
+  font-weight:500;letter-spacing:.08em;
+  color:var(--color-text-tertiary,#9ca3af);
+}
+
+/* Related/supplements row list — arrow rows with optional category eyebrow */
+.rc-rel-list{display:flex;flex-direction:column}
+.rc-rel-row{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+  color:inherit;text-decoration:none;
+  transition:padding-left .15s;
+}
+.rc-rel-row:last-child{border-bottom:0}
+.rc-rel-row:hover{padding-left:6px}
+.rc-rel-row:hover .rc-rel-arrow{transform:translateX(2px)}
+.rc-rel-body{flex:1;min-width:0}
+.rc-rel-eb{
+  display:flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--color-brand,#1F7A6B);
+  margin-bottom:5px;
+}
+.rc-rel-eb::before{
+  content:'';display:inline-block;width:16px;height:1px;background:currentColor;
+}
+.rc-rel-title{
+  font-size:16px;font-weight:600;line-height:1.35;
+  color:var(--color-text-primary,#0c0a09);
+}
+.rc-rel-arrow{
+  flex-shrink:0;font-size:18px;color:var(--color-text-tertiary,#9ca3af);
+  transition:transform .15s;
+}
+
+/* Sources — ordered list with hairline rows */
+.rc-src-list{
+  list-style:decimal outside;
+  padding-left:24px;margin:0;
+  font-size:13.5px;line-height:1.65;
+  color:var(--color-text-secondary,#6b7280);
+}
+.rc-src-list li{
+  padding:10px 0;
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+}
+.rc-src-list li:last-child{border-bottom:0}
+.rc-src-list li::marker{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;color:var(--color-text-tertiary,#9ca3af);
+}
+.rc-src-list a{
+  color:var(--color-brand,#1F7A6B);text-decoration:underline;
+  text-underline-offset:2px;
+}
+.rc-src-list em{font-style:italic}
+
 /* Mobile tweaks — collapse the trust-line's right-aligned reviewed pill below */
 @media(max-width:600px){
   .rc-trust{gap:10px 14px}
   .rc-trust-rev{margin-left:0;width:100%;padding-top:6px;border-top:1px dashed var(--color-border-tertiary,#e5e7eb)}
   .rc-toc a{font-size:13.5px;gap:10px}
   .rc-toc-m{display:none}
+  .rc-rel-title{font-size:15px}
+  .rc-rel-eb{font-size:10px}
 }

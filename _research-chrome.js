@@ -280,9 +280,15 @@
     for (var i = 0; i < all.length; i++){
       var node = all[i];
       var txt = (node.textContent || '').trim().toLowerCase();
+      /* Stop at the first tail-block heading — same rules the tail-block
+         normalizer uses, so tail blocks never leak into the TOC. */
       if (/^sources?$/.test(txt)) break;
+      if (/^references?$/.test(txt)) break;
       if (/^related/.test(txt)) break;
+      if (/^read more$/.test(txt)) break;
       if (/^supplements?\s+(mentioned|in this article)/.test(txt)) break;
+      if (/^supplements?\s+in this stack$/.test(txt)) break;
+      if (/^supplement details$/.test(txt)) break;
       out.push(node);
     }
     return out;
@@ -292,6 +298,160 @@
      templates where every section is an h3). */
   if (h2s.length === 0){
     h2s = collectBodyHeadings('h3');
+  }
+
+  /* ---------- helpers for tail-block normalization ---------- */
+
+  /* Build an .rc-aend block (matches mockup-v7 design): eyebrow with right-
+     aligned count, hairline below, then a list of arrow-rows. Used for
+     "Supplements in this article", "Related articles", "Sources". */
+  function buildAend(label, countText, body){
+    var aend = el('div', 'rc-aend');
+    var k = el('div', 'rc-aend-k');
+    k.innerHTML = '<span>' + label + '</span>' + (countText ? '<span class="rc-aend-k-r">' + countText + '</span>' : '');
+    aend.appendChild(k);
+    if (typeof body === 'string'){
+      var b = document.createElement('div');
+      b.innerHTML = body;
+      while (b.firstChild) aend.appendChild(b.firstChild);
+    } else if (body){
+      aend.appendChild(body);
+    }
+    return aend;
+  }
+
+  /* Render an arrow row inside an aend list — used for Related Articles and
+     Supplement links. Includes optional category eyebrow + read time. */
+  function arrowRowHtml(href, title, eyebrow){
+    var eb = eyebrow ? '<div class="rc-rel-eb">' + eyebrow + '</div>' : '';
+    return '<a class="rc-rel-row" href="' + href + '">' +
+      '<div class="rc-rel-body">' + eb +
+        '<div class="rc-rel-title">' + title + '</div>' +
+      '</div>' +
+      '<span class="rc-rel-arrow" aria-hidden="true">→</span>' +
+    '</a>';
+  }
+
+  /* Classify a heading text into one of our known tail-block labels */
+  function tailLabel(txt){
+    var t = (txt || '').trim().toLowerCase();
+    if (/^sources?$/.test(t) || /^references?$/.test(t)) return 'Sources';
+    if (/^related articles?$/.test(t) || /^related reading$/.test(t) || /^read more$/.test(t)) return 'Related articles';
+    if (/^related supplements?$/.test(t) || /^supplement details$/.test(t) ||
+        /^supplements?\s+(mentioned|in this article)$/.test(t) ||
+        /^supplements?\s+in this stack$/.test(t)) return 'Supplements';
+    return null;
+  }
+
+  /* ---------- tail-block normalizer ---------- */
+
+  /* Find each known tail heading inside the wrap, capture its sibling
+     <ul>/<ol>, and rewrite as an .rc-aend. Replaces the existing block
+     in-place so the markup stays in the right document position. */
+  function normalizeTailBlocks(){
+    var headings = wrap.querySelectorAll('h2, h3');
+    var hits = [];
+    for (var i = 0; i < headings.length; i++){
+      var h = headings[i];
+      var label = tailLabel(h.textContent);
+      if (!label) continue;
+      hits.push({el: h, label: label});
+    }
+    hits.forEach(function(hit){
+      var h = hit.el;
+      /* Grab the next sibling list (ul or ol) */
+      var list = h.nextElementSibling;
+      while (list && list.nodeType === 1 &&
+             list.tagName !== 'UL' && list.tagName !== 'OL' &&
+             list.tagName !== 'P' && list.tagName !== 'STRONG' &&
+             !/related|supplement|source/i.test(list.className || '')){
+        list = list.nextElementSibling;
+      }
+      if (!list) return;
+
+      var aend;
+      if (hit.label === 'Sources'){
+        /* Sources — convert li into clean numbered list with hairline rows */
+        if (list.tagName !== 'OL') return;
+        var n = list.querySelectorAll('li').length;
+        var ol = el('ol', 'rc-src-list');
+        list.querySelectorAll('li').forEach(function(li){
+          var nl = document.createElement('li');
+          nl.innerHTML = li.innerHTML;
+          ol.appendChild(nl);
+        });
+        aend = buildAend('Sources', n + ' peer-reviewed', ol);
+      } else {
+        /* Supplements or Related articles — convert <li><a> into arrow rows */
+        if (list.tagName !== 'UL' && list.tagName !== 'OL') return;
+        var rows = '';
+        var items = list.querySelectorAll('li');
+        var nItems = items.length;
+        items.forEach(function(li){
+          var a = li.querySelector('a');
+          if (!a) return;
+          var href = a.getAttribute('href') || '#';
+          var title = (a.textContent || '').trim();
+          /* If the link text contains an em-dash with extra meta after it
+             (e.g. "Glycine — full scoring"), split it into title + eyebrow. */
+          var eyebrow = '';
+          var m = title.match(/^(.+?)\s*[—–-]\s*(.+)$/);
+          if (m && m[2].length < 40){
+            title = m[1];
+            eyebrow = m[2];
+          }
+          rows += arrowRowHtml(href, title, eyebrow);
+        });
+        var countText = '';
+        var labelDisplay = hit.label;
+        if (hit.label === 'Supplements') {
+          countText = nItems + ' supplement' + (nItems === 1 ? '' : 's');
+          labelDisplay = 'Supplements in this article';
+        } else if (hit.label === 'Related articles') {
+          countText = nItems + ' related';
+        }
+        aend = buildAend(labelDisplay, countText, '<div class="rc-rel-list">' + rows + '</div>');
+      }
+
+      /* Replace heading + list with the new .rc-aend. Also remove anything
+         between them that we may have walked past (rare). */
+      var parent = h.parentNode;
+      parent.insertBefore(aend, h);
+      var node = h;
+      while (node && node !== list){
+        var nx = node.nextSibling;
+        parent.removeChild(node);
+        node = nx;
+      }
+      if (list) parent.removeChild(list);
+    });
+
+    /* Also catch standalone "Read more:" labelled blocks that don't have a
+       proper heading — common on older /condition/ pages. */
+    var readmore = wrap.querySelectorAll('.ca-related');
+    readmore.forEach(function(rm){
+      if (rm.querySelector('.rc-aend')) return;  /* already done */
+      var st = rm.querySelector('strong');
+      if (!st || !/read more/i.test(st.textContent)) return;
+      var ul = rm.querySelector('ul');
+      if (!ul) return;
+      var rows = '';
+      var items = ul.querySelectorAll('li');
+      items.forEach(function(li){
+        var a = li.querySelector('a');
+        if (!a) return;
+        var title = (a.textContent || '').trim();
+        var eyebrow = '';
+        var m = title.match(/^(.+?)\s*[—–-]\s*(.+)$/);
+        if (m && m[2].length < 40){
+          title = m[1];
+          eyebrow = m[2];
+        }
+        rows += arrowRowHtml(a.getAttribute('href') || '#', title, eyebrow);
+      });
+      var aend = buildAend('Related articles', items.length + ' related', '<div class="rc-rel-list">' + rows + '</div>');
+      rm.parentNode.replaceChild(aend, rm);
+    });
   }
 
   if (h2s.length >= 2){
@@ -320,4 +480,8 @@
     /* Place TOC right before the first h2 so it sits above the body content. */
     h2s[0].parentNode.insertBefore(toc, h2s[0].previousElementSibling /* the sec-n we just inserted */ || h2s[0]);
   }
+
+  /* 5. TAIL BLOCKS — rebuild "Supplements", "Related articles", "Sources"
+     into mockup-v7 .rc-aend treatment so they stop being plain link lists. */
+  try { normalizeTailBlocks(); } catch(err){ /* fail-safe: never block render */ }
 })();
