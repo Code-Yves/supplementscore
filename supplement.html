@@ -427,30 +427,28 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
 
   var p = new URLSearchParams(location.search);
   var slug = (p.get('slug') || '').trim();
+  var nameParam = (p.get('n') || '').trim();
+  /* 2026-05-24 — Accept both ?slug=<kebab> and ?n=<Name+with+spaces>.
+     Hundreds of historical links across /for/, /symptom/, /build/ and the
+     symptom.html / build.html JS-generated grids use the ?n= form. Before
+     this patch, ?n= was silently ignored and every link fell through to
+     the "Pick a supplement" picker fallback (which the user reported as
+     dead UX). Slugify the name and proceed as if the user had passed
+     ?slug= directly. */
+  if (!slug && nameParam && window.SS && typeof window.SS.slugify === 'function'){
+    slug = window.SS.slugify(nameParam);
+  }
   var root = document.getElementById('det-root');
   if (p.get('modal') === '1') document.body.classList.add('is-modal');
   /* window.__ART_MANIFEST is set synchronously by a/manifest.js (loaded above)
      so the Sources & further reading renderer below can use it immediately. */
 
   if (!slug){
-    var sampleSlugs = [
-      ['Creatine monohydrate',         'creatine-monohydrate',         't1'],
-      ['Omega-3 (EPA/DHA)',            'omega-3-epa-dha',              't1'],
-      ['Magnesium',                    'magnesium',                    't1'],
-      ['Ashwagandha (KSM-66)',         'ashwagandha-ksm-66',           't2'],
-      ['Berberine',                    'berberine',                    't2'],
-      ["St. John's Wort",              'st-johns-wort',                't2'],
-      ["Lion's mane mushroom",         'lions-mane-mushroom',          't3'],
-      ['Garcinia cambogia (HCA)',      'garcinia-cambogia-hca',        't4']
-    ];
-    var sampleHtml = sampleSlugs.map(function(row){
-      return '<a href="?slug='+encodeURIComponent(row[1])+'" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:10px;text-decoration:none;color:var(--color-text-primary);font-size:13.5px"><span>'+escHtml(row[0])+'</span><span class="det-tier '+row[2]+'" style="font-size:9.5px;padding:2px 8px">'+row[2].toUpperCase()+'</span></a>';
-    }).join('');
-    root.innerHTML =
-      '<a class="det-back" href="index.html">‹ Back to Index</a>'
-      + '<h1 class="det-h1" style="font-size:32px;margin-bottom:10px">Pick a supplement</h1>'
-      + '<p style="color:var(--color-text-secondary);margin-bottom:18px;font-size:14px">No slug in URL. Click any supplement below to render the detail page, or browse the full <a href="index.html">Index</a>.</p>'
-      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:680px">'+sampleHtml+'</div>';
+    /* 2026-05-24 — The old "Pick a supplement" picker (8 hard-coded sample
+       tiles) was dead UX: users only landed here because something was
+       broken (a ?n= link that we now correctly handle, or a manually-typed
+       /supplement.html with no query). Redirect to the homepage instead. */
+    location.replace('/');
     return;
   }
 
