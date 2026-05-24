@@ -2787,7 +2787,9 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 }
 
 /* Hide the entire site footer when My Profile tab is active */
-body.tab-profile .site-footer{display:none !important}
+/* 2026-05-24 — Profile page: show the site footer (was previously hidden);
+   hide the top-right search pill so the page reads clean. */
+body.tab-profile #nav-search-pill{display:none !important}
 
 /* ── Contributor band — Direction B (2026-05-23): centered block in the
    middle of the footer column, between the inline link row and the legal
