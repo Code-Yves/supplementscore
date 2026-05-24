@@ -22,58 +22,44 @@
   <meta name="twitter:description" content="Layered, evidence-tiered stack for gut recovery. Doses, timing, interactions, and what to skip.">
   <meta name="twitter:image" content="https://supplementscore.org/og/stacks/gut-restoration.png">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
-  <style>html{color-scheme:light}</style>
+  <style>
+    html {color-scheme:light}
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260524-research-r18">
+  <link rel="stylesheet" href="../styles.css?v=20260524-research-r19">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
   <meta name="theme-color" content="#1F7A6B">
   <style>
-    body{background:var(--color-background-primary);color:var(--color-text-primary)}
-    .sk-wrap{max-width:820px;margin:0 auto;padding:32px 22px 64px;line-height:1.7}
-    .sk-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;margin-bottom:22px}
-    .sk-back:hover{background:rgba(31,122,107,.05);color:var(--color-brand)}
-    .sk-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
-    .sk-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
-    .sk-meta{font-size:13px;color:var(--color-text-tertiary);margin-bottom:26px;border-bottom:1px solid var(--color-border-tertiary);padding-bottom:16px}
-    .sk-lede{font-size:17px;color:var(--color-text-secondary);margin-bottom:26px;line-height:1.55}
-    .sk-wrap h2{font-size:1.4rem;font-weight:700;margin:38px 0 14px;letter-spacing:-.2px}
-    .sk-wrap h3{font-size:1.05rem;font-weight:700;margin:22px 0 10px}
-    .sk-wrap p{margin:0 0 14px}
-    .sk-wrap ul{margin:0 0 16px 22px}
-    .sk-wrap li{margin-bottom:6px}
-    .tldr{width:100%;border-collapse:collapse;margin:14px 0 28px;font-size:13.5px}
-    .tldr th,.tldr td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
-    .tldr thead th{background:var(--color-background-secondary);font-weight:700;border-bottom:2px solid var(--color-border-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-    .tldr td a{color:var(--color-brand);text-decoration:none;font-weight:600}
-    .tldr td a:hover{text-decoration:underline}
-    .layer-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff}
-    .layer-tag.found{background:#0F4A41}
-    .layer-tag.perf{background:#1F7A6B}
-    .layer-tag.opt{background:#7C8B96}
-    .tier-pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:5px}
-    .tier-pill.t1{background:var(--t1bg);color:var(--t1tx)}
-    .tier-pill.t2{background:var(--t2bg);color:var(--t2tx)}
-    .tier-pill.t3{background:var(--t3bg);color:var(--t3tx)}
-    .supp-card{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 22px;margin:14px 0}
-    .supp-card-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:6px;align-items:baseline}
-    .supp-card h3{margin:0;font-size:1.1rem}
-    .supp-card h3 a{color:var(--color-text-primary);text-decoration:none}
-    .supp-card h3 a:hover{color:var(--color-brand);text-decoration:underline}
-    .supp-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-    .supp-line{font-size:13.5px;color:var(--color-text-secondary);margin:6px 0 0}
-    .supp-line strong{color:var(--color-text-primary);font-weight:600}
-    .timing-block{background:var(--color-background-secondary);border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-size:14px;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-    .timing-block .slot{font-weight:700;color:var(--color-brand);display:inline-block;min-width:84px}
-    .left-bar{border-left:3px solid var(--color-brand);padding:4px 0 4px 14px;margin:18px 0;font-size:14.5px;color:var(--color-text-primary);line-height:1.6}
-    .left-bar strong{color:#0F4A41}
-    .sources-list{font-size:12.5px;color:var(--color-text-secondary);margin:8px 0 0 22px;padding-left:0}
-    .sources-list li{margin-bottom:8px;line-height:1.5}
-    .sources-list a{color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
-    .sk-related{margin-top:36px;padding-top:22px;border-top:1px solid var(--color-border-tertiary);font-size:13.5px}
-    .sk-disclaim{background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #EA580C;border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:13px;color:#7C2D12;line-height:1.5}
+    body {background:var(--color-background-primary);color:var(--color-text-primary)}
+    .tldr {width:100%;border-collapse:collapse;margin:14px 0 28px;font-size:13.5px}
+    .tldr th, .tldr td {text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
+    .tldr thead th {background:var(--color-background-secondary);font-weight:700;border-bottom:2px solid var(--color-border-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .tldr td a {color:var(--color-brand);text-decoration:none;font-weight:600}
+    .tldr td a:hover {text-decoration:underline}
+    .layer-tag {display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff}
+    .layer-tag.found {background:#0F4A41}
+    .layer-tag.perf {background:#1F7A6B}
+    .layer-tag.opt {background:#7C8B96}
+    .supp-card {border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 22px;margin:14px 0}
+    .supp-card-head {display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:6px;align-items:baseline}
+    .supp-card h3 {margin:0;font-size:1.1rem}
+    .supp-card h3 a {color:var(--color-text-primary);text-decoration:none}
+    .supp-card h3 a:hover {color:var(--color-brand);text-decoration:underline}
+    .supp-meta {display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+    .supp-line {font-size:13.5px;color:var(--color-text-secondary);margin:6px 0 0}
+    .supp-line strong {color:var(--color-text-primary);font-weight:600}
+    .timing-block {background:var(--color-background-secondary);border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-size:14px;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .timing-block .slot {font-weight:700;color:var(--color-brand);display:inline-block;min-width:84px}
+    .left-bar {border-left:3px solid var(--color-brand);padding:4px 0 4px 14px;margin:18px 0;font-size:14.5px;color:var(--color-text-primary);line-height:1.6}
+    .left-bar strong {color:#0F4A41}
+    .sources-list {font-size:12.5px;color:var(--color-text-secondary);margin:8px 0 0 22px;padding-left:0}
+    .sources-list li {margin-bottom:8px;line-height:1.5}
+    .sources-list a {color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
+    .sk-related {margin-top:36px;padding-top:22px;border-top:1px solid var(--color-border-tertiary);font-size:13.5px}
+    .sk-disclaim {background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #EA580C;border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:13px;color:#7C2D12;line-height:1.5}
   </style>
   <script src="../_site-ux.js?v=20260519e" defer></script>
   <script type="application/ld+json">
@@ -103,42 +89,30 @@
   ]
 }
   </script>
-  <script src="../_research-chrome.js?v=20260524-research-r22" defer></script>
+  <script src="../_research-chrome.js?v=20260524-research-r23" defer></script>
   <!-- RC_PREVNEXT:start -->
   <meta name="rc-prev" content="./longevity-foundational.html">
   <meta name="rc-next" content="./immune-prevention.html">
   <!-- RC_PREVNEXT:end -->
 </head>
 <body>
-<main class="sk-wrap">
-  <a href="../stack/index.html" class="sk-back">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-    Back to stacks
-  </a>
-
-  <nav class="ss-breadcrumb" aria-label="Breadcrumb" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 14px;line-height:1.4"><a href="../index.html" style="color:inherit;text-decoration:none">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span> <a href="./index.html" style="color:inherit;text-decoration:none">Stacks</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span> <span aria-current="page" style="color:var(--color-text-secondary)">Gut restoration</span></nav>
-
-  <div class="sk-kicker">Goal-based stack · Gut restoration</div>
-  <h1>Gut-restoration stack — rebuilding after antibiotics or dysbiosis</h1>
-  <p class="sk-meta">Updated 2026-05-21 · Reviewed by SupplementScore editors · No sponsorships · No affiliate links</p>
-
-  <p class="sk-lede">For adults rebuilding gut function after a course of broad-spectrum antibiotics, a viral or bacterial gastroenteritis, or a flare of IBS-type symptoms — bloating, loose or unpredictable stools, altered tolerance of foods that used to be fine. The Foundation layer is well-studied probiotic strains and a soluble fibre that feeds them. The Performance layer is barrier and motility support. Optional add-ons target specific presentations. This is not a "leaky gut" stack — that label is loose and largely marketing — but a stack built around outcomes the trials actually measure: stool consistency, symptom severity, recovery time, and antibiotic-associated diarrhoea.</p>
+<main class="sk-wrap"><h1>Gut-restoration stack — rebuilding after antibiotics or dysbiosis</h1><p class="sk-lede">For adults rebuilding gut function after a course of broad-spectrum antibiotics, a viral or bacterial gastroenteritis, or a flare of IBS-type symptoms — bloating, loose or unpredictable stools, altered tolerance of foods that used to be fine. The Foundation layer is well-studied probiotic strains and a soluble fibre that feeds them. The Performance layer is barrier and motility support. Optional add-ons target specific presentations. This is not a "leaky gut" stack — that label is loose and largely marketing — but a stack built around outcomes the trials actually measure: stool consistency, symptom severity, recovery time, and antibiotic-associated diarrhoea.</p>
 
   <p>Each entry below is graded with the same evidence tier as the rest of SupplementScore. The stack is layered: start with the Foundation, then add Performance entries one at a time across two-week blocks so you can attribute changes accurately.</p>
 
   <h2>TL;DR — the stack</h2>
   <table class="tldr">
     <thead>
-      <tr><th>Supplement</th><th>Layer</th><th>Dose &amp; timing</th><th>Tier</th></tr>
+      <tr><th>Supplement</th><th>Layer</th><th>Dose &amp; timing</th><th>Score</th></tr>
     </thead>
     <tbody>
-      <tr><td><a href="../s/lactobacillus-rhamnosus-gg.html">Lactobacillus rhamnosus GG</a></td><td><span class="layer-tag found">Foundation</span></td><td>10–20 billion CFU/day, separated 2 h from any antibiotic dose</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/saccharomyces-boulardii.html">Saccharomyces boulardii</a></td><td><span class="layer-tag found">Foundation</span></td><td>5–10 billion CFU/day (250–500 mg) with or alongside antibiotics</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/partially-hydrolysed-guar-gum.html">Partially hydrolysed guar gum (PHGG)</a></td><td><span class="layer-tag found">Foundation</span></td><td>5 g/day, titrate up to 10 g/day over 2 weeks</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/l-glutamine.html">L-Glutamine</a></td><td><span class="layer-tag perf">Performance</span></td><td>5 g, three times daily on an empty stomach × 8 weeks</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/zinc-carnosine.html">Zinc-carnosine</a></td><td><span class="layer-tag perf">Performance</span></td><td>75 mg twice daily (provides ~16 mg elemental zinc) × 4–8 weeks</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/lactobacillus-plantarum.html">L. plantarum 299v</a></td><td><span class="layer-tag opt">Optional</span></td><td>10 billion CFU/day for IBS-type symptoms</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/bifidobacterium-longum-bb536.html">B. longum BB536</a></td><td><span class="layer-tag opt">Optional</span></td><td>5–10 billion CFU/day</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
+      <tr><td><a href="../s/lactobacillus-rhamnosus-gg.html">Lactobacillus rhamnosus GG</a></td><td><span class="layer-tag found">Foundation</span></td><td>10–20 billion CFU/day, separated 2 h from any antibiotic dose</td><td><span class="score-pill score-hi">80</span></td></tr>
+      <tr><td><a href="../s/saccharomyces-boulardii.html">Saccharomyces boulardii</a></td><td><span class="layer-tag found">Foundation</span></td><td>5–10 billion CFU/day (250–500 mg) with or alongside antibiotics</td><td><span class="score-pill score-hi">80</span></td></tr>
+      <tr><td><a href="../s/partially-hydrolysed-guar-gum.html">Partially hydrolysed guar gum (PHGG)</a></td><td><span class="layer-tag found">Foundation</span></td><td>5 g/day, titrate up to 10 g/day over 2 weeks</td><td><span class="score-pill score-mid">72</span></td></tr>
+      <tr><td><a href="../s/l-glutamine.html">L-Glutamine</a></td><td><span class="layer-tag perf">Performance</span></td><td>5 g, three times daily on an empty stomach × 8 weeks</td><td><span class="score-pill score-mid">68</span></td></tr>
+      <tr><td><a href="../s/zinc-carnosine.html">Zinc-carnosine</a></td><td><span class="layer-tag perf">Performance</span></td><td>75 mg twice daily (provides ~16 mg elemental zinc) × 4–8 weeks</td><td><span class="score-pill score-mid">72</span></td></tr>
+      <tr><td><a href="../s/lactobacillus-plantarum.html">L. plantarum 299v</a></td><td><span class="layer-tag opt">Optional</span></td><td>10 billion CFU/day for IBS-type symptoms</td><td><span class="score-pill score-mid">72</span></td></tr>
+      <tr><td><a href="../s/bifidobacterium-longum-bb536.html">B. longum BB536</a></td><td><span class="layer-tag opt">Optional</span></td><td>5–10 billion CFU/day</td><td><span class="score-pill score-mid">72</span></td></tr>
     </tbody>
   </table>
 
@@ -151,7 +125,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/lactobacillus-rhamnosus-gg.html">Lactobacillus rhamnosus GG</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-hi">80</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 10–20 billion CFU/day. If still taking antibiotics, separate by ≥2 hours from each antibiotic dose. Continue for at least 2 weeks after the antibiotic course finishes; longer (4–8 weeks) for recovery after gastroenteritis.</p>
     <p class="supp-line"><strong>Why.</strong> L. rhamnosus GG (LGG) is the single most-studied probiotic strain and has the cleanest evidence for antibiotic-associated diarrhoea (AAD) prevention. Hempel et al. 2012 (PMID 22570464), a JAMA meta-analysis of 82 RCTs, found probiotic use reduced AAD risk by 42% — with LGG and S. boulardii driving the largest effect. Goldenberg et al. 2017 Cochrane review (PMID 29257353) showed similar magnitude across paediatric and adult populations.</p>
@@ -162,7 +136,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/saccharomyces-boulardii.html">Saccharomyces boulardii</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-hi">80</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 5–10 billion CFU/day (typically 250–500 mg). Because S. boulardii is a yeast, not a bacterium, it is unaffected by antibiotics and can be taken at the same time. Continue for the duration of the antibiotic course plus 1–2 weeks.</p>
     <p class="supp-line"><strong>Why.</strong> S. boulardii is the highest-evidence option for antibiotic-associated and C. difficile-associated diarrhoea prevention in adults. Szajewska and Kołodziej 2015 (PMID 25758643), a meta-analysis of 21 RCTs, found S. boulardii reduced AAD risk by 50% (RR 0.47). The McFarland 2010 review (PMID 20581719) summarised the C. difficile recurrence prevention data.</p>
@@ -173,7 +147,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/partially-hydrolysed-guar-gum.html">Partially hydrolysed guar gum (PHGG)</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-mid">72</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> Start 5 g/day mixed into water or food; titrate up to 10 g/day over 2 weeks. Tasteless and dissolves clear — easy to take. Take with adequate water.</p>
     <p class="supp-line"><strong>Why.</strong> PHGG is a fully fermentable soluble fibre that normalises stool consistency in both directions (it reduces constipation and reduces diarrhoea) and feeds beneficial commensals — particularly Bifidobacteria and butyrate producers. Niv et al. 2016 (PMID 26928808) reviewed PHGG in IBS and found significant symptom improvement and shifted bowel habit toward normal Bristol stool form. Polymeros et al. 2014 (PMID 24563999) showed PHGG improved bloating and abdominal pain in mixed-type IBS.</p>
@@ -184,7 +158,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/l-glutamine.html">L-Glutamine</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-mid">68</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 5 g three times daily on an empty stomach (between meals) for 8 weeks. Mix into water — neutral taste.</p>
     <p class="supp-line"><strong>Why.</strong> Glutamine is the preferred fuel for enterocytes and may support intestinal barrier function during recovery from infectious or post-infectious gut injury. Zhou et al. 2019 (PMID 30196933), an RCT in 106 adults with post-infectious IBS-D, found 5 g three times daily for 8 weeks reduced IBS-SSS scores from severe to mild in 79.6% of the glutamine group versus 5.8% of placebo — a strikingly large effect that the editors flagged for replication. Effect in non-post-infectious IBS appears smaller.</p>
@@ -195,7 +169,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/zinc-carnosine.html">Zinc-carnosine</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-mid">72</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 75 mg twice daily (providing ~16 mg elemental zinc plus L-carnosine). Continue for 4–8 weeks. Take with food to reduce nausea.</p>
     <p class="supp-line"><strong>Why.</strong> Zinc-carnosine is a chelated form developed in Japan for gastric mucosal protection. Mahmood et al. 2007 (PMID 17582825) tested it in NSAID-induced increased intestinal permeability and showed it reduced indomethacin-induced small-bowel permeability by 78% versus placebo. It is most relevant after gastroenteritis, NSAID-related gut injury, or chemotherapy/radiation-induced mucositis.</p>
@@ -206,7 +180,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/lactobacillus-plantarum.html">L. plantarum 299v</a></h3>
-      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="score-pill score-mid">72</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 10 billion CFU/day, with or without food. Continue for at least 4 weeks before assessing benefit.</p>
     <p class="supp-line"><strong>Why.</strong> Strain-specific evidence in IBS. Niedzielin et al. 2001 (PMID 11518483) randomised 40 patients with IBS to L. plantarum 299v or placebo and found significant reductions in abdominal pain and resolution of constipation. Ducrotté et al. 2012 (PMID 22754302) replicated in 214 IBS patients with a meaningful effect on pain and bloating frequency.</p>
@@ -217,7 +191,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/bifidobacterium-longum-bb536.html">B. longum BB536</a></h3>
-      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="score-pill score-mid">72</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 5–10 billion CFU/day. Continue for at least 4 weeks.</p>
     <p class="supp-line"><strong>Why.</strong> B. longum BB536 has evidence for stool normalisation and immune modulation in adults with constipation-predominant or mixed-type IBS. Wong et al. 2014 (PMID 25141833) showed improvements in stool form and quality-of-life scores. Use BB536 specifically as an add-on if constipation dominates, rather than the diarrhoea-predominant Foundation focus.</p>

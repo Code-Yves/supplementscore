@@ -22,58 +22,44 @@
   <meta name="twitter:description" content="Layered, evidence-tiered stack for muscle recovery and adaptation. Doses, timing, interactions, and what to skip.">
   <meta name="twitter:image" content="https://supplementscore.org/og/stacks/post-workout-recovery.png">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
-  <style>html{color-scheme:light}</style>
+  <style>
+    html {color-scheme:light}
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260524-research-r18">
+  <link rel="stylesheet" href="../styles.css?v=20260524-research-r19">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
   <meta name="theme-color" content="#1F7A6B">
   <style>
-    body{background:var(--color-background-primary);color:var(--color-text-primary)}
-    .sk-wrap{max-width:820px;margin:0 auto;padding:32px 22px 64px;line-height:1.7}
-    .sk-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;margin-bottom:22px}
-    .sk-back:hover{background:rgba(31,122,107,.05);color:var(--color-brand)}
-    .sk-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
-    .sk-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
-    .sk-meta{font-size:13px;color:var(--color-text-tertiary);margin-bottom:26px;border-bottom:1px solid var(--color-border-tertiary);padding-bottom:16px}
-    .sk-lede{font-size:17px;color:var(--color-text-secondary);margin-bottom:26px;line-height:1.55}
-    .sk-wrap h2{font-size:1.4rem;font-weight:700;margin:38px 0 14px;letter-spacing:-.2px}
-    .sk-wrap h3{font-size:1.05rem;font-weight:700;margin:22px 0 10px}
-    .sk-wrap p{margin:0 0 14px}
-    .sk-wrap ul{margin:0 0 16px 22px}
-    .sk-wrap li{margin-bottom:6px}
-    .tldr{width:100%;border-collapse:collapse;margin:14px 0 28px;font-size:13.5px}
-    .tldr th,.tldr td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
-    .tldr thead th{background:var(--color-background-secondary);font-weight:700;border-bottom:2px solid var(--color-border-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-    .tldr td a{color:var(--color-brand);text-decoration:none;font-weight:600}
-    .tldr td a:hover{text-decoration:underline}
-    .layer-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff}
-    .layer-tag.found{background:#0F4A41}
-    .layer-tag.perf{background:#1F7A6B}
-    .layer-tag.opt{background:#7C8B96}
-    .tier-pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:5px}
-    .tier-pill.t1{background:var(--t1bg);color:var(--t1tx)}
-    .tier-pill.t2{background:var(--t2bg);color:var(--t2tx)}
-    .tier-pill.t3{background:var(--t3bg);color:var(--t3tx)}
-    .supp-card{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 22px;margin:14px 0}
-    .supp-card-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:6px;align-items:baseline}
-    .supp-card h3{margin:0;font-size:1.1rem}
-    .supp-card h3 a{color:var(--color-text-primary);text-decoration:none}
-    .supp-card h3 a:hover{color:var(--color-brand);text-decoration:underline}
-    .supp-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-    .supp-line{font-size:13.5px;color:var(--color-text-secondary);margin:6px 0 0}
-    .supp-line strong{color:var(--color-text-primary);font-weight:600}
-    .timing-block{background:var(--color-background-secondary);border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-size:14px;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-    .timing-block .slot{font-weight:700;color:var(--color-brand);display:inline-block;min-width:84px}
-    .left-bar{border-left:3px solid var(--color-brand);padding:4px 0 4px 14px;margin:18px 0;font-size:14.5px;color:var(--color-text-primary);line-height:1.6}
-    .left-bar strong{color:#0F4A41}
-    .sources-list{font-size:12.5px;color:var(--color-text-secondary);margin:8px 0 0 22px;padding-left:0}
-    .sources-list li{margin-bottom:8px;line-height:1.5}
-    .sources-list a{color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
-    .sk-related{margin-top:36px;padding-top:22px;border-top:1px solid var(--color-border-tertiary);font-size:13.5px}
-    .sk-disclaim{background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #EA580C;border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:13px;color:#7C2D12;line-height:1.5}
+    body {background:var(--color-background-primary);color:var(--color-text-primary)}
+    .tldr {width:100%;border-collapse:collapse;margin:14px 0 28px;font-size:13.5px}
+    .tldr th, .tldr td {text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
+    .tldr thead th {background:var(--color-background-secondary);font-weight:700;border-bottom:2px solid var(--color-border-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .tldr td a {color:var(--color-brand);text-decoration:none;font-weight:600}
+    .tldr td a:hover {text-decoration:underline}
+    .layer-tag {display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff}
+    .layer-tag.found {background:#0F4A41}
+    .layer-tag.perf {background:#1F7A6B}
+    .layer-tag.opt {background:#7C8B96}
+    .supp-card {border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 22px;margin:14px 0}
+    .supp-card-head {display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:6px;align-items:baseline}
+    .supp-card h3 {margin:0;font-size:1.1rem}
+    .supp-card h3 a {color:var(--color-text-primary);text-decoration:none}
+    .supp-card h3 a:hover {color:var(--color-brand);text-decoration:underline}
+    .supp-meta {display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+    .supp-line {font-size:13.5px;color:var(--color-text-secondary);margin:6px 0 0}
+    .supp-line strong {color:var(--color-text-primary);font-weight:600}
+    .timing-block {background:var(--color-background-secondary);border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-size:14px;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .timing-block .slot {font-weight:700;color:var(--color-brand);display:inline-block;min-width:84px}
+    .left-bar {border-left:3px solid var(--color-brand);padding:4px 0 4px 14px;margin:18px 0;font-size:14.5px;color:var(--color-text-primary);line-height:1.6}
+    .left-bar strong {color:#0F4A41}
+    .sources-list {font-size:12.5px;color:var(--color-text-secondary);margin:8px 0 0 22px;padding-left:0}
+    .sources-list li {margin-bottom:8px;line-height:1.5}
+    .sources-list a {color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
+    .sk-related {margin-top:36px;padding-top:22px;border-top:1px solid var(--color-border-tertiary);font-size:13.5px}
+    .sk-disclaim {background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #EA580C;border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:13px;color:#7C2D12;line-height:1.5}
   </style>
   <script src="../_site-ux.js?v=20260519e" defer></script>
   <script type="application/ld+json">
@@ -103,43 +89,31 @@
   ]
 }
   </script>
-  <script src="../_research-chrome.js?v=20260524-research-r22" defer></script>
+  <script src="../_research-chrome.js?v=20260524-research-r23" defer></script>
   <!-- RC_PREVNEXT:start -->
   <meta name="rc-prev" content="./immune-prevention.html">
   <meta name="rc-next" content="./sleep-onset.html">
   <!-- RC_PREVNEXT:end -->
 </head>
 <body>
-<main class="sk-wrap">
-  <a href="../stack/index.html" class="sk-back">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-    Back to stacks
-  </a>
-
-  <nav class="ss-breadcrumb" aria-label="Breadcrumb" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 14px;line-height:1.4"><a href="../index.html" style="color:inherit;text-decoration:none">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span> <a href="./index.html" style="color:inherit;text-decoration:none">Stacks</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span> <span aria-current="page" style="color:var(--color-text-secondary)">Post-workout recovery</span></nav>
-
-  <div class="sk-kicker">Goal-based stack · Recovery &amp; adaptation</div>
-  <h1>Post-workout recovery stack — train hard, recover faster</h1>
-  <p class="sk-meta">Updated 2026-05-21 · Reviewed by SupplementScore editors · No sponsorships · No affiliate links</p>
-
-  <p class="sk-lede">For training that produces measurable muscle damage — heavy resistance work, eccentric-loaded sessions, intervals, or two-a-days — and that needs to be repeated within 24–72 hours. The Foundation layer accelerates muscle-protein synthesis and replenishes substrates. The Performance layer targets inflammation and oxidative stress that drive delayed-onset muscle soreness. Optional add-ons handle specific scenarios. Layer one supplement at a time across two-week blocks so you can tell which is actually moving the needle for you.</p>
+<main class="sk-wrap"><h1>Post-workout recovery stack — train hard, recover faster</h1><p class="sk-lede">For training that produces measurable muscle damage — heavy resistance work, eccentric-loaded sessions, intervals, or two-a-days — and that needs to be repeated within 24–72 hours. The Foundation layer accelerates muscle-protein synthesis and replenishes substrates. The Performance layer targets inflammation and oxidative stress that drive delayed-onset muscle soreness. Optional add-ons handle specific scenarios. Layer one supplement at a time across two-week blocks so you can tell which is actually moving the needle for you.</p>
 
   <p>Each entry below is graded with the same evidence tier as the rest of SupplementScore. The stack is built for adults training 4–6 days per week with a clear recovery bottleneck — not for sedentary readers or casual exercisers, who get most of the recovery they need from sleep, food, and rest days.</p>
 
   <h2>TL;DR — the stack</h2>
   <table class="tldr">
     <thead>
-      <tr><th>Supplement</th><th>Layer</th><th>Dose &amp; timing</th><th>Tier</th></tr>
+      <tr><th>Supplement</th><th>Layer</th><th>Dose &amp; timing</th><th>Score</th></tr>
     </thead>
     <tbody>
-      <tr><td><a href="../s/whey-protein.html">Whey protein</a></td><td><span class="layer-tag found">Foundation</span></td><td>25–40 g within 2 h post-session</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/creatine-monohydrate.html">Creatine monohydrate</a></td><td><span class="layer-tag found">Foundation</span></td><td>3–5 g daily, any time</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/omega-3.html">Omega-3 (EPA/DHA)</a></td><td><span class="layer-tag found">Foundation</span></td><td>2–3 g EPA+DHA/day with fatty meal</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/vitamin-d3.html">Vitamin D3</a></td><td><span class="layer-tag found">Foundation</span></td><td>2,000–4,000 IU/day if 25-OH &lt; 40 ng/mL</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/magnesium-glycinate.html">Magnesium glycinate</a></td><td><span class="layer-tag perf">Performance</span></td><td>200–400 mg elemental, evening</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/tart-cherry.html">Tart cherry (Montmorency)</a></td><td><span class="layer-tag perf">Performance</span></td><td>480 mg extract or 240 mL juice, twice daily 4–5 d around hard sessions</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/curcumin.html">Curcumin (bioavailable form)</a></td><td><span class="layer-tag perf">Performance</span></td><td>500 mg/day phytosome or piperine-enhanced</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/beta-alanine.html">Beta-alanine</a></td><td><span class="layer-tag opt">Optional</span></td><td>3.2–6.4 g/day, split doses</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
+      <tr><td><a href="../s/whey-protein.html">Whey protein</a></td><td><span class="layer-tag found">Foundation</span></td><td>25–40 g within 2 h post-session</td><td><span class="score-pill score-hi">84</span></td></tr>
+      <tr><td><a href="../s/creatine-monohydrate.html">Creatine monohydrate</a></td><td><span class="layer-tag found">Foundation</span></td><td>3–5 g daily, any time</td><td><span class="score-pill score-hi">96</span></td></tr>
+      <tr><td><a href="../s/omega-3.html">Omega-3 (EPA/DHA)</a></td><td><span class="layer-tag found">Foundation</span></td><td>2–3 g EPA+DHA/day with fatty meal</td><td><span class="score-pill score-mid">71</span></td></tr>
+      <tr><td><a href="../s/vitamin-d3.html">Vitamin D3</a></td><td><span class="layer-tag found">Foundation</span></td><td>2,000–4,000 IU/day if 25-OH &lt; 40 ng/mL</td><td><span class="score-pill score-hi">83</span></td></tr>
+      <tr><td><a href="../s/magnesium-glycinate.html">Magnesium glycinate</a></td><td><span class="layer-tag perf">Performance</span></td><td>200–400 mg elemental, evening</td><td><span class="score-pill score-hi">82</span></td></tr>
+      <tr><td><a href="../s/tart-cherry.html">Tart cherry (Montmorency)</a></td><td><span class="layer-tag perf">Performance</span></td><td>480 mg extract or 240 mL juice, twice daily 4–5 d around hard sessions</td><td><span class="score-pill score-mid">70</span></td></tr>
+      <tr><td><a href="../s/curcumin.html">Curcumin (bioavailable form)</a></td><td><span class="layer-tag perf">Performance</span></td><td>500 mg/day phytosome or piperine-enhanced</td><td><span class="score-pill score-mid">65</span></td></tr>
+      <tr><td><a href="../s/beta-alanine.html">Beta-alanine</a></td><td><span class="layer-tag opt">Optional</span></td><td>3.2–6.4 g/day, split doses</td><td><span class="score-pill score-mid">71</span></td></tr>
     </tbody>
   </table>
 
@@ -152,7 +126,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/whey-protein.html">Whey protein</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-hi">84</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 25–40 g (≥3 g leucine) within 2 hours of training; total daily protein 1.6–2.2 g/kg bodyweight.</p>
     <p class="supp-line"><strong>Why.</strong> Whey is the leucine-richest practical protein source and the highest-quality leucine trigger for muscle-protein synthesis. The Cermak et al. 2012 meta-analysis (PMID 22939843) of 22 RCTs found protein supplementation around resistance training increased fat-free mass gain and 1-rep-max strength by clinically meaningful margins in both trained and untrained subjects. Morton et al. 2018 (PMID 28698222) confirmed and quantified the effect in a larger pooled analysis: protein adds ≈0.3 kg lean mass and ≈10% strength on top of training alone.</p>
@@ -163,7 +137,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/creatine-monohydrate.html">Creatine monohydrate</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-hi">96</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 3–5 g daily, with or without food, any time of day. Loading (20 g/day × 5 d) is optional — daily 5 g reaches saturation in ~4 weeks.</p>
     <p class="supp-line"><strong>Why.</strong> Creatine restores phosphocreatine between high-intensity bouts and is the most heavily studied performance supplement in existence. The Kreider et al. 2017 ISSN position stand (PMID 28615996) reviewed hundreds of trials and concluded creatine is safe, effective for high-intensity exercise performance and lean-mass gains, and useful as a recovery adjuvant by attenuating exercise-induced muscle damage markers (CK).</p>
@@ -174,7 +148,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/omega-3.html">Omega-3 (EPA/DHA)</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-mid">71</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 2–3 g combined EPA+DHA per day with a fatty meal. Triglyceride form absorbs better than ethyl ester.</p>
     <p class="supp-line"><strong>Why.</strong> Omega-3s reduce exercise-induced muscle damage and the inflammatory response that drives DOMS. Heileson et al. 2023 (PMID 36906868) reviewed 32 trials and found EPA/DHA supplementation reduced post-exercise creatine kinase, soreness ratings, and range-of-motion loss after eccentric or damaging exercise — small to moderate effect sizes, consistent direction. Mickleborough 2013 (PMID 23994765) similarly summarised attenuation of inflammatory markers.</p>
@@ -185,7 +159,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/vitamin-d3.html">Vitamin D3</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-hi">83</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 2,000–4,000 IU/day with a fatty meal — adjusted to keep 25-hydroxyvitamin D in the 40–60 ng/mL range. Test first; don't blanket-supplement above 4,000 IU/day.</p>
     <p class="supp-line"><strong>Why.</strong> Vitamin D status is causally linked to muscle function and recovery in athletes. Owens et al. 2018 (PMID 29243029) reviewed performance and recovery evidence and found insufficient 25-OH (&lt; 30 ng/mL) was associated with reduced muscle-protein synthesis response and slower recovery from eccentric damage. Correction to mid-normal range restored the response.</p>
@@ -196,7 +170,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/magnesium-glycinate.html">Magnesium glycinate</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-hi">82</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 200–400 mg elemental magnesium with the evening meal or 30–60 min before bed.</p>
     <p class="supp-line"><strong>Why.</strong> Magnesium is the cofactor for ATP regeneration and supports recovery sleep through GABA-A modulation. Zhang et al. 2017 (PMID 28471731) demonstrated magnesium status correlates with exercise capacity. Mah and Pitre 2021 (PMID 33865376) showed oral magnesium reduces sleep-onset latency, which is the recovery-relevant endpoint for training athletes.</p>
@@ -207,7 +181,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/tart-cherry.html">Tart cherry (Montmorency)</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-mid">70</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 480 mg concentrated extract or 240 mL juice, twice daily, starting 4–5 days before a hard event and continuing 2–3 days after. Daily use also reasonable for athletes in heavy training blocks.</p>
     <p class="supp-line"><strong>Why.</strong> Tart cherry's anthocyanins blunt the inflammatory response and accelerate recovery of strength. Hill et al. 2021 (PMID 33781961) meta-analysed 25 trials and found tart cherry produced small-to-moderate improvements in recovery of muscle function and reduced soreness after damaging exercise; effects were largest in trained athletes. Bowtell et al. 2011 (PMID 21472898) reported faster recovery of maximal voluntary contraction after eccentric elbow-flexor work.</p>
@@ -218,7 +192,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/curcumin.html">Curcumin (bioavailable form)</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-mid">65</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 500 mg/day of a bioavailable form — Meriva (phytosome), Theracurmin, or piperine-enhanced. Plain curcumin powder has near-zero bioavailability.</p>
     <p class="supp-line"><strong>Why.</strong> Curcumin attenuates the inflammatory cascade that drives DOMS. Fernández-Lázaro et al. 2020 (PMID 32492895) reviewed 11 RCTs in athletes and found curcumin reduced creatine kinase, IL-6, TNF-α, and subjective soreness after damaging exercise — modest but consistent effect sizes. Drobnic et al. 2014 (PMID 25182143) reported reduced DOMS and CK with Meriva specifically.</p>
@@ -229,7 +203,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/beta-alanine.html">Beta-alanine</a></h3>
-      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="score-pill score-mid">71</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 3.2–6.4 g/day in 800 mg–1.6 g split doses (paresthesia is dose-dependent). Not session-timed — chronic loading saturates muscle carnosine over ≥4 weeks.</p>
     <p class="supp-line"><strong>Why.</strong> Beta-alanine raises muscle carnosine, buffering hydrogen-ion accumulation in repeated high-intensity efforts. Saunders et al. 2017 (PMID 27797728) meta-analysed 40 trials and found beta-alanine improved 1–4 minute exercise capacity by 2.85% — meaningful for sports with repeated high-intensity bouts (CrossFit, rowing, sprint cycling, MMA). Effect is smaller for &lt;30 s and &gt;10 min events.</p>

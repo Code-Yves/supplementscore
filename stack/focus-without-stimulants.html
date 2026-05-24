@@ -22,58 +22,44 @@
   <meta name="twitter:description" content="Evidence-tiered cognitive stack with no caffeine or stimulant load.">
   <meta name="twitter:image" content="https://supplementscore.org/og/stacks/focus-without-stimulants.png">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
-  <style>html{color-scheme:light}</style>
+  <style>
+    html {color-scheme:light}
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260524-research-r18">
+  <link rel="stylesheet" href="../styles.css?v=20260524-research-r19">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
   <meta name="theme-color" content="#1F7A6B">
   <style>
-    body{background:var(--color-background-primary);color:var(--color-text-primary)}
-    .sk-wrap{max-width:820px;margin:0 auto;padding:32px 22px 64px;line-height:1.7}
-    .sk-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);text-decoration:none;padding:6px 12px;border:1px solid var(--color-border-secondary);border-radius:8px;margin-bottom:22px}
-    .sk-back:hover{background:rgba(31,122,107,.05);color:var(--color-brand)}
-    .sk-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
-    .sk-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.7px;line-height:1.15;margin:0 0 12px}
-    .sk-meta{font-size:13px;color:var(--color-text-tertiary);margin-bottom:26px;border-bottom:1px solid var(--color-border-tertiary);padding-bottom:16px}
-    .sk-lede{font-size:17px;color:var(--color-text-secondary);margin-bottom:26px;line-height:1.55}
-    .sk-wrap h2{font-size:1.4rem;font-weight:700;margin:38px 0 14px;letter-spacing:-.2px}
-    .sk-wrap h3{font-size:1.05rem;font-weight:700;margin:22px 0 10px}
-    .sk-wrap p{margin:0 0 14px}
-    .sk-wrap ul{margin:0 0 16px 22px}
-    .sk-wrap li{margin-bottom:6px}
-    .tldr{width:100%;border-collapse:collapse;margin:14px 0 28px;font-size:13.5px}
-    .tldr th,.tldr td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
-    .tldr thead th{background:var(--color-background-secondary);font-weight:700;border-bottom:2px solid var(--color-border-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-    .tldr td a{color:var(--color-brand);text-decoration:none;font-weight:600}
-    .tldr td a:hover{text-decoration:underline}
-    .layer-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff}
-    .layer-tag.found{background:#0F4A41}
-    .layer-tag.perf{background:#1F7A6B}
-    .layer-tag.opt{background:#7C8B96}
-    .tier-pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:5px}
-    .tier-pill.t1{background:var(--t1bg);color:var(--t1tx)}
-    .tier-pill.t2{background:var(--t2bg);color:var(--t2tx)}
-    .tier-pill.t3{background:var(--t3bg);color:var(--t3tx)}
-    .supp-card{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 22px;margin:14px 0}
-    .supp-card-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:6px;align-items:baseline}
-    .supp-card h3{margin:0;font-size:1.1rem}
-    .supp-card h3 a{color:var(--color-text-primary);text-decoration:none}
-    .supp-card h3 a:hover{color:var(--color-brand);text-decoration:underline}
-    .supp-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-    .supp-line{font-size:13.5px;color:var(--color-text-secondary);margin:6px 0 0}
-    .supp-line strong{color:var(--color-text-primary);font-weight:600}
-    .timing-block{background:var(--color-background-secondary);border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-size:14px;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-    .timing-block .slot{font-weight:700;color:var(--color-brand);display:inline-block;min-width:84px}
-    .left-bar{border-left:3px solid var(--color-brand);padding:4px 0 4px 14px;margin:18px 0;font-size:14.5px;color:var(--color-text-primary);line-height:1.6}
-    .left-bar strong{color:#0F4A41}
-    .sources-list{font-size:12.5px;color:var(--color-text-secondary);margin:8px 0 0 22px;padding-left:0}
-    .sources-list li{margin-bottom:8px;line-height:1.5}
-    .sources-list a{color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
-    .sk-related{margin-top:36px;padding-top:22px;border-top:1px solid var(--color-border-tertiary);font-size:13.5px}
-    .sk-disclaim{background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #EA580C;border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:13px;color:#7C2D12;line-height:1.5}
+    body {background:var(--color-background-primary);color:var(--color-text-primary)}
+    .tldr {width:100%;border-collapse:collapse;margin:14px 0 28px;font-size:13.5px}
+    .tldr th, .tldr td {text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
+    .tldr thead th {background:var(--color-background-secondary);font-weight:700;border-bottom:2px solid var(--color-border-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .tldr td a {color:var(--color-brand);text-decoration:none;font-weight:600}
+    .tldr td a:hover {text-decoration:underline}
+    .layer-tag {display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff}
+    .layer-tag.found {background:#0F4A41}
+    .layer-tag.perf {background:#1F7A6B}
+    .layer-tag.opt {background:#7C8B96}
+    .supp-card {border:1px solid var(--color-border-tertiary);border-radius:12px;padding:18px 22px;margin:14px 0}
+    .supp-card-head {display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:6px;align-items:baseline}
+    .supp-card h3 {margin:0;font-size:1.1rem}
+    .supp-card h3 a {color:var(--color-text-primary);text-decoration:none}
+    .supp-card h3 a:hover {color:var(--color-brand);text-decoration:underline}
+    .supp-meta {display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+    .supp-line {font-size:13.5px;color:var(--color-text-secondary);margin:6px 0 0}
+    .supp-line strong {color:var(--color-text-primary);font-weight:600}
+    .timing-block {background:var(--color-background-secondary);border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-size:14px;line-height:1.65;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .timing-block .slot {font-weight:700;color:var(--color-brand);display:inline-block;min-width:84px}
+    .left-bar {border-left:3px solid var(--color-brand);padding:4px 0 4px 14px;margin:18px 0;font-size:14.5px;color:var(--color-text-primary);line-height:1.6}
+    .left-bar strong {color:#0F4A41}
+    .sources-list {font-size:12.5px;color:var(--color-text-secondary);margin:8px 0 0 22px;padding-left:0}
+    .sources-list li {margin-bottom:8px;line-height:1.5}
+    .sources-list a {color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
+    .sk-related {margin-top:36px;padding-top:22px;border-top:1px solid var(--color-border-tertiary);font-size:13.5px}
+    .sk-disclaim {background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #EA580C;border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:13px;color:#7C2D12;line-height:1.5}
   </style>
   <script src="../_site-ux.js?v=20260519e" defer></script>
   <script type="application/ld+json">
@@ -103,41 +89,29 @@
   ]
 }
   </script>
-  <script src="../_research-chrome.js?v=20260524-research-r22" defer></script>
+  <script src="../_research-chrome.js?v=20260524-research-r23" defer></script>
   <!-- RC_PREVNEXT:start -->
   <meta name="rc-next" content="./longevity-foundational.html">
   <!-- RC_PREVNEXT:end -->
 </head>
 <body>
-<main class="sk-wrap">
-  <a href="../stack/index.html" class="sk-back">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-    Back to stacks
-  </a>
-
-  <nav class="ss-breadcrumb" aria-label="Breadcrumb" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 14px;line-height:1.4"><a href="../index.html" style="color:inherit;text-decoration:none">SupplementScore</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span> <a href="./index.html" style="color:inherit;text-decoration:none">Stacks</a> <span aria-hidden="true" style="margin:0 6px;opacity:.5">›</span> <span aria-current="page" style="color:var(--color-text-secondary)">Focus without stimulants</span></nav>
-
-  <div class="sk-kicker">Goal-based stack · Cognition</div>
-  <h1>Focus without stimulants stack — sustained attention, no caffeine</h1>
-  <p class="sk-meta">Updated 2026-05-14 · Reviewed by SupplementScore editors · No sponsorships · No affiliate links</p>
-
-  <p class="sk-lede">For people who cannot tolerate stimulants — pregnancy, lactation, anxiety disorders, atrial fibrillation, hypertension that's not yet on target — or who simply don't want the rebound and sleep debt that comes with leaning on caffeine. The stack below targets the cognitive and attentional pathways without raising heart rate, blood pressure, or sympathetic tone. Effects are quieter than caffeine; consistency over weeks matters more than acute kick.</p>
+<main class="sk-wrap"><h1>Focus without stimulants stack — sustained attention, no caffeine</h1><p class="sk-lede">For people who cannot tolerate stimulants — pregnancy, lactation, anxiety disorders, atrial fibrillation, hypertension that's not yet on target — or who simply don't want the rebound and sleep debt that comes with leaning on caffeine. The stack below targets the cognitive and attentional pathways without raising heart rate, blood pressure, or sympathetic tone. Effects are quieter than caffeine; consistency over weeks matters more than acute kick.</p>
 
   <p>The stack is layered: a Foundation that almost everyone benefits from, a Performance layer for active task focus, and Optional supplements where the evidence applies to specific subsets (mood-driven attention, age-related decline, acute-stress cognition).</p>
 
   <h2>TL;DR — the stack</h2>
   <table class="tldr">
     <thead>
-      <tr><th>Supplement</th><th>Layer</th><th>Dose &amp; timing</th><th>Tier</th></tr>
+      <tr><th>Supplement</th><th>Layer</th><th>Dose &amp; timing</th><th>Score</th></tr>
     </thead>
     <tbody>
-      <tr><td><a href="../s/creatine-monohydrate.html">Creatine monohydrate</a></td><td><span class="layer-tag found">Foundation</span></td><td>3–5 g/day, any time</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
-      <tr><td><a href="../s/l-theanine.html">L-Theanine (standalone)</a></td><td><span class="layer-tag found">Foundation</span></td><td>100–200 mg, 30 min before focus block</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/citicoline.html">Citicoline (CDP-Choline)</a></td><td><span class="layer-tag perf">Performance</span></td><td>250–500 mg, morning</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/magnesium-l-threonate.html">Magnesium L-threonate</a></td><td><span class="layer-tag perf">Performance</span></td><td>1.5–2 g (≈144 mg elemental), evening</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/bacopa-monnieri.html">Bacopa monnieri</a></td><td><span class="layer-tag perf">Performance</span></td><td>300 mg standardised extract with food</td><td><span class="tier-pill t3">Tier 3</span></td></tr>
-      <tr><td><a href="../s/tyrosine.html">Tyrosine (L-tyrosine)</a></td><td><span class="layer-tag opt">Optional</span></td><td>1–2 g, 60 min before high-stress task</td><td><span class="tier-pill t2">Tier 2</span></td></tr>
-      <tr><td><a href="../s/saffron.html">Saffron (Crocus sativus)</a></td><td><span class="layer-tag opt">Optional</span></td><td>28–30 mg standardised extract, daily</td><td><span class="tier-pill t1">Tier 1</span></td></tr>
+      <tr><td><a href="../s/creatine-monohydrate.html">Creatine monohydrate</a></td><td><span class="layer-tag found">Foundation</span></td><td>3–5 g/day, any time</td><td><span class="score-pill score-hi">96</span></td></tr>
+      <tr><td><a href="../s/l-theanine.html">L-Theanine (standalone)</a></td><td><span class="layer-tag found">Foundation</span></td><td>100–200 mg, 30 min before focus block</td><td><span class="score-pill score-mid">74</span></td></tr>
+      <tr><td><a href="../s/citicoline.html">Citicoline (CDP-Choline)</a></td><td><span class="layer-tag perf">Performance</span></td><td>250–500 mg, morning</td><td><span class="score-pill score-mid">64</span></td></tr>
+      <tr><td><a href="../s/magnesium-l-threonate.html">Magnesium L-threonate</a></td><td><span class="layer-tag perf">Performance</span></td><td>1.5–2 g (≈144 mg elemental), evening</td><td><span class="score-pill score-mid">65</span></td></tr>
+      <tr><td><a href="../s/bacopa-monnieri.html">Bacopa monnieri</a></td><td><span class="layer-tag perf">Performance</span></td><td>300 mg standardised extract with food</td><td><span class="score-pill score-low">58</span></td></tr>
+      <tr><td><a href="../s/tyrosine.html">Tyrosine (L-tyrosine)</a></td><td><span class="layer-tag opt">Optional</span></td><td>1–2 g, 60 min before high-stress task</td><td><span class="score-pill score-mid">76</span></td></tr>
+      <tr><td><a href="../s/saffron.html">Saffron (Crocus sativus)</a></td><td><span class="layer-tag opt">Optional</span></td><td>28–30 mg standardised extract, daily</td><td><span class="score-pill score-mid">72</span></td></tr>
     </tbody>
   </table>
 
@@ -150,7 +124,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/creatine-monohydrate.html">Creatine monohydrate</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-hi">96</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 3–5 g/day with water, any time of day. Optional loading (20 g/day for 5–7 days) accelerates saturation.</p>
     <p class="supp-line"><strong>Why.</strong> Creatine raises brain phosphocreatine, buffering ATP demand under cognitive load and especially under sleep restriction. The Xu et al. 2024 systematic review of 16 RCTs (492 participants, PMID 39070254) found significant improvements in memory (SMD 0.31), attention/processing speed (SMD −0.51 reaction time), with stronger effects in adults 18–60 and in disease states. Sleep-deprivation trials show even larger acute effects.</p>
@@ -161,7 +135,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/l-theanine.html">L-Theanine (standalone)</a></h3>
-      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag found">Foundation</span> <span class="score-pill score-mid">74</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 100–200 mg, 30 minutes before a focus block. (For the caffeine-paired version see the <a href="../s/l-theanine-caffeine.html">L-theanine + caffeine stack</a> — outside this stack's no-stimulant scope.)</p>
     <p class="supp-line"><strong>Why.</strong> Theanine raises alpha-wave activity (the EEG signature of relaxed alertness) and partially modulates the NMDA receptor. The Hidese et al. 2019 RCT (PMID 31623400) found sustained-attention and cognitive-flexibility improvements over four weeks at 200 mg/day. Effect is "calm focus" rather than acute boost — useful when anxiety is competing with attention.</p>
@@ -172,7 +146,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/citicoline.html">Citicoline (CDP-Choline)</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-mid">64</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 250–500 mg in the morning. Mildly stimulating — avoid evening doses.</p>
     <p class="supp-line"><strong>Why.</strong> Citicoline crosses the blood-brain barrier and supplies both choline (acetylcholine substrate) and cytidine (phospholipid synthesis). Knott et al. 2015 (PMID 26221764) found 250 mg and 500 mg over 28 days improved attention and psychomotor speed in healthy adolescent females; multiple older-adult and post-stroke trials report improvements in attention and processing speed. Better tolerated than alpha-GPC and without alpha-GPC's disputed Korean stroke-association signal.</p>
@@ -183,7 +157,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/magnesium-l-threonate.html">Magnesium L-threonate</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-mid">65</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 1.5–2 g of the L-threonate compound (≈144 mg elemental magnesium) in the evening.</p>
     <p class="supp-line"><strong>Why.</strong> L-threonate is the only magnesium form clearly shown to raise CNS magnesium in animals; Liu et al. 2016 (PMID 26519439) found 12 weeks of magnesium L-threonate (Magtein) at 1.5–2 g/day improved measures of executive function, working memory, attention, and episodic memory in older adults with cognitive complaints. Effect sizes are modest but consistent across the limited human dataset.</p>
@@ -194,7 +168,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/bacopa-monnieri.html">Bacopa monnieri</a></h3>
-      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="tier-pill t3">Tier 3</span></span>
+      <span class="supp-meta"><span class="layer-tag perf">Performance</span> <span class="score-pill score-low">58</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 300 mg of standardised extract (40–55% bacosides) with food. Allow 12 weeks for full effect.</p>
     <p class="supp-line"><strong>Why.</strong> Bacopa's bacosides modulate cholinergic and serotonergic transmission and have neuroprotective signalling effects. Kongkeaw et al. 2014 meta-analysis (PMID 24252493) of nine RCTs found significant improvement in delayed-recall memory and information-processing speed; benefit only emerges after roughly 12 weeks of daily use.</p>
@@ -205,7 +179,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/tyrosine.html">Tyrosine (L-tyrosine)</a></h3>
-      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="tier-pill t2">Tier 2</span></span>
+      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="score-pill score-mid">76</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 1–2 g taken 60 minutes before a high-stress cognitive task. Situational, not daily.</p>
     <p class="supp-line"><strong>Why.</strong> Tyrosine is the precursor to dopamine and norepinephrine; under acute stress (sleep deprivation, cold, multitasking) those catecholamines deplete and tyrosine supplementation preserves cognitive performance. Jongkees et al. 2015 (PMID 26424423) reviewed 15 trials and concluded tyrosine reliably restores working memory and information processing under acute stress conditions but does not improve cognition in unstressed states.</p>
@@ -216,7 +190,7 @@
   <div class="supp-card">
     <div class="supp-card-head">
       <h3><a href="../s/saffron.html">Saffron (Crocus sativus)</a></h3>
-      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="tier-pill t1">Tier 1</span></span>
+      <span class="supp-meta"><span class="layer-tag opt">Optional</span> <span class="score-pill score-mid">72</span></span>
     </div>
     <p class="supp-line"><strong>Dose &amp; timing.</strong> 28–30 mg standardised extract daily. Allow 4–8 weeks before assessing.</p>
     <p class="supp-line"><strong>Why.</strong> Saffron's mood and cognition signal is strong specifically when low-grade depression or anhedonia is competing with attention. The Cheng et al. 2025 nutraceutical network meta-analysis (192 trials, 17,437 patients, PMID 40314175) identified saffron as one of only four nutraceutical monotherapies with effect size superior to standard antidepressants for mild-moderate depression (SMD 0.69). The cognitive lift follows the mood lift.</p>

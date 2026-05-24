@@ -271,25 +271,15 @@
   topBar.querySelector('.rc-share').addEventListener('click', share);
   topBar.querySelector('.rc-close').addEventListener('click', closeArticle);
 
-  /* Hide the legacy back buttons / close FABs that the old templates emit —
-     our new top bar is now the canonical chrome. Also hide the existing
-     kicker / meta lines because the new trust line supersedes them, and
-     the SEO breadcrumb (which is noisy inside the modal reading flow). */
-  document.querySelectorAll(
-    /* close/back FABs */
-    '.ar-back, .sx-back, .sk-back, .pg-close-fab, .pg-share-fab, .pg-share-toast, ' +
-    /* legacy category eyebrows / kickers */
-    '.ar-cat, .ca-kicker, .sk-kicker, .sx-kicker, ' +
-    /* legacy meta / lastreviewed lines — superseded by rc-trust */
-    '.ar-meta, .ca-meta, .sk-meta, .sx-meta, .ss-last-reviewed, ' +
-    /* SEO breadcrumb — keep in source for search engines, hide visually */
-    '.ss-breadcrumb, nav[aria-label="Breadcrumb"]'
-  ).forEach(function(n){
-    n.style.setProperty('display', 'none', 'important');
-  });
-  /* Also block the late-binding share-fab injector in _site-ux.js — it runs
-     after our chrome and re-creates .pg-share-fab. Pre-emptively flag our
-     state so the FAB never gets a second chance. */
+  /* The legacy markup (back/close FABs, kickers, meta lines, SEO breadcrumb)
+     was deleted from every article page by scripts/cleanup_legacy_chrome.py
+     on 2026-05-24, so we no longer need a runtime hide-list. The
+     rc-chrome-active class is still set on <html> because:
+       (a) _site-ux.js's late-binding .pg-share-fab injector keys off it
+           and aborts when present.
+       (b) Some styles.css rules (e.g. ssa-modal chrome suppression)
+           still rely on it to disambiguate the chrome flow.
+     Anything that wants to opt out of the chrome can still check this class. */
   document.documentElement.classList.add('rc-chrome-active');
 
   /* 2. CATEGORY EYEBROW above the H1 — typographic, no fill (consistent
@@ -447,94 +437,19 @@
     return window._rcSupplementMetaPending;
   }
 
-  /* ---------- Tier → Score rewrite (2026-05-24) ----------
-     The user prefers showing the 0–100 supplement score over the legacy
-     Tier 1/2/3/4 classification. We rewrite, in place, every supplement-
-     tier pill on the page using supplement-meta.json:
+  /* The Tier→Score rewrite that used to live here was removed 2026-05-24
+     after scripts/cleanup_legacy_chrome.py pre-baked every <span class=
+     "tier-pill tX">Tier Y</span> into <span class="score-pill score-…">N
+     </span> directly in HTML. Same for the /for/ .sx-tier pills and the
+     "TIER" column header. The runtime swap is no longer needed.
 
-       • /stack/ pages — <span class="tier-pill t1">Tier 1</span> in the
-         TL;DR table TIER column AND in each .supp-card head. We swap the
-         tier text for the actual score (e.g. "91"), recolor by score band
-         (hi/mid/low/bad), and rename the column header "TIER" → "SCORE".
-
-       • /for/  pages — <span class="sx-tier t1">Tier 1</span> on each
-         .sx-row. The row already shows the score on the left (.sx-score),
-         so the tier pill is redundant. We hide it rather than duplicating.
-
-       • /condition/ pages keep their "Tier N evidence · …" .layer text
-         untouched. That's evidence-strength language about a trial, not a
-         per-supplement tier.
-
-     Lookup: closest <a href="../s/<slug>.html"> or
-     <a href="../supplement.html?slug=<slug>"> in the surrounding row/card.
-     If no match is found in supplement-meta, the pill is left untouched
-     (better than blanking it). */
+     scoreBand() is still used by upgradeSupplementRows() below, so it
+     stays. */
   function scoreBand(score){
     if (score >= 80) return 'hi';
     if (score >= 60) return 'mid';
     if (score >= 40) return 'low';
     return 'bad';
-  }
-  /* Find the supplement slug "near" a tier pill — walk up to the row/card
-     container, then look for a slug-bearing link inside it. */
-  function nearbySupplementSlug(pill){
-    /* Climb to the nearest meaningful container */
-    var container = pill.closest('tr, .supp-card, .sx-row, .stack-card, .ca-row, .sk-row, li, p, div') || pill.parentNode;
-    if (!container) return null;
-    var hops = 0;
-    while (container && hops < 4){
-      var a = container.querySelector && container.querySelector('a[href*="/s/"], a[href*="supplement.html?slug="], a[href*="supplement.html?n="]');
-      if (a){
-        var s = slugFromHref(a.getAttribute('href') || '');
-        if (s) return s;
-      }
-      /* If the row itself is an <a> (e.g. .sx-row is an anchor), check that */
-      if (container.tagName === 'A'){
-        var sr = slugFromHref(container.getAttribute('href') || '');
-        if (sr) return sr;
-      }
-      container = container.parentNode;
-      hops++;
-    }
-    return null;
-  }
-  function rewriteTierPillsToScore(){
-    /* 1. Stack-page pills (.tier-pill) → swap to score number */
-    loadSupplementMeta().then(function(meta){
-      var pills = wrap.querySelectorAll('.tier-pill');
-      pills.forEach(function(pill){
-        var slug = nearbySupplementSlug(pill);
-        if (!slug || !meta[slug]) return;
-        var sc = meta[slug].score;
-        if (sc == null) return;
-        /* Strip the t1/t2/t3/t4 class, add score-band class, swap text */
-        pill.className = (pill.className || '')
-          .split(/\s+/)
-          .filter(function(c){ return c && !/^t[1-4]$/.test(c); })
-          .concat(['score-pill', 'score-' + scoreBand(sc)])
-          .join(' ');
-        pill.textContent = String(sc);
-      });
-
-      /* 2. Stack-page table header "Tier" → "Score" */
-      wrap.querySelectorAll('.tldr thead th, .tldr-head th, table.tldr th').forEach(function(th){
-        var t = (th.textContent || '').trim().toLowerCase();
-        if (t === 'tier' || t === 'evidence tier' || t === 'tier (evidence)'){
-          th.textContent = 'Score';
-        }
-      });
-
-      /* 3. /for/-page pills (.sx-tier) — score is already visible in the
-         row's .sx-score, so the right-side tier pill is duplicative. Hide
-         it. (If a row somehow lacks .sx-score, leave the pill alone.) */
-      var sxPills = wrap.querySelectorAll('.sx-tier');
-      sxPills.forEach(function(pill){
-        var row = pill.closest('.sx-row') || pill.parentNode;
-        if (row && row.querySelector('.sx-score')){
-          pill.style.setProperty('display', 'none', 'important');
-        }
-      });
-    });
   }
 
   /* After the aend Supplements block is rendered with plain arrow rows,
@@ -850,8 +765,4 @@
   /* 5. TAIL BLOCKS — rebuild "Supplements", "Related articles", "Sources"
      into mockup-v7 .rc-aend treatment so they stop being plain link lists. */
   try { normalizeTailBlocks(); } catch(err){ /* fail-safe: never block render */ }
-
-  /* 6. Tier → Score rewrite (see comment above rewriteTierPillsToScore).
-     Runs async because it depends on supplement-meta.json. */
-  try { rewriteTierPillsToScore(); } catch(err){ /* never block render */ }
 })();
