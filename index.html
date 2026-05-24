@@ -278,10 +278,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260524-research-r16">
+<link rel="stylesheet" href="styles.css?v=20260524-research-r17">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<link rel="stylesheet" href="index.css?v=20260524-research">
+<link rel="stylesheet" href="index.css?v=20260524-research-r17">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -2034,6 +2034,15 @@
 
 <div id="research-view" style="display:none">
 <div class="articles-section">
+
+  <!-- 2026-05-24 — Back-to-main link. Switches the tab-hash back to
+       #supplements (the homepage main view) instead of relying on the
+       browser-history back arrow, which doesn't work when Research was
+       opened by direct URL (e.g. shared #research link). -->
+  <a href="#supplements" class="rs-back" onclick="window._tabSwitchByUser=true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to main
+  </a>
 
   <!-- ARTICLE LIST VIEW -->
   <div id="research-list-view">
