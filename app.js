@@ -5038,13 +5038,15 @@ function _artLbl(label, cat){
   return n ? label + ' (' + n + ')' : label;
 }
 var artOpts=[
-  {val:'all',         label:_artLbl('Research',  'all')},
+  {val:'all',         label:_artLbl('Research',      'all')},
   {val:'quickread',   label:_artLbl('Quick Reads',   'quickread')},
   {val:'guide',       label:_artLbl('Guide',         'guide')},
   {val:'breakthrough',label:_artLbl('Breakthrough',  'breakthrough')},
   {val:'kids',        label:_artLbl('Kids',          'kids')},
   {val:'myth',        label:_artLbl('Reality Check', 'myth')},
-  {val:'safety',      label:_artLbl('Safety Alert',  'safety')}
+  {val:'safety',      label:_artLbl('Safety Alert',  'safety')},
+  {val:'population',  label:_artLbl('Population',    'population')},
+  {val:'condition',   label:_artLbl('Condition',     'condition')}
 ];
 sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Research',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {
@@ -5154,8 +5156,8 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
 function _artPick(v){
-  const CAT_LABELS={all:'Research',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert'};
-  const lbl=CAT_LABELS[v]||'Articles';
+  const CAT_LABELS={all:'Research',quickread:'Quick Reads',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',population:'Population',condition:'Condition'};
+  const lbl=CAT_LABELS[v]||'Research';
   /* Reset siblings FIRST, then set the art-filter label last. The earlier
      replace_all auto-injected an art-filter reset onto the pop-filter reset
      line, which (when run after the lbl set) was clobbering the chosen

@@ -209,7 +209,7 @@ function showArticleList() {
 }
 window._articleCategoryFilter = 'all';
 window._articleSearchQuery = '';
-const ARTICLE_CAT_LABELS={all:'All Articles',quickread:'Quick Reads',guide:'Guides',breakthrough:'Breakthroughs',myth:'Reality Check',safety:'Safety Alerts',kids:'Kids'};
+const ARTICLE_CAT_LABELS={all:'All Research',quickread:'Quick Reads',guide:'Guides',breakthrough:'Breakthroughs',myth:'Reality Check',safety:'Safety Alerts',kids:'Kids',population:'Population',condition:'Condition'};
 
 /* Curated "top 20" article ordering — explicitly mixes categories at the
    top of the Articles list so the page doesn't front-load Quick Reads (or
@@ -1058,7 +1058,7 @@ if (typeof renderAll === 'function') {
   }
   buildIndex();
 
-  var CAT_LABEL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety Alert',kids:'Kids'};
+  var CAT_LABEL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check',safety:'Safety Alert',kids:'Kids',population:'Population',condition:'Condition'};
 
   function escHtml(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function highlight(text,q){
