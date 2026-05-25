@@ -237,10 +237,12 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   <link rel="canonical" href="https://supplementscore.org/supplement.html">
   <script>
   /* Dynamic canonical / noindex for the supplement-detail SPA.
-     Handles two URL forms that Google has crawled:
-       (a) /supplement.html?slug=<lowercase-kebab>  → canonical to /s/<slug>.html (modern form)
-       (b) /supplement.html?n=<Name+with+spaces>     → noindex (legacy form, not in sitemap)
-     Updated 2026-05-20 after GSC review showed ?n= variants were missed. */
+     2026-05-25 — legacy /s/<slug>.html static pages were tombstoned with
+     redirect stubs that point HERE. Canonical now stays on the SPA URL
+     (?slug=<kebab>) to avoid a SEO loop:
+       OLD:  supplement.html?slug=X  →  canonical /s/X.html  →  redirect back to supplement.html?slug=X
+       NEW:  supplement.html?slug=X  →  canonical supplement.html?slug=X (self)
+     Legacy ?n=<Name> form remains noindex (not in sitemap). */
   (function(){
     function addNoindex() {
       var m = document.createElement('meta');
@@ -253,14 +255,14 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
       var slug = qp.get('slug');
       var name = qp.get('n');
       if (slug && /^[a-z0-9-]+$/.test(slug)) {
-        var staticUrl = 'https://supplementscore.org/s/' + slug + '.html';
+        var canonicalUrl = 'https://supplementscore.org/supplement.html?slug=' + slug;
         var c = document.querySelector('link[rel="canonical"]');
-        if (c) c.href = staticUrl;
+        if (c) c.href = canonicalUrl;
         var og = document.querySelector('meta[property="og:url"]');
-        if (og) og.setAttribute('content', staticUrl);
+        if (og) og.setAttribute('content', canonicalUrl);
       } else if (slug || name) {
         // Has a query that triggers SPA detail mode but doesn't map to a clean
-        // static counterpart — noindex to keep Google's index clean.
+        // canonical URL — noindex to keep Google's index clean.
         addNoindex();
       }
     } catch (_) {}

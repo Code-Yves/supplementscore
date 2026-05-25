@@ -297,7 +297,14 @@
     if (e.key === 'Escape' && openSlug) { e.preventDefault(); close(); }
   });
 
-  // Intercept supplement links anywhere in the document
+  // Intercept supplement links anywhere in the document.
+  // Two patterns are supported:
+  //   (a) supplement.html?slug=<slug>      — modern canonical URL
+  //   (b) /s/<slug>.html or ../s/<slug>.html  — legacy static URL (2026-05-25:
+  //       legacy /s/ pages were tombstoned to redirect to (a), but internal
+  //       links still pointing there should open as modal not hard-navigate,
+  //       otherwise users see a redirect flash and lose the overlay UX.)
+  var LEGACY_S_RE = /(?:^|\/)s\/([a-z0-9-]+)\.html(?:$|[?#])/i;
   document.addEventListener('click', function(e){
     if (e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
@@ -305,10 +312,15 @@
     if (!a) return;
     if (a.target && a.target !== '_self') return;
     var href = a.getAttribute('href') || '';
-    if (!/(?:^|[\/?])supplement\.html\?slug=/.test(href)) return;
-    var url;
-    try { url = new URL(a.href, location.href); } catch(err) { return; }
-    var slug = url.searchParams.get('slug');
+    var slug = null;
+    if (/(?:^|[\/?])supplement\.html\?slug=/.test(href)) {
+      var url;
+      try { url = new URL(a.href, location.href); } catch(err) { return; }
+      slug = url.searchParams.get('slug');
+    } else {
+      var m = href.match(LEGACY_S_RE);
+      if (m) slug = m[1];
+    }
     if (!slug) return;
     e.preventDefault();
     open(slug);
