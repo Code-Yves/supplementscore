@@ -91,17 +91,11 @@
   + 'margin-left:auto;display:inline-flex;align-items:center;gap:4px;line-height:1;transition:background .12s,border-color .12s,color .12s}'
   + '.ssux-recent-clear:hover{background:rgba(232,150,122,.22);border-color:rgba(232,150,122,.7);color:#7a2c20}'
   + '.ssux-recent-clear svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}'
-    /* clinician handout button — wrapped in a block so it claims its
-       own line above the article H1 (was overlapping the title because
-       the button alone was display:inline-flex). Button itself slimmed
-       per user 'button too big?' feedback. */
-  + '.ssux-handout-wrap{display:block;margin:0 0 14px 0}'
-  + '.ssux-handout{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;'
-  + 'background:rgba(31,122,107,.10);border:1px solid rgba(31,122,107,.22);color:#155b50;'
-  + 'font-family:\'Mona Sans\',inherit;font-weight:600;font-size:11px;letter-spacing:.005em;cursor:pointer;text-decoration:none;transition:background .12s;line-height:1.2}'
-  + '.ssux-handout:hover{background:rgba(31,122,107,.16)}'
-  + '.ssux-handout svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-    /* print-only optimized layout (clinician handout uses window.print()) */
+    /* 2026-05-24 — ssux-handout (Print clinician handout) CSS removed. The
+       feature was deleted site-wide; the matching JS function was deleted
+       too. Keep print-media rules below; they still apply to the rest of
+       the chrome (.site-nav, .site-footer, etc.) when the user uses the
+       browser's native Print menu. */
     /* breadcrumbs */
   + '.ssux-bc{font-family:\'Mona Sans\',inherit;font-size:11.5px;color:rgba(15,23,22,.55);'
   + 'padding:8px 4px 14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;letter-spacing:.005em;line-height:1.4}'
@@ -119,20 +113,15 @@
   + '.ssux-pmbadge svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}'
   + '.ssux-pmbadge strong{font-weight:800;font-variant-numeric:tabular-nums}'
   + '@media print{'
-  + '  .ssux-top,.ssux-rp,.ssux-lang,.ssux-toc,.ssux-recent,.ssux-handout,'
+  + '  .ssux-top,.ssux-rp,.ssux-lang,.ssux-toc,.ssux-recent,'
   + '  .site-nav,.site-footer,.beta-bar,.pg-close-fab,.art-modal,.dc-fact-hero,'
   + '  .hero,.rs-search-wrap,.rs-cat-sticky,.rs-toolbar,#supp-modal,#fb-modal,'
   + '  iframe,.ssm,nav,footer,script,noscript{display:none !important}'
   + '  body{background:#fff !important;color:#000 !important}'
-  + '  .ssux-print-banner{display:block !important;border-bottom:2px solid #1F7A6B;padding-bottom:12px;margin-bottom:18px}'
-  + '  .ssux-print-banner-brand{font-family:\'Mona Sans\',serif;font-weight:800;font-size:18px;color:#1F7A6B}'
-  + '  .ssux-print-banner-tag{font-size:11px;color:#555;margin-top:3px}'
-  + '  .ssux-print-banner-meta{font-size:10px;color:#888;margin-top:8px}'
   + '  a{color:#000;text-decoration:underline}'
   + '  h1,h2,h3,h4{color:#000;page-break-after:avoid}'
   + '  p,li{page-break-inside:avoid}'
   + '}'
-  + '.ssux-print-banner{display:none}'
     /* iframe-context: hide chrome that would collide with the parent
        modal's controls.
        NOTE (2026-05-19): removed `.pg-close-fab` from this hide list.
@@ -520,53 +509,6 @@
   function escapeHtml(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
   /* ---------- Send-to-clinician PDF (window.print() with optimized stylesheet) ---------- */
-  function initClinicianHandout(){
-    /* Show a 'Print handout' button on supplement detail and on /a/ articles
-       — EXCEPT Quick Reads. Quick Reads are short digest articles distilled
-       from the Discover page; a clinician hand-out doesn't make sense for
-       a list of 10 supplements with one-liner facts. */
-    var target = null;
-    if (/\/a\//.test(location.pathname)){
-      target = document.querySelector('main.ar-wrap');
-      /* Skip Quick Reads articles. The category label is set on .ar-cat. */
-      var catEl = document.querySelector('.ar-cat');
-      if (catEl && /quick reads/i.test(catEl.textContent || '')) return;
-    } else if (location.pathname.indexOf('/supplement.html') !== -1){
-      target = document.querySelector('main, body > div');
-    }
-    if (!target) return;
-    /* Avoid double-injection */
-    if (document.querySelector('.ssux-handout')) return;
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'ssux-handout';
-    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>'
-      + 'Print clinician handout';
-    btn.title = 'Print a one-page summary you can take to your clinician';
-    btn.addEventListener('click', function(){
-      /* Inject a print-only banner with brand + URL + date */
-      var banner = document.querySelector('.ssux-print-banner');
-      if (!banner){
-        banner = document.createElement('div');
-        banner.className = 'ssux-print-banner';
-        var d = new Date();
-        banner.innerHTML = '<div class="ssux-print-banner-brand">SupplementScore.org</div>'
-          + '<div class="ssux-print-banner-tag">Non-profit, evidence-based supplement reference. 100% independent.</div>'
-          + '<div class="ssux-print-banner-meta">'+escapeHtml(location.href.split('?')[0])
-          + ' · Printed ' + d.toISOString().substring(0,10)
-          + ' · Educational reference, not medical advice. Always consult your clinician.</div>';
-        document.body.insertBefore(banner, document.body.firstChild);
-      }
-      window.print();
-    });
-    /* Place it inline at the top of the article */
-    /* Wrap in a block container so the button sits on its own line
-       above the H1 (was rendering inline, overlapping the title). */
-    var wrap = document.createElement('div');
-    wrap.className = 'ssux-handout-wrap';
-    wrap.appendChild(btn);
-    target.insertBefore(wrap, target.firstChild);
-  }
 
   /* ---------- Breadcrumbs on detail pages ---------- */
   /* Renders a small "Home › Section › Title" trail just below the nav.
@@ -732,293 +674,9 @@
      This routine applies the same v2 layer in-place on the standalone
      page so the two contexts present identically. Skips when the page
      is in an iframe (modal will apply its own v2). Idempotent. */
-  function _v2Slug(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60)||'section'; }
-  function _v2AccentFromCat(txt){
-    if (!txt) return 'stack';
-    var t = String(txt).toLowerCase();
-    if (/safety/.test(t)) return 'safety';
-    if (/reality|myth/.test(t)) return 'myth';
-    if (/breakthrough|research update/.test(t)) return 'breakthrough';
-    if (/kids|teen|infant/.test(t)) return 'kids';
-    if (/stack/.test(t)) return 'stack';
-    if (/quick read/.test(t)) return 'quickread';
-    if (/guide|featured/.test(t)) return 'guide';
-    return 'stack';
-  }
-  function _v2ReadMin(text){
-    var words = String(text||'').trim().split(/\s+/).filter(Boolean).length;
-    return Math.max(1, Math.round(words/200));
-  }
-  function _v2CountStudies(wrap){
-    var n = 0;
-    /* Count distinct PMID references (PubMed links or PMID:N labels). */
-    var anchors = wrap.querySelectorAll('a[href*="pubmed"], a[href*="doi.org"]');
-    var seen = {};
-    for (var i=0; i<anchors.length; i++){
-      var k = anchors[i].getAttribute('href') || anchors[i].textContent;
-      if (k && !seen[k]){ seen[k] = 1; n++; }
-    }
-    /* Also pick up inline "PMID 12345678" mentions. */
-    var pmidMatches = (wrap.textContent.match(/PMID[:\s]*\d{6,9}/g) || []);
-    pmidMatches.forEach(function(p){ if (!seen[p]){ seen[p] = 1; n++; }});
-    return n;
-  }
-  function _v2EvidenceLevel(studies, cat){
-    /* Coarse heuristic — myth/safety articles often cite fewer because
-       they're rebutting weak claims rather than synthesising RCTs.
-       Use the citation count as a proxy. */
-    if (studies >= 12) return { label: 'Strong', bars: 3 };
-    if (studies >= 6)  return { label: 'Moderate', bars: 2 };
-    if (studies >= 1)  return { label: 'Mixed', bars: 1 };
-    return { label: 'Limited', bars: 1 };
-  }
-  function _v2FormatDate(iso){
-    try {
-      var d = new Date(iso + 'T00:00');
-      if (isNaN(d)) return iso;
-      return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-    } catch(_){ return iso; }
-  }
-  function initArticleV2(){
-    /* Only on standalone /a/<slug>.html pages, when NOT in an iframe */
-    if (!/^\/a\/[^/]+\.html$/.test(location.pathname)) return;
-    if (window !== window.top) return; /* modal context — skip */
-    var wrap = document.querySelector('.ar-wrap');
-    if (!wrap) return;
-    if (wrap.classList.contains('article-v2')) return; /* idempotent */
-    var h1 = wrap.querySelector('h1');
-    var cat = wrap.querySelector('.ar-cat');
-    var meta = wrap.querySelector('.ar-meta');
-    if (!h1) return;
-    var catTxt = cat ? cat.textContent.trim() : 'Guide';
-    var accentKey = _v2AccentFromCat(catTxt);
-    /* Compute studies/words/read-time from the whole wrap, BEFORE we
-       inject the new chrome. */
-    var bodyText = wrap.textContent || '';
-    var studies = _v2CountStudies(wrap);
-    var readMin = _v2ReadMin(bodyText);
-    var ev = _v2EvidenceLevel(studies, accentKey);
-    /* Pull reviewed date from <!-- last-reviewed: YYYY-MM-DD --> comment
-       OR from existing meta line if present. */
-    var reviewedISO = null;
-    var html = document.documentElement.outerHTML;
-    var lrm = html.match(/<!--\s*last-reviewed:\s*(\d{4}-\d{2}-\d{2})\s*-->/);
-    if (lrm) reviewedISO = lrm[1];
-    if (!reviewedISO && meta){
-      var mm = meta.textContent.match(/(\w+ \d{1,2}, \d{4})/);
-      if (mm) reviewedISO = mm[1]; /* leave as human-formatted */
-    }
-    var reviewedHuman = reviewedISO && /^\d{4}-\d{2}-\d{2}$/.test(reviewedISO)
-      ? _v2FormatDate(reviewedISO) : (reviewedISO || '');
-    /* Mark wrap with v2 + accent */
-    wrap.classList.add('article-v2');
-    wrap.setAttribute('data-accent', accentKey);
-    /* Rename .ar-cat → .cat (preserves text) */
-    if (cat){ cat.classList.remove('ar-cat'); cat.classList.add('cat'); }
-    /* Promote h1 to .v2-h1 */
-    h1.classList.add('v2-h1');
-    /* Hide the legacy .ar-meta (we'll show a richer trust strip instead).
-       Keep it in the DOM as fallback for non-JS / screen-readers. */
-    if (meta){ meta.style.display = 'none'; meta.setAttribute('aria-hidden','true'); }
-    /* Build the trust strip and insert after h1 */
-    var bars = '';
-    for (var b=0; b<3; b++) bars += '<span' + (b<ev.bars?' class="on"':'') + '></span>';
-    var trustHtml =
-        '<div class="trust">'
-      +   '<span class="trust-item"><b>' + readMin + ' min</b> read</span>'
-      + (studies>0 ? '<span class="trust-item"><b>' + studies + '</b> studies cited</span>' : '')
-      +   '<span class="trust-item"><span class="trust-bars">' + bars + '</span><b>' + ev.label + '</b> evidence</span>'
-      + (reviewedHuman ? '<span class="trust-rev">Reviewed · ' + reviewedHuman + '</span>' : '')
-      + '</div>';
-    h1.insertAdjacentHTML('afterend', trustHtml);
-    /* Build the Bottom Line — first <p> that follows .trust */
-    var firstP = wrap.querySelector('.trust ~ p, .ar-meta + p');
-    if (!firstP){
-      firstP = wrap.querySelector('p');
-    }
-    if (firstP && firstP.textContent.trim().length > 40){
-      var lede = firstP.textContent.trim();
-      /* Use the full first paragraph as the headline, with sensible
-         truncation if it overruns. Cap ≈ 320 chars on a sentence
-         boundary so it stays readable as a "Bottom Line" callout. */
-      var head = lede;
-      if (head.length > 320){
-        var cut = head.slice(0, 320);
-        var lastDot = cut.lastIndexOf('.');
-        if (lastDot > 150) head = cut.slice(0, lastDot + 1);
-        else head = cut.trim() + '…';
-      }
-      var blHtml =
-          '<div class="bl">'
-        +   '<div class="bl-k">The Bottom Line</div>'
-        +   '<div class="bl-v">' + head.replace(/[<&]/g, function(c){return c==='<'?'&lt;':'&amp;';}) + '</div>'
-        + '</div>';
-      firstP.insertAdjacentHTML('beforebegin', blHtml);
-    }
-    /* Build the TOC from h2/h3 — skips Sources */
-    var heads = Array.prototype.slice.call(wrap.querySelectorAll('h2, h3')).filter(function(h){
-      var t = (h.textContent||'').trim();
-      return t && !/^sources?$/i.test(t) && !/^references?$/i.test(t);
-    });
-    if (heads.length >= 2){
-      var totalMin = 0;
-      var items = heads.map(function(h, i){
-        if (!h.id) h.id = 'sec-' + (i+1) + '-' + _v2Slug(h.textContent);
-        /* Compute per-section text up to next heading */
-        var txt = '';
-        var cur = h.nextElementSibling;
-        while (cur && !/^H[23]$/.test(cur.tagName)){
-          txt += ' ' + (cur.textContent||'');
-          cur = cur.nextElementSibling;
-        }
-        var m = _v2ReadMin(txt);
-        totalMin += m;
-        var num = String(i+1).padStart(2,'0');
-        var onCls = i === 0 ? ' on' : '';
-        return '<li class="toc-li' + onCls + '"><a href="#' + h.id + '"><span class="toc-num">' + num + '</span><span>' + (h.textContent||'').trim().replace(/[<&]/g, function(c){return c==='<'?'&lt;':'&amp;';}) + '</span><span class="toc-time">' + m + ' min</span></a></li>';
-      }).join('');
-      var tocHtml =
-          '<nav class="toc" aria-label="On this page">'
-        +   '<div class="toc-h">On this page'
-        +     '<span class="toc-meta">' + heads.length + ' sections · ' + totalMin + ' min</span>'
-        +   '</div>'
-        +   '<ul class="toc-l">' + items + '</ul>'
-        + '</nav>';
-      /* Insert TOC after the Bottom Line if present, else after the trust strip */
-      var anchor = wrap.querySelector('.bl') || wrap.querySelector('.trust');
-      if (anchor) anchor.insertAdjacentHTML('afterend', tocHtml);
-      /* Remove the older floating sticky TOC — v2 inline TOC supersedes
-         it on this page. The floating .ssux-toc visually clashes with
-         the close FAB at top-right and duplicates the same content. */
-      var floatingToc = document.querySelector('nav.ssux-toc');
-      if (floatingToc && floatingToc.parentNode) floatingToc.parentNode.removeChild(floatingToc);
-    }
-    /* Wrap the article in a modal-style frame matching the in-modal
-       presentation: centered ~780px card on a blurred backdrop, with
-       a sticky top chrome carrying Prev/Next + Share + X. Reuses the
-       existing .art-modal / .art-modal-pane / .art-modal-chrome
-       classes from styles.css so the look is identical. */
-    if (!document.querySelector('.ssa-modal')){
-      var artTitle = (h1.textContent || '').trim();
-      var chromeHtml =
-          '<div class="art-modal ssa-modal v2-chrome open" role="dialog" aria-modal="true" aria-label="' + artTitle.replace(/[<&"]/g, function(c){return {'<':'&lt;','&':'&amp;','"':'&quot;'}[c];}) + '">'
-        +   '<div class="art-modal-pane ssa-pane">'
-        +     '<div class="art-modal-chrome ssa-chrome">'
-        +       '<div class="art-modal-nav">'
-        +         '<button type="button" id="ssa-prev" class="art-nav-btn" aria-label="Previous article" disabled>'
-        +           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>'
-        +         '</button>'
-        +         '<button type="button" id="ssa-next" class="art-nav-btn" aria-label="Next article" disabled>'
-        +           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>'
-        +         '</button>'
-        +       '</div>'
-        +       '<div class="art-modal-actions">'
-        +         '<button type="button" id="ssa-share" class="art-share-btn" aria-label="Share article" title="Share article">'
-        +           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
-        +           '<span class="art-share-label">Share</span>'
-        +         '</button>'
-        +         '<button type="button" id="ssa-close" class="art-modal-close" aria-label="Close">'
-        +           '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>'
-        +         '</button>'
-        +       '</div>'
-        +     '</div>'
-        +     '<div id="ssa-toast" class="art-share-toast" role="status" aria-live="polite"></div>'
-        +     '<div class="art-modal-body ssa-body"></div>'
-        +   '</div>'
-        + '</div>';
-      /* Inject the modal frame into the body, move the existing wrap
-         INTO the body slot of the frame, and remove the now-redundant
-         legacy close FAB (the chrome X handles closing now). */
-      document.body.insertAdjacentHTML('beforeend', chromeHtml);
-      var bodySlot = document.querySelector('.ssa-modal .ssa-body');
-      bodySlot.appendChild(wrap);
-      /* Drop any standalone-page close FAB; the modal chrome owns this now. */
-      document.querySelectorAll('.pg-close-fab, .reader-close-fab').forEach(function(el){
-        if (el.parentNode) el.parentNode.removeChild(el);
-      });
-      /* Style the host page: hide overflow on body so the modal owns
-         the viewport, drop site-nav/footer if present. */
-      document.body.classList.add('ssa-standalone-modal');
-      /* Wire chrome buttons */
-      var goBack = function(){
-        if (document.referrer && document.referrer.indexOf(location.origin) === 0 && history.length > 1){
-          history.back();
-        } else {
-          location.href = '../index.html#research';
-        }
-      };
-      var closeBtn = document.getElementById('ssa-close');
-      if (closeBtn) closeBtn.addEventListener('click', goBack);
-      var shareBtn = document.getElementById('ssa-share');
-      if (shareBtn) shareBtn.addEventListener('click', function(){
-        var url = location.href;
-        var data = { title: artTitle + ' — SupplementScore', text: artTitle, url: url };
-        var toast = function(msg){
-          var t = document.getElementById('ssa-toast');
-          if (!t) return;
-          t.textContent = msg;
-          t.classList.add('show');
-          setTimeout(function(){ t.classList.remove('show'); }, 1600);
-        };
-        if (navigator.share && /Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){
-          navigator.share(data).catch(function(err){
-            if (err && err.name !== 'AbortError'){
-              if (navigator.clipboard) navigator.clipboard.writeText(url).then(function(){ toast('Link copied'); });
-            }
-          });
-        } else if (navigator.clipboard){
-          navigator.clipboard.writeText(url).then(function(){ toast('Link copied'); shareBtn.classList.add('copied'); setTimeout(function(){ shareBtn.classList.remove('copied'); }, 1400); });
-        }
-      });
-      /* Esc closes */
-      document.addEventListener('keydown', function(e){
-        if (e.key === 'Escape') goBack();
-      });
-      /* Wire Prev/Next via sitemap-articles.xml (cached in sessionStorage). */
-      _ssaWirePrevNext();
-    }
-  }
 
   /* Fetch and cache the article slug ordering, then wire Prev/Next on
      the standalone-article modal frame. Order matches sitemap-articles.xml. */
-  function _ssaWirePrevNext(){
-    var here = location.pathname.replace(/^.*\/a\//, 'a/');
-    var SLUG_CACHE_KEY = 'ssa-article-slugs-v1';
-    function attach(slugs){
-      if (!slugs || !slugs.length) return;
-      var idx = slugs.indexOf(here);
-      var prevBtn = document.getElementById('ssa-prev');
-      var nextBtn = document.getElementById('ssa-next');
-      if (!prevBtn || !nextBtn) return;
-      if (idx > 0){
-        prevBtn.disabled = false;
-        prevBtn.addEventListener('click', function(){ location.href = '../' + slugs[idx-1]; });
-      }
-      if (idx >= 0 && idx < slugs.length - 1){
-        nextBtn.disabled = false;
-        nextBtn.addEventListener('click', function(){ location.href = '../' + slugs[idx+1]; });
-      }
-    }
-    try {
-      var cached = sessionStorage.getItem(SLUG_CACHE_KEY);
-      if (cached){
-        var arr = JSON.parse(cached);
-        if (Array.isArray(arr) && arr.length){ attach(arr); return; }
-      }
-    } catch(_){}
-    /* Fetch + parse sitemap-articles.xml at the site root */
-    var sitemapUrl = location.pathname.replace(/\/a\/[^/]+$/, '/sitemap-articles.xml');
-    if (!/\/sitemap-articles\.xml$/.test(sitemapUrl)) sitemapUrl = '/sitemap-articles.xml';
-    fetch(sitemapUrl).then(function(r){ return r.ok ? r.text() : null; }).then(function(text){
-      if (!text) return;
-      var slugs = [];
-      var re = /<loc>https?:\/\/[^/]+\/a\/([^<]+)<\/loc>/g;
-      var m;
-      while ((m = re.exec(text))){ slugs.push('a/' + m[1]); }
-      try { sessionStorage.setItem(SLUG_CACHE_KEY, JSON.stringify(slugs)); } catch(_){}
-      attach(slugs);
-    }).catch(function(){});
-  }
 
   function boot(){
     initBackToTop();
@@ -1027,19 +685,8 @@
     initHeroFocusPause();
     initStickyToc();
     initRecentlyViewedStrip();
-    /* 2026-05-24 — initClinicianHandout disabled (Print clinician handout
-       button was loading a blank page; user removed the feature). The
-       function body remains below as a tombstone so any legacy
-       .ssux-handout markup that snuck into static pages can still be
-       targeted by CSS, but no new button is injected. */
-    /* initClinicianHandout(); */
     initBreadcrumbs();
     initPubMedOnArticle();
-    /* 2026-05-24 — initArticleV2 disabled (was duplicating the rich-chrome
-       output of _research-chrome.js, producing two trust strips, two TOCs,
-       etc.). _research-chrome.js is now the single source of truth for
-       /a/ article rich-chrome. */
-    /* initArticleV2(); */
     initShareFab();
     /* 2026-05-24 — belt-and-braces: also remove any pre-existing
        .ssux-handout buttons in case an older cached page injected one. */

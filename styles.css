@@ -3226,14 +3226,69 @@ body.tab-supplements #nav-search-pill{display:none !important}
 }
 .article-v2 .sec-n::after{content:'';width:18px;height:1.5px;background:var(--accent);opacity:.4}
 .article-v2 .sec-h{font-size:1.2rem;font-weight:700;letter-spacing:-0.012em;margin:0 0 6px;color:#0c0a09;line-height:1.26;max-width:38ch}
-.article-v2 .sec-meta{
-  font-size:10.5px;color:#9CA3AF;margin-bottom:14px;
-  letter-spacing:.14em;text-transform:uppercase;font-weight:600;
-  display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;
+/* 2026-05-24 — .article-v2 .sec-meta styling removed. articleSectionWrapHtml()
+   no longer emits the per-section min/sources meta line, per user request
+   ("remove all 'min' from within the article"). The display:none rule below
+   (.sec-meta selector group) prevents any cached older JS payload from
+   leaking the markup into the rendered page. */
+
+/* 2026-05-24 — .rc-chart bar-chart block used in 71 articles (supplement-quality,
+   etc.). Previously no CSS rules existed for it, so it rendered as plain stacked
+   text. This block defines the horizontal-bar-with-label-and-value treatment
+   matching the article-template visual language. */
+.rc-chart{
+  margin:24px 0 28px;padding:18px 20px;
+  background:var(--color-background-secondary,#f8f4ed);
+  border:1px solid var(--color-border-tertiary,#e5e7eb);
+  border-radius:10px;
 }
-.article-v2 .sec-meta .src{display:inline-flex;align-items:center;gap:4px}
-.article-v2 .sec-meta .src svg{width:10px;height:10px}
-.article-v2 .sec-meta .dot{width:2px;height:2px;border-radius:50%;background:#9CA3AF;display:inline-block}
+.rc-chart-k{
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--color-brand,#1F7A6B);margin:0 0 4px;
+}
+.rc-chart-title{
+  font-size:16px;font-weight:700;letter-spacing:-.012em;
+  color:var(--color-text-primary,#0c0a09);margin:0 0 16px;line-height:1.3;
+}
+.rc-chart-row{
+  display:grid;grid-template-columns:minmax(120px,1.4fr) minmax(140px,2fr) auto;
+  gap:14px;align-items:center;padding:6px 0;
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+}
+.rc-chart-row:last-of-type{border-bottom:0}
+.rc-chart-label{
+  font-size:13.5px;color:var(--color-text-primary,#0c0a09);font-weight:600;
+  line-height:1.35;
+}
+.rc-chart-label small{
+  display:block;font-size:11px;font-weight:400;
+  color:var(--color-text-tertiary,#9ca3af);margin-top:2px;letter-spacing:.005em;
+}
+.rc-chart-bar{
+  position:relative;height:8px;background:var(--color-border-tertiary,#e5e7eb);
+  border-radius:999px;overflow:hidden;
+}
+.rc-chart-fill{
+  display:block;height:100%;border-radius:999px;
+  background:var(--color-text-tertiary,#9ca3af);
+  transition:width .35s ease;
+}
+.rc-chart-fill.hi{background:#1F7A6B}   /* trustworthy / strong */
+.rc-chart-fill.mid{background:#d4a800}  /* weak / mixed */
+.rc-chart-fill.lo{background:#9b3a2c}   /* unreliable / bad */
+.rc-chart-val{
+  font-size:12px;font-weight:600;letter-spacing:.005em;
+  color:var(--color-text-secondary,#475569);text-align:right;min-width:80px;
+}
+.rc-chart-foot{
+  font-size:12px;color:var(--color-text-tertiary,#9ca3af);
+  margin-top:12px;padding-top:10px;
+  border-top:1px solid var(--color-border-tertiary,#e5e7eb);line-height:1.5;
+}
+@media(max-width:600px){
+  .rc-chart-row{grid-template-columns:1fr;gap:6px}
+  .rc-chart-val{text-align:left;min-width:0}
+}
 
 /* Pull-stat */
 .article-v2 .stat{margin:24px 0;padding:6px 0 6px 20px;border-left:2px solid var(--accent)}
