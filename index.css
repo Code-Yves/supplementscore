@@ -1121,13 +1121,19 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 /* ---------- z-index ladder for the Index landing ----------
    Designed top-down so each layer's relationships are explicit:
 
-     90  .beta-bar         green status banner — ALWAYS on top
-     80  #main-sticky      sticky filter pills (under banner only)
-     60  .gs-ac autocomplete  search dropdown (above hero subtree)
+    100  .gs-ac autocomplete  hero search dropdown (above EVERYTHING below)
+     90  .beta-bar         green status banner — always on top of chrome
+     80  #main-sticky      sticky filter pills (under banner; under dropdown)
      50  .ix-search        the hero search container
      40  .ix-hero          headline + lede + search wrapper
       2  #hero             rotating-article carousel
       0  .ix-hero-bg       (hidden anyway)
+
+   2026-05-25 — dropdown raised 60 → 100 so it sits above #main-sticky's
+   filter pills. Previously the hero dropdown extended down past the hero
+   and was occluded by the "Goal / Age & Sex / Symptom / Research" pills.
+   The fix prioritizes the rule that a SEARCH DROPDOWN must always cover
+   chrome below it, even if that chrome is a sticky bar.
 
    Earlier this was tangled — the banner sat at z=20 which is BELOW
    the .ix-hero stacking context I introduced (z=40) to keep the
@@ -1147,7 +1153,12 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 .gs-ac,
 #ix-ac,
 #ix-sticky-ac{
-  z-index: 60 !important;
+  /* 2026-05-25 — bumped 60 → 100 so the dropdown overlays the sticky filter
+     pills bar (#main-sticky at z:80). Previously the hero dropdown would
+     extend down past the hero and disappear behind the "Goal / Age & Sex /
+     Symptom / Research" pills as a user typed in the search. A dropdown
+     should always sit above chrome below it. */
+  z-index: 100 !important;
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
   background: var(--color-background-primary);
 }
