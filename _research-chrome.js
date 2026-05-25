@@ -35,7 +35,9 @@
   }
 
   /* Locate the article wrapper. Each section uses a different class name; we
-     treat them as equivalent. */
+     treat them as equivalent. Chrome is article-archetype only — /s/, /m/,
+     /hub/ have their own document structure (supplement detail, medication
+     detail, topic hub) and don't fit chrome's TOC + section-numbering. */
   var wrap = document.querySelector('main.ar-wrap, main.sx-wrap, main.ca-wrap, main.sk-wrap');
   if (!wrap) return;
 
@@ -506,10 +508,14 @@
   function tailLabel(txt){
     var t = (txt || '').trim().toLowerCase();
     if (/^sources?$/.test(t) || /^references?$/.test(t)) return 'Sources';
-    if (/^related articles?$/.test(t) || /^related reading$/.test(t) || /^read more$/.test(t)) return 'Related articles';
+    if (/^related articles?$/.test(t) || /^related reading$/.test(t) || /^read more$/.test(t) ||
+        /^more comparisons$/.test(t) || /^you may also like$/.test(t) ||
+        /^see also$/.test(t) || /^further reading$/.test(t) ||
+        /^related conditions?$/.test(t) || /^related stacks?$/.test(t)) return 'Related articles';
     if (/^related supplements?$/.test(t) || /^supplement details$/.test(t) ||
-        /^supplements?\s+(mentioned|in this article)$/.test(t) ||
-        /^supplements?\s+in this stack$/.test(t)) return 'Supplements';
+        /^supplements?\s+(mentioned|in this article|in this comparison)$/.test(t) ||
+        /^supplements?\s+in this stack$/.test(t) ||
+        /^similar supplements?$/.test(t)) return 'Supplements';
     return null;
   }
 
@@ -546,21 +552,54 @@
      .ca-related>strong "Related:" mini-list) are MERGED into a single
      "Related Research" aend. Supplements and Sources stay separate. */
   function normalizeTailBlocks(){
-    /* 2026-05-24 — Dedup Related sections. Some pages (163 /a/ + 3 /stack/
-       + 19 /for/) have BOTH an auto-injected .ca-related block (from the
-       SS-AUTOLINKS pipeline) AND an authored "Related articles/reading/
-       supplements" heading in the article body. The two renders side-by-
-       side as two distinct related sections. When both exist, strip the
-       .ca-related autolink block — the editorial heading is canonical.
-       When .ca-related is the ONLY related block (77 /a/ articles), leave
-       it alone so the page still has related navigation. */
-    var autoRel = wrap.querySelectorAll('.ca-related');
+    /* 2026-05-25 — Aggressive dedup. Pages can carry up to THREE separate
+       related blocks at once:
+         (1) an inline `<strong>Related:</strong>` mini-list (.sk-related,
+             .ar-related, .ca-related authored variants — /stack/, /m/)
+         (2) the auto-injected SS-AUTOLINKS .ca-related block (script-managed)
+         (3) an editorial "Related articles/reading" h2/h3 + ul/ol
+       Goal: collapse to a single .rc-aend block at the bottom of the
+       article. Strategy:
+         a. Promote any non-heading "Related:" block (strong-tagged or
+            wrapper-class-based) to an editorial h2 + ul so the normalizer
+            can rebuild it as .rc-aend.
+         b. If an editorial Related h2/h3 already exists alongside the auto
+            .ca-related block, strip the autolink dup (autolink is fallback,
+            not primary).
+         c. Continue into the tail-block walker which now emits .rc-aend
+            for Related articles as well (the 2026-05-24 skip was reverted
+            per user request 2026-05-25 — they want unified styling). */
+
+    /* Step a — promote inline `<strong>Related:</strong>` mini-list (used
+       on /stack/ and /m/) to an editorial heading + ul so the standard
+       walker picks it up. The original .sk-related wrapper gets removed
+       once we've extracted its list. */
+    wrap.querySelectorAll('.sk-related, .ar-related-mini, .mp-related').forEach(function(box){
+      var strong = box.querySelector('strong');
+      if (!strong) return;
+      var lbl = (strong.textContent || '').trim().replace(/[:：]$/, '');
+      if (!/^Related/i.test(lbl)) return;
+      var list = box.querySelector('ul, ol');
+      if (!list) return;
+      /* Build a new editorial heading + the existing list, then drop the box */
+      var h = document.createElement('h2');
+      h.textContent = /reading$/i.test(lbl) ? 'Related reading' : 'Related articles';
+      var parent = box.parentNode;
+      parent.insertBefore(h, box);
+      parent.insertBefore(list, box);
+      parent.removeChild(box);
+    });
+
+    /* Step b — dedup. If an editorial Related/Read-more heading exists
+       (excluding ones inside the autolink block), the autolink block is
+       redundant — drop it. */
+    var autoRel = wrap.querySelectorAll('.ca-related, .ar-related, .sx-related');
     if (autoRel.length){
       var hasEditorialRelated = false;
       var headingsAll = wrap.querySelectorAll('h2, h3');
       for (var k = 0; k < headingsAll.length; k++){
         var hh = headingsAll[k];
-        if (hh.closest && hh.closest('.ca-related')) continue;
+        if (hh.closest && hh.closest('.ca-related, .ar-related, .sx-related')) continue;
         if (tailLabel(hh.textContent) === 'Related articles'){
           hasEditorialRelated = true;
           break;
@@ -647,23 +686,62 @@
         return;
       }
 
-      /* Related-type — SKIP. Per user request 2026-05-24: do not emit the
-         merged "Related Research" aend. Leave the article's original
-         "Related articles" heading + list in place, unmodified. */
+      /* Related-type — accumulate into the merged Related aend. 2026-05-25:
+         re-enabled per user request — they want one unified .rc-aend block
+         styled exactly like Supplements, instead of leaving a plain h3+ul
+         that styles differently. */
+      relatedRows += rowsFromList(list);
+      relatedCount += countItemsInList(list);
+      if (!relatedAnchor) relatedAnchor = h;
+      nodesToRemove.push(h, list);
       return;
     });
 
-    /* Standalone "Related:" / "Read more:" labelled blocks (.ca-related):
-       also skipped per 2026-05-24 request — leave the original markup
-       in place rather than rolling it into a Related Research aend. */
-
-    /* Related Research aend emit removed 2026-05-24. The variables
-       relatedRows / relatedCount / relatedAnchor remain in scope only
-       to keep the rest of this function's structure intact. */
+    /* Emit the merged Related aend after the per-heading walk. Single aend
+       even if the page had multiple Related blocks (Related articles +
+       Related reading + Read more all coalesce). */
+    if (relatedCount > 0 && relatedAnchor){
+      var relAend = buildAend(
+        'Related articles',
+        relatedCount + ' related',
+        '<div class="rc-rel-list">' + relatedRows + '</div>'
+      );
+      relatedAnchor.parentNode.insertBefore(relAend, relatedAnchor);
+    }
 
     /* Drop all the originals we replaced. */
     nodesToRemove.forEach(function(n){
       if (n && n.parentNode) n.parentNode.removeChild(n);
+    });
+
+    /* Clean up the .ca-related / .ar-related / .sx-related autolink wrappers
+       2026-05-25 — when we inserted .rc-aend blocks before the original
+       autolink headings, the .rc-aend ended up INSIDE the wrapper (the
+       heading's parentNode WAS the wrapper). After removing the original
+       h+ul children, the wrapper still surrounds our new .rc-aend with
+       its own border/margin styling, creating a duplicate visual frame.
+       Strategy: if the wrapper contains ONLY .rc-aend children (plus
+       whitespace), unwrap it (move .rc-aend out, delete wrapper). If it's
+       entirely empty, just delete. */
+    wrap.querySelectorAll('.ca-related, .ar-related, .sx-related').forEach(function(box){
+      var meaningful = [];
+      for (var i = 0; i < box.children.length; i++){
+        meaningful.push(box.children[i]);
+      }
+      var nonAend = meaningful.filter(function(c){ return !c.classList || !c.classList.contains('rc-aend'); });
+      if (meaningful.length === 0){
+        /* Fully empty — drop wrapper */
+        if (box.parentNode) box.parentNode.removeChild(box);
+      } else if (nonAend.length === 0){
+        /* Only .rc-aend children — unwrap (move them up, delete wrapper) */
+        var parent = box.parentNode;
+        if (parent){
+          meaningful.forEach(function(child){ parent.insertBefore(child, box); });
+          parent.removeChild(box);
+        }
+      }
+      /* Otherwise: wrapper has real content (legitimate authored autolinks
+         that didn't get matched as tail blocks). Leave alone. */
     });
   }
 

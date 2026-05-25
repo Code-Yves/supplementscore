@@ -62,8 +62,15 @@ FORBIDDEN: list[tuple[re.Pattern, str, str]] = [
     (re.compile(r'<div class="rc-sec-min"'), 'fail', 'Per-section MIN sub-label was removed 2026-05-24'),
     # Stale ?v= cache busters — anything older than today's bump
     (re.compile(r'_site-ux\.js\?v=20260519'), 'warn', 'Stale _site-ux.js cache buster'),
-    (re.compile(r'_research-chrome\.js\?v=20260524-research-r1[0-9](?!9)'), 'warn', 'Stale _research-chrome.js cache buster (older than r19)'),
+    (re.compile(r'_research-chrome\.js\?v=20260524-'), 'warn', 'Stale _research-chrome.js cache buster (older than 20260525-template-unify)'),
+    # 2026-05-25 — template-unify pass
+    (re.compile(r'<div\s+class="(?:sk-related|ar-related-mini|mp-related)"[^>]*>\s*<strong>\s*Related', re.I), 'fail', 'Inline <strong>Related:</strong> mini-list — strip and let chrome rebuild as .rc-aend'),
 ]
+
+# Archetypes that should ALL load _research-chrome.js for unified tail-block rendering.
+# /s/, /m/, /hub/ are excluded — their document structure (supplement detail, medication
+# detail, topic hub) doesn't fit chrome's TOC + section-numbering machinery.
+ARCHETYPES_NEED_CHROME = {'a', 'condition', 'compare', 'for', 'stack', 'sx'}
 
 # Patterns REQUIRED on every /a/<slug>.html page.
 # Each regex is tolerant of attribute order (rel-first vs href-first) and
@@ -113,6 +120,12 @@ def scan_file(fpath: Path) -> list[tuple[str, str, str]]:
                 findings.append((str(fpath), 'fail', f'MISSING: {reason}'))
         # Hierarchy check
         findings.extend(check_h2_h3_hierarchy(html, fpath))
+
+    # 2026-05-25 — Every article archetype must load chrome so the tail-block
+    # normalizer can rebuild Related/Supplements as .rc-aend matching /a/.
+    if fpath.parts[-2] in ARCHETYPES_NEED_CHROME:
+        if not re.search(r'<script[^>]*src="[^"]*_research-chrome\.js', html):
+            findings.append((str(fpath), 'fail', f'MISSING: _research-chrome.js must be loaded on every article archetype (this is /{fpath.parts[-2]}/)'))
 
     return findings
 
