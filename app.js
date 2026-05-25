@@ -1,3 +1,72 @@
+/* ============================================================================
+   SupplementScore — app.js
+   Main client-side logic for the SPA. Loaded on every page via <script src>.
+
+   ╔═══════════════ CODE MAP ═════════════════════════════════════════════════╗
+   ║                                                                          ║
+   ║   1–  75   Core helpers                                                  ║
+   ║              localStorage wrappers, review-cadence helpers,              ║
+   ║              citation source-key registry, feedback modal,               ║
+   ║              HTML/JS escape utilities, medication chip rendering.        ║
+   ║                                                                          ║
+   ║  76– 160   Plan B3 — FORM PREFERENCES                                    ║
+   ║              Maps a generic supplement to its optimal variant            ║
+   ║              given the user's profile (e.g. magnesium glycinate          ║
+   ║              vs. citrate). Order matters: first match wins.              ║
+   ║                                                                          ║
+   ║ 161– 487   Plan B2/B5/B6 — PROFILE AUGMENTATION PASS                     ║
+   ║              The recommendation engine's filtering layer. Runs           ║
+   ║              after demographic/goal/condition/bloodwork composition,     ║
+   ║              before final render. Three jobs: condition-aware            ║
+   ║              filtering, drug-class hard-blocks (SSRI serotonergic        ║
+   ║              cascade etc.), diet-based boosts/demotions.                 ║
+   ║                                                                          ║
+   ║ 488– 634   Blocked-items renderer + rating chips + age/sex UI            ║
+   ║              "Why these were removed" mini-section above recs,           ║
+   ║              5-dot Efficacy/Safety/Research/Onset/Cost/Drug-int          ║
+   ║              chips, profile sex/age picker with a11y aria-checked.       ║
+   ║                                                                          ║
+   ║ 635–3293   Plan B4 — PERSONALIZED DOSING + INTERACTIONS                  ║
+   ║              Per-supplement dose calculators (weight, age, kidney,       ║
+   ║              liver function); supplement↔supplement interactions;        ║
+   ║              recommendation list assembly + sort; bloodwork PDF          ║
+   ║              ingestion via pdfjs; hero subtitle live count;              ║
+   ║              search filter against the rec list.                         ║
+   ║                                                                          ║
+   ║ 3294–4430   Phase 2/2 — DRUG_INTERACTIONS                                ║
+   ║              Drug-class registry (SSRIs, statins, anticoagulants…)       ║
+   ║              and the drug↔supplement interaction matrix parallel         ║
+   ║              to SUPP_INTERACTIONS. Three layers: drug_groups,            ║
+   ║              individual drugs, supplement-pair flags.                    ║
+   ║                                                                          ║
+   ║ 4431–4437   Share button on the supplement modal                         ║
+   ║              navigator.share on mobile; clipboard copy on desktop.       ║
+   ║                                                                          ║
+   ║ 4438–5813   v2 ARTICLE HELPERS                                           ║
+   ║              All scoped to the v2 article layout (see                    ║
+   ║              mockups/mockup-article-layout-v6.html as design source).    ║
+   ║              TOC builder, section wrap, trust strip, category-to-        ║
+   ║              accent mapper, source-attribution rendering.                ║
+   ║                                                                          ║
+   ║ 5814–6560   Plan B1 — HEALTH STATUS INPUTS                               ║
+   ║              Kidney function, liver function, allergies, smoking.        ║
+   ║              These feed profileAugmentationPass (lines 161–487) to       ║
+   ║              filter/demote recs. Persisted via saveProfile/loadProfile.  ║
+   ║                                                                          ║
+   ╚══════════════════════════════════════════════════════════════════════════╝
+
+   Companion files:
+     data.js           — Supplements, conditions, meds, biomarkers, articles
+                         (single source of truth, ~2,200 lines, 1 MB).
+     pairings-data.js  — Mechanism-graded supplement-supplement pairings.
+     index.js          — Index/homepage-specific logic (extracted from
+                         index.html for cacheability).
+     supplement-modal.js — Modal overlay that intercepts supplement links
+                         and loads supplement.html?slug=<slug> in an iframe.
+     _site-ux.js       — Cross-page UX (theme guard, breadcrumb behavior).
+     _research-chrome.js / _research-modal.js — Article-modal overlay.
+     search-index.js   — Pre-built search index for nav-search.js.
+============================================================================ */
 let profileUnlocked=false;
 let selectedMeds=new Set();
 // Safe localStorage wrappers — Safari ITP, private browsing, and quota-exceeded all throw.
@@ -4298,7 +4367,7 @@ function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';c
    a supplement from the index). The smaller inline #supp-modal isn't
    the right surface for this — it omits the deeper sections. */const _slug=_slcSlug(name);const _href='supplement.html?slug='+encodeURIComponent(_slug);return`<a class="art-supp-card" href="${_href}" style="text-decoration:none;color:inherit"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></a>`;}
 /* v2 article renderer — outputs the .aend supplement-list block from
-   mockup-article-layout-v6.html. Each row: tier-colored score badge +
+   mockups/mockup-article-layout-v6.html. Each row: tier-colored score badge +
    name + meta line + tier label + arrow. Same supplement.html deep-link
    so supplement-modal.js still intercepts the click. */
 function articleSuppsHtml(articleId){
@@ -4327,7 +4396,7 @@ function articleSuppsHtml(articleId){
   return '<div class="aend"><div class="aend-k"><span>Supplements in this article</span><span class="aend-k-r">'+label+'</span></div><div class="supp-list">'+rows+'</div></div>';
 }
 /* v2 Bottom Line — replaces the old "Key Points" card. Outputs the .bl
-   left-bar treatment from mockup-article-layout-v6.html. articleData is
+   left-bar treatment from mockups/mockup-article-layout-v6.html. articleData is
    optional curated content { eyebrow, verdict, bullets:[], pills:[] };
    when omitted, auto-extract verdict + bullets from the body's first
    prose paragraph (skipping "Sensitive populations" callouts). */
@@ -4376,7 +4445,7 @@ let _allArtsCache=null;
 function _buildAllArts(){if(_allArtsCache)return _allArtsCache;const m={};Object.values(ARTICLE_MAP).forEach(arts=>arts.forEach(a=>{m[a.id]=a;}));_allArtsCache=m;return m;}
 function getRelatedArticles(articleId,max){max=max||4;const allArts=_buildAllArts();const thisArt=allArts[articleId];const thisSupps=ARTICLE_SUPPS[articleId]||[];const scores={};thisSupps.forEach(name=>{(ARTICLE_MAP[name]||[]).forEach(a=>{if(a.id!==articleId)scores[a.id]=(scores[a.id]||0)+2;});});if(thisArt)Object.values(allArts).forEach(a=>{if(a.id!==articleId&&a.c===thisArt.c)scores[a.id]=(scores[a.id]||0)+1;});return Object.entries(scores).filter(([,s])=>s>0).sort((a,b)=>b[1]-a[1]).slice(0,max).map(([id])=>allArts[parseInt(id)]).filter(Boolean);}
 /* v2 related articles — outputs the .aend .rel-list block from
-   mockup-article-layout-v6.html. Each row: colored category eyebrow +
+   mockups/mockup-article-layout-v6.html. Each row: colored category eyebrow +
    title + arrow. data-cat is the article's c code so the CSS picks
    the right per-category color. */
 function articleRelatedHtml(articleId){
@@ -4437,7 +4506,7 @@ function shareSupp(){const name=_currentSuppName;if(!name)return;const slug=_slc
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
 /* ============================================================
    v2 article helpers — TOC, section wrap, trust strip, category-to-accent
-   mapper. All scoped to the v2 article layout (mockup-article-layout-v6).
+   mapper. All scoped to the v2 article layout (mockups/mockup-article-layout-v6.html).
    ============================================================ */
 /* Map the .article-cat text in source HTML (or the article's c code from
    ARTICLE_MAP) to a v2 accent key. */
@@ -4691,7 +4760,7 @@ function processArticleSources(container){
     });
   }
   /* In v2 mode, wrap the legacy block in the .aend / .sources-list structure
-     from mockup-article-layout-v6.html. The original h3 and ol are hidden by
+     from mockups/mockup-article-layout-v6.html. The original h3 and ol are hidden by
      the v2 CSS (`.article-v2 .art-sources h3 { display:none }`); we render a
      parallel .sources-list with the same li nodes copied in. */
   try{

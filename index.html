@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- ============================================================================
+     index.html — homepage SPA
+     Heavy file (~22,600 lines). Most layout is static markup; behaviour comes
+     from app.js + index.js. There are a few INLINE <script> blocks that are
+     intentionally interleaved with the DOM because they depend on synchronous
+     execution timing (anti-flash, theme guard) or on markup parsed just above
+     them (hero ambient animations). Locations for the next dev:
+
+         ~line 64–124   Scroll preservation across navigations (head, sync)
+         ~line 927–1130 ix-hero ambient background (3-hub variant) — runs
+                        against #ix-hero markup parsed just above
+         ~line 1300–1520 Profile-gate DNA helix ambient — runs against
+                        .gate-page markup parsed just above
+         ~line 2072–2224 rs-hero funnel-plot ambient — runs against
+                        #rs-hero (Research tab) markup parsed just above
+
+     If you extract any of these, keep the original DOM-relative position OR
+     switch to a DOMContentLoaded listener inside the extracted file.
+============================================================================ -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script>document.documentElement.setAttribute('data-theme','light');</script>

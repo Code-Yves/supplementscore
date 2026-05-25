@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- ============================================================================
+     search.html — search results SPA
+     Search index comes from /search-index.js (built by /scripts/build_search.py).
+     Behaviour glue is in two inline blocks below — kept inline because they
+     depend on DOM markup parsed just above them and on URL params at first
+     paint:
+
+         ~line 195–222 Theme + tab-switch guard, URL-param prefill
+         ~line 231–367 Main search controller — fuzzy match, render, history
+                        push, debounce, keyboard nav
+
+     Two JSON-LD blocks (~lines 73–90 and 92–111) are structured data, not JS.
+============================================================================ -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script>document.documentElement.setAttribute('data-theme','light');</script>
