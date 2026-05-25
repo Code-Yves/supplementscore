@@ -1,7 +1,7 @@
 {
   "_meta": {
     "generated": "2026-04-23",
-    "last_reviewed": "2026-05-18 (weekly pairing-coverage refresh — appended 40 entries; auto-apply mode; 6 escalations; 6 low-conf queued)",
+    "last_reviewed": "2026-05-25 (weekly pairing-coverage refresh — appended 38 entries; auto-apply mode; 2 escalations; 22 low-conf queued)",
     "source": "data.js (733 supplements; mod date 2026-04-24, no net add/remove vs prior 733 count)",
     "schema_version": "1.3",
     "notes": "Each pairing references supplement `n` (name) strings as they appear in `data.js`. `kind` describes WHY the pair belongs together; `strength` is 1-5 (5 = mandatory for the effect, 1 = speculative). `apart_from` lists things the supplement competes with for absorption.",
@@ -3489,6 +3489,500 @@
       "evidence_pmids": [
         "19568322"
       ]
+    },
+    {
+      "id": "p234",
+      "members": [
+        "Chamomile extract (Matricaria chamomilla)",
+        "Lemon balm (Melissa officinalis)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 3,
+      "goal": "Mild anxiolysis and sleep onset",
+      "rationale": "Both modulate GABA-A receptors; combined use in traditional formulas for sleep/anxiety relies on additive sedative/anxiolytic effects with low side-effect burden.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p235",
+      "members": [
+        "Chamomile extract (Matricaria chamomilla)",
+        "Magnesium glycinate"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 3,
+      "goal": "Sleep onset / relaxation stack",
+      "rationale": "Magnesium (NMDA antagonism + GABA-A potentiation) plus apigenin from chamomile (GABA-A binding) is a common bedtime stack; mechanisms are complementary, not overlapping.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p236",
+      "members": [
+        "Chamomile extract (Matricaria chamomilla)",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid overlap in sleep/anxiety blends",
+      "rationale": "Many \"calm\" or \"sleep\" multi-herb blends already include chamomile extract; check label to avoid double-dosing apigenin.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p237",
+      "members": [
+        "Potassium citrate",
+        "Calcium carbonate/citrate (bone health)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid citrate overload in stone-prevention stacks",
+      "rationale": "When stacking calcium citrate with potassium citrate the citrate component is additive; both raise urinary citrate. Count total citrate load to avoid overshooting alkalinization in stone-prevention stacks.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p238",
+      "members": [
+        "Potassium citrate",
+        "Oral rehydration salts (WHO formula)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid potassium overdose in rehydration stacks",
+      "rationale": "WHO ORS already provides potassium; stacking with potassium citrate can overshoot K intake, especially in CKD or with K-sparing drugs.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p239",
+      "members": [
+        "Ginger (Zingiber officinale)",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid overlap in digestive multi-blends",
+      "rationale": "Some \"digestive\" or \"immune\" multi-herb blends include ginger extract; check label before adding standalone ginger to avoid stacking.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p240",
+      "members": [
+        "Collagen peptides",
+        "Glycine"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double-counting glycine",
+      "rationale": "Collagen is ~22% glycine by weight; a 10 g collagen dose already provides ~2.2 g glycine, overlapping with glycine sleep dosing — count both.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p241",
+      "members": [
+        "Iberogast (STW 5)",
+        "Chamomile extract (Matricaria chamomilla)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid component-stacking with multi-herb formulas",
+      "rationale": "Iberogast already contains chamomile (Matricaria recutita) as one of its 9 herbs; standalone chamomile stacked on top is redundant and increases hepatotoxicity-monitoring burden.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p242",
+      "members": [
+        "EGCG concentrate (decaffeinated green-tea catechin)",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Avoid total EGCG > 800 mg/day (EFSA flag)",
+      "rationale": "Many \"antioxidant\" or \"metabolism\" blends contain green-tea extract; combining with standalone EGCG concentrate raises the catechin dose into the hepatotoxicity-flagged range (EFSA: >800 mg EGCG/day).",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p243",
+      "members": [
+        "Sulforaphane (broccoli isothiocyanate)",
+        "Broccoli sprout extract (BroccoMax / Avmacol)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double-counting sulforaphane",
+      "rationale": "Broccoli sprout extract already supplies sulforaphane (and the myrosinase enzyme needed to release it from glucoraphanin). Standalone sulforaphane on top of a sprout extract is duplicative.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p244",
+      "members": [
+        "Eggshell membrane (NEM)",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid overlap in joint-stack blends",
+      "rationale": "NEM appears in many \"joint support\" formulas alongside glucosamine/chondroitin; check label before adding standalone NEM.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p245",
+      "members": [
+        "Phytosterols (beta-sitosterol complex)",
+        "Red yeast rice"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "goal": "LDL reduction — dual-mechanism stack",
+      "rationale": "Phytosterols block intestinal cholesterol absorption; monacolin K (red yeast rice) inhibits hepatic HMG-CoA reductase. Mechanisms are complementary in LDL lowering — classic dual-pathway stack.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p246",
+      "members": [
+        "Phytosterols (beta-sitosterol complex)",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid phytosterol > 3 g/day plateau",
+      "rationale": "Functional foods (margarines, yogurts) and several cardiovascular blends already contain 1-3 g phytosterols; double-dosing past ~3 g/day shows no added LDL benefit and worsens carotenoid depletion.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p247",
+      "members": [
+        "Fenugreek seed extract (Testofen / standardised)",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 2,
+      "goal": "Avoid overlap in male-vitality blends",
+      "rationale": "Many male-vitality blends already contain standardized fenugreek; verify label before adding standalone Testofen.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p248",
+      "members": [
+        "Fenugreek seed extract (Testofen / standardised)",
+        "Iron"
+      ],
+      "kind": "timing-separation",
+      "strength": 3,
+      "goal": "Preserve iron absorption",
+      "rationale": "Fenugreek is high in mucilaginous fiber and tannins that bind dietary iron; separate by ≥2 hours from iron supplementation.",
+      "direction": "timing-separation",
+      "confidence": "high"
+    },
+    {
+      "id": "p249",
+      "members": [
+        "Chia seed oil",
+        "Flaxseed oil (ALA omega-3)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double ALA dose",
+      "rationale": "Chia seed oil and flaxseed oil are both ALA-dominant omega-3 oils; combining doubles ALA load without adding new fatty acids. Pick one or alternate.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p250",
+      "members": [
+        "Chia seed oil",
+        "Vitamin E (mixed tocopherols)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 2,
+      "goal": "Oxidation protection for PUFA stack",
+      "rationale": "Vitamin E protects PUFAs from peroxidation; small amounts (~5-15 IU per gram PUFA) preserve ALA integrity in vivo and in supplement form.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p251",
+      "members": [
+        "Chia seed oil",
+        "Algal oil (vegan DHA/EPA)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "goal": "Complete vegan omega-3 coverage",
+      "rationale": "Chia ALA conversion to EPA/DHA in humans is ~5-10%; algal EPA/DHA bypasses the conversion bottleneck. Combining gives complete omega-3 spectrum for vegans.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p252",
+      "members": [
+        "Algal oil (vegan DHA/EPA)",
+        "Omega-3 (EPA/DHA)"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Avoid double EPA/DHA dose",
+      "rationale": "Both supply EPA/DHA; algal oil is the vegan substitute for fish oil. Combining them is duplicative — choose one source.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p253",
+      "members": [
+        "Algal oil (vegan DHA/EPA)",
+        "Vitamin E (mixed tocopherols)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 2,
+      "goal": "Oxidation protection",
+      "rationale": "EPA/DHA are oxidation-prone; mixed tocopherols protect against peroxidation in capsule and in vivo.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p254",
+      "members": [
+        "Algal oil (vegan DHA/EPA)",
+        "DHA (standalone, algal)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid duplicating algal DHA",
+      "rationale": "Algal \"DHA standalone\" is the same source as full-spectrum algal oil minus EPA; combining a DHA-only product on top of a mixed algal oil double-doses DHA.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p255",
+      "members": [
+        "Perilla oil",
+        "Flaxseed oil (ALA omega-3)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double ALA dose",
+      "rationale": "Perilla and flaxseed oils are both ALA-dominant (~55-65% ALA); combining doubles ALA without new fatty acids.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p256",
+      "members": [
+        "Perilla oil",
+        "Perilla seed oil"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Naming-variant overlap",
+      "rationale": "\"Perilla oil\" and \"Perilla seed oil\" are common naming variants for the same source (Perilla frutescens seed oil). Same product, do not double-dose.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p257",
+      "members": [
+        "Perilla oil",
+        "Vitamin E (mixed tocopherols)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 2,
+      "goal": "Oxidation protection",
+      "rationale": "Tocopherols protect ALA against peroxidation; oils stored without vitamin E lose omega-3 content faster.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p258",
+      "members": [
+        "Sacha inchi oil (Plukenetia volubilis)",
+        "Flaxseed oil (ALA omega-3)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid double ALA dose",
+      "rationale": "Sacha inchi (~48% ALA) and flaxseed oil are both ALA-dominant plant oils; combining is redundant.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p259",
+      "members": [
+        "Sacha inchi oil (Plukenetia volubilis)",
+        "Algal oil (vegan DHA/EPA)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 4,
+      "goal": "Complete vegan omega-3 coverage",
+      "rationale": "Sacha inchi supplies ALA only; algal oil supplies preformed EPA/DHA. Combined gives full omega-3 chain for vegans.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p260",
+      "members": [
+        "Sacha inchi oil (Plukenetia volubilis)",
+        "Vitamin E (mixed tocopherols)"
+      ],
+      "kind": "mechanism-complementary",
+      "strength": 2,
+      "goal": "Oxidation protection",
+      "rationale": "Tocopherols protect ALA from oxidation; small additions stabilize potency.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p261",
+      "members": [
+        "Zinc gluconate",
+        "Zinc"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Avoid double elemental Zn",
+      "rationale": "Zinc gluconate is a specific form of zinc; combining with another zinc form (picolinate, bisglycinate) double-doses elemental zinc.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p262",
+      "members": [
+        "Zinc gluconate",
+        "Copper (as glycinate)"
+      ],
+      "kind": "depletion-offset",
+      "strength": 4,
+      "goal": "Prevent Zn-induced Cu deficiency",
+      "rationale": "Long-term zinc >25 mg/day induces metallothionein and depletes copper; co-supplementation prevents Zn-induced copper deficiency.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p263",
+      "members": [
+        "Zinc gluconate",
+        "Iron"
+      ],
+      "kind": "timing-separation",
+      "strength": 4,
+      "goal": "Avoid Zn/Fe absorption competition",
+      "rationale": "Zinc and iron compete for divalent metal transporter 1 (DMT-1); separate by ≥2 hours.",
+      "direction": "timing-separation",
+      "confidence": "high"
+    },
+    {
+      "id": "p264",
+      "members": [
+        "Zinc gluconate",
+        "Calcium"
+      ],
+      "kind": "timing-separation",
+      "strength": 3,
+      "goal": "Preserve Zn absorption",
+      "rationale": "Calcium >300 mg per meal reduces zinc absorption ~30%; separate doses by ≥2 hours.",
+      "direction": "timing-separation",
+      "confidence": "high"
+    },
+    {
+      "id": "p265",
+      "members": [
+        "Zinc bisglycinate",
+        "Zinc"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Avoid double elemental Zn",
+      "rationale": "Zinc bisglycinate is a specific chelated zinc form; combining with other zinc forms double-doses elemental zinc.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p266",
+      "members": [
+        "Zinc bisglycinate",
+        "Copper (as glycinate)"
+      ],
+      "kind": "depletion-offset",
+      "strength": 4,
+      "goal": "Prevent Zn-induced Cu deficiency",
+      "rationale": "Chronic zinc supplementation depletes copper via metallothionein induction; co-pairing is the standard offset.",
+      "direction": "synergy",
+      "confidence": "high"
+    },
+    {
+      "id": "p267",
+      "members": [
+        "Zinc bisglycinate",
+        "Iron"
+      ],
+      "kind": "timing-separation",
+      "strength": 4,
+      "goal": "Avoid Zn/Fe competition",
+      "rationale": "Zinc and iron compete for DMT-1 absorption; separate by ≥2 hours.",
+      "direction": "timing-separation",
+      "confidence": "high"
+    },
+    {
+      "id": "p268",
+      "members": [
+        "Zinc bisglycinate",
+        "Multivitamins (healthy adults)"
+      ],
+      "kind": "redundancy",
+      "strength": 3,
+      "goal": "Avoid > 40 mg total Zn (UL)",
+      "rationale": "Most multivitamins supply 8-15 mg zinc; adding standalone bisglycinate can push past the 40 mg UL when combined.",
+      "direction": "redundancy",
+      "confidence": "high"
+    },
+    {
+      "id": "p269",
+      "members": [
+        "Bacillus clausii",
+        "Antibiotics"
+      ],
+      "kind": "timing-separation",
+      "strength": 3,
+      "goal": "Antibiotic-associated diarrhea protocol",
+      "rationale": "B. clausii is one of the few probiotics with documented antibiotic-resistance enabling co-administration, but for non-resistant strains a 2-hour separation is the conservative default.",
+      "direction": "timing-separation",
+      "confidence": "high"
+    },
+    {
+      "id": "p270",
+      "members": [
+        "Bacillus subtilis (spore probiotic)",
+        "Antibiotics"
+      ],
+      "kind": "timing-separation",
+      "strength": 3,
+      "goal": "Probiotic + antibiotic timing",
+      "rationale": "Spore probiotics survive antibiotic exposure better than vegetative strains, but a 2-hour separation is the conservative default to preserve colony delivery.",
+      "direction": "timing-separation",
+      "confidence": "high"
+    },
+    {
+      "id": "p271",
+      "members": [
+        "DMG (Dimethylglycine)",
+        "Trimethylglycine (TMG / betaine anhydrous)"
+      ],
+      "kind": "redundancy",
+      "strength": 4,
+      "goal": "Avoid stacking methyl-donor metabolites",
+      "rationale": "TMG → DMG is the methyl-donation reaction; supplementing both does not add a methyl donor — TMG already produces DMG as a downstream metabolite.",
+      "direction": "redundancy",
+      "confidence": "high"
     }
   ],
   "medication_depletion_pairings": [

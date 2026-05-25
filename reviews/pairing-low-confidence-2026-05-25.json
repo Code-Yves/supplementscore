@@ -1,0 +1,250 @@
+{
+  "generated": "2026-05-25",
+  "source_task": "weekly-pairing-coverage-refresh",
+  "note": "These were generated during weekly auto-apply but did not meet the auto-apply bar (confidence:low, or medium without verified PMID). Human reviewer should research/cite or reject.",
+  "count": 22,
+  "proposals": [
+    {
+      "target": "Potassium citrate",
+      "partner_name": "Vitamin B6 (P5P)",
+      "direction": "synergy",
+      "mechanism": "Pyridoxine reduces urinary oxalate; combined with potassium citrate it gives complementary calcium-oxalate stone prevention pathways.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t1",
+      "goal": "Calcium-oxalate kidney stone prevention",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Ginger (Zingiber officinale)",
+      "partner_name": "Boswellia serrata",
+      "direction": "synergy",
+      "mechanism": "Ginger inhibits COX-2 and 5-LOX; Boswellia inhibits 5-LOX selectively. The pair gives broader eicosanoid suppression in osteoarthritis-pain stacks.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t1",
+      "goal": "Joint pain / OA inflammation",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Casein protein",
+      "partner_name": "Glycine",
+      "direction": "synergy",
+      "mechanism": "Casein supplies slow-release leucine for overnight MPS; glycine independently improves sleep quality at 3 g pre-bed — non-overlapping bedtime recovery effects.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t1",
+      "goal": "Overnight muscle recovery + sleep",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Casein protein",
+      "partner_name": "Tart cherry (Montmorency)",
+      "direction": "synergy",
+      "mechanism": "Tart cherry reduces muscle soreness post-exercise; casein supplies amino acids for overnight repair. Both are bedtime-timed recovery agents through different mechanisms.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t1",
+      "goal": "Bedtime recovery stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Collagen peptides",
+      "partner_name": "Hyaluronic acid (oral)",
+      "direction": "synergy",
+      "mechanism": "Oral HA increases joint synovial viscosity; collagen peptides supply Gly-Pro-Hyp for cartilage matrix synthesis — non-overlapping joint-matrix support.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t1",
+      "goal": "Joint comfort / skin matrix",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Collagen peptides",
+      "partner_name": "Biotin (high-dose)",
+      "direction": "synergy",
+      "mechanism": "Frequently bundled in skin/hair stacks; collagen supplies dermal matrix amino acids while biotin supports keratin synthesis — mechanisms are non-overlapping cosmetic-tissue supports.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t1",
+      "goal": "Skin/hair cosmetic stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Iberogast (STW 5)",
+      "partner_name": "Saccharomyces boulardii",
+      "direction": "synergy",
+      "mechanism": "Iberogast acts on smooth-muscle motility and gastric accommodation; S. boulardii acts on luminal microbiota — non-overlapping IBS-mixed-pattern mechanisms.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Functional dyspepsia / IBS support",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "EGCG concentrate (decaffeinated green-tea catechin)",
+      "partner_name": "Quercetin",
+      "direction": "synergy",
+      "mechanism": "Both flavonoids activate AMPK and Sirt1; combined use in healthspan stacks is mechanism-complementary, but watch hepatic load from concentrated EGCG.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Healthspan / metabolic stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "EGCG concentrate (decaffeinated green-tea catechin)",
+      "partner_name": "Resveratrol",
+      "direction": "synergy",
+      "mechanism": "EGCG and resveratrol act on overlapping (Sirt1) and complementary (Nrf2 via EGCG; AMPK via resveratrol) pathways; both are AUC-modest, so multiple polyphenols give additive systemic exposure.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Polyphenol stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Sulforaphane (broccoli isothiocyanate)",
+      "partner_name": "Resveratrol",
+      "direction": "synergy",
+      "mechanism": "Sulforaphane is a potent Nrf2 activator; resveratrol activates Sirt1 and AMPK. The pair gives broader stress-response activation than either alone.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Cellular stress-response stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Sulforaphane (broccoli isothiocyanate)",
+      "partner_name": "Multivitamins (healthy adults)",
+      "direction": "redundancy",
+      "mechanism": "Some \"detox\" or \"greens\" blends include broccoli sprout / sulforaphane sources; verify label before standalone dosing.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Avoid overlap in detox/greens blends",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Eggshell membrane (NEM)",
+      "partner_name": "Collagen type II (undenatured, UC-II)",
+      "direction": "synergy",
+      "mechanism": "NEM provides hyaluronic acid and matrix glycoproteins; UC-II works via oral-tolerance immune modulation. Different mechanisms, both with OA RCT support.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Joint comfort — matrix + immune",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Eggshell membrane (NEM)",
+      "partner_name": "Hyaluronic acid (oral)",
+      "direction": "redundancy",
+      "mechanism": "NEM (500 mg) itself supplies a small amount of hyaluronic acid; standalone HA on top is acceptable but partially overlapping.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Avoid partial HA overlap",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Phytosterols (beta-sitosterol complex)",
+      "partner_name": "Beta-carotene (standalone supplement)",
+      "direction": "antagonism",
+      "mechanism": "Phytosterols at 2-3 g/day modestly reduce serum carotenoids (~15-25% beta-carotene drop in trials of plant-stanol/sterol margarine). Mitigate with daily colored vegetable intake or modest beta-carotene supplementation.",
+      "evidence_pmids": [],
+      "confidence": "low",
+      "tier_of_target": "t2",
+      "goal": "Carotenoid depletion offset",
+      "note": ""
+    },
+    {
+      "target": "Fenugreek seed extract (Testofen / standardised)",
+      "partner_name": "Zinc",
+      "direction": "synergy",
+      "mechanism": "Fenugreek (Testofen) modestly raises free testosterone via aromatase modulation; zinc supports endogenous testosterone synthesis in deficient men. Non-overlapping mechanisms.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Andropause / free-T support",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Algal oil (vegan DHA/EPA)",
+      "partner_name": "Vitamin D3",
+      "direction": "synergy",
+      "mechanism": "EPA/DHA and vitamin D have additive effects on resolution of inflammation (specialized pro-resolving mediators require both); commonly co-supplemented.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Anti-inflammatory + immune stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Bacillus clausii",
+      "partner_name": "Saccharomyces boulardii",
+      "direction": "synergy",
+      "mechanism": "Spore-forming bacterium plus a yeast probiotic gives non-overlapping coverage during antibiotic courses; both survive gastric pH.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Antibiotic-associated diarrhea prevention",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Bacillus clausii",
+      "partner_name": "Inulin / FOS (prebiotic fibre)",
+      "direction": "synergy",
+      "mechanism": "Prebiotic fiber feeds the resident Bifido/Lactobacilli that B. clausii helps shelter during antibiotic courses; synbiotic pairing.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Synbiotic gut support",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Bacillus subtilis (spore probiotic)",
+      "partner_name": "Bacillus coagulans GBI-30 (BC30)",
+      "direction": "redundancy",
+      "mechanism": "Both are spore-forming Bacillus probiotics with overlapping ecological niche; combining is acceptable but partially duplicative — pick the strain with the specific RCT evidence for your condition.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Avoid Bacillus strain overlap",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "Bacillus subtilis (spore probiotic)",
+      "partner_name": "Inulin / FOS (prebiotic fibre)",
+      "direction": "synergy",
+      "mechanism": "Spore probiotics germinate in the colon where prebiotic fibers also feed commensals; synbiotic pairing extends colonization.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Synbiotic gut support",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "DMG (Dimethylglycine)",
+      "partner_name": "B-complex (balanced)",
+      "direction": "synergy",
+      "mechanism": "DMG metabolism requires B12, folate, and B6 as methylation cofactors; a balanced B-complex prevents methyl-trap effects from one-carbon overload.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Methylation cofactor support",
+      "note": "medium without PMID — queue per auto-apply rule"
+    },
+    {
+      "target": "DMG (Dimethylglycine)",
+      "partner_name": "Folate (5-MTHF)",
+      "direction": "synergy",
+      "mechanism": "DMG donates methyls into the homocysteine→methionine cycle; 5-MTHF supplies the folate methyl input. Mechanism is complementary in homocysteine management.",
+      "evidence_pmids": [],
+      "confidence": "medium",
+      "tier_of_target": "t2",
+      "goal": "Homocysteine lowering stack",
+      "note": "medium without PMID — queue per auto-apply rule"
+    }
+  ]
+}

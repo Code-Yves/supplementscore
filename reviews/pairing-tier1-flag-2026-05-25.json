@@ -1,0 +1,30 @@
+{
+  "generated": "2026-05-25",
+  "source_task": "weekly-pairing-coverage-refresh",
+  "note": "Tier-1 antagonism/timing-with-Rx proposals. Per policy, humans must review tier-impacting calls before auto-applying. Verify PMIDs and add to pairings.json manually after review.",
+  "count": 2,
+  "proposals": [
+    {
+      "target": "Potassium citrate",
+      "partner_name": "ACE inhibitors / ARBs (lisinopril, ramipril, losartan, valsartan)",
+      "direction": "antagonism",
+      "mechanism": "ACE-I/ARBs reduce renal K excretion; supplemental potassium can precipitate hyperkalemia, especially in CKD or when co-administered with K-sparing diuretics. Routine K supplementation in patients on these agents requires monitoring (label warning).",
+      "evidence_pmids": [],
+      "confidence": "high",
+      "tier_of_target": "t1",
+      "goal": "Hyperkalemia risk",
+      "note": ""
+    },
+    {
+      "target": "Casein protein",
+      "partner_name": "Levothyroxine / Thyroid meds",
+      "direction": "timing-separation",
+      "mechanism": "Dairy-derived calcium/protein in casein binds levothyroxine and lowers absorption (label warning recommends taking T4 separate from food/calcium/iron). Separate by ≥4 hours.",
+      "evidence_pmids": [],
+      "confidence": "high",
+      "tier_of_target": "t1",
+      "goal": "Preserve T4 absorption",
+      "note": ""
+    }
+  ]
+}

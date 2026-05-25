@@ -178,6 +178,20 @@ body.is-modal .det-back{display:none}
    reserved top padding to clear floating Share/X buttons. */
 body.is-modal .det-wrap{padding-top:18px}
 body.is-modal .det-jump{top:0}
+/* (2026-05-25) Hide the inner page-level Share + Close FABs when this
+   page is rendered inside the supplement-modal iframe. The outer modal
+   ships its own .ssm-chrome with Share + X; without this rule the
+   iframe-injected .pg-share-fab (added by _site-ux.js initShareFab()
+   because the page ships a .pg-close-fab) plus the inline .pg-close-fab
+   anchor land at the same top-right coordinate as the modal chrome —
+   producing the duplicate Share+X reported 2026-05-25. The is-modal
+   class is added synchronously by the inline body script when
+   ?modal=1 is present in the iframe URL, so this rule applies before
+   any visual paint of the FABs. Mirrors the existing
+   html.rc-chrome-active treatment in styles.css line 3581. */
+body.is-modal .pg-close-fab,
+body.is-modal .pg-share-fab,
+body.is-modal .pg-share-toast{display:none !important}
 /* In-modal "Compare with another" — restyled to v2-chrome look (2026-05-18):
    transparent text button matching the article modal's chrome treatment,
    not the pill-with-border style used on the standalone supplement page. */
@@ -310,7 +324,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=20260524-fixes3" defer></script>
+  <script src="_site-ux.js?v=20260525-share-dedup" defer></script>
 </head>
 <body>
 <!-- 2026-05-24 — Stripped the .beta-bar tagline, the full .site-nav (logo +

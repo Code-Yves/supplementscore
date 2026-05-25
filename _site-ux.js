@@ -711,6 +711,18 @@
      ============================================================ */
   function initShareFab(){
     if (document.querySelector('.pg-share-fab')) return;       // already injected
+    /* (2026-05-25) Don't inject when the page is rendered inside a
+       parent modal that ships its own Share + X chrome. Two such
+       cases today:
+         (1) supplement.html in the .ssm modal — body.is-modal set by
+             the inline body script when ?modal=1 is present.
+         (2) /a/*.html in the research-chrome top bar — <html> carries
+             .rc-chrome-active set by _research-chrome.js.
+       Without this guard, this routine injects a .pg-share-fab next to
+       the page's own .pg-close-fab, producing a duplicate Share+X
+       beneath the parent chrome bar. */
+    if (document.body && document.body.classList.contains('is-modal')) return;
+    if (document.documentElement.classList.contains('rc-chrome-active')) return;
     /* Look for either close-FAB variant — condition / standalone-article
        pages use `.pg-close-fab`; /compare/ guides use the visually
        identical `.reader-close-fab`. Both anchor the Share pill the same
