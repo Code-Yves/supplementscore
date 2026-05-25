@@ -1,0 +1,49 @@
+{
+  "_meta": {
+    "purpose": "Priority queue read by weekly-content-polish-pass before random selection. Items here get processed first. Drain to empty by working through each entry.",
+    "created": "2026-05-25",
+    "source": "GSC 'Crawled — currently not indexed' audit"
+  },
+  "items": [
+    {
+      "path": "supplementscore-repo/a/the-truth-about-collagen-supplements-what-13-clinical-trials-actually-show.html",
+      "reason": "Title claims '13 clinical trials' but article has 0 PMID citations — E-E-A-T credibility gap, in GSC crawled-not-indexed bucket. Add ≥4 real PMIDs from collagen meta-analyses (joint pain, skin, muscle protein synthesis).",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/methylene-blue-cognitive-enhancer-or-serotonin-syndrome-risk.html",
+      "reason": "1042 words but 0 PMIDs on a safety-claim title. Add ≥4 PMIDs covering methylene blue + MAO-A inhibition + serotonin syndrome case reports.",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/spirulina-nutrient-powerhouse-or-overhyped-algae.html",
+      "reason": "809 words, 0 PMIDs, only 3 internal links. Add ≥4 PMIDs from spirulina lipid/glycemic trials + microcystin contamination references.",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/quercetin-and-immunity-from-antioxidant-to-senolytic.html",
+      "reason": "759 words, 0 PMIDs. Add ≥4 PMIDs from quercetin upper-respiratory trials + senolytic combination studies.",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/12-supplement-mistakes-you-should-literally-never-make.html",
+      "reason": "Only 403 words and 0 PMIDs — likely needs full expansion to 800+ words plus 4 PMIDs covering the highest-stakes mistakes (St. John's wort + SSRI, vitamin K + warfarin, biotin + lab interference, etc.).",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/vitex-agnus-castus-chasteberry-for-pms-and-pmdd-what-rcts-show.html",
+      "reason": "Only 1 internal link (orphaned). Wrap supplement names with /s/ links and add ≥4 hub links to /condition/ and related /a/.",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/the-truth-about-alkaline-water-and-ph-supplements.html",
+      "reason": "Only 2 internal links + 563 words (under new 600 floor). Expand body and add /s/ + /condition/ links.",
+      "added": "2026-05-25"
+    },
+    {
+      "path": "supplementscore-repo/a/lectin-free-supplements-and-the-plant-paradox-what-the-evidence-shows.html",
+      "reason": "Only 2 internal links. Add hub links and supplement-page cross-links.",
+      "added": "2026-05-25"
+    }
+  ]
+}

@@ -4,6 +4,26 @@ Allow: /
 # Block internal mockup directory from crawling (not deployed but defensive)
 Disallow: /_mockups/
 
+# Block raw data files — public for direct download via /data/index.html, but should not appear as search results
+Disallow: /data/*.csv$
+Disallow: /data/*.json$
+
+# RSS feeds — available to feed readers, but no need to surface in web search
+Disallow: /feed.xml
+Disallow: /feed-breakthrough.xml
+Disallow: /feed-guide.xml
+Disallow: /feed-kids.xml
+Disallow: /feed-reality-check.xml
+Disallow: /feed-safety-alert.xml
+
+# SPA detail shells — bare files duplicate content of /s/, /condition/, etc. Block the bare path; the JS-injected canonical handles ?slug= variants for Google.
+# Note: /article.html is the legitimate articles hub (NOT blocked).
+Disallow: /supplement.html$
+Disallow: /condition.html$
+Disallow: /medication.html$
+Disallow: /compare.html$
+Disallow: /biomarker.html$
+
 # Sitemap index — references all shards
 Sitemap: https://supplementscore.org/sitemap-index.xml
 

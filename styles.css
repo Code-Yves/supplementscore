@@ -3831,6 +3831,60 @@ html.rc-chrome-active main.sx-wrap h3{
    Forces /a/, /for/, /condition/, /stack/ pages to render with identical
    hero, body, and list typography when the chrome injector is active.
    Each wrapper has its own inline styles that we override here. ═════ */
+
+/* (2026-05-25) Apply the SAME normalization unconditionally — i.e. even
+   when rc-chrome-active is NOT set (standalone direct page-load, or any
+   timing race where the chrome script hasn't run yet). Without this,
+   condition / stack pages loaded directly fell back to browser-default
+   H1 size (2em) and the page-default body 14px — visibly inconsistent
+   with /a/ articles in the modal. The user flagged this 2026-05-25
+   ("condition is bigger, modal is wider"). We use the same canonical
+   ramp here; rc-chrome-active rules below use !important to win over
+   any per-page inline overrides. */
+main.ar-wrap,
+main.sx-wrap,
+main.ca-wrap,
+main.sk-wrap{
+  max-width:760px;margin:0 auto;padding:18px 24px 64px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--color-text-primary,#0c0a09);
+}
+main.ar-wrap h1,
+main.sx-wrap h1,
+main.sx-wrap h1.sx-h1,
+main.ca-wrap h1,
+main.sk-wrap h1{
+  font-size:2.2rem;
+  font-weight:800;
+  letter-spacing:-.6px;
+  line-height:1.15;
+  margin:0 0 12px;
+  color:var(--color-text-primary,#0c0a09);
+}
+main.ar-wrap h2,
+main.sx-wrap h2,
+main.ca-wrap h2,
+main.sk-wrap h2,
+main.ar-wrap h3,
+main.sx-wrap h3,
+main.ca-wrap h3,
+main.sk-wrap h3{
+  font-size:1.4rem;
+  font-weight:700;
+  letter-spacing:-.2px;
+  line-height:1.25;
+  margin:0 0 12px;
+  color:var(--color-text-primary,#0c0a09);
+}
+main.ar-wrap p,
+main.sx-wrap p,
+main.ca-wrap p,
+main.sk-wrap p{
+  font-size:16px;line-height:1.7;
+  margin:0 0 18px;
+  color:var(--color-text-primary,#0c0a09);
+}
+
 html.rc-chrome-active main.ar-wrap,
 html.rc-chrome-active main.sx-wrap,
 html.rc-chrome-active main.ca-wrap,
