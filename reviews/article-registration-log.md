@@ -150,3 +150,57 @@
 | 2026-05-26 | zinc-bisglycinate-the-chelated-zinc-form-with-better-absorption-and-tolerability | 645 | guide | 628 | 9 [new AM keys: Zinc bisglycinate] |
 | 2026-05-26 | acerola-cherry-extract-the-natural-vitamin-c-source-with-actual-bioavailability-data | 646 | guide | 650 | 6 [new AM keys: Acerola cherry extract; Quercetin] |
 | 2026-05-26 | cluster-dextrin-hbcd-highly-branched-cyclic-dextrin-for-endurance-fueling | 647 | guide | 614 | 1 [new AM keys: Cluster dextrin (HBCD)] |
+| 2026-05-26 | adhd-the-evidence-based-supplement-protocol | 648 | condition | 478 | 7 |
+| 2026-05-26 | acne-the-evidence-based-supplement-protocol | 649 | condition | 493 | 10 |
+| 2026-05-26 | age-related-cognitive-decline-the-evidence-based-supplement-protocol | 650 | condition | 388 | 7 |
+| 2026-05-26 | anxiety-the-evidence-based-supplement-protocol | 651 | condition | 436 | 6 |
+| 2026-05-26 | atrial-fibrillation-the-evidence-based-supplement-protocol | 652 | condition | 440 | 6 |
+| 2026-05-26 | bph-the-evidence-based-supplement-protocol | 653 | condition | 485 | 7 [new AM keys: Pygeum africanum; Lycopene] |
+| 2026-05-26 | cataract-prevention-the-evidence-based-supplement-protocol | 654 | condition | 489 | 12 |
+| 2026-05-26 | chronic-constipation-the-evidence-based-supplement-protocol | 655 | condition | 444 | 6 |
+| 2026-05-26 | chronic-inflammation-the-evidence-based-supplement-protocol | 656 | condition | 432 | 6 |
+| 2026-05-26 | recurrent-cold-sores-the-evidence-based-supplement-protocol | 657 | condition | 352 | 6 [new AM keys: L-Lysine] |
+| 2026-05-26 | copd-the-evidence-based-supplement-protocol | 658 | condition | 462 | 6 |
+| 2026-05-26 | crohns-disease-the-evidence-based-supplement-protocol | 659 | condition | 449 | 12 [new AM keys: Hydroxocobalamin] |
+| 2026-05-26 | mild-to-moderate-depression-the-evidence-based-supplement-protocol | 660 | condition | 416 | 6 [new AM keys: St. John's Wort] |
+| 2026-05-26 | dry-eye-the-evidence-based-supplement-protocol | 661 | condition | 449 | 5 [new AM keys: Flaxseed oil (ALA omega-3)] |
+| 2026-05-26 | dysmenorrhea-the-evidence-based-supplement-protocol | 662 | condition | 465 | 10 |
+| 2026-05-26 | eczema-atopic-dermatitis-the-evidence-based-supplement-protocol | 663 | condition | 378 | 8 |
+| 2026-05-26 | endometriosis-the-evidence-based-supplement-protocol | 664 | condition | 440 | 7 |
+| 2026-05-26 | female-fertility-the-evidence-based-supplement-protocol | 665 | condition | 464 | 12 [new AM keys: Vitex / Chasteberry (Vitex agnus-castus); St. John's Wort] |
+| 2026-05-26 | fibromyalgia-the-evidence-based-supplement-protocol | 666 | condition | 408 | 10 |
+| 2026-05-26 | functional-dyspepsia-the-evidence-based-supplement-protocol | 667 | condition | 386 | 7 |
+| 2026-05-26 | gerd-acid-reflux-the-evidence-based-supplement-protocol | 668 | condition | 405 | 7 |
+| 2026-05-26 | high-cholesterol-the-evidence-based-supplement-protocol | 669 | condition | 405 | 12 [new AM keys: Policosanol; Policosanol (Cuban, unconfirmed)] |
+| 2026-05-26 | hypothyroidism-the-evidence-based-supplement-protocol | 670 | condition | 432 | 10 [new AM keys: Selenium; Iodine] |
+| 2026-05-26 | ibs-constipation-predominant-the-evidence-based-supplement-protocol | 671 | condition | 346 | 7 |
+| 2026-05-26 | ibs-diarrhea-predominant-the-evidence-based-supplement-protocol | 672 | condition | 364 | 4 |
+| 2026-05-26 | irritable-bowel-syndrome-the-evidence-based-supplement-protocol | 673 | condition | 345 | 6 |
+| 2026-05-26 | insomnia-the-evidence-based-supplement-protocol | 674 | condition | 425 | 10 [new AM keys: Tryptophan (L-tryptophan)] |
+| 2026-05-26 | iron-deficiency-anemia-the-evidence-based-supplement-protocol | 675 | condition | 337 | 9 |
+| 2026-05-26 | age-related-macular-degeneration-the-evidence-based-supplement-protocol | 676 | condition | 448 | 12 |
+| 2026-05-26 | male-fertility-the-evidence-based-supplement-protocol | 677 | condition | 430 | 18 |
+| 2026-05-26 | menopausal-hot-flashes-the-evidence-based-supplement-protocol | 678 | condition | 417 | 8 [new AM keys: Red clover (Trifolium pratense); Dong quai (Angelica sinensis); Dong quai (Angelica sinensis, low-dose); Wild yam (Dioscorea villosa)] |
+| 2026-05-26 | menstrual-migraine-the-evidence-based-supplement-protocol | 679 | condition | 403 | 10 |
+| 2026-05-26 | metabolic-syndrome-the-evidence-based-supplement-protocol | 680 | condition | 367 | 9 |
+| 2026-05-26 | migraine-prevention-the-evidence-based-supplement-protocol | 681 | condition | 349 | 11 |
+| 2026-05-26 | multiple-sclerosis-the-evidence-based-supplement-protocol | 682 | condition | 426 | 7 |
+| 2026-05-26 | nafld-fatty-liver-the-evidence-based-supplement-protocol | 683 | condition | 433 | 9 |
+| 2026-05-26 | neuropathic-pain-the-evidence-based-supplement-protocol | 684 | condition | 377 | 9 [new AM keys: Benfotiamine] |
+| 2026-05-26 | knee-osteoarthritis-the-evidence-based-supplement-protocol | 685 | condition | 421 | 9 |
+| 2026-05-26 | osteoporosis-the-evidence-based-supplement-protocol | 686 | condition | 453 | 7 [new AM keys: Boron] |
+| 2026-05-26 | pcos-the-evidence-based-supplement-protocol | 687 | condition | 374 | 8 |
+| 2026-05-26 | peptic-ulcer-the-evidence-based-supplement-protocol | 688 | condition | 390 | 10 [new AM keys: Mastic gum (Pistacia lentiscus)] |
+| 2026-05-26 | peripheral-neuropathy-the-evidence-based-supplement-protocol | 689 | condition | 359 | 9 [new AM keys: Benfotiamine] |
+| 2026-05-26 | prediabetes-the-evidence-based-supplement-protocol | 690 | condition | 406 | 8 |
+| 2026-05-26 | pmdd-premenstrual-dysphoric-disorder-the-evidence-based-supplement-protocol | 691 | condition | 387 | 6 |
+| 2026-05-26 | pms-premenstrual-syndrome-the-evidence-based-supplement-protocol | 692 | condition | 353 | 10 [new AM keys: Diuretic supplements (herbal water pills)] |
+| 2026-05-26 | psoriasis-the-evidence-based-supplement-protocol | 693 | condition | 291 | 7 |
+| 2026-05-26 | recurrent-uti-the-evidence-based-supplement-protocol | 694 | condition | 426 | 7 [new AM keys: Uva ursi (Arctostaphylos uva-ursi)] |
+| 2026-05-26 | restless-legs-syndrome-the-evidence-based-supplement-protocol | 695 | condition | 330 | 6 |
+| 2026-05-26 | sarcopenia-the-evidence-based-supplement-protocol | 696 | condition | 396 | 6 |
+| 2026-05-26 | seasonal-affective-disorder-the-evidence-based-supplement-protocol | 697 | condition | 333 | 8 |
+| 2026-05-26 | sibo-the-evidence-based-supplement-protocol | 698 | condition | 371 | 6 |
+| 2026-05-26 | statin-myopathy-the-evidence-based-supplement-protocol | 699 | condition | 398 | 5 |
+| 2026-05-26 | tendinopathy-the-evidence-based-supplement-protocol | 700 | condition | 331 | 11 |
+| 2026-05-26 | type-2-diabetes-the-evidence-based-supplement-protocol | 701 | condition | 356 | 10 |
