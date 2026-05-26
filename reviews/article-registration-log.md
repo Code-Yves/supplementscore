@@ -122,3 +122,4 @@
 | 2026-05-24 | iodine-in-pregnancy-and-lactation-the-trace-element-behind-pediatric-iq-outcomes | 620 | kids | 747 | 1 |
 | 2026-05-24 | WATCHDOG-CLEAN | 0 orphans found |
 | 2026-05-25 | WATCHDOG-CLEAN | 0 orphans found |
+| 2026-05-26 | WATCHDOG-NOACTION | 4 orphans found, all redirect stubs (noindex meta-refresh); NOT registered. See reviews/article-registration-2026-05-26.md |
