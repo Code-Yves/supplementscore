@@ -187,7 +187,12 @@ a.src-card-c-name:hover{color:var(--color-text-primary)}
 .gs-ac-item{padding:8px 14px;font-size:13px;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:0.5px solid var(--color-border-tertiary)}
 .gs-ac-item:last-child{border-bottom:none}
 .gs-ac-item:hover,.gs-ac-item.active{background:var(--color-background-secondary)}
+.gs-ac-item b{font-weight:700;color:var(--color-text-primary);background:rgba(31,122,107,.08);border-radius:2px;padding:0 1px}
 .gs-ac-tag{font-size:10px;color:var(--color-text-tertiary);white-space:nowrap}
+/* 2026-05-25 — empty-state row for "No matches" feedback. Distinct from
+   .gs-ac-item: not clickable, lighter colour, no border, centered. */
+.gs-ac-empty{padding:14px 16px;font-size:13px;line-height:1.4;color:var(--color-text-tertiary);text-align:center;cursor:default}
+.gs-ac-empty b{color:var(--color-text-primary);font-weight:600}
 /* 2026-05-24 — Research rows in the hero search dropdown. Each row stacks
    a small category eyebrow (GUIDE / QUICK READS / SAFETY) above the
    article title. Eyebrow colour matches the homepage Research cards. */

@@ -664,6 +664,12 @@ if (typeof renderAll === 'function') {
   function buildArtIndex(){
     if (_artIndex) return _artIndex;
     _artIndex = [];
+    /* 2026-05-25 — dedupe by (title|href|articleId) key. The same article
+       can legitimately appear on the page twice (e.g. a "Featured" spot
+       above the grid + the same card in the main grid), but we don't want
+       it twice in the search dropdown — that's how "Atrial Fibrillation"
+       was showing twice in a row. */
+    const seen = new Set();
     document.querySelectorAll('.article-card,.article-featured').forEach(card => {
       const titleEl = card.querySelector('.article-title');
       if (!titleEl) return;
@@ -678,6 +684,9 @@ if (typeof renderAll === 'function') {
       const showMatch = onclickAttr.match(/showArticle\((\d+)\)/);
       const articleId = showMatch ? parseInt(showMatch[1], 10) : 0;
       if (!href && !articleId) return;
+      const key = (href || ('id:' + articleId) || title).toLowerCase();
+      if (seen.has(key)) return;
+      seen.add(key);
       _artIndex.push({ title, cat, min, href, articleId });
     });
     return _artIndex;
@@ -692,37 +701,176 @@ if (typeof renderAll === 'function') {
     return 'gs-ac-art-cat';
   }
 
-  /* Build the suggestions HTML for the query — pure function, no DOM
-     state. Each (inp, ac) pair uses this to populate its own dropdown. */
-  function buildHtml(q){
-    q=String(q||'').trim();
-    if(!q) return '';
-    if(typeof S==='undefined'||!S.length) return '';
-    const ql=q.toLowerCase();
+  /* ============================================================================
+     SEARCH MATCHER v2 (2026-05-25)
+     Five tiers, in order of relevance:
+       4 — prefix on the primary name/title
+       3 — prefix on any word inside the name/title  (split on space/hyphen/paren/slash/comma)
+       2 — prefix on a tag/category field (e.g. "Heart" matches Omega-3 via s.tag)
+       1 — fuzzy match (Levenshtein) on any word, queries ≥4 chars only
+       0 — no match
 
-    const swS=S.filter(s=>s.n.toLowerCase().startsWith(ql));
-    const incS=S.filter(s=>!s.n.toLowerCase().startsWith(ql)&&s.n.toLowerCase().includes(ql));
-    /* 2026-05-24 — Per-section caps bumped from 5/4 → 10/10. Conditions
-       and Categories sections removed entirely (per user request) so the
-       dropdown surfaces only Supplements + Research. */
-    const suppHits=[...swS,...incS].slice(0,10);
+     Within the same tier:
+       • Supplements sort by composite score (calcScore) DESC, then idx ASC.
+       • Articles sort by idx ASC (page order) as a stable tie-breaker.
 
-    /* Articles — match against title + category. starts-with ranks first. */
-    const arts = buildArtIndex();
-    const swA = arts.filter(a => a.title.toLowerCase().startsWith(ql));
-    const incA = arts.filter(a => !a.title.toLowerCase().startsWith(ql) && a.title.toLowerCase().includes(ql));
-    const artHits = [...swA, ...incA].slice(0, 10);
+     Previously the matcher was startsWith + includes(), which surfaced
+     mid-word noise like "atri" → "Matricaria" / "psychiatric" / "matrixyl".
+     The fix moves substring matching out of the relevance signal entirely. */
+  const WORD_SPLIT = /[\s\-(),\/]+/;
 
-    if(!suppHits.length&&!artHits.length) return '';
-
-    let html='';
-    if(suppHits.length){
-      html+=`<div class="gs-ac-hdr">Supplements</div>`;
-      html+=suppHits.map(s=>`<div class="gs-ac-item" role="option" data-type="supp" data-name="${escA(s.n)}" onmousedown="event.preventDefault()"><span>${escH(s.n)}</span><span class="gs-ac-tag">${escH((s.tag||'').split(' · ')[0])}</span></div>`).join('');
+  /* Levenshtein with early-exit when the length delta exceeds tolerance. */
+  function levDist(a, b, maxTol){
+    const la = a.length, lb = b.length;
+    if (Math.abs(la - lb) > maxTol) return maxTol + 1;
+    if (la === 0) return lb;
+    if (lb === 0) return la;
+    let prev = new Array(lb + 1);
+    let cur  = new Array(lb + 1);
+    for (let j = 0; j <= lb; j++) prev[j] = j;
+    for (let i = 1; i <= la; i++){
+      cur[0] = i;
+      let rowMin = cur[0];
+      for (let j = 1; j <= lb; j++){
+        cur[j] = (a.charCodeAt(i-1) === b.charCodeAt(j-1))
+          ? prev[j-1]
+          : Math.min(prev[j-1], prev[j], cur[j-1]) + 1;
+        if (cur[j] < rowMin) rowMin = cur[j];
+      }
+      if (rowMin > maxTol) return maxTol + 1;  // can only grow from here
+      const swap = prev; prev = cur; cur = swap;
     }
-    if(artHits.length){
-      html+=`<div class="gs-ac-hdr">Research</div>`;
-      html+=artHits.map(a=>{
+    return prev[lb];
+  }
+  function fuzzyHit(ql, words){
+    if (ql.length < 4) return false;
+    const tol = ql.length >= 7 ? 2 : 1;
+    for (let i = 0; i < words.length; i++){
+      const w = words[i];
+      if (w.length < ql.length - tol) continue;
+      /* Compare the query against the WORD'S PREFIX of the same length.
+         This intentionally rejects matches like "atri" vs "matricaria"
+         (which would be valid under a more permissive "any substring within
+         edit distance" scheme — but that's how the "atri" noise got into
+         the dropdown in the first place). Allow the prefix to be slightly
+         longer than the query if the word is at least query-length+tol. */
+      const probe = w.slice(0, ql.length);
+      if (levDist(probe, ql, tol) <= tol) return true;
+    }
+    return false;
+  }
+
+  function suppRank(s, ql){
+    const name = (s.n || '').toLowerCase();
+    if (!name) return 0;
+    if (name.startsWith(ql)) return 4;
+    const nameWords = name.split(WORD_SPLIT).filter(Boolean);
+    if (nameWords.some(w => w.startsWith(ql))) return 3;
+    const tag = (s.tag || '').toLowerCase();
+    if (tag){
+      const tagWords = tag.split(WORD_SPLIT).filter(Boolean);
+      if (tag.startsWith(ql) || tagWords.some(w => w.startsWith(ql))) return 2;
+    }
+    if (fuzzyHit(ql, nameWords)) return 1;
+    return 0;
+  }
+  function artRank(a, ql){
+    const title = (a.title || '').toLowerCase();
+    if (!title) return 0;
+    if (title.startsWith(ql)) return 4;
+    const titleWords = title.split(WORD_SPLIT).filter(Boolean);
+    if (titleWords.some(w => w.startsWith(ql))) return 3;
+    const cat = (a.cat || '').toLowerCase();
+    if (cat){
+      const catWords = cat.split(WORD_SPLIT).filter(Boolean);
+      if (cat.startsWith(ql) || catWords.some(w => w.startsWith(ql))) return 2;
+    }
+    if (fuzzyHit(ql, titleWords)) return 1;
+    return 0;
+  }
+
+  /* Bold the matched substring inside the result row. Falls back to plain
+     escaped text when no exact substring exists (e.g. fuzzy/tag matches). */
+  function boldMatch(text, ql){
+    if (!text) return '';
+    if (!ql)   return escH(text);
+    const lower = text.toLowerCase();
+    const idx = lower.indexOf(ql);
+    if (idx < 0) return escH(text);
+    return escH(text.slice(0, idx))
+         + '<b>' + escH(text.slice(idx, idx + ql.length)) + '</b>'
+         + escH(text.slice(idx + ql.length));
+  }
+
+  /* Score helper: prefer the global app.js calcScore() when present so the
+     two surfaces always agree. Falls back to a simple sum if not loaded. */
+  function _supScore(s){
+    if (typeof calcScore === 'function') return calcScore(s);
+    return (s.e||0)*7 + (s.s||0)*4 + (s.r||1)*3 + (s.o||1)*2 + (s.c||1)*2 + (s.d||1)*2;
+  }
+
+  function buildHtml(q){
+    q = String(q || '').trim();
+    if (!q) return '';
+    if (typeof S === 'undefined' || !S.length) return '';
+    const ql = q.toLowerCase();
+
+    /* Supplements — tier > score > idx. Per-section cap 10. */
+    const sRanked = [];
+    for (let i = 0; i < S.length; i++){
+      const r = suppRank(S[i], ql);
+      if (r > 0) sRanked.push({ item: S[i], rank: r, score: _supScore(S[i]), idx: i });
+    }
+    sRanked.sort((a,b) => b.rank - a.rank || b.score - a.score || a.idx - b.idx);
+    const suppHits = sRanked.slice(0, 10).map(x => x.item);
+
+    /* Articles — tier > idx. Partition into Stacks/Comparisons vs Research. */
+    const arts = buildArtIndex();
+    const aRanked = [];
+    for (let i = 0; i < arts.length; i++){
+      const r = artRank(arts[i], ql);
+      if (r > 0) aRanked.push({ item: arts[i], rank: r, idx: i });
+    }
+    aRanked.sort((a,b) => b.rank - a.rank || a.idx - b.idx);
+    const isStackOrCompare = (cat) => /^stack|compare|comparison/i.test(cat || '');
+    const stackHits = [];
+    const artHits = [];
+    for (const x of aRanked){
+      if (isStackOrCompare(x.item.cat)){
+        if (stackHits.length < 5) stackHits.push(x.item);
+      } else {
+        if (artHits.length < 10) artHits.push(x.item);
+      }
+    }
+
+    /* No-match empty state — gives explicit feedback instead of silently
+       collapsing the dropdown. */
+    if (!suppHits.length && !artHits.length && !stackHits.length){
+      return '<div class="gs-ac-empty">No matches for &ldquo;<b>'
+           + escH(q) + '</b>&rdquo;. Try fewer letters or a related word.</div>';
+    }
+
+    let html = '';
+    if (suppHits.length){
+      html += `<div class="gs-ac-hdr">Supplements</div>`;
+      html += suppHits.map(s => {
+        const tag = (s.tag || '').split(' · ')[0];
+        return `<div class="gs-ac-item" role="option" data-type="supp" data-name="${escA(s.n)}" onmousedown="event.preventDefault()"><span>${boldMatch(s.n, ql)}</span><span class="gs-ac-tag">${escH(tag)}</span></div>`;
+      }).join('');
+    }
+    if (stackHits.length){
+      html += `<div class="gs-ac-hdr">Stacks &amp; Comparisons</div>`;
+      html += stackHits.map(a => {
+        const dataAttrs = a.href
+          ? `data-type="art" data-href="${escA(a.href)}"`
+          : `data-type="art" data-art-id="${a.articleId}"`;
+        const tag = a.cat ? `<span class="gs-ac-tag ${artCatClass(a.cat)}">${escH(a.cat)}</span>` : '';
+        return `<div class="gs-ac-item" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-title">${boldMatch(a.title, ql)}</span>${tag}</div>`;
+      }).join('');
+    }
+    if (artHits.length){
+      html += `<div class="gs-ac-hdr">Research</div>`;
+      html += artHits.map(a => {
         const dataAttrs = a.href
           ? `data-type="art" data-href="${escA(a.href)}"`
           : `data-type="art" data-art-id="${a.articleId}"`;
@@ -731,7 +879,7 @@ if (typeof renderAll === 'function') {
            name-left / tag-right pattern used by the Supplements rows so the
            dropdown reads consistently across both sections. */
         const tag = a.cat ? `<span class="gs-ac-tag ${artCatClass(a.cat)}">${escH(a.cat)}</span>` : '';
-        return `<div class="gs-ac-item" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-title">${escH(a.title)}</span>${tag}</div>`;
+        return `<div class="gs-ac-item" role="option" ${dataAttrs} onmousedown="event.preventDefault()"><span class="gs-ac-art-title">${boldMatch(a.title, ql)}</span>${tag}</div>`;
       }).join('');
     }
     return html;
