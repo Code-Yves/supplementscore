@@ -284,3 +284,15 @@
 | 2026-05-26 | top-10-supplements-whose-form-matters-more-than-the-dose | Quickread | 850 | 6 | public:4, industry:2 |
 | 2026-05-26 | top-10-most-over-priced-supplements-and-cheaper-substitutes-that-match-them | Quickread | 825 | 6 | public:6 |
 | 2026-05-26 | top-10-supplement-drug-interactions-that-send-people-to-the-er | Quickread | 880 | 6 | public:5, industry:1 |
+| 2026-05-26 | bifidobacterium-lactis-bb-12-and-hn019-the-dairy-strain-with-the-strongest-immune-and-laxation-evidence | Guide | 720 | 5 | public:2, industry:3 |
+| 2026-05-26 | lactobacillus-casei-shirota-what-the-yakult-trials-actually-show | Guide | 730 | 5 | public:3, industry:2 |
+| 2026-05-26 | bifidobacterium-longum-bb536-japans-most-studied-longum-strain | Breakthrough | 740 | 5 | public:2, industry:3 |
+| 2026-05-26 | lactobacillus-helveticus-r0052-and-bifidobacterium-longum-r0175-the-psychobiotic-combination | Breakthrough | 760 | 5 | public:4, industry:1 |
+| 2026-05-26 | partially-hydrolysed-guar-gum-phgg-sunfiber-the-prebiotic-fibre-with-ibs-trial-evidence | Guide | 740 | 5 | public:3, industry:2 |
+| 2026-05-26 | galacto-oligosaccharides-gos-the-prebiotic-with-infant-and-adult-evidence | Guide | 750 | 5 | public:3, industry:2 |
+| 2026-05-26 | hydroxytyrosol-and-olive-polyphenol-complex-evoo-the-mediterranean-compound-with-an-efsa-claim | Breakthrough | 770 | 5 | public:5 |
+| 2026-05-26 | glycerol-hyperhydration-the-iso-osmotic-pre-event-hydration-protocol | Guide | 720 | 5 | public:5 |
+| 2026-05-26 | saccharomyces-cerevisiae-beta-glucan-wellmune-the-immune-yeast-fibre | Breakthrough | 760 | 5 | public:2, industry:3 |
+| 2026-05-26 | zinc-bisglycinate-the-chelated-zinc-form-with-better-absorption-and-tolerability | Guide | 750 | 5 | public:4, industry:1 |
+| 2026-05-26 | acerola-cherry-extract-the-natural-vitamin-c-source-with-actual-bioavailability-data | Guide | 700 | 5 | public:5 |
+| 2026-05-26 | cluster-dextrin-hbcd-highly-branched-cyclic-dextrin-for-endurance-fueling | Guide | 730 | 5 | public:4, industry:1 |

@@ -138,3 +138,15 @@
 | 2026-05-26 | top-10-supplements-whose-form-matters-more-than-the-dose | 633 | quickread | 228 | 2 |
 | 2026-05-26 | top-10-most-over-priced-supplements-and-cheaper-substitutes-that-match-them | 634 | quickread | 287 | 2 |
 | 2026-05-26 | top-10-supplement-drug-interactions-that-send-people-to-the-er | 635 | quickread | 233 | 0 |
+| 2026-05-26 | bifidobacterium-lactis-bb-12-and-hn019-the-dairy-strain-with-the-strongest-immune-and-laxation-evidence | 636 | guide | 599 | 4 [new AM keys: Probiotics] |
+| 2026-05-26 | lactobacillus-casei-shirota-what-the-yakult-trials-actually-show | 637 | guide | 589 | 4 [new AM keys: Lactobacillus casei Shirota; Probiotics] |
+| 2026-05-26 | bifidobacterium-longum-bb536-japans-most-studied-longum-strain | 638 | breakthrough | 551 | 3 [new AM keys: Bifidobacterium longum BB536; Probiotics] |
+| 2026-05-26 | lactobacillus-helveticus-r0052-and-bifidobacterium-longum-r0175-the-psychobiotic-combination | 639 | breakthrough | 548 | 2 |
+| 2026-05-26 | partially-hydrolysed-guar-gum-phgg-sunfiber-the-prebiotic-fibre-with-ibs-trial-evidence | 640 | guide | 640 | 6 [new AM keys: Partially hydrolysed guar gum (PHGG); Inulin / FOS (prebiotic fibre); Sunfiber (partially hydrolysed guar gum)] |
+| 2026-05-26 | galacto-oligosaccharides-gos-the-prebiotic-with-infant-and-adult-evidence | 641 | guide | 543 | 5 [new AM keys: Galacto-oligosaccharides (GOS); Sunfiber (partially hydrolysed guar gum)] |
+| 2026-05-26 | hydroxytyrosol-and-olive-polyphenol-complex-evoo-the-mediterranean-compound-with-an-efsa-claim | 642 | breakthrough | 623 | 3 [new AM keys: Olive polyphenol complex (EVOO); Hydroxytyrosol (olive extract)] |
+| 2026-05-26 | glycerol-hyperhydration-the-iso-osmotic-pre-event-hydration-protocol | 643 | guide | 598 | 2 [new AM keys: Glycerol hyperhydration] |
+| 2026-05-26 | saccharomyces-cerevisiae-beta-glucan-wellmune-the-immune-yeast-fibre | 644 | breakthrough | 592 | 6 [new AM keys: Saccharomyces cerevisiae beta-glucan] |
+| 2026-05-26 | zinc-bisglycinate-the-chelated-zinc-form-with-better-absorption-and-tolerability | 645 | guide | 628 | 9 [new AM keys: Zinc bisglycinate] |
+| 2026-05-26 | acerola-cherry-extract-the-natural-vitamin-c-source-with-actual-bioavailability-data | 646 | guide | 650 | 6 [new AM keys: Acerola cherry extract; Quercetin] |
+| 2026-05-26 | cluster-dextrin-hbcd-highly-branched-cyclic-dextrin-for-endurance-fueling | 647 | guide | 614 | 1 [new AM keys: Cluster dextrin (HBCD)] |
