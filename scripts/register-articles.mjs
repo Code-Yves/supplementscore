@@ -142,13 +142,45 @@ function parseArticle(slug, S) {
   const html = fs.readFileSync(file, 'utf8');
 
   const h1m = html.match(/<h1>([\s\S]*?)<\/h1>/);
-  const catm = html.match(/<div class="ar-cat">([\s\S]*?)<\/div>/);
   if (!h1m) return { error: 'missing <h1>' };
-  if (!catm) return { error: 'missing <div class="ar-cat">' };
-
   const title = h1m[1].trim();
-  const rawCat = catm[1].trim();
+
+  // Category source — preferred: JSON-LD articleSection (unified template).
+  // Fallback: legacy <div class="ar-cat"> for older articles still being
+  // updated. After cleanup_legacy_chrome.py runs site-wide we can drop the
+  // fallback entirely.
+  let rawCat = null;
+  const sectionM = html.match(/"articleSection":\s*"([^"]+)"/);
+  if (sectionM) {
+    rawCat = sectionM[1].trim();
+  } else {
+    const catm = html.match(/<div class="ar-cat">([\s\S]*?)<\/div>/);
+    if (catm) rawCat = catm[1].trim();
+  }
+  if (!rawCat) return { error: 'missing articleSection (JSON-LD) and <div class="ar-cat">' };
   const cat = normalizeCategory(rawCat);
+
+  // Unified-template drift check — fail fast on legacy chrome / missing chrome.
+  // Tombstones (15-line meta-refresh stubs) are exempt since they correctly
+  // ship with minimal chrome and noindex.
+  const isTombstone = /http-equiv="refresh"/i.test(html)
+      && /noindex/i.test(html)
+      && !/<main\s+class="ar-wrap"/i.test(html);
+  if (!isTombstone) {
+    const driftErrors = [];
+    if (!/viewport-fit=cover/.test(html))                       driftErrors.push('missing viewport-fit=cover');
+    if (!/"reviewedBy":\s*\{/.test(html))                       driftErrors.push('missing reviewedBy E-E-A-T schema');
+    if (!/SEO-BC-SCHEMA:start[\s\S]*?BreadcrumbList/.test(html))driftErrors.push('missing BreadcrumbList JSON-LD');
+    if (!/_research-chrome\.js/.test(html))                     driftErrors.push('missing _research-chrome.js');
+    if (!/_site-ux\.js/.test(html))                             driftErrors.push('missing _site-ux.js');
+    if (!/<!--\s*RC_PREVNEXT:start[\s\S]*?RC_PREVNEXT:end/.test(html)) driftErrors.push('missing RC_PREVNEXT placeholder');
+    if (!/<!--\s*SS_FOOTER_BEGIN[\s\S]*?SS_FOOTER_END/.test(html))     driftErrors.push('missing SS_FOOTER block');
+    if (/class="pg-close-fab"/.test(html))                      driftErrors.push('legacy pg-close-fab present (chrome injects its own close)');
+    if (/<div\s+class="ar-cat"/.test(html))                     driftErrors.push('legacy <div class="ar-cat"> present (chrome shows the category chip)');
+    if (driftErrors.length) {
+      return { error: 'unified-template drift: ' + driftErrors.join('; ') };
+    }
+  }
 
   let lr = (html.match(/<!--\s*last-reviewed:\s*([0-9-]+)\s*-->/) || [])[1];
   let lrSrc = 'comment';
