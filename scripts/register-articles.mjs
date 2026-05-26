@@ -287,7 +287,11 @@ function buildDataJsUpdate(src, regs, AM) {
       if (found) {
         const existing = found[2];
         const sep = existing.trim().length === 0 ? '' : ',';
-        updatedAmText = updatedAmText.replace(re, found[1] + existing + sep + entriesStr + found[3]);
+        // Use function form to avoid $-interpolation in replacement string
+        // (titles like "A $1.5 Billion Fraud" contain literal $ which String.replace
+        // would otherwise treat as backreferences and corrupt adjacent data).
+        const replacement = found[1] + existing + sep + entriesStr + found[3];
+        updatedAmText = updatedAmText.replace(re, () => replacement);
       } else {
         newKeys.push([suppName, entryList]);
       }

@@ -269,3 +269,18 @@
 | 2026-05-24 | senolytic-stacking-with-fisetin-plus-quercetin-the-emerging-human-combination-data | Breakthrough | 645 | 7 | public:7 |
 | 2026-05-24 | bovine-lactoferrin-for-preterm-infant-sepsis-what-the-lift-and-cochrane-updates-show | Kids | 615 | 7 | public:7 |
 | 2026-05-24 | iodine-in-pregnancy-and-lactation-the-trace-element-behind-pediatric-iq-outcomes | Kids | 735 | 7 | public:7 |
+| 2026-05-26 | the-anti-anxiety-stack-l-theanine-magnesium-and-ashwagandha | Stack | 815 | 7 | public:5, industry:2 |
+| 2026-05-26 | the-joint-health-stack-glucosamine-chondroitin-collagen-and-curcumin | Stack | 875 | 6 | public:3, industry:2, mixed:1 |
+| 2026-05-26 | the-skin-health-stack-collagen-vitamin-c-zinc-and-omega-3 | Stack | 820 | 6 | public:4, industry:1, mixed:1 |
+| 2026-05-26 | the-migraine-prevention-stack-magnesium-riboflavin-coq10-and-feverfew | Stack | 880 | 6 | public:4, industry:2 |
+| 2026-05-26 | the-pcos-stack-inositol-vitamin-d-nac-and-omega-3 | Stack | 855 | 6 | public:5, industry:1 |
+| 2026-05-26 | the-pre-diabetes-stack-berberine-chromium-alpha-lipoic-acid-and-fiber | Stack | 870 | 6 | public:6 |
+| 2026-05-26 | the-heart-health-stack-omega-3-coq10-garlic-and-k2 | Stack | 860 | 6 | public:3, industry:3 |
+| 2026-05-26 | the-bone-density-stack-calcium-vitamin-d-k2-and-magnesium | Stack | 810 | 6 | public:5, industry:1 |
+| 2026-05-26 | the-post-workout-recovery-stack-whey-creatine-tart-cherry-and-omega-3 | Stack | 875 | 6 | public:5, mixed:1 |
+| 2026-05-26 | the-iron-deficiency-recovery-stack-iron-vitamin-c-lactoferrin-and-b12 | Stack | 870 | 6 | public:6 |
+| 2026-05-26 | top-10-supplements-with-the-biggest-gap-between-marketing-and-trial-data | Quickread | 820 | 6 | public:6 |
+| 2026-05-26 | top-10-supplements-that-lower-blood-pressure-4-mmhg-or-more-in-rcts | Quickread | 825 | 6 | public:5, industry:1 |
+| 2026-05-26 | top-10-supplements-whose-form-matters-more-than-the-dose | Quickread | 850 | 6 | public:4, industry:2 |
+| 2026-05-26 | top-10-most-over-priced-supplements-and-cheaper-substitutes-that-match-them | Quickread | 825 | 6 | public:6 |
+| 2026-05-26 | top-10-supplement-drug-interactions-that-send-people-to-the-er | Quickread | 880 | 6 | public:5, industry:1 |

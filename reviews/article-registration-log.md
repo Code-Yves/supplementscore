@@ -123,3 +123,18 @@
 | 2026-05-24 | WATCHDOG-CLEAN | 0 orphans found |
 | 2026-05-25 | WATCHDOG-CLEAN | 0 orphans found |
 | 2026-05-26 | WATCHDOG-NOACTION | 4 orphans found, all redirect stubs (noindex meta-refresh); NOT registered. See reviews/article-registration-2026-05-26.md |
+| 2026-05-26 | the-anti-anxiety-stack-l-theanine-magnesium-and-ashwagandha | 621 | stack | 801 | 7 [new AM keys: Magnesium] |
+| 2026-05-26 | the-joint-health-stack-glucosamine-chondroitin-collagen-and-curcumin | 622 | stack | 821 | 8 [new AM keys: Glycine] |
+| 2026-05-26 | the-skin-health-stack-collagen-vitamin-c-zinc-and-omega-3 | 623 | stack | 701 | 14 [new AM keys: Resveratrol; Zinc] |
+| 2026-05-26 | the-migraine-prevention-stack-magnesium-riboflavin-coq10-and-feverfew | 624 | stack | 827 | 12 [new AM keys: Melatonin] |
+| 2026-05-26 | the-pcos-stack-inositol-vitamin-d-nac-and-omega-3 | 625 | stack | 741 | 9 [new AM keys: Berberine] |
+| 2026-05-26 | the-pre-diabetes-stack-berberine-chromium-alpha-lipoic-acid-and-fiber | 626 | stack | 762 | 7 [new AM keys: Berberine] |
+| 2026-05-26 | the-heart-health-stack-omega-3-coq10-garlic-and-k2 | 627 | stack | 770 | 10 [new AM keys: Resveratrol; Calcium] |
+| 2026-05-26 | the-bone-density-stack-calcium-vitamin-d-k2-and-magnesium | 628 | stack | 772 | 8 [new AM keys: Strontium (strontium citrate); Calcium] |
+| 2026-05-26 | the-post-workout-recovery-stack-whey-creatine-tart-cherry-and-omega-3 | 629 | stack | 800 | 10 [new AM keys: BCAAs (standalone); EAAs (Essential amino acids)] |
+| 2026-05-26 | the-iron-deficiency-recovery-stack-iron-vitamin-c-lactoferrin-and-b12 | 630 | stack | 742 | 9 [new AM keys: Lactoferrin; Calcium; Iron] |
+| 2026-05-26 | top-10-supplements-with-the-biggest-gap-between-marketing-and-trial-data | 631 | quickread | 301 | 5 |
+| 2026-05-26 | top-10-supplements-that-lower-blood-pressure-4-mmhg-or-more-in-rcts | 632 | quickread | 301 | 5 |
+| 2026-05-26 | top-10-supplements-whose-form-matters-more-than-the-dose | 633 | quickread | 228 | 2 |
+| 2026-05-26 | top-10-most-over-priced-supplements-and-cheaper-substitutes-that-match-them | 634 | quickread | 287 | 2 |
+| 2026-05-26 | top-10-supplement-drug-interactions-that-send-people-to-the-er | 635 | quickread | 233 | 0 |
