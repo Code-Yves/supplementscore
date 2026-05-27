@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260525-typo-unify">
+  <link rel="stylesheet" href="../styles.css?v=20260527-banner-fix">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
   <meta name="theme-color" content="#1F7A6B">
@@ -193,6 +193,13 @@
   </div>
 </main>
 
+<!-- SS_FOOTER_BEGIN -->
+<!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
+     the mockup review). Single vertical axis: brand → tagline → inline link
+     row (hairlines top/bottom) → centered contributor CTA → legal at bottom.
+     The previous brand+3-column grid is gone; .site-footer-grid and
+     .site-footer-col classes are no longer emitted. Old CSS rules for those
+     remain in place harmlessly (no markup references them). -->
 <footer class="site-footer" role="contentinfo">
   <div class="site-footer-inner">
     <div class="site-footer-brand-row">
@@ -208,8 +215,47 @@
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>
     </nav>
+    <div class="site-footer-contrib">
+      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-title">Help build the database</div>
+      <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
+      <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
+        <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
+        <button type="submit" aria-label="Send" title="Send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
+      </form>
+    </div>
     <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
+<script>
+/* Footer contributor form — small handler shared by every page that ships the
+   shared site-footer. Defined once on window so re-loads on subsequent pages
+   are no-ops. Posts to the same Formspree endpoint as the about-page form,
+   tagged with source='contributor-footer' so leads from here are attributable. */
+window.ssFooterContrib = window.ssFooterContrib || function(e){
+  e.preventDefault();
+  var form = e.target;
+  var input = form.querySelector('input[type=email]');
+  var btn = form.querySelector('button');
+  var email = (input.value || '').trim();
+  if (!email || email.indexOf('@') < 0 || email.length < 5) {
+    input.classList.add('is-invalid');
+    setTimeout(function(){ input.classList.remove('is-invalid'); }, 2000);
+    return false;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  fetch('https://formspree.io/f/mnjoylkz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email: email, source: 'contributor-footer', date: new Date().toISOString() })
+  }).then(function(r){
+    if (r.ok) { form.classList.add('is-success'); }
+    else { btn.disabled = false; btn.textContent = 'Try again'; }
+  }).catch(function(){ btn.disabled = false; btn.textContent = 'Try again'; });
+  return false;
+};
+</script>
 </footer>
+<!-- SS_FOOTER_END -->
 </body>
 </html>
