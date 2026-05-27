@@ -297,7 +297,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=20260527-banner-fix">
+<link rel="stylesheet" href="/styles.css?v=20260527-dropdown-fix">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <link rel="stylesheet" href="index.css?v=20260525-dropdown-zfix">
@@ -2290,10 +2290,10 @@
             <span class="lbl">Safety Alert</span>
             <span class="n" data-cat-count="safety">0</span>
           </a>
-          <a data-cat="population"
-             onclick="filterArticles('population'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Population</span>
-            <span class="n" data-cat-count="population">0</span>
+          <a data-cat="research-update"
+             onclick="filterArticles('research-update'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
+            <span class="lbl">Research Update</span>
+            <span class="n" data-cat-count="research-update">0</span>
           </a>
           <a data-cat="condition"
              onclick="filterArticles('condition'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
@@ -2310,7 +2310,7 @@
 
       <div class="rs-search">
         <svg class="rs-search-ico" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="rs-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search 417 articles…" aria-label="Search articles" aria-controls="rs-search-ac" aria-expanded="false">
+        <input id="rs-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search articles…" aria-label="Search articles" aria-controls="rs-search-ac" aria-expanded="false">
         <div class="rs-search-ac" id="rs-search-ac" role="listbox" hidden></div>
       </div>
 
@@ -3375,18 +3375,6 @@
       </a>
       <!-- 2026-05-25 — Population catch-all card. Surfaces /for/ hub
            inside the Research tab. Single new entry per nightly cap. -->
-      <a href="for/index.html" class="article-card" data-category="population" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
-        <div class="article-side">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><circle cx="17" cy="9" r="3"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
-          <div class="article-side-div"></div><div class="article-side-stat">2</div><div class="article-side-label">min read</div>
-        </div>
-        <div class="article-content">
-          <div class="article-cat">Population</div>
-          <div class="article-title">Supplements by life stage and population →</div>
-          <div class="article-desc">Evidence-graded picks for athletes, older adults, perimenopause, post-surgery, patients on metformin or statins, and more.</div>
-          <div class="article-meta">Updated May 2026</div>
-        </div>
-      </a>
       <div class="article-card" data-category="guide" onclick="showArticle(2)" style="cursor:pointer">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
