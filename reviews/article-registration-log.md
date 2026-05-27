@@ -214,3 +214,4 @@
 | 2026-05-26 | the-cholesterol-lowering-stack-psyllium-plant-sterols-oat-beta-glucan-and-bergamot | 709 | stack | 415 | 11 |
 | 2026-05-26 | the-liver-support-stack-nac-tudca-vitamin-e-and-milk-thistle | 710 | stack | 483 | 13 [new AM keys: Phosphatidylcholine; Taurine; Choline; TUDCA (tauroursodeoxycholic acid)] |
 | 2026-05-26 | the-eye-health-stack-lutein-zeaxanthin-astaxanthin-and-omega-3 | 711 | stack | 515 | 15 [new AM keys: Astaxanthin] |
+| 2026-05-27 | WATCHDOG-ORPHANS | 20 detected → 0 registered, 16 title-dup deleted, 4 noindex-stubs remain. Report: reviews/article-registration-2026-05-27.md |
