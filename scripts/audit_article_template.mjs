@@ -96,7 +96,85 @@ if (drift.length > 0) {
   if (drift.length > 50) console.log(`  ... and ${drift.length - 50} more`);
 }
 
-if (process.argv.includes('--fail-on-drift') && drift.length > 0) {
+// -------- PART 2: article-card vs data.js parity --------
+console.log('\n--- Article-card vs data.js parity ---');
+import vm from 'vm';
+const DATA = path.resolve(__dirname, '..', 'data.js');
+const INDEX = path.resolve(__dirname, '..', 'index.html');
+const dataSrc = fs.readFileSync(DATA, 'utf8');
+const ctx = {};
+vm.createContext(ctx);
+vm.runInContext(dataSrc.replace(/^\s*const\s+/gm, 'var '), ctx);
+const ABI = ctx.ARTICLES_BY_ID;
+const articleByCat = {};
+for (const id of Object.keys(ABI)) {
+  const c = ABI[id].c;
+  articleByCat[c] = (articleByCat[c] || 0) + 1;
+}
+const idxHtml = fs.readFileSync(INDEX, 'utf8');
+const cardByCat = {};
+const cardRe = /data-category="([a-z-]+)"/g;
+let cm;
+while ((cm = cardRe.exec(idxHtml))) {
+  cardByCat[cm[1]] = (cardByCat[cm[1]] || 0) + 1;
+}
+const allCats = new Set([...Object.keys(articleByCat), ...Object.keys(cardByCat)]);
+const parityDrift = [];
+for (const cat of [...allCats].sort()) {
+  const a = articleByCat[cat] || 0;
+  const c = cardByCat[cat] || 0;
+  const status = c >= a ? 'OK' : 'SHORT';
+  if (c < a) parityDrift.push({ cat, articles: a, cards: c });
+  console.log(`  ${cat.padEnd(20)} articles=${String(a).padStart(4)} cards=${String(c).padStart(4)} ${status}`);
+}
+
+// -------- PART 3: broken supplement.html?slug= links across long-form pages --------
+console.log('\n--- Broken supplement.html?slug= links ---');
+const slugifyName = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const validSuppSlugs = new Set();
+for (const s of (ctx.S || [])) {
+  validSuppSlugs.add(slugifyName(s.n));
+  const bare = String(s.n).replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+  if (bare && bare !== s.n) validSuppSlugs.add(slugifyName(bare));
+}
+const longFormDirs = ['a', 'for', 'stack', 'condition', 'sx', 'm', 'hub'];
+let suppLinkTotal = 0;
+const brokenSuppMap = new Map();
+for (const d of longFormDirs) {
+  const dPath = path.resolve(__dirname, '..', d);
+  if (!fs.existsSync(dPath)) continue;
+  for (const file of fs.readdirSync(dPath)) {
+    if (!file.endsWith('.html')) continue;
+    const fp = path.join(dPath, file);
+    const html = fs.readFileSync(fp, 'utf8');
+    const linkRe = /href="(?:\.\.\/)?supplement\.html\?slug=([a-z0-9-]+)"/g;
+    let lm;
+    while ((lm = linkRe.exec(html))) {
+      suppLinkTotal++;
+      if (!validSuppSlugs.has(lm[1])) {
+        if (!brokenSuppMap.has(lm[1])) brokenSuppMap.set(lm[1], []);
+        brokenSuppMap.get(lm[1]).push(path.join(d, file));
+      }
+    }
+  }
+}
+console.log(`  Total supplement.html?slug= links: ${suppLinkTotal}`);
+console.log(`  Broken (slug not in data.js S):     ${[...brokenSuppMap.values()].reduce((s,v)=>s+v.length, 0)}`);
+console.log(`  Distinct broken slugs:              ${brokenSuppMap.size}`);
+if (brokenSuppMap.size > 0) {
+  for (const [slug, files] of [...brokenSuppMap.entries()].slice(0, 20)) {
+    console.log(`    - ${slug} (${files.length} files)`);
+  }
+}
+
+// -------- exit code --------
+const failOnDrift = process.argv.includes('--fail-on-drift');
+const hasDrift = drift.length > 0 || parityDrift.length > 0 || brokenSuppMap.size > 0;
+if (failOnDrift && hasDrift) {
+  console.log('\nDrift detected:');
+  if (drift.length) console.log(`  ${drift.length} unified-template violations`);
+  if (parityDrift.length) console.log(`  ${parityDrift.length} categories with article-card shortfall`);
+  if (brokenSuppMap.size) console.log(`  ${brokenSuppMap.size} broken supplement slugs`);
   process.exit(1);
 }
 process.exit(0);

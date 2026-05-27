@@ -343,24 +343,64 @@ function buildDataJsUpdate(src, regs, AM) {
   return { newSrc: lines.join('\n'), newAmKeys: newKeys.map(k => k[0]) };
 }
 
+// Per-category icon SVG used in article-card .article-side. Kept inline so the
+// index.html stays self-contained.
+const CARD_ICONS = {
+  stack:        '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+  condition:    '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>',
+  quickread:    '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>',
+  guide:        '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>',
+  breakthrough: '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>',
+  kids:         '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  myth:         '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>',
+  safety:       '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6l-8-4z"/></svg>',
+  'research-update': '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+};
+
 function buildIndexHtmlUpdate(src, regs) {
   const anchor = '</div><!-- end articles-section -->';
   const idx = src.indexOf(anchor);
   if (idx < 0) throw new Error('Could not find articles-section anchor in index.html');
 
-  const blocks = regs.map(r => `
+  // For EACH registered article we insert TWO blocks before the anchor:
+  //   1. <a class="article-card" data-category="..."> — surfaced in the
+  //      Research dropdown count and the #research-list-view. This is the
+  //      piece that was missing before 2026-05-27 and caused dropdown counts
+  //      to lag behind data.js. See sync_article_cards.py for the one-shot
+  //      backfill that was used to repair historical drift.
+  //   2. <div class="article-full"> — the modal-content version that the
+  //      legacy router renders inside the supplement modal.
+  const blocks = regs.map(r => {
+    const icon = CARD_ICONS[r.cat] || CARD_ICONS.guide;
+    const catLabel = categoryDisplayName(r.cat);
+    const cardDesc = escHtml(r.excerpt).slice(0, 160);
+    const cardTitle = escHtml(r.title).slice(0, 200);
+    return `
+      <a href="a/${r.slug}.html" class="article-card" data-category="${r.cat}" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+        <div class="article-side">
+          ${icon}
+          <div class="article-side-div"></div><div class="article-side-stat">${r.minutes}</div><div class="article-side-label">min read</div>
+        </div>
+        <div class="article-content">
+          <div class="article-cat">${catLabel}</div>
+          <div class="article-title">${cardTitle}</div>
+          <div class="article-desc">${cardDesc}</div>
+          <div class="article-meta">${r.lr || TODAY}</div>
+        </div>
+      </a>
   <div class="article-full" id="article-${r.id}" style="display:none">
     <!-- last-reviewed: ${r.lr} -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
-      <div class="article-cat">${categoryDisplayName(r.cat)}</div>
-      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">${r.title}</h2>
+      <div class="article-cat">${catLabel}</div>
+      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">${escHtml(r.title)}</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">${r.minutes} min read</div>
       <p>${escHtml(r.excerpt)}</p>
       <p style="margin-top:1.5rem"><a class="ar-readmore" href="a/${r.slug}.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-${r.id} -->
-`).join('');
+`;
+  }).join('');
 
   return src.slice(0, idx) + blocks + '\n' + src.slice(idx);
 }
