@@ -97,110 +97,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260527-dropdown-fix">
+  <link rel="stylesheet" href="../styles.css?v=20260527-zero-broken">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
-  <meta name="theme-color" content="#1F7A6B">
-  <style>
-    body { background: var(--color-background-primary); color: var(--color-text-primary); }
-    .ar-wrap ol { margin: 0 0 18px 22px; }
-    .ar-wrap a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 2px; }
-    .ar-wrap blockquote { border-left: 3px solid var(--color-brand); padding: 8px 18px; margin: 18px 0; font-style: italic; color: var(--color-text-secondary); background: rgba(31,122,107,.04); border-radius: 4px; }
-    .ar-foot { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
-    .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-    .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
-    /* Hide the inline back button — chrome injects its own */
-    .ar-content button[onclick*="showArticleList"] { display: none; }
-  </style>
-<script>
-/* Per-session navigation stack so the X close pops one step at a time. */
-(function(){
-  var SKIP='ss-art-skip-push',KEY='ss-art-stack',OLD='ss-art-origin';
-  var skip=false;try{skip=sessionStorage.getItem(SKIP)==='1';if(skip)sessionStorage.removeItem(SKIP);}catch(_){}if(skip)return;
-  var ref=document.referrer;
-  if(!ref)return;
-  if(ref.indexOf(location.origin)!==0)return;
-  if(ref===location.href)return;
-  var stack=[];try{stack=JSON.parse(sessionStorage.getItem(KEY)||'[]');if(!Array.isArray(stack))stack=[];}catch(_){stack=[];}
-  if(stack.length&&stack[stack.length-1]===ref)return;
-  stack.push(ref);
-  if(stack.length>20)stack=stack.slice(-20);
-  try{sessionStorage.setItem(KEY,JSON.stringify(stack));}catch(_){}
-  try{if(!sessionStorage.getItem(OLD)&&ref.indexOf('/a/')===-1)sessionStorage.setItem(OLD,ref);}catch(_){}
-})();
-</script>
-<script>/* If rendered inside an iframe, hide the page-level close X */if(window.self!==window.top){document.documentElement.classList.add("is-embedded");}</script>
-  <script src="../_site-ux.js?v=20260527-rel-path-fix" defer></script>
-  <!-- SEO-BC-SCHEMA:start -->
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "SupplementScore",
-      "item": "https://supplementscore.org/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Articles",
-      "item": "https://supplementscore.org/#articles"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Type 2 Diabetes: The Evidence-Based Supplement Protocol",
-      "item": "https://supplementscore.org/a/type-2-diabetes-the-evidence-based-supplement-protocol.html"
-    }
-  ]
-}
-  </script>
-  <!-- SEO-BC-SCHEMA:end -->
-  <script src="../_research-chrome.js?v=20260525-template-unify" defer></script>
-  <!-- RC_PREVNEXT:start -->
-  <meta name="rc-prev" content="./turmeric-vs-curcumin-why-the-supplement-industry-misleads-you.html">
-  <meta name="rc-next" content="./urolithin-a-the-next-nad.html">
-  <!-- RC_PREVNEXT:end -->
-</head>
-<body><main class="ar-wrap">
-  <h1>Type 2 Diabetes: The Evidence-Based Supplement Protocol</h1>
-<div class="ar-meta">6 min read &middot; <!-- last-reviewed: 2026-05-26 --></div>
-<div class="ar-content">
-<button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
-<p>Type 2 diabetes is treated with metformin first-line, then SGLT2 inhibitors, GLP-1 receptor agonists, and other classes based on patient comorbidities. Lifestyle (weight loss, exercise, dietary change) drives the biggest improvements. Supplements have a defined adjunctive role — they do not replace pharmacotherapy in established T2D.</p>
-
-    <h2>Berberine, 500 mg Three Times Daily</h2>
-    <p><a href="../supplement.html?slug=berberine">Berberine</a> 1,500 mg/day reduces HbA1c by ~0.7 percentage points in pooled meta-analytic data — comparable to metformin in head-to-head trials. Watch CYP3A4 interactions. See <a href="/a/berberine-is-it-really-natures-ozempic.html">berberine piece</a>.</p>
-
-    <h2>Magnesium, 300–500 mg Elemental Daily</h2>
-    <p><a href="../supplement.html?slug=magnesium">Magnesium</a> intake is inversely associated with T2D incidence in observational data. Supplementation improves insulin sensitivity and glycemic control in deficient adults. See <a href="/a/magnesium-glycinate-why-this-form-dominates-sleep-and-anxiety-research.html">magnesium piece</a>.</p>
-
-    <h2>Alpha-Lipoic Acid (ALA), 600 mg Daily</h2>
-    <p>ALA produces small reductions in fasting glucose and HOMA-IR; primary clinical role in T2D is diabetic neuropathy management. See <a href="/a/alpha-lipoic-acid-the-antioxidant-for-nerve-health.html">ALA piece</a>.</p>
-
-    <h2>EPA-Dominant Omega-3, 2–4 g Daily</h2>
-    <p><a href="../supplement.html?slug=omega-3">Omega-3</a> lowers triglycerides robustly in T2D and reduces inflammatory markers. REDUCE-IT showed cardiovascular benefit at 4 g icosapent ethyl in statin-treated adults with elevated triglycerides.</p>
-
-    <h2>Soluble Fiber — Psyllium 10 g Daily</h2>
-    <p>Psyllium lowers fasting glucose by ~11 mg/dL and HbA1c by ~0.4 percentage points in T2D. Take before meals to flatten postprandial glucose. See <a href="/a/psyllium-husk-420-clinical-trials-an-fda-health-claim-to-reduce-cholesterol.html">psyllium piece</a>.</p>
-
-    <h2>Vitamin B12 — Annual Testing in Metformin Users</h2>
-    <p>Metformin depletes B12 by 5–30% per year of use. Annual serum B12 + MMA testing in adults on metformin >1 year. Replete with oral high-dose or IM as needed. See <a href="/a/hydroxocobalamin-vs-methylcobalamin-which-b12-form-is-actually-best.html">B12 form piece</a>.</p>
-
-    <h2>What NOT to Take</h2>
-    <p>Chromium has weak inconsistent evidence — see <a href="/a/ceylon-cinnamon-for-blood-sugar-small-effect-big-marketing.html">cinnamon piece</a> for the cinnamon parallel. Avoid <a href="../supplement.html?slug=apple-cider-vinegar">apple cider vinegar</a> pills — null. Skip "diabetes reversal" megaformulas. Avoid Garcinia cambogia — null efficacy. Don't replace metformin, SGLT2i, or GLP-1RA with supplements alone in established T2D.</p>
-
-    <h2>How to Run the Protocol</h2>
-    <p>Standard T2D pharmacotherapy first. Lifestyle: 5–10% weight loss + 150 min/week activity. Add berberine 500 mg TID + magnesium 300 mg + psyllium 10 g daily as adjuncts. Annual B12 testing on metformin. For diabetic neuropathy: ALA 600 mg + <a href="../supplement.html?slug=benfotiamine">benfotiamine</a> 300 mg daily. Cardiovascular: omega-3 if triglycerides elevated. Re-test HbA1c at 3–6 months. See <a href="/condition/type-2-diabetes.html">condition page</a> and the related <a href="/a/the-pre-diabetes-stack-berberine-chromium-alpha-lipoic-acid-and-fiber.html">pre-diabetes stack</a>.</p>
-
-<div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
-  <h3 style="margin-bottom:0.75rem">Sources</h3>
-  <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
-<li data-funder-type="public" data-funder="ADA" data-coi="false">American Diabetes Association Professional Practice Committee. "Standards of medical care in diabetes—2024." <em>Diabetes Care</em>, 2024;47(Supplement 1). PMID: 38078592.</li>
-        <li data-funder-type="public" data-funder="National Natural Science Foundation of China" data-coi="false">Lan J, Zhao Y, Dong F, et al. "Meta-analysis of the effect and safety of berberine in the treatment of type 2 diabetes mellitus." <em>Journal of Ethnopharmacology</em>, 2015;161:69-81. PMID: 25498346. DOI: 10.1016/j.jep.2014.09.049.</li>
+  <li data-funder-type="public" data-funder="National Natural Science Foundation of China" data-coi="false">Lan J, Zhao Y, Dong F, et al. "Meta-analysis of the effect and safety of berberine in the treatment of type 2 diabetes mellitus." <em>Journal of Ethnopharmacology</em>, 2015;161:69-81. PMID: 25498346. DOI: 10.1016/j.jep.2014.09.049.</li>
         <li data-funder-type="public" data-funder="Indiana University" data-coi="false">Veronese N, Watutantrige-Fernando S, Luchini C, et al. "Effect of magnesium supplementation on glucose metabolism in people with or at risk of diabetes: a systematic review and meta-analysis of double-blind randomized controlled trials." <em>European Journal of Clinical Nutrition</em>, 2016;70(12):1354-1359. PMID: 27530472. DOI: 10.1038/ejcn.2016.154.</li>
         <li data-funder-type="public" data-funder="University of Toronto" data-coi="false">Gibb RD, McRorie JW Jr, Russell DA, Hasselblad V, D'Alessio DA. "Psyllium fiber improves glycemic control proportional to loss of glycemic control." <em>American Journal of Clinical Nutrition</em>, 2015;102(6):1604-1614. PMID: 26561625. DOI: 10.3945/ajcn.115.106989.</li>
         <li data-funder-type="industry" data-funder="Amarin (REDUCE-IT)" data-coi="true">Bhatt DL, Steg PG, Miller M, et al. "Cardiovascular risk reduction with icosapent ethyl for hypertriglyceridemia." <em>NEJM</em>, 2019;380(1):11-22. PMID: 30415628. DOI: 10.1056/NEJMoa1812792.</li>
@@ -223,10 +122,10 @@
   <ul style="margin:0;padding:0;list-style:none">
     <li style="margin:0 0 6px"><a href="./the-pcos-stack-inositol-vitamin-d-nac-and-omega-3.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">The PCOS Stack: Inositol, Vitamin D, NAC, and Omega-3</a></li>
     <li style="margin:0 0 6px"><a href="./the-pre-diabetes-stack-berberine-chromium-alpha-lipoic-acid-and-fiber.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">The Pre-Diabetes Stack: Berberine, Chromium, Alpha-Lipoic Acid, and Fiber</a></li>
-    <li style="margin:0 0 6px"><a href="./ibs-d-diarrhea-predominant-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">IBS-D (Diarrhea-Predominant): The Evidence-Based Supplement Protocol</a></li>
+    <li style="margin:0 0 6px"><a href="/condition/ibs-d-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">IBS-D (Diarrhea-Predominant): The Evidence-Based Supplement Protocol</a></li>
     <li style="margin:0 0 6px"><a href="./irritable-bowel-syndrome-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Irritable Bowel Syndrome: The Evidence-Based Supplement Protocol</a></li>
     <li style="margin:0 0 6px"><a href="./metabolic-syndrome-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Metabolic Syndrome: The Evidence-Based Supplement Protocol</a></li>
-    <li style="margin:0 0 6px"><a href="./nafld-mash-fatty-liver-disease-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">NAFLD / MASH (Fatty Liver Disease): The Evidence-Based Supplement Protocol</a></li>
+    <li style="margin:0 0 6px"><a href="/condition/nafld-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">NAFLD / MASH (Fatty Liver Disease): The Evidence-Based Supplement Protocol</a></li>
   </ul>
 </div>
 <!-- SS-AUTOLINKS:end -->

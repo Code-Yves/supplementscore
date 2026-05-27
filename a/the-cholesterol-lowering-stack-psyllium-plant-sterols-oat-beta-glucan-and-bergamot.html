@@ -97,106 +97,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260527-dropdown-fix">
+  <link rel="stylesheet" href="../styles.css?v=20260527-zero-broken">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
-  <meta name="theme-color" content="#1F7A6B">
-  <style>
-    body { background: var(--color-background-primary); color: var(--color-text-primary); }
-    .ar-wrap ol { margin: 0 0 18px 22px; }
-    .ar-wrap a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 2px; }
-    .ar-wrap blockquote { border-left: 3px solid var(--color-brand); padding: 8px 18px; margin: 18px 0; font-style: italic; color: var(--color-text-secondary); background: rgba(31,122,107,.04); border-radius: 4px; }
-    .ar-foot { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
-    .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-    .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
-    .ar-content button[onclick*="showArticleList"] { display: none; }
-  </style>
-<script>
-(function(){
-  var SKIP='ss-art-skip-push',KEY='ss-art-stack',OLD='ss-art-origin';
-  var skip=false;try{skip=sessionStorage.getItem(SKIP)==='1';if(skip)sessionStorage.removeItem(SKIP);}catch(_){}if(skip)return;
-  var ref=document.referrer;
-  if(!ref)return;
-  if(ref.indexOf(location.origin)!==0)return;
-  if(ref===location.href)return;
-  var stack=[];try{stack=JSON.parse(sessionStorage.getItem(KEY)||'[]');if(!Array.isArray(stack))stack=[];}catch(_){stack=[];}
-  if(stack.length&&stack[stack.length-1]===ref)return;
-  stack.push(ref);
-  if(stack.length>20)stack=stack.slice(-20);
-  try{sessionStorage.setItem(KEY,JSON.stringify(stack));}catch(_){}
-  try{if(!sessionStorage.getItem(OLD)&&ref.indexOf('/a/')===-1)sessionStorage.setItem(OLD,ref);}catch(_){}
-})();
-</script>
-<script>if(window.self!==window.top){document.documentElement.classList.add("is-embedded");}</script>
-  <script src="../_site-ux.js?v=20260527-rel-path-fix" defer></script>
-  <!-- SEO-BC-SCHEMA:start -->
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "SupplementScore",
-      "item": "https://supplementscore.org/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Articles",
-      "item": "https://supplementscore.org/#articles"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "The Cholesterol Lowering Stack: Psyllium, Plant Sterols, Oat Beta-Glucan, and Bergamot",
-      "item": "https://supplementscore.org/a/the-cholesterol-lowering-stack-psyllium-plant-sterols-oat-beta-glucan-and-bergamot.html"
-    }
-  ]
-}
-  </script>
-  <!-- SEO-BC-SCHEMA:end -->
-  <script src="../_research-chrome.js?v=20260525-template-unify" defer></script>
-  <!-- RC_PREVNEXT:start -->
-  <!-- RC_PREVNEXT:end -->
-</head>
-<body><main class="ar-wrap">
-  <h1>The Cholesterol Lowering Stack: Psyllium, Plant Sterols, Oat Beta-Glucan, and Bergamot</h1>
-<div class="ar-meta">6 min read &middot; <!-- last-reviewed: 2026-05-26 --></div>
-<div class="ar-content">
-<button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
-
-    <p>Statins remain the LDL-lowering intervention with the strongest cardiovascular outcome data. Supplements have a defined role for adults who don't yet meet treatment thresholds, are statin-intolerant, or want adjunctive reduction. Four anchor a defensible stack — three with formal FDA or EFSA health claims, one with strong RCT signal: psyllium, plant sterols, <a href="../supplement.html?slug=oat-<a href="../supplement.html?slug=beta-glucan">beta-glucan</a>"><a href="../supplement.html?slug=oat-<a href="../supplement.html?slug=beta-glucan">beta-glucan</a>">oat beta-glucan</a></a>, and bergamot polyphenols.</p>
-
-    <h2>Layer 1: Psyllium Husk, 10 g Daily</h2>
-    <p>Psyllium has an FDA-authorized cardiovascular health claim. A 2018 meta-analysis of 28 RCTs found 10 g/day reduced LDL by ~7% and total cholesterol by ~6% over 8+ weeks. Effect is independent of dietary changes and additive to statin therapy. Take in divided doses with adequate fluid. See <a href="/a/psyllium-husk-420-clinical-trials-an-fda-health-claim-to-reduce-cholesterol.html">psyllium piece</a>.</p>
-
-    <h2>Layer 2: Plant Sterols (Beta-Sitosterol Complex), 2 g Daily</h2>
-    <p>Plant sterols compete with cholesterol for intestinal absorption. The European Atherosclerosis Society endorses 2 g daily for LDL reduction of 8-10%. Best taken with the largest meal. EFSA has authorized a regulatory-grade health claim. See <a href="/a/beta-sitosterol-supplements-the-prostate-angle-and-the-cholesterol-absorption-tradeoff.html">beta-sitosterol piece</a>.</p>
-
-    <h2>Layer 3: Oat Beta-Glucan, 3 g Daily</h2>
-    <p>Oat beta-glucan has an FDA-authorized health claim. 3 g daily reduces LDL by ~5-7% via bile-acid binding and induced hepatic cholesterol uptake. Sources: oat bran (~1 g per 40 g serving) or standalone beta-glucan supplement. See <a href="/a/oat-beta-glucan-the-supplement-with-the-fda-s-own-cholesterol-health-claim.html">oat beta-glucan piece</a>.</p>
-
-    <h2>Layer 4: Bergamot Polyphenols (BPF), 500–1,000 mg Daily</h2>
-    <p>Bergamot polyphenol fraction has the strongest single-supplement LDL signal outside <a href="../supplement.html?slug=red-yeast-rice">red yeast rice</a>. Pooled trial data shows LDL reductions of 15-25% at 500-1,000 mg daily over 12 weeks. Mechanism includes HMG-CoA reductase inhibition (similar to statins but with smaller magnitude). See <a href="/a/bergamot-citrus-extract-italy-s-answer-to-high-cholesterol.html">bergamot piece</a>.</p>
-
-    <h2>Layer 5 (Optional): Red Yeast Rice — Treat as a Statin Substitute, Not Just a Supplement</h2>
-    <p><a href="../supplement.html?slug=red-yeast-rice">Red yeast rice</a> contains monacolin K — the same molecule as prescription lovastatin. Effective LDL reductions of 15-25%. The catch: unregulated supply quality, all the same statin side effects, and serious supply-quality variability. Banned in some EU markets. If used, treat as a statin: monitor LFTs, take <a href="../supplement.html?slug=coq10">CoQ10</a> alongside, don't combine with prescription statins. See <a href="/a/red-yeast-rice-natural-statin-or-unregulated-pharmaceutical.html">red yeast rice piece</a>.</p>
-
-    <h2>What NOT to Take</h2>
-    <p><a href="../supplement.html?slug=niacin">Niacin</a>'s CV outcome data is poor (AIM-HIGH, HPS2-THRIVE both null). Skip <a href="../supplement.html?slug=policosanol">policosanol</a> — large independent trials are null. Avoid garlic as a primary LDL intervention — effect too small to matter. Skip "lipid support" multi-herb formulas. Don't replace statin therapy in adults with established ASCVD, LDL ≥190 mg/dL, or diabetes age 40+.</p>
-
-    <h2>How to Run the Stack</h2>
-    <p>Get baseline lipid panel + ASCVD risk calculator. For ASCVD risk <7.5% with LDL 100-160 mg/dL: layer psyllium 10 g + plant sterols 2 g + oat beta-glucan 3 g daily for 12 weeks. Re-test. Add bergamot 1,000 mg if additional reduction needed. Red yeast rice as step-up to lovastatin-equivalent if statin-intolerant. For ASCVD risk ≥7.5%: statin therapy is standard. See <a href="/a/the-heart-health-stack-omega-3-coq10-garlic-and-k2.html">heart health stack</a>.</p>
-  
-
-<div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
-  <h3 style="margin-bottom:0.75rem">Sources</h3>
-  <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
-
-        <li data-funder-type="public" data-funder="University of Sydney" data-coi="false">Jovanovski E, Yashpal S, Komishon A, et al. "Effect of psyllium fiber on LDL cholesterol and alternative lipid targets." <em>American Journal of Clinical Nutrition</em>, 2018;108(5):922-932. PMID: 30239559. DOI: 10.1093/ajcn/nqy115.</li>
-        <li data-funder-type="public" data-funder="European Atherosclerosis Society" data-coi="false">Gylling H, Plat J, Turley S, et al. "Plant sterols and plant stanols in the management of dyslipidaemia and prevention of cardiovascular disease." <em>Atherosclerosis</em>, 2014;232(2):346-360. PMID: 24468148. DOI: 10.1016/j.atherosclerosis.2013.11.043.</li>
+  <li data-funder-type="public" data-funder="European Atherosclerosis Society" data-coi="false">Gylling H, Plat J, Turley S, et al. "Plant sterols and plant stanols in the management of dyslipidaemia and prevention of cardiovascular disease." <em>Atherosclerosis</em>, 2014;232(2):346-360. PMID: 24468148. DOI: 10.1016/j.atherosclerosis.2013.11.043.</li>
         <li data-funder-type="public" data-funder="University of Toronto" data-coi="false">Whitehead A, Beck EJ, Tosh S, Wolever TM. "Cholesterol-lowering effects of oat β-glucan: a meta-analysis of randomized controlled trials." <em>American Journal of Clinical Nutrition</em>, 2014;100(6):1413-1421. PMID: 25411276. DOI: 10.3945/ajcn.114.086108.</li>
         <li data-funder-type="public" data-funder="University of Catanzaro" data-coi="false">Mollace V, Sacco I, Janda E, et al. "Hypolipemic and hypoglycaemic activity of bergamot polyphenols." <em>Fitoterapia</em>, 2011;82(3):309-316. PMID: 21056640. DOI: 10.1016/j.fitote.2010.10.014.</li>
         <li data-funder-type="public" data-funder="UCLA" data-coi="false">Becker DJ, Gordon RY, Halbert SC, et al. "Red yeast rice for dyslipidemia in statin-intolerant patients." <em>Annals of Internal Medicine</em>, 2009;150(12):830-839. PMID: 19528562. DOI: 10.7326/0003-4819-150-12-200906160-00006.</li>
@@ -222,8 +125,7 @@
     <li style="margin:0 0 6px"><a href="./glucomannan-konjac-fiber-for-weight-and-cholesterol-the-efsa-claim-and-trial-record.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Glucomannan (Konjac Fiber) for Weight and Cholesterol: The EFSA Claim and Trial Record</a></li>
     <li style="margin:0 0 6px"><a href="./the-heart-health-stack-omega-3-coq10-garlic-and-k2.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">The Heart Health Stack: Omega-3, CoQ10, Garlic, and K2</a></li>
     <li style="margin:0 0 6px"><a href="./high-cholesterol-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">High Cholesterol: The Evidence-Based Supplement Protocol</a></li>
-    <li style="margin:0 0 6px"><a href="./statin-associated-muscle-symptoms-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Statin-Associated Muscle Symptoms: The Evidence-Based Supplement Protocol</a></li>
-  </ul>
+    </ul>
 </div>
 <!-- SS-AUTOLINKS:end -->
 

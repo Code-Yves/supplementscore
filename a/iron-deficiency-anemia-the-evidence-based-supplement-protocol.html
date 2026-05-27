@@ -97,107 +97,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=20260527-dropdown-fix">
+  <link rel="stylesheet" href="../styles.css?v=20260527-zero-broken">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180-apple.svg">
-  <meta name="theme-color" content="#1F7A6B">
-  <style>
-    body { background: var(--color-background-primary); color: var(--color-text-primary); }
-    .ar-wrap ol { margin: 0 0 18px 22px; }
-    .ar-wrap a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 2px; }
-    .ar-wrap blockquote { border-left: 3px solid var(--color-brand); padding: 8px 18px; margin: 18px 0; font-style: italic; color: var(--color-text-secondary); background: rgba(31,122,107,.04); border-radius: 4px; }
-    .ar-foot { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
-    .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-    .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
-    /* Hide the inline back button — chrome injects its own */
-    .ar-content button[onclick*="showArticleList"] { display: none; }
-  </style>
-<script>
-/* Per-session navigation stack so the X close pops one step at a time. */
-(function(){
-  var SKIP='ss-art-skip-push',KEY='ss-art-stack',OLD='ss-art-origin';
-  var skip=false;try{skip=sessionStorage.getItem(SKIP)==='1';if(skip)sessionStorage.removeItem(SKIP);}catch(_){}if(skip)return;
-  var ref=document.referrer;
-  if(!ref)return;
-  if(ref.indexOf(location.origin)!==0)return;
-  if(ref===location.href)return;
-  var stack=[];try{stack=JSON.parse(sessionStorage.getItem(KEY)||'[]');if(!Array.isArray(stack))stack=[];}catch(_){stack=[];}
-  if(stack.length&&stack[stack.length-1]===ref)return;
-  stack.push(ref);
-  if(stack.length>20)stack=stack.slice(-20);
-  try{sessionStorage.setItem(KEY,JSON.stringify(stack));}catch(_){}
-  try{if(!sessionStorage.getItem(OLD)&&ref.indexOf('/a/')===-1)sessionStorage.setItem(OLD,ref);}catch(_){}
-})();
-</script>
-<script>/* If rendered inside an iframe, hide the page-level close X */if(window.self!==window.top){document.documentElement.classList.add("is-embedded");}</script>
-  <script src="../_site-ux.js?v=20260527-rel-path-fix" defer></script>
-  <!-- SEO-BC-SCHEMA:start -->
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "SupplementScore",
-      "item": "https://supplementscore.org/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Articles",
-      "item": "https://supplementscore.org/#articles"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Iron-Deficiency Anemia: The Evidence-Based Supplement Protocol",
-      "item": "https://supplementscore.org/a/iron-deficiency-anemia-the-evidence-based-supplement-protocol.html"
-    }
-  ]
-}
-  </script>
-  <!-- SEO-BC-SCHEMA:end -->
-  <script src="../_research-chrome.js?v=20260525-template-unify" defer></script>
-  <!-- RC_PREVNEXT:start -->
-  <meta name="rc-prev" content="./iron-supplements-why-most-people-take-them-wrong.html">
-  <meta name="rc-next" content="./irritable-bowel-syndrome-the-evidence-based-supplement-protocol.html">
-  <!-- RC_PREVNEXT:end -->
-</head>
-<body><main class="ar-wrap">
-  <h1>Iron-Deficiency Anemia: The Evidence-Based Supplement Protocol</h1>
-<div class="ar-meta">6 min read &middot; <!-- last-reviewed: 2026-05-26 --></div>
-<div class="ar-content">
-<button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
-<p><a href="../supplement.html?slug=iron">Iron</a>-deficiency anemia is the most common nutritional deficiency globally. Conventional daily-dose iron supplementation is poorly tolerated and inefficient — the Stoffel trials in Lancet Haematology (2017–2020) rewrote the protocol. Modern hematology now recommends alternate-day dosing for outpatient repletion.</p>
-
-    <h2>Alternate-Day Ferrous Bisglycinate, 60–100 mg Elemental</h2>
-    <p>The Stoffel et al. 2017 trial showed splitting iron doses across the day reduces fractional absorption due to hepcidin elevation. Alternate-day single morning dosing produced higher cumulative absorption. Take 60–100 mg elemental iron as <a href="../supplement.html?slug=ferrous-bisglycinate">ferrous bisglycinate</a> every other day, fasted, with <a href="../supplement.html?slug=vitamin-c">vitamin C</a>. Re-check ferritin and TSAT at 8–12 weeks. See <a href="/a/iron-supplements-why-most-people-take-them-wrong.html">our iron dosing piece</a>.</p>
-
-    <h2>Vitamin C, 200 mg With Each Iron Dose</h2>
-    <p>Ascorbic acid converts ferric iron to ferrous and forms a soluble chelate. Stable-isotope studies show 100–200 mg vitamin C with non-heme iron can double or triple fractional absorption. See <a href="/s/vitamin-c-moderate-dose-.html">vitamin C dossier</a>.</p>
-
-    <h2>Lactoferrin, 100–200 mg Daily — Tolerability Alternative</h2>
-    <p><a href="../supplement.html?slug=lactoferrin">Lactoferrin</a> produces hemoglobin and ferritin gains comparable to ferrous sulfate with substantially fewer GI side effects. The most useful option when oral iron is poorly tolerated and IV iron is not yet indicated. See <a href="/a/lactoferrin-the-iron-supplement-alternative.html">our lactoferrin piece</a>.</p>
-
-    <h2>Vitamin B12 — Test and Replete if Co-Deficient</h2>
-    <p>Iron deficiency and B12 deficiency frequently co-exist (vegetarians, post-bariatric, elderly with atrophic gastritis). Test serum B12 + MMA. Replete with oral high-dose cyanocobalamin or <a href="../supplement.html?slug=methylcobalamin">methylcobalamin</a>. See <a href="/a/hydroxocobalamin-vs-methylcobalamin-which-b12-form-is-actually-best.html">B12 form piece</a>.</p>
-
-    <h2>IV Iron — When to Escalate</h2>
-    <p>IV iron (ferric carboxymaltose, iron isomaltoside) is indicated when oral iron fails after 3 months, is not tolerated, or the patient has active GI bleeding, IBD, or hemodialysis. Restores ferritin much faster than oral.</p>
-
-    <h2>What NOT to Take</h2>
-    <p>Avoid iron with <a href="../supplement.html?slug=calcium">calcium</a>, tea, coffee, or phytate-rich foods at the same dose — significant absorption reduction. Skip "blood-building" herbal blends (yellow dock, nettle, chlorophyll) — no evidence for treating IDA. Don't supplement iron without confirmed deficiency on labs — overload risk in adults with hereditary hemochromatosis or chronic transfusion. See <a href="/a/iron-overload-from-daily-high-dose-supplements-why-most-men-do-not-need-a-65-mg-tablet.html">our iron overload piece</a>.</p>
-
-    <h2>How to Run the Protocol</h2>
-    <p>Confirm IDA with ferritin <30 ng/mL (with CRP for inflammation context), TSAT <20%, CBC. Identify etiology — menstrual loss, GI loss workup (FOBT, age-appropriate colonoscopy), malabsorption (celiac antibodies, B12). Start alternate-day ferrous bisglycinate 60–100 mg + vitamin C 200 mg morning. Re-test at 8–12 weeks. Restoring ferritin from 10 → 50 ng/mL typically takes 12–24 weeks. Switch to lactoferrin if intolerant; escalate to IV iron if oral fails. See the broader <a href="/a/the-iron-deficiency-recovery-stack-iron-vitamin-c-lactoferrin-and-b12.html">iron recovery stack</a>.</p>
-
-<div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e5e7eb">
-  <h3 style="margin-bottom:0.75rem">Sources</h3>
-  <ol style="color:#6b7280;font-size:0.92rem;line-height:1.8">
-<li data-funder-type="public" data-funder="ETH Zurich" data-coi="false">Stoffel NU, Cercamondi CI, Brittenham G, et al. "Iron absorption from oral iron supplements given on consecutive versus alternate days." <em>Lancet Haematology</em>, 2017;4(11):e524-e533. PMID: 29032957. DOI: 10.1016/S2352-3026(17)30182-5.</li>
-        <li data-funder-type="public" data-funder="ETH Zurich" data-coi="false">Moretti D, Goede JS, Zeder C, et al. "Oral iron supplements increase hepcidin and decrease iron absorption from daily or twice-daily doses." <em>Blood</em>, 2015;126(17):1981-1989. PMID: 26289639. DOI: 10.1182/blood-2015-05-642223.</li>
+  <li data-funder-type="public" data-funder="ETH Zurich" data-coi="false">Moretti D, Goede JS, Zeder C, et al. "Oral iron supplements increase hepcidin and decrease iron absorption from daily or twice-daily doses." <em>Blood</em>, 2015;126(17):1981-1989. PMID: 26289639. DOI: 10.1182/blood-2015-05-642223.</li>
         <li data-funder-type="public" data-funder="University of Rome" data-coi="false">Paesano R, Pietropaoli M, Berlutti F, Valenti P. "Bovine lactoferrin in preventing preterm delivery." <em>Biochemistry and Cell Biology</em>, 2012;90(3):468-475. PMID: 22250578. DOI: 10.1139/o11-060.</li>
         <li data-funder-type="public" data-funder="ASH" data-coi="false">Auerbach M, Adamson JW. "How we diagnose and treat iron deficiency anemia." <em>American Journal of Hematology</em>, 2016;91(1):31-38. PMID: 26408108. DOI: 10.1002/ajh.24201.</li>
         <li data-funder-type="public" data-funder="WHO" data-coi="false">World Health Organization. "Guideline: daily iron supplementation in infants and children." 2016. Available at who.int.</li>
@@ -224,7 +126,7 @@
     <li style="margin:0 0 6px"><a href="./zinc-bisglycinate-the-chelated-zinc-form-with-better-absorption-and-tolerability.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Zinc Bisglycinate: The Chelated Zinc Form With Better Absorption and Tolerability</a></li>
     <li style="margin:0 0 6px"><a href="./acerola-cherry-extract-the-natural-vitamin-c-source-with-actual-bioavailability-data.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Acerola Cherry Extract: The Natural Vitamin C Source With Actual Bioavailability Data</a></li>
     <li style="margin:0 0 6px"><a href="./adhd-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">ADHD: The Evidence-Based Supplement Protocol</a></li>
-    <li style="margin:0 0 6px"><a href="./crohn-s-disease-the-evidence-based-supplement-protocol.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Crohn's Disease: The Evidence-Based Supplement Protocol</a></li>
+    <li style="margin:0 0 6px"><a href="/condition/crohns-disease-adjunct.html" style="color:#1F7A6B;text-decoration:underline;text-underline-offset:2px">Crohn's Disease: The Evidence-Based Supplement Protocol</a></li>
   </ul>
 </div>
 <!-- SS-AUTOLINKS:end -->
