@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://supplementscore.org/compare/index.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://supplementscore.org/compare/adaptogens.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/adaptogens.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/coq10-vs-pqq.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/creatine-vs-bcaas.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/creatine-vs-bcaas.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/magnesium-forms.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/melatonin-vs-magnesium-glycinate.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/nac-vs-glutathione.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/compare/omega-3-forms.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/melatonin-vs-magnesium-glycinate.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/nac-vs-glutathione.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/omega-3-forms.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/protein-powders.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/serotonin-precursors.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/vitamin-d3-vs-d2.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -123,4 +123,9 @@
   <url><loc>https://supplementscore.org/compare/ginkgo-vs-vinpocetine-for-cognition.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/boron-vs-zinc-for-testosterone.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://supplementscore.org/compare/beta-carotene-vs-vitamin-a.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/vitamin-c-vs-zinc-for-colds.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/creatine-vs-beta-alanine.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/compare/berberine-vs-ala-vs-chromium-vs-banaba-glycemic-control.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://supplementscore.org/compare/tongkat-ali-vs-fadogia-vs-forskolin-vs-ashwagandha-testosterone.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://supplementscore.org/compare/curcumin-vs-boswellia-vs-msm-vs-collagen-joint-support.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

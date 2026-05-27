@@ -1482,26 +1482,26 @@ const CONDITIONS={
   gut:{
     label:'Digestive issues',category:'gi',severity:'low',icd10:['K59.9'],
     supps:['Probiotics','Peppermint oil (enteric-coated)','Digestive enzymes','Saccharomyces boulardii','Glutamine (standalone, healthy adults)'],
-    supps_recommended:['Probiotics','Peppermint oil (enteric-coated)','Digestive enzymes','Saccharomyces boulardii','Glutamine (standalone, healthy adults)'],
+    supps_recommended:['Probiotics','Peppermint oil (enteric-coated)','Digestive enzymes','Saccharomyces boulardii','Glutamine (standalone, healthy adults)','Bifidobacterium lactis (BB-12 / HN019)'],
     supps_caution:['Inulin / FOS (prebiotic fibre)']
   },
   inflammation:{
     label:'Inflammation',category:'other',severity:'low',
     supps:['Omega-3 (EPA/DHA)','Curcumin (bioavailable form)','Boswellia serrata','NAC (N-Acetyl Cysteine)'],
-    supps_recommended:['Omega-3 (EPA/DHA)','Curcumin (bioavailable form)','Boswellia serrata','NAC (N-Acetyl Cysteine)','Quercetin','Tart cherry (Montmorency)'],
+    supps_recommended:['Omega-3 (EPA/DHA)','Curcumin (bioavailable form)','Boswellia serrata','NAC (N-Acetyl Cysteine)','Quercetin','Tart cherry (Montmorency)','Bromelain'],
     monitoring:['crp','homocysteine']
   },
   cholesterol:{
     label:'High cholesterol',category:'cardiometabolic',severity:'medium',icd10:['E78.0','E78.5'],
     supps:['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (Plantago ovata)','Oat beta-glucan (cholesterol)','Bergamot citrus polyphenol extract','Vitamin K2 (MK-7)'],
-    supps_recommended:['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (Plantago ovata)','Oat beta-glucan (cholesterol)','Bergamot citrus polyphenol extract','Vitamin K2 (MK-7)'],
+    supps_recommended:['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (Plantago ovata)','Psyllium husk (soluble fibre)','Oat beta-glucan (cholesterol)','Bergamot citrus polyphenol extract','Vitamin K2 (MK-7)'],
     supps_caution:['Niacin (Vitamin B3)','Red yeast rice'],
     monitoring:['totalChol','ldl','hdl','triglycerides','apoB']
   },
   bp:{
     label:'High blood pressure',category:'cardiometabolic',severity:'high',icd10:['I10'],
     supps:['Dietary Nitrate / Beetroot','Magnesium','Olive leaf extract','Taurine','CoQ10 (Ubiquinol)'],
-    supps_recommended:['Dietary Nitrate / Beetroot','Magnesium','Olive leaf extract','Taurine','CoQ10 (Ubiquinol)','Hawthorn berry (Crataegus)'],
+    supps_recommended:['Dietary Nitrate / Beetroot','Magnesium','Olive leaf extract','Taurine','CoQ10 (Ubiquinol)','Hawthorn berry (Crataegus)','Citrulline (L-citrulline, pure form)'],
     supps_avoid:['Yohimbe bark (Pausinystalia yohimbe)','Bitter orange (Citrus aurantium)','Licorice root high-dose','Ephedra analogues (synephrine)','1,3-DMBA (dimethylbutylamine)'],
     monitoring:['systolic_bp','diastolic_bp']
   },
@@ -1661,7 +1661,7 @@ const CONDITIONS={
   metabolic_syndrome:{
     label:'Metabolic syndrome',category:'cardiometabolic',severity:'high',icd10:['E88.81'],
     supps:['Berberine','Omega-3 (EPA/DHA)','Magnesium','Curcumin (bioavailable form)','Inositol myo-form (PCOS/metabolic)'],
-    supps_recommended:['Berberine','Omega-3 (EPA/DHA)','Magnesium','Curcumin (bioavailable form)','Inositol myo-form (PCOS/metabolic)','Vitamin D3','Bergamot citrus polyphenol extract'],
+    supps_recommended:['Berberine','Omega-3 (EPA/DHA)','Magnesium','Curcumin (bioavailable form)','Inositol myo-form (PCOS/metabolic)','Vitamin D3','Bergamot citrus polyphenol extract','Taurine'],
     monitoring:['hba1c','triglycerides','hdl','waist_circumference','systolic_bp']
   },
   nafld:{
@@ -1894,7 +1894,7 @@ const CONDITIONS={
   male_fertility:{
     label:'Male fertility',category:'reproductive',severity:'low',
     supps:['CoQ10 (Ubiquinol)','Zinc','Selenium','Acetyl-L-Carnitine (ALCAR)','Vitamin C (moderate dose)','Vitamin E (mixed tocopherols)','Folate (5-MTHF)'],
-    supps_recommended:['CoQ10 (Ubiquinol)','Zinc','Selenium','Acetyl-L-Carnitine (ALCAR)','Carnitine tartrate','Vitamin E (mixed tocopherols)','Folate (5-MTHF)','Omega-3 (EPA/DHA)'],
+    supps_recommended:['CoQ10 (Ubiquinol)','Zinc','Selenium','Acetyl-L-Carnitine (ALCAR)','Carnitine tartrate','L-Carnitine','Vitamin E (mixed tocopherols)','Folate (5-MTHF)','Omega-3 (EPA/DHA)'],
     monitoring:['testosterone_total','vitD','b12','zinc']
   },
   female_fertility:{
