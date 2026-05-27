@@ -204,3 +204,13 @@
 | 2026-05-26 | statin-myopathy-the-evidence-based-supplement-protocol | 699 | condition | 398 | 5 |
 | 2026-05-26 | tendinopathy-the-evidence-based-supplement-protocol | 700 | condition | 331 | 11 |
 | 2026-05-26 | type-2-diabetes-the-evidence-based-supplement-protocol | 701 | condition | 356 | 10 |
+| 2026-05-26 | the-cognitive-performance-stack-caffeine-l-theanine-creatine-and-citicoline | 702 | stack | 456 | 10 [new AM keys: Aniracetam; Piracetam; Choline] |
+| 2026-05-26 | the-endurance-athlete-stack-beetroot-nitrate-caffeine-sodium-bicarbonate-and-cluster-dextrin | 703 | stack | 460 | 8 |
+| 2026-05-26 | the-strength-training-stack-creatine-beta-alanine-caffeine-and-citrulline | 704 | stack | 449 | 9 |
+| 2026-05-26 | the-longevity-foundational-stack-omega-3-vitamin-d-magnesium-and-creatine | 705 | stack | 413 | 8 |
+| 2026-05-26 | the-gut-restoration-stack-phgg-l-rhamnosus-gg-saccharomyces-boulardii-and-zinc-carnosine | 706 | stack | 467 | 11 |
+| 2026-05-26 | the-immune-prevention-stack-vitamin-d-zinc-elderberry-and-yeast-beta-glucan | 707 | stack | 444 | 10 |
+| 2026-05-26 | the-hair-growth-stack-iron-zinc-saw-palmetto-and-pumpkin-seed-oil | 708 | stack | 514 | 13 [new AM keys: Pumpkin seed oil; Marine collagen (fish-derived)] |
+| 2026-05-26 | the-cholesterol-lowering-stack-psyllium-plant-sterols-oat-beta-glucan-and-bergamot | 709 | stack | 415 | 11 |
+| 2026-05-26 | the-liver-support-stack-nac-tudca-vitamin-e-and-milk-thistle | 710 | stack | 483 | 13 [new AM keys: Phosphatidylcholine; Taurine; Choline; TUDCA (tauroursodeoxycholic acid)] |
+| 2026-05-26 | the-eye-health-stack-lutein-zeaxanthin-astaxanthin-and-omega-3 | 711 | stack | 515 | 15 [new AM keys: Astaxanthin] |
