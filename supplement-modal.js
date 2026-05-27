@@ -168,7 +168,11 @@
     modal.classList.toggle('over-rc', openingOverRc);
     modal.classList.remove('loaded');
     var _x = modal.querySelector('.ssm-x'); if (_x) _x.style.visibility = '';
-    frame.src = 'supplement.html?slug=' + encodeURIComponent(slug) + '&modal=1';
+    /* Absolute origin-rooted path. Without the leading slash, the iframe
+       resolves the src relative to its parent's location, which means a
+       supplement link clicked from /stack/sleep-onset.html tries to load
+       /stack/supplement.html → 404. Bug fixed 2026-05-27. */
+    frame.src = '/supplement.html?slug=' + encodeURIComponent(slug) + '&modal=1';
     requestAnimationFrame(function(){ modal.classList.add('open'); });
     document.body.classList.add('ssm-locked');
     if (!fromHistory) {

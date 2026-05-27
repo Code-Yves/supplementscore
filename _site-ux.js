@@ -480,9 +480,12 @@
       + '</button></div>';
     var strip = '<div class="ssux-recent-strip">';
     list.forEach(function(it){
+      /* Use origin-rooted absolute paths — _site-ux.js loads on subdirectory
+         pages (/stack/, /a/, /condition/) where relative `supplement.html`
+         resolves to e.g. /stack/supplement.html → 404. Bug fixed 2026-05-27. */
       var href = it.slug
-        ? 'supplement.html?slug=' + encodeURIComponent(it.slug)
-        : 'index.html#search=' + encodeURIComponent(it.name);
+        ? '/supplement.html?slug=' + encodeURIComponent(it.slug)
+        : '/index.html#search=' + encodeURIComponent(it.name);
       strip += '<a class="ssux-recent-card" href="'+href+'">'
         + '<span class="ssux-recent-card-name">'+escapeHtml(it.name)+'</span>'
         + (it.score?'<span class="ssux-recent-card-score">'+it.score+'</span>':'')
