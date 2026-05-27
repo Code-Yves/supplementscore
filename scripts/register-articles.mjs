@@ -358,25 +358,28 @@ const CARD_ICONS = {
 };
 
 function buildIndexHtmlUpdate(src, regs) {
-  const anchor = '</div><!-- end articles-section -->';
-  const idx = src.indexOf(anchor);
-  if (idx < 0) throw new Error('Could not find articles-section anchor in index.html');
+  // Cards MUST go inside #research-list-view so the dropdown counter sees them.
+  // The dropdown reads `document.querySelectorAll('#research-list-view .article-card')`,
+  // so any card inserted outside this scope shows up on the page but is silently
+  // missed by the per-category counter (this caused "Stack (7)" vs actual 27 on
+  // 2026-05-27). Anchor cards on `</div><!-- end research-list-view -->`.
+  //
+  // Article-full divs (the modal content blocks) live AFTER research-list-view
+  // closes; they're inserted before `</div><!-- end articles-section -->`.
+  const cardAnchor = '</div><!-- end research-list-view -->';
+  const cardIdx = src.indexOf(cardAnchor);
+  if (cardIdx < 0) throw new Error('Could not find research-list-view anchor in index.html');
 
-  // For EACH registered article we insert TWO blocks before the anchor:
-  //   1. <a class="article-card" data-category="..."> — surfaced in the
-  //      Research dropdown count and the #research-list-view. This is the
-  //      piece that was missing before 2026-05-27 and caused dropdown counts
-  //      to lag behind data.js. See sync_article_cards.py for the one-shot
-  //      backfill that was used to repair historical drift.
-  //   2. <div class="article-full"> — the modal-content version that the
-  //      legacy router renders inside the supplement modal.
-  const blocks = regs.map(r => {
+  const fullAnchor = '</div><!-- end articles-section -->';
+  const fullIdx = src.indexOf(fullAnchor);
+  if (fullIdx < 0) throw new Error('Could not find articles-section anchor in index.html');
+
+  const cardBlocks = regs.map(r => {
     const icon = CARD_ICONS[r.cat] || CARD_ICONS.guide;
     const catLabel = categoryDisplayName(r.cat);
     const cardDesc = escHtml(r.excerpt).slice(0, 160);
     const cardTitle = escHtml(r.title).slice(0, 200);
-    return `
-      <a href="a/${r.slug}.html" class="article-card" data-category="${r.cat}" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+    return `      <a href="a/${r.slug}.html" class="article-card" data-category="${r.cat}" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
         <div class="article-side">
           ${icon}
           <div class="article-side-div"></div><div class="article-side-stat">${r.minutes}</div><div class="article-side-label">min read</div>
@@ -388,7 +391,12 @@ function buildIndexHtmlUpdate(src, regs) {
           <div class="article-meta">${r.lr || TODAY}</div>
         </div>
       </a>
-  <div class="article-full" id="article-${r.id}" style="display:none">
+`;
+  }).join('');
+
+  const fullBlocks = regs.map(r => {
+    const catLabel = categoryDisplayName(r.cat);
+    return `  <div class="article-full" id="article-${r.id}" style="display:none">
     <!-- last-reviewed: ${r.lr} -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
       <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
@@ -402,7 +410,13 @@ function buildIndexHtmlUpdate(src, regs) {
 `;
   }).join('');
 
-  return src.slice(0, idx) + blocks + '\n' + src.slice(idx);
+  // Insert cards BEFORE the RLV close (inside the container),
+  // then insert article-full blocks BEFORE the articles-section close.
+  let next = src.slice(0, cardIdx) + cardBlocks + '  ' + src.slice(cardIdx);
+  // Re-locate the articles-section anchor now that we changed earlier offsets
+  const fullIdxNew = next.indexOf(fullAnchor);
+  next = next.slice(0, fullIdxNew) + fullBlocks + '  ' + next.slice(fullIdxNew);
+  return next;
 }
 
 function buildSitemapUpdate(src, regs) {
