@@ -109,6 +109,10 @@
     .ar-foot { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
     .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
     .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
+    /* In-article medical disclaimer — left-bar typographic block, no filled card. */
+    .ar-disclaim { border-left: 3px solid var(--color-border-tertiary); padding: 8px 14px; margin: 18px 0 22px; font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); }
+    .ar-disclaim strong { color: var(--color-text-primary); }
+    .ar-disclaim a { color: var(--color-text-secondary); text-decoration: underline; text-underline-offset: 2px; }
     /* Hide the inline back button — chrome injects its own */
     .ar-content button[onclick*="showArticleList"] { display: none; }
   </style>
@@ -172,6 +176,7 @@
   <div class="ar-bottomline-label">Bottom Line</div>
   <p>Reading a magnesium label: matching the form to the goal. Walk into any pharmacy and you&#x27;ll see ten kinds of magnesium on the shelf.</p>
 </div>
+<aside class="ar-disclaim" role="note"><strong>Educational reference, not medical advice.</strong> Always consult a clinician before changing your supplement regimen. See our <a href="/about.html#methodology">methodology</a> for how scores are derived. Questions or corrections: <a href="mailto:hello@supplementscore.org">hello@supplementscore.org</a>.</aside>
 
 <div class="ar-content">
 <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>

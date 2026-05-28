@@ -97,6 +97,87 @@
     return b === 'avoid' ? 'avoid' : b === 'caution' ? 'caution' : b === 'extra' ? 'support' : '';
   }
 
+  /* ── Dynamic JSON-LD (DietarySupplement + BreadcrumbList) ───────────────────
+     supplement.html ships a static WebPage JSON-LD block as a fallback for
+     non-JS crawlers. When we have a real ?slug= and a resolved supplement, we
+     inject a richer DietarySupplement block plus a supplement-specific
+     BreadcrumbList. Google has executed JS for indexing since 2019 — these
+     dynamic blocks are picked up. See [[project_launch_prep_2026_06_06]]. */
+  function injectSchema(s, slug){
+    if (!s || !slug) return;
+    var url = 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
+    var name = s.n || '';
+    // Extract alternateName from a parenthesized qualifier ("Omega-3 (EPA/DHA)" → "EPA/DHA")
+    var altMatch = name.match(/\(([^)]+)\)/);
+    var altName = altMatch ? altMatch[1].trim() : null;
+    var bareName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
+    // Description: cap at ~480 chars to keep JSON-LD lean. Strip newlines.
+    var desc = (s.desc || '').replace(/\s+/g, ' ').trim();
+    if (desc.length > 480) desc = desc.slice(0, 477).trim() + '…';
+    // Tier-derived safetyConsideration. Stable phrasing matters more for schema
+    // than mirroring data.js TIERS copy that may evolve.
+    var safetyByTier = {
+      t1: 'Strong evidence base; safe for adult use at standard doses. SupplementScore Tier 1.',
+      t2: 'Promising or situational evidence; benefits depend on indication and dosing. SupplementScore Tier 2.',
+      t3: 'Trending in wellness culture but limited clinical evidence. SupplementScore Tier 3.',
+      t4: 'Documented safety risks including possible organ damage, drug interactions, or regulatory warnings. Do not use without clinician supervision. SupplementScore Tier 4.'
+    };
+    var safety = safetyByTier[s.t] || 'See methodology for current evidence rating.';
+    // Recommended intake — DietarySupplement inherits a few medical-related
+    // properties; recommendedIntake takes a RecommendedDoseSchedule.
+    var doseObj = null;
+    if (s.dose) {
+      doseObj = {
+        "@type": "RecommendedDoseSchedule",
+        "doseUnit": "varies — see description",
+        "doseSchedule": String(s.dose).slice(0, 200)
+      };
+    }
+    var supplementSchema = {
+      "@context": "https://schema.org",
+      "@type": "DietarySupplement",
+      "name": name,
+      "description": desc || (name + ' — evidence-based supplement detail.'),
+      "activeIngredient": bareName || name,
+      "isProprietary": false,
+      "safetyConsideration": safety,
+      "url": url,
+      "image": "https://supplementscore.org/og/default.png",
+      "inLanguage": "en-US",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SupplementScore",
+        "url": "https://supplementscore.org",
+        "logo": {"@type": "ImageObject", "url": "https://supplementscore.org/og/default.png"}
+      },
+      "mainEntityOfPage": {"@type": "WebPage", "@id": url}
+    };
+    if (altName) supplementSchema.alternateName = altName;
+    if (doseObj) supplementSchema.recommendedIntake = doseObj;
+
+    var breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://supplementscore.org/"},
+        {"@type": "ListItem", "position": 2, "name": "Supplements", "item": "https://supplementscore.org/browse.html"},
+        {"@type": "ListItem", "position": 3, "name": name, "item": url}
+      ]
+    };
+
+    function append(obj, id){
+      // Update in place if we've emitted this id before (idempotent).
+      var existing = document.getElementById(id);
+      var el = existing || document.createElement('script');
+      el.type = 'application/ld+json';
+      el.id = id;
+      el.textContent = JSON.stringify(obj);
+      if (!existing) document.head.appendChild(el);
+    }
+    append(supplementSchema, 'ss-jsonld-dietarysupplement');
+    append(breadcrumbSchema, 'ss-jsonld-breadcrumb');
+  }
+
   var p = new URLSearchParams(location.search);
   var slug = (p.get('slug') || '').trim();
   var nameParam = (p.get('n') || '').trim();
@@ -130,6 +211,9 @@
     return;
   }
   document.title = s.n + ' — SupplementScore';
+  // Emit slug-specific DietarySupplement + BreadcrumbList JSON-LD. The static
+  // WebPage block in supplement.html remains as a non-JS fallback.
+  try { injectSchema(s, slug); } catch (_) { /* schema injection is non-essential */ }
 
   var meta = window.SS.tierMeta(s.t);
   var compScore = window.SS.compositeScore(s);
@@ -506,7 +590,7 @@
       +   '<div id="det-related-guides-slot"></div>'
       +   '<div id="det-brands-slot"></div>'
 
-      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="about.html">methodology</a> for how scores are derived.</p>'
+      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="about.html">methodology</a> for how scores are derived. Questions or corrections: <a href="mailto:hello@supplementscore.org">hello@supplementscore.org</a>.</p>'
       + '</div>'
     + '</div>';
 
@@ -732,10 +816,26 @@
     if (!slot) return;
     fetch('data/brands.json').then(function(r){ return r.ok ? r.json() : null; }).then(function(db){
       if (!db) return;
-      var key = (s.n||'').toLowerCase().trim();
-      var entries = db[key];
-      // Try alternate key normalisations: hyphen/space variants, plural strip
-      if (!entries) entries = db[key.replace(/-/g,' ')] || db[key.replace(/\s+/g,'-')];
+      // Key fallback chain. Most data.js supplement names include a parenthesized
+      // qualifier ("Omega-3 (EPA/DHA)", "Saffron (Crocus sativus)") that early
+      // brands.json keys ("omega-3", "saffron") don't include — so without a paren
+      // strip those existing entries are silently orphaned. New 2026-05-28
+      // entries use the full lowercase name; this chain lets both shapes resolve.
+      // See [[project_brands_json_key_mismatch]].
+      var raw = (s.n||'').toLowerCase().trim();
+      var paren_stripped = raw.replace(/\s*\([^)]*\)\s*/g,'').trim();
+      var candidates = [
+        raw,                                  // "omega-3 (epa/dha)"     — new entries
+        paren_stripped,                       // "omega-3"                — legacy entries
+        raw.replace(/-/g,' '),                // "omega 3 (epa/dha)"      — hyphen→space
+        raw.replace(/\s+/g,'-'),              // "omega-3-(epa/dha)"      — space→hyphen
+        paren_stripped.replace(/-/g,' '),     // "omega 3"
+        paren_stripped.replace(/\s+/g,'-')    // also covers some malformed keys
+      ];
+      var entries = null;
+      for (var ci = 0; ci < candidates.length && !entries; ci++) {
+        if (candidates[ci]) entries = db[candidates[ci]];
+      }
       if (!entries || !entries.length) return;
       var rows = entries.map(function(b){
         var verified = (b.verified||[]).map(function(v){

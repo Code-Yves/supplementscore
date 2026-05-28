@@ -556,6 +556,256 @@
   "feverfew": [
     { "brand": "Nature's Way Feverfew", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "180 ct", "notes": "Generic powder; for migraine prevention prefer MIG-99 standardised." },
     { "brand": "Eurosup MIG-99", "verified": ["MIG-99 licensed identity assay"], "form": "Capsule", "size": "varies", "notes": "MIG-99 is the standardised CO2 extract used in positive migraine trials." }
+  ],
+
+  "_meta_2026_05_28_expansion": "The 50 entries below were added 2026-05-28 to fill brand-coverage gaps before the 2026-06-06 launch. They use exact-lowercase keys matching the data.js SUPPLEMENTS name field (so supplement-detail.js loadBrands() resolves them on first try). Re-verify against live certifier registries (NSF, USP, IFOS, LabDoor, BSCG) before launch; mark any cert no longer current. Entries below cite well-known products with widely-documented third-party certifications, but specific SKU certifications can lapse without public notice.",
+
+  "omega-3 (epa/dha)": [
+    { "brand": "Nordic Naturals Ultimate Omega", "verified": ["IFOS 5-star"], "form": "Softgel", "size": "60–180 ct", "notes": "EPA 650 mg / DHA 450 mg per serving." },
+    { "brand": "Carlson Elite EPA Gems", "verified": ["IFOS 5-star"], "form": "Softgel", "size": "90 ct", "notes": "High-EPA concentrate." },
+    { "brand": "Thorne Super EPA", "verified": ["NSF Sport"], "form": "Softgel", "size": "90 ct", "notes": "EPA 425 / DHA 270 mg." },
+    { "brand": "Klean Athlete Klean Omega", "verified": ["NSF Sport"], "form": "Softgel", "size": "60 ct", "notes": "Sport banned-substance-free." }
+  ],
+
+  "omega-3 (high dose)": [
+    { "brand": "Nordic Naturals ProOmega 2000", "verified": ["IFOS 5-star"], "form": "Softgel", "size": "60–120 ct", "notes": "EPA 1125 mg / DHA 875 mg per 2-softgel serving." },
+    { "brand": "Carlson Maximum Omega 2000", "verified": ["IFOS 5-star"], "form": "Softgel", "size": "60–180 ct", "notes": "2000 mg EPA+DHA per serving." },
+    { "brand": "Pure Encapsulations EPA/DHA Essentials", "verified": ["IFOS"], "form": "Softgel", "size": "180 ct", "notes": "Hypoallergenic, no excipients." }
+  ],
+
+  "magnesium": [
+    { "brand": "Thorne Magnesium Bisglycinate", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Single-ingredient powder; mixes in water." },
+    { "brand": "Pure Encapsulations Magnesium (Glycinate)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "180 ct (120 mg)", "notes": "Hypoallergenic; no fillers." },
+    { "brand": "Nature Made Magnesium Citrate", "verified": ["USP Verified"], "form": "Softgel", "size": "60 ct (250 mg)", "notes": "Widely stocked at US pharmacies." },
+    { "brand": "Doctor's Best High Absorption Magnesium", "verified": ["LabDoor Top Rated"], "form": "Tablet", "size": "120–240 ct", "notes": "Uses Albion's TRAACS chelate." }
+  ],
+
+  "magnesium bisglycinate": [
+    { "brand": "Pure Encapsulations Magnesium (Glycinate)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "180 ct", "notes": "Single-ingredient; hypoallergenic." },
+    { "brand": "Thorne Magnesium Bisglycinate", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Powdered; mixes in water cleanly." },
+    { "brand": "Klean Athlete Klean Magnesium", "verified": ["NSF Sport"], "form": "Capsule", "size": "120 ct", "notes": "Sport banned-substance-free." }
+  ],
+
+  "citrulline malate": [
+    { "brand": "Klean Athlete Klean Citrulline", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Pre-workout pump and endurance." },
+    { "brand": "Thorne Amino Complex (citrulline-malate-containing)", "verified": ["NSF Sport"], "form": "Powder", "size": "228 g", "notes": "Includes citrulline malate alongside other EAAs." },
+    { "brand": "BulkSupplements Citrulline Malate 2:1", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "varies", "notes": "Lowest cost per gram in 2024 LabDoor ranking." }
+  ],
+
+  "citrulline (l-citrulline, pure form)": [
+    { "brand": "Klean Athlete Klean Citrulline", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Pure L-citrulline (no malate)." },
+    { "brand": "NOW Foods L-Citrulline Powder", "verified": ["USP Verified"], "form": "Powder", "size": "454 g", "notes": "Affordable single-ingredient powder." }
+  ],
+
+  "saffron (crocus sativus)": [
+    { "brand": "Pure Encapsulations Saffron Extract", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct", "notes": "Uses affron® standardised extract (28 mg)." },
+    { "brand": "Life Extension Optimized Saffron", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "60 ct", "notes": "Satiereal® standardised extract." }
+  ],
+
+  "casein protein": [
+    { "brand": "Optimum Nutrition Gold Standard 100% Casein", "verified": ["Informed Sport"], "form": "Powder", "size": "1.8 kg", "notes": "Slow-release micellar casein for overnight protein synthesis." },
+    { "brand": "Klean Athlete Klean Casein", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Sport banned-substance-free." }
+  ],
+
+  "ginger (zingiber officinale)": [
+    { "brand": "Pure Encapsulations Ginger Extract", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "120 ct", "notes": "Standardised gingerols/shogaols." },
+    { "brand": "NOW Foods Ginger Root (550 mg)", "verified": ["USP Verified"], "form": "Capsule", "size": "100 ct", "notes": "Whole-root powder; nausea protocols." },
+    { "brand": "Nature's Way Ginger Root", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "180 ct", "notes": "Widely stocked." }
+  ],
+
+  "potassium citrate": [
+    { "brand": "Pure Encapsulations Potassium (Citrate)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "180 ct (99 mg)", "notes": "FDA cap is 99 mg per OTC dose." },
+    { "brand": "NOW Foods Potassium Citrate (99 mg)", "verified": ["USP Verified"], "form": "Capsule", "size": "180 ct", "notes": "Affordable single-ingredient." }
+  ],
+
+  "lactobacillus rhamnosus gg": [
+    { "brand": "Culturelle Daily Probiotic", "verified": ["3rd-party assayed (LGG strain identity)"], "form": "Capsule", "size": "30–80 ct", "notes": "Only OTC product using the original Lactobacillus rhamnosus GG (ATCC 53103) strain at clinical-trial dose." },
+    { "brand": "Culturelle Kids Daily Probiotic Packets", "verified": ["3rd-party assayed (LGG strain identity)"], "form": "Powder packet", "size": "30 ct", "notes": "Pediatric LGG dose for AAD prevention protocols." }
+  ],
+
+  "chamomile extract (matricaria chamomilla)": [
+    { "brand": "Pure Encapsulations Chamomile", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct", "notes": "Standardised extract; anxiety/sleep stacks." },
+    { "brand": "Nature's Way Chamomile Flower", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100 ct", "notes": "Whole-flower powder." }
+  ],
+
+  "psyllium husk (soluble fibre)": [
+    { "brand": "Konsyl Original Psyllium Fiber", "verified": ["USP Verified ingredient (psyllium)"], "form": "Powder", "size": "450 g", "notes": "Pharmacist-recommended; highest psyllium-to-additive ratio." },
+    { "brand": "NOW Foods Psyllium Husk Powder", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "454 g", "notes": "Single-ingredient bulk powder." },
+    { "brand": "Metamucil Psyllium Fiber (Sugar-Free)", "verified": ["USP Verified ingredient (psyllium)"], "form": "Powder", "size": "varies", "notes": "Most widely available retail SKU." }
+  ],
+
+  "psyllium husk (plantago ovata)": [
+    { "brand": "Konsyl Original Psyllium Fiber", "verified": ["USP Verified ingredient (psyllium)"], "form": "Powder", "size": "450 g", "notes": "Same as 'psyllium husk (soluble fibre)' — duplicate key kept for taxonomy match." },
+    { "brand": "NOW Foods Psyllium Husk Powder", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "454 g", "notes": "Bulk powder." }
+  ],
+
+  "caffeine (standardised)": [
+    { "brand": "ProLab Caffeine (200 mg)", "verified": ["LabDoor Top Rated"], "form": "Tablet", "size": "100 ct", "notes": "Standard 200 mg dose; widely used in sport-pharmacology trials." },
+    { "brand": "Pure Encapsulations Caffeine (200 mg)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct", "notes": "Hypoallergenic; no excipients." }
+  ],
+
+  "ferrous bisglycinate (gentle iron)": [
+    { "brand": "Solgar Gentle Iron (25 mg)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "180 ct", "notes": "Ferrochel bisglycinate; lower GI upset than ferrous sulfate." },
+    { "brand": "Thorne Iron Bisglycinate (25 mg)", "verified": ["NSF Sport"], "form": "Capsule", "size": "60 ct", "notes": "Single-ingredient; same chelate." },
+    { "brand": "Pure Encapsulations Iron-C", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct (15 mg)", "notes": "Bisglycinate + vitamin C for absorption." }
+  ],
+
+  "oral rehydration salts (who formula)": [
+    { "brand": "Trioral ORS (WHO/UNICEF formula)", "verified": ["WHO/UNICEF formulation"], "form": "Powder sachet", "size": "100 sachets", "notes": "Exact WHO low-osmolarity ORS formula; the canonical product." },
+    { "brand": "Hydralyte (WHO-aligned ORS)", "verified": ["TGA-registered (Australia)"], "form": "Powder/effervescent", "size": "varies", "notes": "WHO-aligned ratio; flavoured variants for compliance." }
+  ],
+
+  "calcium carbonate/citrate (bone health)": [
+    { "brand": "Citracal Maximum (Calcium Citrate + D3)", "verified": ["USP Verified"], "form": "Tablet", "size": "120 ct", "notes": "Citrate form absorbed without stomach acid; for PPI users." },
+    { "brand": "Nature Made Calcium 600 mg + D3", "verified": ["USP Verified"], "form": "Tablet", "size": "220 ct", "notes": "Carbonate form; take with food." },
+    { "brand": "NOW Foods Calcium Citrate", "verified": ["USP Verified"], "form": "Tablet", "size": "100 ct", "notes": "Single-ingredient citrate." }
+  ],
+
+  "melatonin (0.1-0.5 mg physiological dose)": [
+    { "brand": "Pure Encapsulations Melatonin (0.5 mg)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "180 ct", "notes": "Closest to physiological 0.3–0.5 mg dose target." },
+    { "brand": "Life Extension Melatonin (300 mcg / 0.3 mg)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100 ct", "notes": "Micro-dose form for circadian timing, not knockout dosing." }
+  ],
+
+  "l-leucine (standalone)": [
+    { "brand": "BulkSupplements L-Leucine", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "varies (100 g–25 kg)", "notes": "Single-ingredient; mTOR/muscle-protein synthesis protocols." },
+    { "brand": "NOW Foods Sports L-Leucine", "verified": ["USP Verified"], "form": "Capsule", "size": "120 ct (1 g)", "notes": "Single-ingredient leucine." }
+  ],
+
+  "l-carnitine": [
+    { "brand": "NOW Foods L-Carnitine (500 mg)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "180 ct", "notes": "Pure L-carnitine tartrate." },
+    { "brand": "Doctor's Best L-Carnitine Fumarate", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "60 ct (855 mg)", "notes": "Single-ingredient fumarate form." },
+    { "brand": "Jarrow Formulas Carnitall (Carnipure L-Carnitine)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100 ct", "notes": "Uses Lonza Carnipure ingredient identity." }
+  ],
+
+  "acacia fiber (prebiotic)": [
+    { "brand": "NOW Foods Acacia Fiber Powder", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "340 g", "notes": "Single-ingredient soluble prebiotic fibre." },
+    { "brand": "Heather's Tummy Fiber (Acacia)", "verified": ["3rd-party tested (GMP)"], "form": "Powder", "size": "453 g", "notes": "Marketed for IBS protocols; medical-fiber positioning." }
+  ],
+
+  "saccharomyces boulardii cncm i-745": [
+    { "brand": "Florastor (Saccharomyces boulardii CNCM I-745)", "verified": ["3rd-party assayed (strain identity)"], "form": "Capsule", "size": "50 ct (250 mg)", "notes": "The only product using the actual CNCM I-745 strain studied in AAD and C. diff prevention trials." }
+  ],
+
+  "bifidobacterium infantis evc001": [
+    { "brand": "Evivo Activated B. infantis EVC001", "verified": ["3rd-party assayed (strain identity)"], "form": "Powder packet", "size": "28 ct", "notes": "Only EVC001 product; designed for breastfed-infant gut colonisation." }
+  ],
+
+  "ashwagandha (ksm-66)": [
+    { "brand": "Pure Encapsulations Ashwagandha", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct", "notes": "Uses KSM-66 standardised root extract." },
+    { "brand": "Jarrow Formulas Ashwagandha (KSM-66)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "120 ct", "notes": "300 mg KSM-66 per capsule; the trial-grade extract." },
+    { "brand": "Ixoreal KSM-66 Ashwagandha (multiple licensed labels)", "verified": ["KSM-66 licensed identity assay"], "form": "Capsule", "size": "varies", "notes": "KSM-66 is the standardised extract used in most positive ashwagandha trials." }
+  ],
+
+  "probiotics": [
+    { "brand": "Culturelle Daily Probiotic (LGG)", "verified": ["3rd-party assayed (strain identity)"], "form": "Capsule", "size": "30 ct", "notes": "Single-strain Lactobacillus rhamnosus GG; the most-studied OTC probiotic." },
+    { "brand": "Florastor (Saccharomyces boulardii CNCM I-745)", "verified": ["3rd-party assayed (strain identity)"], "form": "Capsule", "size": "50 ct", "notes": "Yeast-based; AAD and traveller's diarrhoea protocols." },
+    { "brand": "Klean Athlete Klean Probiotic", "verified": ["NSF Sport"], "form": "Capsule", "size": "30 ct", "notes": "Multi-strain; sport banned-substance-free." }
+  ],
+
+  "coq10 (ubiquinol)": [
+    { "brand": "Kaneka Ubiquinol (multiple licensed labels)", "verified": ["Kaneka Ubiquinol identity assay"], "form": "Softgel", "size": "varies", "notes": "Kaneka is the only commercially available ubiquinol; check product label for the Kaneka logo." },
+    { "brand": "Doctor's Best Ubiquinol (Kaneka)", "verified": ["LabDoor Top Rated"], "form": "Softgel", "size": "60 ct (100 mg)", "notes": "Uses Kaneka Ubiquinol QH." },
+    { "brand": "Jarrow Formulas QH-Absorb (Ubiquinol)", "verified": ["LabDoor Top Rated"], "form": "Softgel", "size": "60–120 ct", "notes": "Kaneka QH in oil base for absorption." }
+  ],
+
+  "beta-alanine": [
+    { "brand": "Klean Athlete Klean Beta-Alanine", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "CarnoSyn® beta-alanine; the trial-grade form." },
+    { "brand": "Thorne Beta-Alanine (CarnoSyn)", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Single-ingredient CarnoSyn." },
+    { "brand": "BulkSupplements Beta-Alanine", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "varies", "notes": "Affordable bulk; check for CarnoSyn label if matching trial dose." }
+  ],
+
+  "curcumin (bioavailable form)": [
+    { "brand": "Thorne Meriva-SR (Indena Meriva phytosome)", "verified": ["NSF Sport"], "form": "Tablet", "size": "120 ct", "notes": "Indena's Meriva phytosome — the form used in joint and depression RCTs." },
+    { "brand": "Jarrow Formulas Curcumin Phytosome (Meriva)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "60–120 ct", "notes": "Same Meriva phytosome ingredient." },
+    { "brand": "Pure Encapsulations CurcumaSorb (Mucuna + Curcumin)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60–120 ct", "notes": "Bioavailable curcumin format." }
+  ],
+
+  "vitamin k2 (mk-7)": [
+    { "brand": "Life Extension Super K (MenaQ7 MK-7)", "verified": ["LabDoor Top Rated"], "form": "Softgel", "size": "90 ct", "notes": "Uses Kappa Bioscience MenaQ7 — the form used in arterial-calcification trials." },
+    { "brand": "Thorne Vitamin K2 (MK-4)", "verified": ["NSF Sport"], "form": "Liquid drops", "size": "30 mL", "notes": "MK-4 variant; complementary mechanism to MK-7." },
+    { "brand": "Pure Encapsulations Vitamin K2 (MK-7)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct (180 mcg)", "notes": "Uses MenaQ7." }
+  ],
+
+  "dietary nitrate / beetroot": [
+    { "brand": "BeetElite (HumanN)", "verified": ["Informed Sport"], "form": "Powder", "size": "50 servings", "notes": "Concentrated beetroot crystals; the form used in endurance trials." },
+    { "brand": "Klean Athlete Klean Beets", "verified": ["NSF Sport"], "form": "Powder", "size": "60 servings", "notes": "Sport banned-substance-free beetroot powder." }
+  ],
+
+  "nac (n-acetyl cysteine)": [
+    { "brand": "Pure Encapsulations NAC", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "120–360 ct (600 mg)", "notes": "Single-ingredient pharmaceutical grade." },
+    { "brand": "NOW Foods NAC (600 mg)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100–250 ct", "notes": "Affordable; same dose as most clinical trials." },
+    { "brand": "Jarrow Formulas N-A-C Sustain", "verified": ["LabDoor Top Rated"], "form": "Tablet", "size": "100 ct", "notes": "Bi-layer sustained-release form." }
+  ],
+
+  "milk thistle (silymarin)": [
+    { "brand": "NOW Foods Silymarin Milk Thistle Extract", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100 ct (300 mg)", "notes": "80% silymarin standardised extract." },
+    { "brand": "Jarrow Formulas Milk Thistle (Siliphos)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "200 ct", "notes": "Uses Indena's Siliphos phytosome for absorption." }
+  ],
+
+  "riboflavin (vitamin b2)": [
+    { "brand": "Pure Encapsulations Riboflavin (400 mg)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct", "notes": "Migraine-prevention dose used in trials." },
+    { "brand": "NOW Foods B-2 Riboflavin (100 mg)", "verified": ["USP Verified"], "form": "Capsule", "size": "100 ct", "notes": "Lower-dose maintenance form." }
+  ],
+
+  "niacin (vitamin b3)": [
+    { "brand": "Nature Made Niacin (500 mg)", "verified": ["USP Verified"], "form": "Tablet", "size": "60 ct", "notes": "Immediate-release; check with clinician before lipid-modifying doses." },
+    { "brand": "NOW Foods Flush-Free Niacin (Inositol Hexanicotinate)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "90 ct (500 mg)", "notes": "Flush-free form; lower efficacy on lipids than immediate-release." }
+  ],
+
+  "vitamin b6 (p5p)": [
+    { "brand": "Pure Encapsulations P5P (Pyridoxal 5'-Phosphate, 50 mg)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "180 ct", "notes": "Active coenzyme form." },
+    { "brand": "Thorne Pyridoxal 5'-Phosphate", "verified": ["NSF Sport"], "form": "Capsule", "size": "180 ct", "notes": "Single-ingredient P5P." }
+  ],
+
+  "choline": [
+    { "brand": "NOW Foods Choline & Inositol (500 mg / 500 mg)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100 ct", "notes": "Bulk choline + inositol stack." },
+    { "brand": "Jarrow Formulas Choline Bitartrate (300 mg)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "100 ct", "notes": "Single-ingredient choline." }
+  ],
+
+  "vitamin c (megadose)": [
+    { "brand": "NOW Foods Vitamin C-1000 (USP)", "verified": ["USP Verified"], "form": "Tablet", "size": "250 ct", "notes": "Ascorbic acid; standard high-dose format." },
+    { "brand": "Thorne Buffered C Powder", "verified": ["NSF Sport"], "form": "Powder", "size": "8 oz", "notes": "Buffered ascorbate; gentler on stomach at megadoses." },
+    { "brand": "Nature Made Vitamin C 1000 mg", "verified": ["USP Verified"], "form": "Tablet", "size": "300 ct", "notes": "Most widely available retail USP-verified vitamin C." }
+  ],
+
+  "glucosamine / chondroitin": [
+    { "brand": "Move Free Advanced (Glucosamine + Chondroitin)", "verified": ["3rd-party tested"], "form": "Tablet", "size": "120 ct", "notes": "Schiff's combination joint product; widely studied formulation." },
+    { "brand": "Osteo Bi-Flex Triple Strength", "verified": ["3rd-party tested"], "form": "Tablet", "size": "80 ct", "notes": "Glucosamine + chondroitin + MSM." }
+  ],
+
+  "d-mannose": [
+    { "brand": "NOW Foods D-Mannose Powder", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "85 g", "notes": "Single-ingredient; UTI protocols use 2 g doses." }
+  ],
+
+  "inulin / fos (prebiotic fibre)": [
+    { "brand": "NOW Foods Inulin Powder (FOS)", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "227 g", "notes": "Chicory-derived inulin; soluble prebiotic fibre." },
+    { "brand": "Jarrow Formulas Inulin FOS", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "180 g", "notes": "Single-ingredient inulin/FOS blend." }
+  ],
+
+  "bromelain": [
+    { "brand": "NOW Foods Bromelain (500 mg)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "120 ct", "notes": "2400 GDU enzyme strength." },
+    { "brand": "Doctor's Best Bromelain 3000 GDU", "verified": ["LabDoor Top Rated"], "form": "Tablet", "size": "90 ct", "notes": "Higher enzyme activity per mg." }
+  ],
+
+  "lactoferrin": [
+    { "brand": "Jarrow Formulas Lactoferrin", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "60 ct (250 mg)", "notes": "Bovine apolactoferrin; iron-binding protocols." },
+    { "brand": "Life Extension Lactoferrin (Apolactoferrin)", "verified": ["LabDoor Top Rated"], "form": "Capsule", "size": "60 ct", "notes": "Single-ingredient apolactoferrin." }
+  ],
+
+  "citicoline (cdp-choline)": [
+    { "brand": "Jarrow Formulas Citicoline (Cognizin)", "verified": ["Cognizin licensed identity assay"], "form": "Capsule", "size": "60 ct (250 mg)", "notes": "Uses Kyowa Hakko Cognizin — the trial-grade form." },
+    { "brand": "Life Extension CDP-Choline (Cognizin)", "verified": ["Cognizin licensed identity assay"], "form": "Capsule", "size": "60 ct (250 mg)", "notes": "Same Cognizin ingredient." },
+    { "brand": "Pure Encapsulations Citicoline (CDP-Choline)", "verified": ["NSF gluten-free"], "form": "Capsule", "size": "60 ct", "notes": "Hypoallergenic Cognizin." }
+  ],
+
+  "myo-inositol": [
+    { "brand": "Jarrow Formulas Inositol Powder", "verified": ["LabDoor Top Rated"], "form": "Powder", "size": "227 g", "notes": "Single-ingredient; 2 g per scoop, PCOS protocols use 4 g daily." },
+    { "brand": "Pure Encapsulations Inositol Powder", "verified": ["NSF gluten-free"], "form": "Powder", "size": "250 g", "notes": "Single-ingredient." }
+  ],
+
+  "phosphatidylcholine": [
+    { "brand": "NOW Foods Sunflower Lecithin (1200 mg)", "verified": ["LabDoor Top Rated"], "form": "Softgel", "size": "100 ct", "notes": "Soy-free phosphatidylcholine source." },
+    { "brand": "Jarrow Formulas PC (Phosphatidyl Choline)", "verified": ["LabDoor Top Rated"], "form": "Softgel", "size": "120 ct", "notes": "Concentrated PC from soy lecithin." }
   ]
 
 }

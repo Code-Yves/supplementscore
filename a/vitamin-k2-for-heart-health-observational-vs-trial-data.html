@@ -111,6 +111,10 @@
     .ar-foot { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-tertiary); }
     .ar-foot strong { color: var(--color-text-secondary); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
     .ar-foot a { color: var(--color-text-secondary); text-decoration: underline; margin-right: 8px; }
+    /* In-article medical disclaimer — left-bar typographic block, no filled card. */
+    .ar-disclaim { border-left: 3px solid var(--color-border-tertiary); padding: 8px 14px; margin: 18px 0 22px; font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); }
+    .ar-disclaim strong { color: var(--color-text-primary); }
+    .ar-disclaim a { color: var(--color-text-secondary); text-decoration: underline; text-underline-offset: 2px; }
     /* Hide the inline back button that was inherited from the original article markup */
     .ar-content button[onclick*="showArticleList"] { display: none; }
   </style>
@@ -178,6 +182,7 @@
   <div class="ar-bottomline-label">Bottom Line</div>
   <p><strong style="color:#B45309;font-weight:700;font-style:normal">Sensitive populations:</strong> This article references teen or menopausal. Always confirm any supplement change with your child's pediatrician before starting — dosing, contraindications, and risk profile shift in these groups.</p>
 </div>
+<aside class="ar-disclaim" role="note"><strong>Educational reference, not medical advice.</strong> Always consult a clinician before changing your supplement regimen. See our <a href="/about.html#methodology">methodology</a> for how scores are derived. Questions or corrections: <a href="mailto:hello@supplementscore.org">hello@supplementscore.org</a>.</aside>
 
 <div class="ar-content">
 <button onclick="showArticleList()" style="border:none;background:none;color:#1F7A6B;font-size:13px;cursor:pointer;padding:0;margin-bottom:1rem;font-family:inherit">&larr; Back to articles</button>
