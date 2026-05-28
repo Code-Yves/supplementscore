@@ -33,6 +33,22 @@
         "s/potassium-supplementation.html",
         "s/pterostilbene.html"
       ]
+    },
+    {
+      "date": "2026-05-28",
+      "iso_week": "2026-W22",
+      "pages": [
+        "s/2-fucosyllactose.html",
+        "s/brewer-s-yeast.html",
+        "s/chromium-gtf.html",
+        "s/devil-s-claw.html",
+        "s/lion-s-mane-mushroom.html",
+        "s/lion-s-mane.html",
+        "s/st-john-s-wort.html",
+        "s/cistus-incanus.html",
+        "s/uridine-monophosphate.html",
+        "s/zinc.html"
+      ]
     }
   ]
 }

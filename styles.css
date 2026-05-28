@@ -2402,6 +2402,28 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .skip-link{position:absolute;left:0;top:-40px;background:var(--color-brand);color:#fff;padding:8px 16px;z-index:10000;text-decoration:none;border-radius:0 0 6px 0;font-weight:600}
 .skip-link:focus{top:0;outline:2px solid #fff;outline-offset:-4px}
 
+/* Article Bottom Line callout (2026-05-27).
+   Placed immediately after the <h1>/.ar-meta, before the article body. Uses
+   the left-bar typographic treatment per memory note feedback_no_filled_callouts
+   so it doesn't compete with the heading as a filled card. */
+.ar-bottomline{
+  border-left: 3px solid var(--color-brand);
+  padding: 4px 0 4px 18px;
+  margin: 18px 0 24px;
+}
+.ar-bottomline-label{
+  font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--color-brand);
+  margin: 0 0 6px;
+}
+.ar-bottomline p{
+  font-size: 16px; line-height: 1.5; color: var(--color-text-primary);
+  margin: 0; font-weight: 500;
+}
+@media (max-width: 600px){
+  .ar-bottomline p{ font-size: 15px; }
+}
+
 /* Theme-toggle button is hidden in markup (stub kept only so old cached links
    don't error). All its styling has been removed along with dark-mode rules. */
 

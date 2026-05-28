@@ -126,9 +126,24 @@ function findOrphans(slugSet) {
   const orphans = [];
   for (const f of files) {
     const slug = f.replace(/\.html$/, '');
-    if (!slugSet.has(slug)) {
-      orphans.push({ slug, file: f, mtime: fs.statSync(path.join(A_DIR, f)).mtime.getTime() });
-    }
+    if (slugSet.has(slug)) continue;
+    // Skip noindex consolidation-redirect stubs (intentional canonical redirects,
+    // not registration candidates). Two-signal check on the head bytes only.
+    // Fix added 2026-05-28 — previously these stubs were flagged daily as orphans
+    // (see reviews/article-registration-2026-05-27.md, "Persistent noindex-stub
+    // false positives"). Tombstones are also exempted in parseArticle().
+    try {
+      const fd = fs.openSync(path.join(A_DIR, f), 'r');
+      const buf = Buffer.alloc(4096);
+      const n = fs.readSync(fd, buf, 0, 4096, 0);
+      fs.closeSync(fd);
+      const head = buf.slice(0, n).toString('utf8');
+      if (/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(head)
+          && /<meta[^>]+http-equiv=["']refresh["']/i.test(head)) {
+        continue;
+      }
+    } catch { /* fall through and treat as orphan */ }
+    orphans.push({ slug, file: f, mtime: fs.statSync(path.join(A_DIR, f)).mtime.getTime() });
   }
   orphans.sort((a, b) => b.mtime - a.mtime);
   return orphans;
