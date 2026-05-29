@@ -136,8 +136,18 @@ function escAttrJs(s){return escAttr(String(s).replace(/\\/g,'\\\\')).replace(/&
    as chips (statin, BP med, thyroid, SSRI). Anything else the user reaches via the
    "Specific medications" typeahead below the chips. Selected items NOT in TOP_4
    still render as chips so the user can see what they picked previously. */
+/* Shared keyboard handler for toggle chips (wizard Steps 4–6: conditions,
+   medications, diets, allergies). Enter/Space activates the chip's existing
+   onclick so keyboard and screen-reader users can operate them. These chips
+   render as role="checkbox" with a synced aria-checked. (2026-05-29 a11y fix.) */
+function _chipKeydown(ev){
+  if(ev && (ev.key==='Enter'||ev.key===' '||ev.key==='Spacebar')){
+    ev.preventDefault();
+    if(ev.currentTarget && typeof ev.currentTarget.click==='function') ev.currentTarget.click();
+  }
+}
 const TOP_MED_CLASSES=['statin','bp','thyroid','ssri'];
-function renderMedChips(){const el=document.getElementById('med-chips');if(!el)return;const keys=[...new Set([...TOP_MED_CLASSES,...Array.from(selectedMeds||[])])].filter(k=>MEDS[k]);el.innerHTML=keys.map(k=>{const m=MEDS[k];return`<div class="med-chip ${selectedMeds.has(k)?'on':''}" onclick="toggleMed('${escAttrJs(k)}')">${escHtml(m.label)}</div>`;}).join('');updateMedNote();}
+function renderMedChips(){const el=document.getElementById('med-chips');if(!el)return;const keys=[...new Set([...TOP_MED_CLASSES,...Array.from(selectedMeds||[])])].filter(k=>MEDS[k]);el.innerHTML=keys.map(k=>{const m=MEDS[k];return`<div class="med-chip ${selectedMeds.has(k)?'on':''}" role="checkbox" tabindex="0" aria-checked="${selectedMeds.has(k)?'true':'false'}" onclick="toggleMed('${escAttrJs(k)}')" onkeydown="_chipKeydown(event)">${escHtml(m.label)}</div>`;}).join('');updateMedNote();}
 function toggleMed(k){selectedMeds.has(k)?selectedMeds.delete(k):selectedMeds.add(k);renderMedChips();updatePfCounts();}
 function updateMedNote(){const n=document.getElementById('med-note');if(!n)return;if(selectedMeds.size===0){n.style.display='none';return;}n.style.display='block';const avoidAll=new Set(),cautionAll=new Set(),extraAll=new Set();selectedMeds.forEach(k=>{const m=MEDS[k];if(!m)return;m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>cautionAll.add(x));m.extra.forEach(x=>extraAll.add(x));});n.innerHTML=`${avoidAll.size>0?'⚠ Will exclude: '+[...avoidAll].join(', ')+'. ':''}${cautionAll.size>0?'⚡ Will flag cautions on: '+[...cautionAll].join(', ')+'. ':''}${extraAll.size>0?'✚ Will add: '+[...extraAll].join(', ')+'.':''}`;}
 function getMedInteractions(){const avoidAll=new Set(),cautionMap={},extraAll=new Set(),notes=[];selectedMeds.forEach(k=>{const m=MEDS[k];if(!m)return;m.avoid.forEach(x=>avoidAll.add(x));m.caution.forEach(x=>{if(!cautionMap[x])cautionMap[x]=[];cautionMap[x].push(m.label);});m.extra.forEach(x=>extraAll.add(x));notes.push({med:m.label,note:m.note});});return{avoid:avoidAll,caution:cautionMap,extra:[...extraAll],notes};}
@@ -242,6 +252,103 @@ const FORM_PREFERENCES = {
    of removed items so the UI can surface "removed because..." entries.
    Backward-compatible: skips silently if new schema fields aren't present.
    ────────────────────────────────────────────────────────────────────────── */
+
+/* Serotonergic stacking lists — hoisted to module scope so BOTH
+   profileAugmentationPass (base recs) and _enforceHardBlocks (late-add safety
+   net) read one source of truth. */
+const _SEROTONERGIC_SUPPS = new Set([
+  "St. John's Wort", '5-HTP', 'S-Adenosylmethionine (SAMe)',
+  'Tryptophan (L-tryptophan)', 'L-Tryptophan',
+  'Methylene blue (pharmaceutical grade)'
+]);
+const _SEROTONERGIC_DRUG_CLASSES = new Set([
+  'ssri','snri','tricyclic','atypical_antidep','maoi','triptan','tramadol','dextromethorphan','linezolid','methylene_blue'
+]);
+
+/* Build a read-only predicate that returns a block-reason object for any
+   supplement name that must be HARD-REMOVED for the current profile:
+   condition supps_avoid (incl. the synthetic 'pregnant' condition), serotonergic
+   stacking, drug-pair 'avoid', current-smoker beta-carotene, allergy, and
+   diet-avoid. This mirrors the hard-removal criteria profileAugmentationPass
+   applies to the base recs. Derivation only — never mutates state.
+   Why this exists: the blood-work and goal-follow-up paths add supplements AFTER
+   profileAugmentationPass runs, and those paths only checked mi.avoid /
+   _profileBlocked — so a contraindicated supp pulled in by a follow-up answer
+   (e.g. pregnant + "Cholesterol" → Berberine) bypassed every hard filter. */
+function _buildHardAvoidPredicate(){
+  const health = (typeof getHealthStatus === 'function') ? getHealthStatus() : null;
+  const impliedConds = new Set();
+  if(health && typeof CONDITIONS !== 'undefined'){
+    if(health.kidney === 'moderate' && CONDITIONS.ckd_stage_3) impliedConds.add('ckd_stage_3');
+    if(health.kidney === 'severe' && CONDITIONS.ckd_stage_4_5) impliedConds.add('ckd_stage_4_5');
+    if(health.liver === 'cirrhosis' && CONDITIONS.liver) impliedConds.add('liver');
+    if(health.liver === 'impaired' && CONDITIONS.nafld) impliedConds.add('nafld');
+    if(typeof sex !== 'undefined' && sex === 'fp' && CONDITIONS.pregnant) impliedConds.add('pregnant');
+  }
+  const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ...impliedConds]);
+  const condAvoid = {};
+  if(typeof CONDITIONS !== 'undefined'){
+    effectiveConds.forEach(k => {
+      const c = CONDITIONS[k]; if(!c) return;
+      (c.supps_avoid||[]).forEach(n => { (condAvoid[n] = condAvoid[n] || []).push(c.label); });
+    });
+  }
+  const allergyMatchers = [];
+  if(health && health.allergies && health.allergies.length && typeof ALLERGY_TO_SUPP_PATTERNS !== 'undefined'){
+    health.allergies.forEach(a => { (ALLERGY_TO_SUPP_PATTERNS[a]||[]).forEach(re => allergyMatchers.push({re, allergy:a})); });
+  }
+  const dietMatchers = [];
+  if(health && health.diets && health.diets.length && typeof DIET_TO_SUPP_PATTERNS !== 'undefined'){
+    health.diets.forEach(d => { const cfg = DIET_TO_SUPP_PATTERNS[d]; if(!cfg) return; (cfg.avoid||[]).forEach(re => dietMatchers.push({re, diet:d, reason:cfg.reason})); });
+  }
+  const smokingCurrent = !!(health && health.smoking === 'current');
+  let onSerotonergic = false;
+  if(typeof selectedMeds !== 'undefined'){ for(const k of selectedMeds){ if(_SEROTONERGIC_DRUG_CLASSES.has(k)){ onSerotonergic = true; break; } } }
+  if(!onSerotonergic && typeof selectedDrugs !== 'undefined' && typeof DRUG_INTERACTIONS !== 'undefined' && DRUG_INTERACTIONS.drugs){
+    for(const dk of selectedDrugs){ const d = DRUG_INTERACTIONS.drugs[dk]; if(d && d.class && _SEROTONERGIC_DRUG_CLASSES.has(d.class)){ onSerotonergic = true; break; } }
+  }
+  const drugAvoid = {};
+  if(typeof DRUG_INTERACTIONS !== 'undefined' && DRUG_INTERACTIONS.pairs){
+    const userDrugs = new Set();
+    if(typeof selectedDrugs !== 'undefined'){ [...selectedDrugs].forEach(d => { const k = (typeof resolveDrugKey === 'function') ? resolveDrugKey(d) : String(d).toLowerCase(); if(k) userDrugs.add(k); }); }
+    if(typeof selectedMeds !== 'undefined' && DRUG_INTERACTIONS.drugs){
+      const t = DRUG_INTERACTIONS.drugs;
+      [...selectedMeds].forEach(ck => { Object.keys(t).forEach(dkey => { if(t[dkey] && t[dkey].class === ck) userDrugs.add(dkey); }); });
+    }
+    if(userDrugs.size){
+      DRUG_INTERACTIONS.pairs.forEach(p => { if(userDrugs.has(p.drug) && p.severity === 'avoid'){ (drugAvoid[p.supp] = drugAvoid[p.supp] || []).push(p); } });
+    }
+  }
+  return function(name){
+    if(condAvoid[name]) return { reason:`condition: avoid in ${condAvoid[name].join(' & ')}`, sourcedBy:'condition_avoid', labels:condAvoid[name] };
+    if(onSerotonergic && _SEROTONERGIC_SUPPS.has(name)) return { reason:'serotonergic medication on board — additive serotonin-syndrome risk', sourcedBy:'serotonergic_hard_block', source:'NCCIH / FDA on serotonergic stacking' };
+    if(drugAvoid[name]){ const w = drugAvoid[name][0]; return { reason:`drug interaction: ${w.mechanism}`, sourcedBy:'drug_avoid', drug:w.drug, mechanism:w.mechanism, source:w.source }; }
+    if(smokingCurrent && /^beta-carotene/i.test(name)) return { reason:'current smoker — beta-carotene increased lung-cancer mortality in the CARET trial', sourcedBy:'smoking', source:'CARET trial / NEJM 1996' };
+    const am = allergyMatchers.find(m => m.re.test(name)); if(am) return { reason:`allergy: contains ${am.allergy}`, sourcedBy:'allergy', allergy:am.allergy };
+    const dm = dietMatchers.find(m => m.re.test(name)); if(dm) return { reason:`diet (${dm.diet}): ${dm.reason}`, sourcedBy:'diet', diet:dm.diet };
+    return null;
+  };
+}
+
+/* Late-add safety net. Runs AFTER all late-add paths (blood work + goal
+   follow-ups). Strips any rec that violates the hard-avoid predicate and logs
+   it to blockedArr so the "removed because…" section stays accurate. Strict
+   filter — can only remove contraindicated items, never add. */
+function _enforceHardBlocks(recs, blockedArr){
+  let pred;
+  try { pred = _buildHardAvoidPredicate(); } catch(e){ return; }
+  if(typeof pred !== 'function') return;
+  for(let i = recs.length - 1; i >= 0; i--){
+    const hit = pred(recs[i].n);
+    if(hit){
+      if(Array.isArray(blockedArr) && !blockedArr.some(b => b && b.n === recs[i].n)){
+        blockedArr.push(Object.assign({ n: recs[i].n }, hit));
+      }
+      recs.splice(i, 1);
+    }
+  }
+}
+
 function profileAugmentationPass(recs, opts){
   opts = opts || {};
   const blocked = [];
@@ -402,14 +509,8 @@ function profileAugmentationPass(recs, opts){
      used to pull them in. Defensive belt-and-suspenders — the per-drug-pair
      table already covers most pairs but a goal-driven addition (depression →
      SAMe) can slip through if the per-pair entry is missing. */
-  const _SEROTONERGIC_SUPPS = new Set([
-    "St. John's Wort", '5-HTP', 'S-Adenosylmethionine (SAMe)',
-    'Tryptophan (L-tryptophan)', 'L-Tryptophan',
-    'Methylene blue (pharmaceutical grade)'
-  ]);
-  const _SEROTONERGIC_DRUG_CLASSES = new Set([
-    'ssri','snri','tricyclic','atypical_antidep','maoi','triptan','tramadol','dextromethorphan','linezolid','methylene_blue'
-  ]);
+  /* _SEROTONERGIC_SUPPS and _SEROTONERGIC_DRUG_CLASSES are now module-level
+     constants (shared with the late-add safety net) — see top of file. */
   const _onSerotonergic = (function(){
     if(typeof selectedMeds !== 'undefined'){
       for(const k of selectedMeds){ if(_SEROTONERGIC_DRUG_CLASSES.has(k)) return true; }
@@ -528,12 +629,14 @@ function profileAugmentationPass(recs, opts){
   }
 
   // ── Pass 3: Confidence label (A/B/C) ──
-  // A: high tier evidence (e+r ≥ 8) AND ≥2 layers support OR critical biomarker
-  // B: e+r ≥ 6, single supportive layer
+  // A: high tier evidence (e+s ≥ 8) AND ≥2 layers support OR critical biomarker
+  // B: e+s ≥ 6, single supportive layer
   // C: preliminary or extrapolated
   recs.forEach(r => {
     const e = r.e || 0;
-    const sr = r.r || 0;  // research field
+    const sr = r.s || 0;  // safety score (0–5); paired with efficacy `e` for the evidence-quality sum.
+                          // NOTE: rec objects carry `e`/`s` (efficacy/safety), never `r` — the old `r.r`
+                          // read 0 for every card, pinning all confidence labels to "C". (Fixed 2026-05-29.)
     const evScore = e + sr;
     const layerCount = (r._goalExtra ? 1 : 0) + (r._condExtra ? 1 : 0) + (r._bwExtra ? 1 : 0) + (r.tf ? 1 : 0);
     let conf = 'C';
@@ -870,13 +973,11 @@ const DOSE_CALCULATORS = {
   }
 };
 function getPersonalizedDose(r){
-  const wt = parseFloat(document.getElementById('prof-weight')?.value) || 0;
-  const ht_ft = parseInt(document.getElementById('prof-height-ft')?.value) || 0;
-  const ht_in = parseInt(document.getElementById('prof-height-in')?.value) || 0;
   const ageVal = parseInt(document.getElementById('asl')?.value) || 0;
-  const wtKg = wt > 0 ? wt * 0.453592 : 0;
-  const htInTotal = (ht_ft * 12) + ht_in;
-  const bmi = (wtKg > 0 && htInTotal > 0) ? (wtKg / Math.pow(htInTotal * 0.0254, 2)) : 0;
+  /* Round-11: read body metrics unit-aware (imperial or metric) — single source. */
+  const _bm = (typeof _readBodyMetrics === 'function') ? _readBodyMetrics() : {wtKg:0, bmi:0};
+  const wtKg = _bm.wtKg;
+  const bmi = _bm.bmi;
   const labs = {};
   if(typeof bloodWork !== 'undefined' && bloodWork){
     for(const [k, v] of Object.entries(bloodWork)){ labs[k] = v.value || v; }
@@ -2000,13 +2101,20 @@ function _showRecs(){
   renderMedAlerts(mi);
   renderSuppStackAlerts(recs);
 
-  // Plan B5 — Render blocked/removed items mini-section so users see WHY a supp
-  // didn't make it into their recommendations (transparency > silent filtering).
-  renderBlockedItems(_profileBlocked || []);
-
   // Round-4 fix: apply Step 1 follow-up boost/demote rules
   // (e.g. Sleep "Falling asleep" → boost L-Theanine; "Daytime fatigue" → demote Melatonin).
   if (typeof applyFollowupAdjustments === 'function') applyFollowupAdjustments(recs);
+
+  // Safety net (2026-05-29): the blood-work and goal-follow-up paths above add
+  // supplements AFTER profileAugmentationPass ran, bypassing its hard-avoid
+  // filters. Re-apply those filters now so a contraindicated late-add (e.g.
+  // pregnant + "Cholesterol" → Berberine, or a serotonergic stack) can't survive.
+  if (typeof _enforceHardBlocks === 'function') _enforceHardBlocks(recs, _profileBlocked);
+
+  // Plan B5 — Render blocked/removed items mini-section so users see WHY a supp
+  // didn't make it into their recommendations (transparency > silent filtering).
+  // Rendered AFTER the safety net so any late-add removals are listed too.
+  renderBlockedItems(_profileBlocked || []);
 
   // Store recs globally for plan modal access
   _lastRecs=recs;
@@ -2513,6 +2621,16 @@ function renderSuppCards(recs,mi,bwResults){
       if(rec._bwTriggers && rec._bwTriggers.length){
         rec._bwTriggers.slice(0, 1).forEach(t => out.push(t.name + ' ' + (t.val||'')));
       }
+      /* Round-11: surface the diet-boost annotation (keto/mediterranean) so the
+         diet context is credited on the card — previously _dietBoost was set by
+         profileAugmentationPass but never rendered. */
+      if(rec._dietBoost && rec._dietBoost.length){
+        const _diets = (typeof DIET_OPTIONS !== 'undefined') ? DIET_OPTIONS : [];
+        rec._dietBoost.slice(0,1).forEach(function(dk){
+          const opt = _diets.find(function(o){ return o.key === dk; });
+          out.push('Fits your ' + (opt ? opt.label : dk) + ' diet');
+        });
+      }
       return out.slice(0,3);
     }
     const _whyChips = _buildWhyChips(r);
@@ -2723,107 +2841,10 @@ function updateSelCount(){
 }
 
 
-function openPlanModal(){
-  const recs=_allRecs();
-  const selected=recs.filter(r=>selectedSupps.has(r.n));
-  if(!selected.length){alert('Select at least one supplement to view your plan.');return;}
-
-  // Build flat supplement list
-  const items=selected.map(r=>{
-    const sup=_suppByName.get(r.n);
-    const sc=sup?calcScore(sup):0;
-    const tags=sup&&sup.tag?sup.tag.split(' · ').slice(0,2):[];
-    return{name:r.n,dose:r.dose.split(';')[0].split('.')[0],score:sc,pri:r.p,why:r.why||'',timing:getTimingLabel(r),tags};
-  });
-
-  // Summary body — flat list with edit link
-  let html='';
-  items.forEach(item=>{
-    const scoreBg=item.score>=80?'#0D9488':item.score>=60?'#4B7BE5':item.score>=40?'#CA8A04':'#B91C1C';
-    const tagHtml=item.tags.map(t=>`<span class="plan-row-tag">${t.trim()}</span>`).join('');
-    html+=`<div class="plan-row"><div class="plan-row-score" style="background:${scoreBg}">${item.score}</div><div class="plan-row-name">${item.name}</div><div class="plan-row-tags">${tagHtml}</div></div>`;
-  });
-  html+=`<div class="plan-edit-row"><button class="plan-edit-btn" onclick="closePlanModal()">Make changes</button></div>`;
-
-  const _pb=document.getElementById('plan-body');if(_pb)_pb.innerHTML=html;
-
-  // Note: in-modal "Your full personalized report" preview was removed 2026-04-28 per UX feedback.
-  // The PDF still contains the full report — see downloadPDF() / sendPlanEmail() for the export path.
-
-  const _ps=document.getElementById('plan-sub');if(_ps)_ps.textContent=selected.length+' supplement'+(selected.length!==1?'s':'')+' \u00B7 Personalized for your profile';
-  const _po=document.getElementById('plan-overlay');if(_po)_po.classList.add('open');
-  document.body.style.overflow='hidden';
-  /* Round-4 a11y: focus the close button and bind a focus trap + Esc handler. */
-  const _closeBtn = document.querySelector('#plan-overlay .plan-close-btn');
-  if(_closeBtn) try{_closeBtn.focus();}catch(_){}
-  if(typeof _bindPlanModalA11y==='function') _bindPlanModalA11y();
-}
-
-function closePlanModal(){
-  const _po=document.getElementById('plan-overlay');if(_po)_po.classList.remove('open');
-  document.body.style.overflow='';
-  if(typeof _unbindPlanModalA11y==='function') _unbindPlanModalA11y();
-  /* Reset the email row to its hidden default. */
-  const row = document.getElementById('plan-email-row');
-  if(row) row.style.display = 'none';
-}
-
-/* Round-4 add: secondary "Email me a copy" toggle. */
-function togglePlanEmail(){
-  const row = document.getElementById('plan-email-row');
-  if(!row) return;
-  const showing = row.style.display !== 'none' && row.style.display !== '';
-  row.style.display = showing ? 'none' : 'flex';
-  if(!showing){
-    const inp = document.getElementById('plan-email');
-    if(inp) try{inp.focus();}catch(_){}
-  }
-}
-
-/* Round-4 a11y: focus trap + Esc handler for the plan modal.
-   Cycles Tab/Shift+Tab through focusable children; Esc closes. */
-let _planModalKeyHandler = null;
-function _bindPlanModalA11y(){
-  _planModalKeyHandler = function(e){
-    const overlay = document.getElementById('plan-overlay');
-    if(!overlay || !overlay.classList.contains('open')) return;
-    if(e.key === 'Escape'){ e.preventDefault(); closePlanModal(); return; }
-    if(e.key !== 'Tab') return;
-    const focusables = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if(!focusables.length) return;
-    const first = focusables[0], last = focusables[focusables.length - 1];
-    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-  };
-  document.addEventListener('keydown', _planModalKeyHandler);
-}
-function _unbindPlanModalA11y(){
-  if(_planModalKeyHandler){ document.removeEventListener('keydown', _planModalKeyHandler); _planModalKeyHandler = null; }
-}
-
-async function sendPlanEmail(){
-  const _pe=document.getElementById('plan-email');
-  if(!_pe)return;
-  const email=_pe.value.trim();
-  if(!email||!email.includes('@')){_pe.focus();return;}
-  const btn=document.getElementById('plan-send-btn');
-  if(!btn)return;
-  btn.disabled=true;btn.textContent='Preparing…';
-  // Collect email via Formspree (fire & forget)
-  const _aslEl=document.getElementById('asl');const age=_aslEl?_aslEl.value:'';
-  const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
-  const recs=_allRecs();
-  const selRecs=recs.filter(r=>selectedSupps.has(r.n));
-  const suppNames=selRecs.map(r=>r.n).join(', ');
-  fetch('https://formspree.io/f/mnjoylkz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,profile:age+' '+sexLabel,supplements:suppNames,count:selRecs.length,source:'pdf-download',date:new Date().toISOString()})}).catch(()=>{});
-  // Download PDF
-  try{
-    await downloadPDF();
-    btn.textContent='Downloaded ✓';btn.style.background='#0D9488';
-    setTimeout(()=>{btn.textContent='Download PDF';btn.style.background='';btn.disabled=false;},2500);
-  }catch(e){btn.textContent='Download PDF';btn.disabled=false;}
-}
-
+/* Plan-overlay modal removed in Round-6 (the #plan-overlay element no longer exists;
+   the live export path is the #dl-prompt download modal). openPlanModal / closePlanModal /
+   togglePlanEmail / sendPlanEmail / the modal focus-trap were unreachable dead code and
+   were removed 2026-05-29. PDF export lives in downloadPDF() + pdf-export.js. */
 // Close plan on Escape
 /* NOTE: global keydown handlers are consolidated at the bottom of this file. */
 
@@ -5409,7 +5430,7 @@ function renderCondChips(){
       const selectedInGroup = keys.filter(function(k){ return selectedConds.has(k); }).length;
       const chipsHtml = visibleKeys.map(function(k){
         const c = CONDITIONS[k];
-        return '<div class="med-chip cond-chip ' + (selectedConds.has(k)?'on':'') + '" onclick="toggleCond(\'' + escAttrJs(k) + '\')">' + escHtml(c.label) + '</div>';
+        return '<div class="med-chip cond-chip ' + (selectedConds.has(k)?'on':'') + '" role="checkbox" tabindex="0" aria-checked="' + (selectedConds.has(k)?'true':'false') + '" onclick="toggleCond(\'' + escAttrJs(k) + '\')" onkeydown="_chipKeydown(event)">' + escHtml(c.label) + '</div>';
       }).join('');
       const hiddenCount = keys.length - visibleKeys.length;
       const moreLink = (keys.length > _COND_TOP_VISIBLE)
@@ -5617,12 +5638,12 @@ const FOLLOWUP_RULES = {
     'Falling asleep':     { boost: ['L-Theanine','Glycine','Magnesium','Tart cherry (Montmorency)'], demote: [] },
     'Staying asleep':     { boost: ['Magnesium','Glycine','Tart cherry (Montmorency)'], demote: ['Melatonin'] },
     'Both':               { boost: ['Magnesium','Glycine','L-Theanine'], demote: [] },
-    'Daytime fatigue':    { boost: ['Vitamin D3','Iron','Vitamin B12 (methylcobalamin)','CoQ10 (Ubiquinol)'], demote: ['Melatonin'] }
+    'Daytime fatigue':    { boost: ['Vitamin D3','Iron','Vitamin B12','CoQ10 (Ubiquinol)'], demote: ['Melatonin'] }
   },
   energy: {
-    'Sustained energy':       { boost: ['CoQ10 (Ubiquinol)','Iron','Vitamin B12 (methylcobalamin)','Creatine monohydrate'], demote: [] },
-    'Mental clarity & focus': { boost: ['L-Theanine','Caffeine + L-Theanine','Bacopa monnieri','Citicoline (CDP-choline)'], demote: [] },
-    'Both':                   { boost: ['L-Theanine','CoQ10 (Ubiquinol)','Vitamin B12 (methylcobalamin)'], demote: [] }
+    'Sustained energy':       { boost: ['CoQ10 (Ubiquinol)','Iron','Vitamin B12','Creatine monohydrate'], demote: [] },
+    'Mental clarity & focus': { boost: ['L-Theanine','L-Theanine + caffeine (cognitive stack)','Bacopa monnieri','Citicoline (CDP-Choline)'], demote: [] },
+    'Both':                   { boost: ['L-Theanine','CoQ10 (Ubiquinol)','Vitamin B12'], demote: [] }
   },
   mood: {
     'Anxiety & worry':     { boost: ['L-Theanine','Ashwagandha (KSM-66)','Magnesium'], demote: [] },
@@ -5633,12 +5654,12 @@ const FOLLOWUP_RULES = {
   joints: {
     'Joint pain':                { boost: ['Curcumin (bioavailable form)','Boswellia serrata','Omega-3 (EPA/DHA)'], demote: [] },
     'Post-workout recovery':     { boost: ['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium'], demote: [] },
-    'Cartilage & mobility':      { boost: ['Collagen peptides','Glucosamine sulfate','Chondroitin sulfate'], demote: [] }
+    'Cartilage & mobility':      { boost: ['Collagen peptides','Glucosamine / Chondroitin','Methylsulfonylmethane (MSM)'], demote: [] }
   },
   heart: {
-    'Blood pressure':   { boost: ['Magnesium','CoQ10 (Ubiquinol)','Beetroot powder'], demote: [] },
-    'Cholesterol':      { boost: ['Omega-3 (EPA/DHA)','Berberine','Soluble fiber'], demote: [] },
-    'Blood sugar':      { boost: ['Berberine','Cinnamon (Cinnamomum cassia)','Chromium picolinate','Alpha-lipoic acid'], demote: [] }
+    'Blood pressure':   { boost: ['Magnesium','CoQ10 (Ubiquinol)','Dietary Nitrate / Beetroot'], demote: [] },
+    'Cholesterol':      { boost: ['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (soluble fibre)'], demote: [] },
+    'Blood sugar':      { boost: ['Berberine','Cinnamon extract (Ceylon)','Chromium picolinate','Alpha-Lipoic Acid (ALA)'], demote: [] }
   },
   gut: {
     'Bloating / gas':         { boost: ['Probiotics','Saccharomyces boulardii','Peppermint oil (enteric-coated)'], demote: [] },
@@ -5647,23 +5668,45 @@ const FOLLOWUP_RULES = {
     'General gut health':     { boost: ['Probiotics','Psyllium husk (Plantago ovata)'], demote: [] }
   },
   hormonal: {
-    'Menopause / perimenopause': { boost: ['Vitamin D3','Magnesium','Black cohosh','Soy isoflavones'], demote: [] },
+    'Menopause / perimenopause': { boost: ['Vitamin D3','Magnesium','Black cohosh (Cimicifuga racemosa)','Soy isoflavones'], demote: [] },
     'PCOS':                       { boost: ['Myo-inositol','Vitamin D3','Berberine'], demote: [] },
     'Thyroid support':            { boost: ['Selenium','Zinc','Iodine'], demote: [] },
-    'Testosterone & vitality':    { boost: ['Ashwagandha (KSM-66)','Zinc','Vitamin D3','Tongkat ali (Eurycoma longifolia)'], demote: [] }
+    'Testosterone & vitality':    { boost: ['Ashwagandha (KSM-66)','Zinc','Vitamin D3','Tongkat Ali (Eurycoma longifolia)'], demote: [] }
   },
   skin_hair: {
-    'Hair loss / thinning':       { boost: ['Iron','Zinc','Saw palmetto','Biotin'], demote: [] },
+    'Hair loss / thinning':       { boost: ['Iron','Zinc','Saw palmetto (Serenoa repens)','Biotin (low-dose, deficiency)'], demote: [] },
     'Skin health & glow':         { boost: ['Collagen peptides','Astaxanthin','Vitamin C (moderate dose)','Omega-3 (EPA/DHA)'], demote: [] },
-    'Nail strength':              { boost: ['Biotin','Collagen peptides','Zinc'], demote: [] },
-    'All three':                  { boost: ['Collagen peptides','Biotin','Omega-3 (EPA/DHA)'], demote: [] }
+    'Nail strength':              { boost: ['Biotin (low-dose, deficiency)','Collagen peptides','Zinc'], demote: [] },
+    'All three':                  { boost: ['Collagen peptides','Biotin (low-dose, deficiency)','Omega-3 (EPA/DHA)'], demote: [] }
   },
   healthspan: {
     'Longevity & healthy aging':  { boost: ['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','CoQ10 (Ubiquinol)','NMN / NAD+ precursors'], demote: [] },
     'Immune support':             { boost: ['Vitamin D3','Zinc','Vitamin C (moderate dose)'], demote: [] },
-    'Cognitive health':           { boost: ['Omega-3 (EPA/DHA)','Citicoline (CDP-choline)','Bacopa monnieri','Creatine monohydrate'], demote: [] }
+    'Cognitive health':           { boost: ['Omega-3 (EPA/DHA)','Citicoline (CDP-Choline)','Bacopa monnieri','Creatine monohydrate'], demote: [] }
   }
 };
+
+/* Dev-time integrity check (2026-05-29): every supplement a follow-up rule can
+   boost/demote MUST resolve to a registered supplement in _suppByName, or the
+   rule silently no-ops (the Pass-2 add guard requires _suppByName.has(n)).
+   Logs once to the console; never throws, so it can't break a production load. */
+(function _assertFollowupNames(){
+  try{
+    if(typeof _suppByName === 'undefined' || typeof FOLLOWUP_RULES === 'undefined') return;
+    const missing = new Set();
+    Object.keys(FOLLOWUP_RULES).forEach(function(g){
+      Object.keys(FOLLOWUP_RULES[g]).forEach(function(ans){
+        const rule = FOLLOWUP_RULES[g][ans] || {};
+        (rule.boost||[]).concat(rule.demote||[]).forEach(function(n){
+          if(!_suppByName.has(n)) missing.add(n);
+        });
+      });
+    });
+    if(missing.size){
+      console.warn('[SupplementScore] FOLLOWUP_RULES references '+missing.size+' unregistered supplement name(s) — these boosts/demotes silently no-op:', [...missing]);
+    }
+  }catch(e){ /* dev assertion must never break load */ }
+})();
 
 /* Apply follow-up boosts/demotes after main scoring. Mutates `recs` in place.
    Boost = move higher in tier-equal sort (small +5 fit nudge); demote = small -5 nudge. */
@@ -5913,7 +5956,7 @@ let selectedDiets = new Set();
 function renderDietChips(){
   const el=document.getElementById('diet-chips');
   if(!el)return;
-  el.innerHTML = DIET_OPTIONS.map(d => `<div class="med-chip ${selectedDiets.has(d.key)?'on':''}" onclick="toggleDiet('${escAttrJs(d.key)}')">${escHtml(d.label)}</div>`).join('');
+  el.innerHTML = DIET_OPTIONS.map(d => `<div class="med-chip ${selectedDiets.has(d.key)?'on':''}" role="checkbox" tabindex="0" aria-checked="${selectedDiets.has(d.key)?'true':'false'}" onclick="toggleDiet('${escAttrJs(d.key)}')" onkeydown="_chipKeydown(event)">${escHtml(d.label)}</div>`).join('');
 }
 function toggleDiet(k){
   selectedDiets.has(k) ? selectedDiets.delete(k) : selectedDiets.add(k);
@@ -6007,7 +6050,7 @@ const DIET_TO_SUPP_PATTERNS = {
 function renderAllergyChips(){
   const el=document.getElementById('allergy-chips');
   if(!el)return;
-  el.innerHTML = ALLERGY_OPTIONS.map(a => `<div class="med-chip ${selectedAllergies.has(a.key)?'on':''}" onclick="toggleAllergy('${escAttrJs(a.key)}')">${escHtml(a.label)}</div>`).join('');
+  el.innerHTML = ALLERGY_OPTIONS.map(a => `<div class="med-chip ${selectedAllergies.has(a.key)?'on':''}" role="checkbox" tabindex="0" aria-checked="${selectedAllergies.has(a.key)?'true':'false'}" onclick="toggleAllergy('${escAttrJs(a.key)}')" onkeydown="_chipKeydown(event)">${escHtml(a.label)}</div>`).join('');
 }
 function toggleAllergy(k){
   selectedAllergies.has(k) ? selectedAllergies.delete(k) : selectedAllergies.add(k);
@@ -6069,21 +6112,48 @@ function _clampOnBlur(el, min, max){
   /* Recompute BMI now that the value is in range. */
   if(typeof calcBMI === 'function') calcBMI();
 }
+/* Round-11 (2026-05-29): metric (cm/kg) support. Non-US users couldn't enter
+   accurate body data, silently disabling every weight-based dose. A unit toggle
+   on the Height & Weight step switches between imperial and metric input rows;
+   _readBodyMetrics() is the single source both calcBMI and getPersonalizedDose
+   read, so doses and BMI stay unit-correct. Internals remain in kg + metres. */
+function _bodyUnit(){ return (typeof window!=='undefined' && window._ssBodyUnit==='metric') ? 'metric' : 'imperial'; }
+function setBodyUnit(unit){
+  unit = (unit==='metric') ? 'metric' : 'imperial';
+  if(typeof window!=='undefined') window._ssBodyUnit = unit;
+  const imp=document.getElementById('hw-imperial'), met=document.getElementById('hw-metric');
+  if(imp) imp.style.display = (unit==='imperial') ? 'flex' : 'none';
+  if(met) met.style.display = (unit==='metric') ? 'flex' : 'none';
+  const bi=document.getElementById('hw-unit-imperial'), bm=document.getElementById('hw-unit-metric');
+  if(bi){ bi.classList.toggle('on', unit==='imperial'); bi.setAttribute('aria-pressed', unit==='imperial'?'true':'false'); }
+  if(bm){ bm.classList.toggle('on', unit==='metric'); bm.setAttribute('aria-pressed', unit==='metric'?'true':'false'); }
+  if(typeof calcBMI==='function') calcBMI();
+}
+/* Returns {wtKg, htM, bmi} from whichever unit is active; 0 for empty/out-of-range
+   (matches the per-field clamps) so mid-typing shows no BMI and disables doses. */
+function _readBodyMetrics(){
+  if(_bodyUnit()==='metric'){
+    const cm=parseFloat(document.getElementById('prof-height-cm')?.value)||0;
+    const kg=parseFloat(document.getElementById('prof-weight-kg')?.value)||0;
+    const wtKg=(kg>=30 && kg<=270)?kg:0;
+    const htM=(cm>=90 && cm<=250)?cm/100:0;
+    return {wtKg, htM, bmi:(wtKg>0 && htM>0)?(wtKg/(htM*htM)):0};
+  }
+  const wt=parseFloat(document.getElementById('prof-weight')?.value)||0;
+  const ft=parseInt(document.getElementById('prof-height-ft')?.value)||0;
+  const inch=parseInt(document.getElementById('prof-height-in')?.value)||0;
+  const totalIn=(ft*12)+inch;
+  const wtKg=(wt>=70 && wt<=600)?wt*0.453592:0;
+  const htM=(ft>=3 && ft<=7)?totalIn*0.0254:0;
+  return {wtKg, htM, bmi:(wtKg>0 && htM>0)?(wtKg/(htM*htM)):0};
+}
 function calcBMI(){
-  const ftEl=document.getElementById('prof-height-ft');
-  const inEl=document.getElementById('prof-height-in');
-  const lbsEl=document.getElementById('prof-weight');
   const el=document.getElementById('bmi-display');
   if(!el)return;
-  /* Round-5: read without mutating. Empty / out-of-range → no BMI shown,
-     no nag — the user is mid-typing. */
-  const ft = _readInt(ftEl, 3, 7);
-  const inch = _readInt(inEl, 0, 11) || 0;
-  const lbs = _readInt(lbsEl, 70, 600);
-  if(!ft||!lbs){el.innerHTML='';return;}
-  const totalIn=ft*12+inch;
-  if(totalIn<=0){el.innerHTML='';return;}
-  const bmi=(lbs*703)/(totalIn*totalIn);
+  /* Read without mutating; empty / out-of-range → no BMI shown (user is mid-typing). */
+  const m=_readBodyMetrics();
+  if(!(m.wtKg>0)||!(m.htM>0)){el.innerHTML='';return;}
+  const bmi=m.bmi;
   if(bmi<10||bmi>80){el.innerHTML='<span style="color:var(--color-text-tertiary)">Check height/weight — values look unusual.</span>';return;}
   /* Round-7: dropped the (Underweight/Healthy/Overweight/Obese) parenthetical
      since users found it judgmental and unnecessary. Color-code the number itself. */
@@ -6103,6 +6173,7 @@ function saveProfile(){
     wizGoals:[...wizSelectedGoals],wizPlanStyle:wizPlanStyle,
     wizFollowups:Object.assign({},wizFollowups),
     heightFt:document.getElementById('prof-height-ft')?.value||'',heightIn:document.getElementById('prof-height-in')?.value||'',weight:document.getElementById('prof-weight')?.value||'',
+    bodyUnit:(typeof _bodyUnit==='function')?_bodyUnit():'imperial',heightCm:document.getElementById('prof-height-cm')?.value||'',weightKg:document.getElementById('prof-weight-kg')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
     // Plan B1 — Health Status fields
     kidney_fn:document.getElementById('kidney-fn')?.value||'normal',
@@ -6152,9 +6223,20 @@ function closeDownloadPrompt(){
   document.removeEventListener('keydown', _dlPromptKey);
 }
 function _dlPromptKey(e){
-  if(e.key === 'Escape'){ e.preventDefault(); closeDownloadPrompt(); }
-  else if(e.key === 'Enter' && document.activeElement && document.activeElement.id === 'dl-prompt-email'){
-    e.preventDefault(); confirmDownloadPrompt(false);
+  if(e.key === 'Escape'){ e.preventDefault(); closeDownloadPrompt(); return; }
+  if(e.key === 'Enter' && document.activeElement && document.activeElement.id === 'dl-prompt-email'){
+    e.preventDefault(); confirmDownloadPrompt(false); return;
+  }
+  /* a11y (2026-05-29): trap Tab within the dialog so focus can't leak to the
+     page behind the overlay while it's open. */
+  if(e.key === 'Tab'){
+    const m = document.getElementById('dl-prompt');
+    if(!m || m.style.display === 'none') return;
+    const f = m.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if(!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
   }
 }
 function confirmDownloadPrompt(skip){
@@ -6250,6 +6332,9 @@ function loadProfile(){
     if(p.heightFt){const el=document.getElementById('prof-height-ft');if(el)el.value=p.heightFt;}
     if(p.heightIn){const el=document.getElementById('prof-height-in');if(el)el.value=p.heightIn;}
     if(p.weight){const el=document.getElementById('prof-weight');if(el)el.value=p.weight;}
+    if(p.heightCm){const el=document.getElementById('prof-height-cm');if(el)el.value=p.heightCm;}
+    if(p.weightKg){const el=document.getElementById('prof-weight-kg');if(el)el.value=p.weightKg;}
+    if(typeof setBodyUnit==='function') setBodyUnit(p.bodyUnit==='metric'?'metric':'imperial');
     if(p.bloodWork&&typeof p.bloodWork==='object'){
       bloodWork={};
       for(const[key,val]of Object.entries(p.bloodWork)){
@@ -6595,8 +6680,7 @@ document.addEventListener('keydown',function(e){
 
   if(e.key==='Escape'){
     // Close modals in priority order, bailing after the first match.
-    var planOverlay=document.getElementById('plan-overlay');
-    if(planOverlay&&planOverlay.classList.contains('open')&&typeof closePlanModal==='function'){closePlanModal();return;}
+    // (Round-6's #plan-overlay was removed; its dead Esc branch deleted 2026-05-29.)
     var suppModal=document.getElementById('supp-modal');
     if(suppModal&&suppModal.classList.contains('open')){closeSuppModal();return;}
     var artModal=document.getElementById('art-modal');

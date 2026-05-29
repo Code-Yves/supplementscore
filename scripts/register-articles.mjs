@@ -36,6 +36,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { isValidSupplementSlug } from './slug.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(SCRIPT_DIR, '..');
@@ -194,6 +195,26 @@ function parseArticle(slug, S) {
     if (/<div\s+class="ar-cat"/.test(html))                     driftErrors.push('legacy <div class="ar-cat"> present (chrome shows the category chip)');
     if (driftErrors.length) {
       return { error: 'unified-template drift: ' + driftErrors.join('; ') };
+    }
+  }
+
+  // Internal supplement-link gate (2026-05-29): every supplement.html?slug= link
+  // MUST resolve via the shared two-tier resolver (scripts/slug.mjs) — the same
+  // logic the browser uses at runtime. Fails closed so a near-miss/colloquial/
+  // malformed slug rolls back registration instead of shipping a blank
+  // "Supplement not found" page (the root cause of the recurring link-audit churn).
+  if (!isTombstone) {
+    const slugRe = /supplement\.html\?(?:[^"'#]*&)?slug=([^"'&#<>\s]+)/gi;
+    const badSlugs = new Set();
+    let sm;
+    while ((sm = slugRe.exec(html))) {
+      let sl;
+      try { sl = decodeURIComponent(sm[1]).toLowerCase(); } catch { sl = sm[1].toLowerCase(); }
+      if (!isValidSupplementSlug(sl)) badSlugs.add(sl);
+    }
+    if (badSlugs.size) {
+      const list = [...badSlugs].slice(0, 8).join(', ');
+      return { error: `unresolved supplement slug(s): ${list}${badSlugs.size > 8 ? ` (+${badSlugs.size - 8} more)` : ''}` };
     }
   }
 

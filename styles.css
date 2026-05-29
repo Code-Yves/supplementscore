@@ -332,7 +332,7 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .sx-btn.on-m{background:#1565C0;color:#fff;border-color:transparent}
 .sx-btn.on-f{background:#B5256E;color:#fff;border-color:transparent}
 .sx-btn.on-p{background:#8E24AA;color:#fff;border-color:transparent}
-.cond-chip.on{background:#0D7377;color:#fff;border-color:transparent}
+.cond-chip.on{background:var(--color-brand);color:#fff;border-color:transparent}
 .beta-banner{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.85rem 1rem;margin-bottom:1rem}
 .beta-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--color-brand);color:#fff;text-transform:uppercase;letter-spacing:.06em;vertical-align:middle}
 .beta-title{font-size:13px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;margin-bottom:6px}
@@ -342,7 +342,8 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .med-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
 .med-label-opt{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary)}
 .med-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.5rem}
-.med-chip{padding:9px 14px;min-height:36px;font-size:13px;border-radius:20px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s;user-select:none;white-space:nowrap}
+.med-chip{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px;min-height:44px;font-size:13px;border-radius:20px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s;user-select:none;white-space:nowrap}
+.med-chip:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .med-chip.on{background:var(--color-brand);color:#fff;border-color:transparent}
 .med-chip:hover:not(.on){background:var(--color-background-primary);border-color:var(--color-border-primary)}
 /* Tighter chips inside the Medications section so the 4 default chips fit on one line at 540px container width. */
@@ -393,8 +394,8 @@ mark{background:rgba(186,117,23,.2);color:inherit;border-radius:2px;padding:0 1p
 .cond-group-more-btn:hover{background:var(--color-brand);color:#fff}
 /* Round-10: condition pills tightened further to match other secondary pills
    on the site (allergy/diet chip set, drug chips). */
-.cond-chip{padding:5px 11px;font-size:11.5px;min-height:28px;line-height:1.35}
-.cond-group-more-btn{padding:5px 11px;min-height:28px;font-size:11.5px}
+.cond-chip{padding:7px 12px;font-size:11.5px;min-height:44px;line-height:1.35}
+.cond-group-more-btn{display:inline-flex;align-items:center;padding:7px 12px;min-height:44px;font-size:11.5px}
 
 /* Round-8: hide the recently-viewed strip whenever the user is in the
    Custom Profile view. The strip is a great affordance on the Index page
@@ -436,7 +437,7 @@ body.on-profile .ssux-recent{display:none !important}
 .drug-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
 .drug-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(31,122,107,.08);color:var(--color-brand);border:0.5px solid rgba(31,122,107,.25);padding:3px 4px 3px 10px;border-radius:14px;font-size:11.5px;font-weight:500}
 .drug-chip-name{padding-right:2px}
-.drug-chip-remove{background:transparent;border:none;color:var(--color-brand);font-size:14px;line-height:1;cursor:pointer;padding:7px 10px;min-width:28px;min-height:28px;border-radius:50%;font-weight:600;font-family:inherit;display:inline-flex;align-items:center;justify-content:center}
+.drug-chip-remove{background:transparent;border:none;color:var(--color-brand);font-size:14px;line-height:1;cursor:pointer;padding:7px 10px;min-width:44px;min-height:44px;border-radius:50%;font-weight:600;font-family:inherit;display:inline-flex;align-items:center;justify-content:center}
 .drug-chip-remove:hover{background:rgba(31,122,107,.15)}
 /* Phase 3 / Item #6 — form-specific evidence callout in supplement modal */
 .supp-form-note{background:rgba(202,138,4,.06);border-left:3px solid #CA8A04;padding:10px 14px;border-radius:6px;margin:14px 0}
@@ -1729,6 +1730,11 @@ body{ overflow-x:clip; }
 .wiz-field-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary);font-size:10px}
 /* Height + weight inline row */
 .wiz-hw-row{display:flex;align-items:center;gap:10px}
+/* Round-11: height/weight unit toggle (imperial ↔ metric). */
+.hw-unit-toggle{display:inline-flex;border:0.5px solid var(--color-border-secondary);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.hw-unit-btn{padding:8px 16px;min-height:40px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--color-background-secondary);color:var(--color-text-secondary);font-family:inherit;transition:background .15s,color .15s}
+.hw-unit-btn.on{background:var(--color-brand);color:#fff}
+.hw-unit-btn:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .wiz-hw-group{display:flex;gap:6px;flex-shrink:0}
 .wiz-hw-input{width:72px}
 .wiz-hw-unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none}
@@ -3109,20 +3115,18 @@ body.tab-supplements #nav-search-pill{display:none !important}
 .b-tags{display:flex;gap:5px;flex-wrap:wrap}
 .b-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);line-height:1.4}
 .b-actions-top{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.b-fit{display:flex;flex-direction:column;align-items:flex-end;line-height:1}
-.b-fit-n{font-size:18px;font-weight:700;color:var(--color-text-primary);font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
-.b-fit-l{font-size:9px;font-weight:600;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+/* Round-11: .b-fit/.b-fit-n/.b-fit-l removed — dead since the TAKE block went
+   away (Round-7); no markup references them. Dropped the orphan 18px + 9px sizes. */
 /* Round-7: TAKE block removed → Why block runs full width. */
 .b-row2{display:block;margin-bottom:10px}
-.b-take{display:none}
 .b-block-l{font-size:10px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
 .b-block-v{font-size:14px;color:var(--color-text-primary);font-weight:700;line-height:1.3}
-.b-block-sub{font-size:11.5px;color:var(--color-text-tertiary);margin-top:3px;font-weight:500}
+.b-block-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:3px;font-weight:500}
 .b-why{padding:0}
 .b-why .b-block-l{margin-bottom:6px}
 .b-why-list{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
 .b-why-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;background:rgba(31,122,107,.07);color:var(--color-brand-deep,#155A50);border:0.5px solid rgba(31,122,107,.16)}
-.b-summary{font-size:12.5px;color:var(--color-text-secondary);line-height:1.55;margin:0}
+.b-summary{font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:0}
 /* Single pair row at the bottom of the face */
 .b-pair{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 11px;border-radius:9px;background:rgba(31,122,107,.04);border:0.5px solid rgba(31,122,107,.10);font-size:12px;color:var(--color-text-secondary)}
 .b-pair.warn{background:rgba(180,83,9,.05);border-color:rgba(180,83,9,.20);color:#9A3412}
@@ -3130,7 +3134,7 @@ body.tab-supplements #nav-search-pill{display:none !important}
 .b-pair.suggest{background:rgba(31,122,107,.045);border-color:rgba(31,122,107,.16);border-style:dashed}
 .b-pair-icon{flex-shrink:0;color:var(--color-brand)}
 .b-pair.warn .b-pair-icon,.b-pair.apart .b-pair-icon{color:#B45309}
-.b-pair-text{flex:1;min-width:0;line-height:1.4;font-size:11.5px}
+.b-pair-text{flex:1;min-width:0;line-height:1.4;font-size:11px}
 .b-pair-name{font-weight:700;color:var(--color-text-primary)}
 .b-pair.warn .b-pair-name,.b-pair.apart .b-pair-name{color:#9A3412}
 .b-pair-state{font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;flex-shrink:0;letter-spacing:.02em;text-transform:uppercase;background:rgba(22,163,74,.10);color:#0E7C3F;border:0.5px solid rgba(22,163,74,.20)}
@@ -3143,7 +3147,7 @@ body.tab-supplements #nav-search-pill{display:none !important}
 /* Action row — Round-9: smaller, lighter. Both buttons use a soft brand tint
    instead of the saturated solid teal so they don't dominate the card. */
 .b-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
-.b-cta{flex:1;border:0.5px solid rgba(31,122,107,.16);background:rgba(31,122,107,.04);border-radius:8px;font-size:11.5px;color:var(--color-brand-deep,#155A50);padding:7px 10px;cursor:pointer;font-weight:600;font-family:inherit;text-align:center;min-height:32px;transition:background .12s,color .12s,border-color .12s;letter-spacing:.005em}
+.b-cta{flex:1;border:0.5px solid rgba(31,122,107,.16);background:rgba(31,122,107,.04);border-radius:8px;font-size:11px;color:var(--color-brand-deep,#155A50);padding:7px 10px;cursor:pointer;font-weight:600;font-family:inherit;text-align:center;min-height:32px;transition:background .12s,color .12s,border-color .12s;letter-spacing:.005em}
 .b-cta:hover{background:rgba(31,122,107,.10);color:var(--color-brand);border-color:rgba(31,122,107,.30)}
 .b-cta.primary{background:rgba(31,122,107,.10);border-color:rgba(31,122,107,.22);color:var(--color-brand-deep,#155A50)}
 .b-cta.primary:hover{background:rgba(31,122,107,.16);border-color:rgba(31,122,107,.36);color:var(--color-brand-deep,#155A50)}

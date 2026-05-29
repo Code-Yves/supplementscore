@@ -19,7 +19,7 @@ DOMAIN = "https://supplementscore.org"
 SECTION_TO_SITEMAP = {
     "compare":   "sitemap-compare.xml",
     "condition": "sitemap-conditions.xml",
-    "for":       "sitemap-for.xml",
+    # "for" (population landing pages) retired & hard-deleted 2026-05-29 — no sitemap-for.xml.
     "stack":     "sitemap-stacks.xml",
     "m":         "sitemap-medications.xml",
 }

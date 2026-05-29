@@ -1620,7 +1620,11 @@
           </div>
           <div class="wiz-field-group">
             <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — enables BMI and tightens doses by ±25%)</span></label>
-            <div class="wiz-hw-row">
+            <div class="hw-unit-toggle" role="group" aria-label="Height and weight units">
+              <button type="button" class="hw-unit-btn on" id="hw-unit-imperial" aria-pressed="true" onclick="setBodyUnit('imperial')">ft / lb</button>
+              <button type="button" class="hw-unit-btn" id="hw-unit-metric" aria-pressed="false" onclick="setBodyUnit('metric')">cm / kg</button>
+            </div>
+            <div class="wiz-hw-row" id="hw-imperial">
               <div class="wiz-hw-group">
                 <div style="position:relative">
                   <input type="number" class="wiz-input wiz-hw-input" id="prof-height-ft" placeholder="5" min="3" max="7" aria-label="Height feet" oninput="calcBMI()" onblur="_clampOnBlur(this,3,7)">
@@ -1634,6 +1638,16 @@
               <div style="position:relative;flex:1">
                 <input type="number" class="wiz-input" id="prof-weight" placeholder="165" min="70" max="600" aria-label="Weight in pounds" style="padding-right:42px" oninput="calcBMI()" onblur="_clampOnBlur(this,70,600)">
                 <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none">lbs</span>
+              </div>
+            </div>
+            <div class="wiz-hw-row" id="hw-metric" style="display:none">
+              <div style="position:relative;flex:1">
+                <input type="number" class="wiz-input" id="prof-height-cm" placeholder="173" min="90" max="250" aria-label="Height in centimetres" style="padding-right:42px" oninput="calcBMI()" onblur="_clampOnBlur(this,90,250)">
+                <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none">cm</span>
+              </div>
+              <div style="position:relative;flex:1">
+                <input type="number" class="wiz-input" id="prof-weight-kg" placeholder="75" min="30" max="270" aria-label="Weight in kilograms" style="padding-right:42px" oninput="calcBMI()" onblur="_clampOnBlur(this,30,270)">
+                <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none">kg</span>
               </div>
             </div>
             <div id="bmi-display" style="font-size:11px;color:var(--color-text-tertiary);margin-top:6px;min-height:16px"></div>
@@ -3346,22 +3360,6 @@
           <div class="article-cat">Stack</div>
           <div class="article-title">All goal-based stacks →</div>
           <div class="article-desc">Browse every layered, evidence-graded supplement stack built around a single outcome.</div>
-          <div class="article-meta">Updated May 2026</div>
-        </div>
-      </a>
-      <!-- 2026-05-29 — Population hub direct-link card. Surfaces /for/index.html
-           as a crawlable href (previously only reachable via the JS modal
-           catch-all below). data-category="guide" reuses an existing filter
-           chip so dropdown counters stay correct. Single new nav entry / run. -->
-      <a href="for/index.html" class="article-card" data-category="guide" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
-        <div class="article-side">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-          <div class="article-side-div"></div><div class="article-side-stat">2</div><div class="article-side-label">min read</div>
-        </div>
-        <div class="article-content">
-          <div class="article-cat">By Population</div>
-          <div class="article-title">Supplements by life stage and population →</div>
-          <div class="article-desc">Evidence-graded picks for athletes, older adults, perimenopause, post-surgery, and people on metformin or statins.</div>
           <div class="article-meta">Updated May 2026</div>
         </div>
       </a>
