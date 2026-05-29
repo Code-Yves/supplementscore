@@ -2127,5 +2127,340 @@
       "Lactobacillus rhamnosus GG"
     ],
     "note": "Macrolides (especially clarithromycin and erythromycin) are strong CYP3A4 inhibitors and cause QT prolongation — combining with QT-prolonging supplements (high-dose chamomile/apigenin, licorice-induced hypokalemia) raises arrhythmia risk. They also raise levels of many co-administered drugs (statins, calcium-channel blockers, colchicine). Azithromycin has the least CYP impact."
+  },
+  "gabapentinoid": {
+    "label": "Gabapentinoids (gabapentin, pregabalin)",
+    "avoid": [],
+    "caution": [
+      "Kava (high-dose/extract)",
+      "Phenibut",
+      "Tianeptine (\"gas station heroin\")",
+      "Valerian root",
+      "GABA (standalone supplement)",
+      "Melatonin",
+      "L-Theanine",
+      "Glycine",
+      "Ashwagandha (KSM-66)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium",
+      "B-complex (balanced)",
+      "Vitamin D3"
+    ],
+    "note": "CNS depressant additive risk with sedating supplements. Renally cleared — dose-adjust in CKD. No major CYP interactions but watch additive sedation."
+  },
+  "mood_stabilizer": {
+    "label": "Mood stabilizers (valproate, lamotrigine, carbamazepine, oxcarbazepine)",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Carnitine tartrate",
+      "Acetyl-L-Carnitine (ALCAR)",
+      "Folate (5-MTHF)",
+      "Vitamin D3",
+      "Calcium",
+      "Vitamin K1 (phylloquinone)",
+      "Omega-3 (EPA/DHA)",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)"
+    ],
+    "depleted_or_replace": [
+      "Folate (5-MTHF)",
+      "Vitamin D3",
+      "Calcium",
+      "Carnitine tartrate",
+      "B-complex (balanced)",
+      "Vitamin K1 (phylloquinone)"
+    ],
+    "note": "Carbamazepine/oxcarbazepine are strong CYP3A4 inducers — many supplements have unpredictable interactions. Valproate depletes carnitine and folate. Lamotrigine + folate is contested (some interaction with metabolism)."
+  },
+  "buspirone": {
+    "label": "Buspirone (BuSpar) — anxiolytic",
+    "avoid": [
+      "St. John's Wort"
+    ],
+    "caution": [
+      "5-HTP",
+      "Tryptophan (L-tryptophan)",
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Saffron Affron (standardised extract)",
+      "Kava (high-dose/extract)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium",
+      "L-Theanine"
+    ],
+    "note": "Serotonergic 5HT1A partial agonist — caution with serotonergic supplements. CYP3A4 substrate; grapefruit-class inducers/inhibitors alter levels."
+  },
+  "atypical_antidep": {
+    "label": "Atypical antidepressants (mirtazapine, vortioxetine, vilazodone)",
+    "avoid": [
+      "St. John's Wort",
+      "5-HTP",
+      "Tryptophan (L-tryptophan)"
+    ],
+    "caution": [
+      "S-Adenosylmethionine (SAMe)",
+      "Saffron (Crocus sativus)",
+      "Rhodiola rosea",
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Yohimbine HCl"
+    ],
+    "depleted_or_replace": [
+      "Vitamin B12",
+      "Folate (5-MTHF)",
+      "Magnesium",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "Serotonergic activity — same serotonin-syndrome cautions as SSRIs. Mirtazapine is sedating; additive with sedating supplements."
+  },
+  "biologics_tnf": {
+    "label": "TNF-alpha inhibitors (adalimumab/Humira, infliximab/Remicade, etanercept/Enbrel, certolizumab, golimumab)",
+    "avoid": [
+      "Echinacea purpurea",
+      "Astragalus (Astragalus membranaceus)",
+      "Astragalus membranaceus (Huang Qi)",
+      "Cat's claw (Uncaria tomentosa)",
+      "Andrographis paniculata",
+      "Andrographis (maintenance dose)",
+      "Andrographis + Echinacea combo",
+      "Astragaloside IV (isolated)"
+    ],
+    "caution": [
+      "Curcumin (bioavailable form)",
+      "Reishi (Ganoderma lucidum)",
+      "Cordyceps militaris",
+      "Maitake mushroom (Grifola frondosa)",
+      "Mushroom complex (multi-species)",
+      "Beta-glucan (1,3/1,6)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Calcium",
+      "Folate (5-MTHF)",
+      "Vitamin B12",
+      "Probiotics"
+    ],
+    "note": "These suppress TNF — immune-stimulant herbs (Echinacea, Astragalus, Cat's claw, Andrographis) can theoretically blunt efficacy or trigger flares. High infection risk: avoid live probiotic strains in deeply immunosuppressed patients per rheumatologist."
+  },
+  "jak_inhibitor": {
+    "label": "JAK inhibitors (tofacitinib/Xeljanz, baricitinib/Olumiant, upadacitinib/Rinvoq, ruxolitinib)",
+    "avoid": [
+      "Echinacea purpurea",
+      "Astragalus (Astragalus membranaceus)",
+      "Cat's claw (Uncaria tomentosa)",
+      "Andrographis paniculata",
+      "St. John's Wort"
+    ],
+    "caution": [
+      "Curcumin (bioavailable form)",
+      "Reishi (Ganoderma lucidum)",
+      "Beta-glucan (1,3/1,6)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Calcium",
+      "Probiotics",
+      "Vitamin B12",
+      "Folate (5-MTHF)"
+    ],
+    "note": "CYP3A4 substrates (especially tofacitinib) — induced by SJW. Immune-stimulant herbs may oppose efficacy. Increased shingles risk; live probiotic strain caution in severe immunosuppression."
+  },
+  "il_inhibitor": {
+    "label": "IL-17 / IL-23 / IL-12-23 inhibitors (secukinumab/Cosentyx, ixekizumab, ustekinumab/Stelara, risankizumab, tildrakizumab, guselkumab)",
+    "avoid": [
+      "Echinacea purpurea",
+      "Astragalus (Astragalus membranaceus)",
+      "Cat's claw (Uncaria tomentosa)",
+      "Andrographis paniculata"
+    ],
+    "caution": [
+      "Curcumin (bioavailable form)",
+      "Reishi (Ganoderma lucidum)",
+      "Beta-glucan (1,3/1,6)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Folate (5-MTHF)",
+      "Vitamin B12",
+      "Calcium",
+      "Omega-3 (EPA/DHA)"
+    ],
+    "note": "Selective immune suppression — same immune-stimulant herb cautions as TNF inhibitors. Generally well tolerated otherwise; no major CYP interactions."
+  },
+  "immune_oncology": {
+    "label": "Immune checkpoint inhibitors (pembrolizumab/Keytruda, nivolumab/Opdivo, ipilimumab, atezolizumab, durvalumab)",
+    "avoid": [
+      "Echinacea purpurea",
+      "Astragalus (Astragalus membranaceus)",
+      "Cat's claw (Uncaria tomentosa)",
+      "Andrographis paniculata",
+      "Reishi (Ganoderma lucidum)",
+      "Cordyceps militaris",
+      "Mushroom complex (multi-species)",
+      "Beta-glucan (1,3/1,6)"
+    ],
+    "caution": [
+      "Curcumin (bioavailable form)",
+      "Vitamin D3",
+      "Probiotics",
+      "Spirulina",
+      "NAC (N-Acetyl Cysteine)",
+      "Vitamin C (megadose)",
+      "Vitamin E (mixed tocopherols)"
+    ],
+    "depleted_or_replace": [
+      "Vitamin D3",
+      "Probiotics"
+    ],
+    "note": "These work by ENABLING immune attack on cancer. Immune-stimulants can trigger life-threatening immune-related adverse events (irAEs). Antioxidant megadoses may blunt anti-tumor effect — DISCUSS ALL supplements with oncologist before starting/continuing."
+  },
+  "anti_cgrp": {
+    "label": "Anti-CGRP migraine drugs (erenumab/Aimovig, fremanezumab/Ajovy, galcanezumab/Emgality, eptinezumab, atogepant, rimegepant, ubrogepant)",
+    "avoid": [],
+    "caution": [
+      "Feverfew (Tanacetum parthenium)",
+      "Butterbur (Petasites hybridus)"
+    ],
+    "depleted_or_replace": [
+      "Riboflavin (Vitamin B2)",
+      "Magnesium",
+      "CoQ10 (Ubiquinol)"
+    ],
+    "note": "Generally well tolerated. Riboflavin/Mg/CoQ10 are evidence-based migraine prophylaxis and can stack safely. Avoid combining with multiple migraine herbs (additive constipation/sedation)."
+  },
+  "denosumab": {
+    "label": "Denosumab (Prolia, Xgeva — RANK-L inhibitor for osteoporosis/oncology)",
+    "avoid": [],
+    "caution": [],
+    "depleted_or_replace": [
+      "Calcium",
+      "Calcium carbonate/citrate (bone health)",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)",
+      "Magnesium",
+      "Boron"
+    ],
+    "note": "Calcium and vitamin D ARE REQUIRED — denosumab can cause severe hypocalcemia without adequate calcium/D3 status. Confirm 25-OH-D ≥30 ng/mL before injection. Vitamin K2 supports bone matrix mineralization."
+  },
+  "pcsk9_inhibitor": {
+    "label": "PCSK9 inhibitors (alirocumab/Praluent, evolocumab/Repatha, inclisiran/Leqvio)",
+    "avoid": [],
+    "caution": [
+      "Red yeast rice"
+    ],
+    "depleted_or_replace": [
+      "CoQ10 (Ubiquinol)",
+      "Omega-3 (EPA/DHA)",
+      "Vitamin D3"
+    ],
+    "note": "Monoclonal antibodies — minimal supplement interaction surface. Often used with statins; same supplement landscape as statin therapy applies."
+  },
+  "mineralocorticoid_antag": {
+    "label": "Mineralocorticoid antagonists (spironolactone/Aldactone, eplerenone/Inspra)",
+    "avoid": [
+      "Potassium supplementation (clinical)",
+      "Potassium citrate",
+      "Potassium gluconate",
+      "Licorice root high-dose",
+      "Licorice root (high-dose/chronic)"
+    ],
+    "caution": [
+      "Magnesium",
+      "Saw palmetto (Serenoa repens)",
+      "Black cohosh (Cimicifuga racemosa)"
+    ],
+    "depleted_or_replace": [
+      "Magnesium"
+    ],
+    "note": "K-sparing diuretics — adding potassium supplements raises hyperkalemia risk. Spironolactone is anti-androgenic; combining with anti-androgenic herbs (saw palmetto) can over-suppress androgens in men. Licorice causes pseudo-aldosteronism, opposing mechanism."
+  },
+  "anti_androgen": {
+    "label": "Anti-androgens / androgen receptor blockers (bicalutamide, enzalutamide/Xtandi, apalutamide, abiraterone/Zytiga)",
+    "avoid": [
+      "DHEA (Dehydroepiandrosterone)",
+      "DHEA topical cream",
+      "7-Keto DHEA",
+      "Pregnenolone",
+      "Tribulus terrestris",
+      "Tongkat ali (Eurycoma longifolia, standardised)",
+      "Tongkat Ali (Eurycoma longifolia)",
+      "Fadogia agrestis",
+      "Fenugreek seed extract (Testofen / standardised)",
+      "Fenugreek + Ashwagandha stack",
+      "Saw palmetto (Serenoa repens)",
+      "Pygeum africanum",
+      "Beta-sitosterol",
+      "Boron",
+      "Boron glycinate"
+    ],
+    "caution": [
+      "St. John's Wort",
+      "Ashwagandha (KSM-66)"
+    ],
+    "depleted_or_replace": [
+      "Calcium",
+      "Vitamin D3",
+      "Vitamin K2 (MK-7)",
+      "Magnesium"
+    ],
+    "note": "Used for prostate cancer where androgen suppression IS the therapy — any androgen-supporting supplement undermines treatment. Bone-protective supplements important: androgen-deprivation therapy accelerates bone loss. Enzalutamide/abiraterone are CYP3A4 sensitive (avoid SJW)."
+  },
+  "anti_arrhythmic_other": {
+    "label": "Other antiarrhythmics — Class Ic (flecainide, propafenone), Class III (sotalol, dronedarone, dofetilide)",
+    "avoid": [
+      "Yohimbe bark (Pausinystalia yohimbe)",
+      "Yohimbine HCl",
+      "Bitter orange (Citrus aurantium)",
+      "Ephedra analogues (synephrine)",
+      "St. John's Wort",
+      "1,3-DMBA (dimethylbutylamine)"
+    ],
+    "caution": [
+      "Magnesium",
+      "Potassium supplementation (clinical)",
+      "Licorice root high-dose",
+      "Licorice root (high-dose/chronic)",
+      "Apigenin"
+    ],
+    "depleted_or_replace": [
+      "Magnesium",
+      "Potassium supplementation (clinical)"
+    ],
+    "note": "Narrow therapeutic index drugs with QT-prolongation risk. Stimulants and CYP3A4 inducers (SJW) reduce levels and increase arrhythmia. Hypokalemia/hypomagnesemia worsens QT — keep electrolytes replete (within renal limits)."
+  },
+  "heparin_lmwh": {
+    "label": "Heparin / LMWH (heparin, enoxaparin/Lovenox, dalteparin, fondaparinux, tinzaparin)",
+    "avoid": [
+      "Vitamin K2 (MK-7)",
+      "Vitamin K1 (phylloquinone)"
+    ],
+    "caution": [
+      "Omega-3 (high dose)",
+      "Omega-3 (EPA/DHA)",
+      "Curcumin (bioavailable form)",
+      "Ginger (Zingiber officinale)",
+      "Ginkgo biloba",
+      "Ginkgo biloba EGb 761",
+      "Aged garlic extract (Kyolic)",
+      "Black garlic extract",
+      "Vitamin E (mixed tocopherols)",
+      "Bromelain",
+      "Quercetin",
+      "Pine bark extract (Pycnogenol)",
+      "Pycnogenol (pine bark, branded)",
+      "Nattokinase",
+      "Devil's claw (Harpagophytum procumbens)",
+      "White willow bark (Salix alba)",
+      "Saw palmetto (Serenoa repens)",
+      "Feverfew (Tanacetum parthenium)",
+      "Boswellia serrata",
+      "Reishi (Ganoderma lucidum)"
+    ],
+    "depleted_or_replace": [],
+    "note": "Bleeding-additive supplements have the same caution profile as warfarin/DOAC. Vitamin K does NOT reverse heparin (unlike warfarin) but supplements that stimulate platelets/inhibit clotting are still additive."
   }
 }
