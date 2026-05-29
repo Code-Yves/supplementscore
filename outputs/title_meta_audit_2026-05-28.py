@@ -27,6 +27,7 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
+# TODO: stale session path — fix me
 REPO = Path("/sessions/kind-laughing-gauss/mnt/Supplement Score/supplementscore-repo")
 TODAY = date(2026, 5, 28).isoformat()
 

@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from datetime import datetime, timezone
 
+# TODO: stale session path — fix me
 BASE = Path("/sessions/clever-eloquent-wright/mnt/Supplement Score/supplementscore-repo/")
 TODAY = "2026-05-20"
 STAMP_UTC = datetime.now(timezone.utc).strftime("%Y%m%dT%H%MZ")

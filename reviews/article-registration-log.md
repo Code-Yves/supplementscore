@@ -216,3 +216,4 @@
 | 2026-05-26 | the-eye-health-stack-lutein-zeaxanthin-astaxanthin-and-omega-3 | 711 | stack | 515 | 15 [new AM keys: Astaxanthin] |
 | 2026-05-27 | WATCHDOG-ORPHANS | 20 detected → 0 registered, 16 title-dup deleted, 4 noindex-stubs remain. Report: reviews/article-registration-2026-05-27.md |
 | 2026-05-28 | WATCHDOG-SCRIPTFIX | 4 noindex-stub false-positives → patched findOrphans() to skip noindex+refresh stubs; orphanCount now 0. Report: reviews/article-registration-2026-05-28.md |
+| 2026-05-29 | WATCHDOG-CLEAN | 0 orphans found |
