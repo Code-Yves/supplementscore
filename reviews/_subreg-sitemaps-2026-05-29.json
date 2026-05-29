@@ -1,0 +1,37 @@
+[
+  {
+    "sec": "compare",
+    "sitemap": "sitemap-compare.xml",
+    "status": "ok",
+    "added": 0,
+    "pruned": 0
+  },
+  {
+    "sec": "condition",
+    "sitemap": "sitemap-conditions.xml",
+    "status": "ok",
+    "added": 0,
+    "pruned": 0
+  },
+  {
+    "sec": "for",
+    "sitemap": "sitemap-for.xml",
+    "status": "ok",
+    "added": 0,
+    "pruned": 0
+  },
+  {
+    "sec": "stack",
+    "sitemap": "sitemap-stacks.xml",
+    "status": "ok",
+    "added": 0,
+    "pruned": 0
+  },
+  {
+    "sec": "m",
+    "sitemap": "sitemap-medications.xml",
+    "status": "ok",
+    "added": 0,
+    "pruned": 0
+  }
+]

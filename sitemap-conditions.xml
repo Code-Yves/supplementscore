@@ -1,137 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://supplementscore.org/condition/index.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://supplementscore.org/condition/adhd-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/allergic-rhinitis.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/anxiety-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/chronic-constipation.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/ckd-nutrition.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/eczema-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/gallstone-prevention.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/gerd-protocol.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/gout-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hangover-recovery.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hypothyroidism-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/ibs-protocol.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/long-covid-evidence.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/me-cfs-evidence.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/migraine-prevention.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/nafld-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/osteoporosis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/pcos-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/peptic-ulcer-disease.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/copd-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/alopecia-areata.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/perimenopause-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/prediabetes-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/prostate-health.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/recurrent-uti.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/fibromyalgia-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/restless-legs-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/metabolic-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/peripheral-neuropathy.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/male-fertility.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/macular-degeneration.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/tinnitus.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/dry-eye.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/kidney-stones.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/ibs-d-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/female-fertility.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/periodontal-disease.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/chronic-inflammation.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/raynauds-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/menopause-hot-flashes.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/postpartum-depression.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/endometriosis-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/adult-acne-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/atrial-fibrillation-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/dysmenorrhea-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/heavy-menstrual-bleeding.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/mast-cell-activation-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/psoriasis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/rosacea-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/sarcopenia-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/sleep-apnea-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/lichen-sclerosus-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/seasonal-affective-disorder.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/premenstrual-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/premenstrual-dysphoric-disorder.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/iron-deficiency-anemia.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/interstitial-cystitis.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/age-related-cognitive-decline.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hidradenitis-suppurativa.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/essential-tremor.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/burning-mouth-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/high-cholesterol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/erectile-dysfunction.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/osteoarthritis-knee.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/asthma-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/glaucoma-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/rheumatoid-arthritis-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/ulcerative-colitis-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/vertigo-bppv.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/crohns-disease-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/ibs-c-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/bph-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/sibo-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/histamine-intolerance.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/sjogrens-syndrome-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hashimotos-thyroiditis.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/pots-support.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/multiple-sclerosis-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/insomnia-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/tension-headache-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hemorrhoid-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/lower-back-pain-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/plantar-fasciitis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hyperthyroidism-graves.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/cold-sores-recurrent-hsv.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/hyperhidrosis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/type-2-diabetes.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/osteopenia.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/depression-mild-moderate.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/carpal-tunnel-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/cataract-prevention.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/diverticulosis-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/neuropathic-pain-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/shingles-postherpetic-neuralgia.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/tendinopathy-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/urinary-incontinence.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/age-related-hearing-loss.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/frozen-shoulder-adhesive-capsulitis.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/cluster-headache-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/functional-dyspepsia-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/telogen-effluvium-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/lipedema-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/post-concussion-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/vitiligo-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/cervical-spondylosis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/gestational-diabetes-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/tennis-elbow-lateral-epicondylitis.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/chronic-rhinosinusitis.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/mild-cognitive-impairment.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/statin-myopathy.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/jet-lag-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/achilles-tendinopathy.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/chronic-venous-insufficiency.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/silent-reflux-lpr.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/recurrent-aphthous-mouth-ulcers.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/altitude-sickness-prevention.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/diabetic-retinopathy-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/lichen-planus-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/menieres-disease-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/polymyalgia-rheumatica.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/pre-eclampsia-prevention.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/primary-hyperparathyroidism-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/sciatica-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/tmj-disorder.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/lupus-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/psoriatic-arthritis-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/ankylosing-spondylitis-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/non-celiac-gluten-sensitivity.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/chronic-prostatitis-cpps.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/homocysteine-elevation.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/menstrual-migraine.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/post-stroke-recovery-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://supplementscore.org/condition/kidney-stones-prevention.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/anxiety-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/chronic-constipation.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/eczema-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/gerd-protocol.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/hypothyroidism-stack.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/ibs-protocol.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/migraine-prevention.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/nafld-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/osteoporosis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/pcos-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/peptic-ulcer-disease.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/copd-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/prediabetes-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/recurrent-uti.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/fibromyalgia-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/restless-legs-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/metabolic-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/peripheral-neuropathy.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/male-fertility.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/macular-degeneration.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/dry-eye.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/ibs-d-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/female-fertility.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/chronic-inflammation.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/menopause-hot-flashes.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/endometriosis-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/adult-acne-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/atrial-fibrillation-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/dysmenorrhea-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/psoriasis-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/sarcopenia-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/seasonal-affective-disorder.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/premenstrual-syndrome.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/premenstrual-dysphoric-disorder.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/iron-deficiency-anemia.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/age-related-cognitive-decline.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/high-cholesterol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/osteoarthritis-knee.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/crohns-disease-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/ibs-c-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/bph-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/sibo-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/multiple-sclerosis-adjunct.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/insomnia-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/cold-sores-recurrent-hsv.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/type-2-diabetes.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/depression-mild-moderate.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/cataract-prevention.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/neuropathic-pain-stack.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/tendinopathy-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/functional-dyspepsia-protocol.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/statin-myopathy.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/menstrual-migraine.html</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://supplementscore.org/condition/kidney-stones-prevention.html</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://supplementscore.org/condition/index.html</loc><lastmod>2026-05-29</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
