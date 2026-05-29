@@ -37,6 +37,7 @@
   --color-brand: #1F7A6B;
   --color-brand-hover: #176258;
   --color-brand-soft: #7CC4B6;
+  --color-brand-deep: #155A50;  /* Round-11: was referenced via var(--color-brand-deep,#155A50) in .b-why-chip/.b-cta but never defined; now tokenized (same value, no visual change). */
   /* Accent — soft coral, used sparingly for warmth */
   --color-accent-coral: #E8967A;
   --color-accent-coral-soft: #F5C9B8;

@@ -883,6 +883,12 @@ const DOSE_CALCULATORS = {
     if(p.conds.has('depression')){ g = 2; reasons.push('depression — EPA-dominant'); }
     if(p.conds.has('rheumatoid_arthritis')){ g = 2.5; reasons.push('RA'); }
     if(p.labs && p.labs.triglycerides != null && p.labs.triglycerides > 200){ g = Math.max(g, 3); reasons.push('elevated triglycerides'); }
+    /* Round-11 (editorial review): body weight / BMI predicts omega-3 index
+       response — higher adiposity dilutes membrane incorporation, so a heavier
+       person needs a higher dose for the same index (Flock 2013; Walker 2019
+       dose-response). Modest floor bump at BMI≥30. The AFib and organ caps below
+       still take precedence. */
+    if(p.bmi && p.bmi >= 30){ g = Math.max(g, 1.5); reasons.push('higher BMI — larger volume of distribution'); }
     if(p.conds.has('atrial_fibrillation')){ g = Math.min(g, 1); reasons.push('AFib — cap below 2 g (high-dose AF signal in REDUCE-IT/STRENGTH)'); }
     if(p.kidney === 'severe' || p.liver === 'cirrhosis'){ g = Math.min(g, 1.5); }
     return {dose: `${g} g/day combined EPA + DHA, with a fatty meal`, basis: reasons.length ? reasons.join(', ') : 'baseline cardiovascular dose'};
@@ -915,6 +921,10 @@ const DOSE_CALCULATORS = {
     const reasons = [(p.sex === 'f' ? 'female' : 'male') + ' RDA'];
     if(p.sex === 'fp'){ mg = 12; reasons[0] = 'pregnancy RDA'; }
     if(p.smoking === 'current') reasons.push('smoker');
+    /* Round-11 (editorial review): obesity is associated with lower serum zinc
+       (sequestration + lower absorption efficiency); guidance only — aim the
+       upper end of the range rather than changing the RDA floor. */
+    if(p.bmi && p.bmi >= 30) reasons.push('higher BMI — serum zinc often lower; aim upper end');
     if(mg >= 25) reasons.push('add 1-2 mg copper');
     return {dose: `${mg}-25 mg/day with food (split if dose >25)`, basis: reasons.join(', ') + '; UL is 40 mg'};
   },
