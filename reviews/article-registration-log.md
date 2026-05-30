@@ -217,3 +217,4 @@
 | 2026-05-27 | WATCHDOG-ORPHANS | 20 detected → 0 registered, 16 title-dup deleted, 4 noindex-stubs remain. Report: reviews/article-registration-2026-05-27.md |
 | 2026-05-28 | WATCHDOG-SCRIPTFIX | 4 noindex-stub false-positives → patched findOrphans() to skip noindex+refresh stubs; orphanCount now 0. Report: reviews/article-registration-2026-05-28.md |
 | 2026-05-29 | WATCHDOG-CLEAN | 0 orphans found |
+| 2026-05-30 | WATCHDOG-CLEAN | 0 orphans found |

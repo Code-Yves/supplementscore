@@ -29,6 +29,25 @@
         "copd-adjunct",
         "alopecia-areata"
       ]
+    },
+    {
+      "date": "2026-05-30",
+      "slugs": [
+        "hashimotos",
+        "gout",
+        "perimenopause"
+      ],
+      "all_topics_in_window": [
+        "type-2-diabetes",
+        "osteopenia",
+        "depression-mild-moderate",
+        "peptic-ulcer-disease",
+        "copd-adjunct",
+        "alopecia-areata",
+        "hashimotos",
+        "gout",
+        "perimenopause"
+      ]
     }
   ]
 }
