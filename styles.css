@@ -1190,6 +1190,13 @@ a.site-nav-tab{
     z-index:31 !important;
     box-shadow:none !important;
     gap:4px !important;
+    /* 2026-05-30 — Clip the bar's own overflow. body{overflow-x:clip} does NOT
+       reach a position:fixed descendant, so on narrow phones (<~410px) the
+       three nowrap trust-stats overflowed this fixed bar and pushed the page
+       wide — producing the right-edge "leak" where the rounded search bar and
+       cards poked past the viewport. Clipping here means the fixed bar can
+       never widen the document. */
+    overflow:hidden !important;
   }
   /* 2026-05-21 — Trust-stats inside the green banner on mobile.
      Type and tracking are compressed so all three stats + two slash
@@ -1350,6 +1357,14 @@ a.site-nav-tab{
    width:calc(100%+2rem) bleed-out and avoids touching the root viewport
    element where overflow rules have additional spec-defined side effects. */
 body{ overflow-x:clip; }
+/* 2026-05-30 — body{overflow-x:clip} above does NOT clip position:fixed
+   descendants (e.g. the fixed .beta-bar trust strip), so on narrow phones a
+   fixed bar's content bleed could still leak past the right edge (the reported
+   "rounded shapes poking out top-right"). Seal at the viewport level, MOBILE
+   ONLY, so the desktop root is left untouched (the side-effect concern noted
+   above). overflow-x:clip preserves position:sticky — it creates no scroll
+   container — so the sticky filter bars are unaffected. */
+@media(max-width:600px){ html{ overflow-x:clip; } }
 /* Mobile flicker mitigations:
    - Reduce backdrop-filter blur (very expensive on iOS Safari and re-rasterises every scroll frame).
    - Suppress sticky :hover transforms after touch.
