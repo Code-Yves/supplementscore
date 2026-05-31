@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=20260527-bottomline">
+  <link rel="stylesheet" href="/styles.css?v=20260531-polish">
   <style>
     /* Article-style template (mirrors /a/*.html) ----------------------- */
     body { background: var(--color-background-primary); color: var(--color-text-primary); }
@@ -197,16 +197,22 @@
 
     /* Stat bar — make the proof numbers actually land */
     .ab-page .ab-stats { gap: 12px; margin: 20px 0 34px; }
-    .ab-page .ab-stat { background: #fffdf9; border: 1px solid var(--color-border-tertiary); border-top: 3px solid var(--color-brand); border-radius: 12px; padding: 16px 16px 14px; box-shadow: 0 1px 2px rgba(12,10,9,.04), 0 6px 16px rgba(12,10,9,.03); }
-    .ab-page .ab-stat-num { font-size: 30px; font-weight: 800; letter-spacing: -.6px; color: var(--color-text-primary); }
-    .ab-page .ab-stat-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--color-text-tertiary); margin-top: 6px; }
+    .ab-page .ab-stat { background: #fbf9f4; border: 1px solid var(--color-border-tertiary); border-radius: 12px; padding: 15px 16px; }
+    .ab-page .ab-stat-num { font-size: 27px; font-weight: 800; letter-spacing: -.5px; color: var(--color-text-primary); }
+    .ab-page .ab-stat-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-brand); font-weight: 600; margin-top: 7px; }
 
     /* Section rhythm — small green eyebrow rule above each section heading */
     .ab-page > h2 { margin-top: 52px; }
     .ab-page > h2::before { content: ""; display: block; width: 34px; height: 3px; border-radius: 2px; background: var(--color-brand); margin-bottom: 16px; }
 
     /* Sticky on-this-page nav */
-    .ab-page .ab-toc { position: sticky; top: 0; z-index: 30; background: var(--color-background-secondary); box-shadow: 0 1px 0 var(--color-border-tertiary); }
+    .ab-page .ab-toc { position: sticky; top: 0; z-index: 30; background: var(--color-background-primary); border: 0; border-top: 1px solid var(--color-border-tertiary); border-bottom: 1px solid var(--color-border-tertiary); border-radius: 0; padding: 16px 4px; counter-reset: toc; }
+    .ab-page .ab-toc strong { color: var(--color-brand); }
+    .ab-page .ab-toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px 24px; margin-top: 4px; }
+    .ab-page .ab-toc-grid a { display: flex; align-items: baseline; gap: 9px; margin: 0; padding: 6px 0; color: var(--color-text-primary); text-decoration: none; }
+    .ab-page .ab-toc-grid a::before { counter-increment: toc; content: counter(toc, decimal-leading-zero); min-width: 16px; font-size: 10.5px; font-weight: 700; color: var(--color-brand); font-variant-numeric: tabular-nums; }
+    .ab-page .ab-toc-grid a:hover { color: var(--color-brand); text-decoration: underline; }
+    @media (max-width: 600px) { .ab-page .ab-toc-grid { grid-template-columns: 1fr 1fr; gap: 0 18px; } }
 
     /* Table readability */
     .ab-page table { border-collapse: separate; border-spacing: 0; border: 1px solid var(--color-border-tertiary); border-radius: 10px; overflow: hidden; }
@@ -234,10 +240,13 @@
     .ab-anat-sub span { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); background: var(--color-background-secondary); border-radius: 7px; padding: 7px 9px; line-height: 1.2; }
     .ab-anat-arrow { color: var(--color-text-tertiary); font-size: 20px; text-align: center; line-height: 1; }
     .ab-anat-arrow small { display: block; font-size: 9.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
-    .ab-anat-scale { height: 12px; border-radius: 6px; background: linear-gradient(90deg, #DC2626 0 40%, #CA8A04 40% 60%, #4B7BE5 60% 72%, #1F7A6B 72% 100%); }
-    .ab-anat-bands { display: flex; margin-top: 6px; }
-    .ab-anat-bands span { font-size: 10px; font-weight: 700; text-align: center; color: var(--color-text-tertiary); letter-spacing: .02em; }
-    .ab-anat-ends { display: flex; justify-content: space-between; font-size: 10px; color: var(--color-text-tertiary); margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .ab-anat-segs { display: flex; gap: 4px; }
+    .ab-anat-segs .seg { flex: 1; height: 12px; border-radius: 4px; }
+    .ab-anat-segs .t1 { background: #1F7A6B; } .ab-anat-segs .t2 { background: #4B7BE5; } .ab-anat-segs .t3 { background: #CA8A04; } .ab-anat-segs .t4 { background: #DC2626; }
+    .ab-anat-keys { display: flex; gap: 4px; margin-top: 8px; }
+    .ab-anat-keys > div { flex: 1; text-align: center; }
+    .ab-anat-keys b { display: block; font-size: 11.5px; font-weight: 700; }
+    .ab-anat-keys i { font-style: normal; font-size: 10px; color: var(--color-text-tertiary); }
     .ab-anat-cap { font-size: 12.5px; color: var(--color-text-secondary); margin: 14px 0 0; line-height: 1.55; }
     @media (max-width: 600px) {
       .ab-anat-flow { grid-template-columns: 1fr; gap: 10px; }
@@ -415,6 +424,7 @@
 
   <div class="ab-toc">
     <strong>On this page</strong>
+    <div class="ab-toc-grid">
     <a href="#why">Why we exist</a>
     <a href="#tiers">Evidence tiers</a>
     <a href="#scores">Sub-scores</a>
@@ -428,6 +438,7 @@
     <a href="#glossary">Glossary</a>
     <a href="#feedback">Flag an error</a>
     <a href="#contribute">Contribute</a>
+    </div>
   </div>
 
   <div class="ab-anatomy">
@@ -438,9 +449,8 @@
       </div>
       <div class="ab-anat-arrow" aria-hidden="true">&rarr;<small>weighted</small></div>
       <div class="ab-anat-out" aria-hidden="true">
-        <div class="ab-anat-scale"></div>
-        <div class="ab-anat-bands"><span style="flex-basis:40%">Tier&nbsp;4</span><span style="flex-basis:20%">Tier&nbsp;3</span><span style="flex-basis:12%">Tier&nbsp;2</span><span style="flex-basis:28%">Tier&nbsp;1</span></div>
-        <div class="ab-anat-ends"><span>0</span><span>100</span></div>
+        <div class="ab-anat-segs"><span class="seg t1"></span><span class="seg t2"></span><span class="seg t3"></span><span class="seg t4"></span></div>
+        <div class="ab-anat-keys"><div><b style="color:#155e52">Tier&nbsp;1</b><i>72&ndash;100</i></div><div><b style="color:#2f53a8">Tier&nbsp;2</b><i>60&ndash;71</i></div><div><b style="color:#8a5d05">Tier&nbsp;3</b><i>40&ndash;59</i></div><div><b style="color:#b3261e">Tier&nbsp;4</b><i>below&nbsp;40</i></div></div>
       </div>
     </div>
     <p class="ab-anat-cap">Six clinical dimensions &mdash; each scored 1&ndash;5, with efficacy and safety weighted highest &mdash; roll into one 0&ndash;100 composite. That score, gated by the citation and safety rules below, sets the tier.</p>
