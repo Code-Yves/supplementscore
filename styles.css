@@ -433,6 +433,8 @@ body.on-profile .ssux-recent{display:none !important}
   background:var(--color-background-secondary);
   position:sticky;top:0;
 }
+/* Search-dropdown category headers: green + bolder so they read as real section labels (was light grey) */
+.gs-ac-hdr{ color:var(--color-brand); font-weight:700; font-size:10.5px; }
 .drug-ta-name{color:var(--color-text-primary);font-weight:500}
 .drug-ta-class{font-size:10.5px;color:var(--color-text-tertiary);font-style:italic}
 .drug-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
@@ -1436,7 +1438,7 @@ body{ overflow-x:clip; }
 .hero-dot{display:none}
 /* Variant 4: arrows + Read article CTA grouped at bottom-right of hero */
 .hero-controls{position:absolute;bottom:28px;right:30px;display:flex;align-items:center;gap:10px;z-index:5}
-.hero-arrow{width:40px;height:40px;border-radius:10px;background:rgba(248,244,237,0.14);border:1px solid rgba(248,244,237,0.22);color:#F8F4ED;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .15s;padding:0}
+.hero-arrow{width:52px;height:40px;border-radius:10px;background:rgba(248,244,237,0.14);border:1px solid rgba(248,244,237,0.22);color:#F8F4ED;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .15s;padding:0}
 .hero-arrow svg{width:14px;height:14px}
 .hero-arrow:hover{background:rgba(248,244,237,0.28)}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;font-family:'Mona Sans',var(--font-display,inherit);font-size:13px;font-weight:700;letter-spacing:.01em;background:#F8F4ED;color:#155b50;padding:11px 18px;border-radius:10px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
@@ -1450,7 +1452,7 @@ body{ overflow-x:clip; }
 .hero-progress-fill{position:absolute;left:0;top:0;height:100%;width:0;background:#E8967A;border-radius:0 2px 2px 0;transform-origin:left center}
 .hero-progress-fill.run{animation:heroProgressFill 12s linear forwards}
 @keyframes heroProgressFill{from{width:0}to{width:100%}}
-@media(max-width:600px){.hero{height:auto;min-height:460px}.hero-slide{inset:54px 20px 96px 20px}.hero-slide-headline{font-size:20px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:11px}.hero-slide-featured{font-size:10px}.hero-slide-badge{font-size:10px}.hero-arrow{width:36px;height:36px}.hero-counter{top:14px;right:16px;left:16px;text-align:right;font-size:10px}.hero-counter::before{content:'PICK · '}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
+@media(max-width:600px){.hero{height:auto;min-height:460px}.hero-slide{inset:54px 20px 96px 20px}.hero-slide-headline{font-size:20px}.hero-slide-desc{font-size:13px}.hero-slide-meta{flex-wrap:wrap;padding-right:0}.hero-controls{right:18px;bottom:22px;gap:8px}.hero-cta{padding:10px 14px;font-size:11px}.hero-slide-featured{font-size:10px}.hero-slide-badge{font-size:10px}.hero-arrow{width:52px;height:40px}.hero-counter{top:14px;right:16px;left:16px;text-align:right;font-size:10px}.hero-counter::before{content:'PICK · '}.articles-hdr-title{font-size:22px}.articles-hdr-top{gap:10px}.articles-hdr-stats{font-size:9px;gap:6px}}
 /* Legacy .articles-filter-row + .articles-dd-* + .articles-search-* styles removed
    along with the toolbar redesign (now lives in index.css under .rs-toolbar). */
 .articles-no-results{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:var(--color-background-secondary);border:1px dashed var(--color-border-tertiary);border-radius:12px;margin-bottom:12px}
