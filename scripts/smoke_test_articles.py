@@ -108,6 +108,15 @@ def scan_file(fpath: Path) -> list[tuple[str, str, str]]:
     except OSError as e:
         return [(str(fpath), 'fail', f'cannot read: {e}')]
 
+    # Skip redirect/tombstone stubs. noindex meta-refresh pages are intentional
+    # consolidation redirects (e.g. a slug rename or merge into a canonical page),
+    # not full articles, so the article-chrome checks (styles.css, _site-ux.js,
+    # _research-chrome.js, last-reviewed) must not apply to a ~16-line page whose
+    # only job is location.replace(). Mirrors the existing .bak / index skip rule.
+    if re.search(r'robots"\s+content="[^"]*noindex', html, re.I) and \
+       re.search(r'http-equiv="refresh"|location\.replace\(', html, re.I):
+        return []
+
     # Forbidden patterns
     for pat, sev, reason in FORBIDDEN:
         if pat.search(html):
