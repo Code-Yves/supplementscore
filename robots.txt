@@ -4,6 +4,10 @@ Allow: /
 # Block internal mockup directory from crawling (not deployed but defensive)
 Disallow: /_mockups/
 
+# Block archived / superseded pages — duplicate content of live pages, and their
+# stale internal links point at dropped URLs (→ 404s in Search Console if crawled)
+Disallow: /_archive/
+
 # Block raw data files — public for direct download via /data/index.html, but should not appear as search results
 Disallow: /data/*.csv$
 Disallow: /data/*.json$
