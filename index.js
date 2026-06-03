@@ -188,6 +188,16 @@ function _renderArticleInline(n) {
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function showArticle(n) {
+  /* Article clicks now go straight to the full /a/ page rather than the inline
+     preview modal. Reuse the /a/ link already baked into the inline article body
+     (.ar-readmore). Fall back to the inline modal only if no such link exists
+     (e.g. a hub/guide entry that has no standalone /a/ page yet). */
+  try {
+    var el = document.getElementById('article-' + n);
+    var link = el && el.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
+    var href = link && link.getAttribute('href');
+    if (href) { window.location.href = href; return; }
+  } catch (_) {}
   goArticle(n);
 }
 function readerClose() {

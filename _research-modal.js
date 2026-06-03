@@ -14,8 +14,10 @@
 
   /* The URL prefixes whose links we open inside the modal. Plain anchors
      to anywhere else still navigate normally. */
-  var INTERCEPT_PREFIXES = ['/a/', '/for/', '/condition/', '/stack/',
-                            'a/', 'for/', 'condition/', 'stack/'];
+  /* Articles (/a/) now navigate straight to their full page instead of opening
+     in an iframe overlay. condition/stack still preview in the modal. */
+  var INTERCEPT_PREFIXES = ['/condition/', '/stack/',
+                            'condition/', 'stack/'];
 
   function isInterceptedHref(href){
     if (!href) return false;
