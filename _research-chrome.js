@@ -780,7 +780,7 @@
     /* 4b. THE BOTTOM LINE callout. If the article doesn't already have a
        hand-authored .bl block, synthesize one from the article lede.
        Place it BEFORE the TOC. */
-    if (!wrap.querySelector('.rc-bl, .bl')){
+    if (!wrap.querySelector('.rc-bl, .bl, .ar-bottomline')){
       var ledeParas = [];
 
       /* (1) Strongest signal: an explicit lede class on the page template */
