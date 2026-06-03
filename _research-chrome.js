@@ -401,14 +401,25 @@
     '</a>';
   }
 
-  /* Extract a supplement slug from a link URL. Handles:
-     - /s/magnesium-glycinate.html  (and ../s/.../ etc.)
-     - /supplement.html?n=Magnesium+glycinate
+  /* Extract a supplement slug from a link URL. Handles, in priority order:
+     - supplement.html?slug=<slug>   (current canonical article link form;
+       also matches /supplement.html?slug=… and ../supplement.html?slug=…)
+     - /s/magnesium-glycinate.html   (and ../s/.../ etc. — legacy tombstones)
+     - supplement.html?n=Magnesium+glycinate  (older name-keyed form)
      Returns lower-case slug ready for lookup, or null. */
   function slugFromHref(href){
     if (!href) return null;
+    /* supplement.html?slug=<slug> — the link form /a/ articles actually use.
+       The [?&] before slug= matches it whether it's the first query param
+       (right after ?) or a later one (after &); works across any path prefix
+       (/, ../, https://host/, etc.). */
+    var m = href.match(/supplement\.html\?(?:[^#]*[?&])?slug=([^&#]+)/);
+    if (m){
+      try { return decodeURIComponent(m[1]).toLowerCase(); }
+      catch(_){ return m[1].toLowerCase(); }
+    }
     /* /s/<slug>.html */
-    var m = href.match(/\/s\/([^/?#]+)\.html(?:[#?]|$)/);
+    m = href.match(/\/s\/([^/?#]+)\.html(?:[#?]|$)/);
     if (m) return m[1].toLowerCase();
     /* supplement.html?n=<name> */
     m = href.match(/supplement\.html\?[^#]*n=([^&#]+)/);
