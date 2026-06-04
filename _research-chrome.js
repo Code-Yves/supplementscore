@@ -756,7 +756,12 @@
     });
   }
 
-  if (h2s.length >= 2){
+  /* Only build the "On this page" TOC for genuinely multi-section articles
+     (>=3 h2s). Listicles ("top 10 ...") have their numbered list as the main
+     body and only 1-2 trailing h2s ("How to Use", "What Was Excluded"); the TOC
+     is then both low-value and mis-placed (it renders before the first h2, which
+     on a listicle is near the bottom). Suppressing it for <3 sections fixes that. */
+  if (h2s.length >= 3){
     /* Build TOC items */
     var totalMin = readMin;
     var perMin = Math.max(1, Math.round(totalMin / h2s.length));
