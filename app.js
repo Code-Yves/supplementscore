@@ -4819,6 +4819,15 @@ function goArticle(id,ev,_skipStackPush){
   if(_ev&&_ev.stopPropagation)_ev.stopPropagation();
   const src=document.getElementById('article-'+id);
   if(!src)return;
+  /* Articles now open as their full /a/ page instead of the inline preview
+     modal. goArticle is the single choke point every opener funnels through
+     (cards, hero carousel, search, showArticle), so navigate here using the
+     "Read the full article" link baked into the inline body. Falls through to
+     the old modal only if no /a/ link exists (e.g. a hub entry with no page). */
+  try{
+    var _rm=src.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
+    if(_rm&&_rm.getAttribute('href')){ window.location.href=_rm.getAttribute('href'); return; }
+  }catch(_){}
   const modal=document.getElementById('art-modal');
   if(!modal)return;
   const isOpen=modal.classList.contains('open');
