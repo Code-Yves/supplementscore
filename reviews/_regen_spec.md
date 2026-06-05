@@ -19,6 +19,7 @@ and produce a template-perfect file. Workspace:
 3. Validate your file (see Self-check).
 
 ## Body requirements (HARD — each article)
+- **Bottom Line (the `<div class="ar-bottomline">` box that precedes `<div class="ar-content">`):** must be a finished **3–4 sentence** plain-language summary of the whole article — (1) what it is + the overall verdict, (2) where the evidence is strongest/weakest with a specific finding, (3) the key practical caveat (dose/form/who-should-avoid). NEVER copy it verbatim into the first `<p>` of `ar-content`: the body must open with substantive content, not a restatement of the verdict. No ellipsis/truncation, no jargon. (Enforced by `scripts/check_article_formatting.py`.)
 - **≥ 650 words** of body prose (aim 700–900), excluding the Sources list and back-button.
 - **3–6 `<h2>` sections.** Reserve `<h3>` for "Sources" only.
   - **Condition protocol:** intro `<p>` → one `<h2>` per recommended supplement (heading includes the dose, e.g. `<h2>Magnesium, 300 mg Daily</h2>`) with what trials show + mechanism + cautions → `<h2>What NOT to Take</h2>` → `<h2>How to Run the Protocol</h2>` → Sources.
@@ -41,7 +42,9 @@ grep -c 'class="ar-content"' $f   # ≥ 1
 grep -c research-chrome $f        # = 1
 grep -oc 'PMID:' $f               # ≥ 4
 awk '/<div class="ar-content">/{x=1} /<h3[^>]*>Sources/{x=0} x' $f | sed 's/<[^>]*>//g' | wc -w   # ≥ 650
+python3 scripts/check_article_formatting.py   # your file must NOT appear under dup / <3 sentences / truncated
 ```
+Before committing ANY article work (generation or edits), run the full gate: `bash scripts/validate_build.sh` (formatting guardrail + links + smoke + sitemap; must exit 0).
 Confirm every `?slug=` you used returned `true` from slug.mjs. Report any slug you wanted but couldn't resolve (content-gap signal).
 
 Do NOT run `register-articles.mjs` (these are already registered) and do NOT edit data.js, sitemaps, or any file other than the `a/<slug>.html` files you are assigned. Report a concise list of files written + any issues.
