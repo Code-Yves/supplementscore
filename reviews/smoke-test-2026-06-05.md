@@ -1,6 +1,6 @@
-# Article smoke-test — 2026-06-04
+# Article smoke-test — 2026-06-05
 
-- Files scanned: **1356**
+- Files scanned: **40**
 - Failures: **0**
 - Warnings: **0**
 
