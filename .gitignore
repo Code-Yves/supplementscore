@@ -22,3 +22,5 @@ __pycache__/
 
 # FUSE filesystem temp files (created by perl -i / sed -i on mounted filesystems)
 .fuse_hidden*
+*.tmp
+*.orig
