@@ -432,17 +432,12 @@ function buildIndexHtmlUpdate(src, regs) {
 
   const fullBlocks = regs.map(r => {
     const catLabel = categoryDisplayName(r.cat);
-    return `  <div class="article-full" id="article-${r.id}" style="display:none">
-    <!-- last-reviewed: ${r.lr} -->
-    <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
-      <div class="article-cat">${catLabel}</div>
-      <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">${escHtml(r.title)}</h2>
-      <div class="article-meta" style="margin-bottom:1.5rem">${r.minutes} min read</div>
-      <p>${escHtml(r.excerpt)}</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="a/${r.slug}.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
-    </div>
-  </div><!-- end article-${r.id} -->
+    // Inline body is a metadata-only STUB. Every article has a standalone /a/
+    // page and goArticle()/showArticle() redirect there via this ar-readmore
+    // link, so the homepage never needs (or renders) the full body. Keeping it
+    // a stub is what keeps index.html lean — see scripts/slim_inline_articles.py.
+    // Do NOT reintroduce a full inline body here.
+    return `  <div class="article-full" id="article-${r.id}" style="display:none"><a class="ar-readmore" href="a/${r.slug}.html" hidden aria-hidden="true"></a></div><!-- end article-${r.id} -->
 `;
   }).join('');
 

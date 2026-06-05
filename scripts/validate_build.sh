@@ -49,6 +49,25 @@ if ! python3 scripts/check_sitemap_integrity.py; then
   echo ">> FAIL: sitemap integrity"; fail=1
 fi
 
+# 5. DietarySupplement structured-data schema (supplement cards).
+hr "supplement schema"
+schema_out="$(node scripts/validate_dietarysupplement_schema.mjs 2>&1)"; schema_rc=$?
+echo "$schema_out" | tail -3
+if [ "$schema_rc" -ne 0 ] || echo "$schema_out" | grep -qE "errors=[1-9]"; then
+  echo ">> FAIL: supplement schema"; fail=1
+fi
+
+# 6. Homepage size budget — index.html must stay lean (the inline #article-N
+#    bodies are metadata stubs, not full prose; see scripts/slim_inline_articles.py).
+#    Guards against a regression that re-bloats the homepage.
+hr "homepage size budget"
+INDEX_MAX=1638400   # 1.6 MB
+index_bytes=$(wc -c < index.html)
+echo "index.html: $((index_bytes/1024)) KB (budget $((INDEX_MAX/1024)) KB)"
+if [ "$index_bytes" -gt "$INDEX_MAX" ]; then
+  echo ">> FAIL: index.html exceeds size budget — run: python3 scripts/slim_inline_articles.py"; fail=1
+fi
+
 hr "result"
 if [ "$fail" -ne 0 ]; then
   echo -e "\033[31mBUILD VALIDATION FAILED — fix the items above before committing.\033[0m"
