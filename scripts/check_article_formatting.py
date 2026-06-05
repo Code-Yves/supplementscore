@@ -73,7 +73,7 @@ def first_body_paragraph(s):
     return p.group(1) if p else None
 
 def main():
-    dbl, bl_dup, bl_short, bl_trunc, jarg = [], [], [], [], []
+    dbl, bl_dup, bl_short, bl_trunc, bl_missing, jarg = [], [], [], [], [], []
     for f in sorted(glob.glob('a/*.html')):
         s = open(f, encoding='utf-8', errors='ignore').read()
         if 'http-equiv="refresh"' in s.lower():
@@ -96,7 +96,12 @@ def main():
 
         # Bottom Line checks
         blt = bottomline_text(s)
-        if blt is not None:
+        if blt is None:
+            # 0. no authored Bottom Line box at all. Every indexable article must
+            #    ship one (the runtime chrome only synthesizes a fallback for >=3
+            #    H2s, so a short page with no authored BL would render none).
+            bl_missing.append(b)
+        else:
             # 2. duplicates first body paragraph
             fbp = first_body_paragraph(s)
             if fbp is not None:
@@ -143,11 +148,14 @@ def main():
     print(f"[FAIL-if-any] Bottom Line truncated (ellipsis): {len(bl_trunc)}")
     for b in bl_trunc:
         print("   -", b)
+    print(f"[FAIL-if-any] No authored Bottom Line box      : {len(bl_missing)}")
+    for b in bl_missing:
+        print("   -", b)
     print(f"[warn] Jargon in Bottom Line / lede           : {len(jarg)}")
     for b, h in jarg:
         print("   -", b, h)
 
-    fails = len(dbl) + len(bl_dup) + len(bl_short) + len(bl_trunc)
+    fails = len(dbl) + len(bl_dup) + len(bl_short) + len(bl_trunc) + len(bl_missing)
     if fails:
         print(f"\nFAIL: {fails} hard issue(s). Bottom Lines must be a finished, "
               "3+ sentence summary that does NOT repeat paragraph 1; ordered lists "

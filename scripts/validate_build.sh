@@ -24,14 +24,24 @@ if ! python3 scripts/check_article_formatting.py; then
 fi
 
 # 2. Internal links — every ?slug= and ../s/ link resolves via the runtime resolver.
+#    Gate on the checker's own exit code AND on the reported count (belt-and-suspenders:
+#    catches both a non-zero exit and any future output reword).
 hr "internal links"
-links_out="$(node scripts/check_internal_links.mjs 2>&1)"; echo "$links_out"
-echo "$links_out" | grep -q "GENUINE BREAKS: 0" || { echo ">> FAIL: internal links"; fail=1; }
+links_out="$(node scripts/check_internal_links.mjs 2>&1)"; links_rc=$?; echo "$links_out"
+if [ "$links_rc" -ne 0 ] \
+   || ! echo "$links_out" | grep -q "GENUINE BREAKS: 0" \
+   || echo "$links_out" | grep -qE "GENUINE BREAKS: [1-9]"; then
+  echo ">> FAIL: internal links"; fail=1
+fi
 
 # 3. Article smoke test — chrome present, no truncation/structural breakage.
 hr "article smoke test"
-smoke_out="$(python3 scripts/smoke_test_articles.py 2>&1)"; echo "$smoke_out"
-echo "$smoke_out" | grep -qE "Failures: 0" || { echo ">> FAIL: smoke test"; fail=1; }
+smoke_out="$(python3 scripts/smoke_test_articles.py 2>&1)"; smoke_rc=$?; echo "$smoke_out"
+if [ "$smoke_rc" -ne 0 ] \
+   || ! echo "$smoke_out" | grep -qE "Failures: 0" \
+   || echo "$smoke_out" | grep -qE "Failures: [1-9]"; then
+  echo ">> FAIL: smoke test"; fail=1
+fi
 
 # 4. Sitemap integrity — no dead/blocked/noindex URLs in the sitemaps.
 hr "sitemap integrity"
