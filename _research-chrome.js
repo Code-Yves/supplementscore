@@ -272,6 +272,18 @@
   wrap.insertBefore(topBar, wrap.firstChild);
   topBar.querySelector('.rc-share').addEventListener('click', share);
   topBar.querySelector('.rc-close').addEventListener('click', closeArticle);
+  /* Safety net: also wire Close via event delegation so the X reliably works
+     even if a duplicate or re-rendered top bar appears (the documented
+     duplicate-chrome failure mode, where the visible X had no handler and just
+     followed its href="/" — which inside the iframe modal does nothing useful).
+     Attached once; closeArticle preventDefaults + is idempotent, so a double
+     fire with the direct handler above is harmless. */
+  if (!window.__rcCloseDelegated){
+    window.__rcCloseDelegated = true;
+    document.addEventListener('click', function(ev){
+      if (ev.target && ev.target.closest && ev.target.closest('.rc-close')) closeArticle(ev);
+    });
+  }
 
   /* The legacy markup (back/close FABs, kickers, meta lines, SEO breadcrumb)
      was deleted from every article page by scripts/cleanup_legacy_chrome.py

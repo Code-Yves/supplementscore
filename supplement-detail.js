@@ -444,8 +444,12 @@
     return '<li><span class="det-rel-row det-rel-row--static"><span>'+escHtml(c.name)+'</span><span class="det-ltag">Condition</span></span></li>';
   }, conds.length);
 
+  /* Lab markers are rendered as plain (non-clickable) rows by design — per user
+     feedback 2026-06-05, the biomarker pages aren't a useful destination, so we
+     surface the relationship visually without an active link (matches the
+     condition rows above via .det-rel-row--static). */
   var biomsCellHtml = relCell('Lab markers', bioms, function(b){
-    return '<li><a href="'+escAttr(window.SS.urlFor('biomarker', b.slug))+'"><span>'+escHtml(b.name)+'</span><span class="det-ltag">Biomarker</span></a></li>';
+    return '<li><span class="det-rel-row det-rel-row--static"><span>'+escHtml(b.name)+'</span><span class="det-ltag">Biomarker</span></span></li>';
   }, bioms.length);
 
   // 4th cell — Trending only. Previously rendered an Articles cell here
