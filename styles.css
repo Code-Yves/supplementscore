@@ -3786,6 +3786,11 @@ html.rc-chrome-active main.sx-wrap h3{
   background:var(--color-brand,#1F7A6B);margin-right:7px;
   vertical-align:1px;
 }
+/* Evidence meter bars — mirrors the in-site card (.article-v2 .trust-bars) so
+   /a/ pages and the modal show an identical strength indicator. */
+.rc-trust-bars{display:inline-flex;gap:2px;align-items:center;margin-right:6px}
+.rc-trust-bars span{display:inline-block;width:3px;height:10px;background:var(--color-brand,#1F7A6B);border-radius:1px;opacity:.22}
+.rc-trust-bars span.on{opacity:1}
 
 /* "On this page" TOC — hairline card, no fill */
 .rc-toc{

@@ -301,7 +301,15 @@
   var trustHtml = '';
   trustHtml += '<span class="rc-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> ' + readMin + ' min</span>';
   if (srcCount > 0){
-    trustHtml += '<span class="rc-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> ' + srcCount + ' source' + (srcCount === 1 ? '' : 's') + '</span>';
+    trustHtml += '<span class="rc-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> <b>' + srcCount + '</b> ' + (srcCount === 1 ? 'study' : 'studies') + ' cited</span>';
+    /* Evidence meter — coarse heuristic on source count, identical to the
+       modal/v2 renderer (articleTrustHtml in app.js) so /a/ pages and the
+       in-site card show the same strength label. */
+    var rcBars = srcCount >= 20 ? 4 : srcCount >= 10 ? 3 : srcCount >= 5 ? 2 : 1;
+    var rcBarLbl = rcBars >= 4 ? 'Strong' : rcBars >= 3 ? 'Solid' : rcBars >= 2 ? 'Moderate' : 'Limited';
+    var rcBarsHtml = '';
+    for (var _b = 1; _b <= 4; _b++){ rcBarsHtml += '<span' + (_b <= rcBars ? ' class="on"' : '') + '></span>'; }
+    trustHtml += '<span class="rc-trust-item"><span class="rc-trust-bars">' + rcBarsHtml + '</span><b>' + rcBarLbl + '</b> evidence</span>';
   }
   if (reviewed){
     trustHtml += '<span class="rc-trust-item rc-trust-rev">Reviewed · ' + reviewed + '</span>';
