@@ -173,6 +173,12 @@
       try { window.parent.postMessage({ type: 'rc-close' }, '*'); } catch(_){}
       return;
     }
+    /* A standalone comparison page belongs to the Compare hub — closing it should
+       return to /compare/, not the homepage or arbitrary history (user 2026-06-06). */
+    if ((location.pathname || '').indexOf('/compare/') === 0){
+      location.href = '/compare/index.html';
+      return;
+    }
     var SKIP = 'ss-art-skip-push', KEY = 'ss-art-stack', OLD = 'ss-art-origin';
     var stack = [];
     try { stack = JSON.parse(sessionStorage.getItem(KEY) || '[]'); if (!Array.isArray(stack)) stack = []; } catch(_){ stack = []; }
