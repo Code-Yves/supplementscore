@@ -2353,6 +2353,16 @@ body.reader-mode .article-full > div{padding:44px 52px !important;max-width:none
 .reader-close-fab{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:var(--z-dropdown);color:var(--color-text-secondary);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .15s,background .15s;padding:0}
 .reader-close-fab:hover{background:var(--color-background-primary);transform:scale(1.08);color:var(--color-text-primary)}
 .reader-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+/* (2026-06-06) When the research-chrome top bar is active it injects its own
+   close ✕ (and Share + prev/next). The hardcoded .reader-close-fab / .pg-close-fab
+   that compare + condition pages still ship then becomes a SECOND, redundant
+   close button (a circular ✕ to the right of the Share|✕ pill). Suppress the
+   hardcoded FAB whenever rc-chrome owns the close — both standalone and inside
+   the supplement-modal iframe. /a/ articles are unaffected (the registration
+   gate forbids the hardcoded FAB); supplement.html keeps its FAB (no rc-chrome
+   there, and is-modal already hides it inside the modal). */
+html.rc-chrome-active .reader-close-fab,
+html.rc-chrome-active .pg-close-fab{display:none !important}
 @media(max-width:760px){body.reader-mode .article-full{margin:16px 10px 40px;border-radius:10px}body.reader-mode .article-full > div{padding:28px 22px !important}.reader-close-fab{top:12px;right:12px;width:36px;height:36px}}
 
 /* ═════════════════════════════════════════════════════════════════
