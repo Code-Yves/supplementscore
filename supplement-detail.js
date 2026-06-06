@@ -192,7 +192,10 @@
     slug = window.SS.slugify(nameParam);
   }
   var root = document.getElementById('det-root');
-  if (p.get('modal') === '1') document.body.classList.add('is-modal');
+  /* Only treat as modal chrome when ACTUALLY framed (inside the .ssm iframe).
+     A top-level tab opened/shared with ?modal=1 must keep its own X/Share FABs,
+     otherwise the user is stranded with no close/share control (fixed 2026-06-06). */
+  if (p.get('modal') === '1' && window.self !== window.top) document.body.classList.add('is-modal');
   /* window.__ART_MANIFEST is set synchronously by a/manifest.js (loaded above)
      so the Sources & further reading renderer below can use it immediately. */
 
