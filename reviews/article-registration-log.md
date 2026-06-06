@@ -222,3 +222,4 @@
 | 2026-06-06 | supplements-to-preserve-muscle-on-glp-1-drugs | 712 | guide | 947 | 6 |
 | 2026-06-06 | micronutrient-gaps-on-glp-1-drugs-what-to-monitor | 713 | guide | 752 | 6 |
 | 2026-06-06 | supplements-for-kids-in-competitive-sports | 714 | kids | 1020 | 5 |
+| 2026-06-06 | hair-loss-on-glp-1-drugs-will-biotin-or-collagen-help | 715 | myth | 813 | 6 |

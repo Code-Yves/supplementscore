@@ -56,7 +56,7 @@
  *   • HTML-only changes (same)
  *   • Small JS tweaks (stale-while-revalidate picks them up next load)
  */
-const CACHE_VERSION = 'v2026-06-06-reg600';
+const CACHE_VERSION = 'v2026-06-06-reg601';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
