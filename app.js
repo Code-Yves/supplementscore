@@ -5012,7 +5012,7 @@ function _slcSlug(name){
 function _slcCaution(s, et, ints){
   if (et === 't4') return 'Tier 4 risk profile';
   if (!ints || !ints.length) return '';
-  if (ints.length === 1) return ints[0].med;
+  if (ints.length === 1) return (ints[0].med && ints[0].med.length <= 50) ? ints[0].med : '1 drug interaction';
   var avoid = ints.filter(function(i){ return i.type === 'avoid'; }).length;
   if (avoid && avoid === ints.length) return ints.length + ' avoid';
   return ints.length + ' drug interactions';
