@@ -91,6 +91,14 @@ if ! python3 scripts/check_js_links.py; then
   echo ">> FAIL: broken embedded JS links"; fail=1
 fi
 
+# 9. Recommendation names — every Goal + Age&Sex recommended supplement name
+#    must match a real data.js entry, or the filter silently shows nothing
+#    (4 GOALS names had drifted: Hair/Libido/Hormonal dropped supps).
+hr "recommendation names"
+if ! node scripts/check_recommendations.mjs; then
+  echo ">> FAIL: broken Goal/Age&Sex recommendation names"; fail=1
+fi
+
 hr "result"
 if [ "$fail" -ne 0 ]; then
   echo -e "\033[31mBUILD VALIDATION FAILED — fix the items above before committing.\033[0m"
