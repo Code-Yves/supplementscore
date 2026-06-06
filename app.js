@@ -5552,14 +5552,14 @@ function getCondSupps(){const s=new Set();selectedConds.forEach(k=>{const c=COND
 /* ── Goals ── */
 const GOALS={
   muscle:{label:'Muscle',supps:['Creatine monohydrate','Whey protein','EAAs (Essential amino acids)','HMB (β-Hydroxy-β-methylbutyrate)','Citrulline malate','Beta-Alanine']},
-  weight_loss:{label:'Weight',supps:['Glucomannan (konjac root)','Berberine','Psyllium husk (Plantago ovata)','Green tea extract (EGCG)']},
+  weight_loss:{label:'Weight',supps:['Glucomannan (konjac root)','Berberine','Psyllium husk (Plantago ovata)','Fibre (general dietary)']},
   cognition:{label:'Cognition',supps:['Creatine monohydrate','Citicoline (CDP-Choline)','Bacopa monnieri','Alpha-GPC','Phosphatidylserine',"Lion's mane mushroom"]},
   energy:{label:'Energy',supps:['Creatine monohydrate','Rhodiola rosea','CoQ10 (Ubiquinol)','Acetyl-L-Carnitine (ALCAR)']},
   sleep:{label:'Sleep',supps:['Magnesium','L-Theanine','Glycine','Melatonin','Tart cherry (Montmorency)','Ashwagandha (KSM-66)']},
   mood:{label:'Mood',supps:['Saffron (Crocus sativus)','Omega-3 (EPA/DHA)','S-Adenosylmethionine (SAMe)','Vitamin D3','Folate (5-MTHF)']},
   immunity:{label:'Immunity',supps:['Vitamin D3','Zinc','Vitamin C (moderate dose)','Elderberry (Sambucus nigra)','Probiotics']},
   skin:{label:'Skin',supps:['Collagen peptides','Omega-3 (EPA/DHA)','Astaxanthin','Vitamin C (moderate dose)']},
-  longevity:{label:'Anti-Aging',supps:['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','Magnesium','CoQ10 (Ubiquinol)','NMN / NAD+ precursors']},
+  longevity:{label:'Anti-Aging',supps:['Creatine monohydrate','Omega-3 (EPA/DHA)','Vitamin D3','Magnesium','CoQ10 (Ubiquinol)','Glycine']},
   gut:{label:'Gut Health',supps:['Probiotics','Psyllium husk (Plantago ovata)','Fibre (general dietary)','Saccharomyces boulardii']},
   joints:{label:'Joints',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
   recovery:{label:'Recovery',supps:['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium','Omega-3 (EPA/DHA)','Collagen peptides','Glycine']},
