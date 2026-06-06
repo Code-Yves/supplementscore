@@ -247,7 +247,7 @@ a.src-card-c-name:hover{color:var(--color-text-primary)}
 .sc-score .fg{transition:stroke-dashoffset .6s ease}
 .score-high{color:var(--t1c)}.score-mid{color:var(--t2c)}.score-low{color:var(--t3c)}.score-bad{color:var(--t4c)}
 .sc-top,.sr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px}
-.sc-name,.sr-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.sc-name,.sr-name{font-size:13px;font-weight:500;color:var(--color-brand)}
 .sc-tag,.sr-tag{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}
 .sc-tag-pill{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
 .sc-desc,.sr-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px}
@@ -636,7 +636,7 @@ body.on-profile .ssux-recent{display:none !important}
 .lc-score-num{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
 .lc-mid{flex:1;padding:11px 16px;display:flex;flex-direction:column;gap:5px;min-width:0}
 .lc-row1{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.lc-name{font-size:14px;font-weight:600;color:var(--lc-accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lc-name{font-size:14px;font-weight:600;color:var(--color-brand);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .lc-cats{font-size:11px;color:var(--color-text-tertiary);flex-shrink:0;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lc-row2{display:flex;align-items:flex-start;gap:14px;font-size:11.5px;color:var(--color-text-secondary);min-width:0}
 .lc-desc{flex:1;min-width:0;font-size:12px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -4104,7 +4104,7 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
   transition:color .15s;
 }
 .rc-supp-row:last-child{border-bottom:0}
-.rc-supp-row:hover .rc-supp-row-name{color:var(--color-brand,#1F7A6B)}
+.rc-supp-row:hover .rc-supp-row-name{text-decoration:underline}
 .rc-supp-row:hover .rc-supp-row-arrow{color:var(--color-brand,#1F7A6B)}
 .rc-supp-row-s{
   display:inline-flex;align-items:center;justify-content:center;
@@ -4120,7 +4120,7 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
 .rc-supp-row-body{min-width:0}
 .rc-supp-row-name{
   font-size:15.5px;font-weight:600;line-height:1.3;
-  color:var(--color-text-primary,#0c0a09);
+  color:var(--color-brand,#1F7A6B);
 }
 .rc-supp-row-meta{
   font-size:12.5px;color:var(--color-text-tertiary,#9ca3af);
@@ -4156,6 +4156,11 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
   font-size:18px;color:var(--color-text-tertiary,#9ca3af);
   transition:color .15s;
 }
+/* Content prose links (condition / stack / symptom / article body) — brand
+   green everywhere, incl. visited, so supplement mentions never render as the
+   default blue/purple link (2026-06-06). Score chips keep their tier colour. */
+.ca-wrap a,.sk-wrap a,.sx-wrap a,.ar-wrap a{color:var(--color-brand)}
+.ca-wrap a:visited,.sk-wrap a:visited,.sx-wrap a:visited,.ar-wrap a:visited{color:var(--color-brand)}
 @media(max-width:600px){
   .rc-supp-row-tier{display:none}
   .rc-supp-row-s{width:38px;height:38px;font-size:13.5px}
