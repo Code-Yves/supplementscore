@@ -226,3 +226,6 @@
 | 2026-06-06 | managing-gi-side-effects-on-glp-1-drugs-nausea-and-constipation | 716 | guide | 694 | 6 |
 | 2026-06-06 | what-not-to-stack-with-glp-1-drugs | 717 | safety | 755 | 4 |
 | 2026-06-06 | supplements-on-glp-1-drugs-the-complete-guide | 718 | guide | 601 | 11 |
+| 2026-06-06 | taurine-and-metabolic-syndrome-what-the-2024-meta-analysis-shows | 719 | research-update | 758 | 2 |
+| 2026-06-06 | omega-3-vitamin-d-exercise-and-the-aging-clock-what-do-health-found | 720 | research-update | 780 | 2 |
+| 2026-06-06 | can-a-daily-multivitamin-help-memory-what-the-cosmos-trials-show | 721 | research-update | 764 | 1 |
