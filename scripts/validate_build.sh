@@ -68,6 +68,13 @@ if [ "$index_bytes" -gt "$INDEX_MAX" ]; then
   echo ">> FAIL: index.html exceeds size budget — run: python3 scripts/slim_inline_articles.py"; fail=1
 fi
 
+# 7. Page link existence — every <a>/<link>/<img> target resolves to a real file
+#    (catches broken navigation, e.g. a wrong ../ prefix → 404).
+hr "page link existence"
+if ! python3 scripts/check_page_links.py; then
+  echo ">> FAIL: broken page links"; fail=1
+fi
+
 hr "result"
 if [ "$fail" -ne 0 ]; then
   echo -e "\033[31mBUILD VALIDATION FAILED — fix the items above before committing.\033[0m"
