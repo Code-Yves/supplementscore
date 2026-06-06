@@ -647,7 +647,7 @@ body.on-profile .ssux-recent{display:none !important}
   .lc-row1{flex-direction:column;align-items:flex-start;gap:2px}
   .lc-cats{font-size:10.5px;white-space:normal}
   .lc-row2{flex-direction:column;gap:4px;align-items:flex-start}
-  .lc-cau{order:-1;line-height:1.4}
+  .lc-cau{order:-1;line-height:1.4;white-space:normal;min-width:0;flex-shrink:1}
   .lc-mid{padding:10px 12px}
   .lc-score{flex:0 0 56px}
 }
