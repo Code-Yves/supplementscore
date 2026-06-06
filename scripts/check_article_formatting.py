@@ -66,15 +66,30 @@ def bottomline_text(s):
     return m.group(1) if m else None
 
 def first_body_paragraph(s):
+    # /a/ articles: the first <p> inside .ar-content (which follows the BL box).
     c = re.search(r'class="ar-content"[^>]*>(.*?)$', s, re.S)
-    if not c:
-        return None
-    p = re.search(r'<p>(.*?)</p>', c.group(1), re.S)
-    return p.group(1) if p else None
+    if c:
+        p = re.search(r'<p>(.*?)</p>', c.group(1), re.S)
+        if p:
+            return p.group(1)
+    # /stack/ + /condition/ protocol pages (.sk-wrap / .ca-wrap, no .ar-content):
+    # the lede <p> sits BEFORE the Bottom Line box. Return the first body <p>
+    # that isn't the BL box's own <p>.
+    body = s[s.find('</h1>'):] if '</h1>' in s else s
+    bl_pos = body.find('ar-bottomline')
+    for m in re.finditer(r'<p[^>]*>(.*?)</p>', body, re.S):
+        if bl_pos < 0 or m.start() < bl_pos or (m.start() - bl_pos) > 400:
+            return m.group(1)
+    return None
 
 def main():
     dbl, bl_dup, bl_short, bl_trunc, bl_missing, jarg = [], [], [], [], [], []
-    for f in sorted(glob.glob('a/*.html')):
+    # Gate /a/ articles AND the /stack/ + /condition/ protocol pages — they use
+    # the same authored Bottom Line box and had the same dup/short-BL issues.
+    # Skip the listing pages (stack/index.html, condition/index.html) — they
+    # have no Bottom Line by design.
+    _files = glob.glob('a/*.html') + glob.glob('stack/*.html') + glob.glob('condition/*.html')
+    for f in sorted(f for f in _files if os.path.basename(f) != 'index.html'):
         s = open(f, encoding='utf-8', errors='ignore').read()
         if 'http-equiv="refresh"' in s.lower():
             continue
