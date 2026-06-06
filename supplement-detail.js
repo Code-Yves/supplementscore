@@ -525,8 +525,20 @@
      still surfaced contextually via loadCompares() further down the page.
      CSS rules at .det-compare-btn are now orphaned but harmless; left in
      place in case the button is reintroduced. */
+  /* Back link (2026-06-06) — when the user reached this page by clicking a
+     supplement INSIDE an article (or a card, or search), "Back" should return
+     them to wherever they came from, mirroring the close-X (.pg-close-fab),
+     which already history.back()s. Previously this always hard-linked to
+     search.html?q=<name>, so clicking it from an article dumped the user on a
+     search results page they never opened. Now: history.back() when there's a
+     prior entry; the search.html href stays as the no-JS / direct-entry /
+     crawlable fallback. Label reflects the destination so it isn't misleading. */
+  var _backFromSearch = /\/search\.html/i.test(document.referrer || '');
+  var _backHasHist = !!(window.history && history.length > 1);
+  var _backLabel = (_backHasHist && !_backFromSearch) ? '‹ Back' : '‹ Back to search';
+  var _backOnclick = 'if(window.history&&history.length>1){history.back();return false;}';
   root.innerHTML =
-    '<a class="det-back" href="search.html?q='+encodeURIComponent(s.n)+'">‹ Back to search</a>'
+    '<a class="det-back" href="search.html?q='+encodeURIComponent(s.n)+'" onclick="'+_backOnclick+'">'+_backLabel+'</a>'
     + '<div class="det-page '+escAttr(s.t)+'">'
 
       // HERO V5
