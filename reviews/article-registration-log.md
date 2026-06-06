@@ -225,3 +225,4 @@
 | 2026-06-06 | hair-loss-on-glp-1-drugs-will-biotin-or-collagen-help | 715 | myth | 813 | 6 |
 | 2026-06-06 | managing-gi-side-effects-on-glp-1-drugs-nausea-and-constipation | 716 | guide | 694 | 6 |
 | 2026-06-06 | what-not-to-stack-with-glp-1-drugs | 717 | safety | 755 | 4 |
+| 2026-06-06 | supplements-on-glp-1-drugs-the-complete-guide | 718 | guide | 601 | 11 |
