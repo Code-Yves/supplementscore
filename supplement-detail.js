@@ -600,7 +600,7 @@
       +   '<div id="det-related-guides-slot"></div>'
       +   '<div id="det-brands-slot"></div>'
 
-      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="about.html">methodology</a> for how scores are derived. Questions or corrections: <a href="mailto:hello@supplementscore.org">hello@supplementscore.org</a>.</p>'
+      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="about.html">methodology</a> for how scores are derived.</p>'
       + '</div>'
     + '</div>';
 
@@ -784,17 +784,19 @@
       { href:'condition/migraine-prevention.html',  title:'Migraine prevention stack',         keys:['riboflavin','coq10','feverfew','magnesium'] },
       { href:'condition/pcos-protocol.html',        title:'PCOS supplement protocol',          keys:['inositol','myo-inositol','d-chiro','berberine','spearmint'] },
       { href:'condition/prediabetes-protocol.html', title:'Pre-diabetes supplement protocol',  keys:['berberine','inositol','alpha-lipoic','psyllium','beta-glucan','cinnamon','chromium'] },
-      { href:'condition/perimenopause-stack.html',  title:'Perimenopause hot-flash protocol',  keys:['black cohosh','soy isoflavone','equol','vitamin e','vitamin d3','vitamin k2'] },
+      { href:'condition/perimenopause.html',        title:'Perimenopause supplement protocol', keys:['black cohosh','soy isoflavone','equol','vitamin e','vitamin d3','vitamin k2'] },
       { href:'condition/hypothyroidism-stack.html', title:'Hypothyroidism supplement stack',   keys:['selenium','levothyroxine'] },
       { href:'condition/prostate-health.html',      title:'Prostate health protocol',          keys:['saw palmetto','beta-sitosterol','pygeum','lycopene'] },
-      { href:'condition/gout-protocol.html',        title:'Gout supplement protocol',          keys:['tart cherry','vitamin c'] },
+      { href:'condition/gout.html',                 title:'Gout supplement protocol',          keys:['tart cherry','vitamin c'] },
       { href:'condition/ibs-protocol.html',         title:'IBS supplement protocol',           keys:['peppermint oil','psyllium','saccharomyces boulardii','bifidobacterium lactis'] },
       { href:'condition/gerd-protocol.html',        title:'GERD supplement protocol',          keys:['alginate','dgl','melatonin','slippery elm','marshmallow root'] },
       { href:'condition/chronic-constipation.html', title:'Chronic constipation protocol',     keys:['psyllium','magnesium oxide','bifidobacterium lactis hn019'] },
-      { href:'condition/eczema-stack.html',         title:'Eczema (atopic dermatitis) stack',  keys:['lactobacillus rhamnosus','vitamin d3','evening primrose','borage'] },
-      { href:'condition/long-covid-evidence.html',  title:'Long COVID supplement evidence',    keys:['coq10','ubiquinol','omega-3'] },
-      { href:'condition/me-cfs-evidence.html',      title:'ME-CFS supplement evidence',        keys:['coq10','nadh','d-ribose','l-carnitine','acetyl-l-carnitine'] },
-      { href:'condition/gallstone-prevention.html', title:'Gallstone prevention',              keys:['vitamin c','ursodeoxycholic'] }
+      { href:'condition/eczema-stack.html',         title:'Eczema (atopic dermatitis) stack',  keys:['lactobacillus rhamnosus','vitamin d3','evening primrose','borage'] }
+      /* Removed 2026-06-06: long-covid-evidence / me-cfs-evidence /
+         gallstone-prevention — those condition pages don't exist, so the rows
+         404'd (hit from CoQ10, Vitamin C, ubiquinol, omega-3, carnitine pages).
+         Re-add only with a real condition/<slug>.html; the gate now validates
+         these hrefs (scripts/check_js_links.py). */
     ];
     var seen = {};
     CONDITIONS.forEach(function(c){

@@ -83,6 +83,14 @@ if ! python3 scripts/check_page_links.py; then
   echo ">> FAIL: broken page links"; fail=1
 fi
 
+# 8. Embedded JS page links — literal <dir>/<slug>.html targets generated at
+#    runtime by the JS (condition deep-dives, related rows, comparisons). Not
+#    visible to the HTML checker; rotted silently before (5 dead condition links).
+hr "embedded JS page links"
+if ! python3 scripts/check_js_links.py; then
+  echo ">> FAIL: broken embedded JS links"; fail=1
+fi
+
 hr "result"
 if [ "$fail" -ne 0 ]; then
   echo -e "\033[31mBUILD VALIDATION FAILED — fix the items above before committing.\033[0m"
