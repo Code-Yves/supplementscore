@@ -16,6 +16,14 @@ hr() { printf '\n\033[1m== %s ==\033[0m\n' "$1"; }
 hr "sync footers (fixer)"
 python3 scripts/sync_footers.py || true
 
+# 0.5. Article manifest (fixer) — a/manifest.js maps article id → /a/ filename,
+#      regenerated from the homepage stubs. Consumers: search.html cards and
+#      supplement-detail.js further-reading links (direct /a/ navigation, no
+#      index.html roundtrip). Auto-healed here so it can't rot again (it sat
+#      at 253/580 entries for a month with no generator).
+hr "article manifest (fixer)"
+python3 scripts/gen_article_manifest.py || true
+
 # 1. Article formatting guardrail — double-numbered lists, and Bottom Lines that
 #    duplicate paragraph 1 / run under 3 sentences / end truncated. HARD GATE.
 hr "article formatting guardrail"

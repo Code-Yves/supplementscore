@@ -34,6 +34,20 @@
   var STACK_KEY = 'ss-modal-stack';
   var MAX_DEPTH = 10;
 
+  /* (2026-06-06) Start every full page load with an EMPTY stack.
+     The stack originally lived in sessionStorage so it could survive the
+     supplement→article roundtrip (index.html?supplement=…#article-N).
+     That roundtrip is gone — supplement-detail.js links straight to /a/
+     pages, and the ?supplement= URL param alone restores the supplement
+     modal (closeArtModal's safety net + supplement-modal.js auto-open).
+     What sessionStorage persistence actually delivered in practice was
+     STALE entries: closing any modal several journeys later popped an
+     old entry and surprise-reopened (or worse, navigated via goArticle) —
+     the "random modal flashes open/closed" bug. Same-page stacking
+     (article modal → supplement modal → close → back to article) pushes
+     after load and is unaffected. */
+  try { sessionStorage.removeItem(STACK_KEY); } catch(_){}
+
   function readStack(){
     try { var s = sessionStorage.getItem(STACK_KEY); return s ? JSON.parse(s) : []; }
     catch(_){ return []; }
@@ -115,6 +129,11 @@
     if (entry.type === 'article' && typeof window.goArticle === 'function') {
       var div = document.getElementById('article-' + entry.id);
       if (!div) return false;
+      /* Slimmed metadata stub (hidden .ar-readmore redirect only): goArticle
+         would NAVIGATE to the /a/ page rather than reopen a modal. Closing a
+         modal must never trigger a page navigation — skip. Only the dozen
+         page-less articles with full inline bodies reopen as a modal. */
+      if (div.children.length <= 1 && div.querySelector('a.ar-readmore')) return false;
       window.goArticle(entry.id);
       return true;
     }

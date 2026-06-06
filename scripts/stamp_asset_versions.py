@@ -36,7 +36,20 @@ ASSET_RE = re.compile(r'([\w./\-]+?\.(?:css|js))\?v=[\w.\-]+')
 
 
 def repo_file_for(ref_path: str):
-    """Resolve a referenced path (/styles.css, ../app.js, styles.css) to a repo-root file."""
+    """Resolve a referenced path (/styles.css, ../app.js, a/manifest.js) to a repo file.
+
+    Tries the path as-given (relative to repo root, with any leading / or ../
+    stripped) FIRST, so subdirectory assets like a/manifest.js and
+    data/comparisons.js are versioned too (they were silently skipped before
+    2026-06-06, which let a stale manifest.js?v= ride the CDN cache).
+    Falls back to basename-at-root for ../-prefixed root assets.
+    """
+    rel = str(pathlib.PurePosixPath(ref_path)).lstrip('/')
+    while rel.startswith('../'):
+        rel = rel[3:]
+    cand = ROOT / rel
+    if cand.is_file():
+        return cand
     name = pathlib.PurePosixPath(ref_path).name
     cand = ROOT / name
     return cand if cand.is_file() else None

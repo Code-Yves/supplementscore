@@ -106,8 +106,10 @@
 
   var frame = modal.querySelector('.ssm-frame');
   var openSlug = null;
+  var loadWatch = null;
 
   frame.addEventListener('load', function(){
+    clearTimeout(loadWatch);
     if (openSlug) modal.classList.add('loaded');
     // If the iframe has navigated to a page that isn't the supplement detail
     // (e.g. a /compare/ guide opened from a Head-to-head comparison link),
@@ -168,6 +170,24 @@
     modal.classList.toggle('over-rc', openingOverRc);
     modal.classList.remove('loaded');
     var _x = modal.querySelector('.ssm-x'); if (_x) _x.style.visibility = '';
+    /* Loading watchdog (2026-06-06): if the iframe hasn't fired load within
+       8s (network hiccup, SW glitch), the user is staring at a dead
+       "Loading…" overlay with no way out except the X. Swap in an escape
+       hatch that links to the standalone page. Reset on every open. */
+    var _ld = modal.querySelector('.ssm-loading');
+    if (_ld){ _ld.textContent = 'Loading…'; _ld.style.pointerEvents = 'none'; }
+    clearTimeout(loadWatch);
+    loadWatch = setTimeout(function(){
+      if (openSlug === slug && !modal.classList.contains('loaded')){
+        var ld = modal.querySelector('.ssm-loading');
+        if (ld){
+          ld.innerHTML = 'Taking longer than usual… '
+            + '<a href="/supplement.html?slug=' + encodeURIComponent(slug) + '" target="_top" '
+            + 'style="color:var(--color-brand,#1F7A6B);font-weight:600;margin-left:6px">Open the full page →</a>';
+          ld.style.pointerEvents = 'auto';
+        }
+      }
+    }, 8000);
     /* Absolute origin-rooted path. Without the leading slash, the iframe
        resolves the src relative to its parent's location, which means a
        supplement link clicked from /stack/sleep-onset.html tries to load
@@ -186,6 +206,7 @@
   function close(fromHistory) {
     if (!openSlug) return;
     openSlug = null;
+    clearTimeout(loadWatch);
     modal.classList.remove('open');
     modal.classList.remove('loaded');
     modal.classList.remove('over-art');
@@ -342,10 +363,27 @@
     var sp = new URLSearchParams(location.search);
     var s = sp.get('supplement');
     if (s) {
-      // Make the stripped URL the "back" target so closing returns here cleanly
-      var stripped = location.pathname + (location.search.replace(/[?&]supplement=[^&]*/,'').replace(/^&/,'?')) + location.hash;
-      try { history.replaceState({ ssmOriginal: true }, '', stripped); } catch(e){}
-      open(s);
+      /* Legacy roundtrip URLs — ?supplement=<slug>#article-<N> where the
+         article now has its own /a/ page (the homepage stub carries a hidden
+         .ar-readmore redirect). Opening the supplement modal here would just
+         flash "Loading…" until app.js's hash handler navigates to the /a/
+         page ~120ms later. Skip the modal and go straight to the article.
+         (2026-06-06; new supplement-detail.js links go to /a/ directly, so
+         this only catches old shared links and stale tabs.) */
+      var redirected = false;
+      var hm = (location.hash || '').match(/^#article-(\d+)$/);
+      if (hm) {
+        var stub = document.getElementById('article-' + hm[1]);
+        var rm = stub && stub.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
+        var rmHref = rm && rm.getAttribute('href');
+        if (rmHref) { redirected = true; location.replace(rmHref); }
+      }
+      if (!redirected) {
+        // Make the stripped URL the "back" target so closing returns here cleanly
+        var stripped = location.pathname + (location.search.replace(/[?&]supplement=[^&]*/,'').replace(/^&/,'?')) + location.hash;
+        try { history.replaceState({ ssmOriginal: true }, '', stripped); } catch(e){}
+        open(s);
+      }
     }
   } catch(e){}
 
