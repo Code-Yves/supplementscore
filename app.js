@@ -5563,10 +5563,10 @@ const GOALS={
   gut:{label:'Gut Health',supps:['Probiotics','Psyllium husk (Plantago ovata)','Fibre (general dietary)','Saccharomyces boulardii']},
   joints:{label:'Joints',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
   recovery:{label:'Recovery',supps:['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium','Omega-3 (EPA/DHA)','Collagen peptides','Glycine']},
-  libido:{label:'Libido',supps:['Maca (Lepidium meyenii)','Tongkat ali (Eurycoma longifolia)','Ashwagandha (KSM-66)','Zinc','Citrulline (L-citrulline, pure form)']},
+  libido:{label:'Libido',supps:['Maca (Lepidium meyenii)','Tongkat Ali (Eurycoma longifolia)','Ashwagandha (KSM-66)','Zinc','Citrulline (L-citrulline, pure form)']},
   heart:{label:'Heart',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']},
-  hormonal:{label:'Hormonal',supps:['Ashwagandha (KSM-66)','Zinc','Magnesium','Selenium','Vitex agnus-castus','Myo-inositol']},
-  hair:{label:'Hair',supps:['Biotin','Zinc','Iron','Omega-3 (EPA/DHA)','Collagen peptides','Saw palmetto']}
+  hormonal:{label:'Hormonal',supps:['Ashwagandha (KSM-66)','Zinc','Magnesium','Selenium','Vitex / Chasteberry (Vitex agnus-castus)','Myo-inositol']},
+  hair:{label:'Hair',supps:['Biotin (low-dose, deficiency)','Zinc','Iron','Omega-3 (EPA/DHA)','Collagen peptides','Saw palmetto (Serenoa repens)']}
 };
 let selectedGoals=new Set();
 function renderGoalChips(){const el=document.getElementById('goal-chips');if(!el)return;el.innerHTML=Object.entries(GOALS).map(([k,g])=>`<div class="med-chip ${selectedGoals.has(k)?'on':''}" onclick="toggleGoal('${escAttrJs(k)}')">${escHtml(g.label)}</div>`).join('');}
