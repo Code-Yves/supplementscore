@@ -53,7 +53,7 @@
   + '.ssm-x:hover{background:transparent;color:#0c0a09;transform:none}'
   + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
   + '.ssm-x svg{width:13px;height:13px;display:block}'
-  + '@media(max-width:500px){.ssm-share{padding:6px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:10px 14px}}'
+  + '@media(max-width:500px){.ssm-share{padding:14px 12px}.ssm-x{padding:14px 12px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:2px 10px}}'
   + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'

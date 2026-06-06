@@ -297,7 +297,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=69675687">
+<link rel="stylesheet" href="/styles.css?v=a3d77f2c">
 <link rel="preload" as="script" href="data.js?v=ec1e80f7">
 <link rel="preload" as="script" href="app.js?v=bd1bf487">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1838,8 +1838,8 @@
       <!-- Coming soon bar (removed) -->
       <!-- Email report -->
       <div id="email-report-box" style="display:none;align-items:center;gap:8px;margin-bottom:1rem;padding:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px">
-        <input type="email" id="report-email" placeholder="Enter your email" aria-label="Email address for report" style="flex:1;padding:8px 12px;border-radius:6px;border:0.5px solid var(--color-border-secondary);font-size:13px;font-family:inherit;outline:none">
-        <button type="button" id="send-report-btn" class="go-btn" style="width:auto;margin:0;padding:8px 16px;font-size:12px" onclick="sendEmailReport()">Send</button>
+        <input type="email" id="report-email" placeholder="Enter your email" aria-label="Email address for report" style="flex:1;min-width:0;padding:12px;border-radius:6px;border:0.5px solid var(--color-border-secondary);font-size:13px;font-family:inherit;outline:none">
+        <button type="button" id="send-report-btn" class="go-btn" style="width:auto;margin:0;padding:12px 18px;font-size:13px;min-height:44px" onclick="sendEmailReport()">Send</button>
       </div>
       <div id="med-alert-box"></div>
       <!-- Selectable supplement cards -->
@@ -15628,7 +15628,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <!-- modal-stack.js: shared back-stack so closing one modal returns to the previous.
      Must load before supplement-modal.js so its open() can call SSModalStack.push(). -->
 <script src="modal-stack.js?v=f4a7aaa6"></script>
-<script src="supplement-modal.js?v=90e9b34d" defer></script>
+<script src="supplement-modal.js?v=9d843672" defer></script>
 
 <!-- Sources modal -->
 <div id="sources-modal" role="dialog" aria-modal="true" aria-labelledby="src-modal-title">
