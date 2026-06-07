@@ -785,12 +785,13 @@
       { href:'condition/ibs-protocol.html',         title:'IBS supplement protocol',           keys:['peppermint oil','psyllium','saccharomyces boulardii','bifidobacterium lactis'] },
       { href:'condition/gerd-protocol.html',        title:'GERD supplement protocol',          keys:['alginate','dgl','melatonin','slippery elm','marshmallow root'] },
       { href:'condition/chronic-constipation.html', title:'Chronic constipation protocol',     keys:['psyllium','magnesium oxide','bifidobacterium lactis hn019'] },
-      { href:'condition/eczema-stack.html',         title:'Eczema (atopic dermatitis) stack',  keys:['lactobacillus rhamnosus','vitamin d3','evening primrose','borage'] }
-      /* Removed 2026-06-06: long-covid-evidence / me-cfs-evidence /
-         gallstone-prevention — those condition pages don't exist, so the rows
-         404'd (hit from CoQ10, Vitamin C, ubiquinol, omega-3, carnitine pages).
-         Re-add only with a real condition/<slug>.html; the gate now validates
-         these hrefs (scripts/check_js_links.py). */
+      { href:'condition/eczema-stack.html',         title:'Eczema (atopic dermatitis) stack',  keys:['lactobacillus rhamnosus','vitamin d3','evening primrose','borage'] },
+      { href:'condition/long-covid-evidence.html',  title:'Long COVID supplement evidence',     keys:['l-arginine','arginine','coq10','ubiquinol','nadh','probiotic'] },
+      { href:'condition/me-cfs-evidence.html',       title:'ME/CFS supplement evidence',         keys:['coq10','ubiquinol','nadh','d-ribose','acetyl-l-carnitine','carnitine'] }
+      /* Restored 2026-06-06: long-covid-evidence + me-cfs-evidence pages now
+         exist (cited). gallstone-prevention stays removed (no page yet) — re-add
+         only with a real condition/<slug>.html; the gate validates these hrefs
+         (scripts/check_js_links.py). */
     ];
     var seen = {};
     CONDITIONS.forEach(function(c){
