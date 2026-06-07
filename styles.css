@@ -624,10 +624,10 @@ body.on-profile .ssux-recent{display:none !important}
 .scards{display:grid;grid-template-columns:1fr;gap:8px}
 
 /* ── List card v2 (2026-04-29) — minimal click-through to detail modal ── */
-.sc.t1{--lc-accent:#0D9488;--lc-tint:rgba(13,148,136,.10);--lc-tint-bd:rgba(13,148,136,.22)}
-.sc.t2{--lc-accent:#4B7BE5;--lc-tint:rgba(75,123,229,.10);--lc-tint-bd:rgba(75,123,229,.22)}
-.sc.t3{--lc-accent:#CA8A04;--lc-tint:rgba(202,138,4,.10);--lc-tint-bd:rgba(202,138,4,.22)}
-.sc.t4{--lc-accent:#B91C1C;--lc-tint:rgba(185,28,28,.08);--lc-tint-bd:rgba(185,28,28,.22)}
+.sc.t1{--lc-accent:#0D9488;--lc-tint:rgba(13,148,136,.055);--lc-tint-bd:rgba(13,148,136,.14)}
+.sc.t2{--lc-accent:#4B7BE5;--lc-tint:rgba(75,123,229,.055);--lc-tint-bd:rgba(75,123,229,.14)}
+.sc.t3{--lc-accent:#CA8A04;--lc-tint:rgba(202,138,4,.055);--lc-tint-bd:rgba(202,138,4,.14)}
+.sc.t4{--lc-accent:#B91C1C;--lc-tint:rgba(185,28,28,.05);--lc-tint-bd:rgba(185,28,28,.13)}
 .sc:hover{border-color:var(--lc-accent,var(--color-brand))}
 /* 2026-05-22 — `.sc{text-decoration:none;color:inherit}` merged into the
    canonical `.sc,.sr-card{...}` rule above (search for it earlier in this
