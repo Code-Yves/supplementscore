@@ -570,7 +570,12 @@
       var href = a.getAttribute('href') || '#';
       var title = (a.textContent || '').trim();
       var eyebrow = '';
-      var m = title.match(/^(.+?)\s*[—–-]\s*(.+)$/);
+      /* Split only on a SPACED em/en-dash (or spaced hyphen) used as a real
+         separator ("Glycine — full scoring"). Requiring whitespace on both
+         sides prevents splitting hyphenated words inside a title, e.g.
+         "Safer Than Locker-Room Rumors" or "The 10 Most-Studied …" (fixed
+         2026-06-06 — those were rendering a bogus uppercase eyebrow). */
+      var m = title.match(/^(.+?)\s+[—–-]\s+(.+)$/);
       if (m && m[2].length < 40){
         title = m[1];
         eyebrow = m[2];
