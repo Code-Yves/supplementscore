@@ -243,6 +243,8 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
      Legacy ?n=<Name> form remains noindex (not in sitemap). */
   (function(){
     function addNoindex() {
+      var existing = document.querySelector('meta[name="robots"]');
+      if (existing) { existing.setAttribute('content', 'noindex,follow'); return; }
       var m = document.createElement('meta');
       m.name = 'robots';
       m.content = 'noindex,follow';
@@ -253,14 +255,17 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
       var slug = qp.get('slug');
       var name = qp.get('n');
       if (slug && /^[a-z0-9-]+$/.test(slug)) {
+        // Canonical indexable URL (also listed in sitemap-supplements.xml)
         var canonicalUrl = 'https://supplementscore.org/supplement.html?slug=' + slug;
         var c = document.querySelector('link[rel="canonical"]');
         if (c) c.href = canonicalUrl;
         var og = document.querySelector('meta[property="og:url"]');
         if (og) og.setAttribute('content', canonicalUrl);
-      } else if (slug || name) {
-        // Has a query that triggers SPA detail mode but doesn't map to a clean
-        // canonical URL — noindex to keep Google's index clean.
+        // Ensure indexable even if a prior pass set noindex
+        var robots = document.querySelector('meta[name="robots"]');
+        if (robots) robots.setAttribute('content', 'index,follow');
+      } else {
+        // Bare shell (robots Disallow) or non-canonical query — noindex
         addNoindex();
       }
     } catch (_) {}

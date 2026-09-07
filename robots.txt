@@ -20,8 +20,15 @@ Disallow: /feed-kids.xml
 Disallow: /feed-reality-check.xml
 Disallow: /feed-safety-alert.xml
 
-# SPA detail shells — bare files duplicate content of /s/, /condition/, etc. Block the bare path; the JS-injected canonical handles ?slug= variants for Google.
-# Note: /article.html is the legitimate articles hub (NOT blocked).
+# SPA detail shells — block bare paths only ($ = end of URL incl. query per Google).
+# Canonical indexable supplement URLs are /supplement.html?slug=… (see sitemap-supplements.xml).
+# Explicit Allow makes query variants unambiguously crawlable even if a tester ignores $.
+# /article.html is a thin SPA shell (noindex + redirect); real articles live at /a/<slug>.html.
+Allow: /supplement.html?
+Allow: /condition.html?
+Allow: /medication.html?
+Allow: /compare.html?
+Allow: /biomarker.html?
 Disallow: /supplement.html$
 Disallow: /condition.html$
 Disallow: /medication.html$
