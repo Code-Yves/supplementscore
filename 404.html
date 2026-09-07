@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Page not found · SupplementScore</title>
   <meta name="robots" content="noindex, follow">
+
+  <!-- Smart recovery for legacy paths GitHub Pages cannot 301 at scale.
+       Known /s/<slug> misses (typos / new aliases) soft-route to the SPA;
+       other dead paths land on site search with a best-effort query. -->
+  <script>
+  (function () {
+    try {
+      var path = location.pathname || '';
+      var m = path.match(/^\/s\/([a-z0-9][a-z0-9-]*)(?:\.html)?\/?$/i);
+      if (m) {
+        location.replace('/supplement.html?slug=' + encodeURIComponent(m[1].toLowerCase()));
+        return;
+      }
+      m = path.match(/^\/(?:supplement|supplements)\/([a-z0-9][a-z0-9-]*)\/?$/i);
+      if (m) {
+        location.replace('/supplement.html?slug=' + encodeURIComponent(m[1].toLowerCase()));
+        return;
+      }
+      // Strip extension / junk segments into a search query for humans.
+      var q = path.replace(/\.html?$/i, '').split('/').filter(Boolean).pop() || '';
+      q = q.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+      if (q && q.toLowerCase() !== '404') {
+        window.__ss404Query = q;
+      }
+    } catch (e) {}
+  })();
+  </script>
+
   <meta name="description" content="The page you were looking for doesn't exist. Head back to the SupplementScore homepage.">
   <meta property="og:url" content="https://supplementscore.org/404.html">
   <meta property="og:type" content="website">
@@ -64,6 +92,24 @@
     }
     .nf-cta:hover { background: #19655a; transform: translateY(-1px); }
     .nf-cta svg { width: 16px; height: 16px; }
+
+    .nf-search {
+      display: flex; gap: 8px; margin: 0 0 18px; justify-content: center;
+    }
+    .nf-search input {
+      flex: 1; min-width: 0; max-width: 280px;
+      padding: 11px 14px; border-radius: 999px;
+      border: 1px solid rgba(31,122,107,.25);
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      font: inherit; font-size: 14.5px;
+    }
+    .nf-search button {
+      padding: 11px 16px; border-radius: 999px; border: 0;
+      background: rgba(31,122,107,.12); color: var(--color-brand);
+      font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .nf-search button:hover { background: rgba(31,122,107,.2); }
   </style>
 
   <meta name="twitter:card" content="summary_large_image">
@@ -79,11 +125,22 @@
     </div>
     <p class="nf-eyebrow">404 &mdash; Page not found</p>
     <h1>That page doesn&rsquo;t exist.</h1>
-    <p class="nf-lede">The link you followed may be out of date, or the page may have been renamed.</p>
+    <p class="nf-lede">The link you followed may be out of date, or the page may have been renamed. Try a search, or head home.</p>
+    <form class="nf-search" role="search" action="/search.html" method="GET" aria-label="Search SupplementScore">
+      <input id="nf-q" type="search" name="q" placeholder="Search supplements, conditions…" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
     <a class="nf-cta" href="/">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       <span>Back to homepage</span>
     </a>
+    <script>
+    (function () {
+      var q = window.__ss404Query;
+      var input = document.getElementById('nf-q');
+      if (input && q) input.value = q;
+    })();
+    </script>
   </main>
 </body>
 </html>
