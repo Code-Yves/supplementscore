@@ -129,7 +129,12 @@ def build_candidates(state: dict) -> list[dict]:
     if SUPPLEMENTS_JSON.exists():
         with open(SUPPLEMENTS_JSON) as f:
             supps = json.load(f)
-        slug_files = {f.stem for f in S_DIR.glob("*.html") if f.name != "index.html"}
+        # Prefer sitemap canonical slugs; fall back to tombstone stems.
+        sitemap_path = REPO_ROOT / "sitemap-supplements.xml"
+        if sitemap_path.exists():
+            slug_files = set(re.findall(r"slug=([a-z0-9\-]+)", sitemap_path.read_text(encoding="utf-8")))
+        else:
+            slug_files = {f.stem for f in S_DIR.glob("*.html") if f.name != "index.html"}
         # Per-tier bucket assignment: t1→2, t2→4, t3→6, t4→8
         tier_bucket = {"t1": 2, "t2": 4, "t3": 6, "t4": 8}
         for s in supps:
@@ -140,7 +145,7 @@ def build_candidates(state: dict) -> list[dict]:
             bucket = tier_bucket.get(tier)
             if bucket is None:
                 continue
-            url = f"{SITE_ROOT}/s/{slug}.html"
+            url = f"{SITE_ROOT}/supplement.html?slug={slug}"
             if url in submitted_urls:
                 continue
             score = s.get("scores", {}).get("composite", 0)
