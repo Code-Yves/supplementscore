@@ -7,7 +7,7 @@
 <style>html{color-scheme:light}</style>
 <title>Articles — Evidence-Based Supplement Science | SupplementScore</title>
 <meta name="description" content="Browse 600+ evidence-based articles on supplements, drug interactions, safety recalls, and the science behind common health claims. All backed by peer-reviewed trials.">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,30 +31,47 @@
 </style>
   <link rel="canonical" href="https://supplementscore.org/article.html">
   <script>
-  /* Dynamic canonical / noindex for the article SPA.
-     Static article files live at /a/<kebab-slug>.html — there's no
-     /a/<numeric-id>.html. So:
-       (a) /article.html?id=<kebab-slug>  → canonical to /a/<slug>.html
-       (b) /article.html?id=<number>      → noindex (legacy; no static counterpart at this path)
-     Updated 2026-05-20: was setting canonical to /a/<numeric-id>.html which 404s. */
+  /* Article SPA SEO (2026-09 GSC fix):
+     Static articles live at /a/<kebab-slug>.html. This shell is not a hub.
+       (a) bare /article.html              → noindex + redirect to /#research
+       (b) /article.html?id=<kebab-slug>   → noindex + redirect to /a/<slug>.html
+       (c) /article.html?id=<number>       → noindex (legacy; intentional)
+     getArticle() keys by numeric id, so kebab ?id= used to render
+     "Article not found" while staying indexable with a wrong canonical. */
   (function(){
+    function setNoindex() {
+      var existing = document.querySelector('meta[name="robots"]');
+      if (existing) { existing.setAttribute('content', 'noindex,follow'); return; }
+      var m = document.createElement('meta');
+      m.name = 'robots';
+      m.content = 'noindex,follow';
+      document.head.appendChild(m);
+    }
+    function redirect(url) {
+      var r = document.createElement('meta');
+      r.httpEquiv = 'refresh';
+      r.content = '0;url=' + url;
+      document.head.appendChild(r);
+      try { location.replace(url); } catch (_) {}
+    }
     try {
-      var id = new URLSearchParams(location.search).get('id');
-      if (!id) return;
-      if (/^[a-z0-9-]+$/.test(id) && !/^\d+$/.test(id)) {
-        // Kebab slug — map to static file
-        var staticUrl = 'https://supplementscore.org/a/' + id + '.html';
-        var c = document.querySelector('link[rel="canonical"]');
-        if (c) c.href = staticUrl;
-        var og = document.querySelector('meta[property="og:url"]');
-        if (og) og.setAttribute('content', staticUrl);
-      } else {
-        // Numeric or non-slug — legacy form, noindex to keep Google's index clean
-        var m = document.createElement('meta');
-        m.name = 'robots';
-        m.content = 'noindex,follow';
-        document.head.appendChild(m);
+      setNoindex();
+      var id = (new URLSearchParams(location.search).get('id') || '').trim();
+      if (!id) {
+        redirect('/#research');
+        return;
       }
+      if (/^[a-z0-9-]+$/.test(id) && !/^\d+$/.test(id)) {
+        var dest = '/a/' + id + '.html';
+        var abs = 'https://supplementscore.org' + dest;
+        var c = document.querySelector('link[rel="canonical"]');
+        if (c) c.href = abs;
+        var og = document.querySelector('meta[property="og:url"]');
+        if (og) og.setAttribute('content', abs);
+        redirect(dest);
+        return;
+      }
+      // Numeric / non-slug legacy — noindex only (intentional)
     } catch (_) {}
   })();
   </script>
@@ -138,9 +155,35 @@
   var p = new URLSearchParams(location.search);
   var id = (p.get('id') || '').trim();
   var root = document.getElementById('dt-root');
-  if (!id){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No article specified</h1>'; return; }
+  function ensureNoindex(){
+    var existing = document.querySelector('meta[name="robots"]');
+    if (existing) existing.setAttribute('content', 'noindex,follow');
+    else {
+      var m = document.createElement('meta');
+      m.name = 'robots'; m.content = 'noindex,follow';
+      document.head.appendChild(m);
+    }
+  }
+  if (!id){
+    ensureNoindex();
+    root.innerHTML = '<a class="dt-back" href="/#research">‹ Research</a><h1 class="dt-h1">No article specified</h1><p>Redirecting to <a href="/#research">Research</a>…</p>';
+    try { location.replace('/#research'); } catch(_){}
+    return;
+  }
+  // Kebab slug → static article (head already redirects; body is a fallback)
+  if (/^[a-z0-9-]+$/.test(id) && !/^\d+$/.test(id)) {
+    ensureNoindex();
+    var dest = '/a/' + id + '.html';
+    root.innerHTML = '<a class="dt-back" href="' + dest + '">‹ Article</a><h1 class="dt-h1">Redirecting…</h1><p><a href="' + dest + '">' + escapeHtml(id) + '</a></p>';
+    try { location.replace(dest); } catch(_){}
+    return;
+  }
   var a = window.SS.getArticle(id);
-  if (!a){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Article not found</h1><p>No article #' + escapeHtml(id) + '.</p>'; return; }
+  if (!a){
+    ensureNoindex();
+    root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Article not found</h1><p>No article #' + escapeHtml(id) + '.</p>';
+    return;
+  }
   document.title = a.t + ' — SupplementScore';
 
   // Reverse-derive: which supplements does this article reference?

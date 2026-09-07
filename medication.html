@@ -7,7 +7,7 @@
 <style>html{color-scheme:light}</style>
 <title>Medication detail — SupplementScore</title>
 <meta name="description" content="Supplement interactions for a given medication class.">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,14 +32,25 @@
   /* Dynamic canonical: /medication.html?slug=<X> → canonical /m/<X>.html
      Consolidates ranking signals on the indexable static URL. (Added 2026-05-20.) */
   (function(){
+    function setNoindex() {
+      var existing = document.querySelector('meta[name="robots"]');
+      if (existing) { existing.setAttribute('content', 'noindex,follow'); return; }
+      var m = document.createElement('meta');
+      m.name = 'robots'; m.content = 'noindex,follow';
+      document.head.appendChild(m);
+    }
     try {
       var slug = new URLSearchParams(location.search).get('slug');
-      if (!slug || !/^[a-z0-9-]+$/.test(slug)) return;
-      var staticUrl = 'https://supplementscore.org/m/' + slug + '.html';
-      var c = document.querySelector('link[rel="canonical"]');
-      if (c) c.href = staticUrl;
-      var og = document.querySelector('meta[property="og:url"]');
-      if (og) og.setAttribute('content', staticUrl);
+      if (slug && /^[a-z0-9-]+$/.test(slug)) {
+        var staticUrl = 'https://supplementscore.org/m/' + slug + '.html';
+        var c = document.querySelector('link[rel="canonical"]');
+        if (c) c.href = staticUrl;
+        var og = document.querySelector('meta[property="og:url"]');
+        if (og) og.setAttribute('content', staticUrl);
+        setNoindex(); // alternate of /m/<slug>.html
+      } else {
+        setNoindex();
+      }
     } catch (_) {}
   })();
   </script>
