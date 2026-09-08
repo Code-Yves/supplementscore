@@ -1413,6 +1413,22 @@ function setBwUploadStatus(msg){
   }
 }
 
+/* Lazy-load pdf.js (CDN ~320KB) only when a lab PDF is uploaded.
+   Homepage visitors who never use blood-work upload skip the download. */
+let _pdfJsLoadPromise=null;
+function loadPdfJs(){
+  if(typeof pdfjsLib!=='undefined')return Promise.resolve();
+  if(_pdfJsLoadPromise)return _pdfJsLoadPromise;
+  _pdfJsLoadPromise=new Promise((resolve,reject)=>{
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload=()=>typeof pdfjsLib!=='undefined'?resolve():reject(new Error('pdf.js load failed'));
+    s.onerror=()=>reject(new Error('Could not load PDF.js'));
+    document.head.appendChild(s);
+  });
+  return _pdfJsLoadPromise;
+}
+
 // Pull text from a text-layer PDF via pdf.js. Groups items by y-coordinate so
 // same-row items stay on the same logical line (preserves the results column
 // vs. reference-range column ordering).
@@ -1713,7 +1729,15 @@ async function handleBwUpload(file){
     return;
   }
   try{
-    if(typeof pdfjsLib==='undefined'){alert('PDF.js not loaded. Please enter values manually.');return;}
+    try{
+      setBwUploadStatus('Loading PDF reader...');
+      await loadPdfJs();
+    }catch(loadErr){
+      console.warn('pdf.js load failed',loadErr);
+      setBwUploadStatus(null);
+      alert('Could not load the PDF reader. Please enter values manually, or check your connection and try again.');
+      return;
+    }
     setBwUploadStatus('Reading PDF text...');
     let text='';
     try{text=await extractPdfTextLayer(file);}catch(e){console.warn('text-layer extract failed',e);}
@@ -6212,7 +6236,9 @@ function saveProfile(){
   lsSet('ss-profile',JSON.stringify(profile));
 }
 
-/* ── PDF generation ── */
+/* ── PDF generation ──
+   jspdf (~366KB CDN) is lazy-loaded on first Download click via loadJsPDF().
+   generatePDF lives in pdf-export.js (still loaded with the plan page). */
 function loadJsPDF(){
   return new Promise((resolve,reject)=>{
     if(window.jspdf)return resolve();
@@ -6221,7 +6247,6 @@ function loadJsPDF(){
     s.onload=resolve;s.onerror=reject;document.head.appendChild(s);
   });
 }
-/* generatePDF moved to pdf-export.js — loaded via index.html */
 
 /* Round-10: tiny email-prompt before triggering downloadPDF. Email is optional
    and stored locally only — the engine reads it later to notify the user if
