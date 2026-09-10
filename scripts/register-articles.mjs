@@ -441,9 +441,19 @@ function buildIndexHtmlUpdate(src, regs) {
 `;
   }).join('');
 
-  // Insert cards BEFORE the RLV close (inside the container),
-  // then insert article-full blocks BEFORE the articles-section close.
-  let next = src.slice(0, cardIdx) + cardBlocks + '  ' + src.slice(cardIdx);
+  // 2026-09-10 — homepage CWV: most cards live in
+  // data/article-cards-deferred.html. Prefer appending new cards there so
+  // register-articles does not re-bloat index.html. Fall back to the legacy
+  // inline insert only when the deferred file is missing.
+  const deferredPath = path.join(REPO, 'data', 'article-cards-deferred.html');
+  let next;
+  if (fs.existsSync(deferredPath) && cardBlocks.trim()) {
+    fs.appendFileSync(deferredPath, cardBlocks, 'utf8');
+    next = src; // index.html cards unchanged
+  } else {
+    next = src.slice(0, cardIdx) + cardBlocks + '  ' + src.slice(cardIdx);
+  }
+  // then insert article-full blocks BEFORE the articles-section close (always).
   // Re-locate the articles-section anchor now that we changed earlier offsets
   const fullIdxNew = next.indexOf(fullAnchor);
   next = next.slice(0, fullIdxNew) + fullBlocks + '  ' + next.slice(fullIdxNew);

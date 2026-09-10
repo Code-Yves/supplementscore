@@ -5335,6 +5335,14 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
 function _artPick(v){
+  /* Wait for deferred homepage cards when the research list is still slim
+     (TOP_MIX-only). Re-enter once SS_ARTICLE_CARDS_READY resolves. */
+  var list=document.querySelector('.article-list');
+  var n=document.querySelectorAll('#research-list-view .article-card').length;
+  if(list && list.dataset.deferredLoaded!=='1' && n<50 && window.SS_ARTICLE_CARDS_READY){
+    window.SS_ARTICLE_CARDS_READY.then(function(){ _artPick(v); });
+    return;
+  }
   const CAT_LABELS={all:'Research',quickread:'Top 10 Lists',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',condition:'Condition',stack:'Stack'};
   const lbl=CAT_LABELS[v]||'Research';
   /* Reset siblings FIRST, then set the art-filter label last. The earlier

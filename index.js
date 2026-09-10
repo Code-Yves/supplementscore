@@ -535,7 +535,100 @@ function initCatCardCounts(){
   document.querySelectorAll('[data-total-count]').forEach(el=>{el.textContent=total;});
   if (typeof rsCatDdSync === 'function') rsCatDdSync();
 }
-if (document.querySelector('.article-list')) { reorderArticles(); initArticleLoadMore(); initCatCardCounts(); }
+/* 2026-09-10 — CWV: most .article-card nodes live in
+   data/article-cards-deferred.html (~900 KB). index.html keeps only the
+   ARTICLE_TOP_MIX set (~20 cards) for first paint; this loader fetches the
+   rest after boot, reinjects, then re-runs reorder / load-more / counts.
+   Exposes window.SS_ARTICLE_CARDS_READY (Promise) so filters/search can wait. */
+function _refreshArtDropdownCounts(){
+  const els = document.querySelectorAll('#research-list-view .article-card');
+  const counts = {all: els.length};
+  els.forEach(c => {
+    const cat = (c.getAttribute('data-category') || '').trim();
+    if (cat) counts[cat] = (counts[cat] || 0) + 1;
+  });
+  try {
+    if (typeof _artCounts !== 'undefined') {
+      Object.keys(_artCounts).forEach(k => { delete _artCounts[k]; });
+      Object.assign(_artCounts, counts);
+    }
+  } catch (_) {}
+  const labels = {
+    quickread: 'Top 10 Lists',
+    guide: 'Guide',
+    breakthrough: 'Breakthrough',
+    kids: 'Kids',
+    myth: 'Reality Check',
+    safety: 'Safety Alert',
+    condition: 'Condition',
+    stack: 'Stack'
+  };
+  const menu = document.getElementById('art-filter-menu');
+  if (!menu) return;
+  menu.querySelectorAll('.cdd-item[data-val]').forEach(item => {
+    const v = item.getAttribute('data-val');
+    const base = labels[v];
+    if (!base) return;
+    const n = counts[v] || 0;
+    item.textContent = n ? base + ' (' + n + ')' : base;
+  });
+}
+function _reinjectArticleListUI(){
+  const old = document.getElementById('article-load-more');
+  if (old) old.remove();
+  document.querySelectorAll('.article-card').forEach(c => c.classList.remove('article-hidden'));
+  reorderArticles();
+  initArticleLoadMore();
+  initCatCardCounts();
+  _refreshArtDropdownCounts();
+  if (typeof window.invalidateArtIndex === 'function') window.invalidateArtIndex();
+  if (typeof applyArticleFilter === 'function') applyArticleFilter();
+  /* If Index tab is currently showing an Articles pill view, rebuild it. */
+  try {
+    if (typeof af !== 'undefined' && af === 'art' && typeof _artPick === 'function') {
+      const active = document.querySelector('#art-filter-menu .cdd-item.on, #art-filter .cdd-item.on');
+      const v = (active && active.getAttribute('data-val')) || 'all';
+      _artPick(v);
+    }
+  } catch (_) {}
+}
+function loadDeferredArticleCards(){
+  const list = document.querySelector('.article-list');
+  if (!list) {
+    window.SS_ARTICLE_CARDS_READY = Promise.resolve();
+    return window.SS_ARTICLE_CARDS_READY;
+  }
+  if (list.dataset.deferredLoaded === '1') {
+    window.SS_ARTICLE_CARDS_READY = Promise.resolve();
+    return window.SS_ARTICLE_CARDS_READY;
+  }
+  if (window.SS_ARTICLE_CARDS_READY) return window.SS_ARTICLE_CARDS_READY;
+  window.SS_ARTICLE_CARDS_READY = fetch('data/article-cards-deferred.html', {credentials: 'same-origin'})
+    .then(r => {
+      if (!r.ok) throw new Error('deferred cards HTTP ' + r.status);
+      return r.text();
+    })
+    .then(html => {
+      if (!html || !html.trim()) return;
+      /* Insert before the load-more button if present, else append. */
+      const btn = document.getElementById('article-load-more');
+      if (btn) btn.insertAdjacentHTML('beforebegin', html);
+      else list.insertAdjacentHTML('beforeend', html);
+      list.dataset.deferredLoaded = '1';
+      _reinjectArticleListUI();
+    })
+    .catch(err => {
+      console.warn('[SS] deferred article cards failed', err);
+    });
+  return window.SS_ARTICLE_CARDS_READY;
+}
+if (document.querySelector('.article-list')) {
+  reorderArticles();
+  initArticleLoadMore();
+  initCatCardCounts();
+  loadDeferredArticleCards();
+}
+
 /* Category-hero rotating carousel removed — markup #cat-hero no longer exists. */
 
 /* ===== Block 3 (from line 17014, 3 lines) ===== */
@@ -671,6 +764,7 @@ if (typeof renderAll === 'function') {
      numbered cards), category, and read-time minutes. Cached after first
      build; cleared if the page injects more cards dynamically. */
   let _artIndex = null;
+  window.invalidateArtIndex = function(){ _artIndex = null; };
   function buildArtIndex(){
     if (_artIndex) return _artIndex;
     _artIndex = [];
