@@ -23,10 +23,18 @@
         location.replace('/supplement.html?slug=' + encodeURIComponent(m[1].toLowerCase()));
         return;
       }
-      /* Dangling FR/ES hreflang (paused translations) → English condition page. */
-      m = path.match(/^\/(?:fr|es)\/condition\/([a-z0-9][a-z0-9-]*)(?:\.html)?\/?$/i);
+      /* Retired FR/ES locale tree (2026-09-15, English-only mandate).
+         Known URLs keep on-disk redirect stubs; unknown /fr/* and /es/*
+         paths strip the locale prefix and land on the English equivalent
+         when one exists, else this 404. */
+      m = path.match(/^\/(?:fr|es)(?:\/(?:index\.html)?)?$/i);
       if (m) {
-        location.replace('/condition/' + m[1].toLowerCase() + '.html');
+        location.replace('/');
+        return;
+      }
+      m = path.match(/^\/(?:fr|es)\/(.+)$/i);
+      if (m) {
+        location.replace('/' + m[1]);
         return;
       }
       m = path.match(/^\/condition\/([a-z0-9][a-z0-9-]*)(?:\.html)?\/?$/i);

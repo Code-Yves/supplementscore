@@ -99,10 +99,17 @@ if ! node scripts/check_recommendations.mjs; then
   echo ">> FAIL: broken Goal/Age&Sex recommendation names"; fail=1
 fi
 
-# 10. Hreflang targets — no unpublished FR/ES (or any other) alternates.
+# 10. Hreflang targets — English-only (en / x-default), no unpublished alternates.
 hr "hreflang targets"
 if ! python3 scripts/check_hreflang.py; then
-  echo ">> FAIL: dangling hreflang"; fail=1
+  echo ">> FAIL: dangling or non-English hreflang"; fail=1
+fi
+
+# 10.5 English-only — no FR/ES sitemap URLs, no EN→locale links, locale files
+#      must be redirect stubs. HARD GATE (Yves mandate 2026-09-15).
+hr "english-only locale"
+if ! python3 scripts/check_english_only.py; then
+  echo ">> FAIL: French/Spanish locale residue"; fail=1
 fi
 
 # 11. OG / Twitter images — no 404 social cards.

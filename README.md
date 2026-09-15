@@ -19,7 +19,7 @@ This is the static site that powers `supplementscore.org`. It deploys directly t
 | Symptom-domain hubs | 16 | `sx/*.html` |
 | Population-targeted lists | 7 | `for/*.html` (athletes, kids, women, men, pregnancy, seniors, vegans) |
 | OG social cards | 534 | `og/*.svg` (auto-generated, one per supplement) |
-| Languages | EN + FR (partial) | `fr/` for French content |
+| Languages | English only | Former `/fr/` and `/es/` URLs redirect to the matching English page |
 
 Total: ~850 indexable HTML pages, all with their own canonical URL, meta description, and JSON-LD where appropriate.
 
@@ -93,7 +93,6 @@ Industry-funded trials are not excluded from scoring, but they cannot solo-promo
 ├── compare/                # Comparison guides (5)
 ├── sx/                     # Symptom-domain hubs (16)
 ├── for/                    # Population-targeted lists (7)
-├── fr/                     # French content (in progress)
 ├── og/                     # OG social cards (1 per supplement)
 ├── data/                   # Open-data exports (JSON + CSV)
 │
@@ -107,15 +106,13 @@ Industry-funded trials are not excluded from scoring, but they cannot solo-promo
 
 ## How to contribute
 
-The site lives off curated evidence — anyone can flag inaccuracies, suggest additions, or contribute translations.
+The site lives off curated evidence — anyone can flag inaccuracies or suggest additions.
 
 **For data corrections** (wrong dose, missing interaction, stale citation): open an issue using the [`data-correction`](.github/ISSUE_TEMPLATE/data-correction.md) template.
 
 **For missing supplements**: use the [`missing-supplement`](.github/ISSUE_TEMPLATE/missing-supplement.md) template with at least one peer-reviewed citation.
 
 **For broken citations**: use the [`broken-citation`](.github/ISSUE_TEMPLATE/broken-citation.md) template.
-
-**For translation help** (French and beyond): see the FR landing page contact link, or open an issue.
 
 See [CONTRIBUTING.md](https://github.com/Code-Yves/supplementscore/blob/main/.github/CONTRIBUTING.md) (when present) for the full process. All contributions are reviewed against the [editorial pipeline](https://supplementscore.org/editorial-pipeline.html).
 
