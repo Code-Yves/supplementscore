@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
     <loc>https://supplementscore.org/</loc>
     <lastmod>2026-09-11</lastmod>
@@ -132,64 +131,24 @@
     <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/adhd-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/adhd-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-  </url>
-<url>
-    <loc>https://supplementscore.org/fr/condition/adhd-stack.html</loc>
-    <lastmod>2026-09-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/adhd-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/adhd-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
   </url>
 <url>
     <loc>https://supplementscore.org/condition/osteoporosis-stack.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/osteoporosis-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/osteoporosis-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-  </url>
-<url>
-    <loc>https://supplementscore.org/fr/condition/osteoporosis-stack.html</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/osteoporosis-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/osteoporosis-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
   </url>
 <url>
     <loc>https://supplementscore.org/condition/anxiety-stack.html</loc>
     <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/anxiety-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/anxiety-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-  </url>
-<url>
-    <loc>https://supplementscore.org/fr/condition/anxiety-stack.html</loc>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/anxiety-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/anxiety-stack.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
   </url>
 <url>
     <loc>https://supplementscore.org/condition/pcos-protocol.html</loc>
     <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/pcos-protocol.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/pcos-protocol.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-  </url>
-<url>
-    <loc>https://supplementscore.org/fr/condition/pcos-protocol.html</loc>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/condition/pcos-protocol.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/condition/pcos-protocol.html" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
   </url>
 <url>
     <loc>https://supplementscore.org/condition/migraine-prevention.html</loc>
@@ -256,14 +215,6 @@
     <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-  </url>
-<url>
-    <loc>https://supplementscore.org/fr/landing.html</loc>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://supplementscore.org/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://supplementscore.org/fr/landing.html"/>
   </url>
 <url>
     <loc>https://supplementscore.org/sx/sleep.html</loc>
@@ -419,35 +370,5 @@
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-  </url>
-<url>
-    <loc>https://supplementscore.org/fr/</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-<url>
-    <loc>https://supplementscore.org/es/</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-<url>
-    <loc>https://supplementscore.org/es/landing.html</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-<url>
-    <loc>https://supplementscore.org/es/condition/anxiety-stack.html</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-<url>
-    <loc>https://supplementscore.org/es/condition/pcos-protocol.html</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
 </urlset>

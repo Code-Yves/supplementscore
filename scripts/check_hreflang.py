@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Fail if any hreflang alternate points at a URL that does not exist on disk.
+"""Fail if any hreflang alternate is invalid for the English-only site.
 
-Dangling hreflang (EN condition pages pointing at unpublished FR/ES translations)
-is a GSC "Alternate page with proper canonical tag" / 404 source. This gate
-blocks that regression without requiring unpublished translations to be written.
+Rules (Yves mandate 2026-09-15 — English only):
+  1. hreflang values may only be `en` or `x-default`.
+  2. Every remaining alternate must resolve to a file on disk.
 
 Usage: python3 scripts/check_hreflang.py
 """
@@ -18,6 +18,7 @@ SKIP = (".git/", "_archive/", "_mockups/", "reviews/", "scripts/", "node_modules
 HREFLANG_TAG = re.compile(r"<link\b[^>]*\brel=['\"]alternate['\"][^>]*>", re.I)
 HREF = re.compile(r"""href=['"]([^'"]+)['"]""", re.I)
 LANG = re.compile(r"""hreflang=['"]([^'"]+)['"]""", re.I)
+ALLOWED = {"en", "x-default"}
 
 
 def skip(rel: str) -> bool:
@@ -48,6 +49,7 @@ def resolve(url: str) -> pathlib.Path | None:
 
 def main() -> int:
     dangling = []
+    forbidden = []
     scanned = 0
     for p in ROOT.rglob("*.html"):
         rel = str(p.relative_to(ROOT)).replace("\\", "/")
@@ -57,21 +59,33 @@ def main() -> int:
         for tag in HREFLANG_TAG.findall(text):
             href_m = HREF.search(tag)
             lang_m = LANG.search(tag)
-            if not href_m:
+            if not href_m or not lang_m:
                 continue
             scanned += 1
             href = href_m.group(1)
+            lang = lang_m.group(1).lower()
+            if lang not in ALLOWED:
+                forbidden.append((rel, lang, href))
+                continue
             if resolve(href) is None:
-                dangling.append((rel, lang_m.group(1) if lang_m else "?", href))
+                dangling.append((rel, lang, href))
 
-    print("== hreflang target check ==")
+    print("== hreflang check (English-only) ==")
     print(f"scanned {scanned} alternate links")
+    fail = 0
+    if forbidden:
+        print(f"FORBIDDEN non-English hreflang: {len(forbidden)}")
+        for rel, lang, href in forbidden:
+            print(f"  {rel}  hreflang={lang}  ->  {href}")
+        fail = 1
     if dangling:
         print(f"DANGLING hreflang: {len(dangling)}")
         for rel, lang, href in dangling:
             print(f"  {rel}  hreflang={lang}  ->  {href}")
+        fail = 1
+    if fail:
         return 1
-    print("PASS — every hreflang alternate resolves to a file on disk.")
+    print("PASS — every hreflang is en/x-default and resolves on disk.")
     return 0
 
 

@@ -1,7 +1,6 @@
 /* _site-ux.js — site-wide UX additions injected on every page that loads it.
    - Floating back-to-top button (appears after 600px scroll)
    - Reading progress bar pinned to the top edge (only on /a/ article pages)
-   - Tri-language switcher (EN/FR/ES) in the top-right of the page
    - Pause hero auto-rotation on focus-within (covers keyboard users on touch
      devices that have neither mouse nor finger hovering)
    ============================================================ */
@@ -39,24 +38,6 @@
     /* reading progress */
   + '.ssux-rp{position:fixed;top:0;left:0;height:3px;width:0;'
   + 'background:linear-gradient(90deg,#1F7A6B,#E8967A);z-index:120;transition:width .12s linear;pointer-events:none}'
-    /* lang switcher */
-  + '.ssux-lang{position:fixed;top:14px;right:14px;z-index:90;display:flex;align-items:center;gap:0;'
-  + 'background:rgba(248,244,237,.92);border:1px solid rgba(31,122,107,.18);border-radius:999px;'
-  + 'padding:3px;font-family:\'Mona Sans\',inherit;backdrop-filter:blur(8px)}'
-  + '.ssux-lang button{border:0;background:transparent;color:rgba(15,23,22,.55);'
-  + 'font-family:inherit;font-weight:700;font-size:10.5px;letter-spacing:.06em;'
-  + 'padding:5px 9px;border-radius:999px;cursor:pointer;text-transform:uppercase;line-height:1;transition:background .12s,color .12s}'
-  + '.ssux-lang button.on{background:#1F7A6B;color:#F8F4ED}'
-  + '.ssux-lang button:hover:not(.on){color:#155b50}'
-  + '.ssux-lang button[disabled]{opacity:.45;cursor:not-allowed}'
-  + '@media(max-width:600px){.ssux-lang{top:auto;bottom:74px;right:14px}.ssux-top{bottom:128px}}'
-    /* Language row — sits in the brand column directly under the © line.
-       Matches .site-footer-meta: 11px, same color, no border. */
-  + '.ssux-lang-foot{font-family:inherit;font-size:11px;line-height:1.4;'
-  + 'color:rgba(248,244,237,.55);margin-top:8px}'
-  + '.ssux-lang-foot a{color:rgba(248,244,237,.78);text-decoration:none;font-weight:600;transition:color .12s}'
-  + '.ssux-lang-foot a:hover{color:#F8F4ED;text-decoration:underline;text-underline-offset:3px}'
-  + '.ssux-lang-foot .on{color:#F8F4ED;font-weight:700}'
     /* sticky TOC for /a/ articles */
   + '.ssux-toc{position:fixed;top:90px;right:18px;z-index:60;width:230px;'
   + 'background:rgba(248,244,237,.96);border:1px solid rgba(31,122,107,.16);border-radius:14px;'
@@ -113,7 +94,7 @@
   + '.ssux-pmbadge svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}'
   + '.ssux-pmbadge strong{font-weight:800;font-variant-numeric:tabular-nums}'
   + '@media print{'
-  + '  .ssux-top,.ssux-rp,.ssux-lang,.ssux-toc,.ssux-recent,'
+  + '  .ssux-top,.ssux-rp,.ssux-toc,.ssux-recent,'
   + '  .site-nav,.site-footer,.beta-bar,.pg-close-fab,.art-modal,.dc-fact-hero,'
   + '  .hero,.rs-search-wrap,.rs-cat-sticky,.rs-toolbar,#supp-modal,#fb-modal,'
   + '  iframe,.ssm,nav,footer,script,noscript{display:none !important}'
@@ -131,8 +112,7 @@
        affordance. The inner FAB now stays visible — it's the only X on
        those pages, and its history.back() inside the iframe returns the
        user to the supplement card they came from. */
-  + 'html.ss-in-iframe .hub-close-fab,'
-  + 'html.ss-in-iframe .ssux-lang{display:none !important}'
+  + 'html.ss-in-iframe .hub-close-fab{display:none !important}'
     /* ============================================================
        Share FAB — V2 chrome pill, auto-injected next to .pg-close-fab
        (2026-05-19). Echoes the article modal's Share button so deep-
@@ -231,156 +211,6 @@
     }
     window.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
-  }
-
-  /* ---------- tri-language switcher ---------- */
-  /* Currently translated paths. Add more as we ship translations.
-     A path is shown as ENABLED for a given language only if its translated
-     URL exists in the LANG_INDEX below. Otherwise the lang button is shown
-     but disabled with a tooltip. */
-  var LANG_INDEX = {
-    fr: [
-      '/landing.html',
-      '/condition/anxiety-stack.html',
-      '/condition/pcos-protocol.html'
-    ],
-    es: [
-      '/landing.html',
-      '/condition/anxiety-stack.html',
-      '/condition/pcos-protocol.html'
-    ]
-  };
-  function langPathForCurrent(lang){
-    if (lang === 'en') return enPathFromCurrent();
-    var enPath = enPathFromCurrent();
-    var direct = '/' + lang + enPath;
-    if ((LANG_INDEX[lang] || []).indexOf(enPath) !== -1) return direct;
-    return null;
-  }
-  /* Language link target: always go to that language's INDEX page (the
-     supplement directory), never the marketing landing page. The user
-     explicitly asked for this — clicking a language link should land you
-     on the directory in that language so you can browse from there.
-       EN → /index.html
-       FR → /fr/index.html
-       ES → /es/index.html
-     /fr/index.html and /es/index.html exist as light wrappers that load
-     the main directory with a translated "directory currently EN-only"
-     banner; build proper translated directories over time. */
-  function langIndexPath(lang){
-    return lang === 'en' ? '/index.html' : '/' + lang + '/index.html';
-  }
-  /* Convert a repo-absolute path (e.g. '/fr/landing.html') to a path that
-     resolves correctly from the CURRENT page, regardless of whether the
-     site is being viewed via http(s) or file://. We compute depth based on
-     where we are relative to the repo root.
-       /sources.html              → depth 0 → 'fr/landing.html'
-       /a/foo.html                → depth 1 → '../fr/landing.html'
-       /fr/condition/bar.html     → depth 2 → '../../landing.html'
-     For file:// URLs we anchor on the literal '/supplementscore-repo/'
-     directory name in the path. */
-  function langRelPath(targetAbsPath){
-    var here = location.pathname;
-    var REPO = '/supplementscore-repo/';
-    var anchorIdx = here.indexOf(REPO);
-    var afterRepo = anchorIdx >= 0
-      ? here.substring(anchorIdx + REPO.length)
-      : here.replace(/^\//,'');
-    var depth = (afterRepo.match(/\//g) || []).length;
-    var prefix = depth === 0 ? '' : new Array(depth + 1).join('../');
-    return prefix + targetAbsPath.replace(/^\//,'');
-  }
-  function enPathFromCurrent(){
-    /* Strip a leading /fr/ or /es/ from the current path so we know the EN equivalent. */
-    var p = location.pathname;
-    var m = p.match(/^\/(fr|es)(\/.*)$/);
-    return m ? m[2] : p;
-  }
-  function currentLang(){
-    var p = location.pathname;
-    if (p.indexOf('/fr/') === 0) return 'fr';
-    if (p.indexOf('/es/') === 0) return 'es';
-    return 'en';
-  }
-  function initLangSwitcher(){
-    /* TEMPORARILY HIDDEN — 2026-05-05.
-       Per user: hide the language options until the FR/ES translations
-       are complete enough to be advertised site-wide. The /fr/ and /es/
-       URL trees still exist and the pages still work if linked
-       directly; we just don't surface the switcher in the UI yet.
-       To re-enable: delete this early-return line. */
-    return;
-    if (document.querySelector('.ssux-lang') || document.querySelector('.ssux-lang-foot')) return;
-    /* Don't render on iframe-embedded pages (supplement-modal.js loads
-       supplement.html in an iframe; we don't want a duplicate switcher). */
-    var sp = new URLSearchParams(location.search);
-    if (sp.get('modal') === '1') return;
-
-    var langs = [{k:'en',l:'EN'},{k:'fr',l:'FR'},{k:'es',l:'ES'}];
-    var cur = currentLang();
-
-    /* Always emit hreflang link tags so search engines and assistive tech
-       know about the alternate URLs. Only emit for languages that actually
-       exist for this page. */
-    ['en','fr','es'].forEach(function(k){
-      var t = langPathForCurrent(k);
-      if (!t) return;
-      var link = document.createElement('link');
-      link.rel = 'alternate';
-      link.setAttribute('hreflang', k);
-      link.href = location.origin + t;
-      document.head.appendChild(link);
-    });
-
-    /* Preferred placement: a small inline row in the brand column,
-       directly under the "© 2026 · CC-BY 4.0" meta line. Falls back to
-       the floating top-right pill on pages with no .site-footer (e.g.
-       /a/ static articles, /condition/ deep dives, /fr/ landing). */
-    var copyMeta = document.querySelector('.site-footer-meta');
-    if (copyMeta){
-      var row = document.createElement('div');
-      row.className = 'ssux-lang-foot';
-      row.setAttribute('aria-label','Language');
-      langs.forEach(function(L, idx){
-        if (idx > 0) row.appendChild(document.createTextNode(' · '));
-        if (cur === L.k){
-          var span = document.createElement('span');
-          span.className = 'on';
-          span.textContent = L.l;
-          span.setAttribute('aria-current','true');
-          row.appendChild(span);
-        } else {
-          var a = document.createElement('a');
-          /* Repo-relative path so the link works on file:// AND https:// */
-          a.href = langRelPath(langIndexPath(L.k));
-          a.textContent = L.l;
-          a.setAttribute('hreflang', L.k);
-          row.appendChild(a);
-        }
-      });
-      copyMeta.parentNode.insertBefore(row, copyMeta.nextSibling);
-      return;
-    }
-
-    /* Fallback: floating top-right pill (kept identical to the original
-       behavior so detail pages without a .site-footer still get a switcher). */
-    var box = document.createElement('div');
-    box.className = 'ssux-lang';
-    box.setAttribute('role','group');
-    box.setAttribute('aria-label','Language');
-    langs.forEach(function(L){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = L.l;
-      b.setAttribute('aria-label', L.l + (cur === L.k ? ' (current)' : ''));
-      if (cur === L.k) b.className = 'on';
-      if (cur !== L.k){
-        var target = langRelPath(langIndexPath(L.k));
-        b.addEventListener('click', function(){location.href = target;});
-      }
-      box.appendChild(b);
-    });
-    document.body.appendChild(box);
   }
 
   /* ---------- pause hero auto-rotation on focus-within ---------- */
@@ -684,7 +514,6 @@
   function boot(){
     initBackToTop();
     initReadingProgress();
-    initLangSwitcher();
     initHeroFocusPause();
     initStickyToc();
     initRecentlyViewedStrip();
