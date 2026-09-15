@@ -20,6 +20,10 @@ __pycache__/
 *.backup
 *~
 
+# Debug / candidate dumps — never deploy to GitHub Pages
+data.js.broken-debug
+data.js.candidate
+
 # FUSE filesystem temp files (created by perl -i / sed -i on mounted filesystems)
 .fuse_hidden*
 *.tmp

@@ -99,6 +99,24 @@ if ! node scripts/check_recommendations.mjs; then
   echo ">> FAIL: broken Goal/Age&Sex recommendation names"; fail=1
 fi
 
+# 10. Hreflang targets — no unpublished FR/ES (or any other) alternates.
+hr "hreflang targets"
+if ! python3 scripts/check_hreflang.py; then
+  echo ">> FAIL: dangling hreflang"; fail=1
+fi
+
+# 11. OG / Twitter images — no 404 social cards.
+hr "og images"
+if ! python3 scripts/check_og_images.py; then
+  echo ">> FAIL: missing og/twitter images"; fail=1
+fi
+
+# 12. Slug aliases — /s/creatine and friends resolve to a real record.
+hr "slug aliases"
+if ! node scripts/check_slug_aliases.mjs; then
+  echo ">> FAIL: slug alias contract"; fail=1
+fi
+
 hr "result"
 if [ "$fail" -ne 0 ]; then
   echo -e "\033[31mBUILD VALIDATION FAILED — fix the items above before committing.\033[0m"

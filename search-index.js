@@ -158,22 +158,112 @@
     return out;
   }
 
+  function _shortName(n) {
+    return String(n || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+  }
+  function _nameSlugs(s) {
+    return [slugify(s.n), slugify(_shortName(s.n))];
+  }
+  function _tierRank(tid) {
+    return ({ t1: 1, t2: 2, t3: 3, t4: 4 })[tid] || 9;
+  }
+  function _pickBestSupplement(hits) {
+    if (!hits || !hits.length) return null;
+    if (hits.length === 1) return hits[0];
+    hits = hits.slice().sort(function (a, b) {
+      var tr = _tierRank(a.t) - _tierRank(b.t);
+      if (tr) return tr;
+      return compositeScore(b) - compositeScore(a);
+    });
+    return hits[0];
+  }
   function getSupplement(slug) {
-    var t = String(slug || '').toLowerCase();
+    var t = slugify(slug);
+    if (!t) return null;
     var S = _S();
+    var EXPLICIT_ALIAS = { collagen: 'collagen-peptides' };
+    if (EXPLICIT_ALIAS[t]) t = EXPLICIT_ALIAS[t];
+    var i, s, pair, full, short;
     // 1. Exact canonical slug — slugify of the full name including parens.
-    var hit = S.find(function (s) { return slugify(s.n) === t; });
-    if (hit) return hit;
+    for (i = 0; i < S.length; i++) {
+      if (slugify(S[i].n) === t) return S[i];
+    }
     // 2. Short-form slug — strip parenthetical disambiguation, then slugify.
     //    Discover and other curated lists use short names (e.g. "calomel" for
     //    the entry "Calomel (mercurous chloride)"). Falling back here avoids
     //    broken "Supplement not found" pages without forcing every curated
     //    list across the site to use the long canonical slug.
-    hit = S.find(function (s) {
-      var shortName = String(s.n || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim();
-      return slugify(shortName) === t;
-    });
-    return hit || null;
+    for (i = 0; i < S.length; i++) {
+      if (slugify(_shortName(S[i].n)) === t) return S[i];
+    }
+    // 3. Hyphen-insensitive unique match (lions-mane ↔ lion-s-mane).
+    var compactT = t.replace(/-/g, '');
+    var compactHits = [];
+    for (i = 0; i < S.length; i++) {
+      pair = _nameSlugs(S[i]);
+      if (pair[0].replace(/-/g, '') === compactT || pair[1].replace(/-/g, '') === compactT) {
+        compactHits.push(S[i]);
+      }
+    }
+    if (compactHits.length === 1) return compactHits[0];
+
+    // 4. Prefix / first-token family (creatine → creatine-monohydrate,
+    //    vitamin-d → vitamin-d3). Unique short prefixes are allowed (nmn);
+    //    ambiguous families only resolve when every extra token is a form
+    //    qualifier (monohydrate / hcl), never a different ingredient (apple-*).
+    var GENERIC_HEADING = {
+      vitamin: 1, black: 1, white: 1, red: 1, green: 1, blue: 1,
+      beta: 1, alpha: 1, gamma: 1, delta: 1, olive: 1, methyl: 1,
+      sodium: 1, korean: 1, algal: 1, oil: 1, acid: 1, extract: 1,
+      l: 1, d: 1, b: 1, r: 1, s: 1, n: 1, '5': 1, st: 1,
+      aged: 1, american: 1, wild: 1, mixed: 1, oral: 1, raw: 1,
+      bone: 1, beef: 1, deer: 1, egg: 1, pine: 1, stem: 1,
+      soil: 1, spore: 1, cat: 1, apple: 1, bitter: 1, essential: 1,
+      modified: 1, partially: 1, dietary: 1, digestive: 1, miracle: 1
+    };
+    var FORM_TOKEN = {
+      monohydrate: 1, hcl: 1, citrate: 1, glycinate: 1, bisglycinate: 1,
+      threonate: 1, taurate: 1, malate: 1, orotate: 1, chloride: 1,
+      picolinate: 1, gluconate: 1, peptides: 1, extract: 1, oil: 1,
+      stack: 1, type: 1, high: 1, low: 1, liquid: 1, gummies: 1,
+      complex: 1, blend: 1, form: 1, free: 1, acid: 1, powder: 1,
+      root: 1, leaf: 1, seed: 1, bark: 1, standardized: 1, standardised: 1,
+      extended: 1, topical: 1, precursors: 1, precursor: 1
+    };
+    function _isFormFamily(query, hits) {
+      return hits.every(function (rec) {
+        var sl = slugify(rec.n);
+        if (!sl.startsWith(query)) return false;
+        var rest = sl.slice(query.length).replace(/^-/, '');
+        var tok = (rest.split('-')[0] || '');
+        return !tok || FORM_TOKEN[tok] || /^\d/.test(tok);
+      });
+    }
+    var prefixHits = [];
+    for (i = 0; i < S.length; i++) {
+      s = S[i];
+      pair = _nameSlugs(s);
+      full = pair[0];
+      short = pair[1];
+      var matched = false;
+      if (full.startsWith(t + '-') || short.startsWith(t + '-')) matched = true;
+      else if (
+        (full.startsWith(t) && full.length > t.length && /\d/.test(full.charAt(t.length))) ||
+        (short.startsWith(t) && short.length > t.length && /\d/.test(short.charAt(t.length)))
+      ) matched = true;
+      if (matched) prefixHits.push(s);
+    }
+    if (GENERIC_HEADING[t] || t.length < 3 || /^\d+$/.test(t)) return null;
+    if (prefixHits.length === 1) return prefixHits[0];
+    if (
+      prefixHits.length > 1 &&
+      prefixHits.length <= 6 &&
+      t.length >= 4 &&
+      _isFormFamily(t, prefixHits)
+    ) {
+      return _pickBestSupplement(prefixHits);
+    }
+    return null;
   }
   function getCondition(slug)  { return _CONDITIONS()[slug] || null; }
   function getMedication(slug) { return _MEDS()[slug] || null; }
