@@ -8,7 +8,7 @@
  *
  * Usage: node scripts/gen_s_tombstones.mjs
  */
-import { resolveSupplement, slugify } from './slug.mjs';
+import { resolveSupplement, slugify, validSupplementSlugs } from './slug.mjs';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -68,7 +68,7 @@ const stubs = new Set(
 const metaKeys = Object.keys(
   JSON.parse(fs.readFileSync(path.join(REPO, 'supplement-meta.json'), 'utf8')),
 );
-const candidates = new Set([...metaKeys, ...stubs]);
+const candidates = new Set([...metaKeys, ...stubs, ...validSupplementSlugs()]);
 
 let created = 0;
 let updated = 0;

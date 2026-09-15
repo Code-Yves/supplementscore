@@ -3,10 +3,15 @@ Allow: /
 
 # Block internal mockup directory from crawling (not deployed but defensive)
 Disallow: /_mockups/
+Disallow: /mockup-
+Disallow: /_iframe-test.html
 
 # Block archived / superseded pages — duplicate content of live pages, and their
 # stale internal links point at dropped URLs (→ 404s in Search Console if crawled)
 Disallow: /_archive/
+
+# Homepage article-card fragment — injected into /, not a standalone page.
+Disallow: /data/article-cards-deferred.html
 
 # Block raw data files — public for direct download via /data/index.html, but should not appear as search results
 Disallow: /data/*.csv$
@@ -34,6 +39,7 @@ Disallow: /condition.html$
 Disallow: /medication.html$
 Disallow: /compare.html$
 Disallow: /biomarker.html$
+Disallow: /article.html
 
 # Sitemap index — references all shards
 Sitemap: https://supplementscore.org/sitemap-index.xml

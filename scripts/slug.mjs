@@ -76,7 +76,26 @@ export function validSupplementSlugs() {
     set.add(SS.slugify(s.n));
     const short = String(s.n).replace(/\s*\([^)]*\)\s*/g, ' ').trim();
     set.add(SS.slugify(short));
+    // Apostrophe-stripped (Lion's mane → lions-mane as well as lion-s-mane)
+    const noApos = String(s.n).replace(/['’]/g, '');
+    set.add(SS.slugify(noApos));
+    set.add(SS.slugify(noApos.replace(/\s*\([^)]*\)\s*/g, ' ').trim()));
   }
+  // Prefix aliases the runtime resolver accepts (creatine → creatine-monohydrate,
+  // vitamin-d → vitamin-d3). Keep these conservative: short/generic first
+  // tokens (st, apple, 1) must not mint tombstones.
+  for (const slug of [...set]) {
+    const parts = String(slug).split('-').filter(Boolean);
+    if (!parts.length) continue;
+    if (parts[0].length >= 4 && SS.getSupplement(parts[0])) set.add(parts[0]);
+    if (parts.length >= 2) {
+      const two = parts[0] + '-' + parts[1];
+      if (two.length >= 7 && SS.getSupplement(two)) set.add(two);
+    }
+    const stem = String(slug).replace(/\d+$/, '').replace(/-$/, '');
+    if (stem && stem.length >= 7 && stem !== slug && SS.getSupplement(stem)) set.add(stem);
+  }
+  if (SS.getSupplement('nmn')) set.add('nmn');
   set.delete('');
   return set;
 }

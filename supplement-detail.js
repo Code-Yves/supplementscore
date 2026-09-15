@@ -213,6 +213,25 @@
     root.innerHTML = '<a class="det-back" href="search.html?q=' + encodeURIComponent(slug.replace(/-/g,' ')) + '">‹ Back to search</a><h1 class="det-h1">Supplement not found</h1><p style="color:var(--color-text-secondary)">No record for slug "'+escHtml(slug)+'". Try the <a href="search.html">search</a>.</p>';
     return;
   }
+  /* Alias URLs (?slug=creatine, lions-mane, vitamin-d) must not compete with
+     the sitemap canonical. Rewrite the address bar + canonical in place. */
+  try {
+    var canonSlug = window.SS.slugify(s.n);
+    if (canonSlug && canonSlug !== slug) {
+      var next = new URL(location.href);
+      next.searchParams.set('slug', canonSlug);
+      next.searchParams.delete('n');
+      if (typeof history.replaceState === 'function') {
+        history.replaceState({}, '', next.pathname + next.search + next.hash);
+      }
+      slug = canonSlug;
+      var absCanon = 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(canonSlug);
+      var cLink = document.querySelector('link[rel="canonical"]');
+      if (cLink) cLink.href = absCanon;
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', absCanon);
+    }
+  } catch (_) {}
   document.title = s.n + ' — SupplementScore';
   // Emit slug-specific DietarySupplement + BreadcrumbList JSON-LD. The static
   // WebPage block in supplement.html remains as a non-JS fallback.

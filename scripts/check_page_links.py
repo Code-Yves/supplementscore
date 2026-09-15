@@ -17,7 +17,10 @@ Run from repo root:  python3 scripts/check_page_links.py    (exit 1 if any broke
 """
 import os, re, glob, sys
 
-SKIP_PREFIXES = ('_archive/', 'reviews/', 'node_modules/')
+SKIP_PREFIXES = ('_archive/', 'reviews/', 'node_modules/', '_mockups/')
+SKIP_FILES = {
+    'data/article-cards-deferred.html',  # fragment injected into /; relative hrefs are root-relative by design
+}
 
 def main():
     exist = set()
@@ -33,7 +36,9 @@ def main():
         return t in exist or (t.rstrip('/') + '/index.html') in exist
 
     htmls = [f for f in glob.glob('**/*.html', recursive=True)
-             if not any(f.startswith(p) for p in SKIP_PREFIXES)]
+             if not any(f.startswith(p) for p in SKIP_PREFIXES)
+             and f not in SKIP_FILES
+             and 'mockup' not in os.path.basename(f).lower()]
     broken = {}
     for hf in htmls:
         base = os.path.dirname(hf)
