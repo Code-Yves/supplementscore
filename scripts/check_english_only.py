@@ -115,6 +115,17 @@ def is_redirect_stub(path: pathlib.Path) -> list[str]:
     return problems
 
 
+def locale_to_en(path: str) -> str | None:
+    """Mirror of 404.html locale-prefix stripping. Keep in lockstep."""
+    m = re.match(r"^/(?:fr|es)(?:/(?:index\.html)?)?$", path, re.I)
+    if m:
+        return "/"
+    m = re.match(r"^/(?:fr|es)/(.+)$", path, re.I)
+    if m:
+        return "/" + m.group(1)
+    return None
+
+
 def main() -> int:
     problems: list[str] = []
 
@@ -151,7 +162,37 @@ def main() -> int:
                 continue
             problems.append(f"{rel}: link to locale URL {href}")
 
+    # 6. 404.html must strip /fr and /es for unpublished locale URLs.
+    #    Keep these strings in lockstep with the mapping cases below.
+    nf = (ROOT / "404.html").read_text(encoding="utf-8", errors="ignore")
+    if r"/^(?:fr|es)(?:\/(?:index\.html)?)?$/i" not in nf.replace("\\/", "/"):
+        # Source uses JS regex with escaped slashes.
+        if r"/^\/(?:fr|es)(?:\/(?:index\.html)?)?$/i" not in nf:
+            problems.append("404.html missing locale-root redirect regex")
+    if r"/^\/(?:fr|es)\/(.+)$/i" not in nf:
+        problems.append("404.html missing locale-prefix strip regex")
+    if "location.replace('/' + m[1])" not in nf:
+        problems.append("404.html missing locale-prefix strip target")
+
+    cases = {
+        "/fr": "/",
+        "/fr/": "/",
+        "/fr/index.html": "/",
+        "/es": "/",
+        "/es/": "/",
+        "/es/index.html": "/",
+        "/fr/landing.html": "/landing.html",
+        "/es/condition/anxiety-stack.html": "/condition/anxiety-stack.html",
+        "/fr/does-not-exist.html": "/does-not-exist.html",
+        "/condition/foo.html": None,
+    }
+    for src, expected in cases.items():
+        got = locale_to_en(src)
+        if got != expected:
+            problems.append(f"404 mapping {src} -> {got!r}, expected {expected!r}")
+
     print("== English-only site check ==")
+
     if problems:
         print(f"FAIL — {len(problems)} issue(s):")
         for line in problems:
