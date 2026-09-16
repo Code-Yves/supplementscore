@@ -22,6 +22,12 @@ Checks each <loc> across every sitemap*.xml (except the index):
                 ?slug= supplement URLs are index,follow. The meta tag is parsed
                 properly, so the word "noindex" appearing only inside a <script>
                 (e.g. article.html's conditional logic) does NOT trip it.
+  4. DUPLICATE — the same <loc> appears in more than one shard. Google asks
+                for each URL in exactly one sitemap; overlapping core +
+                section shards produced conflicting lastmods and wasted crawl.
+  5. STALE-NEWS — a Google News <news:publication_date> older than 2 days.
+                News sitemaps are for fresh articles only; evergreen /a/
+                pages belong in sitemap-articles.xml.
 
 Usage:
     python3 scripts/check_sitemap_integrity.py        # exit 0 clean, 1 on problems
@@ -32,6 +38,7 @@ import pathlib
 import re
 import sys
 import urllib.parse
+from datetime import datetime, timedelta, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ROBOTS_META = re.compile(r'<meta\b[^>]*\bname=["\']robots["\'][^>]*>', re.I)
@@ -84,18 +91,45 @@ def is_noindex(html: str) -> bool:
     return any('noindex' in tag.lower() for tag in ROBOTS_META.findall(html))
 
 
+NEWS_DATE = re.compile(r'<news:publication_date>(.*?)</news:publication_date>', re.I)
+NEWS_MAX_AGE = timedelta(days=2)
+
+
+def news_cutoff() -> datetime:
+    return datetime.now(timezone.utc) - NEWS_MAX_AGE
+
+
+def parse_news_date(raw: str) -> datetime | None:
+    raw = raw.strip()
+    try:
+        dt = datetime.fromisoformat(raw)
+    except ValueError:
+        try:
+            dt = datetime.strptime(raw, '%Y-%m-%d')
+        except ValueError:
+            return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt
+
+
 def main() -> int:
     disallows = load_disallows()
     problems = []   # (kind, sitemap, url, detail)
+    seen = {}       # loc -> [sitemap, ...]
     total = 0
-    for sm in sorted(glob.glob(str(ROOT / 'sitemap*.xml'))):
-        if 'sitemap-index' in pathlib.Path(sm).name:
-            continue
-        locs = re.findall(r'<loc>(.*?)</loc>', pathlib.Path(sm).read_text(encoding='utf-8', errors='ignore'))
+    sitemap_files = sorted(glob.glob(str(ROOT / 'sitemap*.xml')))
+    for sm in sitemap_files:
         name = pathlib.Path(sm).name
+        if 'sitemap-index' in name:
+            continue
+        text = pathlib.Path(sm).read_text(encoding='utf-8', errors='ignore')
+        locs = re.findall(r'<loc>(.*?)</loc>', text)
         for loc in locs:
+            loc = loc.strip()
             total += 1
-            parsed = urllib.parse.urlparse(loc.strip())
+            seen.setdefault(loc, []).append(name)
+            parsed = urllib.parse.urlparse(loc)
             path = parsed.path
             path_q = path + (('?' + parsed.query) if parsed.query else '')
             blocked = robots_blocks(path_q, disallows)
@@ -109,15 +143,36 @@ def main() -> int:
             if not parsed.query and is_noindex(f.read_text(encoding='utf-8', errors='ignore')[:8000]):
                 problems.append(('NOINDEX', name, loc, 'page has meta robots noindex'))
 
-    print(f'Sitemap integrity: scanned {total} URLs across {len(glob.glob(str(ROOT / "sitemap*.xml"))) - 1} sitemaps.')
+        if name == 'sitemap-news.xml':
+            cutoff = news_cutoff()
+            for block in re.findall(r'<url>(.*?)</url>', text, re.S):
+                loc_m = re.search(r'<loc>(.*?)</loc>', block)
+                loc = loc_m.group(1).strip() if loc_m else '(missing loc)'
+                for raw in NEWS_DATE.findall(block):
+                    dt = parse_news_date(raw)
+                    if dt is None:
+                        problems.append(('STALE-NEWS', name, loc, f'unparseable publication_date "{raw}"'))
+                    elif dt < cutoff:
+                        problems.append(('STALE-NEWS', name, loc,
+                                         f'publication_date {raw} is older than 2 days'))
+
+    for loc, names in sorted(seen.items()):
+        if len(names) > 1:
+            problems.append(('DUPLICATE', '+'.join(names), loc,
+                             'same URL listed in more than one sitemap'))
+
+    n_shards = sum(1 for sm in sitemap_files if 'sitemap-index' not in pathlib.Path(sm).name)
+    print(f'Sitemap integrity: scanned {total} URLs across {n_shards} sitemaps.')
     if not problems:
-        print('PASS — every sitemap URL resolves, is crawlable, and is indexable.')
+        print('PASS — every sitemap URL resolves, is crawlable, is indexable, '
+              'appears once, and news dates (if any) are fresh.')
         return 0
-    print(f'FAIL — {len(problems)} bad URL(s) that should not be in a sitemap:\n')
+    print(f'FAIL — {len(problems)} problem(s) that should not be in a sitemap:\n')
     for kind, sm, url, detail in problems:
         print(f'  [{kind}] {sm}: {url}\n          {detail}')
-    print('\nFix: remove these from the sitemap (or make them 200/indexable). '
-          'noindex stubs, redirects, robots-blocked and deleted pages must not be advertised.')
+    print('\nFix: remove dead/noindex/robots-blocked URLs; list each URL in exactly '
+          'one shard; drop Google News entries older than 2 days (evergreen articles '
+          'belong in sitemap-articles.xml).')
     return 1
 
 

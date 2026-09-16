@@ -2,7 +2,7 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>https://supplementscore.org/sitemap.xml</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-16</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-supplements.xml</loc>
@@ -10,30 +10,26 @@
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-articles.xml</loc>
-    <lastmod>2026-09-11</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://supplementscore.org/sitemap-compare.xml</loc>
-    <lastmod>2026-09-11</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://supplementscore.org/sitemap-conditions.xml</loc>
     <lastmod>2026-09-15</lastmod>
   </sitemap>
   <sitemap>
+    <loc>https://supplementscore.org/sitemap-compare.xml</loc>
+    <lastmod>2026-09-15</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://supplementscore.org/sitemap-conditions.xml</loc>
+    <lastmod>2026-09-16</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://supplementscore.org/sitemap-stacks.xml</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-15</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-medications.xml</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-15</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-hubs.xml</loc>
-    <lastmod>2026-09-11</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://supplementscore.org/sitemap-news.xml</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-15</lastmod>
   </sitemap>
 </sitemapindex>
