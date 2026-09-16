@@ -19,7 +19,7 @@
 <script>document.documentElement.setAttribute('data-theme','light');</script>
 <style>html{color-scheme:light}</style>
 <title>Search — SupplementScore</title>
-<meta name="description" content="Search across 780 supplements, 19 conditions, 21 medication classes, 17 lab biomarkers, and 241 articles.">
+<meta name="description" content="Search across 780 scored supplements, 60+ condition protocols, medications, biomarkers, and 590 evidence-based articles.">
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,22 +73,26 @@
 .sec-biomarker  .ico{background:var(--t2bg);color:var(--t2tx)}
 .sec-article    .ico{background:rgba(31,122,107,.10);color:#1F7A6B}
 .sr-note{margin-top:10px;font-size:12px;color:var(--color-text-tertiary)}
+.sr-search{display:flex;gap:8px;margin:16px 0 0;max-width:520px}
+.sr-search input{flex:1;min-width:0;padding:11px 14px;border-radius:999px;border:1px solid rgba(31,122,107,.25);background:var(--color-background-primary);color:var(--color-text-primary);font:inherit;font-size:14.5px}
+.sr-search button{padding:11px 16px;border-radius:999px;border:0;background:var(--color-brand);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.sr-search button:hover{background:#19655a}
 </style>
   <link rel="canonical" href="https://supplementscore.org/search.html">
   <meta property="og:title" content="Search | SupplementScore">
-  <meta property="og:description" content="Search 780 supplements, 70 medication categories, and 241 evidence-based articles in seconds.">
+  <meta property="og:description" content="Search 780 scored supplements, condition protocols, medications, and 590 evidence-based articles.">
   <meta property="og:url" content="https://supplementscore.org/search.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SupplementScore">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Search | SupplementScore">
-  <meta name="twitter:description" content="Search 780 supplements, 70 medication categories, and 241 evidence-based articles in seconds.">
+  <meta name="twitter:description" content="Search 780 scored supplements, condition protocols, medications, and 590 evidence-based articles.">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Search | SupplementScore",
-  "description": "Search 780 supplements, 70 medication categories, and 241 evidence-based articles in seconds.",
+  "description": "Search 780 scored supplements, condition protocols, medications, and 590 evidence-based articles.",
   "url": "https://supplementscore.org/search.html",
   "isPartOf": {
     "@type": "WebSite",
@@ -167,6 +171,10 @@
     </a>
     <h1 class="sr-title" id="sr-title">Search</h1>
     <div class="sr-meta" id="sr-meta">Loading…</div>
+    <form class="sr-search" role="search" action="/search.html" method="GET" aria-label="Search SupplementScore">
+      <input id="sr-q" type="search" name="q" placeholder="Search supplements, conditions, articles…" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
   </header>
   <div id="sr-body"></div>
 
@@ -255,6 +263,8 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
   var bodyEl  = document.getElementById('sr-body');
   var navInp  = document.getElementById('nav-search-inp');
   if (navInp) navInp.value = q;
+  var srInp = document.getElementById('sr-q');
+  if (srInp) srInp.value = q;
 
   document.title = q ? ('"' + q + '" — SupplementScore search') : 'Search — SupplementScore';
 

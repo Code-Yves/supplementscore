@@ -83,6 +83,7 @@
     .sx-intro { background: var(--color-background-secondary); border-radius: 14px; padding: 18px 22px; font-size: 14.5px; line-height: 1.65; color: var(--color-text-primary); margin-bottom: 28px; }
     .sx-results { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 14px; padding: 8px 0; }
     .sx-row { display: grid; grid-template-columns: 60px 1fr 100px; gap: 14px; align-items: center; padding: 12px 22px; border-bottom: 0.5px solid var(--color-border-tertiary); transition: background .15s; cursor: pointer; text-decoration: none; color: inherit; }
+
     .sx-row:hover { background: rgba(123,31,162,.04); }
     .sx-row:last-child { border-bottom: 0; }
     .sx-score { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
@@ -99,7 +100,11 @@
     .sx-tier.t4 { background: var(--t4bg); color: var(--t4tx); }
     .sx-foot { margin-top: 22px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); }
     .sx-disclaim { margin: 22px 0 0; font-size: 13px; line-height: 1.55; color: #B45309; font-style: italic; } .sx-disclaim strong { color: #B45309; font-weight: 700; font-style: normal; }
-  </style>
+      @media (max-width: 480px) {
+      .sx-row { grid-template-columns: 48px 1fr; }
+      .sx-tier { justify-self: start; grid-column: 2; margin-top: 4px; }
+    }
+</style>
   <script src="../_research-chrome.js?v=e8197a96" defer></script>
   <script src="../supplement-modal.js?v=58e0cf71" defer></script>
 </head>
@@ -115,20 +120,10 @@
   <div class="sx-intro">Sleep onset has decent evidence behind a small set of supplements: melatonin at low doses (0.1–0.5 mg often outperforms 5–10 mg per Zhdanova&#39;s MIT studies), magnesium glycinate, glycine 3 g, L-theanine 200 mg, lavender oil (Silexan 80 mg). Sleep maintenance is harder — extended-release melatonin and tart cherry have the best data. Avoid: kava, kratom, phenibut (CNS depressants with documented dependence and fatalities).</div>
 
   <div class="sx-results">
-      <a href="../supplement.html?slug=caffeine" class="sx-row">
-        <div class="sx-score s-hi">92</div>
-        <div><div class="sx-name">Caffeine (standardised)</div><div class="sx-meta">Performance · Alertness · Endurance</div></div>
-        <span class="sx-tier t1">Tier 1</span>
-      </a>
       <a href="../supplement.html?slug=melatonin" class="sx-row">
         <div class="sx-score s-hi">86</div>
         <div><div class="sx-name">Melatonin (0.1-0.5 mg physiological dose)</div><div class="sx-meta">Sleep onset · Jet lag · Circadian · Low dose · No grogginess</div></div>
         <span class="sx-tier t1">Tier 1</span>
-      </a>
-      <a href="../supplement.html?slug=melatonin" class="sx-row">
-        <div class="sx-score s-hi">85</div>
-        <div><div class="sx-name">Melatonin</div><div class="sx-meta">Sleep onset · Jet lag · Circadian</div></div>
-        <span class="sx-tier t2">Tier 2</span>
       </a>
       <a href="../supplement.html?slug=magnesium" class="sx-row">
         <div class="sx-score s-hi">82</div>
@@ -153,11 +148,6 @@
       <a href="../supplement.html?slug=glycine" class="sx-row">
         <div class="sx-score s-hi">78</div>
         <div><div class="sx-name">Glycine</div><div class="sx-meta">Sleep · Collagen synthesis · Metabolic</div></div>
-        <span class="sx-tier t2">Tier 2</span>
-      </a>
-      <a href="../supplement.html?slug=tyrosine" class="sx-row">
-        <div class="sx-score s-hi">76</div>
-        <div><div class="sx-name">Tyrosine (L-tyrosine)</div><div class="sx-meta">Focus · Stress resilience · Cognition</div></div>
         <span class="sx-tier t2">Tier 2</span>
       </a>
       <a href="../supplement.html?slug=l-theanine" class="sx-row">
@@ -200,11 +190,6 @@
         <div><div class="sx-name">PharmaGABA</div><div class="sx-meta">Stress · Sleep · Relaxation</div></div>
         <span class="sx-tier t2">Tier 2</span>
       </a>
-      <a href="../supplement.html?slug=acetyl-l-carnitine" class="sx-row">
-        <div class="sx-score s-mid">64</div>
-        <div><div class="sx-name">Acetyl-L-Carnitine (ALCAR)</div><div class="sx-meta">Cognitive aging · Neuropathy</div></div>
-        <span class="sx-tier t2">Tier 2</span>
-      </a>
       <a href="../supplement.html?slug=magnolia-bark" class="sx-row">
         <div class="sx-score s-mid">63</div>
         <div><div class="sx-name">Magnolia bark (honokiol + magnolol)</div><div class="sx-meta">Anxiety · Sleep · Cortisol</div></div>
@@ -215,20 +200,10 @@
         <div><div class="sx-name">Milk peptides (casein hydrolysate)</div><div class="sx-meta">Sleep · Anxiety · Stress</div></div>
         <span class="sx-tier t2">Tier 2</span>
       </a>
-      <a href="../supplement.html?slug=ketone-esters" class="sx-row">
-        <div class="sx-score s-mid">62</div>
-        <div><div class="sx-name">Ketone esters (exogenous ketones)</div><div class="sx-meta">Cognitive fuel · Endurance · Metabolic</div></div>
-        <span class="sx-tier t2">Tier 2</span>
-      </a>
       <a href="../supplement.html?slug=melatonin-gummies" class="sx-row">
         <div class="sx-score s-mid">61</div>
         <div><div class="sx-name">Melatonin gummies (high dose 5–10 mg)</div><div class="sx-meta">Overdosed · Sleep dependency</div></div>
         <span class="sx-tier t2">Tier 2</span>
-      </a>
-      <a href="../supplement.html?slug=glynac" class="sx-row">
-        <div class="sx-score s-mid">61</div>
-        <div><div class="sx-name">GlyNAC (glycine + NAC stack)</div><div class="sx-meta">Glutathione precursor · Aging · Methylation</div></div>
-        <span class="sx-tier t3">Tier 3</span>
       </a>
       <a href="../supplement.html?slug=valerian-root" class="sx-row">
         <div class="sx-score s-low">58</div>

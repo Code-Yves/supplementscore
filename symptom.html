@@ -68,7 +68,11 @@
     .pg-close-fab:hover{transform:scale(1.08);color:var(--color-text-primary)}
     .pg-close-fab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
     @media(max-width:760px){.pg-close-fab{top:12px;right:12px;width:36px;height:36px}}
-  </style>
+      @media (max-width: 480px) {
+      .sx-row { grid-template-columns: 48px 1fr; }
+      .sx-tier { justify-self: start; grid-column: 2; margin-top: 4px; }
+    }
+</style>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -114,12 +118,12 @@
 
   <div class="sx-banner">
     <span class="sx-banner-pill">New</span>
-    <span>Looking for a multi-supplement protocol for a specific condition? See the <a href="condition/index.html">condition deep-dive guides</a> — 15 evidence-tiered protocols including IBS, GERD, constipation, PCOS, perimenopause, migraine, gout, and more.</span>
+    <span>Looking for a multi-supplement protocol for a specific condition? See the <a href="condition/index.html">condition deep-dive guides</a> — 60+ evidence-tiered protocols including IBS, GERD, constipation, PCOS, perimenopause, migraine, gout, and more.</span>
   </div>
 
   <div id="sx-cats" class="sx-cats" role="tablist" aria-label="Symptom categories"></div>
 
-  <div id="sx-results" class="sx-results">
+  <div id="sx-results" class="sx-results" role="tabpanel" aria-live="polite">
     <div class="sx-empty">Pick a goal above to see ranked supplements.</div>
   </div>
 
@@ -214,21 +218,23 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     {key:'Liver',           label:'Liver',                 keys:['liver','hepatic','detox','nafld']},
     {key:'Eye',             label:'Eye / Vision',          keys:['eye','vision','macular','retina']},
     {key:'Pregnancy',       label:'Pregnancy / Fertility', keys:['pregnan','prenatal','fetal','fertili','reproduct']},
-    {key:'Kids',            label:'Kids / Pediatric',      keys:['kid','child','pediatric','infant']}
+    {key:'Kids',            label:'Kids / Pediatric',      keys:['kids','child','pediatric','infant']}
   ];
 
   // Goal -> condition deep-dive map. Each entry is one or more long-form protocol articles
   // that match the goal bucket. Surfaced at the top of the results panel.
   var DEEP_DIVES = {
-    'Sleep':     [{href:'condition/anxiety-stack.html',        title:'Anxiety stack',           note:'sleep + stress overlap'}],
+    'Sleep':     [{href:'condition/insomnia-protocol.html',    title:'Insomnia protocol',       note:'onset + maintenance'},
+                  {href:'condition/anxiety-stack.html',        title:'Anxiety stack',           note:'sleep + stress overlap'}],
     'Anxiety':   [{href:'condition/anxiety-stack.html',        title:'The 2026 anxiety stack',  note:'4-layer protocol'}],
-    'Mood':      [{href:'condition/anxiety-stack.html',        title:'Anxiety + mood stack',    note:'serotonin precursors covered'}],
+    'Mood':      [{href:'condition/anxiety-stack.html',        title:'Anxiety + mood stack',    note:'serotonin precursors covered'},
+                  {href:'condition/depression-mild-moderate.html', title:'Mild-moderate depression', note:'saffron, omega-3, SAMe'}],
     'Cognition': [{href:'condition/long-covid-evidence.html',  title:'Long COVID brain fog',    note:'cognitive symptoms section'},
                   {href:'condition/me-cfs-evidence.html',      title:'ME-CFS evidence',         note:'cognitive subset'}],
     'Cardio':    [{href:'condition/prediabetes-protocol.html', title:'Pre-diabetes protocol',   note:'CV-risk overlap'}],
     'Glucose':   [{href:'condition/prediabetes-protocol.html', title:'Pre-diabetes protocol',   note:'berberine, inositol, fibre'},
                   {href:'condition/pcos-protocol.html',        title:'PCOS protocol',           note:'insulin-resistance overlap'}],
-    'Joint':     [{href:'condition/gout-protocol.html',        title:'Gout protocol',           note:'tart cherry, vitamin C, urate'},
+    'Joint':     [{href:'condition/gout.html',                 title:'Gout protocol',           note:'tart cherry, vitamin C, urate'},
                   {href:'condition/migraine-prevention.html',  title:'Migraine prevention',     note:'pain / inflammation overlap'}],
     'Gut':       [{href:'condition/ibs-protocol.html',         title:'IBS protocol',            note:'by IBS subtype'},
                   {href:'condition/gerd-protocol.html',        title:'GERD protocol',           note:'reflux: what helps + what worsens'},
@@ -239,12 +245,13 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
                   {href:'condition/long-covid-evidence.html',  title:'Long COVID evidence',     note:'fatigue + cognitive'},
                   {href:'condition/hypothyroidism-stack.html', title:'Hypothyroidism stack',    note:'low-energy overlap'}],
     'Performance':[{href:'condition/me-cfs-evidence.html',     title:'Energy/fatigue evidence', note:'overlap with exercise tolerance'}],
-    'Bone':      [{href:'condition/perimenopause-stack.html',  title:'Perimenopause stack',     note:'bone-density layer'}],
+    'Bone':      [{href:'condition/osteoporosis-stack.html',   title:'Osteoporosis stack',      note:'bone-density protocol'},
+                  {href:'condition/perimenopause.html',        title:'Perimenopause protocol',  note:'bone-density layer'}],
     'Hormone':   [{href:'condition/pcos-protocol.html',        title:'PCOS protocol',           note:'inositol, berberine, spearmint'},
-                  {href:'condition/perimenopause-stack.html',  title:'Perimenopause hot-flash', note:'black cohosh, soy, equol'},
+                  {href:'condition/perimenopause.html',        title:'Perimenopause hot-flash', note:'black cohosh, soy, equol'},
                   {href:'condition/hypothyroidism-stack.html', title:'Hypothyroidism stack',    note:'selenium, D, absorption'},
-                  {href:'condition/prostate-health.html',      title:'Prostate health',         note:'BPH + general'}],
-    'Liver':     [{href:'condition/gallstone-prevention.html', title:'Gallstone prevention',    note:'vitamin C + UDCA window'}]
+                  {href:'condition/bph-protocol.html',         title:'Prostate health (BPH)',   note:'BPH + general'}],
+    'Liver':     [{href:'condition/nafld-protocol.html',       title:'NAFLD / fatty liver',     note:'vitamin E, NAC, milk thistle'}]
   };
 
   if (typeof S === 'undefined') {
@@ -252,19 +259,28 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     return;
   }
 
+  // Match on tags only. Descriptions mention goals they *disrupt* (e.g. caffeine
+  // "disrupts sleep"), which previously ranked stimulants #1 for sleep.
+  function tagMatches(s, keys) {
+    var hay = ' ' + (s.tag || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ') + ' ';
+    return keys.some(function(k){
+      return hay.indexOf(' ' + k.toLowerCase() + ' ') !== -1
+          || hay.indexOf(' ' + k.toLowerCase()) !== -1;
+    });
+  }
+
   // Pre-compute matches per category
   var bucket = {};
   categories.forEach(function(c){
     bucket[c.key] = S.filter(function(s){
-      var hay = ((s.tag||'') + ' ' + (s.desc||'')).toLowerCase();
-      return c.keys.some(function(k){ return hay.indexOf(k) !== -1; });
+      return tagMatches(s, c.keys);
     }).map(function(s){ return Object.assign({}, s, {sc: calcScore(s)}); }).sort(function(a,b){ return b.sc - a.sc; });
   });
 
   // Render category chips
   var catBox = document.getElementById('sx-cats');
-  catBox.innerHTML = categories.map(function(c){
-    return '<button class="sx-cat" type="button" role="tab" data-cat="' + c.key + '" aria-selected="false">'
+  catBox.innerHTML = categories.map(function(c, i){
+    return '<button class="sx-cat" type="button" role="tab" id="sx-tab-' + c.key + '" data-cat="' + c.key + '" aria-selected="false" aria-controls="sx-results" tabindex="' + (i === 0 ? '0' : '-1') + '">'
          + '<div class="sx-cat-name">' + c.label + '</div>'
          + '<div class="sx-cat-count">' + bucket[c.key].length + ' supplement' + (bucket[c.key].length===1?'':'s') + '</div>'
          + '</button>';
@@ -307,18 +323,41 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     }
 
     document.getElementById('sx-results').innerHTML = diveHtml + rows;
+    document.getElementById('sx-results').setAttribute('aria-labelledby', 'sx-tab-' + cat);
+  }
+
+  function activateTab(btn) {
+    if (!btn) return;
+    [].forEach.call(catBox.querySelectorAll('[data-cat]'), function(b){
+      b.classList.remove('on');
+      b.setAttribute('aria-selected', 'false');
+      b.tabIndex = -1;
+    });
+    btn.classList.add('on');
+    btn.setAttribute('aria-selected', 'true');
+    btn.tabIndex = 0;
+    show(btn.dataset.cat);
   }
 
   catBox.addEventListener('click', function(e){
     var btn = e.target.closest('[data-cat]');
     if (!btn) return;
-    [].forEach.call(catBox.querySelectorAll('[data-cat]'), function(b){
-      b.classList.remove('on');
-      b.setAttribute('aria-selected', 'false');
-    });
-    btn.classList.add('on');
-    btn.setAttribute('aria-selected', 'true');
-    show(btn.dataset.cat);
+    activateTab(btn);
+  });
+
+  catBox.addEventListener('keydown', function(e){
+    var tabs = [].slice.call(catBox.querySelectorAll('[data-cat]'));
+    var i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    var next = -1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = tabs.length - 1;
+    if (next < 0) return;
+    e.preventDefault();
+    tabs[next].focus();
+    activateTab(tabs[next]);
   });
 
   // Auto-select first category if URL hash matches

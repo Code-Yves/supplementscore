@@ -12,13 +12,12 @@ This is the static site that powers `supplementscore.org`. It deploys directly t
 
 | Surface | Count | Path |
 |---|---|---|
-| Supplements scored | 758 | `data.js` (canonical), `s/*.html` (per-supplement detail pages) |
-| Articles | 241 | `a/*.html` |
-| Condition deep-dives | 20 | `condition/*.html` |
-| Comparison guides | 5 | `compare/*.html` |
+| Supplements scored | 780 | `data.js` (canonical); `/s/<slug>` aliases redirect to `supplement.html?slug=` |
+| Articles | ~590 | `a/*.html` |
+| Condition deep-dives | 61 | `condition/*.html` (plus two legacy redirect stubs) |
+| Comparison guides | 128 | `compare/*.html` |
 | Symptom-domain hubs | 16 | `sx/*.html` |
-| Population-targeted lists | 7 | `for/*.html` (athletes, kids, women, men, pregnancy, seniors, vegans) |
-| OG social cards | 534 | `og/*.svg` (auto-generated, one per supplement) |
+| OG social cards | auto-generated | `og/` |
 | Languages | English only | Former `/fr/` and `/es/` URLs redirect to the matching English page |
 
 Total: ~850 indexable HTML pages, all with their own canonical URL, meta description, and JSON-LD where appropriate.
@@ -87,16 +86,16 @@ Industry-funded trials are not excluded from scoring, but they cannot solo-promo
 ├── build.html              # Personalized stack wizard
 ├── changed-our-mind.html   # Public log of score reversals
 │
-├── a/                      # Article detail pages (241)
-├── s/                      # Supplement detail pages (533)
-├── condition/              # Condition deep-dive protocols (20)
-├── compare/                # Comparison guides (5)
+├── a/                      # Article detail pages (~590)
+├── s/                      # Short-slug aliases → supplement.html?slug=
+├── condition/              # Condition deep-dive protocols (61)
+├── compare/                # Comparison guides
 ├── sx/                     # Symptom-domain hubs (16)
-├── for/                    # Population-targeted lists (7)
-├── og/                     # OG social cards (1 per supplement)
+├── fr/, es/                # English-only redirect stubs for retired locales
+├── og/                     # OG social cards
 ├── data/                   # Open-data exports (JSON + CSV)
 │
-├── data.js                 # Master supplement dataset (758 entries)
+├── data.js                 # Master supplement dataset (780 entries)
 ├── app.js                  # Main app logic (filtering, rendering, search)
 ├── styles.css              # Direction C brand system
 └── sw.js                   # Service worker (offline support)

@@ -171,7 +171,7 @@ def main() -> int:
             problems.append("404.html missing locale-root redirect regex")
     if r"/^\/(?:fr|es)\/(.+)$/i" not in nf:
         problems.append("404.html missing locale-prefix strip regex")
-    if "location.replace('/' + m[1])" not in nf:
+    if "location.replace('/' + m[1])" not in nf and "localeGo('/' + m[1])" not in nf:
         problems.append("404.html missing locale-prefix strip target")
 
     cases = {
@@ -190,6 +190,12 @@ def main() -> int:
         got = locale_to_en(src)
         if got != expected:
             problems.append(f"404 mapping {src} -> {got!r}, expected {expected!r}")
+
+    robots = (ROOT / "robots.txt").read_text(encoding="utf-8", errors="ignore")
+    if "Disallow: /fr/" not in robots:
+        problems.append("robots.txt missing Disallow: /fr/")
+    if "Disallow: /es/" not in robots:
+        problems.append("robots.txt missing Disallow: /es/")
 
     print("== English-only site check ==")
 
