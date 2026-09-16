@@ -10,6 +10,13 @@ Disallow: /_iframe-test.html
 # stale internal links point at dropped URLs (→ 404s in Search Console if crawled)
 Disallow: /_archive/
 
+# Retired locale trees — on-disk stubs remain for bookmarks; do not crawl.
+Disallow: /fr/
+Disallow: /es/
+
+# Internal review notes, not user-facing content.
+Disallow: /reviews/
+
 # Homepage article-card fragment — injected into /, not a standalone page.
 Disallow: /data/article-cards-deferred.html
 

@@ -26,15 +26,25 @@
       /* Retired FR/ES locale tree (2026-09-15, English-only mandate).
          Known URLs keep on-disk redirect stubs; unknown /fr/* and /es/*
          paths strip the locale prefix and land on the English equivalent
-         when one exists, else this 404. */
+         when one exists, else this 404. Inject a meta refresh first so
+         limited crawlers that skip location.replace still follow. */
+      function localeGo(dest) {
+        try {
+          var meta = document.createElement('meta');
+          meta.httpEquiv = 'refresh';
+          meta.content = '0;url=' + dest;
+          (document.head || document.documentElement).appendChild(meta);
+        } catch (e2) {}
+        location.replace(dest);
+      }
       m = path.match(/^\/(?:fr|es)(?:\/(?:index\.html)?)?$/i);
       if (m) {
-        location.replace('/');
+        localeGo('/');
         return;
       }
       m = path.match(/^\/(?:fr|es)\/(.+)$/i);
       if (m) {
-        location.replace('/' + m[1]);
+        localeGo('/' + m[1]);
         return;
       }
       m = path.match(/^\/condition\/([a-z0-9][a-z0-9-]*)(?:\.html)?\/?$/i);
