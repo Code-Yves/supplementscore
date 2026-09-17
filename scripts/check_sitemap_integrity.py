@@ -16,21 +16,30 @@ Checks each <loc> across every sitemap*.xml (except the index):
                 used for matching includes the query string, so a `$`-anchored
                 rule like `Disallow: /supplement.html$` does NOT block
                 `/supplement.html?slug=x`).
-  3. NOINDEX  — a *static* URL (no query string) whose page carries
-                <meta name="robots" content="...noindex...">. Query/SPA URLs
-                (?slug=, ?id=) are skipped — they're dynamic and the canonical
-                ?slug= supplement URLs are index,follow. The meta tag is parsed
-                properly, so the word "noindex" appearing only inside a <script>
-                (e.g. article.html's conditional logic) does NOT trip it.
-  4. DUPLICATE — the same <loc> appears in more than one shard. Google asks
+  3. NOINDEX  — the backing file's *original HTML* carries a robots /
+                googlebot / X-Robots-Tag meta with noindex. Query/SPA URLs
+                are NOT exempt: Google skips JS rendering when the response
+                HTML already contains noindex, so a shell-wide noindex on
+                supplement.html excludes every sitemap ?slug= URL (GSC
+                "Excluded by noindex", 2026-09-16). The meta tag is parsed
+                properly, so the word "noindex" appearing only inside a
+                <script> (e.g. article.html's conditional logic) does NOT
+                trip it.
+  4. SHELL-CANONICAL — a sitemap URL with a query string whose original HTML
+                has a static <link rel="canonical"> pointing at the query-less
+                shell (or any other URL). First-wave indexing uses that tag
+                before JS; a canonical to a robots-blocked / noindex shell
+                collapses every ?slug= URL onto that shell.
+  5. DUPLICATE — the same <loc> appears in more than one shard. Google asks
                 for each URL in exactly one sitemap; overlapping core +
                 section shards produced conflicting lastmods and wasted crawl.
-  5. STALE-NEWS — a Google News <news:publication_date> older than 2 days.
+  6. STALE-NEWS — a Google News <news:publication_date> older than 2 days.
                 News sitemaps are for fresh articles only; evergreen /a/
                 pages belong in sitemap-articles.xml.
 
 Usage:
-    python3 scripts/check_sitemap_integrity.py        # exit 0 clean, 1 on problems
+    python3 scripts/check_sitemap_integrity.py             # exit 0 clean, 1 on problems
+    python3 scripts/check_sitemap_integrity.py --self-check  # parser regression tests
 Stdlib only. Idempotent / read-only (never modifies files).
 """
 import glob
@@ -41,7 +50,20 @@ import urllib.parse
 from datetime import datetime, timedelta, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ROBOTS_META = re.compile(r'<meta\b[^>]*\bname=["\']robots["\'][^>]*>', re.I)
+META_TAG = re.compile(r'<meta\b[^>]*>', re.I)
+CANONICAL_TAG = re.compile(r'<link\b[^>]*>', re.I)
+HEAD_END = re.compile(r'</head>', re.I)
+ATTR = re.compile(r'''\b([a-zA-Z_:][\w:.-]*)\s*=\s*["']([^"']*)["']''')
+
+
+def _attrs(tag: str) -> dict:
+    return {k.lower(): v for k, v in ATTR.findall(tag)}
+
+
+def head_html(html: str) -> str:
+    """Original <head> (or a 50k prefix). Google's noindex skip uses this, not JS."""
+    m = HEAD_END.search(html)
+    return html[: m.start()] if m else html[:50000]
 
 
 def resolve_file(path: str):
@@ -88,7 +110,28 @@ def robots_blocks(path_q: str, rules) -> str | None:
 
 
 def is_noindex(html: str) -> bool:
-    return any('noindex' in tag.lower() for tag in ROBOTS_META.findall(html))
+    """True if original HTML (not JS) tells Google not to index.
+
+    Google will not render JavaScript when the response already contains
+    noindex, so a later script that flips the tag to index,follow is ignored.
+    """
+    for tag in META_TAG.findall(html):
+        a = _attrs(tag)
+        name = (a.get('name') or a.get('http-equiv') or '').lower()
+        content = (a.get('content') or '').lower()
+        if name in ('robots', 'googlebot', 'x-robots-tag') and 'noindex' in content:
+            return True
+    return False
+
+
+def static_canonical(html: str) -> str | None:
+    """First static rel=canonical href, or None if only JS would set one."""
+    for tag in CANONICAL_TAG.findall(html):
+        a = _attrs(tag)
+        rels = {p.strip() for p in (a.get('rel') or '').lower().split()}
+        if 'canonical' in rels and a.get('href'):
+            return a['href'].strip()
+    return None
 
 
 NEWS_DATE = re.compile(r'<news:publication_date>(.*?)</news:publication_date>', re.I)
@@ -140,8 +183,18 @@ def main() -> int:
             if f is None:
                 problems.append(('404-DEAD', name, loc, 'no file on disk'))
                 continue
-            if not parsed.query and is_noindex(f.read_text(encoding='utf-8', errors='ignore')[:8000]):
-                problems.append(('NOINDEX', name, loc, 'page has meta robots noindex'))
+            head = head_html(f.read_text(encoding='utf-8', errors='ignore'))
+            if is_noindex(head):
+                problems.append(('NOINDEX', name, loc,
+                                 'original HTML has robots/googlebot/X-Robots-Tag noindex '
+                                 '(Google will not run JS to remove it)'))
+                continue
+            if parsed.query:
+                canon = static_canonical(head)
+                if canon and canon.rstrip('/') != loc.rstrip('/'):
+                    problems.append(('SHELL-CANONICAL', name, loc,
+                                     f'static canonical is {canon} (must match this sitemap '
+                                     'URL, or be omitted so JS can set the ?slug= canonical)'))
 
         if name == 'sitemap-news.xml':
             cutoff = news_cutoff()
@@ -172,9 +225,50 @@ def main() -> int:
         print(f'  [{kind}] {sm}: {url}\n          {detail}')
     print('\nFix: remove dead/noindex/robots-blocked URLs; list each URL in exactly '
           'one shard; drop Google News entries older than 2 days (evergreen articles '
-          'belong in sitemap-articles.xml).')
+          'belong in sitemap-articles.xml). For SPA shells listed as ?slug= URLs, '
+          'do not put noindex or a query-less canonical in the original HTML.')
     return 1
 
 
+def _self_check() -> int:
+    """Tiny regression tests for the Google original-HTML noindex rule."""
+    fails = []
+
+    def expect(cond, msg):
+        if not cond:
+            fails.append(msg)
+
+    expect(is_noindex('<meta name="robots" content="noindex, follow">'),
+           'robots noindex should trip')
+    expect(not is_noindex('<meta name="robots" content="index, follow">'),
+           'index,follow should not trip')
+    expect(is_noindex('<meta content="noindex" name="googlebot">'),
+           'googlebot noindex (content-first) should trip')
+    expect(is_noindex('<meta http-equiv="X-Robots-Tag" content="noindex, nofollow">'),
+           'X-Robots-Tag noindex should trip')
+    expect(not is_noindex('<script>var x = "noindex";</script>'),
+           'noindex inside a script must not trip')
+    expect(static_canonical('<link rel="canonical" href="https://example.com/a">')
+           == 'https://example.com/a',
+           'static canonical should parse')
+    expect(static_canonical('<script>document.write("<link rel=canonical>")</script>')
+           is None,
+           'canonical mentioned only in JS must not parse as static')
+    # Query URL + shell canonical is the GSC bug class.
+    shell = 'https://supplementscore.org/supplement.html'
+    loc = shell + '?slug=creatine-monohydrate'
+    expect(static_canonical(f'<link rel="canonical" href="{shell}">') != loc,
+           'shell canonical must not equal the ?slug= sitemap loc')
+    if fails:
+        print('SELF-CHECK FAIL:')
+        for f in fails:
+            print(f'  {f}')
+        return 1
+    print('SELF-CHECK PASS')
+    return 0
+
+
 if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == '--self-check':
+        sys.exit(_self_check())
     sys.exit(main())

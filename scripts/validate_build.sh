@@ -58,7 +58,11 @@ if [ "$smoke_rc" -ne 0 ] \
 fi
 
 # 4. Sitemap integrity — no dead/blocked/noindex URLs in the sitemaps.
+#    Self-check first: original-HTML noindex / shell-canonical regressions.
 hr "sitemap integrity"
+if ! python3 scripts/check_sitemap_integrity.py --self-check; then
+  echo ">> FAIL: sitemap integrity self-check"; fail=1
+fi
 if ! python3 scripts/check_sitemap_integrity.py; then
   echo ">> FAIL: sitemap integrity"; fail=1
 fi
