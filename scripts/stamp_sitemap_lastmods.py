@@ -7,8 +7,9 @@ thinking nothing moved. This walks every <url> in sitemap*.xml (except the
 index and the news shard) and raises <lastmod> to the last git commit date of
 the backing file — never decreases it.
 
-Query supplement URLs (/supplement.html?slug=) map to data.js (the scored
-records), not the noindex SPA shell.
+Query supplement URLs (/supplement.html?slug=) use the newer of data.js
+(the scored records) and supplement.html (the SPA shell: robots/canonical
+changes affect every ?slug= URL's indexability).
 
 Dirty (uncommitted) files stamp as today UTC so validate-before-commit stays
 honest. Idempotent.
@@ -87,12 +88,12 @@ def resolve_file(path: str) -> pathlib.Path | None:
 def loc_to_date(loc: str, dates: dict[str, str]) -> str | None:
     parsed = urllib.parse.urlparse(loc.strip())
     if parsed.path.endswith("/supplement.html") and parsed.query.startswith("slug="):
-        rel = "data.js"
-    else:
-        f = resolve_file(parsed.path)
-        if f is None:
-            return None
-        rel = str(f.relative_to(ROOT)).replace("\\", "/")
+        found = [dates[r] for r in ("data.js", "supplement.html") if r in dates]
+        return max(found) if found else None
+    f = resolve_file(parsed.path)
+    if f is None:
+        return None
+    rel = str(f.relative_to(ROOT)).replace("\\", "/")
     return dates.get(rel)
 
 
