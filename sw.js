@@ -56,7 +56,7 @@
  *   • HTML-only changes (same)
  *   • Small JS tweaks (stale-while-revalidate picks them up next load)
  */
-const CACHE_VERSION = 'v2026-09-15-slugAlias';
+const CACHE_VERSION = 'v2026-09-21-hubOg';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
@@ -66,7 +66,6 @@ const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 const PRECACHE_URLS = [
   '/',
   '/index.html',
-  '/landing.html',
   '/data.js',
   '/app.js',
   '/index.js',
