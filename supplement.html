@@ -266,6 +266,48 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
       }
       c.href = url;
     }
+    function setMeta(attr, key, val) {
+      var sel = attr === 'name'
+        ? 'meta[name="' + key + '"]'
+        : 'meta[property="' + key + '"]';
+      var el = document.querySelector(sel);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', val);
+    }
+    function prettySlug(s) {
+      return s.split('-').map(function (w) {
+        return w ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+      }).join(' ');
+    }
+    /* Raster cards on disk as of 2026-09-21. Prefer .webp, then .png, else default. */
+    var OG_PNG_ONLY = {
+      'bacillus-coagulans-gbi-30':1,
+      'bifidobacterium-infantis-evc001':1,
+      'goji-berry':1,
+      'hibiscus-sabdariffa':1,
+      'hops':1,
+      'iberogast':1,
+      'jambolan':1,
+      'lactobacillus-acidophilus-ncfm':1,
+      'lactobacillus-plantarum-299v':1,
+      'moringa-oleifera':1,
+      'partially-hydrolyzed-guar-gum':1,
+      'psk-psp':1,
+      'pumpkin-seed-oil':1,
+      'schisandra-chinensis':1
+    };
+    var OG_WEBP = Object.create(null);
+    ('2-fucosyllactose 5-ala acacia-fiber acerola-cherry-extract acetyl-l-carnitine activated-b-complex adaptogen-stack adenosylcobalamin aged-garlic-extract akkermansia-muciniphila alfalfa-leaf algal-dha algal-epa algal-oil aloe-vera alpha-gpc alpha-lipoic-acid amalaki-amla american-ginseng amla-indian-gooseberry andrographis andrographis-echinacea-combo andrographis-paniculata aniracetam anthocyanin-concentrate apigenin apple-cider-vinegar arachidonic-acid arjuna-bark artichoke-extract ashitaba ashwagandha astaxanthin astragalus astragalus-membranaceus avocado-soybean-unsaponifiables b-complex bacillus-clausii bacillus-subtilis bacopa-monnieri baicalin banaba-leaf baobab-powder barley-grass-powder bcaas bee-propolis beef-organ-complex benfotiamine berberine berberine-containing-coptis berberine-hcl berberis-aristata bergamot-citrus-polyphenol-extract beta-alanine beta-carotene beta-glucan beta-hydroxy-beta-methylbutyrate-free-acid beta-sitosterol betaine-hcl betaine-tmg bifidobacterium-breve bifidobacterium-infantis-35624 bifidobacterium-lactis bifidobacterium-longum bifidobacterium-longum-bb536 bilberry-extract biotin bitter-melon black-cohosh black-garlic-extract black-pepper-extract black-rice-extract black-seed-oil blackcurrant-extract bone-broth-protein borage-oil boron boron-glycinate boswellia-serrata boswellic-acids-akba brewer-s-yeast broccoli-sprout-extract bromelain butterbur butyrate butyrate-tributyrin cacao-flavanols caffeine calamari-oil calcium calcium-alpha-ketoglutarate calcium-carbonate-citrate calcium-fructoborate calcium-hydroxyapatite calcium-pantothenate calendula california-poppy camu-camu cannabigerol caprylic-acid caprylic-acid-c8 capsaicin capsinoids caralluma-fimbriata carnitine-tartrate carnosine carnosyn-beta-alanine carob-extract cascara-sagrada casein-protein centella-asiatica chamomile-extract chanca-piedra chasteberry-vitex-standardised chia-seed-oil chlorella chlorogenic-acid choline choline-bitartrate chondroitin-sulfate chromium-gtf chromium-nicotinate cinnamon-extract cissus-quadrangularis cistanche-deserticola cistanche-tubulosa cistus-incanus citicoline citrulline citrulline-malate cluster-dextrin coconut-oil cod-liver-oil codonopsis-pilosula coenzyme-pqq collagen-for-muscle-strength collagen-peptides collagen-type-ii collagen-type-iii collagen-vitamin-c-stack colostrum conjugated-linoleic-acid copper coq10 cordyceps-militaris coriolus-versicolor-psp-psk corydalis-yanhusuo cranberry-extract cranberry-pac creatine-hcl creatine-monohydrate curcumin curcumin-meriva d-aspartic-acid d-chiro-inositol d-glucuronolactone d-mannose d-ribose dan-shen-compound dandelion-root delta-tocotrienol devil-s-claw dgl-licorice dha dietary-nitrate-beetroot digestive-bitters digestive-enzymes dihydroberberine dihydromyricetin diindolylmethane diosmin dlpa dmg eaas echinacea-purpurea ecklonia-cava egcg-concentrate egg-white-protein eggshell-membrane elderberry elderberry-zinc-combo elderflower-extract electrolyte-complex electrolyte-replacement eleuthero ellagic-acid emodin-free-rhubarb-extract enzyme-coq10-pqq-stack epicatechin ergothioneine evening-primrose-oil eyebright fenugreek fenugreek-seed-extract ferrous-bisglycinate ferulic-acid fibre flaxseed-oil folate folic-acid folinic-acid fucoidan fucoxanthin gaba galacto-oligosaccharides galangal-root gamma-linolenic-acid gamma-oryzanol gamma-tocopherol ghk-cu ginger ginkgo-biloba ginkgo-biloba-egb-761 glucomannan glucosamine-chondroitin glucosamine-hcl glutamine glutathione glutathione-precursors-blend glycerol-hyperhydration glycerophosphocholine glycine glynac goji-berry-extract gotu-kola grape-seed-extract green-lipped-mussel guarana guduchi gymnema-sylvestre gynostemma-pentaphyllum hawthorn-berry hemp-protein hemp-seed-oil hericium-erinaceus-mycelium hesperidin hesperidin-methyl-chalcone hmb hmb-creatine-stack hmb-free-acid holy-basil honokiol horse-chestnut huperzine-a hyaluronic-acid hyaluronic-acid-chondroitin-stack hydrogen-water hydroxocobalamin hydroxytyrosol icariin idebenone inositol inositol-hexanicotinate inositol-myo-form inulin-fos iodine ip-6 iron ivy-leaf-extract japanese-knotweed jiaogulan jujube k2-d3-combo kaempferol ketone-esters korean-mistletoe korean-red-ginseng krill-oil l-arginine l-carnitine l-carnosine l-cysteine l-glutamine l-histidine l-leucine l-lysine l-ornithine l-serine l-theanine l-theanine-caffeine lactase-enzyme lacto-fermented-foods lactobacillus-acidophilus lactobacillus-casei-shirota lactobacillus-crispatus lactobacillus-fermentum lactobacillus-gasseri lactobacillus-helveticus-b-longum-r0052-r0175 lactobacillus-plantarum lactobacillus-reuteri lactobacillus-rhamnosus-gg lactoferrin larch-arabinogalactan lavender-oil-oral lemon-balm lemon-verbena-extract limosilactobacillus-reuteri-dsm-17938 lion-s-mane lion-s-mane-mushroom lumbrokinase lutein lutein-zeaxanthin luteolin lycium-barbarum lycopene maca magnafolate magnesium magnesium-bisglycinate magnesium-chloride magnesium-citrate magnesium-glycinate magnesium-l-threonate magnesium-malate magnesium-orotate magnesium-taurate magnolia-bark maitake-mushroom manganese mangosteen manuka-honey maqui-berry marine-collagen marshmallow-root mastic-gum mct-oil meadowsweet melatonin melatonin-extended-release melatonin-gummies meriva-curcumin methyl-b12-methylfolate-combo methylcobalamin methylsulfonylmethane milk-peptides milk-thistle mitoq mixed-carotenoids modified-citrus-pectin molybdenum monolaurin mucuna-pruriens mullein-leaf multivitamins mushroom-complex myo-inositol n-acetyl-glucosamine n-acetyl-tyrosine nac nad nadh naringenin nattokinase nettle-leaf niacin niacinamide nicotinamide-riboside nicotinic-acid nigella-sativa-standardised nootropic-peptide-selank nopal-cactus-prickly-pear nr-pterostilbene-stack nrh oat-avenanthramides oat-beta-glucan oat-straw-extract oleoylethanolamide oleuropein olive-leaf-extract olive-leaf-polyphenols olive-oil-extract olive-polyphenol-complex omega-3 omega-3-dha-dominant omega-3-triglyceride-form omega-7 oral-rehydration-salts ox-bile oyster-mushroom-extract palmitoylethanolamide palmitoylethanolamide-co-micronised pancreatin pantethine pantothenic-acid papain partially-hydrolysed-guar-gum passionflower pea-protein pelargonium-sidoides peppermint-oil perilla-oil perilla-seed-oil pharmagaba phellinus-linteus phenylpiracetam phloretin phosphatidic-acid phosphatidylcholine phosphatidylserine phosphorus phycocyanin phytosterols pine-bark-extract piracetam plant-ceramides policosanol polygala-tenuifolia pomegranate-extract postbiotics potassium-citrate potassium-gluconate potassium-supplementation pqq probiotics proline protein-supplementation protocatechuic-acid psyllium-husk pterostilbene pueraria-mirifica punarnava pycnogenol pygeum-africanum pyridoxal-5-phosphate pyruvate quercetin quercetin-phytosome-bromelain r-alpha-lipoic-acid raspberry-leaf red-clover red-raspberry-leaf red-yeast-rice rehmannia-glutinosa reishi reishi-spore-oil resistant-starch resolvins-spms rhodiola-crenulata rhodiola-rosea riboflavin riboflavin-5-phosphate rooibos-extract rosemary-extract rutin s-adenosylmethionine saccharomyces-boulardii saccharomyces-boulardii-cncm-i-745 saccharomyces-cerevisiae-beta-glucan sacha-inchi-oil saffron saffron-affron sage-extract salacia-reticulata sambucol saw-palmetto schisandra sea-buckthorn-oil selenium semax senna-leaf shankhpushpi shatavari shiitake-extract silica silicon silymarin-phytosome slippery-elm sodium-bicarbonate soil-based-organisms soy-isoflavones spilanthes-acmella spirulina spore-based-probiotics squalene st-john-s-wort stinging-nettle-root streptococcus-thermophilus sulforaphane sunfiber tart-cherry taurine terminalia-arjuna theacrine theaflavins thiamine-ttfd thyme-extract tocotrienols tongkat-ali trehalose tremella-fuciformis tremella-fuciformis-polysaccharide tributyrin tributyrin-butyrate trimethylglycine triphala tryptophan ttfd-allithiamine tudca turkey-tail turmeric-whole-root-powder tyrosine uridine-monophosphate urolithin-a uva-ursi valerian-root vinpocetine vitamin-a vitamin-b1 vitamin-b12 vitamin-b2 vitamin-b6 vitamin-c vitamin-d2 vitamin-d3 vitamin-d3-liquid-drops vitamin-e vitamin-k1 vitamin-k2 vitex-chasteberry vsl-3-visbiome whey-protein white-kidney-bean-extract white-mulberry-leaf white-willow-bark wobenzym yerba-mate yohimbine-hcl zeaxanthin zinc zinc-bisglycinate zinc-carnosine zinc-gluconate zinc-picolinate').split(' ').forEach(function (s) { if (s) OG_WEBP[s] = 1; });
+    function ogImageForSlug(slug) {
+      var origin = 'https://supplementscore.org';
+      if (OG_WEBP[slug]) return origin + '/og/' + slug + '.webp';
+      if (OG_PNG_ONLY[slug]) return origin + '/og/' + slug + '.png';
+      return origin + '/og/default.png';
+    }
     try {
       var qp = new URLSearchParams(location.search);
       var slug = qp.get('slug');
@@ -276,6 +318,12 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
         setCanonical(canonicalUrl);
         var og = document.querySelector('meta[property="og:url"]');
         if (og) og.setAttribute('content', canonicalUrl);
+        var img = ogImageForSlug(slug);
+        setMeta('property', 'og:image', img);
+        setMeta('property', 'og:image:width', '1200');
+        setMeta('property', 'og:image:height', '630');
+        setMeta('property', 'og:image:alt', prettySlug(slug) + ' — SupplementScore');
+        setMeta('name', 'twitter:image', img);
         // Default with no robots meta is index,follow. If a tag exists, force it.
         var robots = document.querySelector('meta[name="robots"]');
         if (robots) robots.setAttribute('content', 'index,follow');
