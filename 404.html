@@ -19,6 +19,29 @@
         location.replace('/browse.html');
         return;
       }
+      /* Plural hub directories → singular indexes (GitHub Pages 404s on
+         /conditions/ etc. without a directory index; stubs cover trailing
+         slash; this soft-routes bare /conditions and /conditions.html). */
+      m = path.match(/^\/conditions(?:\.html)?\/?$/i);
+      if (m) {
+        location.replace('/condition/');
+        return;
+      }
+      m = path.match(/^\/stacks(?:\.html)?\/?$/i);
+      if (m) {
+        location.replace('/stack/');
+        return;
+      }
+      m = path.match(/^\/medications(?:\.html)?\/?$/i);
+      if (m) {
+        location.replace('/m/');
+        return;
+      }
+      m = path.match(/^\/articles(?:\.html)?\/?$/i);
+      if (m) {
+        location.replace('/a/');
+        return;
+      }
       m = path.match(/^\/s\/([a-z0-9][a-z0-9-]*)(?:\.html)?\/?$/i);
       if (m) {
         location.replace('/supplement.html?slug=' + encodeURIComponent(m[1].toLowerCase()));
