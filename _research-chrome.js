@@ -118,7 +118,11 @@
   function detectReviewedDate(){
     var time = wrap.querySelector('.ss-last-reviewed time, time[datetime]');
     if (time){
-      var d = new Date(time.getAttribute('datetime') || time.textContent);
+      var dtv = time.getAttribute('datetime') || time.textContent;
+      /* Parse bare YYYY-MM-DD as a local date — new Date('2026-05-23') is UTC
+         midnight and renders as the previous day west of Greenwich. */
+      var ymd = /^(\d{4})-(\d{2})-(\d{2})$/.exec((dtv || '').trim());
+      var d = ymd ? new Date(+ymd[1], +ymd[2] - 1, +ymd[3]) : new Date(dtv);
       if (!isNaN(d.getTime())) return formatDate(d);
     }
     var meta = document.querySelector('meta[property="article:modified_time"], meta[name="last-modified"]');
@@ -329,8 +333,17 @@
     for (var _b = 1; _b <= 4; _b++){ rcBarsHtml += '<span' + (_b <= rcBars ? ' class="on"' : '') + '></span>'; }
     trustHtml += '<span class="rc-trust-item"><span class="rc-trust-bars">' + rcBarsHtml + '</span><b>' + rcBarLbl + '</b> evidence</span>';
   }
+  /* Visible byline — lifted from the (hidden) authored .ar-meta line so the
+     author/editorial attribution stays on screen, not only in JSON-LD. */
+  var authorLink = wrap.querySelector('.ar-meta a[rel="author"]');
+  if (authorLink){
+    trustHtml += '<span class="rc-trust-item rc-trust-by">By <a href="' + authorLink.getAttribute('href') + '" rel="author" style="color:inherit;text-decoration:underline;text-underline-offset:2px">' + authorLink.textContent + '</a></span>';
+  }
   if (reviewed){
-    trustHtml += '<span class="rc-trust-item rc-trust-rev">Reviewed · ' + reviewed + '</span>';
+    /* "Updated" for /a/ articles (date = last content revision, not a
+       clinical review); other templates keep their "Reviewed" wording. */
+    var revLbl = authorLink ? 'Updated' : 'Reviewed';
+    trustHtml += '<span class="rc-trust-item rc-trust-rev">' + revLbl + ' · ' + reviewed + '</span>';
   }
 
   var trust = el('div', 'rc-trust', trustHtml);
