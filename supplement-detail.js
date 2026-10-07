@@ -217,6 +217,12 @@
      the sitemap canonical. Rewrite the address bar + canonical in place. */
   try {
     var canonSlug = window.SS.slugify(s.n);
+    /* 2026-10-07 — the short form (parenthetical stripped, e.g. ashwagandha
+       for "Ashwagandha (KSM-66)") is the sitemap / OG / internal-link URL.
+       Keep it self-canonical; only rewrite true aliases. Previously 326 of
+       547 sitemap URLs canonicalised away to a long slug not in the sitemap. */
+    var shortSlug = window.SS.slugify(String(s.n || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim());
+    if (shortSlug && slug === shortSlug) canonSlug = shortSlug;
     if (canonSlug && canonSlug !== slug) {
       var next = new URL(location.href);
       next.searchParams.set('slug', canonSlug);
