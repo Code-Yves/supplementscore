@@ -233,6 +233,19 @@
     }
   } catch (_) {}
   document.title = s.n + ' — SupplementScore';
+  /* 2026-10-07 — per-supplement meta description + social titles so each
+     ?slug= URL is not a duplicate of the generic shell (GSC duplicate meta). */
+  try {
+    var md = (s.desc || '').replace(/\s+/g, ' ').trim();
+    if (md.length > 155) md = md.slice(0, 152).replace(/\s+\S*$/, '') + '…';
+    if (!md) md = s.n + ': evidence tier, dose, interactions and citations on SupplementScore.';
+    [['name','description',md],['property','og:description',md],['name','twitter:description',md],
+     ['property','og:title',document.title],['name','twitter:title',document.title]].forEach(function(m){
+      var el = document.querySelector('meta[' + m[0] + '="' + m[1] + '"]');
+      if (!el) { el = document.createElement('meta'); el.setAttribute(m[0], m[1]); document.head.appendChild(el); }
+      el.setAttribute('content', m[2]);
+    });
+  } catch (_) {}
   // Emit slug-specific DietarySupplement + BreadcrumbList JSON-LD. The static
   // WebPage block in supplement.html remains as a non-JS fallback.
   try { injectSchema(s, slug); } catch (_) { /* schema injection is non-essential */ }
