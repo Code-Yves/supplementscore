@@ -105,7 +105,7 @@
      dynamic blocks are picked up. See [[project_launch_prep_2026_06_06]]. */
   function injectSchema(s, slug){
     if (!s || !slug) return;
-    var url = 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
+    var url = window.__SS_CANON ? window.__SS_CANON(slug) : 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
     var name = s.n || '';
     // Extract alternateName from a parenthesized qualifier ("Omega-3 (EPA/DHA)" → "EPA/DHA")
     var altMatch = name.match(/\(([^)]+)\)/);
@@ -179,7 +179,7 @@
   }
 
   var p = new URLSearchParams(location.search);
-  var slug = (p.get('slug') || '').trim();
+  var slug = (window.__SS_SLUG || p.get('slug') || '').trim();
   var nameParam = (p.get('n') || '').trim();
   /* 2026-05-24 — Accept both ?slug=<kebab> and ?n=<Name+with+spaces>.
      Hundreds of historical links across /for/, /symptom/, /build/ and the
@@ -231,7 +231,7 @@
         history.replaceState({}, '', next.pathname + next.search + next.hash);
       }
       slug = canonSlug;
-      var absCanon = 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(canonSlug);
+      var absCanon = window.__SS_CANON ? window.__SS_CANON(canonSlug) : 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(canonSlug);
       var cLink = document.querySelector('link[rel="canonical"]');
       if (cLink) cLink.href = absCanon;
       var ogUrl = document.querySelector('meta[property="og:url"]');
