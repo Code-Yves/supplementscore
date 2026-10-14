@@ -133,6 +133,7 @@
         "doseSchedule": String(s.dose).slice(0, 200)
       };
     }
+    var ogImg = document.querySelector('meta[property="og:image"]');
     var supplementSchema = {
       "@context": "https://schema.org",
       "@type": "DietarySupplement",
@@ -142,7 +143,7 @@
       "isProprietary": false,
       "safetyConsideration": safety,
       "url": url,
-      "image": "https://supplementscore.org/og/default.png",
+      "image": (ogImg && ogImg.getAttribute('content')) || "https://supplementscore.org/og/default.png",
       "inLanguage": "en-US",
       "publisher": {
         "@type": "Organization",
@@ -570,6 +571,46 @@
      which already history.back()s. The floating X (top-right) is now the single
      close/return control; on direct entry with no history it falls back to the
      homepage. (The "not found" error path below keeps its own search link.) */
+  function relatedSuppsHtml(current) {
+    var list = [];
+    try { list = (typeof S !== 'undefined' && S) ? S : []; } catch (_) { list = []; }
+    if (!current || !list.length || !window.SS) return '';
+    var topic = String(current.tag || '').split('·')[0].trim().toLowerCase();
+    var items = [];
+    if (topic.length > 2) {
+      items = list.filter(function (o) {
+        if (!o || o.n === current.n) return false;
+        return String(o.tag || '').split('·')[0].trim().toLowerCase() === topic;
+      }).sort(function (a, b) {
+        return window.SS.compositeScore(b) - window.SS.compositeScore(a);
+      }).slice(0, 5);
+    }
+    var blob = (current.n || '') + ' ' + (current.tag || '');
+    var hubs = [
+      [/creatine/i, '/hub/creatine.html', 'Creatine hub'],
+      [/vitamin d|cholecalciferol/i, '/hub/vitamin-d.html', 'Vitamin D hub'],
+      [/omega-3|fish oil|\bepa\b|\bdha\b|algal oil/i, '/hub/omega-3.html', 'Omega-3 hub'],
+      [/magnesium/i, '/hub/magnesium.html', 'Magnesium hub'],
+      [/probiotic|lactobacillus|bifidobacterium|saccharomyces|boulardii/i, '/hub/probiotics.html', 'Probiotics hub'],
+      [/ashwagandha|rhodiola|ginseng|schisandra|holy basil|tulsi|eleuthero|adaptogen/i, '/hub/adaptogens.html', 'Adaptogens hub'],
+      [/collagen|glucosamine|chondroitin|boswellia|curcumin|hyaluronic/i, '/hub/joint-health.html', 'Joint health hub'],
+      [/melatonin|theanine|valerian|\bgaba\b|\bglycine\b/i, '/hub/sleep.html', 'Sleep hub'],
+      [/caffeine|beta-alanine|citrulline|\bwhey\b|dietary nitrate|\bhmb\b/i, '/hub/athletic-performance.html', 'Athletic performance hub']
+    ];
+    var hub = null;
+    for (var i = 0; i < hubs.length; i++) {
+      if (hubs[i][0].test(blob)) { hub = hubs[i]; break; }
+    }
+    var chips = items.map(function (o) {
+      var short = window.SS.slugify(String(o.n).replace(/\s*\([^)]*\)\s*/g, ' ').trim());
+      var href = window.SS.urlFor('supplement', short || window.SS.slugify(o.n));
+      return '<li><a href="' + escAttr(href) + '">' + escHtml(o.n) + '</a></li>';
+    }).join('');
+    if (hub) chips += '<li><a href="' + hub[1] + '">' + escHtml(hub[2]) + '</a></li>';
+    chips += '<li><a href="/browse.html">Browse all supplements</a></li>';
+    return '<nav class="det-related-supps" aria-label="Related supplements"><h2>Related</h2><ul>' + chips + '</ul></nav>';
+  }
+
   root.innerHTML =
     '<div class="det-page '+escAttr(s.t)+'">'
 
@@ -632,7 +673,8 @@
       +   '<div id="det-related-guides-slot"></div>'
       +   '<div id="det-brands-slot"></div>'
 
-      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="about.html">methodology</a> for how scores are derived.</p>'
+      +   relatedSuppsHtml(s)
+      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="/methodology.html">methodology</a> for how scores are derived.</p>'
       + '</div>'
     + '</div>';
 

@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=2c4f3d77">
+<link rel="stylesheet" href="/styles.css?v=cc3aa474">
 <style>
 /* ============================================================ */
 /*  Detail page — V5 hero + Body B (consolidated 2026-04-29)    */
@@ -120,6 +120,11 @@
 .det-prose-h::before{content:"";width:18px;height:1.5px;background:var(--accent);display:inline-block}
 .det-prose p{font-size:15px;line-height:1.7;color:var(--color-text-primary);margin-bottom:10px}
 .det-prose p:last-child{margin-bottom:0}
+.det-related-supps{margin-top:18px}
+.det-related-supps h2{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin:0 0 10px}
+.det-related-supps ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.det-related-supps a{display:inline-block;padding:6px 12px;border:1px solid var(--color-border-tertiary);border-radius:999px;text-decoration:none;color:var(--color-text-primary);font-size:13px;font-weight:600;background:var(--color-background-primary)}
+.det-related-supps a:hover{border-color:var(--color-brand);color:var(--color-brand)}
 
 /* Linked entities panel */
 .det-rel{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden}
@@ -319,6 +324,13 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
       if (slug && /^[a-z0-9-]+$/.test(slug)) {
         // Canonical indexable URL (also listed in sitemap-supplements.xml)
         // 2026-10-12 — sitemap slugs have prerendered /supplement/<slug>.html pages.
+        // Send top-level visits on the old query address to that page. Stay on
+        // the query address inside the detail modal (modal=1) so the overlay
+        // keeps working.
+        if (!window.__SS_SLUG && window.__SS_STATIC && window.__SS_STATIC[slug] && qp.get('modal') !== '1' && window.self === window.top) {
+          location.replace('/supplement/' + slug + '.html' + location.hash);
+          return;
+        }
         var canonicalUrl = window.__SS_CANON ? window.__SS_CANON(slug) : 'https://supplementscore.org/supplement.html?slug=' + slug;
         setCanonical(canonicalUrl);
         var og = document.querySelector('meta[property="og:url"]');
@@ -342,6 +354,11 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   <meta property="og:title" content="Artichoke extract (Cynara scolymus) — SupplementScore">
   <meta property="og:description" content="Artichoke leaf extract has moderate evidence for lowering LDL cholesterol and improving symptoms of indigestion. A 2018 Cochrane-style review found it…">
   <meta property="og:url" content="https://supplementscore.org/supplement/artichoke-extract.html">
+<meta property="og:image" content="https://supplementscore.org/og/artichoke-extract.webp">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Artichoke extract (Cynara scolymus) — SupplementScore">
+<meta name="twitter:image" content="https://supplementscore.org/og/artichoke-extract.webp">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SupplementScore">
   <meta name="twitter:card" content="summary_large_image">
@@ -351,9 +368,10 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Supplement detail | SupplementScore",
-  "description": "Detailed evidence profile for any supplement: tier, score, dose, timing, interactions, and citations.",
-  "url": "https://supplementscore.org/supplement.html",
+  "name": "Artichoke extract (Cynara scolymus) — SupplementScore",
+  "description": "Artichoke leaf extract has moderate evidence for lowering LDL cholesterol and improving symptoms of indigestion. A 2018 Cochrane-style review found it…",
+  "url": "https://supplementscore.org/supplement/artichoke-extract.html",
+  "inLanguage": "en",
   "isPartOf": {
     "@type": "WebSite",
     "name": "SupplementScore",
@@ -365,8 +383,41 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   }
 }
 </script>
+<script type="application/ld+json" id="ss-jsonld-dietarysupplement">
+{
+  "@context": "https://schema.org",
+  "@type": "DietarySupplement",
+  "name": "Artichoke extract (Cynara scolymus)",
+  "description": "Artichoke leaf extract has moderate evidence for lowering LDL cholesterol and improving symptoms of indigestion. A 2018 Cochrane-style review found it reduced total cholesterol by roughly 10 to 15 percent in mildly elevated cases. It also stimulates bile production, which can ease bloating and discomfort after fatty meals. Very safe with minimal side effects in trials lasting up to 12 weeks.",
+  "activeIngredient": "Artichoke extract",
+  "isProprietary": false,
+  "safetyConsideration": "Promising or situational evidence; benefits depend on indication and dosing. SupplementScore Tier 2.",
+  "url": "https://supplementscore.org/supplement/artichoke-extract.html",
+  "image": "https://supplementscore.org/og/artichoke-extract.webp",
+  "inLanguage": "en-US",
+  "publisher": {
+    "@type": "Organization",
+    "name": "SupplementScore",
+    "url": "https://supplementscore.org",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://supplementscore.org/og/default.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://supplementscore.org/supplement/artichoke-extract.html"
+  },
+  "alternateName": "Cynara scolymus",
+  "recommendedIntake": {
+    "@type": "RecommendedDoseSchedule",
+    "doseUnit": "varies — see description",
+    "doseSchedule": "600–1,800 mg/day standardised artichoke leaf extract, taken with meals"
+  }
+}
+</script>
   <!-- SEO-BREADCRUMB:start -->
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -380,13 +431,19 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Supplement detail",
-      "item": "https://supplementscore.org/supplement.html"
+      "name": "Supplements",
+      "item": "https://supplementscore.org/browse.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Artichoke extract (Cynara scolymus)",
+      "item": "https://supplementscore.org/supplement/artichoke-extract.html"
     }
   ]
 }
-  </script>
-  <!-- SEO-BREADCRUMB:end -->
+</script>
+<!-- SEO-BREADCRUMB:end -->
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -397,7 +454,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=bd2d21cc" defer></script>
+  <script src="_site-ux.js?v=c5bc241c" defer></script>
 </head>
 <body>
 <!-- 2026-05-24 — Stripped the .beta-bar tagline, the full .site-nav (logo +
@@ -411,20 +468,20 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 </a>
 
-<main class="det-wrap" id="det-root"><h1 class="det-h1">Artichoke extract (Cynara scolymus)</h1><p><b>Tier 2 — promising</b> · Liver · Digestion · Cholesterol</p><p>Artichoke leaf extract has moderate evidence for lowering LDL cholesterol and improving symptoms of indigestion. A 2018 Cochrane-style review found it reduced total cholesterol by roughly 10 to 15 percent in mildly elevated cases. It also stimulates bile production, which can ease bloating and discomfort after fatty meals. Very safe with minimal side effects in trials lasting up to 12 weeks.</p><p><b>Dose:</b> 600–1,800 mg/day standardised artichoke leaf extract, taken with meals</p></main>
+<main class="det-wrap" id="det-root"><h1 class="det-h1">Artichoke extract (Cynara scolymus)</h1><p><b>Tier 2 — promising</b> · Liver · Digestion · Cholesterol</p><p>Artichoke leaf extract has moderate evidence for lowering LDL cholesterol and improving symptoms of indigestion. A 2018 Cochrane-style review found it reduced total cholesterol by roughly 10 to 15 percent in mildly elevated cases. It also stimulates bile production, which can ease bloating and discomfort after fatty meals. Very safe with minimal side effects in trials lasting up to 12 weeks.</p><p><b>Dose:</b> 600–1,800 mg/day standardised artichoke leaf extract, taken with meals</p><nav class="det-related-supps" aria-label="Related supplements"><h2>Related</h2><ul><li><a href="/supplement/phosphatidylcholine.html">Phosphatidylcholine</a></li><li><a href="/supplement/tudca.html">TUDCA (tauroursodeoxycholic acid)</a></li><li><a href="/supplement/dandelion-root.html">Dandelion root (Taraxacum officinale)</a></li><li><a href="/browse.html">Browse all supplements</a></li></ul></nav></main>
 <script>document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);if(!id)return;var t=document.getElementById(id);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+'#'+id);}});</script>
 
-<script src="data.js?v=736289a5"></script>
+<script src="data.js?v=6a6d2829"></script>
 <script src="pairings-data.js?v=3d504fe3"></script>
 <script src="data/comparisons.js?v=736c635f"></script>
-<script src="a/manifest.js?v=4b04edb6"></script>
-<script src="search-index.js?v=ee733d2e"></script>
+<script src="a/manifest.js?v=4ea1dab8"></script>
+<script src="search-index.js?v=676b4b76"></script>
 <script src="nav-search.js?v=64e43b51"></script>
 <!-- modal-stack.js: shared back-stack so closing the article modal returns
      to this supplement instead of the bare index. sessionStorage-backed so it
      survives the target=_top navigation done by the Further Reading links. -->
 <script src="modal-stack.js?v=ba2acf0e"></script>
-<script src="supplement-detail.js?v=28e6aceb" defer></script>
+<script src="supplement-detail.js?v=7b84f9ab" defer></script>
 <style>
   /* Related guides panel */
   .det-related-guides{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:18px;overflow:hidden;margin-top:18px}
