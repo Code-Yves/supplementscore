@@ -29,7 +29,7 @@
   --color-background-secondary: var(--color-page);
   --color-text-primary: #0c0a09;
   --color-text-secondary: #57534e;
-  --color-text-tertiary: #a8a29e;
+  --color-text-tertiary: #6b6560; /* was #a8a29e — failed contrast on the cream page */
   --color-border-primary: #78716c;
   --color-border-secondary: #d6d3d1;
   --color-border-tertiary: #dcdad7;
@@ -2850,10 +2850,10 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   /* border-top removed 2026-05-24 along with the .site-footer-tag tagline above */
   border-bottom:0.5px solid rgba(248,244,237,.12);
   margin:0 auto 28px;
-  max-width:760px;
+  max-width:920px;
 }
 .site-footer-links a{
-  color:rgba(248,244,237,.55);text-decoration:none;
+  color:#F8F4ED;text-decoration:none;
   font-size:11px;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;
   line-height:1.3;
@@ -2864,7 +2864,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    lighter weight, no letter-spacing so it reads as parenthetical, not a label. */
 .site-footer-beta{
   font-size:9.5px;font-weight:500;letter-spacing:0;
-  text-transform:none;opacity:.7;margin-left:4px;
+  text-transform:none;margin-left:4px;
 }
 @media(max-width:600px){
   .site-footer-links{gap:4px 8px;padding:16px 0;margin-bottom:22px}
@@ -2900,7 +2900,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
      so the disclaimer can breathe even on the 800px-capped desktop layout. */
   border-top:0.5px solid rgba(248,244,237,.18);
   margin-top:8px;padding-top:18px;
-  font-size:11.5px;color:rgba(248,244,237,.6);text-align:center;line-height:1.6;
+  font-size:11.5px;color:#F8F4ED;text-align:center;line-height:1.6;
 }
 /* 2026-05-23 — Inline links inside the legal bottom line (e.g. "Terms &
    Privacy" — moved here from the main nav row). Inherit the surrounding
@@ -2940,7 +2940,7 @@ body.tab-supplements #nav-search-pill{display:none !important}
 .site-footer-contrib-text{display:contents}
 .site-footer-contrib-eyebrow{
   font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(248,244,237,.55);margin-bottom:10px;
+  color:#F8F4ED;margin-bottom:10px;
 }
 .site-footer-contrib-title{
   font-size:20px;font-weight:600;color:#F8F4ED;line-height:1.25;margin-bottom:8px;
@@ -2949,7 +2949,7 @@ body.tab-supplements #nav-search-pill{display:none !important}
 .site-footer-contrib-desc{
   /* Direction B (2026-05-23, updated) — wider cap so the description
      reads as a single line on desktop. Mobile naturally wraps. */
-  font-size:13px;line-height:1.6;color:rgba(248,244,237,.75);
+  font-size:13px;line-height:1.6;color:#F8F4ED;
   max-width:720px;margin:0 auto 18px;
 }
 /* Inline form on desktop (input + button side by side, centered). Stacks
@@ -2973,7 +2973,7 @@ body.tab-supplements #nav-search-pill{display:none !important}
   border:1px solid rgba(255,255,255,.12);border-radius:8px;
   outline:none;box-sizing:border-box;transition:border-color .15s,background .15s;
 }
-.site-footer-contrib-form input::placeholder{color:rgba(248,244,237,.42)}
+.site-footer-contrib-form input::placeholder{color:#F8F4ED}
 .site-footer-contrib-form input:focus{
   border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.16);
 }
