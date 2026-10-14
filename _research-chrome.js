@@ -426,7 +426,9 @@
       'Efficacy ' + meta.efficacy + '/5 · Safety ' + meta.safety + '/5' : '';
     var sep = efS && meta.tag ? ' · ' : '';
     var metaLine = efS + sep + (meta.tag || '');
-    var href = '../supplement.html?slug=' + encodeURIComponent(slug);
+    var href = (window.SS && window.SS.urlFor)
+      ? window.SS.urlFor('supplement', slug)
+      : ('/supplement/' + slug + '.html');
     /* Tier pill removed 2026-05-24 — score on the left is the canonical
        metric; tier on the right was duplicative (and the user prefers
        score as the single supplement-strength signal). */
@@ -452,7 +454,10 @@
        The [?&] before slug= matches it whether it's the first query param
        (right after ?) or a later one (after &); works across any path prefix
        (/, ../, https://host/, etc.). */
-    var m = href.match(/supplement\.html\?(?:[^#]*[?&])?slug=([^&#]+)/);
+    var m = href.match(/\/supplement\/([a-z0-9-]+)\.html(?:$|[?#])/i);
+    if (m) return m[1].toLowerCase();
+    /* supplement.html?slug=<slug> — older article links, still valid. */
+    m = href.match(/supplement\.html\?(?:[^#]*[?&])?slug=([^&#]+)/);
     if (m){
       try { return decodeURIComponent(m[1]).toLowerCase(); }
       catch(_){ return m[1].toLowerCase(); }

@@ -314,7 +314,7 @@
          pages (/stack/, /a/, /condition/) where relative `supplement.html`
          resolves to e.g. /stack/supplement.html → 404. Bug fixed 2026-05-27. */
       var href = it.slug
-        ? '/supplement.html?slug=' + encodeURIComponent(it.slug)
+        ? ((window.SS && window.SS.urlFor) ? window.SS.urlFor('supplement', it.slug) : ('/supplement/' + encodeURIComponent(it.slug) + '.html'))
         : '/index.html#search=' + encodeURIComponent(it.name);
       strip += '<a class="ssux-recent-card" href="'+href+'">'
         + '<span class="ssux-recent-card-name">'+escapeHtml(it.name)+'</span>'
@@ -418,6 +418,15 @@
         {label:'Home', href:'/'},
         {label:'Comparisons', href:'/compare/index.html'},
         {label:t4.trim()}
+      ];
+    }
+    /* /supplement/<slug>.html — prerendered detail pages */
+    if (/^\/supplement\/[a-z0-9-]+\.html$/i.test(p)) {
+      var supName = (document.querySelector('h1')||{}).textContent || 'Supplement';
+      return [
+        {label:'Home', href:'/'},
+        {label:'Supplements', href:'/browse.html'},
+        {label:supName.trim()}
       ];
     }
     /* supplement.html?slug=...  (only when not in iframe) */

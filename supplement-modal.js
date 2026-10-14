@@ -15,8 +15,10 @@
   window.__SSModalInit = true;
 
   // Don't activate on the standalone supplement page itself —
-  // it's the iframe target, not a host page.
+  // it's the iframe target, not a host page. The prerendered
+  // /supplement/<slug>.html pages are standalone too.
   if (/\/supplement\.html(?:$|\?|#)/.test(location.pathname + location.search)) return;
+  if (/\/supplement\/[a-z0-9-]+\.html$/i.test(location.pathname)) return;
 
   // ── Styles ──────────────────────────────────────────────
   var styleEl = document.createElement('style');
@@ -106,7 +108,18 @@
 
   var frame = modal.querySelector('.ssm-frame');
   var openSlug = null;
+  var openPublicUrl = null;
   var loadWatch = null;
+
+  function publicSupplementUrl(slug, hinted) {
+    if (hinted && /\/supplement\/[a-z0-9-]+\.html(?:$|[?#])/i.test(hinted)) {
+      try { return new URL(hinted, location.origin).href.split('#')[0]; } catch (_) {}
+    }
+    if (window.SS && typeof window.SS.urlFor === 'function') {
+      try { return new URL(window.SS.urlFor('supplement', slug), location.origin).href; } catch (_) {}
+    }
+    return location.origin + '/supplement.html?slug=' + encodeURIComponent(slug);
+  }
 
   frame.addEventListener('load', function(){
     clearTimeout(loadWatch);
@@ -119,7 +132,7 @@
     // FAB — it calls history.back inside the iframe).
     try {
       var pn = frame.contentWindow && frame.contentWindow.location && frame.contentWindow.location.pathname || '';
-      var isSupplement = /\/supplement\.html$/i.test(pn);
+      var isSupplement = /\/supplement(?:\.html|\/[a-z0-9-]+\.html)$/i.test(pn);
       modal.classList.toggle('hide-chrome', !isSupplement);
     } catch(_){
       // Cross-origin or detached frame — keep chrome visible by default.
@@ -127,7 +140,7 @@
     }
   });
 
-  function open(slug, fromHistory) {
+  function open(slug, fromHistory, hintedUrl) {
     if (!slug) return;
     if (slug === openSlug){
       try { frame.contentWindow && frame.contentWindow.scrollTo(0,0); } catch(e){}
@@ -166,6 +179,7 @@
 
     attachModal();
     openSlug = slug;
+    openPublicUrl = publicSupplementUrl(slug, hintedUrl);
     modal.classList.toggle('over-art', openingOverArticle && !openingOverRc);
     modal.classList.toggle('over-rc', openingOverRc);
     modal.classList.remove('loaded');
@@ -182,7 +196,7 @@
         var ld = modal.querySelector('.ssm-loading');
         if (ld){
           ld.innerHTML = 'Taking longer than usual… '
-            + '<a href="/supplement.html?slug=' + encodeURIComponent(slug) + '" target="_top" '
+            + '<a href="' + (openPublicUrl || ('/supplement.html?slug=' + encodeURIComponent(slug))) + '" target="_top" '
             + 'style="color:var(--color-brand,#1F7A6B);font-weight:600;margin-left:6px">Open the full page →</a>';
           ld.style.pointerEvents = 'auto';
         }
@@ -264,7 +278,7 @@
     if (!openSlug) return;
     /* Share the standalone supplement page so the recipient gets the
        full detail view regardless of where they open the link from. */
-    var url = location.origin + '/supplement.html?slug=' + encodeURIComponent(openSlug);
+    var url = openPublicUrl || (location.origin + '/supplement.html?slug=' + encodeURIComponent(openSlug));
     /* Pull the supplement title from the iframe so the share sheet has
        a sensible label. Fall back to a generic if cross-origin. */
     var title = 'SupplementScore';
@@ -330,6 +344,7 @@
   //       links still pointing there should open as modal not hard-navigate,
   //       otherwise users see a redirect flash and lose the overlay UX.)
   var LEGACY_S_RE = /(?:^|\/)s\/([a-z0-9-]+)\.html(?:$|[?#])/i;
+  var STATIC_RE = /(?:^|\/)supplement\/([a-z0-9-]+)\.html(?:$|[?#])/i;
   document.addEventListener('click', function(e){
     if (e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
@@ -338,17 +353,21 @@
     if (a.target && a.target !== '_self') return;
     var href = a.getAttribute('href') || '';
     var slug = null;
+    var hinted = '';
     if (/(?:^|[\/?])supplement\.html\?slug=/.test(href)) {
       var url;
       try { url = new URL(a.href, location.href); } catch(err) { return; }
       slug = url.searchParams.get('slug');
     } else {
-      var m = href.match(LEGACY_S_RE);
-      if (m) slug = m[1];
+      var m = href.match(STATIC_RE) || href.match(LEGACY_S_RE);
+      if (m) {
+        slug = m[1];
+        hinted = a.href;
+      }
     }
     if (!slug) return;
     e.preventDefault();
-    open(slug);
+    open(slug, false, hinted);
   }, false);
 
   // Forward/back navigation

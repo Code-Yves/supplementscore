@@ -54,7 +54,10 @@ for (const file of files) {
     // wrap the first plain-text occurrence of chosen.text inside the h3
     const idx = inner.indexOf(chosen.text);
     if (idx < 0) return m;
-    const a = '<a href="../supplement.html?slug=' + chosen.slug + '">' + chosen.text + '</a>';
+    const suppHref = fs.existsSync('supplement/' + chosen.slug + '.html')
+      ? '/supplement/' + chosen.slug + '.html'
+      : '../supplement.html?slug=' + chosen.slug;
+    const a = '<a href="' + suppHref + '">' + chosen.text + '</a>';
     const newInner = inner.slice(0, idx) + a + inner.slice(idx + chosen.text.length);
     pageLinks++; linked.push(chosen.text);
     return '<h3' + attrs + '>' + newInner + '</h3>';

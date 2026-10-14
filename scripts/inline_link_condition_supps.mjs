@@ -51,7 +51,10 @@ for(const file of files){
       const before=t[idx-1]||' '; const after=t[idx+p.text.length]||' ';
       if(/[A-Za-z0-9]/.test(before))continue;
       if(/[A-Za-z0-9]/.test(after))continue;
-      const rep='<a href="../supplement.html?slug='+p.slug+'">'+p.text+'</a>';
+      const suppHref = fs.existsSync('supplement/'+p.slug+'.html')
+        ? '/supplement/'+p.slug+'.html'
+        : '../supplement.html?slug='+p.slug;
+      const rep='<a href="'+suppHref+'">'+p.text+'</a>';
       tokens[i]=t.slice(0,idx)+rep+t.slice(idx+p.text.length);
       done.add(p.slug); pageLinks++; linkedTerms.push(p.text);
       break; // one replacement per text token pass to keep indices sane; loop continues to next token

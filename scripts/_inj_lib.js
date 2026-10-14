@@ -154,7 +154,10 @@ function processArticle(html){
   let out=html, links=[];
   for(let i=insertions.length-1;i>=0;i--){
     const ins=insertions[i];
-    const repl='<a href="../supplement.html?slug='+ins.slug+'">'+ins.label+'</a>';
+    const suppHref = fs.existsSync(path.join(REPO, 'supplement', ins.slug + '.html'))
+      ? '/supplement/' + ins.slug + '.html'
+      : '/supplement.html?slug=' + ins.slug;
+    const repl='<a href="'+suppHref+'">'+ins.label+'</a>';
     out=out.slice(0,ins.start)+repl+out.slice(ins.end);
     links.push({slug:ins.slug,label:ins.label});
   }

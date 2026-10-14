@@ -4,7 +4,8 @@
  * runtime SS.getSupplement (full-name + parenthetical-stripped aliases).
  *
  * Legacy Google hits on /s/<slug>.html get a durable noindex meta-refresh +
- * location.replace to the canonical /supplement.html?slug=… page.
+ * location.replace to the prerendered /supplement/<slug>.html page when one
+ * exists, otherwise to /supplement.html?slug=….
  *
  * Usage: node scripts/gen_s_tombstones.mjs
  */
@@ -18,7 +19,7 @@ const S_DIR = path.join(REPO, 's');
 
 const sitemap = new Set(
   [...fs.readFileSync(path.join(REPO, 'sitemap-supplements.xml'), 'utf8')
-    .matchAll(/slug=([a-z0-9-]+)/g)].map((m) => m[1]),
+    .matchAll(/(?:slug=|\/supplement\/)([a-z0-9-]+)(?:\.html)?/g)].map((m) => m[1]),
 );
 
 function escapeHtml(s) {
@@ -41,7 +42,10 @@ function preferredSlug(alias) {
 }
 
 function stubHtml(alias, targetSlug, title) {
-  const dest = `/supplement.html?slug=${targetSlug}`;
+  const staticPage = path.join(REPO, 'supplement', `${targetSlug}.html`);
+  const dest = fs.existsSync(staticPage)
+    ? `/supplement/${targetSlug}.html`
+    : `/supplement.html?slug=${targetSlug}`;
   const abs = `https://supplementscore.org${dest}`;
   const t = escapeHtml(title);
   return `<!DOCTYPE html>
@@ -90,7 +94,9 @@ for (const alias of [...candidates].sort()) {
   const out = path.join(S_DIR, `${alias}.html`);
   if (fs.existsSync(out)) {
     const prev = fs.readFileSync(out, 'utf8');
-    const needsFix = !prev.includes(`slug=${target}`) || prev.includes('url=/s/');
+    const wantsStatic = fs.existsSync(path.join(REPO, 'supplement', `${target}.html`));
+    const wants = wantsStatic ? `/supplement/${target}.html` : `slug=${target}`;
+    const needsFix = !prev.includes(wants) || prev.includes('url=/s/');
     if (needsFix) {
       fs.writeFileSync(out, html);
       updated++;

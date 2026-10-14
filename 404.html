@@ -44,12 +44,20 @@
       }
       m = path.match(/^\/s\/([a-z0-9][a-z0-9-]*)(?:\.html)?\/?$/i);
       if (m) {
+        location.replace('/supplement/' + encodeURIComponent(m[1].toLowerCase()) + '.html');
+        return;
+      }
+      /* /supplement/<slug> without .html → the prerendered page.
+         /supplement/<slug>.html landing HERE means that file is missing;
+         fall through to the query page, which still resolves long-tail slugs. */
+      m = path.match(/^\/(?:supplement|supplements)\/([a-z0-9][a-z0-9-]*)\.html$/i);
+      if (m) {
         location.replace('/supplement.html?slug=' + encodeURIComponent(m[1].toLowerCase()));
         return;
       }
       m = path.match(/^\/(?:supplement|supplements)\/([a-z0-9][a-z0-9-]*)\/?$/i);
       if (m) {
-        location.replace('/supplement.html?slug=' + encodeURIComponent(m[1].toLowerCase()));
+        location.replace('/supplement/' + encodeURIComponent(m[1].toLowerCase()) + '.html');
         return;
       }
       /* Retired FR/ES locale tree (2026-09-15, English-only mandate).
@@ -110,7 +118,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=2c4f3d77">
+  <link rel="stylesheet" href="/styles.css?v=cc3aa474">
   <style>
     /* Centered single-CTA 404. Replaces the cluttered 6-card + highest-rated
        block (2026-05-27) per user feedback. Single source of recovery: back
@@ -174,6 +182,20 @@
       font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
     }
     .nf-search button:hover { background: rgba(31,122,107,.2); }
+    .nf-links {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      margin: 0 0 22px;
+    }
+    .nf-links a {
+      font-size: 13.5px; font-weight: 600; text-decoration: none;
+      color: var(--color-brand); padding: 6px 10px;
+      border-radius: 999px; border: 1px solid rgba(31,122,107,.25);
+    }
+    .nf-links a:hover { background: rgba(31,122,107,.08); }
+    @media (max-width: 420px) {
+      .nf-search { flex-direction: column; align-items: stretch; }
+      .nf-search input { max-width: none; }
+    }
   </style>
 
   <meta name="twitter:card" content="summary_large_image">
@@ -191,9 +213,15 @@
     <h1>That page doesn&rsquo;t exist.</h1>
     <p class="nf-lede">The link you followed may be out of date, or the page may have been renamed. Try a search, or head home.</p>
     <form class="nf-search" role="search" action="/search.html" method="GET" aria-label="Search SupplementScore">
-      <input id="nf-q" type="search" name="q" placeholder="Search supplements, conditions…" autocomplete="off" />
+      <input id="nf-q" type="search" name="q" placeholder="Search supplements, conditions…" autocomplete="off" aria-label="Search supplements and conditions" />
       <button type="submit">Search</button>
     </form>
+    <nav class="nf-links" aria-label="Popular sections">
+      <a href="/browse.html">Browse supplements</a>
+      <a href="/hub/">Topic hubs</a>
+      <a href="/condition/">Conditions</a>
+      <a href="/compare/">Comparisons</a>
+    </nav>
     <a class="nf-cta" href="/">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       <span>Back to homepage</span>

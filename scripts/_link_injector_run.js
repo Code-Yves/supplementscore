@@ -157,7 +157,10 @@ function processArticle(html){
   let out=html, links=[];
   for(let i=insertions.length-1;i>=0;i--){
     const ins=insertions[i];
-    const repl='<a href="../supplement.html?slug='+ins.slug+'">'+ins.label+'</a>';
+    const suppHref = fs.existsSync(path.join(REPO, 'supplement', ins.slug + '.html'))
+      ? '/supplement/' + ins.slug + '.html'
+      : '/supplement.html?slug=' + ins.slug;
+    const repl='<a href="'+suppHref+'">'+ins.label+'</a>';
     out=out.slice(0,ins.start)+repl+out.slice(ins.end);
     links.push({slug:ins.slug,label:ins.label});
   }
@@ -217,7 +220,7 @@ for(const f of ordered){
     modified++; totalLinks+=links.length;
     for(const l of links){ suppCounts[l.slug]=(suppCounts[l.slug]||0)+1; }
     if(sampleDiffs.length<3){
-      sampleDiffs.push({file:f, links:links.map(l=>l.label+' -> ../supplement.html?slug='+l.slug)});
+      sampleDiffs.push({file:f, links:links.map(l=>l.label+' -> /supplement/'+l.slug+'.html')});
     }
   }
 }

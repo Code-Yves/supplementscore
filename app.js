@@ -71,6 +71,10 @@ let profileUnlocked=false;
 let selectedMeds=new Set();
 // Safe localStorage wrappers — Safari ITP, private browsing, and quota-exceeded all throw.
 // Wrap reads + writes so a thrown exception never breaks the app flow.
+function ssSuppHref(slug){
+  if (window.SS && typeof window.SS.urlFor === 'function') return window.SS.urlFor('supplement', slug);
+  return '/supplement.html?slug=' + encodeURIComponent(slug);
+}
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
 function lsRemove(k){try{localStorage.removeItem(k);}catch(e){}}
@@ -2847,7 +2851,7 @@ function rnOpenFullSupp(name, ev){
     return;
   }
   /* Fallback: navigate to the supplement page directly. */
-  if(slug) location.href = 'supplement.html?slug=' + encodeURIComponent(slug);
+  if(slug) location.href = ssSuppHref(slug);
   else if(typeof openSuppModal === 'function') openSuppModal(name);
 }
 
@@ -4420,7 +4424,7 @@ function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';c
    supplement page in an iframe overlay (drug interactions, brand
    quality, related conditions, sources — same experience as clicking
    a supplement from the index). The smaller inline #supp-modal isn't
-   the right surface for this — it omits the deeper sections. */const _slug=_slcSlug(name);const _href='supplement.html?slug='+encodeURIComponent(_slug);return`<a class="art-supp-card" href="${_href}" style="text-decoration:none;color:inherit"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></a>`;}
+   the right surface for this — it omits the deeper sections. */const _slug=_slcSlug(name);const _href=ssSuppHref(_slug);return`<a class="art-supp-card" href="${_href}" style="text-decoration:none;color:inherit"><div class="art-supp-score" style="background:${grad}"><div class="art-supp-score-num">${sc}</div><div class="art-supp-score-label">Score</div></div><div class="art-supp-body"><div class="art-supp-name">${escHtml(s.n)}</div><div class="art-supp-meta">Efficacy ${s.e}/5 · Safety ${s.s}/5 · ${escHtml(s.tag.split(' · ').slice(0,2).join(' · '))}</div></div></a>`;}
 /* v2 article renderer — outputs the .aend supplement-list block from
    mockups/mockup-article-layout-v6.html. Each row: tier-colored score badge +
    name + meta line + tier label + arrow. Same supplement.html deep-link
@@ -4434,7 +4438,7 @@ function articleSuppsHtml(articleId){
     const sc=calcScore(s);
     const et=eTier(s);
     const slug=_slcSlug(n);
-    const href='supplement.html?slug='+encodeURIComponent(slug);
+    const href=ssSuppHref(slug);
     const tag=(s.tag||'').split(' · ').slice(0,2).join(' · ');
     const tierNum=et==='t1'?'1':et==='t2'?'2':et==='t3'?'3':'4';
     return '<a class="supp-row '+et+'" href="'+href+'">'
@@ -4540,7 +4544,7 @@ function openSuppModal(name){
     return;
   }
   // Final fallback if SSModal failed to load: direct navigation to the standalone page.
-  if (slug) location.href = 'supplement.html?slug=' + encodeURIComponent(slug);
+  if (slug) location.href = ssSuppHref(slug);
 }
 function closeSuppModal(){
   if (window.SSModal && typeof window.SSModal.close === 'function') window.SSModal.close();
@@ -4557,7 +4561,7 @@ function closeSuppModal(){
    Desktop: copy the deep-link URL to clipboard, flash the button + toast. */
 function _showSuppShareToast(msg){const t=document.getElementById('supp-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+escHtml(String(msg||''));t.classList.add('show');clearTimeout(_showSuppShareToast._t);_showSuppShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
 function shareSupp(){const name=_currentSuppName;if(!name)return;const slug=_slcSlug?_slcSlug(name):String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');/* Deep-link to the standalone supplement page so the recipient gets
-   the full supplement detail, not just an index modal. */const url=location.origin+'/supplement.html?slug='+encodeURIComponent(slug);const shareData={title:name+' — SupplementScore',text:name+' — evidence-based score and protocol via SupplementScore',url:url};const btn=document.getElementById('supp-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showSuppShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showSuppShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showSuppShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
+   the full supplement detail, not just an index modal. */const url=new URL(ssSuppHref(slug), location.origin).href;const shareData={title:name+' — SupplementScore',text:name+' — evidence-based score and protocol via SupplementScore',url:url};const btn=document.getElementById('supp-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showSuppShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showSuppShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showSuppShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
 /* Find Sources section, shrink text, linkify citations → returns the sources wrapper div or null */
 /* ============================================================
    v2 article helpers — TOC, section wrap, trust strip, category-to-accent
@@ -5048,7 +5052,7 @@ function renderCard(s, hidden){
   var ints = INTERACT_MAP[s.n] || [];
   var cau  = _slcCaution(s, et, ints);
   var cauHtml = cau ? '<span class="lc-cau">' + escHtml(cau) + '</span>' : '';
-  return '<a class="sc ' + et + (hidden || '') + '" href="supplement.html?slug=' + encodeURIComponent(slug) + '" data-tier="' + et + '">'
+  return '<a class="sc ' + et + (hidden || '') + '" href="' + ssSuppHref(slug) + '" data-tier="' + et + '">'
     +   '<div class="lc-score"><div class="lc-score-num">' + sc + '</div></div>'
     +   '<div class="lc-mid">'
     +     '<div class="lc-row1"><span class="lc-name">' + escHtml(s.n) + '</span><span class="lc-cats">' + escHtml(s.tag || '') + '</span></div>'
