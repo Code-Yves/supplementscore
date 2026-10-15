@@ -15,9 +15,9 @@ FORBIDDEN PATTERNS (must NOT appear):
 - Per-section "<div class=\"sec-meta\">" line — removed 2026-05-24
 
 REQUIRED PATTERNS (must appear on /a/ pages):
-- <script src="..._research-chrome.js?v=...">
+- _research-chrome.js, either as <script src> or the post-paint injector (s.src=)
 - <script src="..._site-ux.js?v=...">
-- <link rel="stylesheet" href="../styles.css?v=...">
+- <link rel="stylesheet" href="../styles.css?v=..."> (the noscript link counts)
 - <!-- last-reviewed: ... --> comment in meta line
 - A canonical link to itself
 
@@ -75,8 +75,14 @@ ARCHETYPES_NEED_CHROME = {'a', 'condition', 'compare', 'for', 'stack', 'sx'}
 # Patterns REQUIRED on every /a/<slug>.html page.
 # Each regex is tolerant of attribute order (rel-first vs href-first) and
 # self-closing vs open-tag syntax (XHTML <link/> vs HTML <link>).
+# Chrome may be a parser-visible <script src> or injected after first paint
+# (s.src=...) so the 40KB script stays off the largest-paint path.
+CHROME_LOADED = re.compile(
+    r'<script[^>]*src="[^"]*_research-chrome\.js|s\.src="[^"]*_research-chrome\.js'
+)
+
 REQUIRED_ON_ARTICLES: list[tuple[re.Pattern, str]] = [
-    (re.compile(r'<script[^>]*src="[^"]*_research-chrome\.js'), '_research-chrome.js must be loaded on every /a/ article'),
+    (CHROME_LOADED, '_research-chrome.js must be loaded on every /a/ article'),
     (re.compile(r'<script[^>]*src="[^"]*_site-ux\.js'), '_site-ux.js must be loaded on every /a/ article'),
     # styles.css can be linked as <link rel="stylesheet" href="..."> OR <link href="..." rel="stylesheet">
     (re.compile(r'<link[^>]*styles\.css[^>]*rel="stylesheet"|<link[^>]*rel="stylesheet"[^>]*styles\.css', re.I), 'styles.css link must be present'),
@@ -133,7 +139,7 @@ def scan_file(fpath: Path) -> list[tuple[str, str, str]]:
     # 2026-05-25 — Every article archetype must load chrome so the tail-block
     # normalizer can rebuild Related/Supplements as .rc-aend matching /a/.
     if fpath.parts[-2] in ARCHETYPES_NEED_CHROME:
-        if not re.search(r'<script[^>]*src="[^"]*_research-chrome\.js', html):
+        if not CHROME_LOADED.search(html):
             findings.append((str(fpath), 'fail', f'MISSING: _research-chrome.js must be loaded on every article archetype (this is /{fpath.parts[-2]}/)'))
 
     return findings

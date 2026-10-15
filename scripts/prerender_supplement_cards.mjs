@@ -156,10 +156,11 @@ for (const file of files) {
     for (const m of block.matchAll(/src="([^"]+)"/g)) srcs.push(m[1]);
     const loader =
       '<script>\n' +
-      '/* The card is already in the HTML. Load the dataset after first paint, for compare, guides, brands, and show-more only. */\n' +
+      '/* The card is already in the HTML. Load the full stylesheet and the dataset after first paint. The dataset is only for compare, guides, brands, and show-more. */\n' +
       '(function(){\n' +
       '  var srcs=' + JSON.stringify(srcs) + ';\n' +
       '  function start(){\n' +
+      '    var l=document.createElement("link"); l.rel="stylesheet"; l.href="/styles.css?v=8a19440e"; document.head.appendChild(l);\n' +
       '    for (var i=0;i<srcs.length;i++){\n' +
       '      var s=document.createElement("script");\n' +
       '      s.src=srcs[i]; s.async=false; document.body.appendChild(s);\n' +

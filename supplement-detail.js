@@ -457,7 +457,7 @@
     return '<div class="det-pair-mod" id="det-pairings">'
       + '<div class="det-pair-mod-head">'
       +   '<span class="det-pair-mod-tag">Pairs well · keep apart</span>'
-      +   '<span class="det-pair-mod-meta">Strength reflects mechanism evidence (1–5). <a href="about.html#interactions">How we weight pairings</a></span>'
+      +   '<span class="det-pair-mod-meta">Strength reflects mechanism evidence (1–5). <a href="/about.html#interactions">How we weight pairings</a></span>'
       + '</div>'
       + '<ul class="det-pair-list">' + rowsHtml + '</ul>'
       + '</div>';
