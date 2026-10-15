@@ -229,6 +229,11 @@
     root.innerHTML = '<a class="det-back" href="search.html?q=' + encodeURIComponent(slug.replace(/-/g,' ')) + '">‹ Back to search</a><h1 class="det-h1">Supplement not found</h1><p style="color:var(--color-text-secondary)">No record for slug "'+escHtml(slug)+'". Try the <a href="search.html">search</a>.</p>';
     return;
   }
+  /* Static pages ship the full card in the HTML. Do not replace it — that
+     swap was the largest paint, because it waited on data.js. Interactive
+     extras (compare, guides, brands, show-more) still run below. */
+  var prerendered = !!(root && root.getAttribute && root.getAttribute('data-prerendered') === '1');
+  if (!prerendered) {
   /* Alias URLs (?slug=creatine, lions-mane, vitamin-d) must not compete with
      the sitemap canonical. Rewrite the address bar + canonical in place. */
   try {
@@ -696,6 +701,7 @@
       +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="/methodology.html">methodology</a> for how scores are derived.</p>'
       + '</div>'
     + '</div>';
+  }
 
   // Wire up the "Show N more" toggles in the related-entities cells. Each
   // button reveals its hidden sibling list and removes itself from view.

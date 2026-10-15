@@ -4,14 +4,14 @@
    move the headline or the bottom line. */
 body{background:var(--color-page);color:var(--color-text-primary)}
 main.ar-wrap,main.sx-wrap,main.ca-wrap,main.sk-wrap{
-  max-width:740px;margin:0 auto;padding:24px 22px 64px;
-  font-size:16px;line-height:1.7;color:var(--color-text-primary);
+  max-width:760px;margin:0 auto;padding:18px 24px 64px;
+  font-size:16.5px;line-height:1.7;color:var(--color-text-primary);
 }
 main.ar-wrap h1,main.sx-wrap h1,main.ca-wrap h1,main.sk-wrap h1,
 html.rc-chrome-active main.ar-wrap h1,html.rc-chrome-active main.sx-wrap h1,
 html.rc-chrome-active main.ca-wrap h1,html.rc-chrome-active main.sk-wrap h1{
-  font-size:2rem;font-weight:700;letter-spacing:-.5px;line-height:1.2;
-  margin:0 0 8px;color:var(--color-text-primary);
+  font-size:2.2rem;font-weight:800;letter-spacing:-.6px;line-height:1.15;
+  margin:0 0 12px;color:var(--color-text-primary);
 }
 main.ar-wrap p,main.sx-wrap p,main.ca-wrap p,main.sk-wrap p{
   font-size:16px;line-height:1.7;margin:0 0 18px;color:var(--color-text-primary);
@@ -35,7 +35,8 @@ html.rc-chrome-active .sx-kicker,
 html.rc-chrome-active .ss-last-reviewed{display:none !important}
 .rc-top{
   display:flex;justify-content:space-between;align-items:center;
-  padding:14px 0 12px;border-bottom:1px solid var(--color-border-tertiary);
+  box-sizing:border-box;height:59px;overflow:hidden;
+  padding:6px 0 4px;border-bottom:1px solid var(--color-border-tertiary);
   margin-bottom:20px;font-size:13px;
 }
 .rc-top-grp{display:inline-flex;align-items:center;gap:14px}
@@ -46,31 +47,71 @@ html.rc-chrome-active .ss-last-reviewed{display:none !important}
 }
 .rc-top-link.rc-close{font-size:22px;line-height:1;width:24px;height:24px;justify-content:center;padding:0}
 .rc-top-sep{display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary)}
+@media(min-width:641px){
+  .rc-top{height:57px;padding:14px 0 12px}
+}
 @media(max-width:640px){
-  .rc-top{padding:6px 0 4px}
   .rc-top-grp{gap:4px}
   .rc-top-link{padding:13px 8px}
   .rc-top-link.rc-close{width:44px;height:44px;padding:0}
 }
 .rc-cat{
-  display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin:0 0 8px;
+  display:flex;align-items:center;gap:8px;box-sizing:border-box;height:19px;overflow:hidden;
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-brand);margin:0 0 8px;
 }
+.rc-cat:empty::before{display:none}
 .rc-trust{
-  display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;
+  display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:14px 18px;
+  box-sizing:border-box;min-height:111px;
   margin:10px 0 28px;padding-bottom:18px;
   border-bottom:1px solid var(--color-border-tertiary);
   font-size:13px;color:var(--color-text-secondary);
 }
+@media(min-width:641px){
+  .rc-trust{min-height:75px}
+}
 .rc-trust-item{display:inline-flex;align-items:center;gap:5px}
 img{max-width:100%;height:auto}
-/* The header script inserts the top bar and moves the opening summary.
-   Keep the article invisible until that script finishes so the summary
-   does not jump. Readers without JavaScript still see the article. */
-html.rc-hold:not(.rc-ready) main.ar-wrap,
-html.rc-hold:not(.rc-ready) main.sx-wrap,
-html.rc-hold:not(.rc-ready) main.ca-wrap,
-html.rc-hold:not(.rc-ready) main.sk-wrap{visibility:hidden}
-@media (scripting: none){
-  main.ar-wrap,main.sx-wrap,main.ca-wrap,main.sk-wrap{visibility:visible !important}
+/* Mobile styles.css pushes every page down 70px for the fixed bar.
+   Reserve it here so the late sheet does not move the article. */
+@media(max-width:600px){
+  body{padding-top:calc(70px + env(safe-area-inset-top)) !important}
+}
+/* The header replaces the byline and hides the injected breadcrumb.
+   Keep both out of the flow from the first paint. */
+html.rc-hold nav.ssux-bc,
+html.rc-hold nav[aria-label="Breadcrumb"]{display:none !important}
+/* The header script inserts the top bar, category, and trust line.
+   Hold that space with fixed boxes so the article text paints immediately
+   and does not move when the header arrives. The authored byline is hidden
+   because the trust line replaces it. Pages that never load the header
+   do not set rc-hold, so they keep their own byline. */
+html.rc-hold .ar-meta,
+html.rc-hold .sx-meta,
+html.rc-hold .ca-meta,
+html.rc-hold .sk-meta,
+html.rc-hold .ca-kicker,
+html.rc-hold .sk-kicker,
+html.rc-hold .sx-kicker,
+html.rc-hold .ss-last-reviewed{display:none !important}
+html.rc-hold:not(.rc-chrome-active) main.ar-wrap::before,
+html.rc-hold:not(.rc-chrome-active) main.sx-wrap::before,
+html.rc-hold:not(.rc-chrome-active) main.ca-wrap::before,
+html.rc-hold:not(.rc-chrome-active) main.sk-wrap::before{
+  content:"";display:block;height:106px;
+}
+html.rc-hold:not(.rc-chrome-active) main.ar-wrap h1,
+html.rc-hold:not(.rc-chrome-active) main.sx-wrap h1,
+html.rc-hold:not(.rc-chrome-active) main.ca-wrap h1,
+html.rc-hold:not(.rc-chrome-active) main.sk-wrap h1{margin-bottom:151px}
+@media(min-width:641px){
+  html.rc-hold:not(.rc-chrome-active) main.ar-wrap::before,
+  html.rc-hold:not(.rc-chrome-active) main.sx-wrap::before,
+  html.rc-hold:not(.rc-chrome-active) main.ca-wrap::before,
+  html.rc-hold:not(.rc-chrome-active) main.sk-wrap::before{height:104px}
+  html.rc-hold:not(.rc-chrome-active) main.ar-wrap h1,
+  html.rc-hold:not(.rc-chrome-active) main.sx-wrap h1,
+  html.rc-hold:not(.rc-chrome-active) main.ca-wrap h1,
+  html.rc-hold:not(.rc-chrome-active) main.sk-wrap h1{margin-bottom:115px}
 }

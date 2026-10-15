@@ -313,11 +313,12 @@
   /* 2. CATEGORY EYEBROW above the H1 — typographic, no fill (consistent
      with the no-filled-callouts site convention). The legacy kickers are
      hidden above, so we always inject this fresh element. */
+  /* Always insert the category row. Its height is fixed in the blocking
+     sheet, including when a template has no category label, so the headline
+     does not jump. */
   var category = detectCategory();
-  if (category){
-    var eyebrow = el('div', 'rc-cat', category);
-    h1.parentNode.insertBefore(eyebrow, h1);
-  }
+  var eyebrow = el('div', 'rc-cat', category || '');
+  h1.parentNode.insertBefore(eyebrow, h1);
 
   /* 3. TRUST LINE under H1 — read time, sources count, reviewed date */
   var readMin = detectReadTime();
