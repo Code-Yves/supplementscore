@@ -108,7 +108,7 @@
   <ul>
     <li><strong>Heading hierarchy on a few pages</strong> — index.html and a handful of other pages have multiple <code>&lt;h1&gt;</code> tags inherited from earlier templates. We're working through these in the next content pass.</li>
     <li><strong>Some chip/badge text uses 9–10px fonts</strong> — meets contrast minimums but smaller than WCAG-AAA recommends. We're auditing where we can bump these without breaking layout.</li>
-    <li><strong>Long-form articles inlined into <code>index.html</code></strong> — for assistive-tech users on slow connections, the initial page weight is high. Per-article static pages under <code>/s/</code> mitigate this for direct linking, but the in-page article reader still loads everything.</li>
+    <li><strong>Long-form articles inlined into <code>index.html</code></strong> — for assistive-tech users on slow connections, the initial page weight is high. Per-article pages under <code>/a/</code> mitigate this for direct linking. The <code>/s/</code> addresses are old supplement shortcuts, not articles. The in-page article reader on the homepage still loads a large file.</li>
   </ul>
 
   <h2>Browser & assistive technology compatibility</h2>

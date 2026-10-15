@@ -176,7 +176,7 @@ for (const { slug, s } of pages) {
   );
   h = h.replace(
     /<!-- SEO-BREADCRUMB:start -->[\s\S]*?<!-- SEO-BREADCRUMB:end -->/,
-    `<!-- SEO-BREADCRUMB:start -->\n<script type="application/ld+json">\n${json(breadcrumb)}\n</script>\n<!-- SEO-BREADCRUMB:end -->`
+    `<!-- SEO-BREADCRUMB:start -->\n<script type="application/ld+json" id="ss-jsonld-breadcrumb">\n${json(breadcrumb)}\n</script>\n<!-- SEO-BREADCRUMB:end -->`
   );
 
   const topic = topicOf(s);

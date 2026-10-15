@@ -168,7 +168,19 @@
 
     function append(obj, id){
       // Update in place if we've emitted this id before (idempotent).
+      // Prerendered pages already include a BreadcrumbList without an id.
+      // Reuse that block so JS does not add a second, conflicting list.
       var existing = document.getElementById(id);
+      if (!existing && id === 'ss-jsonld-breadcrumb') {
+        var blocks = document.querySelectorAll('script[type="application/ld+json"]');
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].textContent.indexOf('"BreadcrumbList"') !== -1 || blocks[i].textContent.indexOf('BreadcrumbList') !== -1) {
+            existing = blocks[i];
+            existing.id = id;
+            break;
+          }
+        }
+      }
       var el = existing || document.createElement('script');
       el.type = 'application/ld+json';
       el.id = id;

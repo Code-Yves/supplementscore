@@ -19,7 +19,11 @@ if (!Array.isArray(S)) throw new Error('S not found in data.js');
 
 // Same function as supplement-detail.js injectSchema, sans DOM injection.
 function buildSchema(s, slug) {
-  const url = 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
+  // Match production: prerendered pages self-canonicalise at /supplement/<slug>.html.
+  const staticFile = new URL(`../supplement/${slug}.html`, import.meta.url);
+  const url = fs.existsSync(staticFile)
+    ? 'https://supplementscore.org/supplement/' + slug + '.html'
+    : 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
   const name = s.n || '';
   const altMatch = name.match(/\(([^)]+)\)/);
   const altName = altMatch ? altMatch[1].trim() : null;

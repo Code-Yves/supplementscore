@@ -145,8 +145,9 @@
 </a>
 
 <main class="dt-wrap" id="dt-root"></main>
-<script src="data.js?v=6a6d2829"></script>
-<script src="search-index.js?v=676b4b76"></script>
+<script src="a/manifest.js?v=4ea1dab8"></script>
+<script src="data.js?v=40401574"></script>
+<script src="search-index.js?v=0fc058e6"></script>
 <script src="nav-search.js?v=64e43b51"></script>
 <script src="supplement-modal.js?v=fd03d664" defer></script>
 <script>
@@ -176,6 +177,14 @@
     var dest = '/a/' + id + '.html';
     root.innerHTML = '<a class="dt-back" href="' + dest + '">‹ Article</a><h1 class="dt-h1">Redirecting…</h1><p><a href="' + dest + '">' + escapeHtml(id) + '</a></p>';
     try { location.replace(dest); } catch(_){}
+    return;
+  }
+  // Numeric ids that have a real article file should leave this noindex shell.
+  if (/^\d+$/.test(id) && window.__ART_MANIFEST && window.__ART_MANIFEST[id]) {
+    ensureNoindex();
+    var fileDest = '/a/' + window.__ART_MANIFEST[id];
+    root.innerHTML = '<a class="dt-back" href="' + fileDest + '">‹ Article</a><h1 class="dt-h1">Redirecting…</h1><p><a href="' + fileDest + '">Open the article</a></p>';
+    try { location.replace(fileDest); } catch (_) {}
     return;
   }
   var a = window.SS.getArticle(id);

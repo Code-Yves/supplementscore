@@ -57,7 +57,12 @@
 
   function urlFor(type, key) {
     var k = encodeURIComponent(key);
-    if (type === 'article')    return 'article.html?id='     + k;
+    if (type === 'article') {
+      var id = String(key == null ? '' : key);
+      var man = (typeof window !== 'undefined' && window.__ART_MANIFEST) ? window.__ART_MANIFEST : null;
+      if (man && man[id]) return '/a/' + man[id];
+      return 'article.html?id=' + encodeURIComponent(id);
+    }
     if (type === 'supplement') return supplementPath(key);
     if (type === 'condition')  return 'condition.html?slug='  + k;
     if (type === 'medication') return 'medication.html?slug=' + k;
