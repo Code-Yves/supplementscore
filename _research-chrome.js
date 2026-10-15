@@ -22,8 +22,12 @@
   'use strict';
 
   /* Idempotency guard — don't double-inject if hot-reloaded */
-  if (window.__rcInit) return;
+  if (window.__rcInit) {
+    document.documentElement.classList.add('rc-ready');
+    return;
+  }
   window.__rcInit = true;
+  try {
 
   /* If we're rendered inside the homepage's research-modal iframe, swap to
      embedded mode: the parent owns the close chrome, the global footer is
@@ -908,4 +912,9 @@
   /* 5. TAIL BLOCKS — rebuild "Supplements", "Related articles", "Sources"
      into mockup-v7 .rc-aend treatment so they stop being plain link lists. */
   try { normalizeTailBlocks(); } catch(err){ /* fail-safe: never block render */ }
+  } catch (err) { /* reveal the article even if chrome setup throws */ }
+  finally {
+    document.documentElement.classList.add('rc-chrome-active');
+    document.documentElement.classList.add('rc-ready');
+  }
 })();

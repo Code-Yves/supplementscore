@@ -111,7 +111,17 @@ input,button{font-family:inherit}
 .ix-search input{width:100%;padding:12px 20px 12px 44px;font-family:inherit;font-size:14px;background:var(--color-surface);border:1.5px solid var(--color-border-secondary);color:var(--color-text-primary);border-radius:999px;box-sizing:border-box}
 .ix-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:16px;height:16px;pointer-events:none}
 .ix-hero-bg{display:none !important}
-#hero{position:relative;border-radius:18px;overflow:hidden;min-height:300px;background:linear-gradient(90deg,#3A8276 0%,#4DA095 100%);color:#F8F4ED}
+/* Slides are taken out of flow here, in the blocking sheet. Until this
+   rule exists they stack at full height, then the late stylesheet
+   collapses them and the card below jumps. */
+#hero{position:relative;border-radius:18px;overflow:hidden;height:340px;min-height:340px;background:linear-gradient(90deg,#3A8276 0%,#4DA095 100%);color:#F8F4ED}
+#hero .hero-slide,#hero .hero-pattern-bg,#hero .hero-controls,#hero .hero-counter,#hero .hero-progress{position:absolute}
+#hero .hero-pattern-bg{inset:0}
+#hero .hero-slide{inset:36px 36px 92px 36px;opacity:0;z-index:3}
+#hero .hero-slide.active{opacity:1}
+#hero .hero-controls{right:30px;bottom:28px;z-index:5;display:flex;align-items:center;gap:10px}
+#hero .hero-counter{top:44px;right:32px;z-index:4}
+#hero .hero-progress{left:0;right:0;bottom:0;height:3px}
 #main-ui{min-height:calc(100svh - 240px)}
 @media(max-width:600px){
   .beta-bar{position:fixed;top:0;left:0;right:0;width:100%;margin:0;height:calc(22px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;font-size:10px;gap:4px;z-index:31}
@@ -123,5 +133,6 @@ input,button{font-family:inherit}
   .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45}
   .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
   .ix-hero .ix-search input{font-size:13px;padding:9px 16px 9px 38px}
-  #hero{min-height:200px;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px}
+  #hero{height:200px !important;min-height:200px !important;max-height:200px !important;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px;overflow:hidden !important}
+  #hero .hero-slide{inset:14px 14px 56px 14px}
 }

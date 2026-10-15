@@ -64,3 +64,13 @@ html.rc-chrome-active .ss-last-reviewed{display:none !important}
 }
 .rc-trust-item{display:inline-flex;align-items:center;gap:5px}
 img{max-width:100%;height:auto}
+/* The header script inserts the top bar and moves the opening summary.
+   Keep the article invisible until that script finishes so the summary
+   does not jump. Readers without JavaScript still see the article. */
+html.rc-hold:not(.rc-ready) main.ar-wrap,
+html.rc-hold:not(.rc-ready) main.sx-wrap,
+html.rc-hold:not(.rc-ready) main.ca-wrap,
+html.rc-hold:not(.rc-ready) main.sk-wrap{visibility:hidden}
+@media (scripting: none){
+  main.ar-wrap,main.sx-wrap,main.ca-wrap,main.sk-wrap{visibility:visible !important}
+}

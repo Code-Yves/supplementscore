@@ -78,11 +78,13 @@
        down in this file; we wait two animation frames to let that
        finish before mirroring numbers onto the button. */
     if (typeof window !== 'undefined') {
-      window.addEventListener('DOMContentLoaded', function(){
+      function _syncCats(){
         requestAnimationFrame(function(){
           requestAnimationFrame(rsCatDdSync);
         });
-      });
+      }
+      if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', _syncCats);
+      else _syncCats();
     }
 
 /* ===== Block 2 (from line 16567, 323 lines) ===== */
@@ -638,7 +640,9 @@ if (document.querySelector('.article-list')) {
     _cardsBooted = true;
     loadDeferredArticleCards();
   }
-  window.addEventListener('load', function(){ setTimeout(bootDeferredArticleCards, 1600); });
+  function _bootCardsLater(){ setTimeout(bootDeferredArticleCards, 1600); }
+  if (document.readyState === 'complete') _bootCardsLater();
+  else window.addEventListener('load', _bootCardsLater);
   document.addEventListener('click', function(e){
     var t = e.target && e.target.closest && e.target.closest('#art-filter, #art-filter-menu, a[href="#research"], .article-card');
     if (t) bootDeferredArticleCards();

@@ -5020,7 +5020,8 @@ function _showShareToast(msg){const t=document.getElementById('art-share-toast')
 function shareArticle(){const id=_currentArticleId;if(!id)return;const body=document.getElementById('art-modal-body');const titleEl=body?body.querySelector('h2'):null;const title=titleEl?titleEl.textContent.trim():'Supplement Score';const url=location.origin+location.pathname+'#article-'+id;const shareData={title:title,text:title+' — via Supplement Score',url:url};const btn=document.getElementById('art-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
 function _legacyCopy(txt){try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}catch(e){}}
 function _articleCanOpen(id){var mf=window.__ART_MANIFEST;return !!((mf&&(mf[id]||mf[String(id)]))||document.getElementById('article-'+id));}
-window.addEventListener('DOMContentLoaded',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);setTimeout(()=>{if(_articleCanOpen(id))goArticle(id);},120);}});
+function _openHashArticle(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);setTimeout(()=>{if(_articleCanOpen(id))goArticle(id);},120);}}
+if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',_openHashArticle);else _openHashArticle();
 window.addEventListener('hashchange',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);if(id!==_currentArticleId&&_articleCanOpen(id))goArticle(id);}else if(_currentArticleId&&!location.hash){closeArtModal();}});
 function _updateArtNav(){const idx=_artNavList.indexOf(_currentArticleId);const p=document.getElementById('art-prev-btn');const n=document.getElementById('art-next-btn');if(p)p.disabled=idx<=0;if(n)n.disabled=idx<0||idx>=_artNavList.length-1;}
 function artNavPrev(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>0)goArticle(_artNavList[idx-1]);}
@@ -6715,13 +6716,13 @@ function fitLogoStrip(){
     });
   });
 }
-window.addEventListener('load',fitLogoStrip);
 window.addEventListener('resize',function(){clearTimeout(window.__fitLST);window.__fitLST=setTimeout(fitLogoStrip,80);});
-document.addEventListener('DOMContentLoaded',fitLogoStrip);
+if(document.readyState==='complete')fitLogoStrip();
+else{window.addEventListener('load',fitLogoStrip);document.addEventListener('DOMContentLoaded',fitLogoStrip);}
 
 /* A11y: make hero slides (clickable divs) keyboard-navigable via a single delegated handler.
    Adds role="link" + tabindex=0 once on load, and routes Enter/Space to their native click. */
-document.addEventListener('DOMContentLoaded',function(){
+function _heroSlideA11y(){
   document.querySelectorAll('.hero-slide').forEach(function(el){
     if(!el.hasAttribute('role'))el.setAttribute('role','link');
     if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0');
@@ -6730,7 +6731,8 @@ document.addEventListener('DOMContentLoaded',function(){
       if(t)el.setAttribute('aria-label',t.textContent.trim());
     }
   });
-});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_heroSlideA11y);else _heroSlideA11y();
 /* Consolidated global keydown handler — merges prior plan-modal, article-modal,
    supplement-card, and hero-slide listeners. */
 document.addEventListener('keydown',function(e){
