@@ -936,34 +936,56 @@
         if (candidates[ci]) entries = db[candidates[ci]];
       }
       if (!entries || !entries.length) return;
-      var rows = entries.map(function(b){
+      // Show a mix of brands, not ten flavors of the same powder.
+      var buckets = {}, order = [];
+      entries.forEach(function(b){
+        var k = b.brandSlug || b.brand;
+        if (!buckets[k]) { buckets[k] = []; order.push(k); }
+        buckets[k].push(b);
+      });
+      var shown = [], round = 0, guard = 0;
+      while (shown.length < 8 && guard < 40) {
+        var added = false;
+        for (var bi = 0; bi < order.length && shown.length < 8; bi++) {
+          if (buckets[order[bi]][round]) { shown.push(buckets[order[bi]][round]); added = true; }
+        }
+        if (!added) break;
+        round++; guard++;
+      }
+      var rows = shown.map(function(b){
         var verified = (b.verified||[]).map(function(v){
-          return '<span class="bq-v">'+escHtml(v)+'</span>';
+          var label = escHtml(v);
+          if (b.listing) return '<a class="bq-v" href="'+escHtml(b.listing)+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+          return '<span class="bq-v">'+label+'</span>';
         }).join('');
-        // Strip "N servings" from size; keep any parenthetical weight (e.g. "90 servings (450g)" → "450g").
         var sz = (b.size||'').trim();
         var srvParen = sz.match(/^\d+(?:\.\d+)?\s*servings?\s*\((.+)\)\s*$/i);
         if (srvParen) { sz = srvParen[1]; }
         else { sz = sz.replace(/^\d+(?:\.\d+)?\s*servings?\s*/i, '').trim(); }
         var formSize = [b.form, sz].filter(Boolean).join(' · ');
         var sub = [formSize, b.notes].filter(Boolean).join(' — ');
+        var nameHtml = escHtml(b.brand);
+        if (b.brandSlug) nameHtml = '<a href="/brand/'+escHtml(b.brandSlug)+'.html">'+nameHtml+'</a>';
         return ''
           + '<div class="bq-row">'
           +   '<div class="bq-row-head">'
-          +     '<div class="bq-name">'+escHtml(b.brand)+'</div>'
+          +     '<div class="bq-name">'+nameHtml+'</div>'
           +     '<div class="bq-verified">'+verified+'</div>'
           +   '</div>'
           +   (sub ? '<div class="bq-sub">'+escHtml(sub)+'</div>' : '')
           + '</div>';
       }).join('');
+      var more = entries.length > shown.length
+        ? ' Showing '+shown.length+' of '+entries.length+' products with a public listing.'
+        : '';
       slot.innerHTML =
         '<section class="det-bq" id="det-brands">'
         + '<div class="bq-head">'
         +   '<span class="bq-tag">Verified brands</span>'
-        +   '<span class="bq-meta">Third-party-tested · no affiliate links</span>'
+        +   '<span class="bq-meta">Named on a public certifier list · no affiliate links</span>'
         + '</div>'
         + '<div class="bq-list">'+rows+'</div>'
-        + '<p class="bq-foot">Listings are public certifier registries (NSF, USP, ConsumerLab, LabDoor, IFOS) as of 2026-05-02. We earn nothing from any listed product. <a href="about.html#funding">Read our funder policy</a>.</p>'
+        + '<p class="bq-foot">Checked 15 October 2026 against the certifier\'s own list. A seal covers that product, not the whole brand.'+more+' <a href="/brands.html">Verified brands directory</a>. We earn nothing from any listed product. <a href="/about.html#funding">Read our funder policy</a>.</p>'
         + '</section>';
     }).catch(function(){ /* silent — non-essential */ });
   })();

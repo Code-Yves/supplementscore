@@ -1,0 +1,4341 @@
+{
+  "updated": "2026-10-15",
+  "method": "Each product name was taken from a public certifier page or the October 2026 Informed-Sport or Informed-Choice list. ConsumerLab approvals were not added because those results are not public.",
+  "brands": [
+    {
+      "slug": "nature-made",
+      "name": "Nature Made",
+      "knownFor": "Nature Made is a mass-market vitamin brand sold in US pharmacies and grocery stores. Many of its US formulas are on the public USP Verified directory. The Informed-Choice register for October 2026 lists a separate set of Nature Made names, including Super D and Super Fish Oil. Those names are not the same entries as the USP softgels and tablets. A seal on one formula does not cover the rest of the line.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Nature Made Vitamin D3 2000 IU (50 Mcg) Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin D3 1000 IU (25 Mcg) Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin D3 2000 IU (50 Mcg) Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Vitamin D3 1000 IU (25 Mcg) Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Vitamin D3 Extra Strength 5000 IU (125 Mcg) Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin D3 Extra Strength 5000 IU (125 mcg) Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Vitamin D3 2000 IU (50 Mcg) Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Zero Sugar Vitamin D3 Gummies 2000 IU Per Serving",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Vitamin D3 + K2 Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3",
+            "Vitamin K2 (MK-7)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Fish Oil 1000 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Fish Oil 1200 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Fish Oil Pearl 550 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Fish Oil Pearls 550 mg Omega-3 Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Fish Oil Derived Omega-3 1200 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Flaxseed Oil 1000 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Flaxseed oil (ALA omega-3)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Flaxseed Oil 1400 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Flaxseed oil (ALA omega-3)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin C 500 Mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Vitamin C 500 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin C 500 mg with Rose Hips Caplets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Caplet"
+        },
+        {
+          "name": "Nature Made Vitamin C Extra Strength 500 Mg Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Zero Sugar Vitamin C Gummies 250 Mg Per Serving",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Vitamin C 1000 Mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (megadose)"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Zinc 30 Mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Zinc"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Vitamin B12 500 Mcg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin B12"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Vitamin B12 Extra Strength 3000 mcg Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin B12"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Vitamin B12 Maximum Strength 5000 Mcg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin B12"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin B12 3000 Mcg Fast Dissolve Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin B12"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Zero Sugar Vitamin B12 Gummies 1000 Mcg Per Serving",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin B12"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Vitamin B6 100 Mg Tablets",
+          "program": "USP Verified",
+          "form": "Tablet",
+          "note": "On the USP list. Not linked to the vitamin B6 page, which covers the P5P form rather than this tablet."
+        },
+        {
+          "name": "Nature Made Vitamin K2 100 Mcg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin K2 (MK-7)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Vitamin E 400 IU (180 Mg) Dl-Alpha Softgels",
+          "program": "USP Verified",
+          "form": "Softgel",
+          "note": "On the USP list. Not linked to the mixed-tocopherol vitamin E page, because this softgel is dl-alpha."
+        },
+        {
+          "name": "Nature Made Vitamin E 400 IU (267 Mg) D-Alpha Softgels",
+          "program": "USP Verified",
+          "form": "Softgel",
+          "note": "On the USP list. d-alpha, not the mixed-tocopherol card."
+        },
+        {
+          "name": "Nature Made Vitamin E 1000 IU (450 Mg) Dl-Alpha Softgels",
+          "program": "USP Verified",
+          "form": "Softgel",
+          "note": "On the USP list. dl-alpha, not the mixed-tocopherol card."
+        },
+        {
+          "name": "Nature Made CoQ10 100 Mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "CoQ10 (ubiquinone, classic form)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature Made Calcium 600 mg with Vitamin D3 Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Calcium",
+            "Vitamin D3"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Calcium, Magnesium and Zinc with D3 Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Calcium",
+            "Magnesium",
+            "Zinc",
+            "Vitamin D3"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Iron 65 Mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Iron"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Potassium Gluconate 550 Mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Potassium gluconate"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Melatonin 5 Mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Melatonin"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Melatonin 2.5 mg Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Melatonin"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Melatonin 10 mg Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Melatonin (high-dose, nightly)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Zero Sugar Melatonin Extra Strength 5 Mg Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Melatonin"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Prenatal Multivitamin Tablets",
+          "program": "USP Verified",
+          "form": "Tablet",
+          "note": "On the USP list. This site has no separate prenatal card."
+        },
+        {
+          "name": "Nature Made Multivitamin with Iron Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)",
+            "Iron"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature Made Advanced Multivitamin For Adults Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Advanced Multivitamin Gummies For Her",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Advanced Multivitamin Gummies For Him",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Advanced Multivitamin 50+ for Her Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Advanced Multivitamin 50+ for Him Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Zero Sugar Multivitamin Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Multivitamin + Omega-3 Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)",
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Kids First Multi with Omega-3 Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)",
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Multi + Omega-3 For Her Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)",
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Nature Made Turmeric Curcumin High Absorption 250 mg Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Curcumin (bioavailable form)"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "Nature Made Turmeric Extra Strength 1000 Mg (950 Mg Curcuminoids) Per Serving Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Curcumin (bioavailable form)"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "Nature Made Glucosamine Chondroitin Complex with MSM Triple Strength + Vitamin D3",
+          "program": "USP Verified",
+          "supplements": [
+            "Glucosamine / Chondroitin",
+            "Vitamin D3"
+          ]
+        },
+        {
+          "name": "Nature Made B-Complex",
+          "program": "Informed Choice",
+          "supplements": [
+            "B-complex (balanced)"
+          ]
+        },
+        {
+          "name": "Nature Made Astaxanthin",
+          "program": "Informed Choice",
+          "supplements": [
+            "Astaxanthin"
+          ]
+        },
+        {
+          "name": "Nature Made Iron",
+          "program": "Informed Choice",
+          "supplements": [
+            "Iron"
+          ]
+        },
+        {
+          "name": "Nature Made Super Fish Oil",
+          "program": "Informed Choice",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ]
+        },
+        {
+          "name": "Nature Made Multiple Mineral",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Nature Made Calcium Magnesium with Zinc",
+          "program": "Informed Choice",
+          "supplements": [
+            "Calcium",
+            "Magnesium",
+            "Zinc"
+          ],
+          "note": "October 2026 Informed-Choice list, in the Nature Made block."
+        },
+        {
+          "name": "Nature Made C",
+          "program": "Informed Choice",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ]
+        },
+        {
+          "name": "Nature Made Multiple Vitamin",
+          "program": "Informed Choice",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ]
+        },
+        {
+          "name": "Nature Made Zinc",
+          "program": "Informed Choice",
+          "supplements": [
+            "Zinc"
+          ]
+        },
+        {
+          "name": "Nature Made Super D",
+          "program": "Informed Choice",
+          "supplements": [
+            "Vitamin D3"
+          ]
+        },
+        {
+          "name": "Nature Made Multiple Vitamin & Minerals",
+          "program": "Informed Choice",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ]
+        },
+        {
+          "name": "Nature Made E",
+          "program": "Informed Choice",
+          "note": "On the Informed-Choice list. Not linked to the mixed-tocopherol vitamin E page."
+        },
+        {
+          "name": "Nature Made Super Calcium",
+          "program": "Informed Choice",
+          "supplements": [
+            "Calcium"
+          ]
+        },
+        {
+          "name": "Nature Made Super Multiple Vitamin & Minerals",
+          "program": "Informed Choice",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ]
+        },
+        {
+          "name": "Nature Made Calcium",
+          "program": "Informed Choice",
+          "supplements": [
+            "Calcium"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "kirkland-signature",
+      "name": "Kirkland Signature",
+      "knownFor": "Kirkland Signature is Costco's store brand. The USP Verified directory lists vitamins, minerals, fish oil, krill oil, and joint tablets under this name. One whey flavor is on the Informed-Choice list. Many other Kirkland supplements are not on either list.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Kirkland Signature Magnesium Citrate 250 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Magnesium citrate"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Kirkland Signature Chewable Vitamin C 500 mg Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Kirkland Signature Vitamin C 250 mg Adult Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Kirkland Signature Calcium Citrate, Magnesium and Zinc Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Calcium",
+            "Magnesium",
+            "Zinc"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Kirkland Signature Calcium 600 mg with Vitamin D3 Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Calcium",
+            "Vitamin D3"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Kirkland Signature Daily Multi Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Kirkland Signature Adult Multivitamin Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Kirkland Signature Children's Multivitamin Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        },
+        {
+          "name": "Kirkland Signature Vitamin E 180 mg Softgels",
+          "program": "USP Verified",
+          "form": "Softgel",
+          "note": "On the USP list. Not linked to the mixed-tocopherol vitamin E page."
+        },
+        {
+          "name": "Kirkland Signature Fish Oil 1000 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Kirkland Signature Wild Alaskan Fish Oil 1400 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Kirkland Signature Krill Oil 500 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Krill oil"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Kirkland Signature Glucosamine & Chondroitin Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Glucosamine / Chondroitin"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Kirkland Signature Glucosamine with MSM Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Glucosamine / Chondroitin"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Kirkland Signature Energy Shot",
+          "program": "USP Verified",
+          "form": "Shot",
+          "note": "On the USP list. An energy shot, not mapped to a single ingredient page."
+        },
+        {
+          "name": "Kirkland Signature Extra Strength Energy Shot",
+          "program": "USP Verified",
+          "form": "Shot"
+        },
+        {
+          "name": "Kirkland Signature Whey Protein Creamy Chocolate",
+          "program": "Informed Choice",
+          "supplements": [
+            "Whey protein"
+          ],
+          "form": "Powder"
+        }
+      ]
+    },
+    {
+      "slug": "members-mark",
+      "name": "Member's Mark",
+      "knownFor": "Member's Mark is Sam's Club's store brand. The USP directory lists fish oil, vitamin D, CoQ10, lutein, and probiotic capsules under this name. Other Member's Mark supplements are not assumed to carry the mark.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Member's Mark 900 mg Triple Strength Omega-3 from Fish Oil Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Member's Mark Vitamin D3 50 mcg (2000 IU) Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Member's Mark Vitamin D3 125 mcg (5000 IU) Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Member's Mark CoQ10 200mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "CoQ10 (ubiquinone, classic form)"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Member's Mark Lutein 25mg with Zeaxanthin 5mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Lutein + Zeaxanthin"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Member's Mark Women's Daily Probiotic Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Probiotics"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "Member's Mark 10 Strain Probiotic Digestive Care Supplement Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Probiotics"
+          ],
+          "form": "Capsule"
+        }
+      ]
+    },
+    {
+      "slug": "trunature",
+      "name": "trunature",
+      "knownFor": "trunature is a Costco supplement line. The USP directory lists probiotic, milk thistle, turmeric, astaxanthin, and lutein products under this name.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "trunature Women's Daily Probiotic Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Probiotics"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "trunature Advanced Digestive Probiotic Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Probiotics"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "trunature Premium Milk Thistle 160 mg Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Milk thistle (Silymarin)"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "trunature Premium Turmeric 1000 mg Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Curcumin (bioavailable form)"
+          ],
+          "form": "Capsule"
+        },
+        {
+          "name": "trunature Astaxanthin 6 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Astaxanthin"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "trunature Vision Complex Lutein & Zeaxanthin Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Lutein + Zeaxanthin"
+          ],
+          "form": "Softgel"
+        }
+      ]
+    },
+    {
+      "slug": "natures-bounty",
+      "name": "Nature's Bounty",
+      "knownFor": "Nature's Bounty is a pharmacy vitamin brand. Three formulas were on the USP Verified directory when checked: vitamin D, vitamin B12, and fish oil. The rest of the line was not on the pages reviewed.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Nature's Bounty Vitamin D3 125 mcg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Softgel"
+        },
+        {
+          "name": "Nature's Bounty Vitamin B-12 2500 mcg Quick Dissolve Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Vitamin B12"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Nature's Bounty Fish Oil 1400 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        }
+      ]
+    },
+    {
+      "slug": "ritual",
+      "name": "Ritual",
+      "knownFor": "Ritual sells a small set of direct-to-consumer multivitamins. The USP directory listed Essential for Women Multivitamin 18+. A prenatal USP claim used on this site before was not on the directory when checked, so it is not listed.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Ritual Essential for Women Multivitamin 18+",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Capsule"
+        }
+      ]
+    },
+    {
+      "slug": "culturelle",
+      "name": "Culturelle",
+      "knownFor": "Culturelle is known for Lactobacillus rhamnosus GG probiotics. The USP directory listed Culturelle Digestive Daily Probiotic Vegetarian Capsules. That is the formula named here. Other Culturelle boxes were not on the directory pages reviewed.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Culturelle Digestive Daily Probiotic Vegetarian Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Probiotics"
+          ],
+          "form": "Capsule"
+        }
+      ]
+    },
+    {
+      "slug": "pure-alaska-omega",
+      "name": "Pure Alaska Omega",
+      "knownFor": "Pure Alaska Omega sells wild Alaska salmon oil. One softgel was on the USP Verified directory.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Pure Alaska Omega Wild Salmon Oil 1000 mg Softgels",
+          "program": "USP Verified",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel"
+        }
+      ]
+    },
+    {
+      "slug": "youtheory",
+      "name": "youtheory",
+      "knownFor": "youtheory is known for turmeric and collagen products sold at club stores. One turmeric capsule was on the USP Verified directory. Collagen from this brand was not on the USP pages reviewed.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "youtheory Turmeric Extra Strength Formula 1000 mg Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Curcumin (bioavailable form)"
+          ],
+          "form": "Capsule"
+        }
+      ]
+    },
+    {
+      "slug": "natures-lab",
+      "name": "Nature's Lab",
+      "knownFor": "Nature's Lab sells concentrated botanicals, often at club stores. One turmeric curcumin capsule was on the USP Verified directory.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Nature's Lab Turmeric Curcumin C3 1000mg Capsules",
+          "program": "USP Verified",
+          "supplements": [
+            "Curcumin (bioavailable form)"
+          ],
+          "form": "Capsule"
+        }
+      ]
+    },
+    {
+      "slug": "vitafusion",
+      "name": "vitafusion",
+      "knownFor": "vitafusion is a gummy vitamin brand. Two products were on the USP Verified directory: a fiber gummy and a multivitamin gummy. Other vitafusion gummies were not on the pages reviewed.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "vitafusion Fiberwell Gummy",
+          "program": "USP Verified",
+          "form": "Gummy",
+          "note": "On the USP list. The fiber source is not named on the directory title, so it is not linked to psyllium."
+        },
+        {
+          "name": "vitafusion MultiVites Gummies",
+          "program": "USP Verified",
+          "supplements": [
+            "Multivitamins (healthy adults)"
+          ],
+          "form": "Gummy"
+        }
+      ]
+    },
+    {
+      "slug": "natrol",
+      "name": "Natrol",
+      "knownFor": "Natrol is known for melatonin and biotin fast-dissolve tablets. Two products were on the USP Verified directory.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Natrol Melatonin 5 mg Fast Dissolve Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Melatonin"
+          ],
+          "form": "Tablet"
+        },
+        {
+          "name": "Natrol Biotin Maximum Strength Fast Dissolve Tablets",
+          "program": "USP Verified",
+          "supplements": [
+            "Biotin (high-dose)"
+          ],
+          "form": "Tablet"
+        }
+      ]
+    },
+    {
+      "slug": "estroven",
+      "name": "Estroven",
+      "knownFor": "Estroven sells menopause symptom products in pharmacies. One caplet was on the USP Verified directory.",
+      "programs": [
+        {
+          "id": "USP Verified",
+          "listing": "https://www.quality-supplements.org/usp_verified_products",
+          "checked": "2026-10-15",
+          "scope": "These names were on the USP Verified product directory at quality-supplements.org on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Estroven Complete Multi-Symptom Menopause Relief Caplets",
+          "program": "USP Verified",
+          "form": "Caplet",
+          "note": "On the USP list. This site has no single ingredient page that matches this blend."
+        }
+      ]
+    },
+    {
+      "slug": "jamieson",
+      "name": "Jamieson",
+      "knownFor": "Jamieson is a Canadian vitamin brand. Two products have active, marketed natural health product licences in Health Canada's database. An NPN means the product is licensed for sale in Canada. It is not a USP or NSF purity test, and these products were not on the USP Verified directory.",
+      "programs": [
+        {
+          "id": "Health Canada NPN",
+          "listing": "https://health-products.canada.ca/lnhpd-bdpsnh/",
+          "checked": "2026-10-15",
+          "scope": "Each product links to its own licence page. Both licences were active and marketed when opened on 15 October 2026."
+        }
+      ],
+      "products": [
+        {
+          "name": "Jamieson Kids Chewable Vitamin D3 400 IU",
+          "program": "Health Canada NPN",
+          "supplements": [
+            "Vitamin D3"
+          ],
+          "form": "Chewable tablet",
+          "note": "NPN 80015933. Vitamin D 10 mcg (400 IU). Ages 3 and older, 1 to 2 tablets daily. Licence revised 13 June 2025.",
+          "listing": "https://health-products.canada.ca/lnhpd-bdpsnh/info?licence=80015933"
+        },
+        {
+          "name": "Jamieson Omega 3 Select",
+          "program": "Health Canada NPN",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ],
+          "form": "Softgel",
+          "note": "NPN 80002596. The licence lists fish oil 1000 mg providing 300 mg EPA and 200 mg DHA. Licence revised 16 May 2019.",
+          "listing": "https://health-products.canada.ca/lnhpd-bdpsnh/info?licence=80002596"
+        }
+      ]
+    },
+    {
+      "slug": "thorne",
+      "name": "Thorne",
+      "knownFor": "Thorne sells single-ingredient and practitioner formulas used by athletes and clinics. The products below are the ones that came up in the NSF Certified for Sport search. Thorne's own site describes a wider catalog. A bottle that is not named here should be checked on the NSF directory before you treat it as Certified for Sport.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Thorne",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Thorne® Amino Complex (Berry Flavored Amino Acids)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Amino Complex (Lemon Flavored Amino Acids)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Beta Alanine-SR",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Beta Alanine-SR",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Creatine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Curcumin Phytosome",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® EnteroMend®",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® FloraSport 20B®",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® L-Glutamine Powder",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Magnesium Bisglycinate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Melaton-3™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® NiaCel 400®",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Pre-Workout Elite",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® RecoveryPro® Chocolate Flavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Super EPA (EPA & DHA)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® SynaQuell+™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® SynaQuell™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Whey Protein Isolate Chocolate Flavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Whey Protein Isolate Vanilla Flavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Advanced Iron Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Advanced Pre-Workout (Rainbow Sherbet Flavor)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Advanced Testosterone Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Amino Complex Berry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Amino Complex Lemon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® B-Complex #6",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Basic Nutrients 2/Day",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Basic Prenatal",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Catalyte®",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Cognitive Vitality",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Collagen Fit",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Creatine + Alpha GPC (Watermelon Lemonade Flavored)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Creatine + BCAA (Peach Mango Flavored)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Creatine Pineapple Orange",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Creatine Strawberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Blackberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Blood Orange",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Grapefruit",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Mango Limeade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Strawberry Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Variety Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Variety Pack II",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Daily Electrolytes Watermelon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Glutathione-SR",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Immune Activator‡",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Leaky Gut Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Multi-Vitamin Elite",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Perimenopause Complete",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Plant Protein (Chocolate Flavored)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Plant Protein (Vanilla Flavored)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Protein Optimizer",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Radiant Skin Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Vitamin B12",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Thorne® Women's Libido Boost",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "klean-athlete",
+      "name": "Klean Athlete",
+      "knownFor": "Klean Athlete is a sport line built around banned-substance testing. The NSF Certified for Sport search returned creatine, protein, omega-3, vitamin D, iron, zinc, magnesium, collagen, and a multivitamin, among other formulas.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Klean+Athlete",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Klean Athlete® Klean Creatine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Essential Aminos + HMB",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Antioxidant™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Antioxidant™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Ashwagandha",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Athlete Klean Iron",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean B-Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean BCAA + PeakATP",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Calcium (Citrate)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Casein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Casein Natural Chocolate Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Casein Natural Vanilla Custard Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Collagen+C",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN COLLAGEN +C",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Collagen + C Unflavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN COLLAGEN +C Natural Tropical Fruit Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Creatine (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN D",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN-D 25 mcg (1,000)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN-D™ 5000",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean DHA",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Electrolytes ™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Electrolytes™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Endurance™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Endurance™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Focus™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Focus™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Glutamine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Gummy Multivitamin",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Hydration™ Natural Orange Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Iron",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN ISOLATE™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN ISOLATE™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN ISOLATE™ Natural Chocolate Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN ISOLATE™ Natural Vanilla Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Isolate Natural Strawberry Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Joint & Muscle",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Magnesium",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Melatonin",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Multivitamin™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Multi™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Multi™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Omega™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Omega™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Pre-Workout",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Probiotic™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Probiotic™ (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN Recovery™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Zinc",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN-D",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "KLEAN-D™ 1000 (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Klean Athlete Sport Pack",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "momentous",
+      "name": "Momentous",
+      "knownFor": "Momentous sells single-ingredient sport and health products. Almost everything below is NSF Certified for Sport. One product, Momentous Tongkat Ali, is on the October 2026 Informed-Sport list. The rest of the line is not described as Informed-Sport here.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Momentous",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        },
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Acetyl L-Carnitine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Alpha GPC",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Apigenin",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Berberine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Calcium",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "MOMENTOUS COLLAGEN PEPTIDES",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Shot",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Shot - Orange Mango Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Shot - Sour Watermelon Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Shot – Wild Berry Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CoQ10",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Lemon Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Monohydrate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Watermelon Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Chews",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Chews Lemon Lime",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Chews Mango",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Chews Strawberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Elite Sleep",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Grass Fed-Whey Protein Unflavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Multivitamin",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Protein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Grass Fed-Whey Protein Chocolate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Grass Fed-Whey Protein Vanilla",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Protein 100% Plant Based Chocolate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Essential Protein 100% Plant Based Vanilla Chai",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Fiber",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Fiber – Orange",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Fiber – Pure Cinnamon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Fiber – Unflavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Daily Hydration – Blood Orange Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Daily Hydration – Grapefruit Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Daily Hydration – Lemonade Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Daily Hydration – Watermelon Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Iron+",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L-Glutamine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L-Theanine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Longevity Cellular Health",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Magnesium Malate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Magnesium Bisglycinate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Magnesium Threonate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Ashwagandha",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Brain Drive",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Inositol",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Momentous Omega-3",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nightly Sleep",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Plant Protein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Plant Protein – Cappuccino Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Plant Protein – Vanilla",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Plant Protein – Vanilla Spice",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pre Workout - Citrus",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pre-Workout Lemonade Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recover",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recover Chocolate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recover Vanilla",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recovery",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recovery Chocolate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recovery Vanilla",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Resveratrol",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Rhodiola Rosea",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Sleep",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Turmeric Ultra",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Tyrosine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vegan Omega 3",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Aminos Tropical Punch",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D3 2000IU",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate – Chocolate Coconut Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate – Chocolate Fudge Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate – Chocolate Mint Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate – Cinnamon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate – Spiced Chai Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Whey Protein Isolate – Strawberry Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Zinc",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Momentous Tongkat Ali",
+          "program": "Informed Sport",
+          "supplements": [
+            "Tongkat ali (Eurycoma longifolia, standardised)"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "nordic-naturals",
+      "name": "Nordic Naturals",
+      "knownFor": "Nordic Naturals is known for fish oil. The NSF Certified for Sport search listed Ultimate Omega Sport, an omega product with vitamin D, a ubiquinol sport softgel, and sport gummies. Other Nordic Naturals bottles, including the everyday Ultimate Omega that is not the Sport SKU, were not in that search result.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Nordic+Naturals",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Nordic CoQ10™ Ubiquinol Sport",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Ultimate Omega 2X Sport",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Ultimate Omega 2X Sport (NUS-01807)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Ultimate Omega-D3 Sport",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Ultimate Omega D3 Sport (Peru)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin C Gummies Sport",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D3 Gummies Sport",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin C Gummies Sport (SMP-00089)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D3 Gummies Sport (RUS-31142)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D3 Gummies Sport (SMP-00088)",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "designs-for-sport",
+      "name": "Designs for Sport",
+      "knownFor": "Designs for Sport is the athlete line from Designs for Health. The NSF Certified for Sport search listed creatine, whey, magnesium bisglycinate, curcumin, omega-3, NAC, vitamin D, collagen, and glutamine, plus several blends.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Designs+for+Sport",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Adrenal Flow",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Amino Complex Fruit Punch Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Amino Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Amino Complex (Fruit Punch/Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Amino Complex Orange Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "NAC 900",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Athlete Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrolyzed ISO - Whey Protein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrolyzed Whey Protein (Chocolate)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrolyzed Whey Protein (Vanilla)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "B Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Beef Protein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Beef Protein Chocolate Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Beef Protein Vanilla Flavor",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Betaine HCl",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Bone Health Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Magnesium Bisglycinate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Magnesium Bisglycinate - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Brain Health Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Neuromag Sport",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Neuromag Sport - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Complete",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Complex - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Multi + Phyto",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Monohydrate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Monohydrate Powder - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Curcumin Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Power Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Mito NRG Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Glutamine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "GPC Liquid",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Grass-Fed Beef Protein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Beef Protein Chocolate Flavor - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Beef Protein Vanilla Flavor - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration Complex - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration Packs",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration Packs Clementine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydration Packs Watermelon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrolyzed ISO-Whey Protein",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrolyzed ISO-Whey Protein (Caramel Macchiato)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrolyzed ISO-Whey Protein (Chocolate Flavor)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Immune Health Support",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Adrenal Flow (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Zinc +",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Muscle strength, endurance, recovery",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pro-Formance Peptides",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pro-Formance Peptides (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Neuro Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Omega 3 Hi-PO",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Omega 3 Hi-Po - Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pre-Train Elite",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pro-Formance Peptides™ Canada",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin C+ Electrolyte Powder",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Sleep Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D + K",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vitamin D3 Pro",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Workout Complex",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "transparent-labs",
+      "name": "Transparent Labs",
+      "knownFor": "Transparent Labs sells flavored creatine and hydration powders. The NSF Certified for Sport search listed Creatine HMB and Hydrate across the flavors named below.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Transparent+Labs",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Creatine HMB",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Black Cherry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Blue Raspberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Fruit Punch",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Hawaiian Splash",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Orange",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Peach Mango",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Peach Rings",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Pineapple",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Sour Grape",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Strawberry Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Tropical Punch",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Unflavored",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine HMB Watermelon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate - Dragonfruit Citrus",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate - Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate - White Peach",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Arctic Freeze",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Blue Raspberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Grape",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Lemon Lime",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Orange Cranberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Peach Mango",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Raspberry Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Strawberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Hydrate Tropical Punch",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "bulk-supplements",
+      "name": "Bulk Supplements",
+      "knownFor": "Bulk Supplements sells single-ingredient powders and capsules in large bags. The NSF Certified for Sport search listed creatine, magnesium glycinate, magnesium citrate, vitamin D, zinc, fish oil, collagen, ashwagandha, glutamine, beta-alanine, melatonin, beet root, and psyllium. Other Bulk Supplements SKUs were not in that result.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Bulk+Supplements",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "ASHWAGANDHA EXTRACT",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "BCAA 2:1:1 (BRANCHED AMINO ACIDS)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "BEET ROOT EXTRACT VEGGIE CAPSULES",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "BETA ALANINE",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "BOVINE COLLAGEN",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine Monohydrate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CREATINE MONOHYDRATE POWDER LEMON ITALIAN ICE FLAVORED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CREATINE MONOHYDRATE POWDER MANGO TANGO FLAVORED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CREATINE MONOHYDRATE POWDER ORANGE SMASH FLAVORED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CREATINE MONOHYDRATE POWDER SOUR GREEN APPLE FLAVORED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CREATINE MONOHYDRATE POWDER UNFLAVORED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "ESSENTIAL AMINO ACIDS (EAA) UNFLAVORED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "FISH OIL SOFTGELS",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "GLUTATHIONE REDUCED",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L Glutamine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L GLUTAMINE Lemon Italian Ice",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L GLUTAMINE Mango Tango",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L GLUTAMINE Orange Smash",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "L GLUTAMINE Sour Green Apple",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "MAGNESIUM CITRATE",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "MAGNESIUM GLYCINATE",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "MELATONIN SOFTGELS",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "ORGANIC ASHWAGANDHA POWDER",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "ORGANIC BEET ROOT POWDER",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "ORGANIC PSYLLIUM HUSK POWDER",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "VITAMIN D3 5000 IIU SOFTGELS",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "ZINC PICOLINATE SOFTGELS",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "garden-of-life",
+      "name": "Garden of Life",
+      "knownFor": "Garden of Life sells organic and sport proteins and vitamins. A short list is NSF Certified for Sport, including a creatine and sport whey. A longer list is on the October 2026 Informed-Choice register, including plant proteins and quercetin. One NSF result is a CBD product. Some sports bodies restrict hemp and CBD, so an athlete should read the rule that applies to them before using that SKU.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Garden+of+Life",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Garden of Life Sport Creatine Monohydrate + Probiotics Kosher 60 servings",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Garden of Life® Dr. Formulated CBD+ Inflammatory Response",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "GOL Sport GF Whey Plus Weight Mgmt",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "GOL Sport GF Whey +Healthy Skin Vanilla",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Sport Organic Post-Workout Recovery Blackberry Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Sport Organic Pre-Workout Energy + Focus",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Sport Organic Pre-Workout Energy + Focus Blackberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Sport Organic Pre-Workout Energy + Focus Sugar Free Blackberry Cherry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Garden of Life Sport Certified Grass Fed Whey",
+          "program": "Informed Choice",
+          "supplements": [
+            "Whey protein"
+          ]
+        },
+        {
+          "name": "Garden of Life RAW Protein & Greens",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life Organic Fit Plant Based High Protein Weight Loss Bar",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life RAW Organic Fit",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life Dr. Formulated Quercetin Drop Uric Acid",
+          "program": "Informed Choice",
+          "supplements": [
+            "Quercetin"
+          ]
+        },
+        {
+          "name": "Garden of Life Dr. Formulated Quercetin Immune",
+          "program": "Informed Choice",
+          "supplements": [
+            "Quercetin"
+          ]
+        },
+        {
+          "name": "Garden of Life Sport Organic Plant-Based Protein",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life Raw Organic Protein",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life All-In-One Nutritional Shake",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life Sport Organic Plant-Based Recovery",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life Organic Plant Protein",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Garden of Life Sport Organic Plant-Based Energy + Focus",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "usana",
+      "name": "USANA",
+      "knownFor": "USANA sells multivitamins and omega-3s through a direct-sales model. The NSF Certified for Sport search listed CellSentials, BiOmega, MagneCal D, a prenatal pair, and SportsPak. The Informed-Choice list names a smaller set, including Vitamin D and Core Minerals. The two programs are not the same products.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=USANA",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "CellSentials™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CellSentials™ Core Minerals",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "CellSentials™ Vita-Antioxidant",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "USANA CopaPrime+",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "MagneCal™ D",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "OPTIMIZERS™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "OPTIMIZERS PROFLAVANOL® C 100",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "OPTIMIZERS™, BiOmega™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Prenatal Core Minerals",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Prenatal Vita Antioxidant",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PROCOSA™",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "SportsPak",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "USANA Vita-Antioxidant",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "USANA Proglucamune",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "USANA Booster C 600",
+          "program": "Informed Choice",
+          "supplements": [
+            "Vitamin C (moderate dose)"
+          ]
+        },
+        {
+          "name": "USANA Vitamin D",
+          "program": "Informed Choice",
+          "supplements": [
+            "Vitamin D3"
+          ]
+        },
+        {
+          "name": "USANA Pure Rest",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "USANA Core Minerals",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "vital-proteins",
+      "name": "Vital Proteins",
+      "knownFor": "Vital Proteins is known for collagen peptides. The NSF Certified for Sport search listed collagen peptides, a collagen plus creatine product, a sleep capsule, and whey plus collagen.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Vital+Proteins",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Collagen Peptides",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins Collagen Peptides",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Chocolate Collagen Peptides",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Peptides (Stick Pack)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Lemon Collagen Peptides",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Lemon Collagen Peptides (Costco)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vanilla Collagen Peptides",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Performance™ Sleep Capsule",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins Professional- Bioactive Collagen Complex- Bone & Joint Support**",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins Whey + Collagen",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins Whey + Collagen (Chocolate)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins Whey + Collagen (Vanilla)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins® Active Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins® Advanced Collagen Peptides + Vitamin C + Zinc",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins® Collagen Peptides Strawberry Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins® Collagen Peptides Strawberry Lemonade Stick Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Collagen Peptides + Creatine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins® Advanced Collagen Peptides + Creatine Strawberry Lemon",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Vital Proteins® Advanced Collagen Peptides + Creatine Unflavored",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "tru-niagen",
+      "name": "Tru Niagen",
+      "knownFor": "Tru Niagen sells nicotinamide riboside. The NSF Certified for Sport search listed the 100 mg, 150 mg, 300 mg, 500 mg Canada, stick-pack, and Pro 1000 mg products.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=TRU+NIAGEN",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "TRU NIAGEN® PRO 1000mg (2 x 500mg)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN® 300mg Stick Packs",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN® 500mg (Canada)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN®",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN® 100mg",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN® 150mg",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN® 300mg",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "TRU NIAGEN® 300mg (Stickpack)",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "ag1",
+      "name": "AG1",
+      "knownFor": "AG1 (Athletic Greens) sells a daily greens drink and a few companion products. The NSF Certified for Sport search listed AG1 flavors, AG Omega, a vitamin D plus K2 drop, and AGZ. The Informed-Sport and Informed-Choice lists also name AG1 and an omega product. Flavor samplers are included only where the directory named them.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=AG1",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        },
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "AG1® - Athletic Greens",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1®- Athletic Greens",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AGZ® Mixed Berry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "USA AG Vitamin D3+K2 Oral Drops",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG Omega",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG Omega+CoQ10",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® (Australia and New Zealand)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Berry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Citrus",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Tropical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Berry Next Gen",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Citrus Next Gen",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen 3-Flavor Sampler Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen Berry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen Citrus",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen Flavors Variety Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen Sampler Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Next Gen Tropical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Tropical Next Gen",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1® Pro",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AGZ®",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AGZ® 3-Flavor Sampler Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AGZ® by AG1 Chocolate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AGZ® by AG1 Chocolate Mint",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AGZ® Mixed Flavor Pack",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "AG1",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "AG1 Omega3 (EU)",
+          "program": "Informed Sport",
+          "supplements": [
+            "Omega-3 (EPA/DHA)"
+          ]
+        },
+        {
+          "name": "AG1 (EU)",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "AG1 (UAE)",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "AG1 EU D3+K2",
+          "program": "Informed Sport",
+          "supplements": [
+            "Vitamin D3",
+            "Vitamin K2 (MK-7)"
+          ]
+        },
+        {
+          "name": "AG1",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "1st-phorm",
+      "name": "1st Phorm",
+      "knownFor": "1st Phorm sells protein, creatine, and pre-workouts. NSF Certified for Sport covered micronized creatine and the Megawatt pre-workout flavors in the search result. Informed-Choice lists a wider set, including collagen and Phormula-1.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=1st+Phorm",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Creatine",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Micronized Creatine Monohydrate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Micronized Creatine Monohydrate 500g",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Pre-Workout",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Megawatt Caffeine Enhanced Nootropic Pre-Workout Berry Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Megawatt Caffeine Enhanced Nootropic Pre-Workout Cherry Blast",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Megawatt Caffeine Enhanced Nootropic Pre-Workout Melon Berry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Megawatt Caffeine Enhanced Nootropic Pre-Workout Sweet Peach",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "1st Phorm Full-Mega",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Collagen",
+          "program": "Informed Choice",
+          "supplements": [
+            "Collagen peptides"
+          ]
+        },
+        {
+          "name": "1st Phorm Ignition",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Phormula-1",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Level-1",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Creatine Monohydrate",
+          "program": "Informed Choice",
+          "supplements": [
+            "Creatine monohydrate"
+          ]
+        },
+        {
+          "name": "1st Phorm Micro Factor",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Opti-Reds 50",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Opti-Greens 50",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Phormula-1 Clear",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "1st Phorm Vegan Power Pro",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "bare-performance-nutrition",
+      "name": "Bare Performance Nutrition",
+      "knownFor": "Bare Performance Nutrition sells creatine, protein, pre-workouts, and a few single-nutrient products under names like Strong Omega and Strong Multi. The NSF Certified for Sport search listed the products below, including flavor variants.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Bare+Performance+Nutrition",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Creatine Monohydrate",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Endo Pump",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Endo Pump (Blue Raspberry)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Endo Pump (Mango)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Endo Pump (Pink Lemonade)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Endo Pump (Prickly Pear)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Endurance Essentials",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Flight",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Flight (Blue Raspberry)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Flight (Mango)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Flight (Pink Lemonade)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Flight (Prickly Pear)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Flight / Pre Workout",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "G.1.M. Sport Plus",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "G.1.M. Sport Plus (Lemon Lime)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "G.1.M. Sport Plus (Orange)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "G.1.M. Sport PLUS RTD (Lemon Lime)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Peak Sleep Gummy (Berry)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "POST (Fruit Punch)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PRE",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PRE (Blue Raspberry)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PRE (Midnight Melon)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PRE (Pink Lemonade)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PUMP",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PUMP (Blue Raspberry)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PUMP (Midnight Melon)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "PUMP (Pink Lemonade)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recover",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recover (Fruit Punch)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Recover (Watermelon)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Greens",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Greens (Lemon)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Greens (Pineapple Coconut)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Joint",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Joints",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Multi Vitamin",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Omega",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Reds",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Reds (Acai)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Strong Reds (Strawberry)",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "elysium-health",
+      "name": "Elysium Health",
+      "knownFor": "Elysium Health sells longevity formulas such as Basis and a creatine powder. The NSF Certified for Sport search listed Basis, Creatine+, Format, Matter, Senolytic, and Signal.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Elysium+Health",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Basis",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine+",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine+ Pom Lemonade",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Creatine+ Raspberry",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Format",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Matter",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Senolytic",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Senolytic Complex",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Signal",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "nutrafol",
+      "name": "Nutrafol",
+      "knownFor": "Nutrafol sells hair-growth nutraceuticals. The NSF Certified for Sport search listed the women's, men's, vegan, postpartum, and balance formulas, plus several add-on nutraceuticals. Certification here is the sport screen, not evidence that the formula grows hair.",
+      "programs": [
+        {
+          "id": "NSF Certified for Sport",
+          "listing": "https://www.nsfsport.com/certified-products/search-results.php?brand=Nutrafol",
+          "checked": "2026-10-15",
+          "scope": "These names appeared in the NSF Certified for Sport product search on 15 October 2026. Products not named here were not on that search result."
+        }
+      ],
+      "products": [
+        {
+          "name": "Nutrafol +Defense DHT Support Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "+Equilibrium Menopausal Hormone Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol +Equilibrium Menopausal Hormone Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol +Longevity Cellular Metabolism Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol +Resilience Stress Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol +Shield Antioxidant Support Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol +Strength Collagen Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol +Synbiosis Microbiome Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Clear Skin Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Men 50+ Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Men Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Postpartum Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Women Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Women Hair Growth Nutraceutical (Advanced Formula)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Women Hair Growth Nutraceutical (Original Formula)",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Women’s Vegan Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Women’s Balance Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Women's Balance Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        },
+        {
+          "name": "Nutrafol Women’s Balance Hair Growth Nutraceutical",
+          "program": "NSF Certified for Sport"
+        }
+      ]
+    },
+    {
+      "slug": "now",
+      "name": "NOW",
+      "knownFor": "NOW Foods is a large supplement brand. Its vitamin line was not on the USP Verified directory when checked, so older USP claims for NOW vitamin D, magnesium, and similar products have been removed. The October 2026 Informed-Sport list does name a block of NOW Sports products. Only lines that begin with NOW Sports are included, so an unlabeled neighboring line is not treated as NOW.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "NOW Sports Arginine & Ornithine Capsules",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports D-Ribose Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Whey Protein Concentrate",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports ZMA",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Egg White Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Whey Protein Isolate",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Organic Pea Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Branched Chain Amino Acids Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Creatine Monohydrate Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Sprouted Brown Rice Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports HMB Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Dextrose Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports L-Carnitine Liquid",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Beta-Alanine Caps",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports L-Leucine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports HMB Caps",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Beet Root Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Creatine Monohydrate Capsules",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports HMB 1000MG Tablets",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Arginine & Citrulline",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Organic Whey Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Kre-Alkalyn Creatine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Amino Complete",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Pea Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Whey Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Beef Bone Broth",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports D-Ribose Capsules",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Carbo Gain",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports L-Arginine Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Chicken Bone Broth",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports L-Glutamine Capsules",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Soy Protein Isolate",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Instantized Micellar Casein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports BCAA Big 6",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "NOW Sports Branched Chain Amino Acids Caps",
+          "program": "Informed Sport"
+        }
+      ]
+    },
+    {
+      "slug": "optimum-nutrition",
+      "name": "Optimum Nutrition",
+      "knownFor": "Optimum Nutrition is known for Gold Standard whey. The October 2026 Informed-Sport list names an Elite series: plant protein, BCAA, pre-workout, Serious Mass, 100% whey, micronised creatine, and Essential Amino Energy. The Informed-Choice list names a wider set of Gold Standard whey, casein, creatine, and pre-workout SKUs, some of them limited to a region. Region notes are kept in the product name.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Gold Standard Plant - Elite Series",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Gold Standard BCAA Train + Sustain - Elite Series",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "GOLD STANDARD PRE WORKOUT - ELITE SERIES",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Serious Mass - Elite Series",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "GOLD STANDARD 100% WHEY ELITE SERIES",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Micronised Creatine Powder - Elite Series",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Essential Amino Energy - Elite Series",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "ON Gold Standard 100% Whey",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Micronised Creatine Powder",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Gold Standard 100% Casein (USA)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Gold Standard 100% Whey (EU)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Gold Standard Isolate",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Creatine+",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Platinum Creatine Plus",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Naturally Flavored 100% Whey Gold Standard",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Essential Amino Energy (USA/India)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Serious Mass (US)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "ON Serious Mass (CAN)",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "kaged",
+      "name": "Kaged",
+      "knownFor": "Kaged sells sport supplements. The October 2026 Informed-Sport list includes creatine, whey isolate, casein, citrulline, glutamine, magnesium glycinate, caffeine, and a multivitamin.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Creatine Monohydrate",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Creatine Monohydrate Elite Series",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Creatine HCL Capsules",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Creatine HCL Powder",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Micropure Whey Protein Isolate",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Protein Isolate Elite Series",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Casein",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Citrulline",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Glutamine",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Magnesium Glycinate + Malate",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Caffeine 100mg",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Caffeine 200mg",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "MultiVitamin",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "BCAA 2:1:1 Powder",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Hydration",
+          "program": "Informed Sport",
+          "note": "Named in the KAGED block of the October 2026 Informed-Sport list."
+        }
+      ]
+    },
+    {
+      "slug": "myprotein",
+      "name": "Myprotein",
+      "knownFor": "Myprotein is a large sports-nutrition brand. The October 2026 Informed-Sport list names Impact Whey Protein Elite, Impact Creatine Elite, THE Creatine Elite, and THE Whey Elite, the last two marked as excluding the USA and Canada. Informed-Choice names additional whey and creatine SKUs.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        },
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Myprotein Impact Whey Protein Elite",
+          "program": "Informed Sport",
+          "supplements": [
+            "Whey protein"
+          ]
+        },
+        {
+          "name": "Myprotein Impact Creatine Elite",
+          "program": "Informed Sport",
+          "supplements": [
+            "Creatine monohydrate"
+          ]
+        },
+        {
+          "name": "Myprotein THE Creatine Elite (Global excl. USA & CAN)",
+          "program": "Informed Sport",
+          "supplements": [
+            "Creatine monohydrate"
+          ]
+        },
+        {
+          "name": "Myprotein THE Whey Elite (Global excl. USA & CAN)",
+          "program": "Informed Sport",
+          "supplements": [
+            "Whey protein"
+          ]
+        },
+        {
+          "name": "Myprotein Impact Whey Protein",
+          "program": "Informed Choice",
+          "supplements": [
+            "Whey protein"
+          ]
+        },
+        {
+          "name": "Myprotein Impact Creatine",
+          "program": "Informed Choice",
+          "supplements": [
+            "Creatine monohydrate"
+          ]
+        },
+        {
+          "name": "Myprotein Micronised Creatine Monohydrate",
+          "program": "Informed Choice",
+          "supplements": [
+            "Creatine monohydrate"
+          ]
+        },
+        {
+          "name": "Myprotein Creatine (with Creapure) (Global excl. USA & CAN)",
+          "program": "Informed Choice",
+          "supplements": [
+            "Creatine monohydrate"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "kinetica",
+      "name": "Kinetica",
+      "knownFor": "Kinetica is an Irish sport brand. The October 2026 Informed-Sport list includes creatine, whey, a clear whey, omega-3, vitamin D, zinc plus magnesium, and collagen.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Kinetica 100% Creatine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Creatine Tablets with Creapure",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Kinetica Whey",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Kinetica Clear Whey Isolate",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "OMEGA 3",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Kinetica Vitamin D",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "ZINC MAG +",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Kinetica Collagen Joint & Muscle Support Complex",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Kinetica Plant Protein",
+          "program": "Informed Sport"
+        }
+      ]
+    },
+    {
+      "slug": "science-in-sport",
+      "name": "Science in Sport",
+      "knownFor": "Science in Sport (SiS) makes gels, drinks, and a few capsules used in endurance sport. The October 2026 Informed-Sport list includes creatine, beta-alanine, omega-3, vitamin D, a multivitamin, collagen, whey recovery, and a nitrate shot, along with the gel and drink range.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "SiS Creatine Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS Beta Alanine Capsules",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS Super Strength Omega 3 Softgels",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS Vitamin D3 Tablets",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS Advanced Multivitamin Tablets",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS Rego Collagen Shot",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS REGO Whey Protein Powder",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS GO Nitrates Shot",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS GO Caffeine Shot",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "SiS Biotic Complex Capsules",
+          "program": "Informed Sport"
+        }
+      ]
+    },
+    {
+      "slug": "musashi",
+      "name": "Musashi",
+      "knownFor": "Musashi is an Australian sport brand. The October 2026 Informed-Sport list includes creatine, whey, a whey isolate, beta-alanine, glutamine, and a magnesium recovery product.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Musashi Creatine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi Creatine Chewable",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi 100% Whey / Whey Protein",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi WPI",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi Beta Alanine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi Glutamine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi MAGNESIUM MUSCLE RECOVERY",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Musashi Plant Protein",
+          "program": "Informed Sport"
+        }
+      ]
+    },
+    {
+      "slug": "beet-it",
+      "name": "Beet It",
+      "knownFor": "Beet It sells concentrated beetroot shots used in nitrate research and sport. The October 2026 Informed-Sport list names the Sport Nitrate shots, a regen cherry shot, and an energy gel.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Beet It Sport Nitrate 400 Concentrated Beetroot Shot",
+          "program": "Informed Sport",
+          "supplements": [
+            "Dietary Nitrate / Beetroot"
+          ]
+        },
+        {
+          "name": "Beet It Sport Nitrate 3000",
+          "program": "Informed Sport",
+          "supplements": [
+            "Dietary Nitrate / Beetroot"
+          ]
+        },
+        {
+          "name": "Beet It Regen Cherry Shot",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "Beet It Energy Gel Top Up 100",
+          "program": "Informed Sport"
+        }
+      ]
+    },
+    {
+      "slug": "active-iron",
+      "name": "Active Iron",
+      "knownFor": "Active Iron sells iron products aimed at people who do not tolerate standard iron salts. The October 2026 Informed-Sport list names Advance, Advance 20 mg, Active Iron 25 mg, and TruFerra 30 mg.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Active Iron Advance",
+          "program": "Informed Sport",
+          "supplements": [
+            "Iron"
+          ]
+        },
+        {
+          "name": "Active Iron Advance 20mg",
+          "program": "Informed Sport",
+          "supplements": [
+            "Iron"
+          ]
+        },
+        {
+          "name": "Active Iron 25mg",
+          "program": "Informed Sport",
+          "supplements": [
+            "Iron"
+          ]
+        },
+        {
+          "name": "TruFerra 30 mg",
+          "program": "Informed Sport",
+          "supplements": [
+            "Iron"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "6d-sports-nutrition",
+      "name": "6d Sports Nutrition",
+      "knownFor": "6d Sports Nutrition is a Belgian sport brand. The October 2026 Informed-Sport list includes Creapure creatine, an omega-3, vitamin D, iron, beta-alanine, collagen, L-carnitine, a multivitamin, and whey, plus a long range of gels and drinks.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "6d CREATINE CREAPURE",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "6d OMEGA-3 EPAX",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "6d VITAMIN D3",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Vitamin D3 Drops",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "6d IRON FERROCHEL",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "6d BETA ALANINE SR CARNOSYN",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Collagen Peptan",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "L-Carnitine Carnipure",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "6d MULTI VITAMIN",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "6d WHEY SHAKE",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        },
+        {
+          "name": "Sodium Bicarbonate",
+          "program": "Informed Sport",
+          "note": "In the 6d Sports Nutrition block of the October 2026 Informed-Sport list."
+        }
+      ]
+    },
+    {
+      "slug": "musclepharm",
+      "name": "MusclePharm",
+      "knownFor": "MusclePharm sells combat protein and creatine. The October 2026 Informed-Sport list names Select Creatine, creatine hydrate, glutamine, BCAA, and Combat whey.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "MusclePharm Select Creatine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "MusclePharm Creatine Hydrate",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "MusclePharm Select Glutamine",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "MusclePharm Select BCAA",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "MusclePharm Combat 100% Whey",
+          "program": "Informed Sport"
+        },
+        {
+          "name": "MusclePharm Combat Protein Powder",
+          "program": "Informed Sport"
+        }
+      ]
+    },
+    {
+      "slug": "gnc",
+      "name": "GNC",
+      "knownFor": "GNC's Pro Performance and AMP lines have a long block on the October 2026 Informed-Choice list, including whey, casein, creatine, citrulline, and glutamine. Some names are marked India or International. Informed-Choice is a banned-substance screen, not proof the formula matches a clinical dose.",
+      "programs": [
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "GNC Pro Performance 100% Whey",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance 100% Casein Protein",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance Creatine Monohydrate Powder",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance Creatine Capsules",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance Creatine + HMB",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance Citrulline Complex",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance L-Glutamine Powder",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance L-Glutamine Capsules",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC AMP Creatine 189",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Live Well Creatine",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "GNC Pro Performance P.M. Zinc Magnesium",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "naked-nutrition",
+      "name": "Naked Nutrition",
+      "knownFor": "Naked Nutrition sells short-ingredient protein powders. The October 2026 Informed-Choice list names Naked Whey, Less Naked Whey, Naked Pea, Less Naked Pea, Naked Mass, and Less Naked Mass.",
+      "programs": [
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Naked Whey",
+          "program": "Informed Choice",
+          "supplements": [
+            "Whey protein"
+          ]
+        },
+        {
+          "name": "Less Naked Whey",
+          "program": "Informed Choice",
+          "supplements": [
+            "Whey protein"
+          ]
+        },
+        {
+          "name": "Naked Pea",
+          "program": "Informed Choice",
+          "supplements": [
+            "Pea protein"
+          ]
+        },
+        {
+          "name": "Less Naked Pea",
+          "program": "Informed Choice",
+          "supplements": [
+            "Pea protein"
+          ]
+        },
+        {
+          "name": "Naked Mass",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Less Naked Mass",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "dymatize",
+      "name": "Dymatize",
+      "knownFor": "Dymatize is known for ISO100 whey. The October 2026 Informed-Choice list names a Europe block: ISO100, Elite 100% Whey, Elite Casein, creatine monohydrate, and BCAA 2200. The heading on that list is Dymatize Nutrition (Europe), so these are not described as US certifications.",
+      "programs": [
+        {
+          "id": "Informed Choice",
+          "listing": "https://choice.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Choice banned-substance list published by LGC. The Dymatize block is headed Dymatize Nutrition (Europe)."
+        }
+      ],
+      "products": [
+        {
+          "name": "Dymatize ISO100 Hydrolyzed (Europe)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Dymatize Elite 100% Whey (Europe)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Dymatize Elite Casein",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Dymatize Creatine Monohydrate",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Dymatize BCAA 2200 (Europe)",
+          "program": "Informed Choice"
+        },
+        {
+          "name": "Dymatize Super Mass Gainer (Europe)",
+          "program": "Informed Choice"
+        }
+      ]
+    },
+    {
+      "slug": "blue-star-nutraceuticals",
+      "name": "Blue Star Nutraceuticals",
+      "knownFor": "Blue Star Nutraceuticals had two products on the October 2026 Informed-Sport list: Vitamin D3 and Vitamin D3+K2. No other Blue Star product is listed here.",
+      "programs": [
+        {
+          "id": "Informed Sport",
+          "listing": "https://sport.wetestyoutrust.com/sites/default/files/generated-pdf/file.pdf",
+          "checked": "2026-10-15",
+          "scope": "These names are on the October 2026 Informed-Sport banned-substance list published by LGC."
+        }
+      ],
+      "products": [
+        {
+          "name": "Blue Star Nutraceuticals Vitamin D3",
+          "program": "Informed Sport",
+          "supplements": [
+            "Vitamin D3"
+          ]
+        },
+        {
+          "name": "Blue Star Nutraceuticals Vitamin D3+K2",
+          "program": "Informed Sport",
+          "supplements": [
+            "Vitamin D3",
+            "Vitamin K2 (MK-7)"
+          ]
+        }
+      ]
+    }
+  ]
+}

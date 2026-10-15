@@ -4199,3 +4199,8 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
   .rc-rel-title{font-size:15px}
   .rc-rel-eb{font-size:10px}
 }
+
+/* Verified-brand rows on supplement pages */
+.bq-name a{color:inherit;text-underline-offset:2px}
+a.bq-v{color:var(--t1tx);text-decoration:none}
+a.bq-v:hover{text-decoration:underline}
