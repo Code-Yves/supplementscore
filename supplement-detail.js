@@ -10,6 +10,9 @@
 ============================================================================ */
 
 (function(){
+  /* SS_IX_SLUGS_BEGIN */
+  var SS_IX_SLUGS = {"aged-garlic-extract":1,"berberine":1,"biotin":1,"black-garlic-extract":1,"calcium":1,"calcium-carbonate-citrate":1,"coq10":1,"echinacea-purpurea":1,"ferrous-bisglycinate":1,"ginkgo-biloba":1,"iron":1,"licorice-root":1,"magnesium":1,"magnesium-citrate":1,"magnesium-glycinate":1,"omega-3":1,"omega-3-high-dose":1,"potassium-citrate":1,"potassium-gluconate":1,"potassium-supplementation":1,"red-yeast-rice":1,"st-john-s-wort":1,"vitamin-e":1,"vitamin-k1":1,"vitamin-k2":1};
+  /* SS_IX_SLUGS_END */
   function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
   function escAttr(s){return escHtml(s);}
 
@@ -567,6 +570,7 @@
         }).join('')
       + '<a href="/methodology.html"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">How scores are calculated</span></span></a>'
       + '<a href="/transparency.html"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">Funding, brand listings, and corrections</span></span></a>'
+      + (SS_IX_SLUGS[slug] ? '<a href="/interactions/#s='+encodeURIComponent(slug)+'"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">Cited medication interactions</span></span></a>' : '')
       + '</div></div>';
   }
 

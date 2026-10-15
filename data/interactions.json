@@ -1,0 +1,506 @@
+{
+  "updated": "2026-10-15",
+  "pages": [
+    {
+      "slug": "warfarin",
+      "title": "Supplements to avoid with warfarin",
+      "description": "Cited supplement interactions with warfarin (Coumadin): vitamin K, St. John's wort, ginkgo, garlic, vitamin E, fish oil, and CoQ10. Talk to a pharmacist before changing a supplement.",
+      "kicker": "Warfarin",
+      "lede": "Warfarin (Coumadin, Jantoven) is sensitive to vitamin K and to several supplements that change clotting or the amount of drug in the blood. This page lists only pairs we can tie to a public source.",
+      "note": "This page is about warfarin. It does not cover apixaban (Eliquis), rivaroxaban (Xarelto), or dabigatran (Pradaxa). Vitamin K does not oppose those medicines in the same way.",
+      "classes": ["warfarin"],
+      "also": "Warfarin, Coumadin, Jantoven"
+    },
+    {
+      "slug": "ssri",
+      "title": "Supplements to avoid with SSRIs",
+      "description": "St. John's wort can cause serious serotonin-related effects with some antidepressants and can weaken others. Cited from NCCIH. Talk to a pharmacist.",
+      "kicker": "SSRIs and other antidepressants",
+      "lede": "Selective serotonin reuptake inhibitors (SSRIs) and some other antidepressants do not mix safely with St. John's wort. The warning below is the pair we can cite. A short list is not a full medication review.",
+      "note": "NCCIH also says St. John's wort can weaken some other antidepressants, including amitriptyline and bupropion. Those are not SSRIs. That pair is listed below so it is not hidden, and it is labeled as those drugs.",
+      "classes": ["ssri", "other_antidepressant"],
+      "also": "Sertraline (Zoloft), fluoxetine (Prozac), citalopram (Celexa), escitalopram (Lexapro), paroxetine (Paxil), venlafaxine (Effexor), duloxetine (Cymbalta)"
+    },
+    {
+      "slug": "statins",
+      "title": "Supplements to avoid with statins",
+      "description": "Red yeast rice can contain the same chemical as lovastatin. St. John's wort can weaken some statins, including simvastatin. Cited from NCCIH.",
+      "kicker": "Statins",
+      "lede": "Statins lower cholesterol. Two supplements have a cited problem next to them: red yeast rice, because it can contain the same chemical as lovastatin, and St. John's wort, which can weaken some statins.",
+      "note": "NCCIH names simvastatin when it describes St. John's wort. It does not give a separate sentence for every other statin.",
+      "classes": ["statin"],
+      "also": "Atorvastatin (Lipitor), simvastatin (Zocor), rosuvastatin (Crestor), pravastatin (Pravachol), lovastatin"
+    },
+    {
+      "slug": "thyroid",
+      "title": "Supplements that interfere with thyroid medicine",
+      "description": "Iron and calcium carbonate can block levothyroxine if you take them too close together. High-dose biotin can skew thyroid lab tests. Cited from NIH ODS.",
+      "kicker": "Levothyroxine",
+      "lede": "Levothyroxine (Synthroid, Levoxyl, and similar tablets) is easy to block if a mineral is in the stomach at the same time. Biotin does not block the pill. It can make a thyroid blood test read wrong.",
+      "note": "The iron and calcium advice is about separating doses, not about never using those nutrients. Someone who is iron deficient still needs a plan. The plan has to come from the prescriber or a pharmacist.",
+      "classes": ["thyroid"],
+      "also": "Levothyroxine, Synthroid, Levoxyl, Tirosint, Unithroid"
+    },
+    {
+      "slug": "diabetes",
+      "title": "Supplements and diabetes medicines",
+      "description": "A 2019 meta-analysis found berberine plus glucose-lowering drugs lowered blood sugar more than either alone. Cited. Talk to the prescriber.",
+      "kicker": "Diabetes medicines",
+      "lede": "Berberine is sold as a blood-sugar supplement. In people with type 2 diabetes, a meta-analysis found that adding it to glucose-lowering drugs lowered blood sugar more than either one alone. That is a reason to tell the prescriber, not a reason to adjust a dose on your own.",
+      "note": "The paper studied people with type 2 diabetes who were taking glucose-lowering drugs. It does not test every newer diabetes medicine, and it does not prove the combination is unsafe for every person.",
+      "classes": ["diabetes"],
+      "also": "Metformin, insulin, glipizide, glyburide, glimepiride"
+    },
+    {
+      "slug": "blood-pressure",
+      "title": "Supplements and blood pressure medicines",
+      "description": "Potassium supplements can be dangerous with ACE inhibitors, ARBs, and potassium-sparing diuretics. Licorice root is a problem for people with high blood pressure. Cited from NIH ODS and NCCIH.",
+      "kicker": "Blood pressure",
+      "lede": "Blood pressure medicines are not one group. A potassium pill that is reasonable with a water pill that wastes potassium can be dangerous with a medicine that holds potassium in. Licorice root is a separate problem for people who already have high blood pressure.",
+      "note": "Do not stop a potassium prescription because it appears on this page. Some people are told to take potassium. The warning is about adding it on your own.",
+      "classes": ["ace_arb", "k_sparing", "loop_diuretic", "diuretic", "bp"],
+      "also": "Lisinopril, losartan, amlodipine, metoprolol, hydrochlorothiazide, furosemide, spironolactone"
+    },
+    {
+      "slug": "birth-control",
+      "title": "Supplements that can weaken birth control",
+      "description": "NCCIH says St. John's wort can weaken birth control pills. Talk to a pharmacist before using that herb.",
+      "kicker": "Birth control",
+      "lede": "St. John's wort can make birth control pills less effective. That is a cited interaction, and a failed pill is not a small side effect.",
+      "note": "This page does not list every herb someone has worried about online. If a pair is missing, that is not proof it is safe.",
+      "classes": ["ocp"],
+      "also": "Combined oral contraceptive pills"
+    },
+    {
+      "slug": "immunosuppressants",
+      "title": "Supplements and immunosuppressants",
+      "description": "St. John's wort can weaken cyclosporine, a transplant drug. Echinacea has a theoretical interaction with immunosuppressants. Cited from NCCIH.",
+      "kicker": "Immunosuppressants",
+      "lede": "Medicines that suppress the immune system, including drugs that keep a transplanted organ from being rejected, are a bad place for guesswork. Two supplements have a cited note.",
+      "note": "NCCIH names cyclosporine for St. John's wort. It does not give that same sentence for every immune-suppressing drug. The echinacea note is explicitly theoretical.",
+      "classes": ["immuno", "cyclo"],
+      "also": "Cyclosporine, and the broader group of immunosuppressants for the echinacea note"
+    },
+    {
+      "slug": "antibiotics",
+      "title": "Supplements to separate from antibiotics",
+      "description": "Calcium and magnesium can block quinolone antibiotics. Magnesium can also block tetracyclines. NIH ODS gives the spacing. Talk to a pharmacist.",
+      "kicker": "Antibiotics",
+      "lede": "Some antibiotics fail if a mineral binds them in the gut. The fix in the NIH fact sheets is to separate the doses, not to skip an antibiotic.",
+      "note": "The quinolone examples named by NIH ODS include ciprofloxacin and moxifloxacin. The tetracycline examples include doxycycline. This page does not claim every antibiotic has the same interaction.",
+      "classes": ["quinolone", "tetracycline"],
+      "also": "Ciprofloxacin (Cipro), moxifloxacin, doxycycline"
+    },
+    {
+      "slug": "aspirin",
+      "title": "Supplements and aspirin",
+      "description": "Garlic supplements and large doses of vitamin E can add to bleeding when taken with aspirin or other medicines that affect clotting. Cited from NCCIH and NIH ODS.",
+      "kicker": "Aspirin",
+      "lede": "Low-dose aspirin and other medicines that slow platelets already change bleeding. Two supplements have a cited extra warning.",
+      "note": "Do not stop a prescribed aspirin because of this page. Tell the prescriber or a pharmacist before you add the supplement.",
+      "classes": ["antiplatelet"],
+      "also": "Aspirin. Garlic's warning also names anticoagulants, which are covered on the warfarin page."
+    },
+    {
+      "slug": "corticosteroids",
+      "title": "Licorice and corticosteroid medicines",
+      "description": "NCCIH says interactions between licorice and corticosteroids have been reported. Talk to a pharmacist before using licorice root with prednisone.",
+      "kicker": "Corticosteroids",
+      "lede": "NCCIH reports interactions between licorice and corticosteroid medicines such as prednisone. The page does not spell out every dose.",
+      "note": "Deglycyrrhizinated licorice has the glycyrrhizin removed. NCCIH discusses that form separately and does not give it this interaction sentence.",
+      "classes": ["steroid"],
+      "also": "Prednisone and other corticosteroids"
+    }
+  ],
+  "choices": [
+    {"id": "warfarin", "label": "Warfarin (Coumadin)", "kind": "drug", "classes": ["warfarin"], "aliases": ["coumadin", "jantoven"]},
+    {"id": "ssri", "label": "SSRI or SNRI antidepressants", "kind": "class", "classes": ["ssri"], "aliases": ["ssri", "snri", "antidepressant"]},
+    {"id": "sertraline", "label": "Sertraline (Zoloft)", "kind": "drug", "classes": ["ssri"], "aliases": ["zoloft"]},
+    {"id": "fluoxetine", "label": "Fluoxetine (Prozac)", "kind": "drug", "classes": ["ssri"], "aliases": ["prozac"]},
+    {"id": "escitalopram", "label": "Escitalopram (Lexapro)", "kind": "drug", "classes": ["ssri"], "aliases": ["lexapro"]},
+    {"id": "citalopram", "label": "Citalopram (Celexa)", "kind": "drug", "classes": ["ssri"], "aliases": ["celexa"]},
+    {"id": "paroxetine", "label": "Paroxetine (Paxil)", "kind": "drug", "classes": ["ssri"], "aliases": ["paxil"]},
+    {"id": "venlafaxine", "label": "Venlafaxine (Effexor)", "kind": "drug", "classes": ["ssri"], "aliases": ["effexor"]},
+    {"id": "duloxetine", "label": "Duloxetine (Cymbalta)", "kind": "drug", "classes": ["ssri"], "aliases": ["cymbalta"]},
+    {"id": "bupropion", "label": "Bupropion (Wellbutrin)", "kind": "drug", "classes": ["other_antidepressant"], "aliases": ["wellbutrin"]},
+    {"id": "amitriptyline", "label": "Amitriptyline", "kind": "drug", "classes": ["other_antidepressant"], "aliases": ["elavil"]},
+    {"id": "statin", "label": "Statins", "kind": "class", "classes": ["statin"], "aliases": ["statin", "cholesterol medicine"]},
+    {"id": "simvastatin", "label": "Simvastatin (Zocor)", "kind": "drug", "classes": ["statin"], "aliases": ["zocor"]},
+    {"id": "atorvastatin", "label": "Atorvastatin (Lipitor)", "kind": "drug", "classes": ["statin"], "aliases": ["lipitor"]},
+    {"id": "rosuvastatin", "label": "Rosuvastatin (Crestor)", "kind": "drug", "classes": ["statin"], "aliases": ["crestor"]},
+    {"id": "pravastatin", "label": "Pravastatin", "kind": "drug", "classes": ["statin"], "aliases": ["pravachol"]},
+    {"id": "lovastatin", "label": "Lovastatin", "kind": "drug", "classes": ["statin"], "aliases": ["mevacor"]},
+    {"id": "thyroid", "label": "Levothyroxine (Synthroid)", "kind": "drug", "classes": ["thyroid"], "aliases": ["synthroid", "levoxyl", "tirosint", "thyroid"]},
+    {"id": "diabetes", "label": "Diabetes medicines", "kind": "class", "classes": ["diabetes"], "aliases": ["diabetes", "metformin", "insulin", "glipizide", "glyburide"]},
+    {"id": "bp", "label": "Blood pressure medicines", "kind": "class", "classes": ["ace_arb", "k_sparing", "loop_diuretic", "diuretic", "bp"], "aliases": ["blood pressure", "hypertension"]},
+    {"id": "lisinopril", "label": "Lisinopril (an ACE inhibitor)", "kind": "drug", "classes": ["ace_arb", "bp"], "aliases": ["prinivil", "zestril", "ace inhibitor"]},
+    {"id": "losartan", "label": "Losartan (an ARB)", "kind": "drug", "classes": ["ace_arb", "bp"], "aliases": ["cozaar", "arb"]},
+    {"id": "spironolactone", "label": "Spironolactone", "kind": "drug", "classes": ["k_sparing", "bp"], "aliases": ["aldactone"]},
+    {"id": "hctz", "label": "Hydrochlorothiazide (HCTZ)", "kind": "drug", "classes": ["loop_diuretic", "diuretic", "bp"], "aliases": ["hctz", "hydrochlorothiazide", "microzide"]},
+    {"id": "furosemide", "label": "Furosemide (Lasix)", "kind": "drug", "classes": ["loop_diuretic", "diuretic", "bp"], "aliases": ["lasix"]},
+    {"id": "ocp", "label": "Birth control pills", "kind": "class", "classes": ["ocp"], "aliases": ["oral contraceptive", "birth control"]},
+    {"id": "immuno", "label": "Immunosuppressants", "kind": "class", "classes": ["immuno", "cyclo"], "aliases": ["transplant", "immunosuppressant"]},
+    {"id": "cyclosporine", "label": "Cyclosporine", "kind": "drug", "classes": ["immuno", "cyclo"], "aliases": ["ciclosporin"]},
+    {"id": "quinolone", "label": "Quinolone antibiotics", "kind": "class", "classes": ["quinolone"], "aliases": ["cipro", "ciprofloxacin", "levofloxacin", "moxifloxacin"]},
+    {"id": "doxycycline", "label": "Doxycycline", "kind": "drug", "classes": ["tetracycline"], "aliases": ["vibramycin"]},
+    {"id": "aspirin", "label": "Aspirin", "kind": "drug", "classes": ["antiplatelet"], "aliases": ["asa"]},
+    {"id": "prednisone", "label": "Prednisone", "kind": "drug", "classes": ["steroid"], "aliases": ["corticosteroid", "steroid"]}
+  ],
+  "interactions": [
+    {
+      "id": "k-warfarin",
+      "classes": ["warfarin"],
+      "severity": "avoid",
+      "title": "Vitamin K can make warfarin less effective if the amount suddenly changes",
+      "explanation": "NIH ODS says vitamin K can have a serious interaction with warfarin. Warfarin works by opposing vitamin K. People taking it need a steady vitamin K intake from food and supplements, because a sudden increase can make the blood clot more easily and a sudden decrease can make bleeding more likely. Starting a vitamin K pill, or stopping one you take every day, is a sudden change. Tell the anticoagulation clinic before you do either.",
+      "supplements": [
+        {"slug": "vitamin-k1", "name": "Vitamin K1 (phylloquinone)"},
+        {"slug": "vitamin-k2", "name": "Vitamin K2 (MK-7)"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Vitamin K fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/VitaminK-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "sjw-warfarin",
+      "classes": ["warfarin"],
+      "severity": "avoid",
+      "title": "St. John's wort can weaken warfarin",
+      "explanation": "NCCIH says St. John's wort can weaken the effects of many important medicines, and it names warfarin. The usual problem is that the body clears the medicine faster, so there is less of it in the blood. With warfarin, less drug can mean the blood clots more easily. Do not add or stop this herb without the prescriber.",
+      "supplements": [
+        {"slug": "st-john-s-wort", "name": "St. John's wort"}
+      ],
+      "sources": [
+        {"label": "NCCIH, St. John's wort", "url": "https://www.nccih.nih.gov/health/st-johns-wort", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "ginkgo-warfarin",
+      "classes": ["warfarin"],
+      "severity": "caution",
+      "title": "Ginkgo may raise bleeding risk with warfarin",
+      "explanation": "NCCIH says ginkgo may increase the risk of bleeding in people taking anticoagulant drugs such as warfarin, and that it may interact with other drugs. The page does not say every person will bleed. It does say to talk with a clinician before using ginkgo if you take any medicine.",
+      "supplements": [
+        {"slug": "ginkgo-biloba", "name": "Ginkgo biloba"}
+      ],
+      "sources": [
+        {"label": "NCCIH, Ginkgo", "url": "https://www.nccih.nih.gov/health/ginkgo", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "garlic-bleed",
+      "classes": ["warfarin", "antiplatelet"],
+      "severity": "caution",
+      "title": "Garlic supplements may add to bleeding",
+      "explanation": "NCCIH says garlic supplements may increase the risk of bleeding. It says this matters especially before surgery and if you take anticoagulants or aspirin. Tell the prescriber before you start a garlic pill. Food amounts of garlic are not the same as a concentrated supplement.",
+      "supplements": [
+        {"slug": "aged-garlic-extract", "name": "Aged garlic extract"},
+        {"slug": "black-garlic-extract", "name": "Black garlic extract"}
+      ],
+      "sources": [
+        {"label": "NCCIH, Garlic", "url": "https://www.nccih.nih.gov/health/garlic", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "vite-bleed",
+      "classes": ["warfarin", "antiplatelet"],
+      "severity": "caution",
+      "title": "Large doses of vitamin E can add to bleeding",
+      "explanation": "NIH ODS says vitamin E can inhibit platelet aggregation and oppose vitamin K-dependent clotting factors. Large doses taken with an anticoagulant or an antiplatelet medicine, such as warfarin, can increase bleeding risk, especially if vitamin K intake is low. The fact sheet says the supplemental amount needed for a clinically important effect is unknown, but it is probably more than 400 IU a day. Do not start a high dose on your own.",
+      "supplements": [
+        {"slug": "vitamin-e", "name": "Vitamin E (mixed tocopherols)"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Vitamin E fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/VitaminE-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "fishoil-warfarin",
+      "classes": ["warfarin"],
+      "severity": "monitor",
+      "title": "Fish oil has not clearly raised major bleeding, but INR should still be watched",
+      "explanation": "NIH ODS says high doses of EPA and DHA might increase bleeding time, and that fish oil might raise the INR when taken with warfarin. It also says most research finds that 3 to 6 grams a day of fish oil does not significantly change warfarin control, and a 2014 review concluded that omega-3s do not raise the risk of clinically important bleeding. FDA labeling for prescription omega-3s still says people on anticoagulants should be checked periodically for INR changes. This is a monitoring flag, not an order to stop eating fish.",
+      "supplements": [
+        {"slug": "omega-3", "name": "Omega-3 (EPA/DHA)"},
+        {"slug": "omega-3-high-dose", "name": "Omega-3 (high dose)"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Omega-3 fatty acids fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Omega3FattyAcids-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "coq10-warfarin",
+      "classes": ["warfarin"],
+      "severity": "caution",
+      "title": "CoQ10 might make warfarin less effective",
+      "explanation": "An NIH ODS answer for people taking warfarin says St. John's wort, CoQ10, and green tea extract might make blood thinners such as Coumadin less effective. The sentence is cautious (\"might\"). It is still a reason to tell the anticoagulation clinic before you add CoQ10.",
+      "supplements": [
+        {"slug": "coq10", "name": "CoQ10 (ubiquinol)"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, dietary supplement FAQ", "url": "https://ods.od.nih.gov/Healthinformation/ODS_Frequently_Asked_Questions.aspx", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "sjw-ssri",
+      "classes": ["ssri"],
+      "severity": "avoid",
+      "title": "St. John's wort can cause serious serotonin effects with some antidepressants",
+      "explanation": "NCCIH says taking St. John's wort with certain antidepressants, or with other drugs that affect serotonin, may lead to increased serotonin-related side effects, and that those effects can be serious. SSRIs and SNRIs are drugs that affect serotonin. Do not combine them with this herb unless the prescriber has already told you to. Depression itself needs a clinician, not a self-started herb.",
+      "supplements": [
+        {"slug": "st-john-s-wort", "name": "St. John's wort"}
+      ],
+      "sources": [
+        {"label": "NCCIH, St. John's wort", "url": "https://www.nccih.nih.gov/health/st-johns-wort", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "sjw-other-ad",
+      "classes": ["other_antidepressant"],
+      "severity": "avoid",
+      "title": "St. John's wort can weaken amitriptyline and bupropion",
+      "explanation": "NCCIH lists amitriptyline and bupropion among the medicines St. John's wort can weaken. That is a different problem from serotonin toxicity: the herb can make the body clear some drugs faster, so the medicine does less. Do not add the herb to either drug on your own.",
+      "supplements": [
+        {"slug": "st-john-s-wort", "name": "St. John's wort"}
+      ],
+      "sources": [
+        {"label": "NCCIH, St. John's wort", "url": "https://www.nccih.nih.gov/health/st-johns-wort", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "ryr-statin",
+      "classes": ["statin"],
+      "severity": "avoid",
+      "title": "Red yeast rice can contain the same chemical as lovastatin",
+      "explanation": "NCCIH says monacolin K in red yeast rice is structurally identical to the prescription drug lovastatin. Products with a meaningful amount can cause the same side effects as statin drugs, including muscle, kidney, and liver damage, and they can have the same kinds of drug interactions. The amount of monacolin K is usually not on the label and varies widely between bottles. Taking that on top of a prescribed statin stacks the same kind of drug. Do not use red yeast rice as a do-it-yourself statin.",
+      "supplements": [
+        {"slug": "red-yeast-rice", "name": "Red yeast rice"}
+      ],
+      "sources": [
+        {"label": "NCCIH, Red yeast rice", "url": "https://www.nccih.nih.gov/health/red-yeast-rice", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "sjw-statin",
+      "classes": ["statin"],
+      "severity": "caution",
+      "title": "St. John's wort can weaken some statins, including simvastatin",
+      "explanation": "NCCIH says St. John's wort can weaken certain statins, and it names simvastatin. It does not give a separate line for every other statin. If you take simvastatin, do not add this herb. If you take a different statin, treat this as a question for the prescriber rather than as proof that your specific drug was studied.",
+      "supplements": [
+        {"slug": "st-john-s-wort", "name": "St. John's wort"}
+      ],
+      "sources": [
+        {"label": "NCCIH, St. John's wort", "url": "https://www.nccih.nih.gov/health/st-johns-wort", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "iron-levo",
+      "classes": ["thyroid"],
+      "severity": "separate",
+      "title": "Iron can block levothyroxine if you take them together",
+      "explanation": "NIH ODS says taking iron and levothyroxine at the same time can meaningfully reduce how well levothyroxine works in some people. Labels for these thyroid tablets warn that iron supplements can reduce absorption and say not to take levothyroxine within 4 hours of an iron supplement. You can still treat iron deficiency. The doses have to be separated, and the thyroid dose may need a recheck.",
+      "supplements": [
+        {"slug": "iron", "name": "Iron"},
+        {"slug": "ferrous-bisglycinate", "name": "Ferrous bisglycinate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Iron fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "calcium-levo",
+      "classes": ["thyroid"],
+      "severity": "separate",
+      "title": "Calcium carbonate can block levothyroxine",
+      "explanation": "NIH ODS says calcium carbonate supplements can interfere with absorption of levothyroxine. The FDA-approved label tells patients not to take levothyroxine within 4 hours of a calcium carbonate supplement. The cited instruction names calcium carbonate specifically. If your bottle is a different calcium salt, ask a pharmacist rather than assuming it is free of this problem.",
+      "supplements": [
+        {"slug": "calcium", "name": "Calcium"},
+        {"slug": "calcium-carbonate-citrate", "name": "Calcium carbonate or citrate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Calcium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "biotin-labs",
+      "classes": ["thyroid"],
+      "severity": "labs",
+      "title": "High-dose biotin can make a thyroid blood test lie",
+      "explanation": "NIH ODS says biotin supplements above the recommended amount may cause false results on some lab tests, including tests that measure hormones such as thyroid hormone. Biotin does not stop levothyroxine from being absorbed. It can make TSH or other hormone results look wrong, which can lead to a wrong dose change. Tell the lab and the prescriber that you take biotin before a thyroid test. The FDA has also warned that biotin can interfere with some lab tests more broadly, including some troponin tests used to detect a heart attack.",
+      "supplements": [
+        {"slug": "biotin", "name": "Biotin (high-dose)"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Biotin fact sheet for consumers", "url": "https://ods.od.nih.gov/factsheets/Biotin-Consumer/", "kind": "NIH ODS"},
+        {"label": "FDA, biotin interference with lab tests", "url": "https://www.fda.gov/medical-devices/in-vitro-diagnostics/biotin-interference-troponin-lab-tests-assays-subject-biotin-interference", "kind": "FDA"}
+      ]
+    },
+    {
+      "id": "berberine-dm",
+      "classes": ["diabetes"],
+      "severity": "caution",
+      "title": "Berberine plus diabetes drugs lowered blood sugar more than either alone",
+      "explanation": "A 2019 systematic review and meta-analysis in Endocrine Journal (PMID 30393248) looked at berberine in people with type 2 diabetes. It found that berberine combined with glucose-lowering drugs reduced blood sugar more than either berberine or the drugs alone. A bigger drop is a reason the prescriber should know. Do not change an insulin or tablet dose to \"make room\" for berberine on your own. The paper does not test every newer diabetes drug.",
+      "supplements": [
+        {"slug": "berberine", "name": "Berberine"}
+      ],
+      "sources": [
+        {"label": "Liang et al., Endocrine Journal, 2019 (PMID 30393248)", "url": "https://pubmed.ncbi.nlm.nih.gov/30393248/", "kind": "Peer-reviewed review"}
+      ]
+    },
+    {
+      "id": "k-ace",
+      "classes": ["ace_arb"],
+      "severity": "caution",
+      "title": "Potassium supplements can raise potassium too high with ACE inhibitors and ARBs",
+      "explanation": "NIH ODS says ACE inhibitors (such as benazepril) and ARBs (such as losartan) reduce how much potassium the kidneys spill into the urine, which can lead to hyperkalemia, a high blood potassium. Experts recommend checking potassium in people on these drugs, especially if the kidneys are not working well. In people who cannot clear potassium normally, even a modest potassium intake can be too much. Do not add a potassium pill or a potassium salt substitute unless the prescriber told you to.",
+      "supplements": [
+        {"slug": "potassium-supplementation", "name": "Potassium supplements"},
+        {"slug": "potassium-citrate", "name": "Potassium citrate"},
+        {"slug": "potassium-gluconate", "name": "Potassium gluconate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Potassium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Potassium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "k-spare",
+      "classes": ["k_sparing"],
+      "severity": "caution",
+      "title": "Potassium-sparing diuretics plus a potassium pill can cause hyperkalemia",
+      "explanation": "NIH ODS says potassium-sparing diuretics such as spironolactone and amiloride reduce potassium loss in urine and can themselves cause hyperkalemia. Adding a potassium supplement on top raises that risk further, especially if kidney function is reduced. Some people are prescribed a carefully watched dose. Starting one from a bottle, without that plan, is the problem.",
+      "supplements": [
+        {"slug": "potassium-supplementation", "name": "Potassium supplements"},
+        {"slug": "potassium-citrate", "name": "Potassium citrate"},
+        {"slug": "potassium-gluconate", "name": "Potassium gluconate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Potassium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Potassium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "k-loop",
+      "classes": ["loop_diuretic"],
+      "severity": "monitor",
+      "title": "Some water pills waste potassium, and a supplement is sometimes prescribed",
+      "explanation": "NIH ODS says loop diuretics such as furosemide and thiazide diuretics such as hydrochlorothiazide increase potassium loss in urine and can cause low potassium. Experts recommend checking potassium and starting a supplement if it is needed. This flag is the opposite of a \"stop\" warning. It is a reason to ask whether your level has been checked, not a reason to start potassium because a website suggested it.",
+      "supplements": [
+        {"slug": "potassium-supplementation", "name": "Potassium supplements"},
+        {"slug": "potassium-citrate", "name": "Potassium citrate"},
+        {"slug": "potassium-gluconate", "name": "Potassium gluconate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Potassium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Potassium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "mg-diuretic",
+      "classes": ["diuretic"],
+      "severity": "monitor",
+      "title": "Diuretics can change magnesium status",
+      "explanation": "NIH ODS says some medicines, including diuretics, can affect magnesium status. That is a reason to ask whether a level should be checked. It is not an order to start or stop a magnesium pill on your own, and it is not evidence that magnesium \"cancels\" the blood pressure medicine.",
+      "supplements": [
+        {"slug": "magnesium", "name": "Magnesium"},
+        {"slug": "magnesium-glycinate", "name": "Magnesium glycinate"},
+        {"slug": "magnesium-citrate", "name": "Magnesium citrate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Magnesium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "licorice-bp",
+      "classes": ["bp"],
+      "severity": "caution",
+      "title": "Licorice root can be dangerous if you already have high blood pressure",
+      "explanation": "NCCIH says glycyrrhizin in licorice root can cause serious effects, including irregular heartbeat, especially in large amounts or with long-term use. Even small amounts have been linked to severe effects in people with high blood pressure, heart disease, or kidney disease, and in people who eat a lot of salt. Oral products with the glycyrrhizin removed (deglycyrrhizinated licorice) are discussed separately and are not given this warning. Tell the prescriber before you use licorice root.",
+      "supplements": [
+        {"slug": "licorice-root", "name": "Licorice root"}
+      ],
+      "sources": [
+        {"label": "NCCIH, Licorice root", "url": "https://www.nccih.nih.gov/health/licorice-root", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "sjw-ocp",
+      "classes": ["ocp"],
+      "severity": "avoid",
+      "title": "St. John's wort can weaken birth control pills",
+      "explanation": "NCCIH says St. John's wort can weaken many medicines, and birth control pills are on that list. A weaker pill can mean an unplanned pregnancy. Do not combine them. If you already did, ask a pharmacist or clinician about backup contraception. Do not wait for a cycle to \"see what happens.\"",
+      "supplements": [
+        {"slug": "st-john-s-wort", "name": "St. John's wort"}
+      ],
+      "sources": [
+        {"label": "NCCIH, St. John's wort", "url": "https://www.nccih.nih.gov/health/st-johns-wort", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "sjw-cyclo",
+      "classes": ["cyclo"],
+      "severity": "avoid",
+      "title": "St. John's wort can weaken cyclosporine",
+      "explanation": "NCCIH says St. John's wort can weaken cyclosporine, a drug used so the body does not reject a transplanted organ. A lower drug level can put the organ at risk. Do not start or stop this herb unless the transplant team has already told you what to do. NCCIH names cyclosporine. It does not give this same sentence for every other transplant drug.",
+      "supplements": [
+        {"slug": "st-john-s-wort", "name": "St. John's wort"}
+      ],
+      "sources": [
+        {"label": "NCCIH, St. John's wort", "url": "https://www.nccih.nih.gov/health/st-johns-wort", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "echinacea-immuno",
+      "classes": ["immuno"],
+      "severity": "caution",
+      "title": "Echinacea has a theoretical interaction with immunosuppressants",
+      "explanation": "NCCIH says there are theoretical reasons to suspect that echinacea might interact with immunosuppressants. The page also says evidence about liver-drug interactions is conflicting. \"Theoretical\" means this is not a proven case series. It is still the wrong herb to start on your own if you take a medicine meant to suppress the immune system. Ask the prescriber first.",
+      "supplements": [
+        {"slug": "echinacea-purpurea", "name": "Echinacea"}
+      ],
+      "sources": [
+        {"label": "NCCIH, Echinacea", "url": "https://www.nccih.nih.gov/health/echinacea", "kind": "NCCIH"}
+      ]
+    },
+    {
+      "id": "ca-quinolone",
+      "classes": ["quinolone"],
+      "severity": "separate",
+      "title": "Calcium can block quinolone antibiotics",
+      "explanation": "NIH ODS says using calcium supplements at the same time as quinolone antibiotics, such as ciprofloxacin, gemifloxacin, and moxifloxacin, can reduce how much of the antibiotic you absorb. Taking the antibiotic 2 hours before or 2 hours after the calcium supplement prevents that effect. Finish the antibiotic. Do not stop it because you also take calcium.",
+      "supplements": [
+        {"slug": "calcium", "name": "Calcium"},
+        {"slug": "calcium-carbonate-citrate", "name": "Calcium carbonate or citrate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Calcium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "mg-abx",
+      "classes": ["quinolone", "tetracycline"],
+      "severity": "separate",
+      "title": "Magnesium can block tetracycline and quinolone antibiotics",
+      "explanation": "NIH ODS says magnesium can form insoluble complexes with tetracyclines, such as doxycycline, and with quinolone antibiotics, such as ciprofloxacin and levofloxacin. Those antibiotics should be taken at least 2 hours before, or 4 to 6 hours after, a magnesium supplement. Separate the doses. Do not skip the antibiotic.",
+      "supplements": [
+        {"slug": "magnesium", "name": "Magnesium"},
+        {"slug": "magnesium-glycinate", "name": "Magnesium glycinate"},
+        {"slug": "magnesium-citrate", "name": "Magnesium citrate"}
+      ],
+      "sources": [
+        {"label": "NIH ODS, Magnesium fact sheet for health professionals", "url": "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/", "kind": "NIH ODS"}
+      ]
+    },
+    {
+      "id": "licorice-steroid",
+      "classes": ["steroid"],
+      "severity": "caution",
+      "title": "Licorice and corticosteroids have reported interactions",
+      "explanation": "NCCIH says interactions between licorice and corticosteroids have been reported. It does not list a safe combined dose. People taking prednisone or a similar steroid should tell the prescriber before using licorice root. Deglycyrrhizinated licorice is a different product, and this sentence is about licorice that still contains glycyrrhizin.",
+      "supplements": [
+        {"slug": "licorice-root", "name": "Licorice root"}
+      ],
+      "sources": [
+        {"label": "NCCIH, Licorice root", "url": "https://www.nccih.nih.gov/health/licorice-root", "kind": "NCCIH"}
+      ]
+    }
+  ]
+}
