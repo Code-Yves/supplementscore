@@ -171,7 +171,7 @@ const FORM_PREFERENCES = {
     {form:'Hydroxocobalamin',
      test:({meds, conds})=> [...meds].some(k=>['ppi','h2_blocker','metformin'].includes(k)) || conds.has('celiac'),
      reason:'hydroxocobalamin is more absorbable when gastric acid is reduced (PPI/H2 blocker/metformin/atrophic gastritis/celiac)'},
-    {form:'Adenosylcobalamin (active B12, mitochondrial)',
+    {form:'Adenosylcobalamin (dibencozide)',
      test:({conds})=> conds.has('cfs') || conds.has('fibromyalgia'),
      reason:'adenosylcobalamin is the mitochondrial-active B12 form; useful in fatigue / mitochondrial protocols'},
     {form:'Methylcobalamin (high-dose neurological)', default:true,
@@ -217,7 +217,7 @@ const FORM_PREFERENCES = {
      reason:'standard well-tolerated forms — take with food for absorption'}
   ],
   'Curcumin (bioavailable form)': [
-    {form:'Curcumin Meriva (phytosome)', default:true,
+    {form:'Meriva curcumin (phytosome)', default:true,
      reason:'phytosome (Meriva) and similar branded forms have ~30× the bioavailability of plain curcumin extract'}
   ],
   'CoQ10 (Ubiquinol)': [
@@ -2929,7 +2929,7 @@ const SUPP_INTERACTIONS={
     ['Magnesium','Vitamin B6 (P5P)'],
     ['Collagen peptides','Vitamin C (moderate dose)'],
     ['Probiotics','Fibre (general dietary)'],
-    ['Probiotics','Psyllium husk (soluble fibre)'],
+    ['Probiotics','Psyllium husk (Plantago ovata)'],
     ['Lactobacillus rhamnosus GG','Fibre (general dietary)'],
     ['Myo-inositol','D-Chiro Inositol'],
     ['Inositol myo-form (PCOS/metabolic)','D-Chiro Inositol'],
@@ -2987,8 +2987,7 @@ const SUPP_INTERACTIONS={
     ['DHEA (Dehydroepiandrosterone)','Androstenedione (prohormone)','severe androgenic load — do not stack','avoid'],
     ['Androstenedione (prohormone)','Methyl-1-testosterone (oral steroid)','prohormone stacking — hepatic and cardiac risk','avoid'],
     ['Tribulus terrestris','DHEA (Dehydroepiandrosterone)','compounds androgenic signalling','caution'],
-    ['Tongkat ali (Eurycoma longifolia)','Fadogia agrestis','popular "T-stack" with no safety data together','caution'],
-    ['Indole-3-Carbinol (I3C)','DIM (Diindolylmethane)','I3C converts to DIM in the gut — redundant','caution'],
+    ['Tongkat ali (Eurycoma longifolia, standardised)','Fadogia agrestis','popular "T-stack" with no safety data together','caution'],
     ['Indole-3-Carbinol (I3C)','DIM (Diindolylmethane)','I3C converts to DIM in the gut — redundant','caution'],
     ['Indole-3-Carbinol (I3C)','Diindolylmethane (DIM)','I3C converts to DIM in the gut — redundant','caution'],
     ['Soy isoflavones','Red clover (Trifolium pratense)','additive phytoestrogen load','caution'],
@@ -3006,7 +3005,6 @@ const SUPP_INTERACTIONS={
     ['Kelp (iodine-rich)','Sea moss (Irish moss)','iodine stacking — thyroid risk','avoid'],
     ['Bladderwrack (Fucus vesiculosus)','Sea moss (Irish moss)','iodine stacking — thyroid risk','avoid'],
     ['Licorice root (high-dose/chronic)','Diuretic supplements (herbal water pills)','potassium loss compounded — cardiac risk','avoid'],
-    ['Licorice root high-dose','Diuretic supplements (herbal water pills)','potassium loss compounded — cardiac risk','avoid'],
     ['Licorice root (high-dose/chronic)','Potassium citrate','licorice wastes potassium while supplement loads it — monitor','caution'],
     ['Red yeast rice','Niacin (Vitamin B3)','both stress liver lipid pathways','caution'],
     ['Red yeast rice','CoQ10 (Ubiquinol)','needed because red yeast rice depletes CoQ10 — pair, don\'t avoid','caution'],
@@ -3016,7 +3014,6 @@ const SUPP_INTERACTIONS={
     ['Magnesium','Magnesium malate','redundant — pick one magnesium form','caution'],
     ['Magnesium','Magnesium taurate','redundant — pick one magnesium form','caution'],
     ['Magnesium','Magnesium orotate','redundant — pick one magnesium form','caution'],
-    ['Magnesium','Magnesium bisglycinate','redundant — pick one magnesium form','caution'],
     ['CoQ10 (Ubiquinol)','CoQ10 (ubiquinone, classic form)','redundant — pick one CoQ10 form','caution'],
     ['Omega-3 (EPA/DHA)','Flaxseed oil (ALA omega-3)','redundant omega-3 — prioritise EPA/DHA','caution'],
     ['Omega-3 (EPA/DHA)','Krill oil','overlapping EPA/DHA load','caution'],
@@ -3039,12 +3036,9 @@ const SUPP_INTERACTIONS={
     ['Folate (5-MTHF)','Folinic acid (5-formyl-THF)','redundant folate forms — pick one','caution'],
     ['Folic acid (synthetic)','Folinic acid (5-formyl-THF)','redundant folate forms — pick one','caution'],
     ['Vitamin B6 (P5P)','Pyridoxal 5-phosphate (P5P)','same vitamin form — pick one','caution'],
-    ['Vitamin B1 (Thiamine)','Vitamin B1 (Thiamine, clinical)','same vitamin in two forms — pick one','caution'],
     ['Vitamin B1 (Thiamine)','Benfotiamine','overlapping thiamine forms — typically pick one','caution'],
-    ['Vitamin B1 (Thiamine)','Benfotiamine (fat-soluble B1)','overlapping thiamine forms — pick one','caution'],
     ['Vitamin B1 (Thiamine)','TTFD / Allithiamine (fat-soluble B1)','overlapping thiamine forms — pick one','caution'],
-    ['Benfotiamine','Benfotiamine (fat-soluble B1)','duplicate thiamine form — pick one','caution'],
-    ['Benfotiamine (fat-soluble B1)','TTFD / Allithiamine (fat-soluble B1)','overlapping thiamine forms — pick one','caution'],
+    ['Benfotiamine','TTFD / Allithiamine (fat-soluble B1)','overlapping thiamine forms — pick one','caution'],
     ['Vitamin B2 (Riboflavin low-dose)','Riboflavin (Vitamin B2)','same vitamin form — pick one','caution'],
     ['Pantothenic acid (Vitamin B5)','Calcium pantothenate (Vitamin B5)','same vitamin form — pick one','caution'],
     ['Pantothenic acid (Vitamin B5)','Pantethine','overlapping B5 forms — pick one','caution'],
@@ -3101,7 +3095,6 @@ const SUPP_INTERACTIONS={
     // Estrogen-pathway overlap
     ['DIM (Diindolylmethane)','Diindolylmethane (DIM)','same compound — pick one','avoid'],
     ['DIM (Diindolylmethane)','Calcium D-glucarate','overlapping estrogen-clearance support — typically used together but watch total load','caution'],
-    ['Vitex / Chasteberry (Vitex agnus-castus)','Chasteberry/Vitex standardised (BNO 1095)','same herb in two forms — pick one','caution'],
     ['Vitex / Chasteberry (Vitex agnus-castus)','Soy isoflavones','overlapping hormonal modulation — discuss with clinician','caution'],
     ['Vitex / Chasteberry (Vitex agnus-castus)','Black cohosh (Cimicifuga racemosa)','overlapping hormonal modulation','caution'],
     ['Vitex / Chasteberry (Vitex agnus-castus)','Maca (Lepidium meyenii)','overlapping hormonal modulation','caution'],
@@ -3174,7 +3167,6 @@ const SUPP_INTERACTIONS={
     ['Myo-inositol','Inositol (high-dose, psychiatric)','overlapping inositol — watch total dose','caution'],
     // Beta-Alanine forms
     ['Beta-Alanine','Carnosyn beta-alanine (sustained release)','overlapping beta-alanine — pick one','caution'],
-    ['Beta-Alanine','Carnosine (L-carnosine)','beta-alanine is the rate-limiting precursor of carnosine — watch overlap','caution'],
     ['Beta-Alanine','L-Carnosine','beta-alanine is the rate-limiting precursor of carnosine — watch overlap','caution'],
     // Boswellia forms
     ['Boswellia serrata','Boswellic acids AKBA (standardised)','overlapping boswellic acids — pick one','caution'],
@@ -3261,7 +3253,6 @@ const SUPP_INTERACTIONS={
     ['Goldenseal (Hydrastis canadensis)','Berberine','goldenseal contains berberine — do not double-dose','avoid'],
     ['Goldenseal (Hydrastis canadensis)','Berberine HCl (sustained release)','goldenseal contains berberine — do not double-dose','avoid'],
     // Taurine forms
-    ['Taurine','Taurine (cardiac and metabolic)','same amino acid — pick one','avoid'],
     // Citrulline forms
     ['Citrulline (L-citrulline, pure form)','Citrulline malate','same amino acid in two forms — pick one','caution'],
     ['Citrulline (L-citrulline, pure form)','L-Arginine','overlapping nitric-oxide precursors — typically pick one','caution'],
@@ -3278,8 +3269,6 @@ const SUPP_INTERACTIONS={
     ['BCAAs (standalone)','L-Leucine (standalone)','BCAAs already contain leucine — do not double-dose','caution'],
     ['BCAAs (standalone)','EAAs (Essential amino acids)','EAAs already contain BCAAs — pick one','avoid'],
     // Tributyrin / butyrate forms
-    ['Tributyrin / Butyrate','Tributyrin (gut barrier, targeted)','same compound — pick one','avoid'],
-    ['Tributyrin / Butyrate','Butyrate tributyrin (odourless)','same compound — pick one','avoid'],
     ['Tributyrin / Butyrate','Butyrate (calcium/magnesium)','overlapping butyrate sources — pick one','caution'],
     // Hidden adulterants
     ['Sibutramine (hidden in supplements)','SSRIs (unspecified)','sibutramine is itself an SNRI — serotonin syndrome with SSRIs','avoid'],
@@ -3291,8 +3280,7 @@ const SUPP_INTERACTIONS={
     // Pennyroyal / sassafras (Tier 4) — clear avoid lookups
     ['Pennyroyal oil (Mentha pulegium)','Acetaminophen (paracetamol)','combined hepatic stress — fatal liver failure reported','avoid'],
     // Tongkat / Fadogia / Turkesterone (T-stack)
-    ['Tongkat ali (Eurycoma longifolia)','Tongkat ali (Eurycoma longifolia, standardised)','same herb — pick one','avoid'],
-    ['Turkesterone / Ecdysteroids','Tongkat ali (Eurycoma longifolia)','common gym “T-stack” with no human data on safety together','caution'],
+    ['Turkesterone / Ecdysteroids','Tongkat ali (Eurycoma longifolia, standardised)','common gym “T-stack” with no human data on safety together','caution'],
     ['Turkesterone / Ecdysteroids','Fadogia agrestis','common gym “T-stack” with no human data on safety together','caution'],
     // Glycine/NAC pair already in groups; flag GlyNAC product overlap
     ['NAC (N-Acetyl Cysteine)','GlyNAC (Glycine + NAC)','GlyNAC already contains NAC — do not double-dose','avoid'],
@@ -3316,7 +3304,6 @@ const SUPP_INTERACTIONS={
     ['Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','same herb in two forms — pick one','avoid'],
     // Bilberry — flag w/ blood thinners by adding to bleed group below; also dose-overlap with eye stack
     // Kava forms
-    ['Kava (high-dose/extract)','Kava (high-dose/extract)','duplicate entry placeholder','caution'],
     // Sambucol vs Elderberry
     ['Elderberry (Sambucus nigra)','Sambucol (elderberry extract, maintenance)','same berry in two products — pick one','caution'],
     // Phenylpiracetam stacking
@@ -3350,14 +3337,14 @@ const SUPP_INTERACTIONS={
     bleed:{reason:'additive bleeding / anticoagulant effect',severity:'caution',members:[
       'Omega-3 (EPA/DHA)','Omega-3 DHA-dominant','Omega-3 triglyceride form (rTG)','Algal DHA (vegan omega-3)','Algal EPA (standalone)','Algal oil (vegan DHA/EPA)','Cod liver oil','Krill oil','Calamari oil (high-DHA)','Flaxseed oil (ALA omega-3)','Hemp seed oil','Chia seed oil','Sacha inchi oil (Plukenetia volubilis)','Perilla oil','Perilla seed oil','DHA (standalone, algal)','Green-lipped mussel (Perna canaliculus)','Omega-3-6-9 blends','Omega-7 (Palmitoleic acid)','Resolvins / SPMs (Specialised Pro-resolving Mediators)',
       'Ginkgo biloba','Ginkgo biloba EGb 761','Vitamin E (mixed tocopherols)','Tocotrienols (vitamin E fraction)','Tocotrienols (annatto-derived)','Delta-tocotrienol','Gamma-tocopherol',
-      'Curcumin (bioavailable form)','Curcumin Meriva (phytosome)','Meriva curcumin (phytosome)','Turmeric whole root powder',
+      'Curcumin (bioavailable form)','Meriva curcumin (phytosome)','Meriva curcumin (phytosome)','Turmeric whole root powder',
       'Ginger (Zingiber officinale)','Feverfew (Tanacetum parthenium)','White willow bark (Salix alba)','Meadowsweet (Filipendula ulmaria)',
       'Aged garlic extract (Kyolic)','Black garlic extract','Nattokinase','Lumbrokinase','Serrapeptase','Wobenzym (systemic enzymes)','Bromelain','Papain',
       'Quercetin','Quercetin phytosome + Bromelain','Resveratrol','Pterostilbene + resveratrol combo','Pterostilbene',
-      'Dong quai (Angelica sinensis)','Dong quai (Angelica sinensis, low-dose)','Red clover (Trifolium pratense)','Red sage / Danshen (Salvia miltiorrhiza)','Dan Shen compound (Salvia miltiorrhiza)',
+      'Dong quai (Angelica sinensis)','Dong quai (Angelica sinensis)','Red clover (Trifolium pratense)','Red sage / Danshen (Salvia miltiorrhiza)','Dan Shen compound (Salvia miltiorrhiza)',
       'Horse chestnut (Aesculus)','Gotu kola (Centella asiatica)','Centella asiatica (Gotu kola, standardised TTFCA)',
       'NAC (N-Acetyl Cysteine)','GlyNAC (Glycine + NAC)','Glutathione precursors blend','Fucoidan','Pine bark extract (Pycnogenol)','Pycnogenol (pine bark, branded)','Grape seed extract (OPC)',
-      'Saw palmetto (Serenoa repens)','Bilberry extract','Boswellia serrata','Boswellic acids AKBA (standardised)','Black seed oil (Nigella sativa)','Nigella sativa standardised (TQ)','Holy basil (Tulsi)','Korean red ginseng (Panax ginseng)','Panax ginseng','American ginseng (Panax quinquefolius)','Korean red ginseng (fermented)','Cordyceps militaris','Reishi (Ganoderma lucidum)','Bee propolis','Bee pollen','Royal jelly','Vinpocetine','Mastic gum (Pistacia lentiscus)','Maitake mushroom (Grifola frondosa)','Bamboo extract (silica)','Stinging nettle root (Urtica dioica)','Nettle leaf (Urtica dioica leaf)','Borage oil (GLA)','Evening primrose oil (EPO)','Gamma-linolenic acid (GLA)','Squalene','Pomegranate extract (ellagic acid)','Cacao flavanols','Theaflavins (black tea extract)','Epicatechin (dark chocolate flavanol)','Hesperidin','Hesperidin methyl chalcone','Rutin','Diosmin','Naringenin'
+      'Saw palmetto (Serenoa repens)','Bilberry extract','Boswellia serrata','Boswellic acids AKBA (standardised)','Black seed oil (Nigella sativa)','Nigella sativa standardised (TQ)','Holy basil (Tulsi)','Korean red ginseng (Panax ginseng)','Panax ginseng','American ginseng (Panax quinquefolius)','Korean red ginseng (Panax ginseng)','Cordyceps militaris','Reishi (Ganoderma lucidum)','Bee propolis','Bee pollen','Royal jelly','Vinpocetine','Mastic gum (Pistacia lentiscus)','Maitake mushroom (Grifola frondosa)','Bamboo extract (silica)','Stinging nettle root (Urtica dioica)','Nettle leaf (Urtica dioica leaf)','Borage oil (GLA)','Evening primrose oil (EPO)','Gamma-linolenic acid (GLA)','Squalene','Pomegranate extract (ellagic acid)','Cacao flavanols','Theaflavins (black tea extract)','Epicatechin (dark chocolate flavanol)','Hesperidin','Hesperidin methyl chalcone','Rutin','Diosmin','Naringenin'
     ]},
     serotonin:{reason:'serotonin syndrome risk — do not stack',severity:'avoid',members:[
       '5-HTP','Tryptophan (L-tryptophan)','S-Adenosylmethionine (SAMe)','Saffron (Crocus sativus)','Saffron Affron (standardised extract)','Rhodiola rosea','Rhodiola crenulata','Mucuna pruriens','DLPA (DL-Phenylalanine)','Tianeptine ("gas station heroin")',
@@ -3366,28 +3353,28 @@ const SUPP_INTERACTIONS={
     sedation:{reason:'additive CNS sedation — avoid driving / mixing',severity:'caution',members:[
       'Melatonin','Melatonin (0.1-0.5 mg physiological dose)','Melatonin (high-dose, nightly)','Melatonin extended-release','Melatonin gummies (high dose 5–10 mg)',
       'Valerian root','Passionflower (Passiflora incarnata)','Chamomile extract (Matricaria chamomilla)','Lemon balm (Melissa officinalis)','Lavender oil oral (Silexan)','California poppy (Eschscholzia californica)','Skullcap (Scutellaria lateriflora)','Magnolia bark (honokiol + magnolol)','Honokiol (magnolia bark isolate)',
-      'Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','Apigenin','L-Theanine','Glycine','GABA (standalone supplement)','PharmaGABA','Taurine','Taurine (cardiac and metabolic)',
+      'Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','Apigenin','L-Theanine','Glycine','GABA (standalone supplement)','PharmaGABA','Taurine','Taurine',
       'CBD (Cannabidiol)','Cannabigerol (CBG)','Kava (high-dose/extract)','Phenibut','Kratom (Mitragyna speciosa)',
-      'Bacopa monnieri','Holy basil (Tulsi)','Reishi (Ganoderma lucidum)','Sage extract (Salvia officinalis)','Hops (Humulus lupulus)','Jujube (Ziziphus jujuba)','Polygala tenuifolia (Yuan Zhi)','Damiana (Turnera diffusa)','Mucuna pruriens','Ashitaba (Angelica keiskei)','Sabroxy (Oroxylum indicum)','Butterbur (Petasites hybridus)','Black cohosh (Cimicifuga racemosa)','Black cohosh high-dose','Phosphatidylserine','Phosphatidylserine (plant-derived)','Magnesium glycinate','Magnesium L-threonate','Magnesium taurate','Magnesium bisglycinate','Adaptogen stack (Ashwagandha + Rhodiola)','Lemon verbena extract'
+      'Bacopa monnieri','Holy basil (Tulsi)','Reishi (Ganoderma lucidum)','Sage extract (Salvia officinalis)','Hops (Humulus lupulus)','Jujube (Ziziphus jujuba)','Polygala tenuifolia (Yuan Zhi)','Damiana (Turnera diffusa)','Mucuna pruriens','Ashitaba (Angelica keiskei)','Sabroxy (Oroxylum indicum)','Butterbur (Petasites hybridus)','Black cohosh (Cimicifuga racemosa)','Black cohosh high-dose','Phosphatidylserine','Phosphatidylserine','Magnesium glycinate','Magnesium L-threonate','Magnesium taurate','Magnesium glycinate','Adaptogen stack (Ashwagandha + Rhodiola)','Lemon verbena extract'
     ]},
     stimulant:{reason:'stimulant stacking — blood pressure / heart rate risk',severity:'caution',members:[
       'Caffeine (standardised)','Guarana (Paullinia cupana)','Yerba mate (Ilex paraguayensis)','Theacrine (TeaCrine)','Green tea extract (EGCG)',
       'Yohimbe bark (Pausinystalia yohimbe)','Yohimbine HCl','Bitter orange (Citrus aurantium)','Synephrine (Citrus aurantium extract)','Higenamine (norcoclaurine, pre-workout)','Methyl synephrine','Ephedra analogues (synephrine)','Ma huang (raw Ephedra herb)','DMAA/DMHA novel stimulant pre-workouts','1,3-DMBA (dimethylbutylamine)','Khat (Catha edulis)','Khat extract (Catha edulis)',
       'Phenylpiracetam (Phenotropil)','Semax (synthetic ACTH analogue)','Nootropic peptide selank (synthetic)','Sibutramine (hidden in supplements)','Clenbuterol (weight loss/muscle)','2,4-Dinitrophenol (DNP)','DNP (2,4-Dinitrophenol)',
-      'Rhodiola rosea','Rhodiola crenulata','Eleuthero (Eleutherococcus senticosus)','Korean red ginseng (Panax ginseng)','Panax ginseng','Korean red ginseng (fermented)','American ginseng (Panax quinquefolius)','Cordyceps militaris','Schisandra (Schisandra chinensis)'
+      'Rhodiola rosea','Rhodiola crenulata','Eleuthero (Eleutherococcus senticosus)','Korean red ginseng (Panax ginseng)','Panax ginseng','Korean red ginseng (Panax ginseng)','American ginseng (Panax quinquefolius)','Cordyceps militaris','Schisandra (Schisandra chinensis)'
     ]},
     hepatotoxic:{reason:'compounded hepatotoxicity risk — monitor ALT/AST',severity:'avoid',members:[
-      'Kava (high-dose/extract)','Green tea extract (EGCG)','Usnic acid (weight loss)','Comfrey (Symphytum officinale, oral)','Comfrey root tea (internal)','Coltsfoot (Tussilago farfara)','Borage oil (GLA)','Chaparral (Larrea tridentata)','Germander (Teucrium chamaedrys)','Black cohosh high-dose','Pyrrolizidine alkaloid herbs (comfrey/borage/coltsfoot)','Niacin (Vitamin B3)','Nicotinic acid (Niacin, flush form)','Red yeast rice','Greater celandine (Chelidonium majus)','Fo-Ti (Polygonum multiflorum / He Shou Wu)','He Shou Wu (processed Polygonum multiflorum)','Japanese knotweed (Polygonum cuspidatum)','Japanese knotweed (Reynoutria japonica)','Aristolochic acid (in some herbal products)','Thunder god vine (Tripterygium wilfordii)',
+      'Kava (high-dose/extract)','Green tea extract (EGCG)','Usnic acid (weight loss)','Comfrey (Symphytum officinale, oral)','Comfrey root tea (internal)','Coltsfoot (Tussilago farfara)','Borage oil (GLA)','Chaparral (Larrea tridentata)','Germander (Teucrium chamaedrys)','Black cohosh high-dose','Pyrrolizidine alkaloid herbs (comfrey/borage/coltsfoot)','Niacin (Vitamin B3)','Nicotinic acid (Niacin, flush form)','Red yeast rice','Greater celandine (Chelidonium majus)','Fo-Ti (Polygonum multiflorum / He Shou Wu)','Fo-Ti (Polygonum multiflorum / He Shou Wu)','Japanese knotweed (Reynoutria japonica)','Japanese knotweed (Reynoutria japonica)','Aristolochic acid (in some herbal products)','Thunder god vine (Tripterygium wilfordii)',
       'Pennyroyal oil (Mentha pulegium)','Sassafras oil','Calamus root (Acorus calamus)','Garcinia cambogia (HCA)','Hydrazine sulfate','Korean mistletoe (Viscum album)','Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','Turmeric whole root powder','Curcumin (bioavailable form)','Turkesterone / Ecdysteroids','SARMs (Selective Androgen Receptor Modulators)','Andarine (S-4, SARM)','Ostarine (MK-2866/Enobosarm, SARM)','Methyl-1-testosterone (oral steroid)','Androstenedione (prohormone)','DHEA (Dehydroepiandrosterone)','Black cohosh (Cimicifuga racemosa)','Aloe vera (oral supplement)','Senna leaf (Cassia senna)','Cascara sagrada','Tung oil tree extract (Vernicia fordii)','Camphor oil (oral)','Oil of wintergreen (oral)'
     ]},
     hypoglycemic:{reason:'additive glucose-lowering — hypoglycaemia risk',severity:'caution',members:[
       'Berberine','Berberine HCl (sustained release)','Dihydroberberine (DHB)','Berberine + Ceylon cinnamon combo','Berberine-containing Coptis (Huang Lian)','Barberry (Berberis vulgaris)','Berberis aristata (Indian barberry)',
       'Gymnema sylvestre','Bitter melon (Momordica charantia)','Banaba leaf (corosolic acid)','Fenugreek (Trigonella foenum-graecum)','Fenugreek seed extract (Testofen / standardised)','Cinnamon extract (Ceylon)','Chromium picolinate','Chromium nicotinate (polynicotinate)','Alpha-Lipoic Acid (ALA)','R-Alpha lipoic acid','White mulberry leaf (Morus alba)','Salacia reticulata','Pterocarpus marsupium (Vijaysar)','Myo-inositol','D-Chiro Inositol','Inositol myo-form (PCOS/metabolic)',
-      'Apple cider vinegar (supplement)','Holy basil (Tulsi)','Goldenseal (Hydrastis canadensis)','Maitake mushroom (Grifola frondosa)','Aloe vera (oral supplement)','Goji berry extract (Lycium barbarum)','Lycium barbarum (goji berry extract, standardised)','5-ALA (5-aminolevulinic acid)','Bergamot citrus polyphenol extract','Nopal cactus / Prickly pear (Opuntia ficus-indica)','Ecklonia cava (brown seaweed)','Damiana (Turnera diffusa)','Chromium GTF (brewer\'s yeast form)','Vanadium','Olive leaf extract','Oat beta-glucan (cholesterol)','Glucomannan (konjac root)','White kidney bean extract'
+      'Apple cider vinegar (supplement)','Holy basil (Tulsi)','Goldenseal (Hydrastis canadensis)','Maitake mushroom (Grifola frondosa)','Aloe vera (oral supplement)','Goji berry (Lycium barbarum)','Goji berry (Lycium barbarum)','5-ALA (5-aminolevulinic acid)','Bergamot citrus polyphenol extract','Nopal cactus / Prickly pear (Opuntia ficus-indica)','Ecklonia cava (brown seaweed)','Damiana (Turnera diffusa)','Chromium GTF (brewer\'s yeast form)','Vanadium','Olive leaf extract','Oat beta-glucan (cholesterol)','Glucomannan (konjac root)','White kidney bean extract'
     ]},
     hypotensive:{reason:'additive blood-pressure lowering — monitor BP',severity:'caution',members:[
-      'CoQ10 (Ubiquinol)','CoQ10 (ubiquinone, classic form)','Hawthorn berry (Crataegus)','Olive leaf extract','Olive polyphenol complex (EVOO)','Hydroxytyrosol (olive extract)','Oleuropein (olive extract)','Taurine','Taurine (cardiac and metabolic)','Dietary Nitrate / Beetroot','Magnesium taurate','Arjuna bark (Terminalia arjuna)','Terminalia arjuna (Arjuna standardised extract)','L-Arginine','Citrulline (L-citrulline, pure form)','Citrulline malate','Aged garlic extract (Kyolic)','Pine bark extract (Pycnogenol)',
-      'MitoQ','Pomegranate extract (ellagic acid)','Reishi (Ganoderma lucidum)','Holy basil (Tulsi)','Cacao flavanols','Theaflavins (black tea extract)','Hibiscus (Hibiscus sabdariffa)','Magnesium','Magnesium glycinate','Magnesium L-threonate','Magnesium bisglycinate','Magnesium citrate','Magnesium chloride (topical)','Quercetin','Quercetin phytosome + Bromelain','Resveratrol','Pterostilbene','Bergamot citrus polyphenol extract'
+      'CoQ10 (Ubiquinol)','CoQ10 (ubiquinone, classic form)','Hawthorn berry (Crataegus)','Olive leaf extract','Olive polyphenol complex (EVOO)','Hydroxytyrosol (olive extract)','Oleuropein (olive extract)','Taurine','Taurine','Dietary Nitrate / Beetroot','Magnesium taurate','Arjuna bark (Terminalia arjuna)','Terminalia arjuna (Arjuna standardised extract)','L-Arginine','Citrulline (L-citrulline, pure form)','Citrulline malate','Aged garlic extract (Kyolic)','Pine bark extract (Pycnogenol)',
+      'MitoQ','Pomegranate extract (ellagic acid)','Reishi (Ganoderma lucidum)','Holy basil (Tulsi)','Cacao flavanols','Theaflavins (black tea extract)','Hibiscus (Hibiscus sabdariffa)','Magnesium','Magnesium glycinate','Magnesium L-threonate','Magnesium glycinate','Magnesium citrate','Magnesium chloride (topical)','Quercetin','Quercetin phytosome + Bromelain','Resveratrol','Pterostilbene','Bergamot citrus polyphenol extract'
     ]},
     seizure_lowering:{reason:'may lower seizure threshold together',severity:'caution',members:[
       'Ginkgo biloba','Ginkgo biloba EGb 761','Evening primrose oil (EPO)','Borage oil (GLA)','Huperzine A','Caffeine (standardised)','Wormwood high-dose (Artemisia absinthium)','Sage extract (Salvia officinalis)','Rosemary extract (carnosic acid)','Camphor oil (oral)','Phenibut','Kratom (Mitragyna speciosa)','Phenylpiracetam (Phenotropil)'
@@ -3396,26 +3383,26 @@ const SUPP_INTERACTIONS={
       'Vitamin C (megadose)','Calcium','Calcium carbonate/citrate (bone health)','Calcium hydroxyapatite (MCHC)','Coral calcium','Calcium D-glucarate','Calcium fructoborate','Calcium alpha-ketoglutarate (Ca-AKG)','Calcium pantothenate (Vitamin B5)','D-Mannose','Cranberry extract','Cranberry PAC (A-type proanthocyanidins)','Uva ursi (Arctostaphylos uva-ursi)','Horsetail (Equisetum)','Phosphoric acid (urinary)','Strontium (strontium citrate)','Vanadium','Boron','Boron glycinate','Borax (boron supplement form)'
     ]},
     heavy_metal_risk:{reason:'products overlap on lead / arsenic / mercury contamination — avoid stacking',severity:'avoid',members:[
-      'Ayurvedic rasayana blends','Shilajit (Mumie)','Colloidal silver','Colloidal gold','Colloidal minerals','Silver protein (mild silver protein)','Sea moss (Irish moss)','Kelp (iodine-rich)','Bladderwrack (Fucus vesiculosus)','Spirulina','Chlorella','Phycocyanin (spirulina blue pigment)','Blue-green algae (AFA)','Beef organ complex (desiccated)','Bentonite clay (oral)','Diatomaceous earth (food grade)','Zeolite (clinoptilolite)','Bone broth protein','Cesium chloride (alkaline therapy)','Cesium chloride (high pH therapy)','Calomel (mercurous chloride)','Miracle Mineral Supplement (MMS / chlorine dioxide)','Sodium chlorite (MMS/Miracle Mineral Supplement)','Aristolochic acid (in some herbal products)'
+      'Ayurvedic rasayana blends','Shilajit (Mumie)','Colloidal silver','Colloidal gold','Colloidal minerals','Silver protein (mild silver protein)','Sea moss (Irish moss)','Kelp (iodine-rich)','Bladderwrack (Fucus vesiculosus)','Spirulina','Chlorella','Phycocyanin (spirulina blue pigment)','Blue-green algae (AFA)','Beef organ complex (desiccated)','Bentonite clay (oral)','Diatomaceous earth (food grade)','Zeolite (clinoptilolite)','Bone broth protein','Cesium chloride (alkaline therapy)','Cesium chloride (alkaline therapy)','Calomel (mercurous chloride)','Miracle Mineral Supplement (MMS / chlorine dioxide)','Sodium chlorite (MMS/Miracle Mineral Supplement)','Aristolochic acid (in some herbal products)'
     ]},
     // ── 2026-04-25: new mechanism groups (negative-interaction expansion) ──
     thyroid_modulator:{reason:'compounds thyroid hormone effect — risk of hyper/hypothyroid swings',severity:'caution',members:[
       'Iodine','Kelp (iodine-rich)','Bladderwrack (Fucus vesiculosus)','Sea moss (Irish moss)','Tiratricol (TRIAC, thyroid hormone analogue)','Raw thyroid glandulars','Thyroid glandular supplements (desiccated)','Selenium','Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','Guggul (Commiphora mukul)','Coleus forskohlii (Forskolin)','Lithium orotate (low-dose)','Fucoxanthin'
     ]},
     potassium_loss:{reason:'compounded potassium loss / electrolyte disturbance — risk of arrhythmia',severity:'caution',members:[
-      'Licorice root (high-dose/chronic)','Licorice root high-dose','Diuretic supplements (herbal water pills)','Senna leaf (Cassia senna)','Cascara sagrada','Aloe vera (oral supplement)','Phenolphthalein (hidden laxative)','Dandelion root (Taraxacum officinale)','Horsetail (Equisetum)','Uva ursi (Arctostaphylos uva-ursi)','Apple cider vinegar (supplement)','Hibiscus (Hibiscus sabdariffa)','Goldenseal (Hydrastis canadensis)'
+      'Licorice root (high-dose/chronic)','Licorice root (high-dose/chronic)','Diuretic supplements (herbal water pills)','Senna leaf (Cassia senna)','Cascara sagrada','Aloe vera (oral supplement)','Phenolphthalein (hidden laxative)','Dandelion root (Taraxacum officinale)','Horsetail (Equisetum)','Uva ursi (Arctostaphylos uva-ursi)','Apple cider vinegar (supplement)','Hibiscus (Hibiscus sabdariffa)','Goldenseal (Hydrastis canadensis)'
     ]},
     vitamin_a_overlap:{reason:'overlapping retinol / carotenoid load — risk of exceeding upper limit',severity:'caution',members:[
       'Vitamin A (retinol, low-dose)','Beta-carotene (standalone supplement)','Mixed carotenoids','Cod liver oil','Sea buckthorn oil (full spectrum)','Beef organ complex (desiccated)','Astaxanthin','Lutein + Zeaxanthin','Lutein (standalone)','Zeaxanthin (standalone)','Lycopene','High-dose fat-soluble vitamins (A, E)','Multivitamins (healthy adults)'
     ]},
     estrogen_modulator:{reason:'overlapping estrogen-pathway modulation — may interfere with endocrine balance or HRT',severity:'caution',members:[
-      'Soy isoflavones','Red clover (Trifolium pratense)','Pueraria mirifica (Kwao Krua)','Black cohosh (Cimicifuga racemosa)','Black cohosh high-dose','Dong quai (Angelica sinensis)','Dong quai (Angelica sinensis, low-dose)','Vitex / Chasteberry (Vitex agnus-castus)','Chasteberry/Vitex standardised (BNO 1095)','Maca (Lepidium meyenii)','Hops (Humulus lupulus)','DIM (Diindolylmethane)','Diindolylmethane (DIM)','Indole-3-Carbinol (I3C)','Indole-3-Carbinol (I3C)','Calcium D-glucarate','Wild yam (Dioscorea villosa)','Sage extract (Salvia officinalis)','White peony (Paeonia lactiflora)','Shatavari (Asparagus racemosus)','Kudzu (Pueraria lobata)'
+      'Soy isoflavones','Red clover (Trifolium pratense)','Pueraria mirifica (Kwao Krua)','Black cohosh (Cimicifuga racemosa)','Black cohosh high-dose','Dong quai (Angelica sinensis)','Dong quai (Angelica sinensis)','Vitex / Chasteberry (Vitex agnus-castus)','Vitex / Chasteberry (Vitex agnus-castus)','Maca (Lepidium meyenii)','Hops (Humulus lupulus)','DIM (Diindolylmethane)','Diindolylmethane (DIM)','Indole-3-Carbinol (I3C)','Indole-3-Carbinol (I3C)','Calcium D-glucarate','Wild yam (Dioscorea villosa)','Sage extract (Salvia officinalis)','White peony (Paeonia lactiflora)','Shatavari (Asparagus racemosus)','Kudzu (Pueraria lobata)'
     ]},
     immune_stimulant:{reason:'compounded immune activation — counteracts immunosuppressants; flare risk in autoimmune disease',severity:'caution',members:[
-      'Echinacea purpurea','Astragalus (Astragalus membranaceus)','Astragalus membranaceus (Huang Qi)','Astragaloside IV (isolated)','Cycloastragenol (TA-65)',"Cat's claw (Uncaria tomentosa)",'Andrographis paniculata','Andrographis (maintenance dose)','Andrographis + Echinacea combo','Elderberry (Sambucus nigra)','Sambucol (elderberry extract, maintenance)','Reishi (Ganoderma lucidum)','Cordyceps militaris','Maitake mushroom (Grifola frondosa)','Shiitake extract (lentinan)','Turkey tail (Trametes versicolor)','Coriolus versicolor PSP/PSK (turkey tail polysaccharide)','Chaga (Inonotus obliquus)','Mushroom complex (multi-species)','Beta-glucan (1,3/1,6)','Saccharomyces cerevisiae beta-glucan','Korean mistletoe (Viscum album)','Larch arabinogalactan','Pelargonium sidoides (Umckaloabo)','Spirulina','Phycocyanin (spirulina blue pigment)','Lactoferrin','Colostrum (bovine)','AHCC (active hexose correlated compound)','Agaricus blazei (Royal Sun mushroom)'
+      'Echinacea purpurea','Astragalus (Astragalus membranaceus)','Astragalus (Astragalus membranaceus)','Astragaloside IV (isolated)','Cycloastragenol (TA-65)',"Cat's claw (Uncaria tomentosa)",'Andrographis paniculata','Andrographis (maintenance dose)','Andrographis + Echinacea combo','Elderberry (Sambucus nigra)','Sambucol (elderberry extract, maintenance)','Reishi (Ganoderma lucidum)','Cordyceps militaris','Maitake mushroom (Grifola frondosa)','Shiitake extract (lentinan)','Turkey tail (Trametes versicolor)','Coriolus versicolor PSP/PSK (turkey tail polysaccharide)','Chaga (Inonotus obliquus)','Mushroom complex (multi-species)','Beta-glucan (1,3/1,6)','Saccharomyces cerevisiae beta-glucan','Korean mistletoe (Viscum album)','Larch arabinogalactan','Pelargonium sidoides (Umckaloabo)','Spirulina','Phycocyanin (spirulina blue pigment)','Lactoferrin','Colostrum (bovine)','AHCC (active hexose correlated compound)','Agaricus blazei (Royal Sun mushroom)'
     ]},
     androgenic:{reason:'overlapping androgenic / hormonal-precursor load — endocrine and hepatic risk',severity:'caution',members:[
-      'DHEA (Dehydroepiandrosterone)','7-Keto DHEA','DHEA topical cream','Pregnenolone','Androstenedione (prohormone)','Androsterone','Methyl-1-testosterone (oral steroid)','Tongkat ali (Eurycoma longifolia)','Tongkat ali (Eurycoma longifolia, standardised)','Fadogia agrestis','Tribulus terrestris','Turkesterone / Ecdysteroids','Fenugreek seed extract (Testofen / standardised)','Pine pollen extract','Horny goat weed (Epimedium)','Icariin (Epimedium extract)','Cistanche tubulosa (Rou Cong Rong)','Cistanche deserticola','Maca (Lepidium meyenii)','SARMs (Selective Androgen Receptor Modulators)','Andarine (S-4, SARM)','Ostarine (MK-2866/Enobosarm, SARM)','Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','D-Aspartic acid'
+      'DHEA (Dehydroepiandrosterone)','7-Keto DHEA','DHEA topical cream','Pregnenolone','Androstenedione (prohormone)','Androsterone','Methyl-1-testosterone (oral steroid)','Tongkat ali (Eurycoma longifolia, standardised)','Tongkat ali (Eurycoma longifolia, standardised)','Fadogia agrestis','Tribulus terrestris','Turkesterone / Ecdysteroids','Fenugreek seed extract (Testofen / standardised)','Pine pollen extract','Horny goat weed (Epimedium)','Icariin (Epimedium extract)','Cistanche tubulosa (Rou Cong Rong)','Cistanche deserticola','Maca (Lepidium meyenii)','SARMs (Selective Androgen Receptor Modulators)','Andarine (S-4, SARM)','Ostarine (MK-2866/Enobosarm, SARM)','Ashwagandha (KSM-66)','Shoden ashwagandha (high-withanolide)','D-Aspartic acid'
     ]}
   }
 };
@@ -3923,7 +3910,7 @@ const _PAIR_DETAILS_MAP=(function(){const m=new Map();[
   ['Magnesium','Vitamin B6 (P5P)','B6 is required for magnesium uptake into cells; enhances intracellular Mg concentration',4],
   ['Collagen peptides','Vitamin C (moderate dose)','Vitamin C is essential for collagen synthesis and cross-linking (prolyl hydroxylase cofactor)',5],
   ['Probiotics','Fibre (general dietary)','Dietary fibre acts as prebiotic fuel for probiotic organisms to colonise and thrive',5],
-  ['Probiotics','Psyllium husk (soluble fibre)','Psyllium provides soluble fibre that feeds and sustains beneficial probiotic bacteria',4],
+  ['Probiotics','Psyllium husk (Plantago ovata)','Psyllium provides soluble fibre that feeds and sustains beneficial probiotic bacteria',4],
   ['Lactobacillus rhamnosus GG','Fibre (general dietary)','Prebiotic fibre sustains Lactobacillus colonisation and long-term activity',4],
   ['Myo-inositol','D-Chiro Inositol','The 40:1 ratio mimics the physiological combination optimal for insulin signalling',5],
   ['Inositol myo-form (PCOS/metabolic)','D-Chiro Inositol','40:1 ratio mimics physiological inositol balance for PCOS metabolic support',5],
@@ -5173,7 +5160,6 @@ const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span clas
    .pop-ct count line. Keeping the val keys identical to before so
    _sxPick(val) and SX_KEYWORDS / SX_LABELS lookups all still resolve. */
 var _sxItems=[
-  ['Sleep','Sleep'],
   ['Anxiety','Anxiety / Stress'],
   ['Mood','Mood / Depression'],
   ['Cognition','Memory / Focus'],
@@ -5181,13 +5167,11 @@ var _sxItems=[
   ['Glucose','Blood sugar'],
   ['Joint','Joint / Pain'],
   ['Gut','Gut / Digestion'],
-  ['Immunity','Immunity'],
   ['Skin','Skin / Hair / Nails'],
   ['Energy','Energy / Fatigue'],
   ['Performance','Athletic performance'],
   ['Bone','Bone / Calcium'],
   ['Hormone','Hormonal balance'],
-  ['Liver','Liver'],
   ['Eye','Eye / Vision'],
   ['Pregnancy','Pregnancy / Fertility'],
   ['Kids','Kids / Pediatric']
@@ -5599,7 +5583,7 @@ const GOALS={
   gut:{label:'Gut Health',supps:['Probiotics','Psyllium husk (Plantago ovata)','Fibre (general dietary)','Saccharomyces boulardii']},
   joints:{label:'Joints',supps:['Boswellia serrata','Collagen peptides','Curcumin (bioavailable form)','Omega-3 (EPA/DHA)']},
   recovery:{label:'Recovery',supps:['Tart cherry (Montmorency)','Curcumin (bioavailable form)','Magnesium','Omega-3 (EPA/DHA)','Collagen peptides','Glycine']},
-  libido:{label:'Libido',supps:['Maca (Lepidium meyenii)','Tongkat Ali (Eurycoma longifolia)','Ashwagandha (KSM-66)','Zinc','Citrulline (L-citrulline, pure form)']},
+  libido:{label:'Libido',supps:['Maca (Lepidium meyenii)','Tongkat ali (Eurycoma longifolia, standardised)','Ashwagandha (KSM-66)','Zinc','Citrulline (L-citrulline, pure form)']},
   heart:{label:'Heart',supps:['Omega-3 (EPA/DHA)','Vitamin K2 (MK-7)','CoQ10 (Ubiquinol)','Magnesium','Berberine']},
   hormonal:{label:'Hormonal',supps:['Ashwagandha (KSM-66)','Zinc','Magnesium','Selenium','Vitex / Chasteberry (Vitex agnus-castus)','Myo-inositol']},
   hair:{label:'Hair',supps:['Biotin (low-dose, deficiency)','Zinc','Iron','Omega-3 (EPA/DHA)','Collagen peptides','Saw palmetto (Serenoa repens)']}
@@ -5722,7 +5706,7 @@ const FOLLOWUP_RULES = {
   },
   heart: {
     'Blood pressure':   { boost: ['Magnesium','CoQ10 (Ubiquinol)','Dietary Nitrate / Beetroot'], demote: [] },
-    'Cholesterol':      { boost: ['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (soluble fibre)'], demote: [] },
+    'Cholesterol':      { boost: ['Omega-3 (EPA/DHA)','Berberine','Psyllium husk (Plantago ovata)'], demote: [] },
     'Blood sugar':      { boost: ['Berberine','Cinnamon extract (Ceylon)','Chromium picolinate','Alpha-Lipoic Acid (ALA)'], demote: [] }
   },
   gut: {
@@ -5735,7 +5719,7 @@ const FOLLOWUP_RULES = {
     'Menopause / perimenopause': { boost: ['Vitamin D3','Magnesium','Black cohosh (Cimicifuga racemosa)','Soy isoflavones'], demote: [] },
     'PCOS':                       { boost: ['Myo-inositol','Vitamin D3','Berberine'], demote: [] },
     'Thyroid support':            { boost: ['Selenium','Zinc','Iodine'], demote: [] },
-    'Testosterone & vitality':    { boost: ['Ashwagandha (KSM-66)','Zinc','Vitamin D3','Tongkat Ali (Eurycoma longifolia)'], demote: [] }
+    'Testosterone & vitality':    { boost: ['Ashwagandha (KSM-66)','Zinc','Vitamin D3','Tongkat ali (Eurycoma longifolia, standardised)'], demote: [] }
   },
   skin_hair: {
     'Hair loss / thinning':       { boost: ['Iron','Zinc','Saw palmetto (Serenoa repens)','Biotin (low-dose, deficiency)'], demote: [] },
