@@ -229,3 +229,26 @@
 | 2026-06-06 | taurine-and-metabolic-syndrome-what-the-2024-meta-analysis-shows | 719 | research-update | 758 | 2 |
 | 2026-06-06 | omega-3-vitamin-d-exercise-and-the-aging-clock-what-do-health-found | 720 | research-update | 780 | 2 |
 | 2026-06-06 | can-a-daily-multivitamin-help-memory-what-the-cosmos-trials-show | 721 | research-update | 764 | 1 |
+| 2026-10-15 | best-magnesium-for-sleep | 722 | guide | 508 | 4 |
+| 2026-10-15 | creatine-vs-whey-protein | 723 | guide | 392 | 3 |
+| 2026-10-15 | vitamin-d-in-a-canadian-winter | 724 | guide | 503 | 1 |
+| 2026-10-15 | how-much-omega-3-per-day | 725 | guide | 413 | 2 |
+| 2026-10-15 | creatine-loading-or-a-daily-dose | 726 | guide | 307 | 2 [new AM keys: Creatine HCl] |
+| 2026-10-15 | magnesium-glycinate-vs-citrate | 727 | guide | 250 | 3 |
+| 2026-10-15 | iron-bisglycinate-vs-ferrous-sulfate | 728 | guide | 301 | 6 |
+| 2026-10-15 | collagen-peptides-vs-whey-protein | 729 | guide | 291 | 4 |
+| 2026-10-15 | ashwagandha-for-stress-what-dose-was-studied | 730 | guide | 235 | 1 |
+| 2026-10-15 | zinc-for-colds-lozenges-vs-tablets | 731 | guide | 219 | 4 |
+| 2026-10-15 | how-much-protein-powder-per-day | 732 | guide | 265 | 3 |
+| 2026-10-15 | coq10-ubiquinone-vs-ubiquinol | 733 | guide | 253 | 2 |
+| 2026-10-15 | do-you-need-vitamin-k2-with-vitamin-d | 734 | guide | 266 | 2 |
+| 2026-10-15 | caffeine-and-l-theanine | 735 | guide | 231 | 3 |
+| 2026-10-15 | berberine-and-blood-sugar | 736 | guide | 227 | 2 |
+| 2026-10-15 | psyllium-for-cholesterol | 737 | guide | 240 | 1 |
+| 2026-10-15 | creatine-monohydrate-vs-other-forms | 738 | guide | 257 | 2 [new AM keys: Creatine HCl] |
+| 2026-10-15 | whey-protein-vs-casein-at-night | 739 | guide | 264 | 2 |
+| 2026-10-15 | methylcobalamin-vs-cyanocobalamin | 740 | guide | 259 | 3 |
+| 2026-10-15 | certified-creatine-products-compared | 741 | guide | 615 | 5 |
+| 2026-10-15 | certified-vitamin-d-products-compared | 742 | guide | 545 | 3 |
+| 2026-10-15 | certified-omega-3-products-compared | 743 | guide | 547 | 2 |
+| 2026-10-15 | certified-magnesium-products-compared | 744 | guide | 385 | 5 |

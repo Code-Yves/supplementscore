@@ -626,7 +626,20 @@ if (document.querySelector('.article-list')) {
   reorderArticles();
   initArticleLoadMore();
   initCatCardCounts();
-  loadDeferredArticleCards();
+  /* The rest of the article cards are ~900 KB. Fetching them during first
+     paint competes with CSS on a slow phone, so wait until the page has
+     loaded unless the reader actually opens the article list. */
+  var _cardsBooted = false;
+  function bootDeferredArticleCards(){
+    if (_cardsBooted) return;
+    _cardsBooted = true;
+    loadDeferredArticleCards();
+  }
+  window.addEventListener('load', function(){ setTimeout(bootDeferredArticleCards, 1600); });
+  document.addEventListener('click', function(e){
+    var t = e.target && e.target.closest && e.target.closest('#art-filter, #art-filter-menu, a[href="#research"], .article-card');
+    if (t) bootDeferredArticleCards();
+  }, true);
 }
 
 /* Category-hero rotating carousel removed — markup #cat-hero no longer exists. */

@@ -204,6 +204,36 @@ function relatedSupplements(b) {
     + links.map(a => '<li>' + a + '</li>').join('') + '</ul>';
 }
 
+function guideLinks(b) {
+  const names = b.products.map(p => p.name);
+  const any = (pred) => names.some(pred);
+  const vitD = (n) => {
+    const s = n.toLowerCase();
+    if (s.includes('omega') && !s.includes('vitamin d')) return false;
+    return s.includes('vitamin d') || /\bd3\b/i.test(n);
+  };
+  const omega = (n) => /omega|fish oil|\bepa\b|\bdha\b/i.test(n);
+  const rows = [
+    [(n) => /creatine/i.test(n), '/a/certified-creatine-products-compared.html', 'Certified creatine products compared'],
+    [(n) => /creatine|whey/i.test(n), '/a/creatine-vs-whey-protein.html', 'Creatine vs whey protein'],
+    [vitD, '/a/certified-vitamin-d-products-compared.html', 'Certified vitamin D products compared'],
+    [vitD, '/a/vitamin-d-in-a-canadian-winter.html', 'Vitamin D in a Canadian winter'],
+    [omega, '/a/certified-omega-3-products-compared.html', 'Certified omega-3 products compared'],
+    [omega, '/a/how-much-omega-3-per-day.html', 'How much omega-3 per day'],
+    [(n) => /magnesium/i.test(n), '/a/certified-magnesium-products-compared.html', 'Certified magnesium products compared'],
+    [(n) => /magnesium/i.test(n), '/a/best-magnesium-for-sleep.html', 'Best magnesium for sleep'],
+  ];
+  const seen = new Set();
+  const items = [];
+  for (const [pred, href, label] of rows) {
+    if (seen.has(href) || !any(pred)) continue;
+    seen.add(href);
+    items.push('<li><a href="' + href + '">' + esc(label) + '</a></li>');
+  }
+  if (!items.length) return '';
+  return '<h2>Guides</h2><ul class="brand-list">' + items.join('') + '</ul>\n';
+}
+
 function otherBrands(b) {
   const primary = b.programs[0].id;
   const same = brands.filter(x => x.slug !== b.slug && x.programs.some(p => p.id === primary)).slice(0, 6);
@@ -220,6 +250,8 @@ body{background:var(--color-background-primary);color:var(--color-text-primary)}
 .brand-crumb a{color:inherit;text-decoration:none}
 .brand-crumb a:hover{color:var(--color-brand)}
 .brand-eye{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand,#1F7A6B);margin:0 0 6px}
+.ss-last-reviewed{font-size:13px;color:var(--color-text-tertiary);margin:0 0 14px}
+.ss-last-reviewed a{color:inherit}
 h1{font-size:34px;line-height:1.12;letter-spacing:-.4px;margin:0 0 12px}
 .brand-p{font-size:15.5px;line-height:1.65;margin:0 0 14px}
 h2{font-size:18px;margin:28px 0 10px}
@@ -269,10 +301,9 @@ function head(title, description, url) {
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#1F7A6B">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=1">
+<link rel="stylesheet" href="/critical.css?v=1">
+<link rel="stylesheet" href="/styles.css?v=1" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/styles.css?v=1"></noscript>
 <style>${css}</style>
 `;
 }
@@ -325,15 +356,17 @@ for (const b of brands) {
     + '<p class="brand-crumb"><a href="/">Home</a> / <a href="/brands.html">Verified brands</a> / ' + esc(b.name) + '</p>\n'
     + '<p class="brand-eye">Verified brands</p>\n'
     + '<h1>' + esc(b.name) + '</h1>\n'
+    + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> by the SupplementScore Editorial Team. No named reviewer. <a href="/transparency.html">How we choose brands</a>.</p>\n'
     + '<p class="brand-p">' + esc(b.knownFor) + '</p>\n'
     + '<p class="brand-call">Checked ' + CHECKED + '. ' + b.products.length + ' product'
     + (b.products.length === 1 ? '' : 's') + ' below. Programs: ' + esc(programs)
     + '. A seal applies to the named product, not to every bottle this brand sells. Lists change; use the certifier link before you treat a seal as current.</p>\n'
-    + '<h2>Which certifications, and where to recheck them</h2>\n<ul class="brand-list">' + programLinks(b) + '</ul>\n'
+    + '<h2 id="sources">Sources</h2>\n<p class="brand-p">Each link is the public certifier or licence page checked on 15 October 2026. A retailer page, an affiliate link, or the brand\'s own advertisement is not a source for these listings.</p>\n<ul class="brand-list">' + programLinks(b) + '</ul>\n'
     + '<h2>Products on the official list</h2>\n'
     + '<table class="brand-table"><thead><tr><th>Product</th><th>Certification</th><th>Ingredient page</th></tr></thead><tbody>'
     + productRows(b) + '</tbody></table>\n'
     + relatedSupplements(b)
+    + guideLinks(b)
     + '<h2>Other checked brands</h2>\n<ul class="brand-others">' + otherBrands(b) + '</ul>\n'
     + '<p class="brand-p" style="margin-top:22px"><a href="/brands.html">Full verified-brands directory</a> · <a href="/a/third-party-supplement-certifications-usp-nsf-and-consumerlab-decoded.html">What these seals do and do not mean</a></p>\n'
     + '</main>\n' + footer + '\n</body>\n</html>\n';
@@ -376,6 +409,7 @@ const indexHtml = head(indexTitle, indexDesc, indexUrl)
   + '<script type="application/ld+json">' + JSON.stringify(indexLd) + '</script>\n</head>\n<body>\n<main class="brand-wrap">\n'
   + '<p class="brand-crumb"><a href="/">Home</a> / Verified brands</p>\n'
   + '<p class="brand-eye">Quality</p>\n<h1>Verified supplement brands</h1>\n'
+  + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time>. <a href="/transparency.html">No ads, sponsors, or affiliate links</a>.</p>\n'
   + '<p class="brand-p">This directory lists brands that have at least one product on a public certification or licence list. Each brand page names the products, the program, and the page where you can recheck the listing. SupplementScore is not paid by any brand here.</p>\n'
   + '<p class="brand-call">' + brands.length + ' brands and ' + brands.reduce((n, b) => n + b.products.length, 0)
   + ' products, checked ' + CHECKED + '.</p>\n'

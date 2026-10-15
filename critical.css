@@ -1,0 +1,88 @@
+/* Small blocking sheet: design tokens, margin reset, and body type.
+   The full styles.css loads after first paint. Keep these rules in sync
+   with the top of styles.css so the late sheet does not move the page. */
+/* ── Design system tokens ── */
+:root {
+  /* Surface + text — warm paper palette, gentler than pure white.
+
+     NAMING (2026-05-22 cleanup): the canonical names are now
+       --color-surface  → the lighter cream (#f6f2ea) used on cards,
+                          popovers, hovers, search inputs, any element
+                          that should sit "above" the page.
+       --color-page     → the darker cream (#ebe5d9) used on <body> as
+                          the actual page background.
+
+     The old `--color-background-primary` / `--color-background-secondary`
+     names are misleading: "primary" is actually the elevated surface, and
+     the page bg comes from "secondary". They're kept as aliases below so
+     existing rules keep working unchanged; new code should use the new
+     names. Bulk migration of existing references is intentionally
+     deferred — risk-free incremental adoption. */
+  --color-surface: #f6f2ea;
+  --color-page: #ebe5d9;
+  /* 2026-05-23 — Dedicated card-surface token. Sits between --color-surface
+     (near-white #f6f2ea) and --color-page (cream #ebe5d9) — leaning closer
+     to surface for a brighter, more luminous tint while still reading as a
+     defined surface against the page. Used by .sc / .sr-card / .article-card.
+     History: started at #f1ecdf (true 50% midpoint); brightened one notch
+     to #f4efe6 per user feedback. */
+  --color-card: #f4efe6;
+  /* Deprecated aliases — keep until references are migrated. */
+  --color-background-primary: var(--color-surface);
+  --color-background-secondary: var(--color-page);
+  --color-text-primary: #0c0a09;
+  --color-text-secondary: #57534e;
+  --color-text-tertiary: #6b6560; /* was #a8a29e — failed contrast on the cream page */
+  --color-border-primary: #78716c;
+  --color-border-secondary: #d6d3d1;
+  --color-border-tertiary: #dcdad7;
+  /* Brand (single source of truth) — Direction C: warm green-teal */
+  --color-brand: #1F7A6B;
+  --color-brand-hover: #176258;
+  --color-brand-soft: #7CC4B6;
+  --color-brand-deep: #155A50;  /* Round-11: was referenced via var(--color-brand-deep,#155A50) in .b-why-chip/.b-cta but never defined; now tokenized (same value, no visual change). */
+  /* Accent — soft coral, used sparingly for warmth */
+  --color-accent-coral: #E8967A;
+  --color-accent-coral-soft: #F5C9B8;
+  /* Tier palette — gently desaturated for the Approachable Health Reference voice */
+  --t1c:#1F8A7A;--t1bg:#E6F4F1;--t1tx:#0F4A41;
+  --t2c:#5A7BC4;--t2bg:#ECF0F7;--t2tx:#2D3F6E;
+  --t3c:#C2872B;--t3bg:#FBF1DE;--t3tx:#6B4716;
+  --t4c:#B85046;--t4bg:#FAE8E5;--t4tx:#6B231D;
+  /* Quick Reads — warm slate-taupe; neutral against the cream BG and
+     distinct from the four evidence-tier chromatic colors above. */
+  --t5c:#6B6256;--t5bg:#EFE9DD;--t5tx:#3F3A33;
+  --slp:#5E59B2;--slpbg:#EDECF7;--slptx:#26215C;
+  /* Warning / medical-alert */
+  --color-warn-bg: #FBF1DE;
+  --color-warn-border: #E5C66B;
+  --color-warn-text: #6B4716;
+  --color-warn-text-strong: #4A3010;
+  /* Focus ring */
+  --focus-ring: 0 0 0 2px rgba(31,122,107,.45);
+  /* Z-index scale */
+  --z-sticky: 40;
+  --z-dropdown: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
+/* scrollbar-gutter:stable reserves space for the vertical scrollbar even on
+   pages whose content fits in the viewport. Without this, navigating between
+   a tall page (Articles, Index) and a shorter page (Discover) makes the
+   scrollbar appear/disappear, shifting content horizontally by ~15px and
+   producing a "slight shift" on cross-page navigation. */
+.ss-last-reviewed{font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 12px}
+.ss-last-reviewed a{color:inherit}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  background:var(--color-background-secondary);
+  color:var(--color-text-primary);
+  min-height:100vh;
+  padding:0 1rem 4rem;
+  -webkit-font-smoothing:antialiased;
+}
+input,button{font-family:inherit}
