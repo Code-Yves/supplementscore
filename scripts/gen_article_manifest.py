@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Regenerate a/manifest.js — window.__ART_MANIFEST = { "<id>": "<file>.html" }.
 
-Source of truth: the homepage #article-N stubs' hidden .ar-readmore anchors
-(emitted by register-articles.mjs / slim_inline_articles.py). Only ids whose
-target file actually exists in a/ are emitted.
+Source of truth: hidden .ar-readmore anchors on #article-N stubs. Those stubs
+live in data/article-stubs.html (kept off the homepage so the first screen
+does not download them). A few page-less fallbacks remain inline in
+index.html. Only ids whose target file actually exists in a/ are emitted.
 
 Consumers:
   - search.html result cards            → href = a/<file>
@@ -24,6 +25,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 def main() -> int:
     html = (ROOT / "index.html").read_text(encoding="utf-8")
+    stubs = ROOT / "data" / "article-stubs.html"
+    if stubs.is_file():
+        html += "\n" + stubs.read_text(encoding="utf-8")
     pairs: dict[str, str] = {}
     skipped_missing = 0
 

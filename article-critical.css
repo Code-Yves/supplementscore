@@ -1,0 +1,66 @@
+/* Blocking sheet for long-form pages (/a/, /for/, /condition/, /stack/).
+   The full styles.css loads after first paint. These rules match the
+   chrome-active article layout so the late sheet and the top bar do not
+   move the headline or the bottom line. */
+body{background:var(--color-page);color:var(--color-text-primary)}
+main.ar-wrap,main.sx-wrap,main.ca-wrap,main.sk-wrap{
+  max-width:740px;margin:0 auto;padding:24px 22px 64px;
+  font-size:16px;line-height:1.7;color:var(--color-text-primary);
+}
+main.ar-wrap h1,main.sx-wrap h1,main.ca-wrap h1,main.sk-wrap h1,
+html.rc-chrome-active main.ar-wrap h1,html.rc-chrome-active main.sx-wrap h1,
+html.rc-chrome-active main.ca-wrap h1,html.rc-chrome-active main.sk-wrap h1{
+  font-size:2rem;font-weight:700;letter-spacing:-.5px;line-height:1.2;
+  margin:0 0 8px;color:var(--color-text-primary);
+}
+main.ar-wrap p,main.sx-wrap p,main.ca-wrap p,main.sk-wrap p{
+  font-size:16px;line-height:1.7;margin:0 0 18px;color:var(--color-text-primary);
+}
+.ar-bottomline{border-left:3px solid var(--color-brand);padding:4px 0 4px 18px;margin:18px 0 24px}
+.ar-bottomline-label{
+  font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-brand);margin:0 0 6px;
+}
+.ar-bottomline p{font-size:16px;line-height:1.5;margin:0;font-weight:500;color:var(--color-text-primary)}
+@media(max-width:600px){
+  .ar-bottomline p{font-size:15px}
+}
+html.rc-chrome-active .ar-meta,
+html.rc-chrome-active .sx-meta,
+html.rc-chrome-active .ca-meta,
+html.rc-chrome-active .sk-meta,
+html.rc-chrome-active .ca-kicker,
+html.rc-chrome-active .sk-kicker,
+html.rc-chrome-active .sx-kicker,
+html.rc-chrome-active .ss-last-reviewed{display:none !important}
+.rc-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0 12px;border-bottom:1px solid var(--color-border-tertiary);
+  margin-bottom:20px;font-size:13px;
+}
+.rc-top-grp{display:inline-flex;align-items:center;gap:14px}
+.rc-top-link{
+  display:inline-flex;align-items:center;gap:5px;background:none;border:0;
+  padding:4px 2px;color:var(--color-text-secondary);font:inherit;font-size:13px;
+  font-weight:500;text-decoration:none;cursor:pointer;
+}
+.rc-top-link.rc-close{font-size:22px;line-height:1;width:24px;height:24px;justify-content:center;padding:0}
+.rc-top-sep{display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary)}
+@media(max-width:640px){
+  .rc-top{padding:6px 0 4px}
+  .rc-top-grp{gap:4px}
+  .rc-top-link{padding:13px 8px}
+  .rc-top-link.rc-close{width:44px;height:44px;padding:0}
+}
+.rc-cat{
+  display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);margin:0 0 8px;
+}
+.rc-trust{
+  display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;
+  margin:10px 0 28px;padding-bottom:18px;
+  border-bottom:1px solid var(--color-border-tertiary);
+  font-size:13px;color:var(--color-text-secondary);
+}
+.rc-trust-item{display:inline-flex;align-items:center;gap:5px}
+img{max-width:100%;height:auto}

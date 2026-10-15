@@ -20,6 +20,7 @@ import os, re, glob, sys
 SKIP_PREFIXES = ('_archive/', 'reviews/', 'node_modules/', '_mockups/')
 SKIP_FILES = {
     'data/article-cards-deferred.html',  # fragment injected into /; relative hrefs are root-relative by design
+    'data/article-stubs.html',  # id→/a/ hrefs for the manifest; not a page
 }
 
 def main():

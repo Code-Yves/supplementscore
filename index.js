@@ -188,14 +188,17 @@ function _renderArticleInline(n) {
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function showArticle(n) {
-  /* Article clicks now go straight to the full /a/ page rather than the inline
-     preview modal. Reuse the /a/ link already baked into the inline article body
-     (.ar-readmore). Fall back to the inline modal only if no such link exists
-     (e.g. a hub/guide entry that has no standalone /a/ page yet). */
+  /* Article clicks go straight to the full /a/ page. The filename comes from
+     a/manifest.js; a hidden inline stub is only the fallback. */
   try {
-    var el = document.getElementById('article-' + n);
-    var link = el && el.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
-    var href = link && link.getAttribute('href');
+    var mf = window.__ART_MANIFEST;
+    var file = mf && (mf[n] || mf[String(n)]);
+    var href = file ? ('a/' + file) : '';
+    if (!href) {
+      var el = document.getElementById('article-' + n);
+      var link = el && el.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
+      href = link && link.getAttribute('href');
+    }
     if (href) { window.location.href = href; return; }
   } catch (_) {}
   goArticle(n);

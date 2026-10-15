@@ -453,10 +453,12 @@ function buildIndexHtmlUpdate(src, regs) {
   } else {
     next = src.slice(0, cardIdx) + cardBlocks + '  ' + src.slice(cardIdx);
   }
-  // then insert article-full blocks BEFORE the articles-section close (always).
-  // Re-locate the articles-section anchor now that we changed earlier offsets
-  const fullIdxNew = next.indexOf(fullAnchor);
-  next = next.slice(0, fullIdxNew) + fullBlocks + '  ' + next.slice(fullIdxNew);
+  // Article stubs live in data/article-stubs.html, not index.html. The
+  // homepage used to ship one hidden div per article (~200 KB) that the
+  // first screen never showed. gen_article_manifest.py reads the stub file.
+  if (fullBlocks.trim()) {
+    fs.appendFileSync(path.join(REPO, 'data', 'article-stubs.html'), fullBlocks, 'utf8');
+  }
   return next;
 }
 

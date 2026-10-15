@@ -4404,8 +4404,10 @@ const ART_CAT_LBL={guide:'Guide',breakthrough:'Breakthrough',myth:'Reality Check
 let ARTICLE_SUPPS={};
 function _rebuildArticleSupps(){ARTICLE_SUPPS={};Object.entries(ARTICLE_MAP).forEach(([name,arts])=>{arts.forEach(a=>{if(!ARTICLE_SUPPS[a.id])ARTICLE_SUPPS[a.id]=[];if(!ARTICLE_SUPPS[a.id].includes(name))ARTICLE_SUPPS[a.id].push(name);});});}
 _rebuildArticleSupps();
-// Prune ARTICLE_MAP entries whose article divs do not exist in the DOM — prevents dead goArticle() clicks
-(function _pruneArticleMap(){if(typeof document==='undefined')return;const prune=()=>{const valid=new Set();document.querySelectorAll('[id^="article-"]').forEach(el=>{const id=parseInt(el.id.replace('article-',''));if(!isNaN(id))valid.add(id);});let pruned=0;Object.keys(ARTICLE_MAP).forEach(name=>{const before=ARTICLE_MAP[name].length;ARTICLE_MAP[name]=ARTICLE_MAP[name].filter(a=>valid.has(a.id));pruned+=(before-ARTICLE_MAP[name].length);if(!ARTICLE_MAP[name].length)delete ARTICLE_MAP[name];});if(pruned)_rebuildArticleSupps();if(typeof _allArtsCache!=='undefined')_allArtsCache=null;};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',prune);else prune();})();
+// Prune ARTICLE_MAP entries that have neither an inline article node nor a
+// standalone /a/ page in __ART_MANIFEST. The homepage no longer parses every
+// article stub, so an empty DOM set must not wipe the map.
+(function _pruneArticleMap(){if(typeof document==='undefined')return;const prune=()=>{const valid=new Set();document.querySelectorAll('[id^="article-"]').forEach(el=>{const id=parseInt(el.id.replace('article-',''));if(!isNaN(id))valid.add(id);});try{const mf=window.__ART_MANIFEST||{};Object.keys(mf).forEach(function(k){const id=parseInt(k,10);if(!isNaN(id))valid.add(id);});}catch(_){}if(!valid.size)return;let pruned=0;Object.keys(ARTICLE_MAP).forEach(name=>{const before=ARTICLE_MAP[name].length;ARTICLE_MAP[name]=ARTICLE_MAP[name].filter(a=>valid.has(a.id));pruned+=(before-ARTICLE_MAP[name].length);if(!ARTICLE_MAP[name].length)delete ARTICLE_MAP[name];});if(pruned)_rebuildArticleSupps();if(typeof _allArtsCache!=='undefined')_allArtsCache=null;};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',prune);else prune();})();
 function suppCardForArticle(name){const s=_suppByName.get(name);if(!s)return'';const sc=calcScore(s),et=eTier(s),rd=s.r||1,scCls=sc>=72?'score-high':sc>=60?'score-mid':sc>=40?'score-low':'score-bad';const grad=sc>=60?'linear-gradient(180deg,#16A34A,#15803D)':sc>=40?'linear-gradient(180deg,#CA8A04,#A16207)':'linear-gradient(180deg,#DC2626,#B91C1C)';/* Render as an <a> pointing at the standalone supplement page so
    supplement-modal.js intercepts the click and opens the FULL detailed
    supplement page in an iframe overlay (drug interactions, brand
@@ -4832,17 +4834,24 @@ function _buildArtNavList(){const out=[];document.querySelectorAll('[id^="articl
 function goArticle(id,ev,_skipStackPush){
   const _ev=ev||(typeof window!=='undefined'?window.event:null);
   if(_ev&&_ev.stopPropagation)_ev.stopPropagation();
-  const src=document.getElementById('article-'+id);
-  if(!src)return;
-  /* Articles now open as their full /a/ page instead of the inline preview
-     modal. goArticle is the single choke point every opener funnels through
-     (cards, hero carousel, search, showArticle), so navigate here using the
-     "Read the full article" link baked into the inline body. Falls through to
-     the old modal only if no /a/ link exists (e.g. a hub entry with no page). */
+  /* Standalone pages are listed in a/manifest.js. The homepage used to carry
+     a hidden stub per article just so this lookup could find the URL. */
+  var _href='';
   try{
-    var _rm=src.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
-    if(_rm&&_rm.getAttribute('href')){ window.location.href=_rm.getAttribute('href'); return; }
+    var _mf=window.__ART_MANIFEST;
+    var _file=_mf&&(_mf[id]||_mf[String(id)]);
+    if(_file)_href='a/'+_file;
   }catch(_){}
+  const src=document.getElementById('article-'+id);
+  if(!_href&&src){
+    try{
+      var _rm=src.querySelector('a.ar-readmore[href], a[href^="a/"], a[href^="/a/"]');
+      if(_rm&&_rm.getAttribute('href'))_href=_rm.getAttribute('href');
+    }catch(_){}
+  }
+  if(_href){ window.location.href=_href; return; }
+  if(!src)return;
+  /* Falls through to the inline modal only when no /a/ page exists. */
   const modal=document.getElementById('art-modal');
   if(!modal)return;
   const isOpen=modal.classList.contains('open');
@@ -5010,8 +5019,9 @@ function _setArticleHash(id){try{history.replaceState(null,'','#article-'+id);}c
 function _showShareToast(msg){const t=document.getElementById('art-share-toast');if(!t)return;t.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+escHtml(String(msg||''));t.classList.add('show');clearTimeout(_showShareToast._t);_showShareToast._t=setTimeout(()=>{t.classList.remove('show');},1800);}
 function shareArticle(){const id=_currentArticleId;if(!id)return;const body=document.getElementById('art-modal-body');const titleEl=body?body.querySelector('h2'):null;const title=titleEl?titleEl.textContent.trim():'Supplement Score';const url=location.origin+location.pathname+'#article-'+id;const shareData={title:title,text:title+' — via Supplement Score',url:url};const btn=document.getElementById('art-share-btn');const flashCopied=()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1400);}};const copyFallback=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>{_showShareToast('Link copied');flashCopied();}).catch(()=>{_legacyCopy(url);_showShareToast('Link copied');flashCopied();});}else{_legacyCopy(url);_showShareToast('Link copied');flashCopied();}};if(navigator.share&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){navigator.share(shareData).catch(err=>{if(err&&err.name!=='AbortError')copyFallback();});}else{copyFallback();}}
 function _legacyCopy(txt){try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}catch(e){}}
-window.addEventListener('DOMContentLoaded',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);setTimeout(()=>{if(document.getElementById('article-'+id))goArticle(id);},120);}});
-window.addEventListener('hashchange',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);if(id!==_currentArticleId&&document.getElementById('article-'+id))goArticle(id);}else if(_currentArticleId&&!location.hash){closeArtModal();}});
+function _articleCanOpen(id){var mf=window.__ART_MANIFEST;return !!((mf&&(mf[id]||mf[String(id)]))||document.getElementById('article-'+id));}
+window.addEventListener('DOMContentLoaded',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);setTimeout(()=>{if(_articleCanOpen(id))goArticle(id);},120);}});
+window.addEventListener('hashchange',function(){const m=location.hash.match(/^#article-(\d+)$/);if(m){const id=parseInt(m[1],10);if(id!==_currentArticleId&&_articleCanOpen(id))goArticle(id);}else if(_currentArticleId&&!location.hash){closeArtModal();}});
 function _updateArtNav(){const idx=_artNavList.indexOf(_currentArticleId);const p=document.getElementById('art-prev-btn');const n=document.getElementById('art-next-btn');if(p)p.disabled=idx<=0;if(n)n.disabled=idx<0||idx>=_artNavList.length-1;}
 function artNavPrev(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>0)goArticle(_artNavList[idx-1]);}
 function artNavNext(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>=0&&idx<_artNavList.length-1)goArticle(_artNavList[idx+1]);}
