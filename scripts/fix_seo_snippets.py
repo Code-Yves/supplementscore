@@ -340,8 +340,8 @@ def apply_canonical_descriptions(descs: dict) -> int:
             if cur != short and (cur.endswith("…") or cur.endswith("...") or key == "description" or plain(cur)[:40] == full[:40]):
                 new = set_meta_content(new, key, short)
 
-        def sub(m, full=full, short=short, long=long):
-            raw = m.group(1)
+        def sub_tagged(m, full=full, short=short, long=long):
+            attrs, raw = m.group(1), m.group(2)
             try:
                 data = json.loads(raw)
             except json.JSONDecodeError:
@@ -352,11 +352,9 @@ def apply_canonical_descriptions(descs: dict) -> int:
                 nonlocal touched
                 if isinstance(o, dict):
                     d = o.get("description")
-                    if isinstance(d, str):
-                        clipped = d.endswith("…") or d.endswith("...") or plain(d)[:40] == full[:40]
-                        if clipped and d not in (short, long):
-                            o["description"] = long if len(d) > 180 else short
-                            touched = True
+                    if isinstance(d, str) and ("…" in d or d.endswith("...")):
+                        o["description"] = long if len(plain(d)) > 180 else short
+                        touched = True
                     for v in o.values():
                         walk(v)
                 elif isinstance(o, list):
@@ -367,9 +365,14 @@ def apply_canonical_descriptions(descs: dict) -> int:
             if not touched:
                 return m.group(0)
             dumped = json.dumps(data, ensure_ascii=False, indent=2)
-            return '<script type="application/ld+json">\n' + dumped + "\n</script>"
+            return f"<script{attrs}>\n{dumped}\n</script>"
 
-        new = re.sub(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', sub, new, flags=re.S)
+        new = re.sub(
+            r'<script\b([^>]*type="application/ld\+json"[^>]*)>(.*?)</script>',
+            sub_tagged,
+            new,
+            flags=re.S,
+        )
         if new != doc:
             path.write_text(new, encoding="utf-8")
             changed.add(path.relative_to(ROOT).as_posix())
