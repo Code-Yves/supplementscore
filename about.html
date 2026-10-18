@@ -282,12 +282,19 @@
     },
     {
       "@id": "https://supplementscore.org/#organization",
-      "@type": "Organization",
+      "@type": ["NGO", "Organization"],
       "name": "SupplementScore",
       "url": "https://supplementscore.org",
       "logo": { "@type": "ImageObject", "url": "https://supplementscore.org/og/default.png" },
       "description": "Evidence-based, independently-rated dietary supplement reference. Independent, ad-free, no affiliate links.",
+      "email": "editorial@supplementscore.org",
       "foundingDate": "2026",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "editorial",
+        "email": "editorial@supplementscore.org",
+        "url": "https://supplementscore.org/about.html#contact"
+      },
       "knowsAbout": [
         "Dietary supplements",
         "Evidence-based medicine",
@@ -320,6 +327,46 @@
 }
   </script>
   <!-- SEO-BREADCRUMB:end -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is a SupplementScore calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Six scores from 1 to 5 — efficacy, safety, research depth, onset, cost, and drug-interaction risk — are weighted efficacy ×7, safety ×4, research depth ×3, and the other three ×2. The total is out of 100. Tier 1 also requires an independently funded confirmatory trial. Industry-only evidence cannot make that call."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does SupplementScore take affiliate commissions, ads, or brand payments?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. There are no affiliate links, no ads, no sponsored rankings, and no payments from a brand to be listed, scored, or left out. Hosting is paid from reader donations and the operator's personal funds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What sources are used?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Scores use peer-reviewed human studies and regulator documents, including PubMed, the Cochrane Library, NIH Office of Dietary Supplements, FDA, EFSA, EMA, and Health Canada. Manufacturer ads and affiliate review sites are not sources for a score."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I contact the team?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Email editorial@supplementscore.org with the page, the sentence, and a public source. The contact form on this page reaches the same team."
+        }
+      }
+    ]
+  }
+  </script>
   <!-- SEO-PROFILE-SCHEMA:end -->
 </head>
 <body>
@@ -415,7 +462,7 @@
 
   <div class="ar-cat">About SupplementScore</div>
   <h1>Honest, independent supplement evidence — free for everyone.</h1>
-  <div class="ar-meta">Last reviewed May 22, 2026 · Maintained by the <a href="#editorial" style="color:inherit;text-decoration:underline;text-underline-offset:2px">SupplementScore Editorial Team</a> · Published under <a href="https://creativecommons.org/licenses/by/4.0/" style="color:inherit;text-decoration:underline;text-underline-offset:2px" rel="noopener" target="_blank">CC-BY 4.0</a></div>
+  <div class="ar-meta">Last reviewed <time datetime="2026-10-18">18 October 2026</time> · Written by the <a href="#editorial" style="color:inherit;text-decoration:underline;text-underline-offset:2px">SupplementScore team</a> · Published under <a href="https://creativecommons.org/licenses/by/4.0/" style="color:inherit;text-decoration:underline;text-underline-offset:2px" rel="noopener" target="_blank">CC-BY 4.0</a></div>
 
   <p class="ar-lede">SupplementScore is a free, public reference that grades dietary supplements against published clinical trials. Every score traces back to peer-reviewed research. No sponsorships, no affiliates, no ads. This page covers who we are, how scoring works, and the policies that keep the calls honest.</p>
 
@@ -441,6 +488,8 @@
     <a href="#editorial">Who writes &amp; reviews</a>
     <a href="#limits">What we don't claim</a>
     <a href="#glossary">Glossary</a>
+    <a href="#faq">Questions</a>
+    <a href="#contact">Contact</a>
     <a href="#feedback">Flag an error</a>
     <a href="#contribute">Contribute</a>
     </div>
@@ -655,7 +704,7 @@
   </div>
 
   <h2 id="editorial">Who writes and reviews our content</h2>
-  <p>SupplementScore is a small, independent, volunteer-run project. Articles, supplement entries, and comparisons are published under the name <strong>SupplementScore Editorial Team</strong> rather than individual bylines. We do not invent personas or credentials.</p>
+  <p>SupplementScore is a small, independent, volunteer-run project. Articles, supplement entries, and comparisons are published under the name <strong>SupplementScore team</strong> rather than individual bylines. We do not invent personas or credentials.</p>
   <p><strong>How an article is produced.</strong> Each topic starts from the primary literature (PubMed, the Cochrane Library, ClinicalTrials.gov) and regulator documents (FDA, EFSA, EMA, NIH ODS, Health Canada). Software tools, including AI language models, help us draft and summarise. In our citation audits, cited PubMed IDs are checked against the actual PubMed record. Citations that do not support the claim they are attached to are corrected or removed, and claims are softened to match what the evidence actually shows. Every article lists its sources, and where we know it, flags who funded each study.</p>
   <p><strong>Medical review.</strong> No named, licensed clinician currently reviews our articles before publication. For that reason no page carries a &ldquo;medically reviewed&rdquo; label, and nothing here should be read as individual medical advice. If you are a physician, pharmacist, or dietitian and would like to review content under your own name, <a href="#contribute">get in touch</a>.</p>
   <p><strong>Dates.</strong> The &ldquo;Updated&rdquo; date on each article is the last time its content was substantively revised. <strong>Corrections.</strong> We correct errors reported through <a href="#feedback">Flag an error</a>.</p>
@@ -818,6 +867,20 @@
     });
   })();
   </script>
+
+  <h2 id="faq">Questions</h2>
+  <p>These answers restate the rules above. They are here so the method, the funding rule, and the contact path are easy to find.</p>
+  <h3>How is a SupplementScore calculated?</h3>
+  <p>Six scores from 1 to 5 — efficacy, safety, research depth, onset, cost, and drug-interaction risk — are weighted efficacy ×7, safety ×4, research depth ×3, and the other three ×2. The total is out of 100. Tier 1 also requires an independently funded confirmatory trial. Industry-only evidence cannot make that call.</p>
+  <h3>Does SupplementScore take affiliate commissions, ads, or brand payments?</h3>
+  <p>No. There are no affiliate links, no ads, no sponsored rankings, and no payments from a brand to be listed, scored, or left out. Hosting is paid from reader donations and the operator's personal funds.</p>
+  <h3>What sources are used?</h3>
+  <p>Scores use peer-reviewed human studies and regulator documents, including PubMed, the Cochrane Library, NIH Office of Dietary Supplements, FDA, EFSA, EMA, and Health Canada. Manufacturer ads and affiliate review sites are not sources for a score.</p>
+  <h3>How do I contact the team?</h3>
+  <p>Email <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> with the page, the sentence, and a public source. The contact form on this page reaches the same team.</p>
+
+  <h2 id="contact">Contact</h2>
+  <p>Corrections, questions, and review offers go to <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a>. For a correction, name the page, the sentence, and a public source: a PubMed record, a regulator page, or a certifier list. There is no phone line and no published mailing address. The form below is for people who want to help maintain the database. It is not a mailing list and it does not buy a ranking.</p>
 
   <h2 id="feedback">Flag an error</h2>
   <p>If you spot an inaccurate claim, click the <strong>Flag inaccuracy</strong> button on the affected article or supplement card. The form asks for three things: the claim you think is wrong, what you think it should say, and a citation URL (PubMed, DOI, regulator dossier, or peer-reviewed paper).</p>

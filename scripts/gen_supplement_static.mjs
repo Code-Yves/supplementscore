@@ -29,7 +29,28 @@ let sm = fs.readFileSync(smPath, 'utf8');
 const slugs = [...new Set([...sm.matchAll(/(?:slug=|\/supplement\/)([a-z0-9-]+)(?:\.html)?</g)].map(m => m[1]))];
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const clip = (s, n) => { s = String(s||'').replace(/\s+/g,' ').trim(); return s.length > n ? s.slice(0, n-3).replace(/\s+\S*$/,'') + '…' : s; };
+function clip(s, n) {
+  s = String(s || '').replace(/\s+/g, ' ').trim();
+  if (s.length <= n) return s;
+  const sentences = s.split(/(?<=[.!?])\s+(?=[A-Z])/);
+  let out = '';
+  for (const sent of sentences) {
+    const candidate = (out + ' ' + sent).trim();
+    if (candidate.length <= n) { out = candidate; continue; }
+    if (out) break;
+    const chunk = sent.slice(0, n + 1);
+    const cut = Math.max(...['. ', '; ', ', ', ' — '].map(sep => chunk.lastIndexOf(sep)));
+    if (cut >= 50) {
+      let piece = sent.slice(0, cut).replace(/[,;:\s]+$/, '');
+      if (!/[.!?]$/.test(piece)) piece += '.';
+      return piece;
+    }
+    let piece = sent.slice(0, n).replace(/\s+\S*$/, '').replace(/[,;:\s]+$/, '');
+    if (!/[.!?]$/.test(piece)) piece += '.';
+    return piece;
+  }
+  return out;
+}
 const json = obj => JSON.stringify(obj, null, 2).replace(/</g, '\\u003c');
 const TIER = { t1:'Tier 1 — strong evidence', t2:'Tier 2 — promising', t3:'Tier 3 — weak evidence', t4:'Tier 4 — risky / avoid' };
 const SAFETY = {
@@ -123,7 +144,7 @@ for (const { slug, s } of pages) {
   }
 
   const longDesc = String(s.desc || '').replace(/\s+/g, ' ').trim();
-  const schemaDesc = longDesc.length > 480 ? longDesc.slice(0, 477).trim() + '…' : longDesc;
+  const schemaDesc = clip(longDesc, 480);
   const webpage = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -190,7 +211,7 @@ for (const { slug, s } of pages) {
   const hubItem = hub ? `<li><a href="${hub.href}">${esc(hub.label)}</a></li>` : '';
   const relatedNav = `<nav class="det-related-supps" aria-label="Related supplements"><h2>Related</h2><ul>${relItems}${hubItem}<li><a href="/browse.html">Browse all supplements</a></li></ul></nav>`;
 
-  const reviewed = `<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/transparency.html">Editorial team</a></p>`;
+  const reviewed = `<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/transparency.html">SupplementScore team</a></p>`;
   const sources = `<section class="det-sources" id="det-sources"><h2 class="det-sources-h">Sources</h2><div class="det-sources-grid"><a href="/methodology.html">How scores are calculated</a><a href="/transparency.html">Funding, brand listings, and corrections</a><a href="/about.html#editorial">Who writes the pages</a></div></section>`;
   const body = `<main class="det-wrap" id="det-root"><h1 class="det-h1">${esc(s.n)}</h1>`
     + reviewed

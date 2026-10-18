@@ -158,7 +158,7 @@ function head(opts) {
   </div>
   <p class="ix-lede">${esc(opts.lede)}</p>
   ${opts.note ? `<p class="ix-note">${esc(opts.note)}</p>` : ''}
-  <p class="ix-meta">Last reviewed <time datetime="${data.updated}">15 October 2026</time> · <a href="/transparency.html">Editorial team</a></p>
+  <p class="ix-meta">Last reviewed <time datetime="${data.updated}">15 October 2026</time> · <a href="/transparency.html">SupplementScore team</a></p>
   ${opts.body}
 </main>
 ${footer}
