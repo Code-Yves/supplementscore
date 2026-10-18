@@ -202,13 +202,20 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": ["NGO", "Organization"],
   "name": "SupplementScore",
   "alternateName": "SupplementScore.org",
   "url": "https://supplementscore.org",
   "logo": "https://supplementscore.org/og/default.png",
   "description": "Non-profit, evidence-based supplement rating database. Rates 780+ supplements across efficacy, safety, research depth, onset time, cost-effectiveness, and drug interaction risk using peer-reviewed clinical trials.",
+  "email": "editorial@supplementscore.org",
   "foundingDate": "2026",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "editorial",
+    "email": "editorial@supplementscore.org",
+    "url": "https://supplementscore.org/about.html#contact"
+  },
   "knowsAbout": [
     "Dietary Supplements",
     "Evidence-Based Medicine",
@@ -258,26 +265,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is the best evidence-based supplement?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Creatine monohydrate scores highest (96/100) based on over 49 meta-analyses confirming strength, cognitive, and safety benefits. Omega-3 (EPA/DHA) and Vitamin D3 also have extensive clinical evidence."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "How are supplement scores calculated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Each supplement is rated 1-5 across six dimensions: efficacy, safety, research depth, onset time, cost-effectiveness, and drug interaction risk. These are combined into a composite score out of 100."
+        "text": "Each supplement is scored from 1 to 5 on efficacy, safety, research depth, onset, cost, and drug-interaction risk. Efficacy is weighted 7, safety 4, research depth 3, and the other three 2. That total is out of 100. Tier 1 also needs an independently funded confirmatory trial. The full rules are on the about page."
       }
     },
     {
       "@type": "Question",
-      "name": "What sources does SupplementScore use?",
+      "name": "Does SupplementScore use affiliate links or ads?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We reference 61 peer-reviewed sources including Cochrane Library, PubMed, NEJM, The Lancet, JAMA, Circulation, Gut, ClinicalTrials.gov, AHRQ, NASEM, NIH Office of Dietary Supplements, WHO, EFSA, GRADE Working Group, Examine.com, and ConsumerLab. Only human clinical trial data drives ratings."
+        "text": "No. SupplementScore does not use affiliate links, display ads, sponsored rankings, or payments from brands to be listed, scored, or left out."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who writes the pages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The SupplementScore team. No named clinician reviews pages before publication, so pages do not say they were medically reviewed. This is an educational reference, not personal medical advice."
       }
     }
   ]
@@ -1344,7 +1351,7 @@
 <!-- Popular evidence guides — static, crawlable links to strong articles (2026-09-24) -->
 <section class="ss-popular-guides" aria-labelledby="ss-popular-h" style="max-width:960px;margin:28px auto 0;padding:0 4px">
   <h2 id="ss-popular-h" style="font-size:1.25rem;font-weight:700;margin:0 0 6px">Popular evidence guides</h2>
-  <p style="font-size:13.5px;color:var(--color-text-secondary);margin:0 0 14px">Plain-language summaries of the clinical trials, with every source cited. Written by the <a href="about.html#editorial">SupplementScore Editorial Team</a>.</p>
+  <p style="font-size:13.5px;color:var(--color-text-secondary);margin:0 0 14px">Plain-language summaries of the clinical trials, with every source cited. Written by the <a href="about.html#editorial">SupplementScore team</a>.</p>
   <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
       <li style="margin:0"><a href="a/nac-for-mental-health-ocd-addiction-and-depression.html" style="display:block;padding:10px 12px;border:1px solid var(--color-border-tertiary,#e5e7eb);border-radius:10px;color:var(--color-text-primary);text-decoration:none;font-size:14px;line-height:1.4;background:var(--color-background-primary,#fff)">NAC for OCD, Addiction &amp; Depression: What the Trials Show</a></li>
       <li style="margin:0"><a href="a/same-s-adenosylmethionine-for-depression-head-to-head-trials-with-ssris.html" style="display:block;padding:10px 12px;border:1px solid var(--color-border-tertiary,#e5e7eb);border-radius:10px;color:var(--color-text-primary);text-decoration:none;font-size:14px;line-height:1.4;background:var(--color-background-primary,#fff)">SAMe for Depression: Trials vs Antidepressants and SSRIs</a></li>
@@ -1521,6 +1528,23 @@
 </div>
 
 <div style="height:24px"></div>
+
+<section id="faq" aria-labelledby="faq-heading" style="max-width:880px;margin:8px auto 28px;padding:0 22px">
+  <h2 id="faq-heading" style="font-size:1.35rem;font-weight:700;letter-spacing:-.3px;margin:0 0 8px">Common questions</h2>
+  <p style="margin:0 0 12px;color:var(--color-text-secondary);font-size:14.5px">Short answers. The scoring rules, sources, and contact address are on the <a href="/about.html">about and methodology page</a>.</p>
+  <details style="border-top:1px solid var(--color-border-tertiary);padding:12px 0">
+    <summary style="cursor:pointer;font-weight:700">How are supplement scores calculated?</summary>
+    <p style="margin:8px 0 0;color:var(--color-text-secondary);font-size:15px;line-height:1.6">Each supplement is scored from 1 to 5 on efficacy, safety, research depth, onset, cost, and drug-interaction risk. Efficacy is weighted 7, safety 4, research depth 3, and the other three 2. That total is out of 100. Tier 1 also needs an independently funded confirmatory trial. The full rules are on the about page.</p>
+  </details>
+  <details style="border-top:1px solid var(--color-border-tertiary);padding:12px 0">
+    <summary style="cursor:pointer;font-weight:700">Does SupplementScore use affiliate links or ads?</summary>
+    <p style="margin:8px 0 0;color:var(--color-text-secondary);font-size:15px;line-height:1.6">No. SupplementScore does not use affiliate links, display ads, sponsored rankings, or payments from brands to be listed, scored, or left out.</p>
+  </details>
+  <details style="border-top:1px solid var(--color-border-tertiary);border-bottom:1px solid var(--color-border-tertiary);padding:12px 0">
+    <summary style="cursor:pointer;font-weight:700">Who writes the pages?</summary>
+    <p style="margin:8px 0 0;color:var(--color-text-secondary);font-size:15px;line-height:1.6">The SupplementScore team. No named clinician reviews pages before publication, so pages do not say they were medically reviewed. This is an educational reference, not personal medical advice.</p>
+  </details>
+</section>
 
 <!-- Disclaimer (editorial) — Option C: Icon Grid -->
 <div class="disc-c-wrap">

@@ -17,6 +17,9 @@ Disallow: /es/
 # Internal review notes, not user-facing content.
 Disallow: /reviews/
 
+# Repo notes for maintainers. Not a public page.
+Disallow: /_docs/
+
 # Homepage article-card fragment — injected into /, not a standalone page.
 Disallow: /data/article-cards-deferred.html
 

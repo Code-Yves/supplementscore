@@ -356,7 +356,7 @@ for (const b of brands) {
     + '<p class="brand-crumb"><a href="/">Home</a> / <a href="/brands.html">Verified brands</a> / ' + esc(b.name) + '</p>\n'
     + '<p class="brand-eye">Verified brands</p>\n'
     + '<h1>' + esc(b.name) + '</h1>\n'
-    + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> by the SupplementScore Editorial Team. No named reviewer. <a href="/transparency.html">How we choose brands</a>.</p>\n'
+    + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> by the SupplementScore team. No named reviewer. <a href="/transparency.html">How we choose brands</a>.</p>\n'
     + '<p class="brand-p">' + esc(b.knownFor) + '</p>\n'
     + '<p class="brand-call">Checked ' + CHECKED + '. ' + b.products.length + ' product'
     + (b.products.length === 1 ? '' : 's') + ' below. Programs: ' + esc(programs)
