@@ -4329,68 +4329,67 @@ function suppInteractPills(name){
 function barClr(v){return v>=4?'var(--t1c)':v>=3?'var(--t2c)':v>=2?'var(--t3c)':'var(--t4c)';}
 function bar(label,v){return`<div class="sc-bar-item"><div class="sc-bar-label">${label}</div><div class="sc-bar-track"><div class="sc-bar-fill" style="width:${v*20}%;background:${barClr(v)}"></div></div></div>`;}
 function getColsPerRow(){const w=window.innerWidth;if(w<640)return 1;if(w<960)return 2;return 3;}
-function _loadMoreBtn(tierId, total, shown){
+function _loadMoreBtn(tierId, total, shown, step){
+  var page = (typeof step === 'number' && step > 0) ? step : 20;
   var pct = Math.max(0, Math.min(100, (shown/total)*100));
-  return '<button type="button" class="tier-more" onclick="loadMoreTier(this,\''+tierId+'\')" data-total="'+total+'">'
+  return '<button type="button" class="tier-more" aria-expanded="false" onclick="loadMoreTier(this,\''+tierId+'\')" data-total="'+total+'" data-step="'+page+'">'
     +   '<span class="tier-more-l">'
-    +     '<span class="tier-more-cta"><span class="tier-more-spin"></span><span class="tier-more-text">Load more</span></span>'
+    +     '<span class="tier-more-cta"><span class="tier-more-spin"></span><span class="tier-more-text">Show more</span></span>'
     +     '<span class="tier-more-progress">Showing <b class="tier-more-shown">'+shown+'</b> of <b>'+total+'</b><span class="tier-more-bar"><span class="tier-more-fill" style="width:'+pct.toFixed(1)+'%"></span></span></span>'
     +   '</span>'
-    +   '<span class="tier-more-arr">›</span>'
+    +   '<span class="tier-more-arr" aria-hidden="true">›</span>'
     + '</button>';
 }
 function loadMoreTier(btn,tierId){
-  btn.classList.add('loading');
-  btn.disabled=true;
+  if(!btn)return;
   var sec=btn.closest('.tier-sec');
-  setTimeout(function(){
-    var hidden=sec.querySelectorAll('.sc.tier-hidden');
-    var shown=0;
-    hidden.forEach(function(c){if(shown<10){c.classList.replace('tier-hidden','tier-visible');shown++;}});
-    btn.classList.remove('loading');
-    btn.disabled=false;
-    var rem=sec.querySelectorAll('.sc.tier-hidden').length;
-    if(!rem){btn.remove();return;}
-    var total=parseInt(btn.dataset.total,10)||0;
-    var visible=total-rem;
-    var shownEl=btn.querySelector('.tier-more-shown');
-    var fillEl=btn.querySelector('.tier-more-fill');
-    if(shownEl) shownEl.textContent=visible;
-    if(fillEl) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
-  },600);
+  if(!sec)return;
+  var step=parseInt(btn.getAttribute('data-step'),10);
+  if(!step||step<1)step=20;
+  var hidden=sec.querySelectorAll('.sc.tier-hidden');
+  var shown=0;
+  hidden.forEach(function(c){if(shown<step){c.classList.replace('tier-hidden','tier-visible');shown++;}});
+  var rem=sec.querySelectorAll('.sc.tier-hidden').length;
+  if(!rem){btn.setAttribute('aria-expanded','true');btn.remove();return;}
+  btn.setAttribute('aria-expanded','false');
+  var total=parseInt(btn.dataset.total,10)||0;
+  var visible=total-rem;
+  var shownEl=btn.querySelector('.tier-more-shown');
+  var fillEl=btn.querySelector('.tier-more-fill');
+  if(shownEl) shownEl.textContent=visible;
+  if(fillEl&&total) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
 }
 /* 2026-05-24: pagination for _artPick (article category filter).
    Same visual button as tier load-more, but reveals article cards (which use
    the .art-pill-hidden class) 20 at a time. */
 function _loadMoreArtBtn(total, shown){
   var pct = Math.max(0, Math.min(100, (shown/total)*100));
-  return '<button type="button" class="tier-more" onclick="loadMoreArt(this)" data-total="'+total+'">'
+  return '<button type="button" class="tier-more" aria-expanded="false" onclick="loadMoreArt(this)" data-total="'+total+'" data-step="20">'
     +   '<span class="tier-more-l">'
-    +     '<span class="tier-more-cta"><span class="tier-more-spin"></span><span class="tier-more-text">Load more</span></span>'
+    +     '<span class="tier-more-cta"><span class="tier-more-spin"></span><span class="tier-more-text">Show more</span></span>'
     +     '<span class="tier-more-progress">Showing <b class="tier-more-shown">'+shown+'</b> of <b>'+total+'</b><span class="tier-more-bar"><span class="tier-more-fill" style="width:'+pct.toFixed(1)+'%"></span></span></span>'
     +   '</span>'
-    +   '<span class="tier-more-arr">›</span>'
+    +   '<span class="tier-more-arr" aria-hidden="true">›</span>'
     + '</button>';
 }
 function loadMoreArt(btn){
-  btn.classList.add('loading');
-  btn.disabled=true;
+  if(!btn)return;
   var sec=btn.closest('.art-pill-sec')||btn.closest('.tier-sec');
-  setTimeout(function(){
-    var hidden=sec.querySelectorAll('.article-card.art-pill-hidden');
-    var shown=0;
-    hidden.forEach(function(c){if(shown<20){c.classList.remove('art-pill-hidden');shown++;}});
-    btn.classList.remove('loading');
-    btn.disabled=false;
-    var rem=sec.querySelectorAll('.article-card.art-pill-hidden').length;
-    if(!rem){btn.remove();return;}
-    var total=parseInt(btn.dataset.total,10)||0;
-    var visible=total-rem;
-    var shownEl=btn.querySelector('.tier-more-shown');
-    var fillEl=btn.querySelector('.tier-more-fill');
-    if(shownEl) shownEl.textContent=visible;
-    if(fillEl) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
-  },300);
+  if(!sec)return;
+  var step=parseInt(btn.getAttribute('data-step'),10);
+  if(!step||step<1)step=20;
+  var hidden=sec.querySelectorAll('.article-card.art-pill-hidden');
+  var shown=0;
+  hidden.forEach(function(c){if(shown<step){c.classList.remove('art-pill-hidden');shown++;}});
+  var rem=sec.querySelectorAll('.article-card.art-pill-hidden').length;
+  if(!rem){btn.setAttribute('aria-expanded','true');btn.remove();return;}
+  btn.setAttribute('aria-expanded','false');
+  var total=parseInt(btn.dataset.total,10)||0;
+  var visible=total-rem;
+  var shownEl=btn.querySelector('.tier-more-shown');
+  var fillEl=btn.querySelector('.tier-more-fill');
+  if(shownEl) shownEl.textContent=visible;
+  if(fillEl&&total) fillEl.style.width=((visible/total)*100).toFixed(1)+'%';
 }
 function calcScore(s){const rd=s.r||1,so=s.o||1,sco=s.c||1,sd=s.d||1;return Math.round(s.e*7+s.s*4+rd*3+so*2+sco*2+sd*2);}
 var cycleInfo=function(s){if(s.cycle)return s.cycle;var n=s.n.toLowerCase(),t=s.t,tag=(s.tag||'').toLowerCase(),tips=(s.tips||'').toLowerCase(),dose=(s.dose||'').toLowerCase();if(t==='t4')return 'Do not take. This supplement has documented safety risks.';if(tips.includes('cycle')||dose.includes('cycle'))return tips.includes('cycle')?s.tips:s.dose;if(n.includes('ashwagandha'))return 'Cycle 8-12 weeks on, 2-4 weeks off. Long-term safety beyond 3 months not well established.';if(n.includes('rhodiola'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Effectiveness may diminish with continuous use.';if(n.includes('vitamin')||n.includes('magnesium')||n.includes('zinc')||n.includes('calcium')||n.includes('iron')||n.includes('selenium')||n.includes('iodine')||n.includes('folate')||n.includes('b12'))return 'Safe for continuous daily use. No cycling needed. Retest blood levels annually if correcting a deficiency.';if(tag.includes('gut')&&(n.includes('lactobacillus')||n.includes('bifidobacterium')||n.includes('probiotic')||n.includes('saccharomyces')))return 'Safe for continuous daily use. No cycling needed. Benefits may diminish if stopped.';if(n.includes('creatine')||n.includes('whey')||n.includes('protein')||n.includes('eaa')||n.includes('glycine')||n.includes('taurine'))return 'Safe for continuous daily use. No cycling needed. Well-studied for long-term safety.';if(n.includes('omega')||n.includes('fish oil')||n.includes('krill')||(n.includes('dha')&&!n.includes('gandha'))||n.includes('epa'))return 'Safe for continuous daily use. No cycling needed. Benefits reverse if stopped.';if(n.includes('melatonin'))return 'Use situationally, not nightly long-term. Best for jet lag or short-term sleep reset (2-4 weeks).';if(tag.includes('adaptogen')||n.includes('ginseng')||n.includes('eleuthero')||n.includes('schisandra'))return 'Cycle 6-8 weeks on, 2-4 weeks off. Not recommended for continuous long-term use.';if(n.includes('john')||n.includes('kava')||n.includes('valerian')||n.includes('black cohosh'))return 'Short-term use recommended (4-8 weeks). Consult a provider before extending.';if(tag.includes('fibre')||tag.includes('prebiotic')||n.includes('psyllium')||n.includes('inulin'))return 'Safe for continuous daily use. No cycling needed.';if(s.s>=4)return 'Generally safe for continuous use at recommended doses. No specific cycling protocol established.';if(s.s===3)return 'Use with caution long-term. Consider cycling 8-12 weeks on, 2-4 weeks off.';return 'Limited long-term safety data. Use for the shortest effective duration.';}
@@ -5313,9 +5312,10 @@ function _catPick(v){
     document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');
     af='t3';
     const items=S.filter(s=>s.tr).sort((a,b)=>calcScore(b)-calcScore(a));
-    const rowLimit=20;const hasMore=items.length>20;
-    const m={lead:'Popular, widely-discussed supplements',desc:'Supplements trending in health communities where meaningful clinical evidence is still building or mixed. Use with caution.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
-    const banner=_filterBanner('Trending',items.length+' supplement'+(items.length===1?'':'s'),m.desc,m.icon,'t3');
+    const rowLimit=20;const hasMore=items.length>rowLimit;
+    const shownN=Math.min(rowLimit,items.length);
+    const m={desc:'Highest evidence scores first. Show more reveals the rest of this ranked list, 20 at a time.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
+    const banner=_filterBanner('Top '+shownN+' supplements by evidence score','Ranked list',m.desc,m.icon,'t3');
     document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('t3',items.length,rowLimit):''}</div>`:'<div class="empty">No trending supplements found.</div>';
     return;
   }
