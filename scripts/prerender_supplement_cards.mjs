@@ -160,7 +160,7 @@ for (const file of files) {
       '(function(){\n' +
       '  var srcs=' + JSON.stringify(srcs) + ';\n' +
       '  function start(){\n' +
-      '    var l=document.createElement("link"); l.rel="stylesheet"; l.href="/styles.css?v=8a19440e"; document.head.appendChild(l);\n' +
+      '    var l=document.createElement("link"); l.rel="stylesheet"; l.href="/styles.css?v=b12faq01"; document.head.appendChild(l);\n' +
       '    for (var i=0;i<srcs.length;i++){\n' +
       '      var s=document.createElement("script");\n' +
       '      s.src=srcs[i]; s.async=false; document.body.appendChild(s);\n' +

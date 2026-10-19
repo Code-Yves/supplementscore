@@ -46,7 +46,7 @@ def page(slug, title, description, bottom, body, sources):
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; base-uri 'self'; form-action 'self' https://formspree.io;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{esc(title)}</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
@@ -104,7 +104,7 @@ def page(slug, title, description, bottom, body, sources):
     .ar-content button {{ display: none; }}
   </style>
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
-  <script src="../_site-ux.js?v=c5bc241c" defer></script>
+  <script src="../_site-ux.js?v=b12faq01" defer></script>
   <!-- SEO-BC-SCHEMA:start -->
   <script type="application/ld+json">
 {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[

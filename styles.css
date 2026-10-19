@@ -4210,3 +4210,57 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
 .bq-name a{color:inherit;text-underline-offset:2px}
 a.bq-v{color:var(--t1tx);text-decoration:none}
 a.bq-v:hover{text-decoration:underline}
+
+/* Common questions: a small label inside a light card, distinct from
+   section headings. Specificity beats the chrome h2/h3 rules above. */
+.ar-faq{
+  margin:28px 0 12px;
+  padding:14px 16px 4px;
+  border:1px solid var(--color-border-tertiary,#e5e7eb);
+  border-radius:12px;
+  background:rgba(31,122,107,.045);
+}
+html.rc-chrome-active main.ar-wrap .ar-faq > h2,
+html.rc-chrome-active main.ca-wrap .ar-faq > h2,
+html.rc-chrome-active main.sx-wrap .ar-faq > h2,
+html.rc-chrome-active main.sk-wrap .ar-faq > h2,
+main.ar-wrap .ar-faq > h2,
+main.ca-wrap .ar-faq > h2,
+main.sx-wrap .ar-faq > h2,
+main.sk-wrap .ar-faq > h2{
+  font-size:0.72rem !important;
+  font-weight:700 !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase !important;
+  color:var(--color-brand,#1F7A6B) !important;
+  line-height:1.3 !important;
+  margin:0 0 12px !important;
+}
+html.rc-chrome-active main.ar-wrap .ar-faq > h3,
+html.rc-chrome-active main.ca-wrap .ar-faq > h3,
+html.rc-chrome-active main.sx-wrap .ar-faq > h3,
+html.rc-chrome-active main.sk-wrap .ar-faq > h3,
+main.ar-wrap .ar-faq > h3,
+main.ca-wrap .ar-faq > h3,
+main.sx-wrap .ar-faq > h3,
+main.sk-wrap .ar-faq > h3{
+  font-size:1.02rem !important;
+  font-weight:700 !important;
+  letter-spacing:-.01em !important;
+  text-transform:none !important;
+  color:var(--color-text-primary,#0c0a09) !important;
+  line-height:1.35 !important;
+  margin:16px 0 6px !important;
+}
+html.rc-chrome-active main.ar-wrap .ar-faq > p,
+html.rc-chrome-active main.ca-wrap .ar-faq > p,
+html.rc-chrome-active main.sx-wrap .ar-faq > p,
+html.rc-chrome-active main.sk-wrap .ar-faq > p,
+main.ar-wrap .ar-faq > p,
+main.ca-wrap .ar-faq > p,
+main.sx-wrap .ar-faq > p,
+main.sk-wrap .ar-faq > p{
+  font-size:15px !important;
+  line-height:1.6 !important;
+  margin:0 0 14px !important;
+}
