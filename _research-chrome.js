@@ -374,6 +374,8 @@
       if (/^supplements?\s+(mentioned|in this article)/.test(txt)) break;
       if (/^supplements?\s+in this stack$/.test(txt)) break;
       if (/^supplement details$/.test(txt)) break;
+      if (/^common questions$/.test(txt)) continue;
+      if (node.closest && node.closest('.ar-faq')) continue;
       out.push(node);
     }
     return out;

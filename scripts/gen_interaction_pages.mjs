@@ -140,10 +140,10 @@ function head(opts) {
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html{color-scheme:light}</style>
   <link rel="stylesheet" href="/critical.css?v=2cd7a7c1">
-  <link rel="stylesheet" href="/styles.css?v=8a19440e" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/styles.css?v=8a19440e"></noscript>
+  <link rel="stylesheet" href="/styles.css?v=b12faq01" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/styles.css?v=b12faq01"></noscript>
   <style>${css}</style>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io; base-uri 'self'; form-action 'self' https://formspree.io;">
   <script type="application/ld+json">
   ${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: crumbs })}
   </script>

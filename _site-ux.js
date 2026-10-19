@@ -442,71 +442,10 @@
     return null;
   }
 
-  /* ---------- PubMed live citation count badge ---------- */
-  /* Adds a small "Cited in N PubMed papers · last new study <date>" pill to
-     supplement modals and /a/ articles. Cached in localStorage for 7 days
-     to stay well under PubMed's 3-req/sec rate limit. */
-  var PM_TTL = 7 * 24 * 3600 * 1000;
-  function pubmedBadge(query, mountEl){
-    if (!query || !mountEl) return;
-    if (mountEl.querySelector('.ssux-pmbadge')) return;
-    var key = 'ss-pmcount:' + query.toLowerCase();
-    var cached = null;
-    try {
-      var raw = localStorage.getItem(key);
-      if (raw) cached = JSON.parse(raw);
-    } catch(_){}
-    if (cached && (Date.now() - (cached.t||0)) < PM_TTL){
-      renderBadge(mountEl, cached);
-      return;
-    }
-    var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi'
-      + '?db=pubmed&term=' + encodeURIComponent(query)
-      + '&retmode=json&retmax=1&sort=date';
-    fetch(url).then(function(r){return r.ok ? r.json() : null;}).then(function(j){
-      if (!j || !j.esearchresult) return;
-      var c = parseInt(j.esearchresult.count || '0', 10);
-      var topId = (j.esearchresult.idlist||[])[0] || null;
-      var data = {count:c, topId:topId, t:Date.now()};
-      try { localStorage.setItem(key, JSON.stringify(data)); } catch(_){}
-      renderBadge(mountEl, data);
-    }).catch(function(){});
-  }
-  function renderBadge(mount, data){
-    if (!data || !data.count) return;
-    var pretty = data.count > 999 ? Math.round(data.count/1000) + 'k' : data.count;
-    var url = data.topId
-      ? 'https://pubmed.ncbi.nlm.nih.gov/' + data.topId + '/'
-      : 'https://pubmed.ncbi.nlm.nih.gov/?term=' + encodeURIComponent(mount.dataset.pmq||'');
-    var el = document.createElement('a');
-    el.className = 'ssux-pmbadge';
-    el.target = '_blank';
-    el.rel = 'noopener noreferrer';
-    el.href = url;
-    el.title = data.count.toLocaleString() + ' papers indexed in PubMed';
-    el.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>'
-      + '<span><strong>' + pretty + '</strong> on PubMed</span>';
-    mount.appendChild(el);
-  }
-  /* Hook: app.js can call this when it opens the supplement modal */
-  window.ssPubMedBadgeFor = pubmedBadge;
-  /* Also auto-attach on /a/ article pages where the H1 is the supplement title */
-  function initPubMedOnArticle(){
-    if (!/\/a\//.test(location.pathname)) return;
-    var h1 = document.querySelector('h1');
-    var meta = document.querySelector('.ar-meta');
-    if (!h1 || !meta) return;
-    /* Try to extract a sensible PubMed query from the H1 */
-    var title = (h1.textContent||'').trim();
-    var m = title.split(/[:—–\-]/)[0].trim();
-    if (m.length < 3) return;
-    var mount = document.createElement('span');
-    mount.className = 'ssux-pmbadge-mount';
-    mount.dataset.pmq = m;
-    meta.appendChild(document.createTextNode(' '));
-    meta.appendChild(mount);
-    pubmedBadge(m, mount);
-  }
+  /* PubMed count lookup removed. It fetched eutils.ncbi.nlm.nih.gov, which
+     the page CSP does not allow, so the request was refused on every article
+     and the badge never appeared. Kept as a no-op for any older caller. */
+  window.ssPubMedBadgeFor = function(){};
 
   /* ---------- article v2 template enhancer (2026-05-18) ----------
      Standalone /a/<slug>.html pages historically used a legacy layout
@@ -527,7 +466,6 @@
     initStickyToc();
     initRecentlyViewedStrip();
     initBreadcrumbs();
-    initPubMedOnArticle();
     initShareFab();
     /* 2026-05-24 — belt-and-braces: also remove any pre-existing
        .ssux-handout buttons in case an older cached page injected one. */
