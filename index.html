@@ -911,8 +911,8 @@
 
       <div class="hero-dots" id="hero-dots"></div>
       <div class="hero-controls">
-        <button class="hero-arrow" onclick="event.stopPropagation();heroPrev()" aria-label="Previous article"></button>
-        <button class="hero-arrow" onclick="event.stopPropagation();heroNext()" aria-label="Next article"></button>
+        <button type="button" class="hero-arrow" onclick="event.stopPropagation();heroPrev()" aria-label="Previous article"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" class="hero-arrow" onclick="event.stopPropagation();heroNext()" aria-label="Next article"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
         <button type="button" class="hero-cta" onclick="event.stopPropagation();heroReadActive()" aria-label="Read featured article">Read article</button>
       </div>
       <div class="hero-progress" aria-hidden="true"><div class="hero-progress-fill" id="hero-progress-fill"></div></div>
@@ -4213,6 +4213,8 @@
   </div>
 </div>
 </div><!-- end about-view -->
+</div>
+</div>
 
 <!-- SS_FOOTER_BEGIN -->
 <!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
@@ -4286,8 +4288,6 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 </script>
 </footer>
 <!-- SS_FOOTER_END -->
-</div>
-</div>
 <!-- Article modal overlay -->
 <div role="dialog" aria-modal="true" id="art-modal" class="art-modal" onclick="if(event.target===this)closeArtModal()">
   <div role="dialog" aria-modal="true" class="art-modal-pane">
