@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /**
  * validate_dietarysupplement_schema.mjs
- * Smoke-test the DietarySupplement JSON-LD generator from supplement-detail.js
+ * Smoke-test the supplement JSON-LD generator from supplement-detail.js.
+ * The type is MedicalEntity, not DietarySupplement: DietarySupplement is a
+ * schema.org Product subtype, and Google then requires offers, review, or
+ * aggregateRating. This site does not sell supplements.
  * by re-implementing the same logic in Node and rendering 3 sample slugs.
  *
  * USAGE:  node scripts/validate_dietarysupplement_schema.mjs
@@ -47,7 +50,7 @@ function buildSchema(s, slug) {
   }
   const supplement = {
     "@context": "https://schema.org",
-    "@type": "DietarySupplement",
+    "@type": "MedicalEntity",
     "name": name,
     "description": desc || (name + ' — evidence-based supplement detail.'),
     "activeIngredient": bareName || name,
@@ -112,6 +115,10 @@ for (const s of samples) {
   console.log(`safetyConsid:   ${supplement.safetyConsideration.slice(0, 100)}…`);
   console.log(`hasDose:        ${!!supplement.recommendedIntake}`);
   console.log(`desc length:    ${supplement.description.length}`);
+  if (supplement['@type'] !== 'MedicalEntity') {
+    errors++;
+    console.log('BAD TYPE: expected MedicalEntity, got ' + supplement['@type']);
+  }
 }
 
 console.log(`\nValidation complete. errors=${errors}, samples=${samples.length}`);

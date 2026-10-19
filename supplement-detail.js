@@ -139,7 +139,7 @@
     var ogImg = document.querySelector('meta[property="og:image"]');
     var supplementSchema = {
       "@context": "https://schema.org",
-      "@type": "DietarySupplement",
+      "@type": "MedicalEntity",
       "name": name,
       "description": desc || (name + ' — evidence-based supplement detail.'),
       "activeIngredient": bareName || name,
@@ -237,13 +237,16 @@
   /* Alias URLs (?slug=creatine, lions-mane, vitamin-d) must not compete with
      the sitemap canonical. Rewrite the address bar + canonical in place. */
   try {
-    var canonSlug = window.SS.slugify(s.n);
-    /* 2026-10-07 — the short form (parenthetical stripped, e.g. ashwagandha
-       for "Ashwagandha (KSM-66)") is the sitemap / OG / internal-link URL.
-       Keep it self-canonical; only rewrite true aliases. Previously 326 of
-       547 sitemap URLs canonicalised away to a long slug not in the sitemap. */
+    var fullSlug = window.SS.slugify(s.n);
+    /* Sitemap and prerendered pages use the short slug when that file exists
+       (parenthetical stripped). A longer alias such as glucomannan-konjac-root
+       must canonicalise to that file, not to itself. */
     var shortSlug = window.SS.slugify(String(s.n || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim());
-    if (shortSlug && slug === shortSlug) canonSlug = shortSlug;
+    var canonSlug = fullSlug;
+    if (window.__SS_ALIAS && window.__SS_ALIAS[slug]) canonSlug = window.__SS_ALIAS[slug];
+    else if (shortSlug && window.__SS_STATIC && window.__SS_STATIC[shortSlug]) canonSlug = shortSlug;
+    else if (fullSlug && window.__SS_STATIC && window.__SS_STATIC[fullSlug]) canonSlug = fullSlug;
+    else if (shortSlug && slug === shortSlug) canonSlug = shortSlug;
     if (canonSlug && canonSlug !== slug) {
       var next = new URL(location.href);
       next.searchParams.set('slug', canonSlug);

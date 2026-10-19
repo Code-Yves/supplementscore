@@ -157,7 +157,9 @@ for (const { slug, s } of pages) {
   };
   const dietary = {
     '@context': 'https://schema.org',
-    '@type': 'DietarySupplement',
+    // MedicalEntity, not DietarySupplement. DietarySupplement subclasses Product,
+    // so Google demands offers/review/aggregateRating this non-profit site does not have.
+    '@type': 'MedicalEntity',
     name: s.n,
     description: schemaDesc || `${s.n} — evidence-based supplement detail.`,
     activeIngredient: bareName || s.n,
