@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="/critical.css?v=069ac912">
 <link rel="stylesheet" href="/styles.css?v=b12faq01" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/styles.css?v=b12faq01"></noscript>
+<link rel="stylesheet" href="/page-chrome.css?v=brandbar1">
 <style>
 body{background:var(--color-background-primary);color:var(--color-text-primary)}
 .brand-wrap{max-width:920px;margin:0 auto;padding:28px 22px 64px}
@@ -59,6 +60,17 @@ a{color:var(--color-brand,#1F7A6B)}
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 </head>
 <body>
+<header class="ss-pagebar">
+  <div class="ss-pagebar-inner">
+    <a class="ss-pagebar-brand" href="/">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="ss-pagebar-name">SupplementScore<span>.org</span></span>
+    </a>
+    <a class="ss-pagebar-x" href="/" aria-label="Close" onclick="if(history.length>1){history.back();return false;}">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </a>
+  </div>
+</header>
 <main class="brand-wrap">
 <p class="brand-crumb"><a href="/">Home</a> / <a href="/brands.html">Verified brands</a> / MusclePharm</p>
 <p class="brand-eye">Verified brands</p>
