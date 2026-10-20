@@ -100,8 +100,8 @@ input,button{font-family:inherit}
   font-size:9px;font-weight:500;line-height:1;
 }
 .beta-bar-stats{display:inline-flex;align-items:center;gap:8px}
-.beta-bar-stat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
-.beta-bar-stat-sep{font-size:10px;font-weight:400;opacity:.35;color:var(--color-brand)}
+.beta-bar-stat{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
+.beta-bar-stat-sep{font-size:11px;font-weight:400;opacity:.35;color:var(--color-brand)}
 .beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:var(--color-brand);flex:0 0 auto}
 .beta-bar-search{display:none}
 .ix-hero{max-width:1180px;margin:0 auto;padding:56px 24px 40px;text-align:center;position:relative}
@@ -129,7 +129,7 @@ input,button{font-family:inherit}
 @media(max-width:600px){
   .beta-bar{position:fixed;top:0;left:0;right:0;width:100%;margin:0;height:calc(22px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;font-size:10px;gap:4px;z-index:31}
   .beta-bar-pulse{display:none}
-  .beta-bar-stat,.beta-bar-stat-sep{font-size:8.5px;letter-spacing:.04em}
+  .beta-bar-stat,.beta-bar-stat-sep{font-size:9.5px;letter-spacing:.04em}
   html.tab-supplements body,body.tab-supplements{padding-top:30px !important}
   html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:calc(30px + env(safe-area-inset-top)) !important}
   .ix-hero{padding:32px 16px 24px}
