@@ -123,11 +123,15 @@ input,button{font-family:inherit}
 #hero .hero-counter{top:44px;right:32px;z-index:4}
 #hero .hero-progress{left:0;right:0;bottom:0;height:3px}
 #main-ui{min-height:calc(100svh - 240px)}
+@media(max-width:768px){
+  html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:0 !important}
+}
 @media(max-width:600px){
   .beta-bar{position:fixed;top:0;left:0;right:0;width:100%;margin:0;height:calc(22px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;font-size:10px;gap:4px;z-index:31}
   .beta-bar-pulse{display:none}
   .beta-bar-stat,.beta-bar-stat-sep{font-size:8.5px;letter-spacing:.04em}
   html.tab-supplements body,body.tab-supplements{padding-top:30px !important}
+  html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:calc(30px + env(safe-area-inset-top)) !important}
   .ix-hero{padding:32px 16px 24px}
   .ix-hero h1{font-size:40px;line-height:1.05;letter-spacing:-1.1px;margin:0 auto 8px;max-width:none}
   .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45}
