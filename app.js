@@ -5064,12 +5064,23 @@ function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';c
 if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('unproven',items.length,initShow):''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label),items.length+' supplement'+(items.length===1?'':'s'),m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn(t.id,items.length,initShow):''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
-function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(cat),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(_catLabel(cat)),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 var _initialLoad=true;
 function setFilter(id,el){_ddLabel('cat-filter','Helps With');_ddLabel('az-filter','A\u2013Z');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');_ddActive(null);af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Helps With');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 let _allTabInit=false;
 const CATS=['Performance','Cognition','Sleep','Immunity','Cardiovascular','Joint','Mood','Gut','Metabolic','Inflammation','Skin','Bone','Energy','Hormonal','Neuropathy','Antioxidant','Weight','UTI','Migraine','Liver','Eye health','Pregnancy'];
+/* Display names for the Goal dropdown, the selected chip, and the list
+   heading. Filter keys above stay tied to supplement tags (a "Heart" chip
+   still matches tags containing "Cardiovascular"). */
+const CAT_LABELS={
+  Performance:'Performance',Cognition:'Focus',Sleep:'Sleep',Immunity:'Immunity',
+  Cardiovascular:'Heart',Joint:'Joints',Mood:'Mood',Gut:'Gut',Metabolic:'Metabolic',
+  Inflammation:'Inflammation',Skin:'Skin',Bone:'Bone',Energy:'Energy',Hormonal:'Hormones',
+  Neuropathy:'Neuropathy',Antioxidant:'Antioxidant',Weight:'Weight',UTI:'UTI',
+  Migraine:'Migraine',Liver:'Liver','Eye health':'Eyes',Pregnancy:'Pregnancy'
+};
+function _catLabel(cat){return CAT_LABELS[cat]||cat;}
 const AZ_PAIRS=[['A','B'],['C','D'],['E','F'],['G','H'],['I','J'],['K','L'],['M','N'],['O','P'],['Q','R'],['S','T'],['U','V'],['W','X'],['Y','Z']];
 const POPULATIONS={
   infant_toddler:{label:'Infants & toddlers (0\u20133)',supps:['Vitamin D3','Iron','Probiotics','Omega-3 (EPA/DHA)','Algal DHA (vegan omega-3)','Zinc','Vitamin C (moderate dose)','Saccharomyces boulardii']},
@@ -5163,27 +5174,27 @@ const _catCount=(c)=>S.filter(s=>(s.tag||'').toLowerCase().includes(c.toLowerCas
    supplements (composite score ≥ 65) so both the dropdown counts and the results
    show the strongest options, not the long tail. Floor inlined in _sxCount + _sxPick. */
 const _sxCount=(v)=>{const ks=(typeof SX_KEYWORDS!=='undefined'&&SX_KEYWORDS[v])||[];if(!ks.length)return 0;return S.filter(s=>{if(s.t==='t4')return false;if(typeof calcScore==='function'&&calcScore(s)<65)return false;const hay=((s.tag||'')+' '+(s.desc||'')).toLowerCase();return ks.some(k=>hay.indexOf(k)!==-1);}).length;};
-const catOpts=CATS.map(c=>{const n=_catCount(c);return{val:c,label:'<span class="pop-lbl">'+c+'</span>'+_ddCount(n)};});
+const catOpts=CATS.map(c=>{const n=_catCount(c);return{val:c,label:'<span class="pop-lbl">'+_catLabel(c)+'</span>'+_ddCount(n)};});
 const popOpts=Object.entries(POPULATIONS).map(([k,p])=>({val:k,label:'<span class="pop-lbl">'+p.label+'</span><span class="pop-ct">'+p.supps.length+' supplement'+(p.supps.length>1?'s':'')+'</span>'}));const unpCount=S.filter(s=>eTier(s)==='t3').length;const tr=tierCounts.find(x=>x.id==='t3');const tierOpts=[{val:'t3',label:'Trending ('+(tr?tr.count:0)+')'}];['t1','t2','t4'].forEach(id=>{const t=tierCounts.find(x=>x.id===id);if(t)tierOpts.push({val:t.id,label:t.badge+' ('+t.count+')'});});tierOpts.splice(3,0,{val:'unproven',label:'Unproven ('+unpCount+')'});
 /* Symptom options now wrap the user-facing label in .pop-lbl and append a
    .pop-ct count line. Keeping the val keys identical to before so
    _sxPick(val) and SX_KEYWORDS / SX_LABELS lookups all still resolve. */
 var _sxItems=[
-  ['Anxiety','Anxiety / Stress'],
-  ['Mood','Mood / Depression'],
-  ['Cognition','Memory / Focus'],
-  ['Cardio','Cardiovascular'],
+  ['Anxiety','Anxiety'],
+  ['Mood','Mood'],
+  ['Cognition','Focus'],
+  ['Cardio','Heart'],
   ['Glucose','Blood sugar'],
-  ['Joint','Joint / Pain'],
-  ['Gut','Gut / Digestion'],
-  ['Skin','Skin / Hair / Nails'],
-  ['Energy','Energy / Fatigue'],
-  ['Performance','Athletic performance'],
-  ['Bone','Bone / Calcium'],
-  ['Hormone','Hormonal balance'],
-  ['Eye','Eye / Vision'],
-  ['Pregnancy','Pregnancy / Fertility'],
-  ['Kids','Kids / Pediatric']
+  ['Joint','Joints'],
+  ['Gut','Gut'],
+  ['Skin','Skin'],
+  ['Energy','Energy'],
+  ['Performance','Performance'],
+  ['Bone','Bone'],
+  ['Hormone','Hormones'],
+  ['Eye','Eyes'],
+  ['Pregnancy','Pregnancy'],
+  ['Kids','Kids']
 ];
 var sxOpts=_sxItems.map(function(it){var n=_sxCount(it[0]);return{val:it[0],label:'<span class="pop-lbl">'+it[1]+'</span>'+_ddCount(n)};});
 // "Filter by:" inline label — anchors the row left so the filter chips read
@@ -5245,11 +5256,11 @@ var SX_KEYWORDS = {
   Kids:['kid','child','pediatric','infant']
 };
 var SX_LABELS = {
-  Sleep:'Sleep',Anxiety:'Anxiety / Stress',Mood:'Mood / Depression',Cognition:'Memory / Focus',
-  Cardio:'Cardiovascular',Glucose:'Blood sugar',Joint:'Joint / Pain',Gut:'Gut / Digestion',
-  Immunity:'Immunity',Skin:'Skin / Hair / Nails',Energy:'Energy / Fatigue',Performance:'Athletic performance',
-  Bone:'Bone / Calcium',Hormone:'Hormonal balance',Liver:'Liver',Eye:'Eye / Vision',
-  Pregnancy:'Pregnancy / Fertility',Kids:'Kids / Pediatric'
+  Sleep:'Sleep',Anxiety:'Anxiety',Mood:'Mood',Cognition:'Focus',
+  Cardio:'Heart',Glucose:'Blood sugar',Joint:'Joints',Gut:'Gut',
+  Immunity:'Immunity',Skin:'Skin',Energy:'Energy',Performance:'Performance',
+  Bone:'Bone',Hormone:'Hormones',Liver:'Liver',Eye:'Eyes',
+  Pregnancy:'Pregnancy',Kids:'Kids'
 };
 /* Per-symptom banner copy. Each entry feeds the filter banner: a one-line
    subtitle replaces the previous generic "Filtered to supplements with
@@ -5318,7 +5329,7 @@ function _catPick(v){
     document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('t3',items.length,rowLimit):''}</div>`:'<div class="empty">No trending supplements found.</div>';
     return;
   }
-  _ddLabel('cat-filter',v);_ddActive('cat-filter');setCatFilter(v);
+  _ddLabel('cat-filter',_catLabel(v));_ddActive('cat-filter');setCatFilter(v);
 }
 function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
 /* 2026-05-21 — Articles pill picker.

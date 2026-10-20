@@ -161,21 +161,21 @@
       <p class="bm-step-help">Pick 1 to 3 goals. We'll rank supplements that have actual trial evidence for those specific outcomes.</p>
       <div class="bm-opts cols-2" id="bm-goals">
         <button type="button" class="bm-opt" data-goal="Sleep">Sleep</button>
-        <button type="button" class="bm-opt" data-goal="Anxiety">Anxiety / stress</button>
+        <button type="button" class="bm-opt" data-goal="Anxiety">Anxiety</button>
         <button type="button" class="bm-opt" data-goal="Mood">Mood</button>
-        <button type="button" class="bm-opt" data-goal="Cognition">Memory / focus</button>
-        <button type="button" class="bm-opt" data-goal="Cardio">Cardiovascular</button>
+        <button type="button" class="bm-opt" data-goal="Cognition">Focus</button>
+        <button type="button" class="bm-opt" data-goal="Cardio">Heart</button>
         <button type="button" class="bm-opt" data-goal="Glucose">Blood sugar</button>
-        <button type="button" class="bm-opt" data-goal="Joint">Joint / pain</button>
-        <button type="button" class="bm-opt" data-goal="Gut">Gut / digestion</button>
+        <button type="button" class="bm-opt" data-goal="Joint">Joints</button>
+        <button type="button" class="bm-opt" data-goal="Gut">Gut</button>
         <button type="button" class="bm-opt" data-goal="Immunity">Immunity</button>
-        <button type="button" class="bm-opt" data-goal="Skin">Skin / hair / nails</button>
-        <button type="button" class="bm-opt" data-goal="Energy">Energy / fatigue</button>
-        <button type="button" class="bm-opt" data-goal="Performance">Athletic performance</button>
-        <button type="button" class="bm-opt" data-goal="Bone">Bone / calcium</button>
-        <button type="button" class="bm-opt" data-goal="Hormone">Hormonal balance</button>
+        <button type="button" class="bm-opt" data-goal="Skin">Skin</button>
+        <button type="button" class="bm-opt" data-goal="Energy">Energy</button>
+        <button type="button" class="bm-opt" data-goal="Performance">Performance</button>
+        <button type="button" class="bm-opt" data-goal="Bone">Bone</button>
+        <button type="button" class="bm-opt" data-goal="Hormone">Hormones</button>
         <button type="button" class="bm-opt" data-goal="Liver">Liver</button>
-        <button type="button" class="bm-opt" data-goal="Eye">Eye / vision</button>
+        <button type="button" class="bm-opt" data-goal="Eye">Eyes</button>
       </div>
     </div>
 
@@ -478,7 +478,8 @@
     }
 
     // Render summary
-    var goalLbl = Array.from(state.goals).join(' · ');
+    var GOAL_LABELS = {Sleep:'Sleep',Anxiety:'Anxiety',Mood:'Mood',Cognition:'Focus',Cardio:'Heart',Glucose:'Blood sugar',Joint:'Joints',Gut:'Gut',Immunity:'Immunity',Skin:'Skin',Energy:'Energy',Performance:'Performance',Bone:'Bone',Hormone:'Hormones',Liver:'Liver',Eye:'Eyes'};
+    var goalLbl = Array.from(state.goals).map(function(g){ return GOAL_LABELS[g] || g; }).join(' · ');
     $('bm-result-summary').innerHTML =
       '<div class="bm-result-summary">'
       + '<strong>Built for:</strong> ' + escHtml(goalLbl) + '. '
