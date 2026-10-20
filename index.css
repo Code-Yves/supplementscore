@@ -1502,4 +1502,16 @@ body.on-profile #main-sticky{
     position: static !important;
     top: auto !important;
   }
+  /* The hero field sits above the article carousel and sticks under the
+     stats strip. After the panel stopped being sticky, that field stayed
+     on screen next to the search that already lives in this block, so
+     phones showed two bars. Keep the one paired with "Search supplements
+     by" and hide the hero copy. #ix-hero-form outranks the ≤600px
+     `.ix-hero .ix-search { display:flex !important }` rule. */
+  .ix-hero #ix-hero-form {
+    display: none !important;
+  }
+  #main-sticky .sticky-bar-search {
+    display: block !important;
+  }
 }
