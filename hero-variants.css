@@ -4,7 +4,12 @@
    on the variants that surface the field.
 
    1 spacing · 2 subtitle wording · 3 type size
-   4 stat chips · 5 two-line headline · 6 search moved above the card
+   4 stat chips
+   4a outlined pills · 4b filled-tint pills · 4c soft rectangles
+   4d bold number, light label · 4e stacked number and label
+   4f chips with the short subtitle · 4g chips under the headline
+   4h one segmented bar
+   5 two-line headline · 6 search moved above the card
    7 search replaces the subtitle · 8 trust line · 9 compact masthead
    10 left-aligned masthead with the search inside it */
 
@@ -14,8 +19,8 @@
 @media (max-width: 768px) {
   /* Shared: when a variant drops the fixed stats strip, don't keep the
      30px hole it was reserving. */
-  html[data-hv="4"].tab-supplements body,
-  html[data-hv="4"] body.tab-supplements,
+  html[data-hv^="4"].tab-supplements body,
+  html[data-hv^="4"] body.tab-supplements,
   html[data-hv="8"].tab-supplements body,
   html[data-hv="8"] body.tab-supplements,
   html[data-hv="9"].tab-supplements body,
@@ -24,7 +29,7 @@
   html[data-hv="10"] body.tab-supplements {
     padding-top: 12px !important;
   }
-  html[data-hv="4"] .beta-bar,
+  html[data-hv^="4"] .beta-bar,
   html[data-hv="8"] .beta-bar,
   html[data-hv="9"] .beta-bar,
   html[data-hv="10"] .beta-bar {
@@ -66,15 +71,17 @@
     line-height: 1.4 !important;
   }
 
-  /* 4 — the slash strip becomes three sentence-case chips. */
-  html[data-hv="4"] .hv-chips {
+  /* 4 and 4a–4h — chips replace the slash strip. The headline stays
+     the current three-line masthead. Every treatment is one row. */
+  html[data-hv^="4"] .hv-chips {
     display: flex !important;
     justify-content: center;
     flex-wrap: nowrap;
     gap: 4px;
     margin: 0 0 10px;
+    max-width: 100%;
   }
-  html[data-hv="4"] .hv-chips span {
+  html[data-hv^="4"] .hv-chip {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0;
@@ -86,14 +93,120 @@
     border-radius: 999px;
     padding: 4px 8px;
   }
-  html[data-hv="4"] .ix-hero {
+  html[data-hv^="4"] .hv-num,
+  html[data-hv^="4"] .hv-lbl {
+    font-weight: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+  }
+  html[data-hv^="4"] .hv-lbl { margin-left: 0.35em; }
+  html[data-hv^="4"] .ix-hero {
     padding: 2px 0 0 !important;
   }
-  html[data-hv="4"] .ix-hero h1 {
+  html[data-hv^="4"] .ix-hero h1 {
     margin-bottom: 6px !important;
   }
-  html[data-hv="4"] #hero {
+  html[data-hv^="4"] #hero {
     margin-top: 12px !important;
+  }
+
+  /* 4a — outline only. The page shows through the pill. */
+  html[data-hv="4a"] .hv-chip {
+    background: transparent;
+    border-color: rgba(31, 122, 107, 0.55);
+  }
+
+  /* 4b — filled tint, no stroke. */
+  html[data-hv="4b"] .hv-chip {
+    background: rgba(31, 122, 107, 0.12);
+    border-color: transparent;
+  }
+
+  /* 4c — same cream chip, soft rectangle instead of a pill.
+     6px on a short chip reads as a rounded box; 8px was nearly a capsule. */
+  html[data-hv="4c"] .hv-chip {
+    border-radius: 6px;
+  }
+
+  /* 4d — the figure is bold; the word is lighter. */
+  html[data-hv="4d"] .hv-num { font-weight: 700; }
+  html[data-hv="4d"] .hv-lbl {
+    font-weight: 400;
+    color: rgba(31, 122, 107, 0.72);
+  }
+
+  /* 4e — big number, small label, still one row of three. */
+  html[data-hv="4e"] .hv-chips { gap: 6px; }
+  html[data-hv="4e"] .hv-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    padding: 5px 8px 4px;
+    line-height: 1.1;
+  }
+  html[data-hv="4e"] .hv-num {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  html[data-hv="4e"] .hv-lbl {
+    margin-left: 0;
+    margin-top: 1px;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(31, 122, 107, 0.78);
+  }
+
+  /* 4f — variant 4 chips with variant 2's shorter subtitle. */
+  html[data-hv="4f"] .ix-hero .lede {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    max-width: 32ch !important;
+    margin: 0 auto !important;
+  }
+
+  /* 4g — chips sit under the headline. Spacing matches variant 1
+     so the extra row does not push the card down as far. */
+  html[data-hv="4g"] .ix-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 0 0 !important;
+  }
+  html[data-hv="4g"] .ix-hero h1 {
+    order: 1;
+    margin: 0 auto 4px !important;
+  }
+  html[data-hv="4g"] .hv-chips {
+    order: 2;
+    align-self: center;
+    margin: 2px 0 6px;
+  }
+  html[data-hv="4g"] .ix-hero .lede { order: 3; }
+  html[data-hv="4g"] #hero { margin-top: 8px !important; }
+
+  /* 4h — one bar, three segments, hairline dividers. */
+  html[data-hv="4h"] .hv-chips {
+    gap: 0;
+    width: 100%;
+    border: 1px solid rgba(31, 122, 107, 0.35);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f6f2ea;
+  }
+  html[data-hv="4h"] .hv-chip {
+    flex: 1 1 0;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 10.5px;
+  }
+  html[data-hv="4h"] .hv-chip + .hv-chip {
+    border-left: 1px solid rgba(31, 122, 107, 0.28);
   }
 
   /* 5 — two-line headline. The first break is removed in markup by the

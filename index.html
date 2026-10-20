@@ -23,10 +23,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script>
-/* Proposal preview only. ?hv=1..10 opts into a mobile hero variant.
-   With no parameter the homepage is unchanged. */
+/* Proposal preview only. ?hv=1..10 and ?hv=4a..4h opt into a mobile
+   hero variant. With no parameter the homepage is unchanged. */
 (function () {
-  var m = /(?:\?|&)hv=(\d{1,2})\b/.exec(location.search || '');
+  var m = /(?:\?|&)hv=(\d{1,2}[a-h]?)\b/.exec(location.search || '');
   if (m) document.documentElement.setAttribute('data-hv', m[1]);
 })();
 </script>
@@ -319,7 +319,7 @@
 
 <link rel="stylesheet" href="index.css?v=m768tab" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="index.css?v=m768tab"></noscript>
-<link rel="stylesheet" href="hero-variants.css?v=hv1">
+<link rel="stylesheet" href="hero-variants.css?v=hv4a">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -557,9 +557,9 @@
   <!-- hv-br1 is suppressed only by hero-variants.css (?hv=5,6,9,10)
        so the headline can sit on two lines. Default keeps both breaks. -->
   <div class="hv-chips">
-    <span>780+ supplements</span>
-    <span>3,200+ studies</span>
-    <span>0 endorsements</span>
+    <span class="hv-chip"><span class="hv-num">780+</span><span class="hv-lbl">supplements</span></span>
+    <span class="hv-chip"><span class="hv-num">3,200+</span><span class="hv-lbl">studies</span></span>
+    <span class="hv-chip"><span class="hv-num">0</span><span class="hv-lbl">endorsements</span></span>
   </div>
   <h1>Know which<br class="hv-br1"><span style="color:var(--t1c)">supplements</span><br class="hv-br2">actually work.</h1>
   <!-- "Every score" stripped from the lede per copy direction; new first word
@@ -580,7 +580,7 @@
     var hv = document.documentElement.getAttribute('data-hv');
     if (!hv) return;
     var lede = document.getElementById('ix-hero-lede');
-    if (lede && hv === '2') {
+    if (lede && (hv === '2' || hv === '4f')) {
       lede.textContent = 'From peer-reviewed clinical trials. Independent and non-profit.';
     }
     if (lede && hv === '6') {
