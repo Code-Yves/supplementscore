@@ -30,19 +30,27 @@
     return out;
   }
 
-  // Compact dose for hero stat cell — handles ranges ("3-5 g") and singles ("400 mg")
+  // Compact dose for hero stat cell — handles ranges ("3-5 g") and singles ("400 mg").
+  // Thousands separators stay intact ("1,000–2,000 mg"). A bare number with
+  // no unit in the protocol is not shown; the cell says "See protocol".
   function compactDose(dose){
-    if(!dose) return '—';
-    var first = dose.split(/[;,]/)[0].trim();
-    // Try X-Y unit first (e.g. "3-5 g/day")
-    var m = first.match(/([\d.,]+\s*[–\-]\s*[\d.,]+\s*[a-zA-Zµ]+(?:\/\w+)?)/);
-    if(m) return m[1];
-    // Then X unit (e.g. "400 mg")
-    m = first.match(/([\d.,]+\s*[a-zA-Zµ]+(?:\/\w+)?)/);
-    if(m) return m[1];
-    // Last resort: first 3 words
+    if(!dose || !String(dose).trim()) return 'See protocol';
+    var text = String(dose).trim();
+    var rangeRe = /([\d.,]+\s*[–\-−]\s*[\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
+    var singleRe = /([\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
+    // Semicolons and clause commas break the protocol. A comma before a
+    // digit is a thousands separator, not a new clause.
+    var first = text.split(/\s*;\s*|\s*,\s*(?!\d)/)[0].trim();
+    var m = first.match(rangeRe) || first.match(singleRe);
+    if(m) return m[1].replace(/\s+/g, ' ');
+    if(/^[\d.,]+$/.test(first) || /[\d.,]+\s*[–\-−]\s*[\d.,]+$/.test(first)){
+      m = text.match(rangeRe) || text.match(singleRe);
+      if(m) return m[1].replace(/\s+/g, ' ');
+      return 'See protocol';
+    }
     var w = first.split(/\s+/);
-    return w.slice(0, Math.min(3, w.length)).join(' ');
+    var phrase = w.slice(0, Math.min(3, w.length)).join(' ');
+    return phrase || 'See protocol';
   }
 
   // "Continuous" / "Cycled" derived from cycle prose
@@ -474,7 +482,7 @@
   // Hero stats — Onset / Daily dose / Cost rating
   var statsHtml =
       '<div class="det-stat"><div class="det-stat-lbl">Onset</div><div class="det-stat-val">'+escHtml(onsetLabel(s.o))+'</div><div class="det-stat-sub">to see effects</div></div>'
-    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div><div class="det-stat-sub">see protocol</div></div>'
+    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div>'+(dose==='See protocol'?'':'<div class="det-stat-sub">see protocol</div>')+'</div>'
     + '<div class="det-stat"><div class="det-stat-lbl">Cost</div><div class="det-stat-val">'+escHtml(costLabel(s.c))+'</div><div class="det-stat-sub">value rating</div></div>';
 
   // Hero sub-score bars
