@@ -754,8 +754,8 @@ body.on-profile .ssux-recent{display:none !important}
    was replaced with the trust-stats triplet. New classes (not the legacy
    .beta-bar-tag / .beta-bar-sep) so the mobile hide-rule below leaves them
    visible. Colours match the de-greened bar above — brand teal on cream. */
-.beta-bar-stat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
-.beta-bar-stat-sep{font-size:10px;font-weight:400;opacity:.35;color:var(--color-brand)}
+.beta-bar-stat{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
+.beta-bar-stat-sep{font-size:11px;font-weight:400;opacity:.35;color:var(--color-brand)}
 /* 2026-05-21 — Banner search state.
    Pre-scroll: .beta-bar-search is hidden, .beta-bar-stats sit centred via
    the parent's existing justify-content:center.
@@ -1211,8 +1211,8 @@ a.site-nav-tab{
      dot and uppercase letters at a readable size, and (b) the dot eats
      ~13px of horizontal width that the stats need. */
   .beta-bar-pulse{display:none !important;}
-  .beta-bar-stat{font-size:8.5px !important;letter-spacing:.04em !important;}
-  .beta-bar-stat-sep{font-size:8.5px !important;}
+  .beta-bar-stat{font-size:9.5px !important;letter-spacing:.04em !important;}
+  .beta-bar-stat-sep{font-size:9.5px !important;}
 
   /* === Bar 1: nav === */
   /* Sits directly below the beta-bar — its `top` must include the
