@@ -4322,8 +4322,81 @@ main.sk-wrap .ar-faq > p{
     position:absolute !important;
     top:calc(8px + env(safe-area-inset-top)) !important;
     z-index:50;
+    width:44px !important;
+    height:44px !important;
+    min-width:44px;
+    min-height:44px;
+    padding:0 !important;
+    border-radius:50%;
+    justify-content:center;
+    box-sizing:border-box;
   }
   body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:60px !important}
-  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:10px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:8px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab svg,
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab svg{
+    width:24px !important;
+    height:24px !important;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab .pg-share-lbl{display:none !important}
   body:has(main.det-wrap):not(.is-modal) > main.det-wrap{margin-top:48px}
+  /* Homepage overlay iframe. html.is-modal is on <html> before paint, so
+     this beats the 70px body offset while the iframe is still loading. */
+  html.is-modal body:has(main.det-wrap){
+    padding-top:0 !important;
+  }
+  html.is-modal main.det-wrap{
+    margin-top:0 !important;
+    padding-top:8px !important;
+  }
+}
+/* Article share and close on phones. Higher specificity than .rc-top-link
+   so a later sheet cannot shrink the hit area. Desktop stays the text row. */
+@media(max-width:768px){
+  main.ar-wrap > .rc-top,
+  main.sx-wrap > .rc-top,
+  main.ca-wrap > .rc-top,
+  main.sk-wrap > .rc-top{
+    height:59px !important;
+    min-height:59px;
+    overflow:visible;
+    padding:0 !important;
+    align-items:center;
+    box-sizing:border-box;
+  }
+  main.ar-wrap > .rc-top .rc-top-grp:has(.rc-share),
+  main.sx-wrap > .rc-top .rc-top-grp:has(.rc-share),
+  main.ca-wrap > .rc-top .rc-top-grp:has(.rc-share),
+  main.sk-wrap > .rc-top .rc-top-grp:has(.rc-share){gap:8px}
+  main.ar-wrap > .rc-top .rc-top-sep,
+  main.sx-wrap > .rc-top .rc-top-sep,
+  main.ca-wrap > .rc-top .rc-top-sep,
+  main.sk-wrap > .rc-top .rc-top-sep{display:none !important}
+  main.ar-wrap > .rc-top .rc-share,
+  main.sx-wrap > .rc-top .rc-share,
+  main.ca-wrap > .rc-top .rc-share,
+  main.sk-wrap > .rc-top .rc-share{
+    min-width:44px;
+    min-height:44px;
+    height:44px;
+    padding:0 10px;
+    box-sizing:border-box;
+    justify-content:center;
+  }
+  main.ar-wrap > .rc-top .rc-share svg,
+  main.sx-wrap > .rc-top .rc-share svg,
+  main.ca-wrap > .rc-top .rc-share svg,
+  main.sk-wrap > .rc-top .rc-share svg{width:24px !important;height:24px !important}
+  main.ar-wrap > .rc-top .rc-close,
+  main.sx-wrap > .rc-top .rc-close,
+  main.ca-wrap > .rc-top .rc-close,
+  main.sk-wrap > .rc-top .rc-close{
+    width:44px !important;
+    height:44px !important;
+    min-width:44px;
+    min-height:44px;
+    padding:0 !important;
+    font-size:24px !important;
+    box-sizing:border-box;
+  }
 }
