@@ -970,7 +970,7 @@ body.tab-research.hero-search-gone .beta-bar{justify-content:center;}
    marginal (≈1–3px); functionally it eliminates the zoom.
    Selects/checkboxes/radios are excluded — they don't trigger
    zoom and have legitimate small sizes in some contexts. */
-@media(max-width:600px){
+@media(max-width:768px){
   input[type="text"],
   input[type="search"],
   input[type="email"],
@@ -979,7 +979,12 @@ body.tab-research.hero-search-gone .beta-bar{justify-content:center;}
   input[type="number"],
   input[type="password"],
   input:not([type]),
-  textarea{
+  textarea,
+  #ix-hero-search,
+  #ix-sticky-search,
+  #ix-banner-search,
+  #nav-search-inp,
+  #add-supp-search{
     font-size:16px !important;
   }
 }

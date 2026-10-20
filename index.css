@@ -1301,7 +1301,8 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
      14/12 sizing and visibly grew on scroll). */
   .ix-hero .ix-search input,
   .ix-search-sticky input{
-    font-size: 13px !important;
+    /* 16px keeps iOS Safari from zooming the page on focus. */
+    font-size: 16px !important;
     padding: 9px 16px 9px 38px !important;
   }
   .ix-hero .ix-search .ico,
@@ -1513,5 +1514,59 @@ body.on-profile #main-sticky{
   }
   #main-sticky .sticky-bar-search {
     display: block !important;
+  }
+}
+
+/* 2026-10-20 — iOS Safari zooms the page when a focused input is under
+   16px, which crops the homepage search and its suggestions off the
+   right edge. These IDs outrank the ≤600px  search-field rule. The
+   suggestion list stays inside the field: long names and category
+   labels ellipsize instead of widening the page. */
+@media (max-width: 768px) {
+  #ix-hero-search,
+  #ix-sticky-search,
+  #ix-banner-search,
+  #nav-search-inp,
+  #add-supp-search,
+  .ix-hero .ix-search input,
+  .ix-search-sticky input,
+  .beta-bar-search input,
+  .add-supp-input {
+    font-size: 16px !important;
+  }
+  .gs-ac,
+  #ix-ac,
+  #ix-sticky-ac,
+  #nav-ac,
+  .ac-dropdown {
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  .gs-ac-item,
+  .nav-ac-item {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .gs-ac-item > span:first-child,
+  .gs-ac-art-title,
+  .gs-ac-art-body,
+  .nav-ac-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .gs-ac-art-cat,
+  .gs-ac-tag,
+  .nav-ac-tag {
+    min-width: 0;
+    max-width: 46%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
   }
 }

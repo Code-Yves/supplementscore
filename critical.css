@@ -132,7 +132,7 @@ input,button{font-family:inherit}
   .ix-hero h1{font-size:40px;line-height:1.05;letter-spacing:-1.1px;margin:0 auto 8px;max-width:none}
   .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45}
   .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
-  .ix-hero .ix-search input{font-size:13px;padding:9px 16px 9px 38px}
+  .ix-hero .ix-search input{font-size:16px;padding:9px 16px 9px 38px}
   #hero{height:200px !important;min-height:200px !important;max-height:200px !important;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px;overflow:hidden !important}
   #hero .hero-slide{inset:14px 14px 56px 14px}
 }
