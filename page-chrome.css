@@ -138,4 +138,11 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
     align-items:center;
     box-sizing:border-box;
   }
+  /* Phone titles were 34–38px on info pages and up to 2.1rem on hubs.
+     Match the 30px article title so a long heading doesn't fill the screen. */
+  body:has(.ss-pagebar) h1{
+    font-size:30px !important;
+    line-height:1.15 !important;
+    letter-spacing:-.4px;
+  }
 }
