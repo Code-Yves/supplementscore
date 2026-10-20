@@ -4264,3 +4264,40 @@ main.sk-wrap .ar-faq > p{
   line-height:1.6 !important;
   margin:0 0 14px !important;
 }
+
+/* 2026-10-20 — Article pages on phones. The ≤600px body offset above
+   reserves 70px for a fixed beta-bar + site-nav that these pages do not
+   render, which left ~88px empty above Prev/Next. Collapse that gap, set
+   the title to 30px, and tighten the chrome stack. Homepage has none of
+   these mains, and .rc-top here is the article bar (direct child of main),
+   not the homepage recommendation card. Desktop widths are unchanged. */
+@media(max-width:768px){
+  body:has(main.ar-wrap),
+  body:has(main.sx-wrap),
+  body:has(main.ca-wrap),
+  body:has(main.sk-wrap){
+    padding-top:calc(8px + env(safe-area-inset-top)) !important;
+  }
+  html.rc-chrome-active main.ar-wrap h1,
+  html.rc-chrome-active main.sx-wrap h1,
+  html.rc-chrome-active main.sx-wrap h1.sx-h1,
+  html.rc-chrome-active main.ca-wrap h1,
+  html.rc-chrome-active main.sk-wrap h1{
+    font-size:30px !important;
+    line-height:1.15 !important;
+    letter-spacing:-.4px !important;
+    margin:0 0 6px !important;
+  }
+  main.ar-wrap > .rc-top,
+  main.sx-wrap > .rc-top,
+  main.ca-wrap > .rc-top,
+  main.sk-wrap > .rc-top{margin-bottom:8px !important}
+  main.ar-wrap > .rc-cat,
+  main.sx-wrap > .rc-cat,
+  main.ca-wrap > .rc-cat,
+  main.sk-wrap > .rc-cat{margin-bottom:4px !important}
+  main.ar-wrap > .rc-trust,
+  main.sx-wrap > .rc-trust,
+  main.ca-wrap > .rc-trust,
+  main.sk-wrap > .rc-trust{margin-top:4px !important}
+}
