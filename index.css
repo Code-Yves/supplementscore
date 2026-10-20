@@ -1680,3 +1680,29 @@ body.on-profile #main-sticky{
     margin: 0 0 12px !important;
   }
 }
+
+/* Profile and Research reserve 70px on a phone for a nav row they do not
+   show, so Back to main sits under an empty band. Clear that reservation.
+   The supplements tab (the homepage first screen) keeps its own 30px rule
+   above and is not touched here. Wider than 600px the stats strip is in
+   normal flow, so these tabs stay at 0 rather than gaining a new gap. */
+@media (max-width: 768px) {
+  html.tab-profile body,
+  body.tab-profile,
+  html.tab-research body,
+  body.tab-research {
+    padding-top: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+  html.tab-profile body,
+  body.tab-profile,
+  html.tab-research body,
+  body.tab-research {
+    padding-top: calc(30px + env(safe-area-inset-top)) !important;
+  }
+  body.tab-profile .rs-back,
+  body.tab-research .rs-back {
+    margin-top: 4px;
+  }
+}
