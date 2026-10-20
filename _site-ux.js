@@ -84,7 +84,7 @@
   + '.ssux-bc a:hover{color:#155b50}'
   + '.ssux-bc-sep{color:rgba(15,23,22,.32);font-weight:300;padding:0 2px}'
   + '.ssux-bc-cur{color:rgba(15,23,22,.85);font-weight:600}'
-  + '@media(max-width:600px){.ssux-bc{font-size:11px;padding:6px 4px 10px}.ssux-bc a,.ssux-bc-cur{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}'
+  + '@media(max-width:600px){.ssux-bc{font-size:11px;padding:6px 4px 10px}.ssux-bc a{max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ssux-bc-cur{max-width:100%;white-space:normal}}'
     /* PubMed badge */
   + '.ssux-pmbadge{display:inline-flex;align-items:center;gap:5px;'
   + 'background:rgba(31,122,107,.10);color:#155b50;padding:3px 9px;border-radius:999px;'
