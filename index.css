@@ -92,6 +92,8 @@
   color: var(--color-text-secondary);
   text-decoration: none;
   padding: 8px 14px 8px 10px;
+  min-height: 44px;
+  box-sizing: border-box;
   margin: 14px 0 6px;
   border: 1px solid var(--color-border-tertiary);
   border-radius: 999px;
