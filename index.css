@@ -1706,3 +1706,55 @@ body.on-profile #main-sticky{
     margin-top: 4px;
   }
 }
+
+/* Homepage phones: the fixed slash strip is replaced by one segmented
+   bar (bold figure, lighter label) above the headline. Desktop keeps
+   the slash strip. Research and Profile keep the strip too. */
+.hero-statbar { display: none; }
+@media (max-width: 768px) {
+  html.tab-supplements .beta-bar,
+  body.tab-supplements .beta-bar {
+    display: none !important;
+  }
+  html.tab-supplements body,
+  body.tab-supplements {
+    padding-top: 8px !important;
+  }
+  .ix-hero {
+    padding: 4px 0 0 !important;
+  }
+  .hero-statbar {
+    display: flex;
+    width: 100%;
+    margin: 0 0 12px;
+    border: 1px solid rgba(31, 122, 107, 0.35);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f6f2ea;
+    color: #1F7A6B;
+  }
+  .hero-stat {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    white-space: nowrap;
+    padding: 6px 3px;
+    font-size: 10.5px;
+    line-height: 1.2;
+    color: #1F7A6B;
+  }
+  .hero-stat + .hero-stat {
+    border-left: 1px solid rgba(31, 122, 107, 0.28);
+  }
+  .hero-stat-num {
+    font-weight: 700;
+    color: #1F7A6B;
+  }
+  .hero-stat-lbl {
+    margin-left: 0.3em;
+    font-weight: 400;
+    color: rgba(31, 122, 107, 0.72);
+  }
+}
