@@ -1489,3 +1489,17 @@ body.on-profile #main-sticky{
 .hero-pattern-bg{ display: none !important; }
 
 /* End 2026-05-21 follow-up block */
+
+/* 2026-10-20 — Mobile: the search + "Search supplements by" panel must
+   scroll away. On ≤768px it was position:sticky, so once the supplement
+   list moved it covered about a third of the screen, clipped the top
+   card (name hidden, score still showing), and sat narrower than the
+   cards so they showed through at the sides. Desktop (>768px) stays
+   sticky. #main-sticky.sticky-bar + !important outranks the ≤600px
+   `position:sticky !important` on #main-sticky in styles.css. */
+@media (max-width: 768px) {
+  #main-sticky.sticky-bar {
+    position: static !important;
+    top: auto !important;
+  }
+}
