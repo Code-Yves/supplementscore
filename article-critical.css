@@ -85,6 +85,55 @@ img{max-width:100%;height:auto}
   body:has(main.sk-wrap){
     padding-top:calc(8px + env(safe-area-inset-top)) !important;
   }
+  /* Share and close stay at least 44px, with a 24px icon and an even gap.
+     These selectors outrank the later .rc-top-link rules in styles.css.
+     The bar keeps its 59px hold so the headline does not jump. */
+  main.ar-wrap > .rc-top,
+  main.sx-wrap > .rc-top,
+  main.ca-wrap > .rc-top,
+  main.sk-wrap > .rc-top{
+    height:59px !important;
+    min-height:59px;
+    overflow:visible;
+    padding:0 !important;
+    align-items:center;
+    box-sizing:border-box;
+  }
+  main.ar-wrap > .rc-top .rc-top-grp:has(.rc-share),
+  main.sx-wrap > .rc-top .rc-top-grp:has(.rc-share),
+  main.ca-wrap > .rc-top .rc-top-grp:has(.rc-share),
+  main.sk-wrap > .rc-top .rc-top-grp:has(.rc-share){gap:8px}
+  main.ar-wrap > .rc-top .rc-top-sep,
+  main.sx-wrap > .rc-top .rc-top-sep,
+  main.ca-wrap > .rc-top .rc-top-sep,
+  main.sk-wrap > .rc-top .rc-top-sep{display:none !important}
+  main.ar-wrap > .rc-top .rc-share,
+  main.sx-wrap > .rc-top .rc-share,
+  main.ca-wrap > .rc-top .rc-share,
+  main.sk-wrap > .rc-top .rc-share{
+    min-width:44px;
+    min-height:44px;
+    height:44px;
+    padding:0 10px;
+    box-sizing:border-box;
+    justify-content:center;
+  }
+  main.ar-wrap > .rc-top .rc-share svg,
+  main.sx-wrap > .rc-top .rc-share svg,
+  main.ca-wrap > .rc-top .rc-share svg,
+  main.sk-wrap > .rc-top .rc-share svg{width:24px !important;height:24px !important}
+  main.ar-wrap > .rc-top .rc-close,
+  main.sx-wrap > .rc-top .rc-close,
+  main.ca-wrap > .rc-top .rc-close,
+  main.sk-wrap > .rc-top .rc-close{
+    width:44px !important;
+    height:44px !important;
+    min-width:44px;
+    min-height:44px;
+    padding:0 !important;
+    font-size:24px !important;
+    box-sizing:border-box;
+  }
 }
 /* The header replaces the byline and hides the injected breadcrumb.
    Keep both out of the flow from the first paint. */

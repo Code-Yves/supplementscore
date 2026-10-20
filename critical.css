@@ -150,8 +150,32 @@ input,button{font-family:inherit}
     position:absolute !important;
     top:calc(8px + env(safe-area-inset-top)) !important;
     z-index:50;
+    width:44px !important;
+    height:44px !important;
+    min-width:44px;
+    min-height:44px;
+    padding:0 !important;
+    border-radius:50%;
+    justify-content:center;
+    box-sizing:border-box;
   }
   body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:60px !important}
-  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:10px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:8px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab svg,
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab svg{
+    width:24px !important;
+    height:24px !important;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab .pg-share-lbl{display:none !important}
   body:has(main.det-wrap):not(.is-modal) > main.det-wrap{margin-top:48px}
+  /* The homepage list opens this shell in an iframe under .ssm-chrome.
+     html.is-modal is set from the head before paint. Outranks the 70px
+     body offset and the standalone margin that clears the page FABs. */
+  html.is-modal body:has(main.det-wrap){
+    padding-top:0 !important;
+  }
+  html.is-modal main.det-wrap{
+    margin-top:0 !important;
+    padding-top:8px !important;
+  }
 }

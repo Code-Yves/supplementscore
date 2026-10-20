@@ -56,6 +56,16 @@
   + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
   + '.ssm-x svg{width:13px;height:13px;display:block}'
   + '@media(max-width:500px){.ssm-share{padding:14px 12px}.ssm-x{padding:14px 12px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:2px 10px}}'
+  /* Phones: 44px share and close, 24px icons, equal gap. Comes after the
+     ≤500px padding rule so it wins there. Desktop widths keep 13px icons. */
+  + '@media(max-width:768px){'
+  +   '.ssm-chrome{padding:8px 12px}'
+  +   '.ssm-actions{gap:8px}'
+  +   '.ssm-actions::before{display:none}'
+  +   '.ssm-share,.ssm-x{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;box-sizing:border-box;justify-content:center;border-radius:8px;flex-shrink:0}'
+  +   '.ssm-share .ssm-share-lbl{display:none}'
+  +   '.ssm-share svg,.ssm-x svg{width:24px;height:24px}'
+  + '}'
   + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'
