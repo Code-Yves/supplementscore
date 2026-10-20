@@ -10,12 +10,21 @@ html body:has(.ss-pagebar){
   padding-left:0 !important;
   padding-right:0 !important;
 }
-body:has(.ss-pagebar) > .site-nav{display:none !important}
-body:has(.ss-pagebar) .pg-close-fab{display:none !important}
+body:has(.ss-pagebar) > .site-nav,
+body:has(.ss-pagebar) > .beta-bar{display:none !important}
+body:has(.ss-pagebar) .pg-close-fab,
+body:has(.ss-pagebar) .pg-share-fab,
+body:has(.ss-pagebar) .bro-close-fab,
+body:has(.ss-pagebar) .hub-close-fab,
+body:has(.ss-pagebar) .cmp-close-fab{display:none !important}
 body:has(.ss-pagebar) .eg-back,
 body:has(.ss-pagebar) .bib-back,
 body:has(.ss-pagebar) .gl-back,
-body:has(.ss-pagebar) .pg-back{display:none !important}
+body:has(.ss-pagebar) .pg-back,
+body:has(.ss-pagebar) .hubidx-back,
+body:has(.ss-pagebar) .hub-back,
+body:has(.ss-pagebar) .bm-back,
+body:has(.ss-pagebar) .sr-back{display:none !important}
 
 .ss-pagebar{
   position:sticky;
@@ -111,5 +120,22 @@ body:has(.ss-pagebar) .pg-back{display:none !important}
     margin-top:8px;
     padding-top:0;
     border-top:none;
+  }
+  /* Directory and tool pages used 28–48px of top padding on top of the
+     70px phone offset. With the bar in place, match the info pages. */
+  body:has(.ss-pagebar) :is(
+    .ix-wrap,.bro-wrap,.hubidx-wrap,.hub-wrap,.bm-wrap,.mp-wrap,
+    .cmp-wrap,.sr-wrap,.nf-wrap,.dt-wrap,main.sx-wrap
+  ){
+    padding-top:16px !important;
+    padding-left:16px !important;
+    padding-right:16px !important;
+  }
+  body:has(.ss-pagebar) .ix-supps a,
+  body:has(.ss-pagebar) .ix-links a{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    box-sizing:border-box;
   }
 }
