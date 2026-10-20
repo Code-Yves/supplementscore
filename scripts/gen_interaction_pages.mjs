@@ -136,7 +136,9 @@ function head(opts) {
   <meta name="twitter:title" content="${esc(opts.title)}">
   <meta name="twitter:description" content="${esc(opts.description)}">
   <meta name="twitter:image" content="https://supplementscore.org/og/default.png">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231F7A6B'/%3E%3Cpath d='M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z' fill='%23F8F4ED'/%3E%3Cpath d='M5 19C9 15 13 11 19 5' stroke='%231F7A6B' stroke-width='1.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html{color-scheme:light}</style>
   <link rel="stylesheet" href="/critical.css?v=2cd7a7c1">
