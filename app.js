@@ -4715,11 +4715,10 @@ function articleTrustHtml(src,catKey){
   const lr=articleReviewedDate(src);
   const revLbl=lr?('Reviewed · '+fmtReviewDate(lr)):'Reviewed by Editorial Board';
   const docSvg='<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>';
-  const clockSvg='<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>';
   let barsHtml='';
   for(let i=1;i<=4;i++)barsHtml+='<span'+(i<=bars?' class="on"':'')+'></span>';
   return '<div class="trust">'
-    +'<span class="trust-item">'+clockSvg+'<b>'+readMin+' min</b></span>'
+    +'<span class="trust-item"><b>'+readMin+' min</b></span>'
     +(srcCount?'<span class="trust-item">'+docSvg+'<b>'+srcCount+'</b> studies cited</span>':'')
     +'<span class="trust-item"><span class="trust-bars">'+barsHtml+'</span><b>'+barLbl+'</b> evidence</span>'
     +'<span class="trust-rev">'+escHtml(revLbl)+'</span>'
