@@ -136,3 +136,22 @@ input,button{font-family:inherit}
   #hero{height:200px !important;min-height:200px !important;max-height:200px !important;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px;overflow:hidden !important}
   #hero .hero-slide{inset:14px 14px 56px 14px}
 }
+/* Supplement detail pages do not render the fixed beta-bar + site-nav.
+   Phones otherwise keep ~70px of empty body padding between Share/X and
+   the score card. Collapse that offset and park Share/X in a row above
+   the card. Homepage and article pages do not use main.det-wrap. */
+@media(max-width:768px){
+  body:has(main.det-wrap):not(.is-modal){
+    position:relative;
+    padding-top:calc(8px + env(safe-area-inset-top)) !important;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab,
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{
+    position:absolute !important;
+    top:calc(8px + env(safe-area-inset-top)) !important;
+    z-index:50;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:60px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:10px !important}
+  body:has(main.det-wrap):not(.is-modal) > main.det-wrap{margin-top:48px}
+}

@@ -4306,3 +4306,24 @@ main.sk-wrap .ar-faq > p{
   main.ca-wrap > .rc-trust,
   main.sk-wrap > .rc-trust{margin-top:4px !important}
 }
+
+/* 2026-10-20 — Supplement detail pages on phones. The ≤600px body offset
+   reserves 70px for a fixed beta-bar + site-nav these pages do not render,
+   which left ~100px empty between Share/X and the score card. Collapse it.
+   :has(main.det-wrap) outranks the `body { padding-top: 70px }` rule above
+   and does not match the homepage. Desktop widths are unchanged. */
+@media(max-width:768px){
+  body:has(main.det-wrap):not(.is-modal){
+    position:relative;
+    padding-top:calc(8px + env(safe-area-inset-top)) !important;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab,
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{
+    position:absolute !important;
+    top:calc(8px + env(safe-area-inset-top)) !important;
+    z-index:50;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:60px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:10px !important}
+  body:has(main.det-wrap):not(.is-modal) > main.det-wrap{margin-top:48px}
+}
