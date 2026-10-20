@@ -1,0 +1,115 @@
+/* Static info pages (transparency, about, privacy, and the same family).
+   Phones reserve 70px for a fixed homepage bar these pages do not render,
+   so the top is an empty band with no name and no way back. This bar is
+   the wordmark plus a close control. It does not apply to the homepage. */
+
+/* html body beats the article/supplement 8px offset (same !important,
+   one class). These pages render this bar instead of that offset. */
+html body:has(.ss-pagebar){
+  padding-top:0 !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+body:has(.ss-pagebar) > .site-nav{display:none !important}
+body:has(.ss-pagebar) .pg-close-fab{display:none !important}
+body:has(.ss-pagebar) .eg-back,
+body:has(.ss-pagebar) .bib-back,
+body:has(.ss-pagebar) .gl-back,
+body:has(.ss-pagebar) .pg-back{display:none !important}
+
+.ss-pagebar{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:var(--color-background-primary,#fff);
+  border-bottom:1px solid var(--color-border-tertiary,#e6e4df);
+}
+.ss-pagebar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-sizing:border-box;
+  width:100%;
+  max-width:800px;
+  min-height:56px;
+  margin:0 auto;
+  padding:8px 16px;
+}
+.ss-pagebar-brand{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:44px;
+  text-decoration:none;
+  color:var(--color-text-primary,#1c1917);
+}
+.ss-pagebar-brand:hover{opacity:.78}
+.ss-pagebar-brand:focus-visible,
+.ss-pagebar-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}
+.ss-pagebar-brand svg{width:22px;height:22px;color:var(--color-brand,#1F7A6B);flex-shrink:0}
+.ss-pagebar-name{font-size:14.5px;font-weight:700;letter-spacing:-.3px;line-height:1;color:var(--color-text-primary,#1c1917)}
+.ss-pagebar-name span{color:var(--color-text-tertiary,#78716c);font-weight:500}
+.ss-pagebar-x{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--color-background-primary,#fff);
+  border:1px solid var(--color-border-secondary,#d6d3d1);
+  box-shadow:0 2px 12px rgba(0,0,0,.14);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--color-text-secondary,#57534e);
+  text-decoration:none;
+  flex-shrink:0;
+  box-sizing:border-box;
+}
+.ss-pagebar-x:hover{color:var(--color-text-primary,#1c1917)}
+.ss-pagebar-x svg{width:18px;height:18px}
+
+@media(max-width:768px){
+  .ss-pagebar-inner{padding:8px 16px;min-height:60px}
+  .ss-pagebar-x{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    min-height:44px;
+  }
+  .ss-pagebar-x svg{width:24px;height:24px}
+  body:has(.ss-pagebar) .pg-wrap,
+  body:has(.ss-pagebar) main.ar-wrap,
+  body:has(.ss-pagebar) .eb-wrap,
+  body:has(.ss-pagebar) .bib-wrap,
+  body:has(.ss-pagebar) .gl-wrap,
+  body:has(.ss-pagebar) .brand-wrap{
+    padding-top:16px !important;
+    padding-left:16px !important;
+    padding-right:16px !important;
+    font-size:16px;
+    line-height:1.6;
+  }
+  body:has(.ss-pagebar) .pg-wrap h1,
+  body:has(.ss-pagebar) main.ar-wrap h1,
+  body:has(.ss-pagebar) .eb-hd h1,
+  body:has(.ss-pagebar) .bib-h1,
+  body:has(.ss-pagebar) .gl-h1,
+  body:has(.ss-pagebar) .brand-wrap h1{
+    line-height:1.15;
+    margin-top:0;
+  }
+  body:has(.ss-pagebar) .pg-wrap h2,
+  body:has(.ss-pagebar) main.ar-wrap h2,
+  body:has(.ss-pagebar) .eb-section h2,
+  body:has(.ss-pagebar) .brand-wrap h2{
+    line-height:1.25;
+    margin-top:22px;
+    margin-bottom:8px;
+    padding-top:12px;
+  }
+  body:has(.ss-pagebar) .pg-wrap h2:first-of-type{
+    margin-top:8px;
+    padding-top:0;
+    border-top:none;
+  }
+}
