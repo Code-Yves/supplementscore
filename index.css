@@ -1726,35 +1726,43 @@ body.on-profile #main-sticky{
   .hero-statbar {
     display: flex;
     width: 100%;
+    height: 28px;
+    box-sizing: border-box;
     margin: 0 0 12px;
-    border: 1px solid rgba(31, 122, 107, 0.35);
+    /* Flattened equivalents of the previous translucent hairline and
+       label, so the edges stay the same color without alpha blending. */
+    border: 1px solid #abc8be;
     border-radius: 10px;
-    overflow: hidden;
     background: #f6f2ea;
     color: #1F7A6B;
+    opacity: 1;
+    -webkit-font-smoothing: auto;
   }
   .hero-stat {
     flex: 1 1 0;
     min-width: 0;
     display: flex;
     justify-content: center;
-    align-items: baseline;
+    align-items: center;
     white-space: nowrap;
-    padding: 6px 3px;
-    font-size: 10.5px;
-    line-height: 1.2;
+    padding: 0 3px;
+    font-size: 11px;
+    line-height: 14px;
     color: #1F7A6B;
+    opacity: 1;
   }
   .hero-stat + .hero-stat {
-    border-left: 1px solid rgba(31, 122, 107, 0.28);
+    border-left: 1px solid #bad0c6;
   }
   .hero-stat-num {
     font-weight: 700;
     color: #1F7A6B;
+    opacity: 1;
   }
   .hero-stat-lbl {
-    margin-left: 0.3em;
+    margin-left: 3px;
     font-weight: 400;
-    color: rgba(31, 122, 107, 0.72);
+    color: #5b9c8f;
+    opacity: 1;
   }
 }
