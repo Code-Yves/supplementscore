@@ -326,7 +326,7 @@
   var reviewed = detectReviewedDate();
 
   var trustHtml = '';
-  trustHtml += '<span class="rc-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> ' + readMin + ' min</span>';
+  trustHtml += '<span class="rc-trust-item">' + readMin + ' min</span>';
   if (srcCount > 0){
     trustHtml += '<span class="rc-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> <b>' + srcCount + '</b> ' + (srcCount === 1 ? 'study' : 'studies') + ' cited</span>';
     /* Evidence meter — coarse heuristic on source count, identical to the
