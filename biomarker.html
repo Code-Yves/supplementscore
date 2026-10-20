@@ -151,7 +151,15 @@
   var p = new URLSearchParams(location.search);
   var slug = (p.get('slug') || '').trim();
   var root = document.getElementById('dt-root');
-  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No biomarker specified</h1>'; return; }
+  if (!slug){
+    var keys = Object.keys(typeof BIOMARKERS !== 'undefined' ? BIOMARKERS : {});
+    var items = keys.map(function(k){
+      var b = BIOMARKERS[k];
+      return '<li><a href="biomarker.html?slug=' + encodeURIComponent(k) + '">' + escapeHtml(b.name) + '<span>' + escapeHtml(b.unit || '') + '</span></a></li>';
+    }).join('');
+    root.innerHTML = '<h1 class="dt-h1">Blood markers</h1><p class="bm-pick-lead">Pick a lab marker to see the range we use and which supplements are tied to it.</p><ul class="bm-picks">' + items + '</ul>';
+    return;
+  }
   var b = window.SS.getBiomarker(slug);
   if (!b){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Biomarker not found</h1><p>No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
   document.title = b.name + ' — SupplementScore';
