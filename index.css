@@ -1631,9 +1631,39 @@ body.on-profile #main-sticky{
     padding-right: 0 !important;
     box-sizing: border-box !important;
   }
+  #ix-sticky-search,
+  #ix-hero-search {
+    /* Typed text stays 16px so iOS does not zoom. The hint is smaller. */
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  /* No icon in this field. Drop the search-control inset so the
+     hint starts near the left edge of the pill. */
   #ix-sticky-search {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 12px !important;
+    padding-right: 14px !important;
+  }
+  #ix-sticky-search::-webkit-search-decoration,
+  #ix-sticky-search::-webkit-search-cancel-button,
+  #ix-sticky-search::-webkit-search-results-button,
+  #ix-sticky-search::-webkit-search-results-decoration,
+  #ix-hero-search::-webkit-search-decoration,
+  #ix-hero-search::-webkit-search-cancel-button,
+  #ix-hero-search::-webkit-search-results-button,
+  #ix-hero-search::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+  #ix-sticky-search::placeholder,
+  #ix-sticky-search::-webkit-input-placeholder,
+  #ix-hero-search::placeholder,
+  #ix-hero-search::-webkit-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #a8a29e !important;
+    opacity: 1;
   }
   #main-sticky .sfbar-label {
     max-width: none !important;
