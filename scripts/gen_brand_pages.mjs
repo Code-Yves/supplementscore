@@ -306,9 +306,25 @@ function head(title, description, url) {
 <link rel="stylesheet" href="/critical.css?v=1">
 <link rel="stylesheet" href="/styles.css?v=1" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/styles.css?v=1"></noscript>
+<link rel="stylesheet" href="/page-chrome.css?v=brandbar1">
 <style>${css}</style>
 `;
 }
+
+/* Same compact bar as the static info pages. The X returns to the
+   previous page, or to home when this tab has no history. */
+const pageBar = `<header class="ss-pagebar">
+  <div class="ss-pagebar-inner">
+    <a class="ss-pagebar-brand" href="/">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="ss-pagebar-name">SupplementScore<span>.org</span></span>
+    </a>
+    <a class="ss-pagebar-x" href="/" aria-label="Close" onclick="if(history.length>1){history.back();return false;}">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </a>
+  </div>
+</header>
+`;
 
 const brandDir = path.join(ROOT, 'brand');
 fs.mkdirSync(brandDir, { recursive: true });
@@ -354,7 +370,7 @@ for (const b of brands) {
     ]
   };
   const html = head(title, description, url)
-    + '<script type="application/ld+json">' + JSON.stringify(jsonld) + '</script>\n</head>\n<body>\n<main class="brand-wrap">\n'
+    + '<script type="application/ld+json">' + JSON.stringify(jsonld) + '</script>\n</head>\n<body>\n' + pageBar + '\n<main class="brand-wrap">\n'
     + '<p class="brand-crumb"><a href="/">Home</a> / <a href="/brands.html">Verified brands</a> / ' + esc(b.name) + '</p>\n'
     + '<p class="brand-eye">Verified brands</p>\n'
     + '<h1>' + esc(b.name) + '</h1>\n'
@@ -408,7 +424,7 @@ for (const [pid, list] of byProgram) {
   }).join('') + '</div>';
 }
 const indexHtml = head(indexTitle, indexDesc, indexUrl)
-  + '<script type="application/ld+json">' + JSON.stringify(indexLd) + '</script>\n</head>\n<body>\n<main class="brand-wrap">\n'
+  + '<script type="application/ld+json">' + JSON.stringify(indexLd) + '</script>\n</head>\n<body>\n' + pageBar + '\n<main class="brand-wrap">\n'
   + '<p class="brand-crumb"><a href="/">Home</a> / Verified brands</p>\n'
   + '<p class="brand-eye">Quality</p>\n<h1>Verified supplement brands</h1>\n'
   + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time>. <a href="/transparency.html">No ads, sponsors, or affiliate links</a>.</p>\n'
