@@ -308,8 +308,8 @@
 <link rel="stylesheet" href="/styles.css?v=m16search" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/styles.css?v=m16search"></noscript>
 
-<link rel="stylesheet" href="index.css?v=m16search" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="index.css?v=m16search"></noscript>
+<link rel="stylesheet" href="index.css?v=m768space" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="index.css?v=m768space"></noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -349,7 +349,7 @@
 <div class="beta-bar" role="status" aria-live="polite">
   <span class="beta-bar-pulse" aria-hidden="true"></span>
   <span class="beta-bar-stats">
-    <span class="beta-bar-stat">780+ Supplements Analyzed</span>
+    <span class="beta-bar-stat">780+ Supplements</span>
     <span class="beta-bar-stat-sep" aria-hidden="true">/</span>
     <span class="beta-bar-stat">3,200+ Studies Cited</span>
     <span class="beta-bar-stat-sep" aria-hidden="true">/</span>
@@ -937,6 +937,18 @@
     <form class="ix-search ix-search-sticky" role="search" action="search.html" method="GET" tabindex="-1">
       
       <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index">
+      <script>
+        (function () {
+          var el = document.getElementById('ix-sticky-search');
+          if (!el) return;
+          var longPh = el.getAttribute('placeholder');
+          var shortPh = 'Search supplements or conditions';
+          var mq = window.matchMedia('(max-width: 768px)');
+          function sync() { el.placeholder = mq.matches ? shortPh : longPh; }
+          sync();
+          if (mq.addEventListener) mq.addEventListener('change', sync);
+        })();
+      </script>
       <div class="gs-ac" id="ix-sticky-ac" role="listbox" aria-label="Search suggestions"></div>
     </form>
   </div>
