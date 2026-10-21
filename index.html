@@ -421,17 +421,25 @@ input,button{font-family:inherit}
 .ix-search input{width:100%;padding:12px 20px 12px 44px;font-family:inherit;font-size:14px;background:var(--color-surface);border:1.5px solid var(--color-border-secondary);color:var(--color-text-primary);border-radius:999px;box-sizing:border-box}
 .ix-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:16px;height:16px;pointer-events:none}
 .ix-hero-bg{display:none !important}
-/* Slides are taken out of flow here, in the blocking sheet. Until this
-   rule exists they stack at full height, then the late stylesheet
-   collapses them and the card below jumps. */
-#hero{position:relative;border-radius:18px;overflow:hidden;height:340px;min-height:340px;background:linear-gradient(90deg,#3A8276 0%,#4DA095 100%);color:#F8F4ED}
-#hero .hero-slide,#hero .hero-pattern-bg,#hero .hero-controls,#hero .hero-counter,#hero .hero-progress{position:absolute}
-#hero .hero-pattern-bg{inset:0}
-#hero .hero-slide{inset:36px 36px 92px 36px;opacity:0;z-index:3;padding-top:22px}
-#hero .hero-slide.active{opacity:1}
-#hero .hero-controls{right:30px;bottom:28px;z-index:5;display:flex;align-items:center;gap:10px}
-#hero .hero-counter{top:44px;right:32px;z-index:4}
-#hero .hero-progress{left:0;right:0;bottom:0;height:3px}
+/* Magazine hero. Height comes from the stories, not a fixed teal slide. */
+#hero.mag{position:relative;z-index:2;height:auto;min-height:0;max-height:none;margin:0 0 28px;padding:0;overflow:hidden;background:#f4efe6;color:#0c0a09;border:1px solid #dcdad7;border-radius:18px;box-shadow:none;touch-action:pan-y}
+#hero.mag .mag-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px 32px;padding:28px 32px 8px}
+#hero.mag .mag-lead{display:block;color:inherit;text-decoration:none}
+#hero.mag .mag-kicker{font-size:11px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:#1F7A6B}
+#hero.mag .mag-lead h2{margin:10px 0;font-size:28px;font-weight:700;letter-spacing:-.45px;line-height:1.15}
+#hero.mag .mag-lead p{margin:0;color:#57534e;font-size:15px;line-height:1.5}
+#hero.mag .mag-side{display:flex;flex-direction:column;border-left:1px solid #dcdad7;padding-left:28px}
+#hero.mag .mag-side a{display:block;color:inherit;text-decoration:none;padding:16px 0;border-bottom:1px solid #dcdad7}
+#hero.mag .mag-side a:first-child{padding-top:0}
+#hero.mag .mag-side a:last-child{border-bottom:0;padding-bottom:0}
+#hero.mag .mag-meta{font-size:12px;color:#6b6560;font-variant-numeric:tabular-nums}
+#hero.mag .mag-side h3{margin:8px 0 0;font-size:16px;font-weight:650;letter-spacing:-.2px;line-height:1.3}
+#hero.mag .mag-pager{grid-column:1 / -1;display:flex;align-items:center;gap:2px;border-top:1px solid #dcdad7;padding-top:4px}
+#hero.mag .mag-arrow{appearance:none;background:transparent;border:0;color:#1F7A6B;font:inherit;font-size:22px;font-weight:650;line-height:1;min-width:44px;min-height:44px;padding:0 10px;cursor:pointer;border-radius:8px}
+#hero.mag .mag-arrow:focus-visible{outline:2px solid #1F7A6B;outline-offset:2px}
+#hero.mag .mag-count{font-size:12px;color:#6b6560;font-variant-numeric:tabular-nums;min-width:4.5em;text-align:center}
+#hero.mag .mag-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:601px){#hero.mag{max-width:760px;margin-left:auto;margin-right:auto}}
 #main-ui{min-height:calc(100svh - 240px)}
 @media(max-width:768px){
   html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:0 !important}
@@ -453,8 +461,11 @@ input,button{font-family:inherit}
   .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45;text-wrap:pretty;text-wrap:balance}
   .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
   .ix-hero .ix-search input{font-size:16px;padding:9px 16px 9px 38px}
-  #hero{height:200px !important;min-height:200px !important;max-height:200px !important;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px;overflow:hidden !important}
-  #hero .hero-slide{inset:14px 14px 56px 14px}
+  #hero.mag{margin:16px 0}
+  #hero.mag .mag-grid{grid-template-columns:1fr;gap:0;padding:22px 20px 8px}
+  #hero.mag .mag-side{border-left:0;padding-left:0;margin-top:18px;border-top:1px solid #dcdad7}
+  #hero.mag .mag-side a:first-child{padding-top:16px}
+  #hero.mag .mag-lead h2{font-size:24px}
 }
 /* Supplement detail pages do not render the fixed beta-bar + site-nav.
    Phones otherwise keep ~70px of empty body padding between Share/X and
@@ -499,11 +510,10 @@ input,button{font-family:inherit}
     padding-top:8px !important;
   }
 }
-/* Homepage phones: hide the article carousel before the late stylesheet
-   arrives so the teal card does not flash between the lede and the search.
-   Desktop keeps #hero. index.css owns the settled layout. */
+/* Homepage phones show the magazine hero, stacked. The lede keeps its gap
+   above the search. index.css repeats the stack so a late sheet cannot hide it. */
 @media(max-width:768px){
-  #hero{display:none !important}
+  #hero.mag{display:block !important;height:auto !important;min-height:0 !important;max-height:none !important;margin:16px 0 !important;padding:0 !important}
   .ix-hero p.lede,.ix-hero .lede{margin-bottom:16px !important}
 }
 /* Homepage filter bar, in the blocking sheet. index.css repeats this, but
@@ -593,7 +603,7 @@ h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
 </style>
 <link rel="preload" href="/styles.css?v=b7load21" as="style">
-<link rel="preload" href="index.css?v=a2a90ba3" as="style">
+<link rel="preload" href="index.css?v=maghero1" as="style">
 <script>
 /* Apply the full sheets as real stylesheets. Not media=print. */
 (function(){
@@ -604,12 +614,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
     document.head.appendChild(link);
   }
   load('/styles.css?v=b7load21');
-  load('index.css?v=a2a90ba3');
+  load('index.css?v=maghero1');
 })();
 </script>
 <noscript>
 <link rel="stylesheet" href="/styles.css?v=b7load21">
-<link rel="stylesheet" href="index.css?v=a2a90ba3">
+<link rel="stylesheet" href="index.css?v=maghero1">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
@@ -886,264 +896,34 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   </div>
 </section>
 
-<!-- ROTATING ARTICLE HERO — moved to Index page on 2026-05-21 (was inside #research-view). Shows up where the source-logos block used to be. The hero JS is keyed to #hero id, so all heroNext / heroPrev / heroReadActive handlers continue to work. -->
-    <!-- HERO CAROUSEL -->
-    <div class="hero" id="hero">
-      <!-- Background patterns (rotate randomly on each slide change) -->
-      <div class="hero-pattern-bg hero-pattern-A">
-        
-      </div>
-      <div class="hero-pattern-bg hero-pattern-B">
-        
-      </div>
-      <div class="hero-pattern-bg hero-pattern-C">
-        
-      </div>
-      <div class="hero-pattern-bg hero-pattern-D">
-        
-      </div>
-      <div class="hero-pattern-bg hero-pattern-E">
-        
-      </div>
-      <div class="hero-counter" id="hero-current">1 / 20</div>
-
-      <!-- 2026-05-23 — Editor's Pick rotation re-curated for first-impression
-           retention. Old rotation: 23 mixed slides including several soft
-           foundational guides (Vitamin D, Iron Deficiency, Zinc for colds,
-           Sleep Stack, Runners' Stack, Fish Oil REDUCE-IT, Spermidine,
-           Magnesium Deficiency) that didn't pull attention. New rotation is
-           18 strongest articles, ordered for hook strength: visceral danger
-           and scam headlines first, then ranked-list curiosity gaps, then
-           the strongest comparison/evidence pieces. -->
-      <div class="hero-slide active" onclick="location.href='a/the-10-most-dangerous-supplements-still-legally-sold.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The 10 Most Dangerous Supplements (Still Legally Sold)</h2>
-          <p class="hero-slide-desc">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+<!-- MAGAZINE HERO — one lead story and two shorter ones. Arrows, the arrow keys, and a sideways swipe move all three through the same 20 articles. Shown on phones, stacked. -->
+    <section class="mag" id="hero" aria-label="Articles">
+      <div class="mag-grid">
+        <a class="mag-lead" href="a/the-10-most-dangerous-supplements-still-legally-sold.html">
+          <span class="mag-kicker">Lead</span>
+          <h2>The 10 Most Dangerous Supplements (Still Legally Sold)</h2>
+          <p>Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that&#x27;s just an FDA warning away from a recall.</p>
+        </a>
+        <div class="mag-side">
+          <a href="a/supplements-to-preserve-muscle-on-glp-1-drugs.html">
+            <span class="mag-meta">Jun 6, 2026 · 7 min</span>
+            <h3>Supplements to Preserve Muscle on Ozempic</h3>
+          </a>
+          <a href="a/supplements-for-kids-in-competitive-sports.html">
+            <span class="mag-meta">Jun 6, 2026 · 8 min</span>
+            <h3>Supplements for Kids in Competitive Sports</h3>
+          </a>
         </div>
-        <div class="hero-slide-meta">
-          <span>4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
+        <div class="mag-pager" role="group" aria-label="Article rotation">
+          <button type="button" class="mag-arrow" data-dir="-1" aria-label="Previous article">←</button>
+          <span class="mag-count" id="mag-count">1 of 20</span>
+          <button type="button" class="mag-arrow" data-dir="1" aria-label="Next article">→</button>
+          <p class="mag-sr" id="mag-live" aria-live="polite">Showing 1 of 20. The 10 Most Dangerous Supplements (Still Legally Sold)</p>
         </div>
       </div>
-
-      <div class="hero-slide" onclick="location.href='a/supplements-to-preserve-muscle-on-glp-1-drugs.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Supplements to Preserve Muscle on Ozempic</h2>
-          <p class="hero-slide-desc">Up to 40% of the weight lost on a GLP-1 drug can be muscle. Protein and resistance training do the heavy lifting — here's exactly where creatine, HMB, vitamin D and omega-3 fit, and what to skip.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>7 min read</span><span class="hero-slide-meta-dot">•</span><span>Jun 6, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/supplements-for-kids-in-competitive-sports.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Supplements for Kids in Competitive Sports</h2>
-          <p class="hero-slide-desc">For most young athletes, food, sleep and training beat anything in a tub — and the real risks are contamination and stimulants. What's safe, what's hype, and the straight answer on creatine for teens.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>8 min read</span><span class="hero-slide-meta-dot">•</span><span>Jun 6, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(3)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Why "Detox" Supplements Are a $3 Billion Scam</h2>
-          <p class="hero-slide-desc">Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 29, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(18)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Berberine: Is It Really Nature's Ozempic?</h2>
-          <p class="hero-slide-desc">Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence. Here's what a 500mg dose actually does, and what it doesn't.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Mar 8, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/the-10-most-overhyped-supplements-of-2026.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The 10 Most Overhyped Supplements of 2026</h2>
-          <p class="hero-slide-desc">The TikTok-to-trial-data gap, in 10 entries. Sea moss, turkesterone, NMN, lion's mane and more — supplements with huge marketing budgets and shockingly thin clinical evidence.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 12, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(4)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</h2>
-          <p class="hero-slide-desc">The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024. Kratom co-use is driving the worst cases.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 24, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The Cheapest Effective Supplements vs the Priciest Hyped Ones</h2>
-          <p class="hero-slide-desc">$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(6)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">NAD+ Precursors: Separating Hype from Longevity Evidence</h2>
-          <p class="hero-slide-desc">NMN and NR are sold as anti-aging miracles. The mouse data is compelling — but human trials tell a much more nuanced story. Here's what's real.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>9 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 11, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(16)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation</h2>
-          <p class="hero-slide-desc">High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity. We break down who's at risk, what dose is safe, and which forms to avoid.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/12-supplement-mistakes-you-should-literally-never-make.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">12 Supplement Mistakes You Should Literally Never Make</h2>
-          <p class="hero-slide-desc">Pediatric melatonin ER visits rose 530% from 2012–21. St. John's Wort + SSRIs. Kava + alcohol. Twelve mistakes with documented hospital outcomes — and the people who keep making them.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>5 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(32)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Why Most Probiotic Supplements Don't Actually Work</h2>
-          <p class="hero-slide-desc">The $61B probiotic market sells you billions of CFUs that mostly die in stomach acid before they reach your gut. Here's which strains have the trials to back them up — and which are pure marketing.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 14, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(8)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Collagen Peptides: Are You Paying $40 for Gelatin?</h2>
-          <p class="hero-slide-desc">The skin and joint claims have more marketing than evidence behind them. Here's what hydrolyzed collagen actually does — and a cheaper alternative that works just as well.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 2, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(120)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Green Tea Extract: When 'Healthy' Damages Your Liver</h2>
-          <p class="hero-slide-desc">Published case series tie high-dose EGCG extracts to acute liver injury and transplant. Brewed green tea is safe — but the concentrated capsules are a very different story.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 30, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(92)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Psyllium Husk: 100+ Clinical Trials and an FDA Health Claim for Cholesterol Reduction</h2>
-          <p class="hero-slide-desc">More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it. LDL down 15 mg/dL. HbA1c down 0.4%. FDA-approved heart health claim since 1998. Here is why nobody is talking about it.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>11 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 17, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(5)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Creatine for Brain Health: What the New Meta-Analyses Actually Show</h2>
-          <p class="hero-slide-desc">Two new meta-analyses (Prokopidis 2023, Xu 2024) confirm creatine improves memory and cognition in healthy adults — not just athletes. The effect is real, but smaller than the marketing claims.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>7 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 24, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/10-supplements-that-interact-with-the-most-prescription-drugs.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">10 Supplements That Interact With the Most Prescription Drugs</h2>
-          <p class="hero-slide-desc">St. John's Wort, berberine, magnesium, melatonin — the supplements that interact with the most prescription drug classes. The list that should be taped to every medicine cabinet.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(10)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide</h2>
-          <p class="hero-slide-desc">The only magnesium form proven to cross the blood-brain barrier in animal studies. But do the human trials actually back up the cognitive claims? We dig into all four studies.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>8 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 8, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="location.href='a/the-10-supplements-people-are-actually-deficient-in.html'">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">The 10 Supplements People Are Actually Deficient In</h2>
-          <p class="hero-slide-desc">95% of U.S. adults fall short on fibre. 90% on choline. 90% on omega-3. The 10 nutrients where pills genuinely fill a population-wide gap — not the trendy ones.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>4 min read</span><span class="hero-slide-meta-dot">•</span><span>May 9, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-slide" onclick="showArticle(64)">
-        <div class="hero-slide-body">
-          <h2 class="hero-slide-headline">LMNT vs Liquid IV vs DIY: The Electrolyte Price War</h2>
-          <p class="hero-slide-desc">Electrolyte mixes have gone mainstream. We compare sodium-to-sugar ratios, cost per serving, and whether you can make the same thing at home for a fraction of the price.</p>
-        </div>
-        <div class="hero-slide-meta">
-          <span>6 min read</span><span class="hero-slide-meta-dot">•</span><span>Updated Apr 10, 2026</span>
-          <span class="hero-slide-read">Read article →</span>
-        </div>
-      </div>
-
-      <div class="hero-dots" id="hero-dots"></div>
-      <div class="hero-controls">
-        <button type="button" class="hero-arrow" onclick="event.stopPropagation();heroPrev()" aria-label="Previous article"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button type="button" class="hero-arrow" onclick="event.stopPropagation();heroNext()" aria-label="Next article"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
-        <button type="button" class="hero-cta" onclick="event.stopPropagation();heroReadActive()" aria-label="Read featured article">Read article</button>
-      </div>
-      <div class="hero-progress" aria-hidden="true"><div class="hero-progress-fill" id="hero-progress-fill"></div></div>
-    </div>
-<!-- /ROTATING ARTICLE HERO -->
+      <script type="application/json" id="mag-articles">[{"title": "The 10 Most Dangerous Supplements (Still Legally Sold)", "dek": "Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.", "meta": "May 9, 2026 · 4 min", "href": "a/the-10-most-dangerous-supplements-still-legally-sold.html"}, {"title": "Supplements to Preserve Muscle on Ozempic", "dek": "Up to 40% of the weight lost on a GLP-1 drug can be muscle. Protein and resistance training do the heavy lifting — here's exactly where creatine, HMB, vitamin D and omega-3 fit, and what to skip.", "meta": "Jun 6, 2026 · 7 min", "href": "a/supplements-to-preserve-muscle-on-glp-1-drugs.html"}, {"title": "Supplements for Kids in Competitive Sports", "dek": "For most young athletes, food, sleep and training beat anything in a tub — and the real risks are contamination and stimulants. What's safe, what's hype, and the straight answer on creatine for teens.", "meta": "Jun 6, 2026 · 8 min", "href": "a/supplements-for-kids-in-competitive-sports.html"}, {"title": "Why “Detox” Supplements Are a $3 Billion Scam", "dek": "Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.", "meta": "Updated Mar 29, 2026 · 6 min", "href": "a/why-detox-supplements-are-a-3-billion-scam.html"}, {"title": "Berberine: Is It Really Nature’s Ozempic?", "dek": "Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence. Here's what a 500mg dose actually does, and what it doesn't.", "meta": "Updated Mar 8, 2026 · 7 min", "href": "a/berberine-is-it-really-nature-s-ozempic.html"}, {"title": "The 10 Most Overhyped Supplements of 2026", "dek": "The TikTok-to-trial-data gap, in 10 entries. Sea moss, turkesterone, NMN, lion's mane and more — supplements with huge marketing budgets and shockingly thin clinical evidence.", "meta": "May 12, 2026 · 4 min", "href": "a/the-10-most-overhyped-supplements-of-2026.html"}, {"title": "CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says", "dek": "The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024. Kratom co-use is driving the worst cases.", "meta": "Updated Apr 24, 2026 · 6 min", "href": "#article-4", "show": 4}, {"title": "The Cheapest Effective Supplements vs the Priciest Hyped Ones", "dek": "$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.", "meta": "May 9, 2026 · 4 min", "href": "a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html"}, {"title": "NAD+ Precursors: Separating Hype from Longevity Evidence", "dek": "NMN and NR are sold as anti-aging miracles. The mouse data is compelling — but human trials tell a much more nuanced story. Here's what's real.", "meta": "Updated Apr 11, 2026 · 9 min", "href": "a/nmn-and-nad-why-raising-a-biomarker-isn-t-the-same-as-slowing-aging.html"}, {"title": "Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation", "dek": "High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity. We break down who's at risk, what dose is safe, and which forms to avoid.", "meta": "Updated Apr 9, 2026 · 6 min", "href": "a/turmeric-vs-curcumin-why-the-supplement-industry-misleads-you.html"}, {"title": "12 Supplement Mistakes You Should Literally Never Make", "dek": "Pediatric melatonin ER visits rose 530% from 2012–21. St. John's Wort + SSRIs. Kava + alcohol. Twelve mistakes with documented hospital outcomes — and the people who keep making them.", "meta": "May 9, 2026 · 5 min", "href": "a/12-supplement-mistakes-you-should-literally-never-make.html"}, {"title": "Why Most Probiotic Supplements Don't Actually Work", "dek": "The $61B probiotic market sells you billions of CFUs that mostly die in stomach acid before they reach your gut. Here's which strains have the trials to back them up — and which are pure marketing.", "meta": "Updated Apr 14, 2026 · 8 min", "href": "a/the-science-of-gut-health-beyond-probiotics.html"}, {"title": "Collagen Peptides: Are You Paying $40 for Gelatin?", "dek": "The skin and joint claims have more marketing than evidence behind them. Here's what hydrolyzed collagen actually does — and a cheaper alternative that works just as well.", "meta": "Updated Apr 2, 2026 · 7 min", "href": "a/the-truth-about-collagen-supplements-what-13-clinical-trials-actually-show.html"}, {"title": "Green Tea Extract: When ‘Healthy’ Damages Your Liver", "dek": "Published case series tie high-dose EGCG extracts to acute liver injury and transplant. Brewed green tea is safe — but the concentrated capsules are a very different story.", "meta": "Updated Apr 30, 2026 · 7 min", "href": "a/green-tea-extract-and-liver-failure-what-you-need-to-know.html"}, {"title": "Psyllium Husk: 100+ Clinical Trials and an FDA Health Claim for Cholesterol Reduction", "dek": "More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it. LDL down 15 mg/dL. HbA1c down 0.4%. FDA-approved heart health claim since 1998. Here is why nobody is talking about it.", "meta": "Updated Apr 17, 2026 · 11 min", "href": "#article-92", "show": 92}, {"title": "Creatine for Brain Health: What the New Meta-Analyses Actually Show", "dek": "Two new meta-analyses (Prokopidis 2023, Xu 2024) confirm creatine improves memory and cognition in healthy adults — not just athletes. The effect is real, but smaller than the marketing claims.", "meta": "Updated Apr 24, 2026 · 7 min", "href": "a/creatine-for-brain-health-what-the-new-meta-analyses-actually-show.html"}, {"title": "10 Supplements That Interact With the Most Prescription Drugs", "dek": "St. John's Wort, berberine, magnesium, melatonin — the supplements that interact with the most prescription drug classes. The list that should be taped to every medicine cabinet.", "meta": "May 9, 2026 · 4 min", "href": "a/10-supplements-that-interact-with-the-most-prescription-drugs.html"}, {"title": "Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide", "dek": "The only magnesium form proven to cross the blood-brain barrier in animal studies. But do the human trials actually back up the cognitive claims? We dig into all four studies.", "meta": "Updated Apr 8, 2026 · 8 min", "href": "a/magnesium-forms-explained-glycinate-vs-citrate-vs-threonate-vs-oxide.html"}, {"title": "The 10 Supplements People Are Actually Deficient In", "dek": "95% of U.S. adults fall short on fibre. 90% on choline. 90% on omega-3. The 10 nutrients where pills genuinely fill a population-wide gap — not the trendy ones.", "meta": "May 9, 2026 · 4 min", "href": "a/the-10-supplements-people-are-actually-deficient-in.html"}, {"title": "LMNT vs Liquid IV vs DIY: The Electrolyte Price War", "dek": "Electrolyte mixes have gone mainstream. We compare sodium-to-sugar ratios, cost per serving, and whether you can make the same thing at home for a fraction of the price.", "meta": "Updated Apr 10, 2026 · 6 min", "href": "a/electrolytes-for-athletes-science-vs-marketing.html"}]</script>
+    </section>
+<!-- /MAGAZINE HERO -->
 
 
 
@@ -4647,7 +4427,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
-    'index.js?v=b7load21',
+    'index.js?v=maghero1',
     'nav-search.js?v=64e43b51',
     '_research-modal.js?v=c92ae724',
     'modal-stack.js?v=ba2acf0e',
