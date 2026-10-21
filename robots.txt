@@ -64,4 +64,3 @@ Sitemap: https://supplementscore.org/sitemap-medications.xml
 Sitemap: https://supplementscore.org/sitemap-stacks.xml
 Sitemap: https://supplementscore.org/sitemap-hubs.xml
 Sitemap: https://supplementscore.org/sitemap-brands.xml
-Sitemap: https://supplementscore.org/sitemap-interactions.xml
