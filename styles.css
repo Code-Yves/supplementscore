@@ -1458,8 +1458,10 @@ body{ overflow-x:clip; }
 .hero-cta{display:inline-flex;align-items:center;gap:8px;font-family:'Mona Sans',var(--font-display,inherit);font-size:13px;font-weight:700;letter-spacing:.01em;background:#F8F4ED;color:#155b50;padding:11px 18px;border-radius:10px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
 .hero-cta::after{content:'→';font-size:15px;line-height:1}
 .hero-cta:hover{background:#fff;transform:translateX(2px)}
-/* Make sure slide meta/headline never sit under the controls */
-.hero-slide{inset:36px 36px 92px 36px}
+/* Make sure slide meta/headline never sit under the controls.
+   padding-top keeps the headline below the editor's-pick counter
+   now that the category pills are gone. */
+.hero-slide{inset:36px 36px 92px 36px;padding-top:22px}
 .hero-slide-meta{padding-right:230px}
 /* Coral progress bar pinned to bottom; restarts each rotation via JS */
 .hero-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(248,244,237,0.12);z-index:5;overflow:hidden}

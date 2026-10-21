@@ -124,7 +124,7 @@ input,button{font-family:inherit}
 #hero{position:relative;border-radius:18px;overflow:hidden;height:340px;min-height:340px;background:linear-gradient(90deg,#3A8276 0%,#4DA095 100%);color:#F8F4ED}
 #hero .hero-slide,#hero .hero-pattern-bg,#hero .hero-controls,#hero .hero-counter,#hero .hero-progress{position:absolute}
 #hero .hero-pattern-bg{inset:0}
-#hero .hero-slide{inset:36px 36px 92px 36px;opacity:0;z-index:3}
+#hero .hero-slide{inset:36px 36px 92px 36px;opacity:0;z-index:3;padding-top:22px}
 #hero .hero-slide.active{opacity:1}
 #hero .hero-controls{right:30px;bottom:28px;z-index:5;display:flex;align-items:center;gap:10px}
 #hero .hero-counter{top:44px;right:32px;z-index:4}
