@@ -244,12 +244,12 @@
        the chrome (.site-nav, .site-footer, etc.) when the user uses the
        browser's native Print menu. */
     /* breadcrumbs */
-  + '.ssux-bc{font-family:\'Mona Sans\',inherit;font-size:12px;color:rgba(15,23,22,.55);'
+  + '.ssux-bc{font-family:\'Mona Sans\',inherit;font-size:12px;color:#57534e;'
   + 'padding:8px 4px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;letter-spacing:.005em;line-height:1.4}'
-  + '.ssux-bc a{color:rgba(15,23,22,.55);text-decoration:none;transition:color .12s}'
-  + '.ssux-bc a:hover{color:#155b50}'
-  + '.ssux-bc-sep{color:rgba(15,23,22,.32);font-weight:300;padding:0 2px}'
-  + '.ssux-bc-cur{color:rgba(15,23,22,.85);font-weight:600}'
+  + '.ssux-bc a{color:#57534e;text-decoration:none;transition:color .12s}'
+  + '.ssux-bc a:hover{color:#155A50}'
+  + '.ssux-bc-sep{color:#57534e;font-weight:300;padding:0 2px}'
+  + '.ssux-bc-cur{color:#0c0a09;font-weight:600}'
   + '@media(max-width:600px){.ssux-bc{font-size:11px;padding:8px 4px 8px}.ssux-bc a{max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ssux-bc-cur{max-width:100%;white-space:normal}}'
     /* PubMed badge */
   + '.ssux-pmbadge{display:inline-flex;align-items:center;gap:8px;'

@@ -483,3 +483,8 @@ main.sk-wrap > #hero.mag{margin:0 0 24px}
   main.ca-wrap #hero.mag h1,
   main.sk-wrap #hero.mag h1{font-size:20px !important}
 }
+/* Supplement pages ship their own <style> and only load this sheet.
+   Small teal (and the /100 suffix at 50% opacity) fails 4.5:1. */
+main.det-wrap .det-score-suffix{opacity:1;color:#155A50}
+main.det-wrap .det-prose-h{color:#155A50}
+main.det-wrap .det-prose-h::before{background:#155A50}

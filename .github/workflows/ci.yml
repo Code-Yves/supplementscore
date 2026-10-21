@@ -1,0 +1,52 @@
+name: Regression
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: regression-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install Noto Sans
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-core fonts-noto-color-emoji
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run regression suite
+        run: npm test
+        env:
+          CI: 'true'
+          FONTCONFIG_FILE: ${{ github.workspace }}/tests/fonts/local.conf
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 14
+          if-no-files-found: ignore

@@ -97,7 +97,9 @@ Industry-funded trials are not excluded from scoring, but they cannot solo-promo
 ├── data.js                 # Master supplement dataset (780 entries)
 ├── app.js                  # Main app logic (filtering, rendering, search)
 ├── styles.css              # Direction C brand system
-└── sw.js                   # Service worker (offline support)
+├── sw.js                   # Service worker (offline support)
+├── tests/                  # Playwright regression suite and link crawl
+└── .github/workflows/ci.yml
 ```
 
 ---
@@ -113,6 +115,43 @@ The site lives off curated evidence — anyone can flag inaccuracies or suggest 
 **For broken citations**: use the [`broken-citation`](.github/ISSUE_TEMPLATE/broken-citation.md) template.
 
 See [CONTRIBUTING.md](https://github.com/Code-Yves/supplementscore/blob/main/.github/CONTRIBUTING.md) (when present) for the full process. All contributions are reviewed against the [editorial pipeline](https://supplementscore.org/editorial-pipeline.html).
+
+---
+
+## Local preview
+
+GitHub Pages publishes the `main` branch only, so a pull request has no public preview URL. To click through a branch the way it will ship:
+
+```bash
+npm install
+npm run preview
+```
+
+Open [http://127.0.0.1:4173](http://127.0.0.1:4173). Preview needs Python 3. It does not need Playwright.
+
+## Regression suite
+
+`.github/workflows/ci.yml` runs the suite on every pull request and on every push to `main`. The check name is **Regression / regression**. A failing run fails the pull request. A repository admin should mark that check as required under branch protection for `main` if it is not required already, so GitHub blocks the merge.
+
+Install once, then run everything:
+
+```bash
+npm install
+npx playwright install --with-deps chromium
+npm test
+```
+
+The suite uses two viewports: desktop 1280×900 and iPhone 390×844. It clicks every option in every homepage category menu and checks a single selected button, the loader text, the results, Show more, scroll position, an in-flow menu that does not cover the list, and Escape / outside click. It also covers search, the magazine hero arrows, keyboard, and swipe, article Prev/Next, Share, the table of contents, and the footer newsletter form. Pages must load with no console errors. axe-core flags serious and critical issues, and the controls the suite clicks must be at least 44px.
+
+A filesystem crawl of every internal link fails on a 404 and on double-encoded entities such as `&amp;#39;` or text that still shows `&#39;` after the browser decodes markup. A normal source entity that the browser renders as an apostrophe is left alone.
+
+Visual snapshots of the homepage, one article, one supplement page, one topic page, and About are committed for both widths. They are the approved baseline. After this branch is on `main`, later pull requests are diffed against those files. When a visual change is intentional, refresh the baselines and commit the new PNGs:
+
+```bash
+npm run test:update-snapshots
+```
+
+Linux font rendering is pinned with `tests/fonts/local.conf` (Noto Sans) so local runs and GitHub Actions compare the same outlines. Install `fonts-noto-core` if `fc-match sans-serif` is not Noto Sans.
 
 ---
 

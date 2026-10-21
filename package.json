@@ -1,0 +1,17 @@
+{
+  "name": "supplementscore",
+  "private": true,
+  "description": "Static site and Playwright regression suite for supplementscore.org",
+  "scripts": {
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "test": "playwright test",
+    "test:update-snapshots": "playwright test tests/e2e/visual.spec.js --update-snapshots"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.56.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

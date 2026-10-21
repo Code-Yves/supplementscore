@@ -1329,13 +1329,9 @@ a.site-nav-tab{
   .hero{ min-height:340px !important; }
   .hero-slide{ inset:32px 16px 80px 16px !important; }
 
-  /* (#7) Footer contributor form input/button — 32px after 2026-05-24
-     compaction (icon button + shorter input). 44px tap-target rule
-     intentionally relaxed: the form lives in the bottom footer and is a
-     low-priority CTA, so a smaller target trades acceptable touchability
-     for the vertical-space saving the user requested. */
+  /* Footer email field and send button stay a 44px tap target. */
   .site-footer-contrib-form input,
-  .site-footer-contrib-form button{ min-height:32px !important; }
+  .site-footer-contrib-form button{ min-height:44px !important; }
 }
 
 /* ============================================================
@@ -2989,12 +2985,10 @@ body.tab-supplements #nav-search-pill{display:none !important}
   max-width:420px;margin:0 auto;
 }
 .site-footer-contrib-form input{flex:1;min-width:0}
-/* 2026-05-24 — Button collapsed from "Reach out →" text-button to a 32×32
-   square send-icon button to save vertical space and keep the form inline
-   on mobile. */
-.site-footer-contrib-form button{width:32px;height:32px;flex-shrink:0;padding:0;display:inline-flex;align-items:center;justify-content:center}
+/* Send control and email field are a 44px tap target on every viewport. */
+.site-footer-contrib-form button{width:44px;height:44px;min-width:44px;min-height:44px;flex-shrink:0;padding:0;display:inline-flex;align-items:center;justify-content:center}
 .site-footer-contrib-form input{
-  height:32px;padding:0 12px;
+  height:44px;min-height:44px;padding:0 12px;
   font-size:11px;font-family:inherit;color:#F8F4ED;
   /* 2026-05-24 — Reduced background/border opacity so the input blends more
      into the green footer (per user request). Placeholder also lowered to
@@ -4148,8 +4142,8 @@ html.rc-chrome-active main ul:not(.rc-rel-list ul):not(.rc-toc ul) li::marker{
   background:var(--color-brand,#155A50);
 }
 .rc-supp-row-s.rc-supp-s-hi{background:#0F766E}
-.rc-supp-row-s.rc-supp-s-mid{background:#3B82F6}
-.rc-supp-row-s.rc-supp-s-low{background:#CA8A04}
+.rc-supp-row-s.rc-supp-s-mid{background:#1D4ED8}
+.rc-supp-row-s.rc-supp-s-low{background:#8A5A00}
 .rc-supp-row-s.rc-supp-s-bad{background:#B91C1C}
 .rc-supp-row-body{min-width:0}
 .rc-supp-row-name{
@@ -4722,3 +4716,31 @@ main.sk-wrap p a,main.sk-wrap li a{
 #supplements-view #main-sticky.sticky-bar{
   overflow:visible;
 }
+
+/* Controls the regression suite clicks stay at least 44px. */
+.gs-ac-item{
+  min-height:44px;
+  box-sizing:border-box;
+}
+.tier-more{
+  min-height:44px;
+  box-sizing:border-box;
+}
+.rc-top-link{
+  min-width:44px;
+  min-height:44px;
+  box-sizing:border-box;
+}
+.rc-toc a{
+  min-height:44px;
+  align-items:center;
+  box-sizing:border-box;
+}
+/* Small supplement-page text was brand teal at 50% opacity or the
+   large-text teal. Both fail 4.5:1. The big score number stays as-is. */
+main.det-wrap .det-score-suffix{
+  opacity:1;
+  color:#155A50;
+}
+main.det-wrap .det-prose-h{color:#155A50}
+main.det-wrap .det-prose-h::before{background:#155A50}
