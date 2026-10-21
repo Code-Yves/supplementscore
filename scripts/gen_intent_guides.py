@@ -124,7 +124,7 @@ def page(slug, title, description, bottom, body, sources):
 </head>
 <body><main class="ar-wrap">
   <h1>{esc(title)}</h1>
-<div class="ar-meta">By the <a href="/about.html#editorial" rel="author">SupplementScore Editorial Team</a> &middot; <span class="ss-last-reviewed">Updated <time datetime="{TODAY}">{PRETTY}</time></span> &middot; <a href="/transparency.html">No ads or affiliate links</a> <!-- last-reviewed: {TODAY} --></div>
+<div class="ar-meta">By the <a href="/about.html#editorial" rel="author">SupplementScore Editorial Team</a> &middot; <span class="ss-last-reviewed">Updated <time datetime="{TODAY}">{PRETTY}</time></span> &middot; <a href="/about.html#transparency">No ads or affiliate links</a> <!-- last-reviewed: {TODAY} --></div>
 <div class="ar-bottomline">
   <div class="ar-bottomline-label">Bottom line</div>
   <p>{bottom}</p>
@@ -138,7 +138,7 @@ def page(slug, title, description, bottom, body, sources):
   </ol>
 </div>
 </div>
-<aside class="ar-editorial" style="margin-top:28px;padding-top:14px;border-top:1px solid var(--color-border-tertiary);font-size:0.92rem"><strong>About this page.</strong> Written by the SupplementScore editorial team. No named clinician has reviewed it. It is education, not medical advice. Funding and corrections: <a href="/transparency.html">transparency</a>.</aside>
+<aside class="ar-editorial" style="margin-top:28px;padding-top:14px;border-top:1px solid var(--color-border-tertiary);font-size:0.92rem"><strong>About this page.</strong> Written by the SupplementScore editorial team. No named clinician has reviewed it. It is education, not medical advice. Funding and corrections: <a href="/about.html#transparency">transparency</a>.</aside>
 </main>
 {FOOTER}
 </body>

@@ -213,8 +213,8 @@ for (const { slug, s } of pages) {
   const hubItem = hub ? `<li><a href="${hub.href}">${esc(hub.label)}</a></li>` : '';
   const relatedNav = `<nav class="det-related-supps" aria-label="Related supplements"><h2>Related</h2><ul>${relItems}${hubItem}<li><a href="/browse.html">Browse all supplements</a></li></ul></nav>`;
 
-  const reviewed = `<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/transparency.html">SupplementScore team</a></p>`;
-  const sources = `<section class="det-sources" id="det-sources"><h2 class="det-sources-h">Sources</h2><div class="det-sources-grid"><a href="/methodology.html">How scores are calculated</a><a href="/transparency.html">Funding, brand listings, and corrections</a><a href="/about.html#editorial">Who writes the pages</a></div></section>`;
+  const reviewed = `<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/about.html#transparency">SupplementScore team</a></p>`;
+  const sources = `<section class="det-sources" id="det-sources"><h2 class="det-sources-h">Sources</h2><div class="det-sources-grid"><a href="/about.html#methodology">How scores are calculated</a><a href="/about.html#transparency">Funding, brand listings, and corrections</a><a href="/about.html#editorial">Who writes the pages</a></div></section>`;
   const body = `<main class="det-wrap" id="det-root"><h1 class="det-h1">${esc(s.n)}</h1>`
     + reviewed
     + (TIER[s.t] ? `<p><b>${esc(TIER[s.t])}</b>${s.tag ? ' · ' + esc(s.tag) : ''}</p>` : '')

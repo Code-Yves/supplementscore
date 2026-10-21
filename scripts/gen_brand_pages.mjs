@@ -374,7 +374,7 @@ for (const b of brands) {
     + '<p class="brand-crumb"><a href="/">Home</a> / <a href="/brands.html">Verified brands</a> / ' + esc(b.name) + '</p>\n'
     + '<p class="brand-eye">Verified brands</p>\n'
     + '<h1>' + esc(b.name) + '</h1>\n'
-    + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> by the SupplementScore team. No named reviewer. <a href="/transparency.html">How we choose brands</a>.</p>\n'
+    + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time> by the SupplementScore team. No named reviewer. <a href="/about.html#transparency">How we choose brands</a>.</p>\n'
     + '<p class="brand-p">' + esc(b.knownFor) + '</p>\n'
     + '<p class="brand-call">Checked ' + CHECKED + '. ' + b.products.length + ' product'
     + (b.products.length === 1 ? '' : 's') + ' below. Programs: ' + esc(programs)
@@ -427,7 +427,7 @@ const indexHtml = head(indexTitle, indexDesc, indexUrl)
   + '<script type="application/ld+json">' + JSON.stringify(indexLd) + '</script>\n</head>\n<body>\n' + pageBar + '\n<main class="brand-wrap">\n'
   + '<p class="brand-crumb"><a href="/">Home</a> / Verified brands</p>\n'
   + '<p class="brand-eye">Quality</p>\n<h1>Verified supplement brands</h1>\n'
-  + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time>. <a href="/transparency.html">No ads, sponsors, or affiliate links</a>.</p>\n'
+  + '<p class="ss-last-reviewed">Last reviewed <time datetime="2026-10-15">15 October 2026</time>. <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a>.</p>\n'
   + '<p class="brand-p">This directory lists brands that have at least one product on a public certification or licence list. Each brand page names the products, the program, and the page where you can recheck the listing. SupplementScore is not paid by any brand here.</p>\n'
   + '<p class="brand-call">' + brands.length + ' brands and ' + brands.reduce((n, b) => n + b.products.length, 0)
   + ' products, checked ' + CHECKED + '.</p>\n'

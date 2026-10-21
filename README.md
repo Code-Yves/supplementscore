@@ -45,7 +45,7 @@ Composite score: `e×7 + s×4 + r×3 + o×2 + c×2 + d×2`. Maximum 100.
 - **Tier 3** (40–59): Trending or thin evidence — use with caution.
 - **Tier 4** (<40): Documented harm or banned in major jurisdictions — avoid.
 
-Tier 1 placement requires at least one **independently funded** randomised controlled trial confirming the effect — industry-only evidence cannot drive a Tier 1 call. See [methodology.html](https://supplementscore.org/methodology.html), [editorial-pipeline.html](https://supplementscore.org/editorial-pipeline.html), and [funder-policy.html](https://supplementscore.org/funder-policy.html) for the full framework.
+Tier 1 placement requires at least one **independently funded** randomised controlled trial confirming the effect — industry-only evidence cannot drive a Tier 1 call. See [About — Methodology](https://supplementscore.org/about.html#methodology), [editorial-pipeline.html](https://supplementscore.org/editorial-pipeline.html), and [funder-policy.html](https://supplementscore.org/funder-policy.html) for the full framework.
 
 ---
 
@@ -79,8 +79,7 @@ Industry-funded trials are not excluded from scoring, but they cannot solo-promo
 .
 ├── index.html              # Homepage / supplement explorer
 ├── discover.html           # Discovery hub (articles + topics + tools)
-├── methodology.html        # Scoring framework
-├── about.html              # Project mission + editorial principles
+├── about.html              # About, methodology, and transparency
 ├── compare.html            # Two-supplement side-by-side tool
 ├── symptom.html            # Symptom-to-supplement picker
 ├── build.html              # Personalized stack wizard
