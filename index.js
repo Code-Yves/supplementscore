@@ -593,7 +593,7 @@ function _reinjectArticleListUI(){
     if (typeof af !== 'undefined' && af === 'art' && typeof _artPick === 'function') {
       const active = document.querySelector('#art-filter-menu .cdd-item.on, #art-filter .cdd-item.on');
       const v = (active && active.getAttribute('data-val')) || 'all';
-      _artPick(v);
+      _artPick(v, true);
     }
   } catch (_) {}
 }

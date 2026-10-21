@@ -5064,7 +5064,49 @@ function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';c
 if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('unproven',items.length,initShow):''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label),items.length+' supplement'+(items.length===1?'':'s'),m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn(t.id,items.length,initShow):''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
-function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('sx-filter','Symptom');_ddLabel('art-filter','Research');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner(escHtml(_catLabel(cat)),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+/* A category pick waits four seconds on purpose, with the choice named
+   where the list will appear. A newer pick cancels the previous wait. */
+var _listLoadToken=0;
+function _scrollListAfterLoad(top){
+  if(window._ssSkipResultScroll){window._ssSkipResultScroll=false;return;}
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try{window.scrollTo({top:top,behavior:reduce?'auto':'smooth'});}
+  catch(e){window.scrollTo(0,top);}
+}
+function _scrollListEl(el){
+  if(!el)return;
+  var nav=document.querySelector('.site-nav');
+  var navH=72;
+  if(nav){
+    var ns=getComputedStyle(nav);
+    var nr=nav.getBoundingClientRect();
+    if((ns.position==='fixed'||ns.position==='sticky')&&nr.bottom>0&&nr.top<80)navH=nr.bottom;
+  }
+  var top=el.getBoundingClientRect().top+window.pageYOffset-(navH+16);
+  if(top<0)top=0;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try{window.scrollTo({top:top,behavior:reduce?'auto':'smooth'});}
+  catch(e){window.scrollTo(0,top);}
+}
+function _listLoadHtml(message){
+  return '<div class="ss-list-load" role="status" aria-live="polite" aria-busy="true">'
+    +'<p class="ss-list-load-msg">'+escHtml(message)+'</p>'
+    +'<div class="ss-list-load-track" aria-hidden="true"><div class="ss-list-load-bar"></div></div>'
+    +'</div>';
+}
+function _queueListLoad(message, render){
+  var token=++_listLoadToken;
+  var content=document.getElementById('s-content');
+  if(!content){render();return;}
+  content.innerHTML=_listLoadHtml(message);
+  _scrollListEl(content);
+  setTimeout(function(){
+    if(token!==_listLoadToken)return;
+    window._ssSkipResultScroll=true;
+    render();
+  },4000);
+}
+function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('sx-filter','Symptom');_ddLabel('art-filter','Research');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner('Best for '+escHtml(_catLabel(cat)),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;_scrollListAfterLoad(top);}}
 var _initialLoad=true;
 function setFilter(id,el){_ddLabel('cat-filter','Helps With');_ddLabel('az-filter','A\u2013Z');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');_ddActive(null);af=id;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');if(el)el.className=`sfbtn on-${id}`;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function setAzFilter(val){if(!val)return;document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Helps With');_ddLabel('tier-filter','Tier\u2026');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');if(val==='all'){af='az';renderAll();}else{af='azpair';const letters=val.split('');const q=(document.getElementById('srch')||{}).value||'';let items=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return(c===letters[0]||c===letters[1])&&match(s,q);}).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const l=s.n.charAt(0).toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(s);});let html='';Object.keys(groups).sort().forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements found.</div>';}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
@@ -5291,7 +5333,14 @@ var SX_META = {
   Pregnancy:{desc:'Evidence-graded supplements for fetal development, maternal nutrient status, and fertility. Always coordinate with an OB or reproductive endocrinologist before starting anything new — some common supplements are contraindicated.',icon:'<circle cx="12" cy="5" r="3"/><path d="M8 22v-7c0-3 2-5 4-5s4 2 4 5v7"/><circle cx="15" cy="15" r="3"/>'},
   Kids:{desc:'Supplements with pediatric safety data and dosing — covers common childhood deficiencies (iron, vitamin D), growth support, and developmental nutrients. Always consult a pediatrician before supplementing children.',icon:'<circle cx="12" cy="9" r="3.5"/><path d="M5 21v-2a7 7 0 0114 0v2"/>'}
 };
-function _sxPick(v){
+function _sxPick(v, quiet){
+  if(!quiet){
+    var label0=SX_LABELS[v]||v;
+    _ddLabel('sx-filter',label0);_ddActive('sx-filter');
+    _ddLabel('cat-filter','Goal');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');
+    _queueListLoad('Retrieving supplements for '+label0+'...', function(){ _sxPick(v, true); });
+    return;
+  }
   var keys=SX_KEYWORDS[v]||[];var label=SX_LABELS[v]||v;
   _ddLabel('sx-filter',label);_ddActive('sx-filter');
   _ddLabel('cat-filter','Goal');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');
@@ -5308,7 +5357,7 @@ function _sxPick(v){
   var m=(typeof SX_META!=='undefined'&&SX_META[v])||{};
   var icon=m.icon||'<circle cx="12" cy="12" r="10"/>';
   var defaultDesc='Filtered to supplements with evidence for this symptom or goal. Use as a research starting point — talk to a clinician before changing your regimen.';
-  var banner=_filterBanner('Supplements for <b>'+label+'</b>',
+  var banner=_filterBanner('For '+escHtml(label),
     items.length+' supplement'+(items.length===1?'':'s'),
     m.desc||defaultDesc,
     icon);
@@ -5317,11 +5366,20 @@ function _sxPick(v){
     : '<div class="empty">No supplements matched this symptom.</div>';
   document.getElementById('s-content').innerHTML=html;
   var content=document.getElementById('s-content');
-  if(content){var stickyH=document.querySelector('.sticky-bar');var offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;var top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}
+  if(content){var stickyH=document.querySelector('.sticky-bar');var offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;var top=content.getBoundingClientRect().top+window.pageYOffset-offset;_scrollListAfterLoad(top);}
 }
 function _tierPick(v){_ddLabel('tier-filter',v==='unproven'?'Unproven':(TIERS.find(x=>x.id===v)||{}).badge||'Tier');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');_ddLabel('cat-filter','Goal');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');_ddActive('tier-filter');af=v;renderAll();if(_initialLoad){_initialLoad=false;return;}const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.offsetHeight+76:120;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
 function _azPick(v){_ddLabel('az-filter',v==='all'?'All A\u2013Z':v.charAt(0)+' & '+v.charAt(1));_ddActive(v==='all'?null:'az-filter');setAzFilter(v);}
-function _catPick(v){
+function _catPick(v, quiet){
+  if(v!=='__trending__' && !quiet){
+    _ddLabel('cat-filter', _catLabel(v));
+    _ddActive('cat-filter');
+    _ddLabel('pop-filter','Age & Sex');
+    _ddLabel('sx-filter','Symptom');
+    _ddLabel('art-filter','Research');
+    _queueListLoad('Retrieving supplements best for '+_catLabel(v)+'...', function(){ _catPick(v, true); });
+    return;
+  }
   if(v==='__trending__'){
     _ddLabel('cat-filter','\u{1F4C8} Trending');_ddActive('cat-filter');
     _ddLabel('pop-filter','Age & Sex');_ddLabel('art-filter','Research');
@@ -5337,7 +5395,7 @@ function _catPick(v){
   }
   _ddLabel('cat-filter',_catLabel(v));_ddActive('cat-filter');setCatFilter(v);
 }
-function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
+function _popPick(v, quiet){const p=POPULATIONS[v];if(!p)return;if(!quiet){_ddLabel('pop-filter',p.label);_ddActive('pop-filter');_ddLabel('cat-filter','Goal');_ddLabel('sx-filter','Symptom');_ddLabel('art-filter','Research');_queueListLoad('Retrieving supplements for '+String(p.label).toLowerCase()+'...', function(){ _popPick(v, true); });return;}_ddLabel('pop-filter',p.label);_ddActive('pop-filter');setPopFilter(v);}
 /* 2026-05-21 — Articles pill picker.
    Swaps #s-content (the supplements list) for an article-card list filtered to
    the chosen category, OR shows all articles when 'all' is picked. Article
@@ -5349,13 +5407,25 @@ function _popPick(v){const p=POPULATIONS[v];if(!p)return;_ddLabel('pop-filter',p
    Article-card click handlers are preserved because the clone retains the
    inline `onclick="showArticle(n)"` and the `href` attributes from the
    originals. */
-function _artPick(v){
+function _artPick(v, quiet){
+  if(!quiet){
+    var artNames={all:'Research',quickread:'Top 10 Lists',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',condition:'Condition',stack:'Stack'};
+    var artName=artNames[v]||'Research';
+    _ddLabel('cat-filter','Goal');
+    _ddLabel('pop-filter','Age & Sex');
+    _ddLabel('sx-filter','Symptom');
+    _ddLabel('art-filter','Research');
+    document.querySelectorAll('.sfbtn').forEach(function(b){b.className='sfbtn';});
+    _ddActive('art-filter');
+    _queueListLoad('Retrieving '+artName+'...', function(){ _artPick(v, true); });
+    return;
+  }
   /* Wait for deferred homepage cards when the research list is still slim
      (TOP_MIX-only). Re-enter once SS_ARTICLE_CARDS_READY resolves. */
   var list=document.querySelector('.article-list');
   var n=document.querySelectorAll('#research-list-view .article-card').length;
   if(list && list.dataset.deferredLoaded!=='1' && n<50 && window.SS_ARTICLE_CARDS_READY){
-    window.SS_ARTICLE_CARDS_READY.then(function(){ _artPick(v); });
+    window.SS_ARTICLE_CARDS_READY.then(function(){ _artPick(v, true); });
     return;
   }
   const CAT_LABELS={all:'Research',quickread:'Top 10 Lists',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',condition:'Condition',stack:'Stack'};
@@ -5425,10 +5495,10 @@ function _artPick(v){
     const stickyH=document.querySelector('.sticky-bar');
     const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;
     const top=content.getBoundingClientRect().top+window.pageYOffset-offset;
-    if(!_initialLoad)window.scrollTo({top:top,behavior:'smooth'});
+    if(!_initialLoad)_scrollListAfterLoad(top);
   }
 }
-function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Goal');_ddLabel('sx-filter','Symptom');_ddLabel('art-filter','Research');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=POP_META[key]||{};const banner=_filterBanner('Recommended for <b>'+escHtml(p.label)+'</b>',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('pop',items.length,rowLimit):''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:top,behavior:'smooth'});}}
+function setPopFilter(key){const p=POPULATIONS[key];if(!p)return;_ddLabel('cat-filter','Goal');_ddLabel('sx-filter','Symptom');_ddLabel('art-filter','Research');_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='pop';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;const wanted=new Set(p.supps);let items=S.filter(s=>wanted.has(s.n)&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=POP_META[key]||{};const banner=_filterBanner('For '+escHtml(p.label),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements selected for this group based on clinical relevance and safety. Always consult a clinician for personalised guidance.',m.icon||'<circle cx="12" cy="12" r="10"/>');const html=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('pop',items.length,rowLimit):''}</div>`:'<div class="empty">No supplements found for this group.</div>';document.getElementById('s-content').innerHTML=html;const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;_scrollListAfterLoad(top);}}
 function sw(n){const p1=document.getElementById('p1'),p2=document.getElementById('p2');if(p1)p1.style.display=n===1?'block':'none';if(p2)p2.style.display=n===2?'block':'none';const tb1=document.getElementById('tb1'),tb2=document.getElementById('tb2');if(tb1){tb1.classList.toggle('active',n===1);tb1.setAttribute('aria-pressed',n===1);}if(tb2){tb2.classList.toggle('active',n===2);tb2.setAttribute('aria-pressed',n===2);}if(n===2&&typeof initAllTab==='function')initAllTab();/* Round-8: toggle a body class so the recently-viewed strip can be hidden via CSS whenever the profile view is active. */document.body.classList.toggle('on-profile',n===1);}
 let selectedConds=new Set();
 /* 2026-04-28 UX simplification (v2): surface ALL supplement-relevant conditions as

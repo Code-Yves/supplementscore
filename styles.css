@@ -2694,6 +2694,42 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
      container, so descriptions wrap naturally without a private cap here. */
 }
 
+/* Named pause before a Goal / Age & Sex / Symptom / Research list.
+   Cream field, teal type, one progress bar. No icon. */
+.ss-list-load{
+  background:#f6f2ea;
+  border:1px solid rgba(31,122,107,.18);
+  border-radius:12px;
+  padding:22px 20px 18px;
+  margin:4px 0 12px;
+  max-width:640px;
+}
+.ss-list-load-msg{
+  margin:0 0 14px;
+  color:#1F7A6B;
+  font-size:16px;
+  font-weight:600;
+  line-height:1.35;
+  letter-spacing:-.01em;
+}
+.ss-list-load-track{
+  height:4px;
+  border-radius:999px;
+  background:#e3efe9;
+  overflow:hidden;
+}
+.ss-list-load-bar{
+  height:100%;
+  width:0;
+  border-radius:999px;
+  background:#1F7A6B;
+  animation:ss-list-load 4s linear forwards;
+}
+@keyframes ss-list-load{ to{ width:100%; } }
+@media (prefers-reduced-motion: reduce){
+  .ss-list-load-bar{ animation:none !important; width:38%; }
+}
+
 /* Tier-specific accent — applied via class on .pop-head */
 .pop-head.head-t1{--pop-accent:var(--t1c);--pop-accent-bg:var(--t1bg);--pop-accent-ink:var(--t1tx)}
 .pop-head.head-t2{--pop-accent:var(--t2c);--pop-accent-bg:var(--t2bg);--pop-accent-ink:var(--t2tx)}

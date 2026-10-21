@@ -583,10 +583,16 @@ input,button{font-family:inherit}
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#1F7A6B !important}
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{border-left-color:#bad0c6 !important}
+.ss-list-load{background:#f6f2ea;border:1px solid rgba(31,122,107,.18);border-radius:12px;padding:22px 20px 18px;margin:4px 0 12px;max-width:640px}
+.ss-list-load-msg{margin:0 0 14px;color:#1F7A6B;font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em}
+.ss-list-load-track{height:4px;border-radius:999px;background:#e3efe9;overflow:hidden}
+.ss-list-load-bar{height:100%;width:0;border-radius:999px;background:#1F7A6B;animation:ss-list-load 4s linear forwards}
+@keyframes ss-list-load{to{width:100%}}
+@media (prefers-reduced-motion: reduce){.ss-list-load-bar{animation:none !important;width:38%}}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
 </style>
-<link rel="preload" href="/styles.css?v=e4a10d2a" as="style">
+<link rel="preload" href="/styles.css?v=b7load21" as="style">
 <link rel="preload" href="index.css?v=a2a90ba3" as="style">
 <script>
 /* Apply the full sheets as real stylesheets. Not media=print. */
@@ -597,12 +603,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
     link.href=href;
     document.head.appendChild(link);
   }
-  load('/styles.css?v=e4a10d2a');
+  load('/styles.css?v=b7load21');
   load('index.css?v=a2a90ba3');
 })();
 </script>
 <noscript>
-<link rel="stylesheet" href="/styles.css?v=e4a10d2a">
+<link rel="stylesheet" href="/styles.css?v=b7load21">
 <link rel="stylesheet" href="index.css?v=a2a90ba3">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
@@ -4680,11 +4686,11 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'home-decor.js?v=4cc4ab9c',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
-    'app.js?v=4504c001',
+    'app.js?v=b7load21',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
-    'index.js?v=c770a587',
+    'index.js?v=b7load21',
     'nav-search.js?v=64e43b51',
     '_research-modal.js?v=c92ae724',
     'modal-stack.js?v=ba2acf0e',
