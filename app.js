@@ -5895,7 +5895,7 @@ function wizBack() {
   wizStep--;
   _wizShowStep(wizStep);
 }
-function _wizShowStep(n) {
+function _wizShowStep(n, silent) {
   document.querySelectorAll('.wiz-step').forEach(el => el.classList.remove('wiz-active'));
   const el = document.getElementById('wiz-step-' + n);
   if (el) el.classList.add('wiz-active');
@@ -5921,7 +5921,9 @@ function _wizShowStep(n) {
   // Lazy renders when steps become visible
   if (n === 4) renderCondChips&&renderCondChips();
   if (n === 6) { renderDietChips&&renderDietChips(); renderAllergyChips&&renderAllergyChips(); }
-  // Scroll step top into view
+  // Scroll step top into view when the reader advances. The boot call
+  // passes silent so a refresh does not scrollIntoView the hidden wizard.
+  if (silent) return;
   const wrap = document.getElementById('wiz-step-' + n);
   if (wrap) { try { wrap.scrollIntoView({behavior:'smooth', block:'nearest'}); } catch(e){} }
 }
@@ -5992,8 +5994,10 @@ function wizInit() {
       fupHtml +
     '</div>';
   }).join('');
-  /* Round-9: no pre-selection on Step 2 — user must pick. */
-  _wizShowStep(1);
+  /* Round-9: no pre-selection on Step 2 — user must pick.
+     silent: the wizard is display:none on first paint. scrollIntoView
+     here still ran on every homepage load. */
+  _wizShowStep(1, true);
 }
 
 /* ──────────────────────────────────────────────────────────────────────────

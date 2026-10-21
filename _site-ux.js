@@ -8,6 +8,107 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
+  /* A refresh was landing on the footer.
+     Chromium scroll-anchors to whatever was on screen. Research chrome,
+     a stylesheet applied after first paint, and slots filled in after
+     load all insert height above that anchor, so the browser adds the
+     same amount to scrollY. When little page is left below, that clamps
+     to the bottom. WebKit does the matching thing if scroll-behavior is
+     smooth while the document is still growing, and it will also scroll
+     a footer email into view when it restores focus to that field.
+     The blocking CSS sets overflow-anchor:none and scroll-behavior:auto.
+     Until late layout finishes, hold the reloaded offset (or the top on
+     a fresh visit). A hash, the back button, and a real tap or key win. */
+  (function(){
+    var navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    var navType = navEntry && navEntry.type ? navEntry.type : 'navigate';
+    var path = location.pathname || '/';
+    var isHome = path === '/' || /\/index\.html$/.test(path);
+    var hash = (location.hash || '').replace(/^#/, '');
+    var tabHash = hash === 'research' || hash === 'about' || hash === 'profile' || hash === 'supplements';
+    var KEY = 'ss-scroll:' + path;
+    var user = false;
+    function markUser(){ user = true; }
+    if (navType !== 'back_forward') {
+      ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function(type){
+        window.addEventListener(type, markUser, { capture: true, passive: true });
+      });
+    }
+    if (!(isHome && navType !== 'reload')) {
+      window.addEventListener('pagehide', function(){
+        if (navType === 'reload' && !user) return;
+        try { sessionStorage.setItem(KEY, String(Math.round(window.scrollY || 0))); } catch (e) {}
+      });
+    }
+    function blurFooterFocus(){
+      if (user) return;
+      var ae = document.activeElement;
+      if (!ae || !ae.closest || !ae.closest('footer')) return;
+      try { ae.blur(); } catch (e) {}
+    }
+    function armFooter(){
+      var fields = document.querySelectorAll('footer input, footer textarea, footer select');
+      for (var i = 0; i < fields.length; i++) {
+        if (!fields[i].getAttribute('autocomplete')) fields[i].setAttribute('autocomplete', 'off');
+      }
+      blurFooterFocus();
+    }
+    if (document.body) armFooter();
+    else document.addEventListener('DOMContentLoaded', armFooter);
+    window.addEventListener('pageshow', blurFooterFocus);
+
+    if (navType === 'back_forward') return;
+    if (isHome && navType !== 'reload') return;
+    if (hash && !tabHash) return;
+
+    var target = 0;
+    if (navType === 'reload' && !tabHash) {
+      var raw = null;
+      try { raw = sessionStorage.getItem(KEY); } catch (e) {}
+      /* No saved offset: leave the browser's own restoration alone.
+         Forcing the top here would undo a reload that already landed
+         in the right place. */
+      if (raw === null) return;
+      var saved = parseInt(raw, 10);
+      if (!isNaN(saved) && saved > 0) target = saved;
+    }
+    var until = Date.now() + 2200;
+    function guard(){
+      if (user || Date.now() > until) return;
+      var y = window.scrollY || 0;
+      var max = Math.max(0, (document.documentElement.scrollHeight || 0) - window.innerHeight);
+      var want = target;
+      if (navType !== 'reload') {
+        /* A fresh visit may only be pulled back if it leapt to the footer
+           on its own. A reader scrolling partway down is left alone. */
+        if (max < 500 || y < max * 0.82) return;
+        want = 0;
+      } else if (want > 0 && max + 8 < want) {
+        return;
+      }
+      if (Math.abs(y - want) <= 24) return;
+      var root = document.documentElement;
+      var prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, want);
+      root.style.scrollBehavior = prev;
+    }
+    guard();
+    window.addEventListener('scroll', guard, { passive: true });
+    [50, 150, 350, 700, 1100, 1600, 2100].forEach(function(ms){ setTimeout(guard, ms); });
+    window.addEventListener('load', function(){
+      setTimeout(guard, 0);
+      setTimeout(guard, 400);
+    });
+  })();
+
+  function enableSmoothScroll(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.documentElement.style.scrollBehavior = 'smooth';
+  }
+  if (document.readyState === 'complete') setTimeout(enableSmoothScroll, 2300);
+  else window.addEventListener('load', function(){ setTimeout(enableSmoothScroll, 2300); });
+
   /* Close / X. Capture phase runs before any inline onclick that calls
      preventDefault + history.back(). On iPhone that pair often does
      nothing (history.length is already > 1, and back is a no-op), which

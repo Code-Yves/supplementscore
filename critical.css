@@ -67,7 +67,13 @@
   --z-toast: 2000;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scrollbar-gutter:stable}
+/* auto, not smooth, until the page has settled: a smooth restoration animates
+   toward the document end while late layout is still growing the page.
+   overflow-anchor:none stops Chromium from chasing content inserted above
+   the viewport (research chrome, a stylesheet that arrives after first paint)
+   and landing on the footer. _site-ux.js turns smooth scrolling back on
+   after that window, for in-page anchors. */
+html{scroll-behavior:auto;scrollbar-gutter:stable;overflow-anchor:none}
 /* scrollbar-gutter:stable reserves space for the vertical scrollbar even on
    pages whose content fits in the viewport. Without this, navigating between
    a tall page (Articles, Index) and a shorter page (Discover) makes the

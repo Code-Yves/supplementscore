@@ -64,7 +64,10 @@
   --z-toast: 2000;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scrollbar-gutter:stable}
+/* Keep scroll-behavior auto and overflow-anchor none. This sheet often
+   arrives after first paint; turning smooth scrolling or anchoring back on
+   here is what dragged a refresh to the bottom. */
+html{scroll-behavior:auto;scrollbar-gutter:stable;overflow-anchor:none}
 /* scrollbar-gutter:stable reserves space for the vertical scrollbar even on
    pages whose content fits in the viewport. Without this, navigating between
    a tall page (Articles, Index) and a shorter page (Discover) makes the
