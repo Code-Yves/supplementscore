@@ -214,83 +214,6 @@ input,button{font-family:inherit}
   #hero.mag{display:block !important;height:auto !important;min-height:0 !important;max-height:none !important;margin:0 0 32px !important;padding:0 !important}
   .ix-hero p.lede,.ix-hero .lede{margin-bottom:16px !important}
 }
-/* Homepage filter bar, in the blocking sheet. index.css repeats this, but
-   iOS can leave that sheet on media=print, and the base styles.css fill
-   is what painted every segment teal. These selectors outrank it. */
-#main-sticky #sfbar-main.sfbar{
-  display:flex !important;flex:none !important;flex-direction:row !important;
-  align-items:stretch !important;gap:0 !important;grid-template-columns:none !important;
-  width:100% !important;height:44px !important;min-height:44px !important;max-height:44px !important;
-  margin:0 0 32px !important;padding:0 !important;box-sizing:border-box !important;
-  border:1px solid #dcdad7 !important;border-radius:16px !important;
-  background:#f6f2ea !important;background-image:none !important;overflow:visible !important;
-}
-#main-sticky #sfbar-main > .cdd{
-  position:relative !important;display:flex !important;flex:1 1 0 !important;
-  min-width:0 !important;max-width:none !important;height:100% !important;overflow:visible !important;
-}
-#main-sticky #sfbar-main .cdd-btn{
-  display:flex !important;align-items:center !important;justify-content:center !important;
-  width:100% !important;height:100% !important;min-width:0 !important;max-width:100% !important;
-  padding:0 4px !important;box-sizing:border-box !important;border:0 !important;border-radius:0 !important;
-  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
-  box-shadow:none !important;filter:none !important;transform:none !important;
-  color:#155A50 !important;overflow:hidden !important;transition:none !important;
-}
-#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{border-left:1px solid #dcdad7 !important}
-#main-sticky #sfbar-main .cdd-ico,
-#main-sticky #sfbar-main .cdd-chev{display:none !important}
-#main-sticky #sfbar-main .cdd-lbl{
-  font-size:12px !important;font-weight:700 !important;line-height:16px !important;
-  color:#155A50 !important;white-space:nowrap !important;overflow:hidden !important;
-  text-overflow:ellipsis !important;min-width:0 !important;
-}
-#main-sticky #sfbar-main .cdd-btn.on,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn{
-  background:#155A50 !important;background-color:#155A50 !important;background-image:none !important;color:#f6f2ea !important;
-}
-#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
-@media (hover:none), (pointer:coarse){
-  #main-sticky #sfbar-main .cdd-btn:hover,
-  #main-sticky #sfbar-main .cdd-btn:active,
-  #main-sticky #sfbar-main:hover .cdd-btn{
-    background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
-    color:#155A50 !important;transform:none !important;filter:none !important;
-  }
-  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
-  #main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#155A50 !important}
-  #main-sticky #sfbar-main .cdd-btn.on,
-  #main-sticky #sfbar-main .cdd-btn.on:hover,
-  #main-sticky #sfbar-main .cdd-btn.on:active,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn:active{
-    background:#155A50 !important;background-color:#155A50 !important;color:#f6f2ea !important;
-  }
-  #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
-  .pg-close-fab:hover,.ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
-}
-/* One teal segment. An open menu wins over a saved selection and over
-   :hover, :active, or :focus left on another segment. Closing the menu
-   drops .cdd-open, so only .on (or nothing) is teal again. */
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus-visible,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:hover,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:active,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus-visible{
-  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
-  color:#155A50 !important;box-shadow:none !important;filter:none !important;outline-color:transparent !important;
-}
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#155A50 !important}
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{border-left-color:#dcdad7 !important}
 .ss-list-load{background:#f6f2ea;border:1px solid #dcdad7;border-radius:16px;padding:24px 20px 16px;margin:0;max-width:none;width:100%;box-sizing:border-box}
 .ss-list-load-msg{margin:0;color:#155A50;font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:balance}
 .ss-list-load-sub{margin:4px 0 16px;color:#57534e;font-size:14px;font-weight:400;line-height:1.4;text-wrap:balance}
@@ -301,62 +224,182 @@ input,button{font-family:inherit}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
 
-/* Plain category row. Height stays 44px so choosing a filter does not move the list. */
-#main-sticky #sfbar-main.sfbar,
-#supplements-view #main-sticky #sfbar-main.sfbar{
-  border:0 !important;border-radius:0 !important;
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  box-shadow:none !important;
-  height:44px !important;min-height:44px !important;max-height:44px !important;
+/* Homepage category bar. Four equal cells, in-flow menu.
+   Base rules only: an ID selector outranks the older .sfbar classes. */
+#sfbar-main.sfbar{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  grid-auto-rows:auto;
+  gap:0;
+  width:100%;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  margin:0 0 32px;
+  padding:0;
+  box-sizing:border-box;
+  border:1px solid #dcdad7;
+  border-radius:0;
+  background:#f6f2ea;
+  overflow:visible;
 }
-#main-sticky #sfbar-main .cdd-btn,
-#main-sticky #sfbar-main .cdd-btn:hover,
-#main-sticky #sfbar-main .cdd-btn:active,
-#main-sticky #sfbar-main .cdd-btn:focus,
-#main-sticky #sfbar-main > .cdd:first-child > .cdd-btn,
-#main-sticky #sfbar-main > .cdd:last-child > .cdd-btn,
-#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  border:0 !important;border-left:0 !important;border-radius:0 !important;
-  box-shadow:none !important;color:#57534e !important;
+#sfbar-main > .cdd{
+  display:contents;
+  min-width:0;
+  width:auto;
+  max-width:none;
 }
-#main-sticky #sfbar-main .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#57534e !important}
-#main-sticky #sfbar-main .cdd-btn.on,
-#main-sticky #sfbar-main .cdd-btn.on:hover,
-#main-sticky #sfbar-main .cdd-btn.on:active,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn:active,
-#main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
-#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn{
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  color:#155A50 !important;box-shadow:inset 0 -2px 0 #155A50 !important;
+#sfbar-main .cdd-btn{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  grid-row:1;
+  width:100%;
+  height:48px;
+  min-height:48px;
+  max-height:48px;
+  margin:0;
+  padding:0 8px;
+  box-sizing:border-box;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  background-image:none;
+  box-shadow:none;
+  color:#0c0a09;
+  font:inherit;
+  cursor:pointer;
+  transform:none;
+  filter:none;
 }
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus{
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  color:#57534e !important;box-shadow:none !important;
+#sfbar-main .cdd:not(:last-child) > .cdd-btn{
+  border-right:1px solid #dcdad7;
 }
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#57534e !important}
-#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn.on:hover .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
+#sfbar-main .cdd-ico{display:none}
+#sfbar-main .cdd-chev{
+  display:block;
+  width:10px;
+  height:10px;
+  flex:0 0 10px;
+  color:currentColor;
+}
+#sfbar-main .cdd-lbl{
+  color:#0c0a09;
+  font-size:14px;
+  font-weight:600;
+  line-height:18px;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+#sfbar-main .cdd-btn.on,
+#sfbar-main .cdd-open > .cdd-btn{
+  background:transparent;
+  background-image:none;
+  color:#155A50;
+  box-shadow:inset 0 -3px 0 #155A50;
+}
+#sfbar-main .cdd-btn.on .cdd-lbl,
+#sfbar-main .cdd-btn.on .cdd-chev,
+#sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
+#sfbar-main .cdd-open > .cdd-btn .cdd-chev,
+#sfbar-main #art-filter-wrap .cdd-btn.on .cdd-lbl,
+#sfbar-main #art-filter-wrap.cdd-open > .cdd-btn .cdd-lbl{
+  color:#155A50;
+}
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on{
+  color:#0c0a09;
+  background:transparent;
+  box-shadow:none;
+}
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-chev,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn .cdd-lbl{
+  color:#0c0a09;
+}
 @media (hover:hover) and (pointer:fine){
-  #main-sticky #sfbar-main .cdd-btn:hover,
-  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover{
-    background:transparent !important;background-color:transparent !important;
-    color:#155A50 !important;box-shadow:inset 0 -2px 0 #155A50 !important;
+  #sfbar-main .cdd-btn:hover{
+    background:rgba(21,90,80,.08);
   }
-  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
-  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
+  #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{
+    color:inherit;
+  }
 }
+#sfbar-main .cdd-btn:focus-visible,
+#sfbar-main .cdd-item:focus-visible{
+  outline:2px solid #155A50;
+  outline-offset:-2px;
+}
+#sfbar-main .cdd-menu{
+  display:none;
+  position:static;
+  top:auto;
+  left:auto;
+  right:auto;
+  grid-column:1 / -1;
+  grid-row:2;
+  width:100%;
+  min-width:0;
+  max-width:none;
+  max-height:min(70vh, 420px);
+  margin:0;
+  padding:4px;
+  box-sizing:border-box;
+  border:0;
+  border-top:1px solid #dcdad7;
+  border-radius:0;
+  box-shadow:none;
+  background:#f6f2ea;
+  z-index:auto;
+  overflow:auto;
+}
+#sfbar-main .cdd-menu.open{display:block}
+#sfbar-main .cdd-item{
+  min-height:48px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:0;
+  color:#0c0a09;
+  white-space:normal;
+}
+#sfbar-main .cdd-item:hover,
+#sfbar-main .cdd-item:focus{
+  background:rgba(21,90,80,.08);
+  outline:none;
+}
+@media (max-width:600px){
+  #sfbar-main .cdd-lbl{font-size:12px}
+  #sfbar-main .cdd-btn{padding:0 4px;gap:2px}
+}
+#s-content .pop-head{
+  margin:0;
+  padding:0 0 16px;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#s-content .lc-cats,
+#s-content .lc-cau{
+  min-width:0;
+  max-width:48%;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:unset;
+}
+#supplements-view > .container,
+#supplements-view .pg,
+#supplements-view #main-sticky.sticky-bar{
+  overflow:visible;
+}
+
 h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h3{
   text-wrap:balance;hyphens:none;
 }
@@ -391,6 +434,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   main.sk-wrap p a,main.sk-wrap li a,
   main.det-wrap p a,main.det-wrap li a,
   .hub-wrap p a,.hub-wrap li a{
+    display:inline-block;
+    min-width:44px;
+    box-sizing:border-box;
     padding-top:16px;padding-bottom:16px;line-height:1.15;
   }
   .hub-back,.hub-art-list li a,.hub-simple-list li a,.hub-sup-card{

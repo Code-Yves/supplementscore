@@ -518,83 +518,6 @@ input,button{font-family:inherit}
   #hero.mag{display:block !important;height:auto !important;min-height:0 !important;max-height:none !important;margin:0 0 32px !important;padding:0 !important}
   .ix-hero p.lede,.ix-hero .lede{margin-bottom:16px !important}
 }
-/* Homepage filter bar, in the blocking sheet. index.css repeats this, but
-   iOS can leave that sheet on media=print, and the base styles.css fill
-   is what painted every segment teal. These selectors outrank it. */
-#main-sticky #sfbar-main.sfbar{
-  display:flex !important;flex:none !important;flex-direction:row !important;
-  align-items:stretch !important;gap:0 !important;grid-template-columns:none !important;
-  width:100% !important;height:44px !important;min-height:44px !important;max-height:44px !important;
-  margin:0 0 32px !important;padding:0 !important;box-sizing:border-box !important;
-  border:1px solid #dcdad7 !important;border-radius:16px !important;
-  background:#f6f2ea !important;background-image:none !important;overflow:visible !important;
-}
-#main-sticky #sfbar-main > .cdd{
-  position:relative !important;display:flex !important;flex:1 1 0 !important;
-  min-width:0 !important;max-width:none !important;height:100% !important;overflow:visible !important;
-}
-#main-sticky #sfbar-main .cdd-btn{
-  display:flex !important;align-items:center !important;justify-content:center !important;
-  width:100% !important;height:100% !important;min-width:0 !important;max-width:100% !important;
-  padding:0 4px !important;box-sizing:border-box !important;border:0 !important;border-radius:0 !important;
-  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
-  box-shadow:none !important;filter:none !important;transform:none !important;
-  color:#155A50 !important;overflow:hidden !important;transition:none !important;
-}
-#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{border-left:1px solid #dcdad7 !important}
-#main-sticky #sfbar-main .cdd-ico,
-#main-sticky #sfbar-main .cdd-chev{display:none !important}
-#main-sticky #sfbar-main .cdd-lbl{
-  font-size:12px !important;font-weight:700 !important;line-height:16px !important;
-  color:#155A50 !important;white-space:nowrap !important;overflow:hidden !important;
-  text-overflow:ellipsis !important;min-width:0 !important;
-}
-#main-sticky #sfbar-main .cdd-btn.on,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn{
-  background:#155A50 !important;background-color:#155A50 !important;background-image:none !important;color:#f6f2ea !important;
-}
-#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
-@media (hover:none), (pointer:coarse){
-  #main-sticky #sfbar-main .cdd-btn:hover,
-  #main-sticky #sfbar-main .cdd-btn:active,
-  #main-sticky #sfbar-main:hover .cdd-btn{
-    background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
-    color:#155A50 !important;transform:none !important;filter:none !important;
-  }
-  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
-  #main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#155A50 !important}
-  #main-sticky #sfbar-main .cdd-btn.on,
-  #main-sticky #sfbar-main .cdd-btn.on:hover,
-  #main-sticky #sfbar-main .cdd-btn.on:active,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn:active{
-    background:#155A50 !important;background-color:#155A50 !important;color:#f6f2ea !important;
-  }
-  #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-  #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
-  .pg-close-fab:hover,.ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
-}
-/* One teal segment. An open menu wins over a saved selection and over
-   :hover, :active, or :focus left on another segment. Closing the menu
-   drops .cdd-open, so only .on (or nothing) is teal again. */
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus-visible,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:hover,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:active,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus-visible{
-  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
-  color:#155A50 !important;box-shadow:none !important;filter:none !important;outline-color:transparent !important;
-}
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#155A50 !important}
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{border-left-color:#dcdad7 !important}
 .ss-list-load{background:#f6f2ea;border:1px solid #dcdad7;border-radius:16px;padding:24px 20px 16px;margin:0;max-width:none;width:100%;box-sizing:border-box}
 .ss-list-load-msg{margin:0;color:#155A50;font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:balance}
 .ss-list-load-sub{margin:4px 0 16px;color:#57534e;font-size:14px;font-weight:400;line-height:1.4;text-wrap:balance}
@@ -605,70 +528,190 @@ input,button{font-family:inherit}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
 
-/* Plain category row. Height stays 44px so choosing a filter does not move the list. */
-#main-sticky #sfbar-main.sfbar,
-#supplements-view #main-sticky #sfbar-main.sfbar{
-  border:0 !important;border-radius:0 !important;
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  box-shadow:none !important;
-  height:44px !important;min-height:44px !important;max-height:44px !important;
+/* Homepage category bar. Four equal cells, in-flow menu.
+   Base rules only: an ID selector outranks the older .sfbar classes. */
+#sfbar-main.sfbar{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  grid-auto-rows:auto;
+  gap:0;
+  width:100%;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  margin:0 0 32px;
+  padding:0;
+  box-sizing:border-box;
+  border:1px solid #dcdad7;
+  border-radius:0;
+  background:#f6f2ea;
+  overflow:visible;
 }
-#main-sticky #sfbar-main .cdd-btn,
-#main-sticky #sfbar-main .cdd-btn:hover,
-#main-sticky #sfbar-main .cdd-btn:active,
-#main-sticky #sfbar-main .cdd-btn:focus,
-#main-sticky #sfbar-main > .cdd:first-child > .cdd-btn,
-#main-sticky #sfbar-main > .cdd:last-child > .cdd-btn,
-#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  border:0 !important;border-left:0 !important;border-radius:0 !important;
-  box-shadow:none !important;color:#57534e !important;
+#sfbar-main > .cdd{
+  display:contents;
+  min-width:0;
+  width:auto;
+  max-width:none;
 }
-#main-sticky #sfbar-main .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#57534e !important}
-#main-sticky #sfbar-main .cdd-btn.on,
-#main-sticky #sfbar-main .cdd-btn.on:hover,
-#main-sticky #sfbar-main .cdd-btn.on:active,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn:active,
-#main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
-#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn{
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  color:#155A50 !important;box-shadow:inset 0 -2px 0 #155A50 !important;
+#sfbar-main .cdd-btn{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  grid-row:1;
+  width:100%;
+  height:48px;
+  min-height:48px;
+  max-height:48px;
+  margin:0;
+  padding:0 8px;
+  box-sizing:border-box;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  background-image:none;
+  box-shadow:none;
+  color:#0c0a09;
+  font:inherit;
+  cursor:pointer;
+  transform:none;
+  filter:none;
 }
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus{
-  background:transparent !important;background-color:transparent !important;background-image:none !important;
-  color:#57534e !important;box-shadow:none !important;
+#sfbar-main .cdd:not(:last-child) > .cdd-btn{
+  border-right:1px solid #dcdad7;
 }
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
-#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#57534e !important}
-#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn.on:hover .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open > .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
+#sfbar-main .cdd-ico{display:none}
+#sfbar-main .cdd-chev{
+  display:block;
+  width:10px;
+  height:10px;
+  flex:0 0 10px;
+  color:currentColor;
+}
+#sfbar-main .cdd-lbl{
+  color:#0c0a09;
+  font-size:14px;
+  font-weight:600;
+  line-height:18px;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+#sfbar-main .cdd-btn.on,
+#sfbar-main .cdd-open > .cdd-btn{
+  background:transparent;
+  background-image:none;
+  color:#155A50;
+  box-shadow:inset 0 -3px 0 #155A50;
+}
+#sfbar-main .cdd-btn.on .cdd-lbl,
+#sfbar-main .cdd-btn.on .cdd-chev,
+#sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
+#sfbar-main .cdd-open > .cdd-btn .cdd-chev,
+#sfbar-main #art-filter-wrap .cdd-btn.on .cdd-lbl,
+#sfbar-main #art-filter-wrap.cdd-open > .cdd-btn .cdd-lbl{
+  color:#155A50;
+}
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on{
+  color:#0c0a09;
+  background:transparent;
+  box-shadow:none;
+}
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-chev,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn .cdd-lbl{
+  color:#0c0a09;
+}
 @media (hover:hover) and (pointer:fine){
-  #main-sticky #sfbar-main .cdd-btn:hover,
-  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover{
-    background:transparent !important;background-color:transparent !important;
-    color:#155A50 !important;box-shadow:inset 0 -2px 0 #155A50 !important;
+  #sfbar-main .cdd-btn:hover{
+    background:rgba(21,90,80,.08);
   }
-  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
-  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
+  #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{
+    color:inherit;
+  }
 }
+#sfbar-main .cdd-btn:focus-visible,
+#sfbar-main .cdd-item:focus-visible{
+  outline:2px solid #155A50;
+  outline-offset:-2px;
+}
+#sfbar-main .cdd-menu{
+  display:none;
+  position:static;
+  top:auto;
+  left:auto;
+  right:auto;
+  grid-column:1 / -1;
+  grid-row:2;
+  width:100%;
+  min-width:0;
+  max-width:none;
+  max-height:min(70vh, 420px);
+  margin:0;
+  padding:4px;
+  box-sizing:border-box;
+  border:0;
+  border-top:1px solid #dcdad7;
+  border-radius:0;
+  box-shadow:none;
+  background:#f6f2ea;
+  z-index:auto;
+  overflow:auto;
+}
+#sfbar-main .cdd-menu.open{display:block}
+#sfbar-main .cdd-item{
+  min-height:48px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:0;
+  color:#0c0a09;
+  white-space:normal;
+}
+#sfbar-main .cdd-item:hover,
+#sfbar-main .cdd-item:focus{
+  background:rgba(21,90,80,.08);
+  outline:none;
+}
+@media (max-width:600px){
+  #sfbar-main .cdd-lbl{font-size:12px}
+  #sfbar-main .cdd-btn{padding:0 4px;gap:2px}
+}
+#s-content .pop-head{
+  margin:0;
+  padding:0 0 16px;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#s-content .lc-cats,
+#s-content .lc-cau{
+  min-width:0;
+  max-width:48%;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:unset;
+}
+#supplements-view > .container,
+#supplements-view .pg,
+#supplements-view #main-sticky.sticky-bar{
+  overflow:visible;
+}
+
 h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h3{
   text-wrap:balance;hyphens:none;
 }
 #hero.mag a.mag-arrow{text-decoration:none;color:#155A50}
 
 </style>
-<link rel="preload" href="/styles.css?v=design2" as="style">
-<link rel="preload" href="index.css?v=design2" as="style">
+<link rel="preload" href="/styles.css?v=design3" as="style">
+<link rel="preload" href="index.css?v=design3" as="style">
 <script>
 /* Apply the full sheets as real stylesheets. Not media=print. */
 (function(){
@@ -678,13 +721,13 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     link.href=href;
     document.head.appendChild(link);
   }
-  load('/styles.css?v=design2');
-  load('index.css?v=design2');
+  load('/styles.css?v=design3');
+  load('index.css?v=design3');
 })();
 </script>
 <noscript>
-<link rel="stylesheet" href="/styles.css?v=design2">
-<link rel="stylesheet" href="index.css?v=design2">
+<link rel="stylesheet" href="/styles.css?v=design3">
+<link rel="stylesheet" href="index.css?v=design3">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
@@ -696,7 +739,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://api.github.com https://www.fda.gov https://www.efsa.europa.eu; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=design1" defer></script>
+  <script src="_site-ux.js?v=design3" defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -787,7 +830,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 <div class="page-header page-header--center legacy-trust-hero">
   <svg aria-hidden="true" width="64" height="64" viewBox="0 0 24 24" style="color:#155A50;margin-bottom:12px"><use href="#ss-logo"/></svg>
   <div class="page-logo-label">SupplementScore<span>.org</span></div>
-  <h2 class="page-title" style="text-align:center">Supplement information<br>you can trust.</h2>
+  <p class="page-title" style="text-align:center">Supplement information<br>you can trust.</p>
   <div class="page-subtitle">Unbiased and conflict-free. Every score derived exclusively from peer-reviewed clinical trials and credible research institutions.</div>
 </div>
 
@@ -1771,7 +1814,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       <div class="article-content">
         <div class="article-cat"><span class="feat-kicker"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>Guide</div>
         <div class="article-title">The Complete Beginner's Guide to Supplements: What Actually Works in 2026</div>
-        <div class="article-desc">A systematic evaluation of 780 supplements against the randomized-trial evidence base identified 12 that clear the bar for a healthy adult: vitamin D3 (in deficiency), creatine, omega-3, magnesium glycinate, B12 (in at-risk groups), and a handful of others. The rest of the aisle doesn&#8217;t.</div>
+        <div class="article-desc">A systematic evaluation of 780 supplements against the randomized-trial evidence base identified 12 that clear the bar for a healthy adult: vitamin D3 (in deficiency), creatine, omega-3, magnesium glycinate, B12 (in at-risk groups), and a handful of others. The rest of the aisle doesn’t.</div>
         <div class="article-meta">Updated Apr 8, 2026 &middot; 12 min read</div>
       </div>
     </div>
@@ -2076,7 +2119,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 
       <div class="rc-chart">
         <div class="rc-chart-k">Kava: What the 2026 CDC Report Found</div>
-        <h4 class="rc-chart-title">U.S. poison-center calls about kava, 2000–2025</h4>
+        <h3 class="rc-chart-title">U.S. poison-center calls about kava, 2000–2025</h3>
         <div class="rc-chart-row">
           <div class="rc-chart-label">Total kava exposure calls<small>2000–2025, all ages</small></div>
           <div class="rc-chart-bar"><div class="rc-chart-fill hi" style="width:88%"></div></div>
@@ -2455,7 +2498,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 
       <div class="rc-chart">
         <div class="rc-chart-k">Psyllium: 100+ RCTs, One Health Claim</div>
-        <h4 class="rc-chart-title">Clinical endpoints backed by trial data</h4>
+        <h3 class="rc-chart-title">Clinical endpoints backed by trial data</h3>
         <div class="rc-chart-row">
           <div class="rc-chart-label">LDL cholesterol ↓<small>7 g/day × 12 wk</small></div>
           <div class="rc-chart-bar"><div class="rc-chart-fill hi" style="width:82%"></div></div>
@@ -4296,6 +4339,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 </div><!-- end about-view -->
 </div>
 </div>
+</main>
 
 <!-- SS_FOOTER_BEGIN -->
 <!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
@@ -4440,7 +4484,6 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 
 <!-- SEO-STATIC-INDEX:end -->
 
-</main>
 <!-- The supplement database and the directory scripts start after the title
      has painted. Order is preserved so each file can use the one before it. -->
 <script>
@@ -4449,11 +4492,11 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'home-decor.js?v=4cc4ab9c',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
-    'app.js?v=align1',
+    'app.js?v=design3',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
-    'index.js?v=design1',
+    'index.js?v=design3',
     'nav-search.js?v=64e43b51',
     '_research-modal.js?v=c92ae724',
     'modal-stack.js?v=ba2acf0e',

@@ -81,7 +81,10 @@
       if (navType !== 'reload') {
         /* A fresh visit may only be pulled back if it leapt to the footer
            on its own. A reader scrolling partway down is left alone. */
-        if (max < 500 || y < max * 0.82) return;
+        /* Only an actual landing on the footer is the refresh bug.
+           82% down a long article is still the article, and a TOC or
+           hash-less jump to Sources was being snapped back to the top. */
+        if (max < 500 || y < max - 80) return;
         want = 0;
       } else if (want > 0 && max + 8 < want) {
         return;

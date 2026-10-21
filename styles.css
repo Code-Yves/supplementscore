@@ -635,7 +635,7 @@ body.on-profile .ssux-recent{display:none !important}
 /* ── List card v2 (2026-04-29) — minimal click-through to detail modal ── */
 .sc.t1{--lc-accent:#0D9488;--lc-tint:rgba(13,148,136,.055);--lc-tint-bd:rgba(13,148,136,.14)}
 .sc.t2{--lc-accent:#4B7BE5;--lc-tint:rgba(75,123,229,.055);--lc-tint-bd:rgba(75,123,229,.14)}
-.sc.t3{--lc-accent:#CA8A04;--lc-tint:rgba(202,138,4,.055);--lc-tint-bd:rgba(202,138,4,.14)}
+.sc.t3{--lc-accent:#8A5A00;--lc-tint:rgba(202,138,4,.055);--lc-tint-bd:rgba(202,138,4,.14)}
 .sc.t4{--lc-accent:#B91C1C;--lc-tint:rgba(185,28,28,.05);--lc-tint-bd:rgba(185,28,28,.13)}
 .sc:hover{border-color:var(--lc-accent,var(--color-brand))}
 /* 2026-05-22 — `.sc{text-decoration:none;color:inherit}` merged into the
@@ -1316,15 +1316,8 @@ a.site-nav-tab{
      reads in a 64px side panel. */
   .article-side-label{ font-size:9px !important; letter-spacing:.06em !important; }
 
-  /* (#2) Filter chip dropdowns — user wants them shorter. 32px tall
-     keeps them inside the 44px-tall fixed filter bar (with 6px
-     padding above/below). Touch target is below Apple's HIG min but
-     the chips are wide and well-spaced so mis-taps are rare. */
-  /* Style D block buttons: auto height, visible gap between blocks (2026-05-18:
-     was gap:0 which fused the Goal / Age & Sex / Symptom pills edge-to-edge on
-     iPhone — bumped to 8px so the touch targets read as distinct controls). */
-  .sfbar .cdd-btn{ height:auto !important; min-height:0 !important; padding:8px 8px !important; }
-  /* .sfbar gap is handled by the canonical block + its @media(640px) override */
+  /* Filter cells keep the 48px base height. The old auto-height
+     override made the phone row 34px and lost to the tap target. */
 
   /* (#3) A-Z letter buttons — 36px with at-least-8px gap so the row
      is reliably tappable. */
@@ -2520,7 +2513,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 }
 .sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:#155A50;display:block}
 .sfbar .cdd-lbl{font-size:12px;font-weight:600;line-height:1;color:#155A50;letter-spacing:.01em}
-.sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
+.sfbar .cdd-chev{display:block;width:10px;height:10px;flex:0 0 10px}
 .sfbar .cdd-btn:hover:not(.on){
   background:var(--color-brand-hover);
   box-shadow:0 2px 8px rgba(21,90,80,.22);
@@ -2577,28 +2570,14 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    were overridden somewhere in the cascade and ended up wrapping to 2+2 on
    tablet widths. CSS Grid with explicit 4 columns is bulletproof. */
 .sfbar{
-  display:grid !important;
-  grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
-  grid-auto-rows:1fr !important;
-  gap:8px !important;
-  padding:8px 0 !important;
-  width:100% !important;
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:0;
+  padding:0;
+  width:100%;
 }
-.sfbar > .cdd{
-  min-width:0 !important;
-  max-width:none !important;
-  width:100% !important;
-}
-@media(max-width:640px){
-  .sfbar{gap:8px !important}
-  .sfbar .cdd-lbl{font-size:10px !important}
-  .sfbar .cdd-ico{width:14px !important;height:14px !important}
-}
-@media(max-width:380px){
-  .sfbar{gap:4px !important}
-  .sfbar .cdd-lbl{font-size:9px !important}
-  .sfbar .cdd-btn{padding:8px 4px !important}
-}
+.sfbar > .cdd{min-width:0;max-width:none;width:auto}
+
 
 /* 2026-05-22 — Option A: outlined Articles button.
    The 4th .cdd in .sfbar (#art-filter-wrap) is a different *kind* of
@@ -2607,39 +2586,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    deep text) makes that distinction read instantly while preserving
    the existing flex-row layout and JS behaviour. The 3 filter buttons
    (Goal / Age & Sex / Symptom) keep their solid-brand fill. */
-.sfbar #art-filter-wrap .cdd-btn{
-  background:var(--color-background-secondary, #fbf8f1);
-  color:var(--color-brand-hover, #155A50);
-  border:1.5px solid var(--color-brand);
-  box-shadow:none;
-}
-.sfbar #art-filter-wrap .cdd-ico,
-.sfbar #art-filter-wrap .cdd-lbl{
-  color:var(--color-brand-hover, #155A50);
-}
-.sfbar #art-filter-wrap .cdd-btn:hover:not(.on){
-  background:rgba(21,90,80,.08);
-  box-shadow:0 2px 8px rgba(21,90,80,.10);
-  transform:translateY(-1px);
-}
-/* 2026-05-24 — Research button stays outlined-CTA regardless of state.
-   Per design feedback: selecting a category (Population, Condition, Stack,
-   etc.) should ONLY change the label text — visual treatment never flips
-   to solid-brand like the other three filters. Override the .cdd-btn.on
-   styles that .cdd-btn inherits from the global rule. */
-.sfbar #art-filter-wrap .cdd-btn.on,
-.sfbar #art-filter-wrap.cdd-open .cdd-btn{
-  background:var(--color-background-secondary, #fbf8f1) !important;
-  color:var(--color-brand-hover, #155A50) !important;
-  border:1.5px solid var(--color-brand) !important;
-  box-shadow:none !important;
-}
-.sfbar #art-filter-wrap .cdd-btn.on .cdd-ico,
-.sfbar #art-filter-wrap .cdd-btn.on .cdd-lbl,
-.sfbar #art-filter-wrap.cdd-open .cdd-ico,
-.sfbar #art-filter-wrap.cdd-open .cdd-lbl{
-  color:var(--color-brand-hover, #155A50) !important;
-}
+/* Research uses the same cell treatment as the other three filters. */
 
 /* — Context title — sits directly on the page background, no panel.
    2026-05-22 — Removed the white card background + border + rounded top
@@ -4512,6 +4459,9 @@ main.sk-wrap .ar-faq > p{
   main.sk-wrap p a,main.sk-wrap li a,
   main.det-wrap p a,main.det-wrap li a,
   .hub-wrap p a,.hub-wrap li a{
+    display:inline-block;
+    min-width:44px;
+    box-sizing:border-box;
     padding-top:16px;padding-bottom:16px;line-height:1.15;
   }
   .hub-back,.hub-art-list li a,.hub-simple-list li a,.hub-sup-card{
@@ -4588,3 +4538,187 @@ main.sk-wrap > #hero.mag{margin:0 0 24px}
   color:#155A50;text-decoration:none;font-weight:600;font-size:16px;line-height:1.3;
 }
 .ss-mentioned a:hover{text-decoration:underline;text-underline-offset:3px}
+main.ar-wrap p a,main.ar-wrap li a,main.ar-wrap .ar-bottomline a,
+main.sx-wrap p a,main.sx-wrap li a,
+main.ca-wrap p a,main.ca-wrap li a,
+main.sk-wrap p a,main.sk-wrap li a{
+  display:inline-block;
+  min-width:44px;
+  box-sizing:border-box;
+}
+
+/* Homepage category bar. Four equal cells, in-flow menu.
+   Base rules only: an ID selector outranks the older .sfbar classes. */
+#sfbar-main.sfbar{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  grid-auto-rows:auto;
+  gap:0;
+  width:100%;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  margin:0 0 32px;
+  padding:0;
+  box-sizing:border-box;
+  border:1px solid #dcdad7;
+  border-radius:0;
+  background:#f6f2ea;
+  overflow:visible;
+}
+#sfbar-main > .cdd{
+  display:contents;
+  min-width:0;
+  width:auto;
+  max-width:none;
+}
+#sfbar-main .cdd-btn{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  grid-row:1;
+  width:100%;
+  height:48px;
+  min-height:48px;
+  max-height:48px;
+  margin:0;
+  padding:0 8px;
+  box-sizing:border-box;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  background-image:none;
+  box-shadow:none;
+  color:#0c0a09;
+  font:inherit;
+  cursor:pointer;
+  transform:none;
+  filter:none;
+}
+#sfbar-main .cdd:not(:last-child) > .cdd-btn{
+  border-right:1px solid #dcdad7;
+}
+#sfbar-main .cdd-ico{display:none}
+#sfbar-main .cdd-chev{
+  display:block;
+  width:10px;
+  height:10px;
+  flex:0 0 10px;
+  color:currentColor;
+}
+#sfbar-main .cdd-lbl{
+  color:#0c0a09;
+  font-size:14px;
+  font-weight:600;
+  line-height:18px;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+#sfbar-main .cdd-btn.on,
+#sfbar-main .cdd-open > .cdd-btn{
+  background:transparent;
+  background-image:none;
+  color:#155A50;
+  box-shadow:inset 0 -3px 0 #155A50;
+}
+#sfbar-main .cdd-btn.on .cdd-lbl,
+#sfbar-main .cdd-btn.on .cdd-chev,
+#sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
+#sfbar-main .cdd-open > .cdd-btn .cdd-chev,
+#sfbar-main #art-filter-wrap .cdd-btn.on .cdd-lbl,
+#sfbar-main #art-filter-wrap.cdd-open > .cdd-btn .cdd-lbl{
+  color:#155A50;
+}
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on{
+  color:#0c0a09;
+  background:transparent;
+  box-shadow:none;
+}
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-chev,
+#sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn .cdd-lbl{
+  color:#0c0a09;
+}
+@media (hover:hover) and (pointer:fine){
+  #sfbar-main .cdd-btn:hover{
+    background:rgba(21,90,80,.08);
+  }
+  #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{
+    color:inherit;
+  }
+}
+#sfbar-main .cdd-btn:focus-visible,
+#sfbar-main .cdd-item:focus-visible{
+  outline:2px solid #155A50;
+  outline-offset:-2px;
+}
+#sfbar-main .cdd-menu{
+  display:none;
+  position:static;
+  top:auto;
+  left:auto;
+  right:auto;
+  grid-column:1 / -1;
+  grid-row:2;
+  width:100%;
+  min-width:0;
+  max-width:none;
+  max-height:min(70vh, 420px);
+  margin:0;
+  padding:4px;
+  box-sizing:border-box;
+  border:0;
+  border-top:1px solid #dcdad7;
+  border-radius:0;
+  box-shadow:none;
+  background:#f6f2ea;
+  z-index:auto;
+  overflow:auto;
+}
+#sfbar-main .cdd-menu.open{display:block}
+#sfbar-main .cdd-item{
+  min-height:48px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:0;
+  color:#0c0a09;
+  white-space:normal;
+}
+#sfbar-main .cdd-item:hover,
+#sfbar-main .cdd-item:focus{
+  background:rgba(21,90,80,.08);
+  outline:none;
+}
+@media (max-width:600px){
+  #sfbar-main .cdd-lbl{font-size:12px}
+  #sfbar-main .cdd-btn{padding:0 4px;gap:2px}
+}
+#s-content .pop-head{
+  margin:0;
+  padding:0 0 16px;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#s-content .lc-cats,
+#s-content .lc-cau{
+  min-width:0;
+  max-width:48%;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:unset;
+}
+#supplements-view > .container,
+#supplements-view .pg,
+#supplements-view #main-sticky.sticky-bar{
+  overflow:visible;
+}

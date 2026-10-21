@@ -278,6 +278,9 @@ main.sk-wrap .ar-faq > p{
   main.sk-wrap p a,main.sk-wrap li a,
   main.det-wrap p a,main.det-wrap li a,
   .hub-wrap p a,.hub-wrap li a{
+    display:inline-block;
+    min-width:44px;
+    box-sizing:border-box;
     padding-top:16px;padding-bottom:16px;line-height:1.15;
   }
   .hub-back,.hub-art-list li a,.hub-simple-list li a,.hub-sup-card{
@@ -346,6 +349,14 @@ main.sk-wrap > #hero.mag{margin:0 0 24px}
   color:#155A50;text-decoration:none;font-weight:600;font-size:16px;line-height:1.3;
 }
 .ss-mentioned a:hover{text-decoration:underline;text-underline-offset:3px}
+main.ar-wrap p a,main.ar-wrap li a,main.ar-wrap .ar-bottomline a,
+main.sx-wrap p a,main.sx-wrap li a,
+main.ca-wrap p a,main.ca-wrap li a,
+main.sk-wrap p a,main.sk-wrap li a{
+  display:inline-block;
+  min-width:44px;
+  box-sizing:border-box;
+}
 @media (max-width:600px){
   .rc-trust-by a,.ar-meta a[rel="author"]{
     display:inline-flex;align-items:center;min-height:44px;min-width:44px;box-sizing:border-box;

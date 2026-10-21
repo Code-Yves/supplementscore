@@ -5200,22 +5200,83 @@ var _DD_ICONS={
 };
 function _dd(id,label,opts,onSelect){
   const icoHtml=_DD_ICONS[id]||'';
+  const safe=String(label).replace(/"/g,'&quot;');
   return`<div class="cdd" id="${id}-wrap">
-    <button type="button" class="cdd-btn" onclick="toggleDD('${id}')">${icoHtml}<span class="cdd-lbl">${label}</span><svg class="cdd-chev" width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="cdd-menu" id="${id}-menu">${opts.map(o=>`<div class="cdd-item" data-val="${o.val}" onclick="${onSelect}('${o.val}');closeDD('${id}')">${o.label}</div>`).join('')}</div>
+    <button type="button" class="cdd-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="${id}-menu" onclick="toggleDD('${id}')">${icoHtml}<span class="cdd-lbl">${label}</span><svg class="cdd-chev" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="cdd-menu" id="${id}-menu" role="menu" aria-label="${safe}">${opts.map(o=>`<div class="cdd-item" role="menuitem" tabindex="-1" data-val="${o.val}" onclick="${onSelect}('${o.val}');closeDD('${id}')">${o.label}</div>`).join('')}</div>
   </div>`;
 }
-function toggleDD(id){const m=document.getElementById(id+'-menu');if(!m)return;const open=m.classList.toggle('open');document.querySelectorAll('.cdd-menu.open').forEach(x=>{if(x.id!==id+'-menu')x.classList.remove('open');});document.querySelectorAll('.cdd.cdd-open').forEach(w=>{if(w.id!==id+'-wrap')w.classList.remove('cdd-open');});const wrap=document.getElementById(id+'-wrap');if(wrap)wrap.classList.toggle('cdd-open',open);if(open){document.querySelectorAll('.cdd-btn').forEach(b=>{if(!wrap||!wrap.contains(b))b.blur();});}}
-function closeDD(id){document.getElementById(id+'-menu').classList.remove('open');document.getElementById(id+'-wrap').classList.remove('cdd-open');}
+function _cddPark(){}
+function _cddUnpark(){}
+function toggleDD(id){
+  const m=document.getElementById(id+'-menu');
+  if(!m)return;
+  const wrap=document.getElementById(id+'-wrap');
+  const open=!m.classList.contains('open');
+  document.querySelectorAll('.cdd-menu.open').forEach(x=>{if(x.id!==id+'-menu'){x.classList.remove('open');_cddUnpark(x);}});
+  document.querySelectorAll('.cdd.cdd-open').forEach(w=>{if(!wrap||w.id!==wrap.id)w.classList.remove('cdd-open');});
+  document.querySelectorAll('.cdd-btn[aria-expanded="true"]').forEach(b=>{if(!wrap||!wrap.contains(b))b.setAttribute('aria-expanded','false');});
+  m.classList.toggle('open',open);
+  if(wrap)wrap.classList.toggle('cdd-open',open);
+  const btn=wrap&&wrap.querySelector('.cdd-btn');
+  if(btn)btn.setAttribute('aria-expanded',open?'true':'false');
+  if(open){
+    _cddPark(m,wrap);
+    const first=m.querySelector('.cdd-item');
+    if(first)first.focus();
+  }else{
+    _cddUnpark(m);
+  }
+}
+function closeDD(id){
+  const m=document.getElementById(id+'-menu');
+  const wrap=document.getElementById(id+'-wrap');
+  if(m)m.classList.remove('open');
+  if(wrap)wrap.classList.remove('cdd-open');
+  const btn=wrap&&wrap.querySelector('.cdd-btn');
+  if(btn){
+    btn.setAttribute('aria-expanded','false');
+    if(document.activeElement&&m&&(m.contains(document.activeElement)||wrap.contains(document.activeElement)))btn.focus();
+  }
+  _cddUnpark(m);
+}
+function _cddKey(e){
+  const menu=document.querySelector('.cdd-menu.open');
+  if(!menu)return;
+  const items=Array.from(menu.querySelectorAll('.cdd-item'));
+  if(!items.length)return;
+  const i=items.indexOf(document.activeElement);
+  if(e.key==='Escape'){
+    e.preventDefault();
+    closeDD(menu.id.replace(/-menu$/,''));
+    return;
+  }
+  if(e.key==='ArrowDown'){e.preventDefault();items[i<0?0:Math.min(items.length-1,i+1)].focus();}
+  else if(e.key==='ArrowUp'){e.preventDefault();items[i<=0?items.length-1:i-1].focus();}
+  else if(e.key==='Home'){e.preventDefault();items[0].focus();}
+  else if(e.key==='End'){e.preventDefault();items[items.length-1].focus();}
+  else if((e.key==='Enter'||e.key===' ')&&i>=0){e.preventDefault();items[i].click();}
+}
+document.addEventListener('keydown',_cddKey);
 function _ddLabel(id,txt){const lbl=document.querySelector('#'+id+'-wrap .cdd-lbl');if(lbl)lbl.textContent=txt;}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}
-function _closeCddOutside(e){if(e.target.closest&&e.target.closest('.cdd'))return;document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');if(m.parentElement)m.parentElement.classList.remove('cdd-open');});}
+function _closeCddOutside(e){
+  if(e.target.closest&&(e.target.closest('.cdd')||e.target.closest('.cdd-menu')))return;
+  document.querySelectorAll('.cdd-menu.open').forEach(m=>{
+    m.classList.remove('open');
+    const wrap=m._cddHome||m.parentElement;
+    if(wrap)wrap.classList.remove('cdd-open');
+    const btn=wrap&&wrap.querySelector&&wrap.querySelector('.cdd-btn');
+    if(btn)btn.setAttribute('aria-expanded','false');
+    _cddUnpark(m);
+  });
+}
 document.addEventListener('click',_closeCddOutside);
 document.addEventListener('touchend',_closeCddOutside,{passive:true});
 /* bfcache can restore a menu that was open when the user left, which
    paints that segment teal on the way back. Close menus on restore.
    A real selection (.on) stays. */
-window.addEventListener('pageshow',function(e){if(!e.persisted)return;document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');if(m.parentElement)m.parentElement.classList.remove('cdd-open');});if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();});
+window.addEventListener('pageshow',function(e){if(!e.persisted)return;document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');var wrap=m._cddHome||m.parentElement;if(wrap&&wrap.classList)wrap.classList.remove('cdd-open');_cddUnpark(m);});if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();});
 function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const trCount=S.filter(s=>s.tr).length;
 /* 2026-05-21 \u2014 Goal + Symptom dropdowns now show a per-option supplement
    count beneath the label, matching the Age & Sex dropdown's two-line item

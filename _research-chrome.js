@@ -237,8 +237,23 @@
     return file.replace(/\b[a-z]/g, function(c){ return c.toUpperCase(); });
   }
 
+  function decodeEntities(raw){
+    var s = String(raw || '');
+    var prev;
+    do {
+      prev = s;
+      s = s.replace(/&amp;/g, '&');
+    } while (s !== prev && s.indexOf('&amp;') !== -1);
+    return s
+      .replace(/&#39;|&#x27;|&apos;/gi, "'")
+      .replace(/&quot;/gi, '"')
+      .replace(/&#(\d+);/g, function(_, n){ var c = parseInt(n, 10); return c > 0 ? String.fromCodePoint(c) : _; })
+      .replace(/&#x([0-9a-f]+);/gi, function(_, n){ var c = parseInt(n, 16); return c > 0 ? String.fromCodePoint(c) : _; })
+      .replace(/&mdash;/g, '\u2014').replace(/&ndash;/g, '\u2013').replace(/&hellip;/g, '\u2026')
+      .replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  }
   function plainTitle(raw){
-    return String(raw || '')
+    return decodeEntities(raw)
       .replace(/\s*(?:\||\u2014|\u2013|-)\s*SupplementScore\s*$/i, '')
       .replace(/-/g, '\u2011')
       .trim();
