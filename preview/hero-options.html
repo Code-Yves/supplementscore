@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Homepage hero options — preview only</title>
+<!--
+  Preview only. Not linked from the site, not in the sitemap, and not for main.
+  Copy, dates, and read times are the homepage article carousel (#hero).
+  Articles 4 (kava) and 92 (psyllium) have no standalone /a/ file; those two
+  links go to their inline articles on the homepage.
+  Options 1, 2, 7, and 9 stay off phones, matching today's carousel.
+  Options 3, 4, 5, 6, 8, and 10 would show on phones.
+-->
+<style>
+  :root {
+    --page: #ebe5d9;
+    --card: #f4efe6;
+    --surface: #f6f2ea;
+    --ink: #0c0a09;
+    --muted: #57534e;
+    --faint: #6b6560;
+    --line: #dcdad7;
+    --teal: #1F7A6B;
+    --teal-deep: #155A50;
+    --cream: #F8F4ED;
+    --hero: linear-gradient(90deg, #3A8276 0%, #4DA095 100%);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 28px 0 80px;
+  }
+  .intro {
+    padding: 0 0 8px;
+  }
+  .intro h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+  }
+  .intro p {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .option { margin-top: 36px; }
+  .option h2 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+  }
+  .option .blurb {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .phone-note { display: none; margin: 0; color: var(--faint); font-size: 13px; }
+  .shot { width: 800px; background: var(--page); }
+
+  .kicker {
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .meta {
+    font-size: 12px;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .read {
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .read:hover { text-decoration: underline; }
+
+  /* 1 — minimal text feature */
+  .h1 {
+    background: var(--hero);
+    color: var(--cream);
+    border-radius: 18px;
+    min-height: 280px;
+    padding: 36px 40px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .h1-count {
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(248, 244, 237, 0.78);
+    font-variant-numeric: tabular-nums;
+  }
+  .h1 h3 {
+    margin: 10px 0 12px;
+    max-width: 16em;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.12;
+  }
+  .h1 p {
+    margin: 0;
+    max-width: 46em;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(248, 244, 237, 0.9);
+  }
+  .h1-foot, .h2-foot, .h4-foot, .h8-foot, .h10-foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .h1 .meta { color: rgba(248, 244, 237, 0.78); }
+  .h1 .read { color: var(--cream); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* 2 — split figure / text */
+  .h2 {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 300px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .h2-fig {
+    background: var(--teal-deep);
+    color: var(--cream);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-decoration: none;
+    gap: 10px;
+  }
+  .h2-num {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+  }
+  .h2-fig p {
+    margin: 0;
+    max-width: 16em;
+    font-size: 14px;
+    line-height: 1.45;
+    color: rgba(248, 244, 237, 0.86);
+  }
+  .h2-copy { padding: 32px 32px 28px; display: flex; flex-direction: column; }
+  .h2-copy h3 {
+    margin: 12px 0 10px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.18;
+  }
+  .h2-copy .dek {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .h2-foot { margin-top: auto; }
+
+  /* 3 — three latest */
+  .h3 {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 8px 8px 8px 22px;
+  }
+  .h3-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 14px 14px 10px 0;
+  }
+  .h3 a.row {
+    display: grid;
+    grid-template-columns: 92px 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 14px 14px 14px 0;
+    text-decoration: none;
+    border-top: 1px solid var(--line);
+  }
+  .h3 a.row:hover h3 { color: var(--teal); }
+  .h3 .when { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .h3 h3 { margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -0.2px; line-height: 1.3; }
+  .h3 .mins { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* 4 — large card, dots */
+  .h4 {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 36px 40px 28px;
+  }
+  .h4 h3 {
+    margin: 0 0 12px;
+    max-width: 16em;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+  .h4 .dek {
+    margin: 0 0 22px;
+    max-width: 48em;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .h4-foot { margin-bottom: 22px; }
+  .dots { display: flex; gap: 7px; align-items: center; }
+  .dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(12, 10, 9, 0.18);
+    display: block;
+  }
+  .dots i.on { background: var(--teal); }
+
+  /* 5 — side-scrolling strip */
+  .h5 {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 2px;
+  }
+  .h5 a {
+    flex: 0 0 248px;
+    scroll-snap-align: start;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+    min-height: 168px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .h5 a:hover h3 { color: var(--teal); }
+  .h5 h3 {
+    margin: 10px 0 0;
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: -0.2px;
+    line-height: 1.3;
+  }
+  .h5 .read { margin-top: auto; padding-top: 16px; }
+
+  /* 6 — magazine grid */
+  .h6 {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 28px 32px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 32px;
+  }
+  .h6-lead { text-decoration: none; display: block; }
+  .h6-lead:hover h3 { color: var(--teal); }
+  .h6-lead h3 {
+    margin: 10px 0 10px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.45px;
+    line-height: 1.15;
+  }
+  .h6-lead .dek { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+  .h6-side { display: flex; flex-direction: column; border-left: 1px solid var(--line); padding-left: 28px; }
+  .h6-side a {
+    text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    display: block;
+  }
+  .h6-side a:first-child { padding-top: 0; }
+  .h6-side a:last-child { border-bottom: 0; padding-bottom: 0; }
+  .h6-side a:hover h3 { color: var(--teal); }
+  .h6-side h3 { margin: 8px 0 0; font-size: 16px; font-weight: 650; letter-spacing: -0.2px; line-height: 1.3; }
+
+  /* 7 — numbered rail */
+  .h7 {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    min-height: 320px;
+  }
+  .h7-rail { border-right: 1px solid var(--line); padding: 8px 0; }
+  .h7-rail a {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 8px;
+    padding: 11px 18px 11px 16px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.35;
+  }
+  .h7-rail a strong { font-weight: 650; color: var(--ink); }
+  .h7-rail .n {
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    color: var(--faint);
+    padding-top: 1px;
+  }
+  .h7-rail a.on {
+    background: rgba(31, 122, 107, 0.08);
+    box-shadow: inset 2px 0 0 var(--teal);
+  }
+  .h7-rail a.on strong { color: var(--teal); }
+  .h7-feature { padding: 28px 28px 24px; display: flex; flex-direction: column; }
+  .h7-feature h3 {
+    margin: 10px 0 12px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.18;
+  }
+  .h7-feature .dek { margin: 0 0 20px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+  .h7-feature .read { margin-top: auto; }
+
+  /* 8 — open masthead */
+  .h8 { padding: 4px 0 2px; }
+  .h8 h3 {
+    margin: 8px 0 10px;
+    max-width: 18em;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    line-height: 1.08;
+  }
+  .h8 .dek {
+    margin: 0 0 16px;
+    max-width: 46em;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .h8-rule { height: 1px; background: var(--line); margin-bottom: 14px; }
+
+  /* 9 — two-up */
+  .h9 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .h9 a { padding: 28px 28px 24px; text-decoration: none; display: flex; flex-direction: column; min-height: 240px; }
+  .h9 a + a { border-left: 1px solid var(--line); }
+  .h9 a:hover h3 { color: var(--teal); }
+  .h9 h3 {
+    margin: 10px 0 10px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.35px;
+    line-height: 1.2;
+  }
+  .h9 .dek {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .h9 .read { margin-top: auto; padding-top: 18px; }
+
+  /* 10 — lead band + next titles */
+  .h10 { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); }
+  .h10-lead {
+    background: var(--hero);
+    color: var(--cream);
+    padding: 22px 28px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    text-decoration: none;
+  }
+  .h10-lead h3 {
+    margin: 6px 0 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+    max-width: 22em;
+  }
+  .h10 .eyebrow {
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(248, 244, 237, 0.78);
+  }
+  .h10-lead .read { color: var(--cream); text-decoration: underline; text-underline-offset: 3px; flex-shrink: 0; }
+  .h10-next { background: var(--card); display: flex; }
+  .h10-next a {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px 16px;
+    text-decoration: none;
+    border-left: 1px solid var(--line);
+  }
+  .h10-next a:first-child { border-left: 0; }
+  .h10-next a:hover strong { color: var(--teal); }
+  .h10-next .ord {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .h10-next strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 650;
+    line-height: 1.35;
+    letter-spacing: -0.1px;
+  }
+
+  @media (max-width: 768px) {
+    .page { padding: 20px 16px 48px; }
+    .shot { width: 100%; }
+    .desktop-only .shot { display: none; }
+    .desktop-only .phone-note { display: block; }
+    .h1 { padding: 28px 22px 24px; min-height: 0; }
+    .h1 h3 { font-size: 28px; }
+    .h3 { padding: 6px 16px 8px; }
+    .h3 a.row { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 0; }
+    .h3 .when { grid-column: 1; }
+    .h3 h3 { grid-column: 1 / -1; font-size: 16.5px; }
+    .h3 .mins { grid-column: 2; grid-row: 1; }
+    .h4 { padding: 24px 20px 20px; }
+    .h4 h3 { font-size: 26px; }
+    .h4 .dek { font-size: 15px; }
+    .h5 a { flex-basis: 78%; }
+    .h6 { grid-template-columns: 1fr; gap: 0; padding: 22px 20px; }
+    .h6-side { border-left: 0; padding-left: 0; margin-top: 18px; border-top: 1px solid var(--line); }
+    .h6-side a:first-child { padding-top: 16px; }
+    .h6-lead h3 { font-size: 24px; }
+    .h8 h3 { font-size: 30px; }
+    .h10-lead { flex-direction: column; align-items: flex-start; gap: 12px; padding: 20px; }
+    .h10-lead h3 { font-size: 20px; }
+    .h10-next { display: block; }
+    .h10-next a { display: block; border-left: 0; border-top: 1px solid var(--line); }
+    .h10-next a:first-child { border-top: 0; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="intro">
+    <h1>Ten ways to replace the article carousel</h1>
+    <p>Preview only. These are not on the homepage. Titles, descriptions, dates, and read times are the articles in today’s carousel. No category pills.</p>
+  </div>
+
+  <section class="option desktop-only" id="opt-1">
+    <h2>1. Minimal text feature</h2>
+    <p class="blurb">One article, type only, on the same teal field. Stays off phones, like the carousel.</p>
+    <div class="shot">
+      <article class="h1">
+        <div>
+          <div class="h1-count">1 of 20</div>
+          <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+          <p>Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+        </div>
+        <div class="h1-foot">
+          <span class="meta">4 min read · May 9, 2026</span>
+          <a class="read" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">Read article</a>
+        </div>
+      </article>
+    </div>
+    <p class="phone-note">Hidden on phones.</p>
+  </section>
+
+  <section class="option desktop-only" id="opt-2">
+    <h2>2. Split figure and text</h2>
+    <p class="blurb">A figure from the article on the left, the story on the right. These articles have no photographs, so the number is the picture. Desktop only.</p>
+    <div class="shot">
+      <article class="h2">
+        <a class="h2-fig" href="/index.html#article-4">
+          <div class="h2-num">1,955</div>
+          <p>Kava calls to U.S. poison centers in the April 2026 CDC review. Serious outcomes peaked at 39% in 2024.</p>
+        </a>
+        <div class="h2-copy">
+          <div class="kicker">From the CDC review</div>
+          <h3>CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</h3>
+          <p class="dek">The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024. Kratom co-use is driving the worst cases.</p>
+          <div class="h2-foot">
+            <span class="meta">6 min read · Updated Apr 24, 2026</span>
+            <a class="read" href="/index.html#article-4">Read article</a>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="phone-note">Hidden on phones.</p>
+  </section>
+
+  <section class="option" id="opt-3">
+    <h2>3. Three latest articles</h2>
+    <p class="blurb">A short list of the three newest pieces in the carousel, by date. This would show on phones.</p>
+    <div class="shot">
+      <section class="h3" aria-label="Latest articles">
+        <div class="h3-head">
+          <span class="kicker">Latest</span>
+          <a class="read" href="/index.html#research">All articles</a>
+        </div>
+        <a class="row" href="/a/supplements-to-preserve-muscle-on-glp-1-drugs.html">
+          <span class="when">Jun 6, 2026</span>
+          <h3>Supplements to Preserve Muscle on Ozempic</h3>
+          <span class="mins">7 min</span>
+        </a>
+        <a class="row" href="/a/supplements-for-kids-in-competitive-sports.html">
+          <span class="when">Jun 6, 2026</span>
+          <h3>Supplements for Kids in Competitive Sports</h3>
+          <span class="mins">8 min</span>
+        </a>
+        <a class="row" href="/a/the-10-most-overhyped-supplements-of-2026.html">
+          <span class="when">May 12, 2026</span>
+          <h3>The 10 Most Overhyped Supplements of 2026</h3>
+          <span class="mins">4 min</span>
+        </a>
+      </section>
+    </div>
+  </section>
+
+  <section class="option" id="opt-4">
+    <h2>4. Large card with position dots</h2>
+    <p class="blurb">One story on a cream card. Twenty dots mark the place in the same rotation. This would show on phones.</p>
+    <div class="shot">
+      <article class="h4">
+        <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+        <p class="dek">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+        <div class="h4-foot">
+          <span class="meta">4 min read · May 9, 2026</span>
+          <a class="read" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">Read article</a>
+        </div>
+        <div class="dots" aria-hidden="true">
+          <i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="option" id="opt-5">
+    <h2>5. Side-scrolling strip</h2>
+    <p class="blurb">A horizontal row of the first articles in the rotation. The next card stays in view. This would show on phones.</p>
+    <div class="shot">
+      <div class="h5">
+        <a href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">
+          <span class="meta">May 9, 2026 · 4 min</span>
+          <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+          <span class="read">Read article</span>
+        </a>
+        <a href="/a/supplements-to-preserve-muscle-on-glp-1-drugs.html">
+          <span class="meta">Jun 6, 2026 · 7 min</span>
+          <h3>Supplements to Preserve Muscle on Ozempic</h3>
+          <span class="read">Read article</span>
+        </a>
+        <a href="/a/supplements-for-kids-in-competitive-sports.html">
+          <span class="meta">Jun 6, 2026 · 8 min</span>
+          <h3>Supplements for Kids in Competitive Sports</h3>
+          <span class="read">Read article</span>
+        </a>
+        <a href="/a/why-detox-supplements-are-a-3-billion-scam.html">
+          <span class="meta">Mar 29, 2026 · 6 min</span>
+          <h3>Why “Detox” Supplements Are a $3 Billion Scam</h3>
+          <span class="read">Read article</span>
+        </a>
+        <a href="/a/berberine-is-it-really-nature-s-ozempic.html">
+          <span class="meta">Mar 8, 2026 · 7 min</span>
+          <h3>Berberine: Is It Really Nature’s Ozempic?</h3>
+          <span class="read">Read article</span>
+        </a>
+        <a href="/a/the-10-most-overhyped-supplements-of-2026.html">
+          <span class="meta">May 12, 2026 · 4 min</span>
+          <h3>The 10 Most Overhyped Supplements of 2026</h3>
+          <span class="read">Read article</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="option" id="opt-6">
+    <h2>6. Magazine grid</h2>
+    <p class="blurb">One lead story and two shorter ones beside it. On a phone the two shorter stories stack under the lead.</p>
+    <div class="shot">
+      <div class="h6">
+        <a class="h6-lead" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">
+          <span class="kicker">Lead</span>
+          <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+          <p class="dek">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+        </a>
+        <div class="h6-side">
+          <a href="/a/supplements-to-preserve-muscle-on-glp-1-drugs.html">
+            <span class="meta">Jun 6, 2026 · 7 min</span>
+            <h3>Supplements to Preserve Muscle on Ozempic</h3>
+          </a>
+          <a href="/a/why-detox-supplements-are-a-3-billion-scam.html">
+            <span class="meta">Updated Mar 29, 2026 · 6 min</span>
+            <h3>Why “Detox” Supplements Are a $3 Billion Scam</h3>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="option desktop-only" id="opt-7">
+    <h2>7. Numbered index</h2>
+    <p class="blurb">The rotation as a numbered list, with the selected article written out beside it. Desktop only.</p>
+    <div class="shot">
+      <div class="h7">
+        <nav class="h7-rail" aria-label="Articles">
+          <a class="on" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html"><span class="n">01</span><strong>The 10 Most Dangerous Supplements (Still Legally Sold)</strong></a>
+          <a href="/a/supplements-to-preserve-muscle-on-glp-1-drugs.html"><span class="n">02</span><strong>Supplements to Preserve Muscle on Ozempic</strong></a>
+          <a href="/a/supplements-for-kids-in-competitive-sports.html"><span class="n">03</span><strong>Supplements for Kids in Competitive Sports</strong></a>
+          <a href="/a/why-detox-supplements-are-a-3-billion-scam.html"><span class="n">04</span><strong>Why “Detox” Supplements Are a $3 Billion Scam</strong></a>
+          <a href="/a/berberine-is-it-really-nature-s-ozempic.html"><span class="n">05</span><strong>Berberine: Is It Really Nature’s Ozempic?</strong></a>
+          <a href="/a/the-10-most-overhyped-supplements-of-2026.html"><span class="n">06</span><strong>The 10 Most Overhyped Supplements of 2026</strong></a>
+        </nav>
+        <div class="h7-feature">
+          <span class="meta">4 min read · May 9, 2026</span>
+          <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+          <p class="dek">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+          <a class="read" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">Read article</a>
+        </div>
+      </div>
+    </div>
+    <p class="phone-note">Hidden on phones.</p>
+  </section>
+
+  <section class="option" id="opt-8">
+    <h2>8. Open masthead</h2>
+    <p class="blurb">No card. The story sits on the page in the same type as the homepage headline. This would show on phones.</p>
+    <div class="shot">
+      <article class="h8">
+        <div class="kicker">Editor’s pick</div>
+        <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+        <p class="dek">Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.</p>
+        <div class="h8-rule"></div>
+        <div class="h8-foot">
+          <span class="meta">4 min read · May 9, 2026</span>
+          <a class="read" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">Read article</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="option desktop-only" id="opt-9">
+    <h2>9. Two equal stories</h2>
+    <p class="blurb">Two articles share the row, same size, split by a rule. Desktop only.</p>
+    <div class="shot">
+      <div class="h9">
+        <a href="/a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html">
+          <span class="meta">May 9, 2026 · 4 min</span>
+          <h3>The Cheapest Effective Supplements vs the Priciest Hyped Ones</h3>
+          <p class="dek">$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.</p>
+          <span class="read">Read article</span>
+        </a>
+        <a href="/a/the-10-supplements-people-are-actually-deficient-in.html">
+          <span class="meta">May 9, 2026 · 4 min</span>
+          <h3>The 10 Supplements People Are Actually Deficient In</h3>
+          <p class="dek">95% of U.S. adults fall short on fibre. 90% on choline. 90% on omega-3. The 10 nutrients where pills genuinely fill a population-wide gap — not the trendy ones.</p>
+          <span class="read">Read article</span>
+        </a>
+      </div>
+    </div>
+    <p class="phone-note">Hidden on phones.</p>
+  </section>
+
+  <section class="option" id="opt-10">
+    <h2>10. Lead line and what follows</h2>
+    <p class="blurb">A short teal band for the current story, then the next three titles underneath. This would show on phones, stacked.</p>
+    <div class="shot">
+      <div class="h10">
+        <a class="h10-lead" href="/a/the-10-most-dangerous-supplements-still-legally-sold.html">
+          <div>
+            <div class="eyebrow">Now reading · 1 of 20</div>
+            <h3>The 10 Most Dangerous Supplements (Still Legally Sold)</h3>
+          </div>
+          <span class="read">Read article</span>
+        </a>
+        <div class="h10-next">
+          <a href="/a/supplements-to-preserve-muscle-on-glp-1-drugs.html">
+            <span class="ord">Next</span>
+            <strong>Supplements to Preserve Muscle on Ozempic</strong>
+          </a>
+          <a href="/a/supplements-for-kids-in-competitive-sports.html">
+            <span class="ord">02</span>
+            <strong>Supplements for Kids in Competitive Sports</strong>
+          </a>
+          <a href="/a/why-detox-supplements-are-a-3-billion-scam.html">
+            <span class="ord">03</span>
+            <strong>Why “Detox” Supplements Are a $3 Billion Scam</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
