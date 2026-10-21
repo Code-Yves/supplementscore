@@ -385,7 +385,7 @@ function initArticleLoadMore() {
     const btn = document.createElement('button');
     btn.id = 'article-load-more';
     btn.textContent = 'Load more (' + (cards.length - 20) + ' remaining)';
-    btn.style.cssText = 'width:100%;padding:10px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:none;font-size:12px;color:var(--color-text-secondary);cursor:pointer;margin-top:8px;font-family:inherit';
+    btn.style.cssText = 'width:100%;padding:8px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:none;font-size:12px;color:var(--color-text-secondary);cursor:pointer;margin-top:8px;font-family:inherit';
     btn.onclick = function() {
       const hidden = document.querySelectorAll('.article-card.article-hidden');
       let shown = 0;
@@ -472,7 +472,7 @@ function catCardClick(cat){
     if(a.show) el.setAttribute('data-show', String(a.show));
     else el.removeAttribute('data-show');
     var h=el.querySelector('h2, h3');
-    if(h) h.textContent=a.title;
+    if(h) h.textContent=String(a.title||'').replace(/-/g,'\u2011');
     var k=el.querySelector('.mag-kicker');
     if(k) k.textContent=a.cat||'';
     var p=el.querySelector('p');

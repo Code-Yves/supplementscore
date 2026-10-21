@@ -215,6 +215,32 @@
     flash._tid = setTimeout(function(){ t.classList.remove('on'); }, 1800);
   }
 
+  function articleSection(){
+    var nodes = document.querySelectorAll('script[type="application/ld+json"]');
+    for (var i = 0; i < nodes.length; i++){
+      try {
+        var data = JSON.parse(nodes[i].textContent);
+        if (data && data.articleSection) return String(data.articleSection);
+        var graph = data && data['@graph'];
+        if (graph){
+          for (var g = 0; g < graph.length; g++){
+            if (graph[g] && graph[g].articleSection) return String(graph[g].articleSection);
+          }
+        }
+      } catch (e) {}
+    }
+    return '';
+  }
+
+  function titleFromHref(href){
+    var file = String(href || '').split('/').pop().replace(/\.html.*$/, '').replace(/[-_]+/g, ' ');
+    return file.replace(/\b[a-z]/g, function(c){ return c.toUpperCase(); });
+  }
+
+  function plainTitle(raw){
+    return String(raw || '').replace(/\s*\|\s*SupplementScore\s*$/i, '').replace(/-/g, '\u2011').trim();
+  }
+
   /* ---------- build the chrome ---------- */
 
   /* 1. TOP BAR — Prev/Next/Share/X.
@@ -318,6 +344,86 @@
   var trust = el('div', 'rc-trust', trustHtml);
   /* Insert trust line right after H1 — and after any kicker that follows H1 */
   h1.parentNode.insertBefore(trust, h1.nextSibling);
+
+  /* Magazine grid: this story as the lead, previous and next as the side
+     column. Same card as the homepage hero. */
+  (function buildMagazineHero(){
+    if (document.getElementById('hero')) return;
+    var sectionName = articleSection() || category || '';
+    if (eyebrow){
+      eyebrow.className = 'mag-kicker';
+      eyebrow.textContent = sectionName;
+    }
+    if (h1 && h1.textContent.indexOf('-') !== -1) h1.textContent = h1.textContent.replace(/-/g, '\u2011');
+    var lede = wrap.querySelector('p.ar-lede, p.ca-lede, p.sk-lede, p.sx-lede');
+    var hero = el('section', 'mag');
+    hero.id = 'hero';
+    hero.setAttribute('aria-label', 'Article');
+    var grid = el('div', 'mag-grid');
+    var lead = el('div', 'mag-lead');
+    if (eyebrow) lead.appendChild(eyebrow);
+    lead.appendChild(h1);
+    if (lede) lead.appendChild(lede);
+    grid.appendChild(lead);
+    var side = el('div', 'mag-side');
+    function sideLink(href){
+      if (!href) return;
+      var a = document.createElement('a');
+      a.href = href;
+      var kick = el('span', 'mag-kicker', '');
+      var h3 = document.createElement('h3');
+      h3.textContent = plainTitle(titleFromHref(href));
+      a.appendChild(kick);
+      a.appendChild(h3);
+      side.appendChild(a);
+      fetch(href, { credentials: 'same-origin' }).then(function(r){
+        return r.ok ? r.text() : '';
+      }).then(function(html){
+        if (!html) return;
+        var tm = html.match(/<title>([^<]*)<\/title>/i);
+        if (tm){
+          var t = plainTitle(tm[1]);
+          if (t) h3.textContent = t;
+        }
+        var sm = html.match(/"articleSection"\s*:\s*"([^"]+)"/);
+        if (sm) kick.textContent = sm[1];
+      }).catch(function(){});
+    }
+    sideLink(prevHref);
+    sideLink(nextHref);
+    if (side.children.length) grid.appendChild(side);
+    var pager = el('div', 'mag-pager');
+    function arrow(href, dir, label){
+      if (!href) return;
+      var a = document.createElement('a');
+      a.className = 'mag-arrow';
+      a.href = href;
+      a.setAttribute('aria-label', label);
+      a.textContent = dir < 0 ? '\u2190' : '\u2192';
+      pager.appendChild(a);
+    }
+    arrow(prevHref, -1, 'Previous');
+    arrow(nextHref, 1, 'Next');
+    if (pager.children.length) grid.appendChild(pager);
+    hero.appendChild(grid);
+    if (topBar.nextSibling) wrap.insertBefore(hero, topBar.nextSibling);
+    else wrap.appendChild(hero);
+    if (trust.parentNode) wrap.insertBefore(trust, hero.nextSibling);
+    var swipe = null;
+    hero.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.target.closest && e.target.closest('a, button')) { swipe = null; return; }
+      swipe = { x: e.clientX, y: e.clientY, id: e.pointerId };
+    });
+    hero.addEventListener('pointerup', function(e){
+      if (!swipe || e.pointerId !== swipe.id) return;
+      var dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+      swipe = null;
+      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
+      var href = dx < 0 ? nextHref : prevHref;
+      if (href) window.location.href = href;
+    });
+  })();
 
   /* 4. TOC + section numbering. Pull body section headings — prefer H2s, but
      fall back to H3s on pages that use h3 throughout (legacy template).

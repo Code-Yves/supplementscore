@@ -7,7 +7,7 @@
 
   /* ---------- Page setup ---------- */
   @page {
-    margin: 0.6in 0.55in;
+    margin:0.6in 0.55in;
     size: auto;
   }
 
@@ -57,8 +57,8 @@
   /* ---------- Main content layout ---------- */
   main, .ca-wrap {
     max-width: 6.8in !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
+    margin:0 auto !important;
+    padding:0 !important;
     background: #ffffff !important;
     color: #000000 !important;
   }
@@ -68,13 +68,13 @@
     font-size: 9pt !important;
     color: #555 !important;
     letter-spacing: .12em;
-    margin-bottom: 4pt;
+    margin-bottom:4pt;
   }
 
   .ca-wrap h1, h1 {
     font-size: 20pt !important;
     line-height: 1.15 !important;
-    margin: 0 0 8pt !important;
+    margin:0 0 8pt !important;
     color: #000 !important;
     page-break-after: avoid;
     break-after: avoid;
@@ -84,30 +84,30 @@
     font-size: 9.5pt !important;
     color: #555 !important;
     border-bottom: 1pt solid #999 !important;
-    padding-bottom: 6pt !important;
-    margin-bottom: 14pt !important;
+    padding-bottom:6pt !important;
+    margin-bottom:14pt !important;
   }
 
   .ca-lede {
     font-size: 12pt !important;
     color: #222 !important;
-    margin-bottom: 14pt !important;
+    margin-bottom:14pt !important;
   }
 
   .ca-wrap h2, h2 {
     font-size: 15pt !important;
-    margin: 18pt 0 6pt !important;
+    margin:18pt 0 6pt !important;
     color: #000 !important;
     page-break-before: auto;
     page-break-after: avoid;
     break-after: avoid;
     border-bottom: 0.5pt solid #ccc;
-    padding-bottom: 3pt;
+    padding-bottom:3pt;
   }
 
   .ca-wrap h3, h3 {
     font-size: 12.5pt !important;
-    margin: 12pt 0 4pt !important;
+    margin:12pt 0 4pt !important;
     color: #000 !important;
     page-break-after: avoid;
     break-after: avoid;
@@ -121,12 +121,12 @@
   }
 
   p {
-    margin: 0 0 8pt !important;
+    margin:0 0 8pt !important;
     color: #000 !important;
   }
 
   ul, ol {
-    margin: 0 0 10pt 22pt !important;
+    margin:0 0 10pt 22pt !important;
   }
 
   /* ---------- Cards (stack-card, pick-card, danger-card) ----------
@@ -141,8 +141,8 @@
     border: 0.5pt solid #999 !important;
     border-left: 3pt solid #555 !important;
     border-radius: 0 !important;
-    padding: 8pt 10pt !important;
-    margin: 8pt 0 !important;
+    padding:8pt 10pt !important;
+    margin:8pt 0 !important;
     page-break-inside: avoid;
     break-inside: avoid;
   }
@@ -169,7 +169,7 @@
     background: transparent !important;
     color: #000 !important;
     border: 0.5pt solid #555 !important;
-    padding: 1pt 4pt !important;
+    padding:1pt 4pt !important;
     font-weight: 700 !important;
   }
 
@@ -188,7 +188,7 @@
   }
   th, td {
     border: 0.5pt solid #666 !important;
-    padding: 4pt 6pt !important;
+    padding:4pt 6pt !important;
     color: #000 !important;
     background: #ffffff !important;
   }

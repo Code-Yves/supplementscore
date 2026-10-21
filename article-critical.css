@@ -4,8 +4,8 @@
    move the headline or the bottom line. */
 body{background:var(--color-page);color:var(--color-text-primary)}
 main.ar-wrap,main.sx-wrap,main.ca-wrap,main.sk-wrap{
-  max-width:760px;margin:0 auto;padding:18px 24px 64px;
-  font-size:16.5px;line-height:1.7;color:var(--color-text-primary);
+  max-width:1024px;margin:0 auto;padding:16px 24px 64px;
+  font-size:16px;line-height:1.7;color:var(--color-text-primary);
 }
 main.ar-wrap h1,main.sx-wrap h1,main.ca-wrap h1,main.sk-wrap h1,
 html.rc-chrome-active main.ar-wrap h1,html.rc-chrome-active main.sx-wrap h1,
@@ -14,12 +14,12 @@ html.rc-chrome-active main.ca-wrap h1,html.rc-chrome-active main.sk-wrap h1{
   margin:0 0 12px;color:var(--color-text-primary);
 }
 main.ar-wrap p,main.sx-wrap p,main.ca-wrap p,main.sk-wrap p{
-  font-size:16px;line-height:1.7;margin:0 0 18px;color:var(--color-text-primary);
+  font-size:16px;line-height:1.7;margin:0 0 16px;color:var(--color-text-primary);
 }
-.ar-bottomline{border-left:3px solid var(--color-brand);padding:4px 0 4px 18px;margin:18px 0 24px}
+.ar-bottomline{border-left:3px solid var(--color-brand);padding:4px 0 4px 16px;margin:16px 0 24px}
 .ar-bottomline-label{
-  font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--color-brand);margin:0 0 6px;
+  font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-brand);margin:0 0 8px;
 }
 .ar-bottomline p{font-size:16px;line-height:1.5;margin:0;font-weight:500;color:var(--color-text-primary)}
 @media(max-width:600px){
@@ -36,23 +36,23 @@ html.rc-chrome-active .ss-last-reviewed{display:none !important}
 .rc-top{
   display:flex;justify-content:space-between;align-items:center;
   box-sizing:border-box;height:59px;overflow:hidden;
-  padding:6px 0 4px;border-bottom:1px solid var(--color-border-tertiary);
+  padding:8px 0 4px;border-bottom:1px solid var(--color-border-tertiary);
   margin-bottom:20px;font-size:13px;
 }
-.rc-top-grp{display:inline-flex;align-items:center;gap:14px}
+.rc-top-grp{display:inline-flex;align-items:center;gap:16px}
 .rc-top-link{
-  display:inline-flex;align-items:center;gap:5px;background:none;border:0;
+  display:inline-flex;align-items:center;gap:8px;background:none;border:0;
   padding:4px 2px;color:var(--color-text-secondary);font:inherit;font-size:13px;
   font-weight:500;text-decoration:none;cursor:pointer;
 }
 .rc-top-link.rc-close{font-size:22px;line-height:1;width:24px;height:24px;justify-content:center;padding:0}
 .rc-top-sep{display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary)}
 @media(min-width:641px){
-  .rc-top{height:57px;padding:14px 0 12px}
+  .rc-top{height:57px;padding:16px 0 12px}
 }
 @media(max-width:640px){
   .rc-top-grp{gap:4px}
-  .rc-top-link{padding:13px 8px}
+  .rc-top-link{padding:16px 8px}
   .rc-top-link.rc-close{width:44px;height:44px;padding:0}
 }
 .rc-cat{
@@ -62,21 +62,21 @@ html.rc-chrome-active .ss-last-reviewed{display:none !important}
 }
 .rc-cat:empty::before{display:none}
 .rc-trust{
-  display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:14px 18px;
+  display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:16px 16px;
   box-sizing:border-box;min-height:111px;
-  margin:10px 0 28px;padding-bottom:18px;
+  margin:8px 0 28px;padding-bottom:16px;
   border-bottom:1px solid var(--color-border-tertiary);
   font-size:13px;color:var(--color-text-secondary);
 }
 @media(min-width:641px){
   .rc-trust{min-height:75px}
 }
-.rc-trust-item{display:inline-flex;align-items:center;gap:5px}
+.rc-trust-item{display:inline-flex;align-items:center;gap:8px}
 img{max-width:100%;height:auto}
 /* Mobile styles.css pushes every page down 70px for a fixed beta-bar
    and site-nav. Article pages do not render that bar, so the offset is
    an empty band above Prev/Next. Collapse it here. The :has() selector
-   outranks the later `body { padding-top: 70px }` rule, and it does not
+   outranks the later `body { padding-top:70px }` rule, and it does not
    match the homepage. A few pixels plus the notch stay as padding. */
 @media(max-width:768px){
   body:has(main.ar-wrap),
@@ -114,7 +114,7 @@ img{max-width:100%;height:auto}
     min-width:44px;
     min-height:44px;
     height:44px;
-    padding:0 10px;
+    padding:0 8px;
     box-sizing:border-box;
     justify-content:center;
   }
@@ -175,10 +175,10 @@ html.rc-hold:not(.rc-chrome-active) main.sk-wrap h1{margin-bottom:151px}
 /* Common questions paints as a card before the deferred stylesheet arrives. */
 .ar-faq{
   margin:28px 0 12px;
-  padding:14px 16px 4px;
+  padding:16px 16px 4px;
   border:1px solid var(--color-border-tertiary,#e5e7eb);
   border-radius:12px;
-  background:rgba(31,122,107,.045);
+  background:rgba(21,90,80,.045);
 }
 main.ar-wrap .ar-faq > h2,
 main.ca-wrap .ar-faq > h2,
@@ -188,7 +188,7 @@ main.sk-wrap .ar-faq > h2{
   font-weight:700 !important;
   letter-spacing:.12em !important;
   text-transform:uppercase !important;
-  color:var(--color-brand,#1F7A6B) !important;
+  color:var(--color-brand,#155A50) !important;
   line-height:1.3 !important;
   margin:0 0 12px !important;
 }
@@ -202,7 +202,7 @@ main.sk-wrap .ar-faq > h3{
   text-transform:none !important;
   color:var(--color-text-primary,#0c0a09) !important;
   line-height:1.35 !important;
-  margin:16px 0 6px !important;
+  margin:16px 0 8px !important;
 }
 main.ar-wrap .ar-faq > p,
 main.ca-wrap .ar-faq > p,
@@ -210,7 +210,7 @@ main.sx-wrap .ar-faq > p,
 main.sk-wrap .ar-faq > p{
   font-size:15px !important;
   line-height:1.6 !important;
-  margin:0 0 14px !important;
+  margin:0 0 16px !important;
 }
 /* Phones and small tablets: a shorter title and a tighter stack from the
    Prev/Next row through the trust line. Selectors include .rc-hold so they
@@ -229,7 +229,7 @@ main.sk-wrap .ar-faq > p{
     font-weight:800;
     letter-spacing:-.4px !important;
     line-height:1.15 !important;
-    margin:0 0 6px !important;
+    margin:0 0 8px !important;
   }
   main.ar-wrap > .rc-top,
   main.sx-wrap > .rc-top,
@@ -247,4 +247,79 @@ main.sk-wrap .ar-faq > p{
   html.rc-hold:not(.rc-chrome-active) main.sx-wrap::before,
   html.rc-hold:not(.rc-chrome-active) main.ca-wrap::before,
   html.rc-hold:not(.rc-chrome-active) main.sk-wrap::before{height:90px}
+}
+
+/* Phone: one 16px gutter. Inner wrappers do not add a second inset. */
+@media (max-width:600px){
+  main.ar-wrap,main.sx-wrap,main.ca-wrap,main.sk-wrap,
+  main.det-wrap,.det-page,.det-hero,.det-prose,.hub-wrap{
+    padding-left:0 !important;padding-right:0 !important;
+  }
+  .site-footer-links a{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:44px;padding:12px 8px;box-sizing:border-box;
+  }
+  .site-footer-bottom a{
+    display:inline-flex;align-items:center;min-height:44px;
+    padding:12px 4px;box-sizing:border-box;
+  }
+  .site-footer-contrib-form input,
+  .site-footer-contrib-form button{
+    height:44px !important;min-height:44px !important;box-sizing:border-box;
+  }
+  .site-footer-contrib-form button{width:44px !important;min-width:44px !important}
+  .rc-close,.pg-close-fab,.reader-close-fab,.ss-pagebar-x,.hub-close-fab{
+    width:44px !important;height:44px !important;
+    min-width:44px !important;min-height:44px !important;
+  }
+  main.ar-wrap p a,main.ar-wrap li a,main.ar-wrap .ar-bottomline a,
+  main.sx-wrap p a,main.sx-wrap li a,
+  main.ca-wrap p a,main.ca-wrap li a,
+  main.sk-wrap p a,main.sk-wrap li a,
+  main.det-wrap p a,main.det-wrap li a,
+  .hub-wrap p a,.hub-wrap li a{
+    padding-top:13px;padding-bottom:13px;line-height:1.15;
+  }
+  .hub-back,.hub-art-list li a,.hub-simple-list li a,.hub-sup-card{
+    min-height:44px;box-sizing:border-box;
+  }
+  main.ar-wrap ol,main.ar-wrap ul,
+  main.sx-wrap ol,main.sx-wrap ul,
+  main.ca-wrap ol,main.ca-wrap ul,
+  main.sk-wrap ol,main.sk-wrap ul,
+  main.det-wrap ol,main.det-wrap ul,
+  .det-prose ol,.det-prose ul{
+    margin-left:0 !important;
+    padding-left:1.25em !important;
+  }
+  .rc-toc ul,.rc-rel-list ul{
+    margin-left:0 !important;
+    padding-left:12px !important;
+  }
+}
+.rc-top-link,.rc-share,.pg-share-fab,.pg-share-lbl{color:#44403c}
+main.ar-wrap #hero.mag h1,
+main.sx-wrap #hero.mag h1,
+main.ca-wrap #hero.mag h1,
+main.sk-wrap #hero.mag h1{
+  font-size:28px !important;font-weight:700;letter-spacing:-.45px;
+  line-height:1.15 !important;margin:0 0 8px !important;color:#0c0a09;
+  text-wrap:balance;hyphens:none;
+}
+main.ar-wrap #hero.mag .mag-lead p,
+main.sx-wrap #hero.mag .mag-lead p,
+main.ca-wrap #hero.mag .mag-lead p,
+main.sk-wrap #hero.mag .mag-lead p{
+  margin:0;color:#57534e;font-size:15px;line-height:1.5;
+}
+main.ar-wrap > #hero.mag,
+main.sx-wrap > #hero.mag,
+main.ca-wrap > #hero.mag,
+main.sk-wrap > #hero.mag{margin:0 0 24px}
+#hero.mag .mag-side h3{text-wrap:balance;hyphens:none}
+@media (max-width:600px){
+  main.ar-wrap #hero.mag h1,
+  main.sx-wrap #hero.mag h1,
+  main.ca-wrap #hero.mag h1,
+  main.sk-wrap #hero.mag h1{font-size:20px !important}
 }

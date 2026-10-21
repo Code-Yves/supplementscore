@@ -14,7 +14,7 @@
     --txt: #0c0a09;
     --txt-2: #57534e;
     --txt-3: #8a8378;
-    --brand: #1F7A6B;
+    --brand: #155A50;
     --t1c: #1F8A7A;
     --hairline: rgba(12,10,9,.10);
     --hairline-soft: rgba(12,10,9,.06);
@@ -24,27 +24,27 @@
   body{padding:32px;line-height:1.5;}
 
   .intro{
-    max-width: 1180px; margin: 0 auto 36px;
-    padding: 18px 22px; background: var(--bg-card); border-radius: 12px;
+    max-width: 1180px; margin:0 auto 36px;
+    padding:16px 24px; background: var(--bg-card); border-radius: 12px;
     font-size: 13px; color: var(--txt-2); line-height: 1.55;
   }
-  .intro h1{ margin: 0 0 6px; font-size: 18px; color: var(--txt); }
+  .intro h1{ margin:0 0 8px; font-size: 18px; color: var(--txt); }
 
   .variant-label{
-    max-width: 1180px; margin: 0 auto 12px;
+    max-width: 1180px; margin:0 auto 12px;
     font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
     color: var(--brand);
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap:8px;
   }
   .variant-label::before{
     content:""; display:inline-block; width: 22px; height:1px; background:var(--brand);
   }
   .variant-label small{
-    margin-left: 8px; color: var(--txt-2); font-weight: 500; letter-spacing: .04em; text-transform: none;
+    margin-left:8px; color: var(--txt-2); font-weight: 500; letter-spacing: .04em; text-transform: none;
   }
 
   .variant-frame{
-    max-width: 1180px; margin: 0 auto 48px;
+    max-width: 1180px; margin:0 auto 48px;
     background: var(--bg);
     border-radius: 14px;
     overflow: hidden;
@@ -56,22 +56,22 @@
      padding-top 96, padding-bottom 56 — same as
      "Variant A — Generous spacing" from the prior mockup.
      ──────────────────────────────────────────── */
-  .hero{ padding: 96px 24px 56px; text-align: center; }
+  .hero{ padding:96px 24px 56px; text-align: center; }
   .h1{
     font-size: clamp(40px, 5.8vw, 64px);
     font-weight: 700; letter-spacing: -1.8px;
-    line-height: 1.04; margin: 0 auto 18px;
+    line-height: 1.04; margin:0 auto 16px;
     max-width: 22ch;
   }
   .h1 .accent{ color: var(--t1c); }
   .lede{
     font-size: 17px; color: var(--txt-2);
-    max-width: 56ch; margin: 0 auto 28px;
+    max-width: 56ch; margin:0 auto 28px;
     line-height: 1.55;
   }
-  .search-wrap{ max-width: 480px; margin: 0 auto; position: relative; }
+  .search-wrap{ max-width: 480px; margin:0 auto; position: relative; }
   .search-input{
-    width: 100%; padding: 12px 20px 12px 44px;
+    width: 100%; padding:12px 20px 12px 44px;
     font-family: inherit; font-size: 14px;
     background: var(--bg-card);
     border: 1.5px solid rgba(0,0,0,.08);
@@ -86,18 +86,18 @@
 
   /* Article card placeholder */
   .article-card{
-    margin: 0 24px 32px;
+    margin:0 24px 32px;
     background: linear-gradient(90deg, #3A8276 0%, #4DA095 100%);
     color: #F8F4ED;
     border-radius: 14px;
-    padding: 32px 36px 28px;
+    padding:32px 36px 28px;
     min-height: 200px;
     position: relative;
   }
-  .article-card .pills{ display: flex; gap: 8px; align-items: center; }
+  .article-card .pills{ display: flex; gap:8px; align-items: center; }
   .article-card .pill{
     font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 20px;
+    padding:4px 8px; border-radius: 20px;
     background: rgba(255,255,255,.2); color:#fff;
   }
   .article-card .pill.featured{
@@ -109,7 +109,7 @@
     font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
     color: rgba(248,244,237,.62);
   }
-  .article-card h2{ font-size: 28px; font-weight: 800; line-height: 1.2; margin: 14px 0 12px; color:#fff; max-width: 720px; }
+  .article-card h2{ font-size: 28px; font-weight: 800; line-height: 1.2; margin:16px 0 12px; color:#fff; max-width: 720px; }
   .article-card .desc{ font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.88); max-width: 660px; }
 
   /* ────────────────────────────────────────────
@@ -118,13 +118,13 @@
      surrounding treatment changes.
      ──────────────────────────────────────────── */
   .stats{
-    display: flex; align-items: center; justify-content: center; gap: 14px;
+    display: flex; align-items: center; justify-content: center; gap:16px;
     font-size: 11px;
   }
   .stats .pulse{
     width: 7px; height: 7px; border-radius: 50%; background: var(--brand);
-    box-shadow: 0 0 6px rgba(31,122,107,.5);
-    margin-right: 4px;
+    box-shadow: 0 0 6px rgba(21,90,80,.5);
+    margin-right:4px;
   }
   .stats .s{
     font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
@@ -135,47 +135,47 @@
   }
 
   /* Option 1 — Bare. Stats simply sit on the cream page, no container. */
-  .opt-1 .banner{ padding: 18px 24px 0; }
+  .opt-1 .banner{ padding:16px 24px 0; }
 
   /* Option 2 — Hairline-bracketed. Thin lines top + bottom. */
   .opt-2 .banner{
-    padding: 16px 24px;
+    padding:16px 24px;
     border-top: 1px solid var(--hairline-soft);
     border-bottom: 1px solid var(--hairline-soft);
   }
 
   /* Option 3 — Subtle tint stripe. A half-tone darker cream band. */
   .opt-3 .banner{
-    padding: 16px 24px;
+    padding:16px 24px;
     background: var(--bg-tint);
   }
 
   /* Option 4 — Pill. The whole stats string sits in a rounded pill. */
-  .opt-4 .banner{ padding: 22px 24px 0; }
+  .opt-4 .banner{ padding:24px 24px 0; }
   .opt-4 .stats{
     display: inline-flex;
     background: var(--bg-card);
     border: 1px solid var(--hairline-soft);
     border-radius: 999px;
-    padding: 8px 18px;
+    padding:8px 16px;
     box-shadow: 0 1px 2px rgba(12,10,9,.04);
   }
   .opt-4 .banner-wrap{ text-align: center; }
 
   /* Reset article-card bottom margin on each frame's last child */
-  .variant-frame > .article-card{ margin-bottom: 28px; }
+  .variant-frame > .article-card{ margin-bottom:28px; }
 
   @media (max-width: 720px){
-    body{padding: 16px;}
-    .hero{ padding: 56px 18px 32px; }
-    .article-card{ margin: 0 16px 24px; padding: 22px; }
+    body{padding:16px;}
+    .hero{ padding:56px 16px 32px; }
+    .article-card{ margin:0 16px 24px; padding:24px; }
     .article-card .counter{ top: 22px; right: 16px; font-size: 9.5px; }
     .article-card h2{ font-size: 18px; }
     .article-card .desc{ font-size: 12px; }
-    .stats{ gap: 6px 8px; flex-wrap: wrap; }
+    .stats{ gap:8px 8px; flex-wrap: wrap; }
     .stats .s, .stats .sep{ font-size: 9px; letter-spacing: .08em; }
-    .opt-2 .banner, .opt-3 .banner{ padding: 12px 18px; }
-    .opt-4 .stats{ padding: 6px 12px; }
+    .opt-2 .banner, .opt-3 .banner{ padding:12px 16px; }
+    .opt-4 .stats{ padding:8px 12px; }
   }
 </style>
 

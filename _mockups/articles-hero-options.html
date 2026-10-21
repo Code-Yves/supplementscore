@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:;">
 <style>
 :root{
-  --brand:#1F7A6B;
+  --brand:#155A50;
   --brand-deep:#155b50;
   --cream:#F8F4ED;
   --bg:#EFEAE0;
@@ -37,7 +37,7 @@ body{
 .page-sub{margin:0 0 48px;color:var(--ink-2);font-size:15px;max-width:680px;line-height:1.55}
 
 .opt{margin-bottom:72px}
-.opt-h{display:flex;align-items:baseline;gap:14px;margin:0 0 6px}
+.opt-h{display:flex;align-items:baseline;gap:16px;margin:0 0 8px}
 .opt-letter{
   display:inline-flex;align-items:center;justify-content:center;
   width:28px;height:28px;border-radius:50%;
@@ -45,7 +45,7 @@ body{
   font-family:var(--display);font-weight:700;font-size:13px;
 }
 .opt-title{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-0.01em;margin:0}
-.opt-note{margin:0 0 22px;color:var(--ink-3);font-size:13.5px;max-width:680px;line-height:1.55;padding-left:42px}
+.opt-note{margin:0 0 24px;color:var(--ink-3);font-size:13.5px;max-width:680px;line-height:1.55;padding-left:42px}
 
 /* Stage = the simulated page background that hero sits on */
 .stage{
@@ -61,19 +61,19 @@ body{
   border-bottom:1px dashed var(--line);
 }
 .eyebrow{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.18em;color:var(--brand);text-transform:uppercase;margin:0 0 8px}
-.stage-h1{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:44px;letter-spacing:-0.025em;line-height:1.05}
+.stage-h1{margin:0 0 8px;font-family:var(--display);font-weight:800;font-size:44px;letter-spacing:-0.025em;line-height:1.05}
 .stage-sub{margin:0 auto;color:var(--ink-2);font-size:14px;max-width:520px;line-height:1.5}
 .stage-tabs{
-  display:inline-flex;background:var(--bg-alt);border-radius:999px;padding:4px;margin-top:18px;
+  display:inline-flex;background:var(--bg-alt);border-radius:999px;padding:4px;margin-top:16px;
   font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.04em;
 }
-.stage-tab{padding:7px 14px;border-radius:999px;color:var(--ink-3);text-transform:uppercase}
+.stage-tab{padding:7px 16px;border-radius:999px;color:var(--ink-3);text-transform:uppercase}
 .stage-tab.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.06)}
 
 /* Common card chrome */
 .cat-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.16em;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:0.16em;
   text-transform:uppercase;
 }
 .cat-pill::before{
@@ -85,19 +85,19 @@ body{
 .cat-gd{color:#5b6cad}
 .cat-up{color:var(--brand)}
 
-.meta-row{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--ink-3);font-family:var(--body);font-weight:500}
+.meta-row{display:flex;align-items:center;gap:16px;font-size:12.5px;color:var(--ink-3);font-family:var(--body);font-weight:500}
 .meta-row .dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.5}
 
 .read-cta{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:8px;
   background:var(--brand);color:var(--cream);
-  padding:11px 18px;border-radius:10px;
+  padding:11px 16px;border-radius:10px;
   font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:0.01em;
   text-decoration:none;
 }
 .read-cta::after{content:'→';font-size:15px}
 
-.dots{display:flex;gap:6px;justify-content:center;margin-top:20px}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:20px}
 .dot-i{width:6px;height:6px;border-radius:50%;background:rgba(14,27,25,.18)}
 .dot-i.on{width:22px;border-radius:3px;background:var(--brand)}
 
@@ -110,14 +110,14 @@ body{
 }
 .A-hero::before{
   content:'';position:absolute;top:-80px;right:-80px;width:340px;height:340px;border-radius:50%;
-  background:radial-gradient(circle,rgba(31,122,107,0.10),transparent 70%);
+  background:radial-gradient(circle,rgba(21,90,80,0.10),transparent 70%);
 }
-.A-cat{margin-bottom:14px;display:flex;align-items:center;gap:14px}
-.A-cat .badge{background:rgba(201,154,63,.15);color:var(--gold);padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
+.A-cat{margin-bottom:16px;display:flex;align-items:center;gap:16px}
+.A-cat .badge{background:rgba(201,154,63,.15);color:var(--gold);padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
 .A-h{font-family:var(--display);font-weight:800;font-size:38px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 16px;color:var(--ink)}
-.A-deck{font-size:15.5px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:520px}
+.A-deck{font-size:15.5px;line-height:1.6;color:var(--ink-2);margin:0 0 24px;max-width:520px}
 .A-meta{margin-bottom:24px}
-.A-actions{display:flex;align-items:center;gap:18px}
+.A-actions{display:flex;align-items:center;gap:16px}
 .A-secondary{font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:1.5px solid var(--ink-3);padding-bottom:1px}
 
 .A-visual{position:relative;height:100%;min-height:280px;display:flex;align-items:center;justify-content:center}
@@ -126,14 +126,14 @@ body{
   padding:24px 28px;width:100%;max-width:300px;
   box-shadow:0 12px 40px rgba(15,23,22,0.08);
 }
-.A-stat-k{font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:14px}
-.A-stat-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.A-stat-k{font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:16px}
+.A-stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
 .A-stat-row:last-child{border-bottom:none}
 .A-stat-name{color:var(--ink);font-weight:600}
-.A-stat-name small{color:var(--ink-3);display:block;font-weight:500;font-size:10.5px;margin-top:2px}
+.A-stat-name small{color:var(--ink-3);display:block;font-weight:500;font-size:12px;margin-top:2px}
 .A-stat-val{font-family:var(--display);font-weight:700;color:var(--brand);font-size:14px}
 .A-stat-val.lo{color:var(--ink-3)}
-.A-stat-foot{font-size:11px;color:var(--ink-3);line-height:1.5;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-style:italic}
+.A-stat-foot{font-size:11px;color:var(--ink-3);line-height:1.5;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);font-style:italic}
 
 .A-controls{
   position:absolute;bottom:18px;right:24px;
@@ -149,7 +149,7 @@ body{
 /* ---------------- OPTION B: Editor's Pick + 4 quick-take grid ---------------- */
 .B-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
 .B-main{
-  background:linear-gradient(160deg,#1F7A6B 0%,#155b50 100%);
+  background:linear-gradient(160deg,#155A50 0%,#155b50 100%);
   color:var(--cream);
   border-radius:18px;padding:36px 36px 32px;position:relative;overflow:hidden;
   display:flex;flex-direction:column;justify-content:space-between;
@@ -163,17 +163,17 @@ body{
   content:'';position:absolute;bottom:-80px;left:-40px;width:180px;height:180px;border-radius:50%;
   background:radial-gradient(circle,rgba(232,150,122,0.12),transparent 70%);
 }
-.B-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;position:relative;z-index:2}
+.B-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;position:relative;z-index:2}
 .B-eyebrow::before{content:'';width:24px;height:1px;background:rgba(248,244,237,.4)}
-.B-cat-line{display:flex;align-items:center;gap:14px;margin-top:14px;position:relative;z-index:2}
-.B-cat-line .badge{background:rgba(248,244,237,.16);padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
-.B-h{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.08;letter-spacing:-0.02em;margin:14px 0 14px;position:relative;z-index:2}
-.B-deck{font-size:14.5px;line-height:1.55;opacity:.86;margin:0 0 22px;max-width:480px;position:relative;z-index:2}
+.B-cat-line{display:flex;align-items:center;gap:16px;margin-top:16px;position:relative;z-index:2}
+.B-cat-line .badge{background:rgba(248,244,237,.16);padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
+.B-h{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.08;letter-spacing:-0.02em;margin:16px 0 16px;position:relative;z-index:2}
+.B-deck{font-size:14.5px;line-height:1.55;opacity:.86;margin:0 0 24px;max-width:480px;position:relative;z-index:2}
 .B-foot{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
 .B-meta{font-size:12px;opacity:.78}
 .B-cta{
   background:var(--cream);color:var(--brand);
-  padding:10px 18px;border-radius:10px;font-family:var(--display);font-weight:700;font-size:13px;text-decoration:none;
+  padding:8px 16px;border-radius:10px;font-family:var(--display);font-weight:700;font-size:13px;text-decoration:none;
   display:inline-flex;align-items:center;gap:8px;
 }
 .B-cta::after{content:'→'}
@@ -182,22 +182,22 @@ body{
 .B-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .B-card{
   background:var(--paper);border:1px solid var(--line);border-radius:14px;
-  padding:18px 20px 16px;display:flex;flex-direction:column;justify-content:space-between;
+  padding:16px 20px 16px;display:flex;flex-direction:column;justify-content:space-between;
   min-height:178px;position:relative;
 }
 .B-card .cat-pill{font-size:9px;letter-spacing:.14em}
-.B-card-h{font-family:var(--display);font-weight:700;font-size:15px;line-height:1.25;letter-spacing:-0.01em;margin:10px 0 0;color:var(--ink)}
-.B-card-meta{font-size:11px;color:var(--ink-3);margin-top:10px;font-weight:500}
+.B-card-h{font-family:var(--display);font-weight:700;font-size:15px;line-height:1.25;letter-spacing:-0.01em;margin:8px 0 0;color:var(--ink)}
+.B-card-meta{font-size:11px;color:var(--ink-3);margin-top:8px;font-weight:500}
 .B-card.live::before{
   content:'';position:absolute;top:14px;right:14px;width:7px;height:7px;border-radius:50%;background:var(--brand);
-  box-shadow:0 0 0 4px rgba(31,122,107,.15);
+  box-shadow:0 0 0 4px rgba(21,90,80,.15);
 }
 
 /* ---------------- OPTION C: News Wire ticker + big card ---------------- */
 .C-ticker{
   background:#101F1D;color:var(--cream);
   border-radius:14px 14px 0 0;
-  padding:14px 24px;display:flex;align-items:center;gap:18px;overflow:hidden;
+  padding:16px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;
   border:1px solid #0a1614;border-bottom:none;
 }
 .C-live{
@@ -208,7 +208,7 @@ body{
 .C-live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px rgba(232,150,122,.2)}
 .C-divider{width:1px;height:18px;background:rgba(248,244,237,.18);flex-shrink:0}
 .C-track{display:flex;gap:36px;font-size:13px;color:rgba(248,244,237,.86);white-space:nowrap;overflow:hidden;mask-image:linear-gradient(90deg,#000 90%,transparent)}
-.C-item{display:inline-flex;align-items:center;gap:10px;flex-shrink:0}
+.C-item{display:inline-flex;align-items:center;gap:8px;flex-shrink:0}
 .C-item .cat-pill{color:rgba(248,244,237,.55);font-size:9.5px;letter-spacing:.12em}
 .C-item .cat-pill::before{background:var(--coral)}
 .C-item-bt .cat-pill::before{background:#5fc3b3}
@@ -219,13 +219,13 @@ body{
   padding:36px 40px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;
   min-height:300px;
 }
-.C-meta-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.C-meta-row{display:flex;align-items:center;gap:16px;margin-bottom:16px}
 .C-h{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 16px}
-.C-deck{font-size:15px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:520px}
+.C-deck{font-size:15px;line-height:1.6;color:var(--ink-2);margin:0 0 24px;max-width:520px}
 .C-callout{
-  background:var(--bg);border-left:3px solid var(--brand);padding:18px 22px;border-radius:6px;
+  background:var(--bg);border-left:3px solid var(--brand);padding:16px 24px;border-radius:6px;
 }
-.C-callout-k{font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:0.14em;color:var(--brand);text-transform:uppercase;margin-bottom:8px}
+.C-callout-k{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:0.14em;color:var(--brand);text-transform:uppercase;margin-bottom:8px}
 .C-callout-v{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.25;color:var(--ink);margin-bottom:8px;letter-spacing:-0.01em}
 .C-callout-q{font-size:12.5px;line-height:1.55;color:var(--ink-3);margin:0}
 
@@ -237,15 +237,15 @@ body{
 }
 .D-issue{
   position:absolute;top:24px;right:36px;
-  font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;
+  font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;
 }
 .D-issue strong{color:var(--brand);font-weight:800}
 .D-volnum{
   font-family:var(--display);font-weight:900;font-size:13px;letter-spacing:0.04em;color:var(--brand);margin-bottom:20px;
 }
 .D-cat-strip{
-  display:inline-flex;align-items:center;gap:10px;background:#FAF1E5;color:var(--gold);
-  padding:6px 12px;border-radius:6px;font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:22px;
+  display:inline-flex;align-items:center;gap:8px;background:#FAF1E5;color:var(--gold);
+  padding:8px 12px;border-radius:6px;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:24px;
 }
 .D-cat-strip::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
 .D-h{
@@ -254,12 +254,12 @@ body{
 }
 .D-h em{font-style:normal;color:var(--brand);font-weight:900}
 .D-deck{font-size:16px;line-height:1.55;color:var(--ink-2);max-width:520px;margin:0 0 28px}
-.D-byline{display:flex;align-items:center;gap:18px;font-size:12.5px;color:var(--ink-3);font-weight:500}
+.D-byline{display:flex;align-items:center;gap:16px;font-size:12.5px;color:var(--ink-3);font-weight:500}
 .D-byline strong{color:var(--ink);font-weight:700}
 
-.D-rail{display:flex;flex-direction:column;gap:14px;border-left:1px solid var(--line);padding-left:32px;justify-content:center}
-.D-rail-h{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin:0 0 6px}
-.D-mini{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.D-rail{display:flex;flex-direction:column;gap:16px;border-left:1px solid var(--line);padding-left:32px;justify-content:center}
+.D-rail-h{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin:0 0 8px}
+.D-mini{display:flex;align-items:flex-start;gap:16px;padding:8px 0;border-bottom:1px dashed var(--line)}
 .D-mini:last-child{border-bottom:none}
 .D-mini-num{font-family:var(--display);font-weight:800;font-size:18px;color:var(--brand);line-height:1;width:28px;flex-shrink:0;padding-top:2px}
 .D-mini-body{flex:1}
@@ -279,15 +279,15 @@ body{
 
 /* ---- bottom of stage: "list continues here" hint ---- */
 .list-hint{
-  margin-top:32px;display:flex;flex-direction:column;gap:14px;opacity:.55;
+  margin-top:32px;display:flex;flex-direction:column;gap:16px;opacity:.55;
 }
 .list-hint-row{
-  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 20px;
-  display:flex;align-items:center;gap:18px;
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 20px;
+  display:flex;align-items:center;gap:16px;
 }
 .list-hint-ico{width:44px;height:44px;border-radius:10px;background:var(--bg-alt);flex-shrink:0}
 .list-hint-text{flex:1}
-.list-hint-cat{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.list-hint-cat{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
 .list-hint-h{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--ink)}
 
 @media(max-width:920px){
@@ -394,7 +394,7 @@ body{
             <div class="B-eyebrow">Editor&rsquo;s Pick · Week of May 3</div>
             <div class="B-cat-line">
               <span class="badge">Reality Check</span>
-              <span style="font-size:11.5px;opacity:.75">Read by 12,400 this week</span>
+              <span style="font-size:12px;opacity:.75">Read by 12,400 this week</span>
             </div>
             <h2 class="B-h">Ashwagandha: The Most Overhyped Supplement of 2026</h2>
             <p class="B-deck">Real evidence for stress &amp; anxiety. Thinner evidence for testosterone, sleep quality, and sport performance. We separate the supported claims from the marketing.</p>
@@ -443,7 +443,7 @@ body{
 
       <div class="dots" style="margin-top:24px">
         <span class="dot-i on"></span><span class="dot-i"></span><span class="dot-i"></span>
-        <span style="font-size:11px;color:var(--ink-3);margin-left:14px;font-family:var(--display);font-weight:600;letter-spacing:0.06em">CYCLE 1 OF 3</span>
+        <span style="font-size:11px;color:var(--ink-3);margin-left:16px;font-family:var(--display);font-weight:600;letter-spacing:0.06em">CYCLE 1 OF 3</span>
       </div>
 
       <div class="list-hint">
@@ -487,7 +487,7 @@ body{
         <div>
           <div class="C-meta-row">
             <span class="cat-pill cat-bt">Breakthrough</span>
-            <span style="font-size:11.5px;color:var(--ink-3);font-weight:500">Featured · 3 of 15</span>
+            <span style="font-size:12px;color:var(--ink-3);font-weight:500">Featured · 3 of 15</span>
           </div>
           <h2 class="C-h">Creatine for Brain Health: What the New Meta-Analyses Actually Show</h2>
           <p class="C-deck">Two 2024 meta-analyses (Prokopidis et al., Xu et al.) confirm that creatine improves memory and cognitive task performance in healthy adults — not just athletes. Effect sizes are modest but consistent.</p>
@@ -594,45 +594,45 @@ body{
 
   <!-- Quick comparison summary -->
   <section style="margin-top:48px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px 32px">
-    <h3 style="margin:0 0 18px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-0.01em">Picking between them</h3>
+    <h3 style="margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-0.01em">Picking between them</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.55">
       <thead>
         <tr style="text-align:left;color:var(--ink-3);font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.08em;text-transform:uppercase">
-          <th style="padding:10px 12px 10px 0;border-bottom:1px solid var(--line);width:60px"></th>
-          <th style="padding:10px 12px;border-bottom:1px solid var(--line)">Best when&hellip;</th>
-          <th style="padding:10px 12px;border-bottom:1px solid var(--line)">Tradeoff</th>
-          <th style="padding:10px 0 10px 12px;border-bottom:1px solid var(--line)">Build effort</th>
+          <th style="padding:8px 12px 8px 0;border-bottom:1px solid var(--line);width:60px"></th>
+          <th style="padding:8px 12px;border-bottom:1px solid var(--line)">Best when&hellip;</th>
+          <th style="padding:8px 12px;border-bottom:1px solid var(--line)">Tradeoff</th>
+          <th style="padding:8px 0 8px 12px;border-bottom:1px solid var(--line)">Build effort</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="padding:14px 12px 14px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">A</td>
-          <td style="padding:14px 12px;border-bottom:1px dashed var(--line)">Articles have strong data tables / charts. The proof widget makes each rotation feel substantive, not promotional.</td>
-          <td style="padding:14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Right-side widget needs a per-article custom snippet — adds editorial work.</td>
-          <td style="padding:14px 0 14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Medium-high</td>
+          <td style="padding:16px 12px 16px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">A</td>
+          <td style="padding:16px 12px;border-bottom:1px dashed var(--line)">Articles have strong data tables / charts. The proof widget makes each rotation feel substantive, not promotional.</td>
+          <td style="padding:16px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Right-side widget needs a per-article custom snippet — adds editorial work.</td>
+          <td style="padding:16px 0 16px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Medium-high</td>
         </tr>
         <tr>
-          <td style="padding:14px 12px 14px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">B</td>
-          <td style="padding:14px 12px;border-bottom:1px dashed var(--line)">You want users to see <em>five</em> articles immediately, biased toward the scanner / browser, not the deep reader.</td>
-          <td style="padding:14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Less prestige than A or D — feels more "publication" than "journal."</td>
-          <td style="padding:14px 0 14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Low-medium</td>
+          <td style="padding:16px 12px 16px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">B</td>
+          <td style="padding:16px 12px;border-bottom:1px dashed var(--line)">You want users to see <em>five</em> articles immediately, biased toward the scanner / browser, not the deep reader.</td>
+          <td style="padding:16px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Less prestige than A or D — feels more "publication" than "journal."</td>
+          <td style="padding:16px 0 16px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Low-medium</td>
         </tr>
         <tr>
-          <td style="padding:14px 12px 14px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">C</td>
-          <td style="padding:14px 12px;border-bottom:1px dashed var(--line)">Reinforces the "we&rsquo;re reviewing studies in real time" positioning. Ticker is rare in this category, signals active editorial.</td>
-          <td style="padding:14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Dark ticker breaks the cream/light theme; needs accessibility care for the marquee.</td>
-          <td style="padding:14px 0 14px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Medium</td>
+          <td style="padding:16px 12px 16px 0;border-bottom:1px dashed var(--line);font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">C</td>
+          <td style="padding:16px 12px;border-bottom:1px dashed var(--line)">Reinforces the "we&rsquo;re reviewing studies in real time" positioning. Ticker is rare in this category, signals active editorial.</td>
+          <td style="padding:16px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Dark ticker breaks the cream/light theme; needs accessibility care for the marquee.</td>
+          <td style="padding:16px 0 16px 12px;border-bottom:1px dashed var(--line);color:var(--ink-2)">Medium</td>
         </tr>
         <tr>
-          <td style="padding:14px 12px 14px 0;font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">D</td>
-          <td style="padding:14px 12px">Maximum credibility / editorial gravitas. The "issue / vol. / no." framing positions SupplementScore as a publication, not a database.</td>
-          <td style="padding:14px 12px;color:var(--ink-2)">Implies a publishing cadence (issues) that may not match daily updates. Headline-heavy = less excerpt visible.</td>
-          <td style="padding:14px 0 14px 12px;color:var(--ink-2)">Medium</td>
+          <td style="padding:16px 12px 16px 0;font-family:var(--display);font-weight:800;color:var(--brand);font-size:18px">D</td>
+          <td style="padding:16px 12px">Maximum credibility / editorial gravitas. The "issue / vol. / no." framing positions SupplementScore as a publication, not a database.</td>
+          <td style="padding:16px 12px;color:var(--ink-2)">Implies a publishing cadence (issues) that may not match daily updates. Headline-heavy = less excerpt visible.</td>
+          <td style="padding:16px 0 16px 12px;color:var(--ink-2)">Medium</td>
         </tr>
       </tbody>
     </table>
 
-    <p style="margin:22px 0 0;color:var(--ink-3);font-size:13px;line-height:1.55">
+    <p style="margin:24px 0 0;color:var(--ink-3);font-size:13px;line-height:1.55">
       My read: <strong style="color:var(--ink)">A or C</strong> is the closest fit to what the rest of the site already does — both lean on the "show me the data" instinct that makes SupplementScore distinct. <strong style="color:var(--ink)">B</strong> is the safest if you want maximum article exposure per scroll. <strong style="color:var(--ink)">D</strong> is the strongest brand bet if you want this page to feel like a flagship publication.
     </p>
   </section>

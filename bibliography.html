@@ -14,10 +14,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html{color-scheme:light}</style>
-  <link rel="stylesheet" href="/critical.css?v=d9d8bbe5">
-<link rel="stylesheet" href="/article-critical.css?v=3e7b832e">
-<link rel="stylesheet" href="/styles.css?v=e4a10d2a" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/styles.css?v=e4a10d2a"></noscript>
+  <link rel="stylesheet" href="/critical.css?v=design1">
+<link rel="stylesheet" href="/article-critical.css?v=design1">
+<link rel="stylesheet" href="/styles.css?v=design1" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/styles.css?v=design1"></noscript>
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
   <meta name="theme-color" content="#7B1FA2">
@@ -25,25 +25,25 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <style>
     body { background: var(--color-background-primary); color: var(--color-text-primary); }
-    .bib-wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
-    .bib-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 6px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom: 24px; }
+    .bib-wrap { max-width: 1180px; margin:0 auto; padding:32px 24px 64px; }
+    .bib-back { display: inline-flex; align-items: center; gap:8px; font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding:8px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; margin-bottom:24px; }
     .bib-back:hover { color: var(--color-brand); }
-    .bib-h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.5px; margin: 0 0 6px; }
-    .bib-sub { color: var(--color-text-secondary); font-size: 14.5px; margin-bottom: 20px; max-width: 720px; line-height: 1.55; }
-    .bib-stats { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 22px; }
-    .bib-stat { font-size: 12px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); cursor: pointer; transition: all .12s; }
+    .bib-h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.5px; margin:0 0 8px; }
+    .bib-sub { color: var(--color-text-secondary); font-size: 14.5px; margin-bottom:20px; max-width: 720px; line-height: 1.55; }
+    .bib-stats { display: flex; gap:8px; flex-wrap: wrap; margin:16px 0 24px; }
+    .bib-stat { font-size: 12px; padding:8px 11px; border-radius: 999px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); cursor: pointer; transition: all .12s; }
     .bib-stat.on, .bib-stat:hover { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
-    .bib-search { width: 100%; padding: 11px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; background: var(--color-background-primary); margin-bottom: 14px; box-sizing: border-box; }
+    .bib-search { width: 100%; padding:11px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; background: var(--color-background-primary); margin-bottom:16px; box-sizing: border-box; }
     .bib-search:focus { border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(123,31,162,.12); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; }
-    thead th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); padding: 11px 14px; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); white-space: nowrap; }
-    tbody td { padding: 11px 14px; border-bottom: 0.5px dashed var(--color-border-tertiary); vertical-align: top; }
+    thead th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); padding:11px 16px; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); white-space: nowrap; }
+    tbody td { padding:11px 16px; border-bottom: 0.5px dashed var(--color-border-tertiary); vertical-align: top; }
     tbody tr:last-child td { border-bottom: 0; }
     tbody tr.hidden { display: none; }
     .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
-    .bib-fpill { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
+    .bib-fpill { display: inline-block; font-size: 10px; font-weight: 700; padding:2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
     .bib-text { color: var(--color-text-secondary); line-height: 1.5; max-width: 600px; }
-    .bib-foot { margin-top: 28px; font-size: 12px; color: var(--color-text-tertiary); padding: 14px 0; border-top: 0.5px solid var(--color-border-tertiary); }
+    .bib-foot { margin-top:28px; font-size: 12px; color: var(--color-text-tertiary); padding:16px 0; border-top: 0.5px solid var(--color-border-tertiary); }
   </style>
 <!-- SEO-BC-SCHEMA:start -->
 <script type="application/ld+json">

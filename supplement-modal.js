@@ -42,20 +42,20 @@
      border-bottom; transparent inline Share + X buttons separated by a
      thin divider. Replaces the older absolute-positioned floating
      buttons that overlapped iframe content. */
-  + '.ssm-chrome{flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:0;padding:14px 22px;background:var(--color-background-secondary,#ebe5d9);border-bottom:1px solid var(--color-border-tertiary,#E8E5DF);position:relative;z-index:5}'
+  + '.ssm-chrome{flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:0;padding:16px 24px;background:var(--color-background-secondary,#ebe5d9);border-bottom:1px solid var(--color-border-tertiary,#E8E5DF);position:relative;z-index:5}'
   + '.ssm-actions{display:flex;align-items:center;gap:0;position:relative}'
   /* Hairline divider sits between Share and X via order on the X button */
-  + '.ssm-actions::before{content:"";display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary,#E8E5DF);margin:0 6px;align-self:center;order:1}'
-  + '.ssm-share{order:0;height:auto;padding:6px 10px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:color .12s;font-family:inherit}'
+  + '.ssm-actions::before{content:"";display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary,#E8E5DF);margin:0 8px;align-self:center;order:1}'
+  + '.ssm-share{order:0;height:auto;padding:8px 8px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:8px;line-height:1;transition:color .12s;font-family:inherit}'
   + '.ssm-share:hover{background:transparent;color:#0c0a09;transform:none}'
-  + '.ssm-share:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
-  + '.ssm-share.copied{background:transparent;color:var(--color-brand,#1F7A6B)}'
+  + '.ssm-share:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:2px}'
+  + '.ssm-share.copied{background:transparent;color:var(--color-brand,#155A50)}'
   + '.ssm-share svg{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-  + '.ssm-x{order:2;width:auto;height:auto;padding:6px 8px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;transition:color .12s;font-family:inherit}'
+  + '.ssm-x{order:2;width:auto;height:auto;padding:8px 8px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;transition:color .12s;font-family:inherit}'
   + '.ssm-x:hover{background:transparent;color:#0c0a09;transform:none}'
-  + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#1F7A6B);outline-offset:2px}'
+  + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:2px}'
   + '.ssm-x svg{width:13px;height:13px;display:block}'
-  + '@media(max-width:500px){.ssm-share{padding:14px 12px}.ssm-x{padding:14px 12px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:2px 10px}}'
+  + '@media(max-width:500px){.ssm-share{padding:16px 12px}.ssm-x{padding:16px 12px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:2px 8px}}'
   /* Phones: 44px share and close, 24px icons, equal gap. Comes after the
      ≤500px padding rule so it wins there. Desktop widths keep 13px icons. */
   + '@media(max-width:768px){'
@@ -66,7 +66,7 @@
   +   '.ssm-share .ssm-share-lbl{display:none}'
   +   '.ssm-share svg,.ssm-x svg{width:24px;height:24px}'
   + '}'
-  + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:6px}'
+  + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:8px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'
   + '.ssm-frame{flex:1;border:none;width:100%;background:var(--color-background-secondary,#ebe5d9)}'
@@ -207,7 +207,7 @@
         if (ld){
           ld.innerHTML = 'Taking longer than usual… '
             + '<a href="' + (openPublicUrl || ('/supplement.html?slug=' + encodeURIComponent(slug))) + '" target="_top" '
-            + 'style="color:var(--color-brand,#1F7A6B);font-weight:600;margin-left:6px">Open the full page →</a>';
+            + 'style="color:var(--color-brand,#155A50);font-weight:600;margin-left:8px">Open the full page →</a>';
           ld.style.pointerEvents = 'auto';
         }
       }

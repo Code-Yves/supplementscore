@@ -1929,7 +1929,7 @@ const BIOMARKERS={
     desc:'Measures stored iron. Low ferritin causes fatigue even without full anemia.',
     supps:[{name:'Iron',dose:'30-60 mg ferrous bisglycinate + vitamin C',note:'Retest ferritin after 8-12 weeks'}]},
   magRbc:{name:'Magnesium, RBC',unit:'mg/dL',low:4.0,optLow:5.0,optHigh:6.5,high:7.0,
-    icon:'moon',gradient:['#E9D5FF','#1F7A6B'],
+    icon:'moon',gradient:['#E9D5FF','#155A50'],
     desc:'RBC magnesium is more accurate than serum. Low levels linked to poor sleep, cramps, anxiety.',
     supps:[{name:'Magnesium',dose:'400 mg glycinate before bed',note:'Glycinate form for sleep + relaxation'}]},
   folate:{name:'Folate',unit:'ng/mL',low:3,optLow:10,optHigh:40,high:60,

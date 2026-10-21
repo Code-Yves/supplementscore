@@ -5,7 +5,7 @@
 <title>Articles hero — Option B refined (single hero + arrows)</title>
 <style>
 :root{
-  --brand:#1F7A6B;
+  --brand:#155A50;
   --brand-deep:#155b50;
   --cream:#F8F4ED;
   --bg:#EFEAE0;
@@ -32,7 +32,7 @@ body{
 .page-sub{margin:0 0 48px;color:var(--ink-2);font-size:15px;max-width:680px;line-height:1.55}
 
 .opt{margin-bottom:64px}
-.opt-h{display:flex;align-items:baseline;gap:14px;margin:0 0 6px}
+.opt-h{display:flex;align-items:baseline;gap:16px;margin:0 0 8px}
 .opt-letter{
   display:inline-flex;align-items:center;justify-content:center;
   width:28px;height:28px;border-radius:50%;
@@ -40,7 +40,7 @@ body{
   font-family:var(--display);font-weight:700;font-size:13px;
 }
 .opt-title{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-0.01em;margin:0}
-.opt-note{margin:0 0 22px;color:var(--ink-3);font-size:13.5px;max-width:780px;line-height:1.55;padding-left:42px}
+.opt-note{margin:0 0 24px;color:var(--ink-3);font-size:13.5px;max-width:780px;line-height:1.55;padding-left:42px}
 
 .stage{
   background:var(--bg);border:1px solid var(--line);border-radius:18px;
@@ -51,12 +51,12 @@ body{
   border-bottom:1px dashed var(--line);
 }
 .eyebrow{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:0.18em;color:var(--brand);text-transform:uppercase;margin:0 0 8px}
-.stage-h1{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:40px;letter-spacing:-0.025em;line-height:1.05}
+.stage-h1{margin:0 0 8px;font-family:var(--display);font-weight:800;font-size:40px;letter-spacing:-0.025em;line-height:1.05}
 .stage-sub{margin:0 auto;color:var(--ink-2);font-size:14px;max-width:520px;line-height:1.5}
 
 /* ========= Shared Hero Card ========= */
 .hero{
-  background:linear-gradient(160deg,#1F7A6B 0%,#155b50 100%);
+  background:linear-gradient(160deg,#155A50 0%,#155b50 100%);
   color:var(--cream);
   border-radius:20px;padding:44px 48px 38px;position:relative;overflow:hidden;
   display:flex;flex-direction:column;justify-content:space-between;
@@ -70,12 +70,12 @@ body{
   content:'';position:absolute;bottom:-90px;left:-40px;width:200px;height:200px;border-radius:50%;
   background:radial-gradient(circle,rgba(232,150,122,0.14),transparent 70%);
 }
-.hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;position:relative;z-index:2}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;position:relative;z-index:2}
 .hero-eyebrow::before{content:'';width:24px;height:1px;background:rgba(248,244,237,.4)}
-.hero-cat-line{display:flex;align-items:center;gap:14px;margin-top:14px;position:relative;z-index:2}
-.hero-cat-line .badge{background:rgba(248,244,237,.16);padding:5px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
-.hero-views{font-size:11.5px;opacity:.75}
-.hero-h{font-family:var(--display);font-weight:800;font-size:40px;line-height:1.05;letter-spacing:-0.025em;margin:18px 0 16px;position:relative;z-index:2;max-width:720px}
+.hero-cat-line{display:flex;align-items:center;gap:16px;margin-top:16px;position:relative;z-index:2}
+.hero-cat-line .badge{background:rgba(248,244,237,.16);padding:8px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display)}
+.hero-views{font-size:12px;opacity:.75}
+.hero-h{font-family:var(--display);font-weight:800;font-size:40px;line-height:1.05;letter-spacing:-0.025em;margin:16px 0 16px;position:relative;z-index:2;max-width:720px}
 .hero-deck{font-size:15.5px;line-height:1.55;opacity:.86;margin:0 0 24px;max-width:580px;position:relative;z-index:2}
 .hero-foot{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;gap:24px;flex-wrap:wrap}
 .hero-meta{font-size:12.5px;opacity:.78}
@@ -87,7 +87,7 @@ body{
 .hero-cta::after{content:'→'}
 
 /* ========= Variant 1 — Arrows OUTSIDE hero (sides) ========= */
-.v1-rail{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.v1-rail{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
 .v1-arr{
   width:54px;height:54px;border-radius:50%;
   background:var(--paper);border:1px solid var(--line);color:var(--ink);
@@ -111,12 +111,12 @@ body{
 }
 .v2-arr:hover{background:rgba(248,244,237,.28)}
 .v2-counter{
-  position:absolute;top:32px;right:108px;font-family:var(--display);font-weight:600;font-size:11.5px;letter-spacing:0.08em;color:var(--cream);opacity:.7;text-transform:uppercase;
+  position:absolute;top:32px;right:108px;font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:0.08em;color:var(--cream);opacity:.7;text-transform:uppercase;
 }
 
 /* ========= Variant 3 — Arrows + dots together at bottom (centered) ========= */
 .v3-controls{
-  display:flex;align-items:center;justify-content:center;gap:18px;margin-top:24px;
+  display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px;
 }
 .v3-arr{
   width:42px;height:42px;border-radius:50%;
@@ -124,10 +124,10 @@ body{
   display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;
   box-shadow:0 2px 6px rgba(15,23,22,.06);
 }
-.v3-dots{display:flex;gap:6px;align-items:center}
+.v3-dots{display:flex;gap:8px;align-items:center}
 .v3-dot{width:7px;height:7px;border-radius:50%;background:rgba(14,27,25,.18)}
 .v3-dot.on{width:24px;border-radius:4px;background:var(--brand)}
-.v3-counter{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:0.06em;color:var(--ink-3);text-transform:uppercase;margin-left:6px}
+.v3-counter{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:0.06em;color:var(--ink-3);text-transform:uppercase;margin-left:8px}
 
 /* ========= Variant 4 — Arrows tucked next to CTA ========= */
 .v4-foot-actions{display:flex;align-items:center;gap:12px}
@@ -146,14 +146,14 @@ body{
 }
 
 /* ====== List hint ====== */
-.list-hint{margin-top:28px;display:flex;flex-direction:column;gap:14px;opacity:.5}
+.list-hint{margin-top:28px;display:flex;flex-direction:column;gap:16px;opacity:.5}
 .list-hint-row{
-  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 20px;
-  display:flex;align-items:center;gap:18px;
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 20px;
+  display:flex;align-items:center;gap:16px;
 }
 .list-hint-ico{width:44px;height:44px;border-radius:10px;background:var(--bg-alt);flex-shrink:0}
 .list-hint-text{flex:1}
-.list-hint-cat{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.list-hint-cat{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
 .list-hint-h{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--ink)}
 
 @media(max-width:760px){
@@ -208,7 +208,7 @@ body{
         <button class="v1-arr" aria-label="Next article">›</button>
       </div>
 
-      <div class="v3-controls" style="margin-top:18px">
+      <div class="v3-controls" style="margin-top:16px">
         <div class="v3-dots">
           <span class="v3-dot on"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span><span class="v3-dot"></span>
         </div>

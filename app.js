@@ -685,10 +685,10 @@ function renderBlockedItems(blocked){
     'other': 'Removed'
   };
   const html = `
-    <div id="${containerId}" style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:12px 14px;margin:10px 0">
-      <div style="font-weight:700;font-size:12px;color:#92400E;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">⚠ ${blocked.length} supplement${blocked.length===1?'':'s'} removed for safety</div>
+    <div id="${containerId}" style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:12px 16px;margin:8px 0">
+      <div style="font-weight:700;font-size:12px;color:#92400E;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">⚠ ${blocked.length} supplement${blocked.length===1?'':'s'} removed for safety</div>
       ${Object.entries(byKind).map(([k, items]) => `
-        <div style="margin-top:6px">
+        <div style="margin-top:8px">
           <div style="font-size:11px;color:#78350F;font-weight:600;margin-bottom:3px">${kindLabels[k]||k}</div>
           ${items.map(b => `
             <div style="font-size:12px;color:#451A03;padding:4px 0">
@@ -1162,9 +1162,9 @@ function renderRecCard(r,mi){
   const condCautionBadge=r._condCautions?`<span class="warn-badge" title="Caution from: ${r._condCautions.map(c=>c.cond).join(', ')}" style="background:#FEF3C7;color:#92400E">⚠ condition caution</span>`:'';
   const drugCautionBadge=r._drugPairCautions?`<span class="warn-badge" title="Drug-pair caution: ${r._drugPairCautions.map(c=>c.mechanism).join('; ')}" style="background:#FEE2E2;color:#991B1B">⚠ drug pair</span>`:'';
   // Plan B2 — Dose-modifier callout (e.g., "Vitamin C: cap 250 mg in CKD stage 3")
-  const doseModNote=r._doseModifiers?`<div style="font-size:11px;color:#92400E;background:#FEF3C7;padding:5px 9px;border-radius:6px;margin-top:4px;border:0.5px solid #FCD34D">⚠ <b>Dose adjusted for:</b> ${r._doseModifiers.map(m=>`${m.cond} — ${m.modifier}`).join('; ')}</div>`:'';
+  const doseModNote=r._doseModifiers?`<div style="font-size:11px;color:#92400E;background:#FEF3C7;padding:8px 8px;border-radius:6px;margin-top:4px;border:0.5px solid #FCD34D">⚠ <b>Dose adjusted for:</b> ${r._doseModifiers.map(m=>`${m.cond} — ${m.modifier}`).join('; ')}</div>`:'';
   // Plan B3 — Preferred form callout (only shown when the form differs from the rec name)
-  const formNote=(r._preferredForm && r._preferredForm !== r.n)?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:5px 9px;border-radius:6px;margin-top:4px;border:0.5px solid rgba(13,148,136,.3)">💡 <b>Best form for you:</b> ${r._preferredForm} <span style="opacity:.85;font-style:italic">— ${r._formReason}</span></div>`:'';
+  const formNote=(r._preferredForm && r._preferredForm !== r.n)?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:8px 8px;border-radius:6px;margin-top:4px;border:0.5px solid rgba(13,148,136,.3)">💡 <b>Best form for you:</b> ${r._preferredForm} <span style="opacity:.85;font-style:italic">— ${r._formReason}</span></div>`:'';
   // Score
   const sup=_suppByName.get(r.n);
   const sc=sup?calcScore(sup):0;
@@ -1177,7 +1177,7 @@ function renderRecCard(r,mi){
   const timing=getTimingLabel(r);
   // Tips
   const tips=sup?.tips||'';
-  return`<div class="rc${hasWarn?' has-warn':''}" style="display:flex;gap:0;overflow:hidden;padding:0"><div style="width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;flex-shrink:0;background:${scCls==='score-high'?'linear-gradient(180deg,var(--t1c),#0F766E)':scCls==='score-mid'?'linear-gradient(180deg,var(--t2c),#3B5FC0)':scCls==='score-low'?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)'};border-radius:10px 0 0 10px"><span style="font-size:18px;font-weight:700;color:#fff;line-height:1">${sc}</span><span style="font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-top:2px">Score</span></div><div style="flex:1;padding:.75rem .9rem"><div class="rc-top"><span class="rc-name">${r.n}</span>${r.tf?'<span class="tfirst">test first</span>':''}${confBadge}${medExtraNote}${goalExtraNote}${condExtraNote}${condCautionBadge}${drugCautionBadge}</div><div class="rc-why">${r.why}</div>${warnHtml}${timing?`<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:5px 9px;border-radius:6px;border:0.5px solid var(--color-border-tertiary)">${timing.icon}<b>${timing.time}</b></div>`:''}<div class="rc-dose"><b>Dose:</b> ${r.dose}</div>${formNote}${doseModNote}${wDose?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:5px 9px;border-radius:6px;margin-top:4px;border:0.5px solid rgba(13,148,136,.25)">📏 <b>Your dose:</b> ${wDose}${wDoseBasis?`<div style="font-size:10px;color:var(--t1tx);opacity:.85;font-style:italic;margin-top:2px">Why: ${wDoseBasis}</div>`:''}</div>`:''} ${tips?`<div style="font-size:10px;color:var(--color-text-tertiary);margin-top:5px;font-style:italic">${tips}</div>`:''}</div></div>`;
+  return`<div class="rc${hasWarn?' has-warn':''}" style="display:flex;gap:0;overflow:hidden;padding:0"><div style="width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;flex-shrink:0;background:${scCls==='score-high'?'linear-gradient(180deg,var(--t1c),#0F766E)':scCls==='score-mid'?'linear-gradient(180deg,var(--t2c),#3B5FC0)':scCls==='score-low'?'linear-gradient(180deg,var(--t3c),#A16207)':'linear-gradient(180deg,var(--t4c),#991B1B)'};border-radius:10px 0 0 10px"><span style="font-size:18px;font-weight:700;color:#fff;line-height:1">${sc}</span><span style="font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-top:2px">Score</span></div><div style="flex:1;padding:.75rem .9rem"><div class="rc-top"><span class="rc-name">${r.n}</span>${r.tf?'<span class="tfirst">test first</span>':''}${confBadge}${medExtraNote}${goalExtraNote}${condExtraNote}${condCautionBadge}${drugCautionBadge}</div><div class="rc-why">${r.why}</div>${warnHtml}${timing?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:8px 8px;border-radius:6px;border:0.5px solid var(--color-border-tertiary)">${timing.icon}<b>${timing.time}</b></div>`:''}<div class="rc-dose"><b>Dose:</b> ${r.dose}</div>${formNote}${doseModNote}${wDose?`<div style="font-size:11px;color:var(--t1tx);background:var(--t1bg);padding:8px 8px;border-radius:6px;margin-top:4px;border:0.5px solid rgba(13,148,136,.25)">📏 <b>Your dose:</b> ${wDose}${wDoseBasis?`<div style="font-size:10px;color:var(--t1tx);opacity:.85;font-style:italic;margin-top:2px">Why: ${wDoseBasis}</div>`:''}</div>`:''} ${tips?`<div style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px;font-style:italic">${tips}</div>`:''}</div></div>`;
 }
 function renderPriSection(prefix,items,mkC){
   const el=document.getElementById(prefix+'-cards');
@@ -2355,7 +2355,7 @@ function addSuppFromSearch(name){
     selectedSupps.add(name);
     // Re-render so the card reflects its selected state
     renderSuppCards(_lastRecs,_lastMi,_lastBwResults);
-    setTimeout(()=>_flashCard(name,'rgba(31,122,107,.35)'),30);
+    setTimeout(()=>_flashCard(name,'rgba(21,90,80,.35)'),30);
   }else if(_suppByName.has(name)){
     userAddedSupps.push(name);
     saveUserAdded();
@@ -2611,7 +2611,7 @@ function renderSuppCards(recs,mi,bwResults){
     const expandedSecs=[
       fullDescSec,
       whySec,
-      doseText?`<div class="rn-body-sec"><div class="rn-body-label">How to take it</div><div class="rn-body-text">${escHtml(doseText)}${timingNote?`<br><span style="font-size:10.5px;color:var(--color-text-tertiary)">${escHtml(timingNote)}</span>`:''}</div></div>`:'',
+      doseText?`<div class="rn-body-sec"><div class="rn-body-label">How to take it</div><div class="rn-body-text">${escHtml(doseText)}${timingNote?`<br><span style="font-size:12px;color:var(--color-text-tertiary)">${escHtml(timingNote)}</span>`:''}</div></div>`:'',
       tips?`<div class="rn-body-sec"><div class="rn-body-label">Timing &amp; tips</div><div class="rn-body-text">${escHtml(tips)}</div></div>`:'',
     ].filter(Boolean).join('');
     const hasArts=typeof ARTICLE_MAP!=='undefined'&&ARTICLE_MAP[r.n]&&ARTICLE_MAP[r.n].length;
@@ -5026,7 +5026,7 @@ function artNavPrev(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>0)
 function artNavNext(){const idx=_artNavList.indexOf(_currentArticleId);if(idx>=0&&idx<_artNavList.length-1)goArticle(_artNavList[idx+1]);}
 /* NOTE: modal/arrow keydown logic is now part of the consolidated handler at the bottom of this file. */
 function artChipHtml(arts){if(!arts||!arts.length)return'';const n=arts.length;return'<span class="art-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+n+' Article'+(n>1?'s':'')+' available</span>';}
-function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div class="art-list"><div class="art-list-h">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#1F7A6B';return'<div class="art-mini" role="link" tabindex="0" onclick="goArticle('+a.id+',event)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goArticle('+a.id+',event);}"><div class="art-mini-ic" style="background:'+clr+'1a;color:'+clr+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">'+a.t+'</div><div class="art-mini-m" style="color:'+clr+'">'+ART_CAT_LBL[a.c]+'<span class="art-mini-dot">·</span>'+a.m+' min</div></div><div class="art-mini-arr">›</div></div>';}).join('')+'</div>';}
+function artMiniHtml(arts){if(!arts||!arts.length)return'';return'<div class="art-list"><div class="art-list-h">Related article'+(arts.length>1?'s':'')+'</div>'+arts.map(a=>{var clr=ART_CAT_CLR[a.c]||'#155A50';return'<div class="art-mini" role="link" tabindex="0" onclick="goArticle('+a.id+',event)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goArticle('+a.id+',event);}"><div class="art-mini-ic" style="background:'+clr+'1a;color:'+clr+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="art-mini-mid"><div class="art-mini-t">'+a.t+'</div><div class="art-mini-m" style="color:'+clr+'">'+ART_CAT_LBL[a.c]+'<span class="art-mini-dot">·</span>'+a.m+' min</div></div><div class="art-mini-arr">›</div></div>';}).join('')+'</div>';}
 /* Card v2 (2026-04-29): minimal click-through. The detail modal handles depth.
    Renders an <a> so supplement-modal.js' click interception opens the modal. */
 function _slcSlug(name){
@@ -5957,7 +5957,7 @@ function wizNext() {
     if (!existing) {
       const note = document.createElement('div');
       note.id = 'wiz-no-goal-note';
-      note.style.cssText = 'font-size:11.5px;color:#D97706;background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.18);border-radius:8px;padding:8px 12px;margin-top:4px;margin-bottom:2px;animation:wizIn .2s ease';
+      note.style.cssText = 'font-size:12px;color:#D97706;background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.18);border-radius:8px;padding:8px 12px;margin-top:4px;margin-bottom:2px;animation:wizIn .2s ease';
       note.textContent = 'No goal selected — your plan will be based on your age & sex. You can always add goals later by editing your profile.';
       const nav = document.querySelector('.wiz-nav');
       if (nav) nav.parentNode.insertBefore(note, nav);

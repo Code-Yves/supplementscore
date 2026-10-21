@@ -88,7 +88,7 @@
   html[data-pre-tab="about"]    #tab-about {
     background: var(--color-brand) !important;
     color: #fff !important;
-    box-shadow: 0 2px 6px rgba(31,122,107,.20) !important;
+    box-shadow: 0 2px 6px rgba(21,90,80,.20) !important;
   }
 </style>
 <script>
@@ -185,7 +185,7 @@
 <meta name="twitter:image" content="https://supplementscore.org/og/default.png">
 
 <!-- Theme color for mobile browser chrome -->
-<meta name="theme-color" content="#1F7A6B">
+<meta name="theme-color" content="#155A50">
 
 <!-- Structured Data / Schema.org -->
 <script type="application/ld+json">
@@ -346,7 +346,7 @@
   --color-border-secondary: #d6d3d1;
   --color-border-tertiary: #dcdad7;
   /* Brand (single source of truth) — Direction C: warm green-teal */
-  --color-brand: #1F7A6B;
+  --color-brand: #155A50;
   --color-brand-hover: #176258;
   --color-brand-soft: #7CC4B6;
   --color-brand-deep: #155A50;  /* Round-11: was referenced via var(--color-brand-deep,#155A50) in .b-why-chip/.b-cta but never defined; now tokenized (same value, no visual change). */
@@ -368,7 +368,7 @@
   --color-warn-text: #6B4716;
   --color-warn-text-strong: #4A3010;
   /* Focus ring */
-  --focus-ring: 0 0 0 2px rgba(31,122,107,.45);
+  --focus-ring: 0 0 0 2px rgba(21,90,80,.45);
   /* Z-index scale */
   --z-sticky: 40;
   --z-dropdown: 100;
@@ -416,7 +416,7 @@ input,button{font-family:inherit}
 .ix-hero{max-width:1024px;margin:0 auto;padding:16px 0 0;text-align:left;position:relative}
 .hero-statbar{display:none}
 .ix-hero h1{font-size:64px;font-weight:700;letter-spacing:-1.8px;line-height:1.04;margin:0 0 16px;max-width:22ch;color:var(--color-text-primary);text-align:left;text-wrap:pretty;text-wrap:balance}
-.ix-hero h1 .ix-hero-em{color:var(--t1c,#1F7A6B)}
+.ix-hero h1 .ix-hero-em{color:var(--t1c,#155A50)}
 .ix-hero p.lede{font-size:17px;color:var(--color-text-secondary);max-width:62ch;margin:0 0 24px;line-height:1.55;text-align:left;text-wrap:pretty;text-wrap:balance}
 .ix-search{max-width:none;width:100%;margin:0 0 32px;position:relative}
 .ix-search input{width:100%;height:48px;padding:0 20px 0 44px;font-family:inherit;font-size:16px;background:var(--color-surface);border:1px solid var(--color-border-tertiary);color:var(--color-text-primary);border-radius:16px;box-sizing:border-box}
@@ -438,7 +438,7 @@ input,button{font-family:inherit}
 #hero.mag .mag-side h3{margin:0;font-size:16px;font-weight:650;letter-spacing:-.2px;line-height:1.3;color:#0c0a09}
 #hero.mag .mag-pager{grid-column:1 / -1;display:flex;align-items:center;justify-content:flex-start;gap:2px;border-top:0;padding-top:8px}
 #hero.mag .mag-arrow{appearance:none;background:transparent;border:0;color:#155A50;font:inherit;font-size:22px;font-weight:650;line-height:1;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;cursor:pointer;border-radius:8px}
-#hero.mag .mag-arrow:focus-visible{outline:2px solid #1F7A6B;outline-offset:2px}
+#hero.mag .mag-arrow:focus-visible{outline:2px solid #155A50;outline-offset:2px}
 #hero.mag .mag-count{font-size:12px;color:#6b6560;font-variant-numeric:tabular-nums;min-width:4.5em;text-align:center}
 #hero.mag .mag-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(min-width:601px){#hero.mag{max-width:none;margin-left:0;margin-right:0}.ix-hero h1{font-size:min(64px,calc((100vw - 80px) / 13.2));letter-spacing:-0.028em}}
@@ -454,20 +454,20 @@ input,button{font-family:inherit}
   html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:calc(30px + env(safe-area-inset-top)) !important}
   .ix-hero{padding:4px 0 0}
   html.tab-supplements .beta-bar,body.tab-supplements .beta-bar{display:none !important}
-  .hero-statbar{display:flex;width:100%;height:32px;box-sizing:border-box;margin:0 0 16px;border:1px solid #dcdad7;border-radius:16px;background:#f6f2ea;color:#155A50;opacity:1;-webkit-font-smoothing:auto}
-  .hero-stat{flex:1 1 0;min-width:0;display:flex;justify-content:center;align-items:center;white-space:nowrap;padding:0 3px;font-size:11px;line-height:14px;color:#155A50;opacity:1}
-  .hero-stat + .hero-stat{border-left:1px solid #dcdad7}
+  .hero-statbar{display:flex;width:100%;height:32px;box-sizing:border-box;margin:0 0 16px;border:0;border-radius:0;background:transparent;color:#155A50;opacity:1;-webkit-font-smoothing:auto;justify-content:flex-start;gap:16px}
+  .hero-stat{flex:0 1 auto;min-width:0;display:flex;justify-content:flex-start;align-items:center;white-space:nowrap;padding:0;font-size:12px;line-height:16px;color:#155A50;opacity:1}
+  .hero-stat + .hero-stat{border-left:0}
   .hero-stat-num{font-weight:700;color:#155A50;opacity:1}
   .hero-stat-lbl{margin-left:3px;font-weight:400;color:#155A50;opacity:1}
   .ix-hero h1{font-size:40px;line-height:1.05;letter-spacing:-1.1px;margin:0 0 16px;max-width:11em;text-align:left;text-wrap:pretty;text-wrap:balance}
   .ix-hero p.lede,.ix-hero .lede{font-size:16px;margin:0 0 24px;max-width:62ch;line-height:1.45;text-align:left;text-wrap:pretty;text-wrap:balance}
   .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
-  .ix-hero .ix-search input{font-size:16px;padding:9px 16px 9px 38px}
+  .ix-hero .ix-search input{font-size:16px;padding:8px 16px 8px 38px}
   #hero.mag{margin:0 0 32px}
-  #hero.mag .mag-grid{grid-template-columns:1fr;gap:0;padding:24px}
-  #hero.mag .mag-side{border-left:0;padding-left:0;margin-top:18px;border-top:1px solid #dcdad7}
+  #hero.mag .mag-grid{grid-template-columns:1fr;gap:0;padding:16px}
+  #hero.mag .mag-side{border-left:0;padding-left:0;margin-top:16px;border-top:1px solid #dcdad7}
   #hero.mag .mag-side a:first-child{padding-top:16px}
-  #hero.mag .mag-lead h2{font-size:24px}
+  #hero.mag .mag-lead h2{font-size:20px}
 }
 /* Supplement detail pages do not render the fixed beta-bar + site-nav.
    Phones otherwise keep ~70px of empty body padding between Share/X and
@@ -551,7 +551,7 @@ input,button{font-family:inherit}
 }
 #main-sticky #sfbar-main .cdd-btn.on,
 #main-sticky #sfbar-main .cdd-open > .cdd-btn{
-  background:#1F7A6B !important;background-color:#155A50 !important;background-image:none !important;color:#f6f2ea !important;
+  background:#155A50 !important;background-color:#155A50 !important;background-image:none !important;color:#f6f2ea !important;
 }
 #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
 #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
@@ -570,7 +570,7 @@ input,button{font-family:inherit}
   #main-sticky #sfbar-main .cdd-open > .cdd-btn,
   #main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
   #main-sticky #sfbar-main .cdd-open > .cdd-btn:active{
-    background:#1F7A6B !important;background-color:#155A50 !important;color:#f6f2ea !important;
+    background:#155A50 !important;background-color:#155A50 !important;color:#f6f2ea !important;
   }
   #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
   #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
@@ -595,18 +595,80 @@ input,button{font-family:inherit}
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#155A50 !important}
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{border-left-color:#dcdad7 !important}
-.ss-list-load{background:#f6f2ea;border:1px solid #dcdad7;border-radius:16px;padding:22px 20px 18px;margin:0;max-width:none;width:100%;box-sizing:border-box}
+.ss-list-load{background:#f6f2ea;border:1px solid #dcdad7;border-radius:16px;padding:24px 20px 16px;margin:0;max-width:none;width:100%;box-sizing:border-box}
 .ss-list-load-msg{margin:0;color:#155A50;font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:balance}
-.ss-list-load-sub{margin:4px 0 14px;color:#57534e;font-size:14px;font-weight:400;line-height:1.4;text-wrap:balance}
+.ss-list-load-sub{margin:4px 0 16px;color:#57534e;font-size:14px;font-weight:400;line-height:1.4;text-wrap:balance}
 .ss-list-load-track{height:4px;border-radius:999px;background:#e3efe9;overflow:hidden}
-.ss-list-load-bar{height:100%;width:0;border-radius:999px;background:#1F7A6B;animation:ss-list-load 3s linear forwards}
+.ss-list-load-bar{height:100%;width:0;border-radius:999px;background:#155A50;animation:ss-list-load 3s linear forwards}
 @keyframes ss-list-load{to{width:100%}}
 @media (prefers-reduced-motion: reduce){.ss-list-load-bar{animation:none !important;width:38%}}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
+
+/* Plain category row. Height stays 44px so choosing a filter does not move the list. */
+#main-sticky #sfbar-main.sfbar,
+#supplements-view #main-sticky #sfbar-main.sfbar{
+  border:0 !important;border-radius:0 !important;
+  background:transparent !important;background-color:transparent !important;background-image:none !important;
+  box-shadow:none !important;
+  height:44px !important;min-height:44px !important;max-height:44px !important;
+}
+#main-sticky #sfbar-main .cdd-btn,
+#main-sticky #sfbar-main .cdd-btn:hover,
+#main-sticky #sfbar-main .cdd-btn:active,
+#main-sticky #sfbar-main .cdd-btn:focus,
+#main-sticky #sfbar-main > .cdd:first-child > .cdd-btn,
+#main-sticky #sfbar-main > .cdd:last-child > .cdd-btn,
+#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{
+  background:transparent !important;background-color:transparent !important;background-image:none !important;
+  border:0 !important;border-left:0 !important;border-radius:0 !important;
+  box-shadow:none !important;color:#57534e !important;
+}
+#main-sticky #sfbar-main .cdd-lbl,
+#main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
+#main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#57534e !important}
+#main-sticky #sfbar-main .cdd-btn.on,
+#main-sticky #sfbar-main .cdd-btn.on:hover,
+#main-sticky #sfbar-main .cdd-btn.on:active,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn:active,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
+#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn{
+  background:transparent !important;background-color:transparent !important;background-image:none !important;
+  color:#155A50 !important;box-shadow:inset 0 -2px 0 #155A50 !important;
+}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus{
+  background:transparent !important;background-color:transparent !important;background-image:none !important;
+  color:#57534e !important;box-shadow:none !important;
+}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#57534e !important}
+#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
+#main-sticky #sfbar-main .cdd-btn.on:hover .cdd-lbl,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
+@media (hover:hover) and (pointer:fine){
+  #main-sticky #sfbar-main .cdd-btn:hover,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover{
+    background:transparent !important;background-color:transparent !important;
+    color:#155A50 !important;box-shadow:inset 0 -2px 0 #155A50 !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
+}
+h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h3{
+  text-wrap:balance;hyphens:none;
+}
+#hero.mag a.mag-arrow{text-decoration:none;color:#155A50}
+
 </style>
-<link rel="preload" href="/styles.css?v=align1" as="style">
-<link rel="preload" href="index.css?v=teal1" as="style">
+<link rel="preload" href="/styles.css?v=design1" as="style">
+<link rel="preload" href="index.css?v=design1" as="style">
 <script>
 /* Apply the full sheets as real stylesheets. Not media=print. */
 (function(){
@@ -616,25 +678,25 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
     link.href=href;
     document.head.appendChild(link);
   }
-  load('/styles.css?v=align1');
-  load('index.css?v=teal1');
+  load('/styles.css?v=design1');
+  load('index.css?v=design1');
 })();
 </script>
 <noscript>
-<link rel="stylesheet" href="/styles.css?v=align1">
-<link rel="stylesheet" href="index.css?v=teal1">
+<link rel="stylesheet" href="/styles.css?v=design1">
+<link rel="stylesheet" href="index.css?v=design1">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
-  <meta name="theme-color" content="#1F7A6B">
+  <meta name="theme-color" content="#155A50">
   <meta name="apple-mobile-web-app-title" content="SuppScore">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://api.github.com https://www.fda.gov https://www.efsa.europa.eu; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=7f5bfaf1" defer></script>
+  <script src="_site-ux.js?v=design1" defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -723,7 +785,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 <div id="supplements-view">
 <div class="container">
 <div class="page-header page-header--center legacy-trust-hero">
-  <svg aria-hidden="true" width="64" height="64" viewBox="0 0 24 24" style="color:#1F7A6B;margin-bottom:12px"><use href="#ss-logo"/></svg>
+  <svg aria-hidden="true" width="64" height="64" viewBox="0 0 24 24" style="color:#155A50;margin-bottom:12px"><use href="#ss-logo"/></svg>
   <div class="page-logo-label">SupplementScore<span>.org</span></div>
   <h2 class="page-title" style="text-align:center">Supplement information<br>you can trust.</h2>
   <div class="page-subtitle">Unbiased and conflict-free. Every score derived exclusively from peer-reviewed clinical trials and credible research institutions.</div>
@@ -989,7 +1051,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
       <!-- Hero -->
       <div class="gate-hero">
         <div class="gate-icon">
-          <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F7A6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#155A50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <div class="gate-eyebrow">Beta</div>
         <h2 class="gate-title">Your plan,<br>built by science.</h2>
@@ -1144,7 +1206,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
                 <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--color-text-tertiary);pointer-events:none">kg</span>
               </div>
             </div>
-            <div id="bmi-display" style="font-size:11px;color:var(--color-text-tertiary);margin-top:6px;min-height:16px"></div>
+            <div id="bmi-display" style="font-size:11px;color:var(--color-text-tertiary);margin-top:8px;min-height:16px"></div>
           </div>
           <div class="errmsg" id="serr" style="display:none">Please select your biological sex to continue.</div>
         </div>
@@ -1239,13 +1301,13 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             <span id="bw-file-name" style="font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
             <span id="bw-extracted-count" style="color:#0D9488;font-weight:500"></span>
-            <button type="button" onclick="clearBwUpload()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:inherit">Change</button>
+            <button type="button" onclick="clearBwUpload()" style="font-size:10px;color:var(--color-text-tertiary);background:none;border:1px solid var(--color-border-secondary);border-radius:6px;padding:3px 8px;cursor:pointer;font-family:inherit">Change</button>
           </div>
-          <div style="margin-top:10px">
-            <button type="button" id="bw-manual-toggle" onclick="toggleBwManual()" style="font-size:11px;color:#1F7A6B;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;padding:0">Enter values manually &#9662;</button>
-            <div id="bw-manual" style="display:none;margin-top:10px">
+          <div style="margin-top:8px">
+            <button type="button" id="bw-manual-toggle" onclick="toggleBwManual()" style="font-size:11px;color:#155A50;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;padding:0">Enter values manually &#9662;</button>
+            <div id="bw-manual" style="display:none;margin-top:8px">
               <div id="bw-grid" class="bw-grid"></div>
-              <div id="bw-count" style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px;text-align:right"></div>
+              <div id="bw-count" style="font-size:8px;color:var(--color-text-tertiary);margin-top:8px;text-align:right"></div>
             </div>
           </div>
           <!-- Round-9: explainer panel mirrors the Medications step. Tells the
@@ -1329,9 +1391,9 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
       </div>
       <!-- Coming soon bar (removed) -->
       <!-- Email report -->
-      <div id="email-report-box" style="display:none;align-items:center;gap:8px;margin-bottom:1rem;padding:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px">
+      <div id="email-report-box" style="display:none;align-items:center;gap:8px;margin-bottom:1rem;padding:8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px">
         <input type="email" id="report-email" placeholder="Enter your email" aria-label="Email address for report" style="flex:1;min-width:0;padding:12px;border-radius:6px;border:0.5px solid var(--color-border-secondary);font-size:13px;font-family:inherit;outline:none">
-        <button type="button" id="send-report-btn" class="go-btn" style="width:auto;margin:0;padding:12px 18px;font-size:13px;min-height:44px" onclick="sendEmailReport()">Send</button>
+        <button type="button" id="send-report-btn" class="go-btn" style="width:auto;margin:0;padding:12px 16px;font-size:13px;min-height:44px" onclick="sendEmailReport()">Send</button>
       </div>
       <div id="med-alert-box"></div>
       <!-- Selectable supplement cards -->
@@ -1538,7 +1600,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 
 <div style="height:24px"></div>
 
-<section id="faq" aria-labelledby="faq-heading" style="max-width:880px;margin:8px auto 28px;padding:0 22px">
+<section id="faq" aria-labelledby="faq-heading" style="max-width:880px;margin:8px auto 28px;padding:0 24px">
   <h2 id="faq-heading" style="font-size:1.35rem;font-weight:700;letter-spacing:-.3px;margin:0 0 8px">Common questions</h2>
   <p style="margin:0 0 12px;color:var(--color-text-secondary);font-size:14.5px">Short answers. The scoring rules, sources, and contact address are on the <a href="/about.html">about page</a>.</p>
   <details style="border-top:1px solid var(--color-border-tertiary);padding:12px 0">
@@ -1567,7 +1629,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
     </div>
   </div>
   <div class="disc-c-divider"></div>
-  <p class="disc-c-prose" style="font-size:13.5px;line-height:1.55;color:var(--color-text-secondary);margin:0;padding:4px 4px 6px">
+  <p class="disc-c-prose" style="font-size:13.5px;line-height:1.55;color:var(--color-text-secondary);margin:0;padding:4px 4px 8px">
     SupplementScore is an <b style="color:var(--color-text-primary)">educational reference, not a medical device</b> — not reviewed by the FDA, Health Canada, or any regulatory body. Scores reflect <b style="color:var(--color-text-primary)">group-level clinical data</b>; individual responses vary by genetics, diet, health status, medications, and pre-existing conditions. AI assists our content review and may miss nuances a clinician would catch — independently verify anything you act on. Supplement quality varies dramatically between brands; we do not test, certify, or endorse specific products. Nothing here is intended to <b style="color:var(--color-text-primary)">diagnose, treat, cure, or prevent</b> any disease, and nothing here substitutes for professional medical advice. <b style="color:var(--color-text-primary)">Always consult a qualified healthcare provider</b> before starting, stopping, or changing supplements — especially if you are pregnant, nursing, or on medications. In a medical emergency, contact your local emergency services immediately.
   </p>
 </div>
@@ -1694,7 +1756,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 
     <!-- NO RESULTS STATE -->
     <div id="articles-no-results" class="articles-no-results" style="display:none">
-      <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F7A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="12"/><line x1="11" y1="15" x2="11.01" y2="15"/></svg>
+      <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#155A50" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="12"/><line x1="11" y1="15" x2="11.01" y2="15"/></svg>
       <div class="articles-no-results-title">No articles found</div>
       <div class="articles-no-results-sub">Try a different search term or clear the filter.</div>
     </div>
@@ -2003,7 +2065,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-4" style="display:none">
     <!-- last-reviewed: 2026-05-22 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Safety Alert</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">Mar 22, 2026 &middot; Updated Apr 24, 2026 &middot; 6 min read</div>
@@ -2363,13 +2425,13 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <!-- ARTICLE 92 -->
   <div class="article-full" id="article-92" style="display:none"><!-- last-reviewed: 2026-05-28 -->
     <div style="padding:1.5rem;max-width:780px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Breakthrough</div>
       <h2 style="font-size:1.95rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.2">Psyllium Husk: 100+ Clinical Trials and an FDA Health Claim for Cholesterol Reduction</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">Updated Apr 26, 2026 &middot; 11 min read &middot; Reviewed against 42 peer-reviewed sources</div>
 
       <!-- KEY STATS STRIP -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:1.25rem 0 1.75rem;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;background:#fafaf9">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:1.25rem 0 1.75rem;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;background:#fafaf9">
         <div style="padding:1rem 0.75rem;text-align:center;border-right:1px solid #e5e7eb">
           <div style="font-size:1.6rem;font-weight:700;color:#0D9488;letter-spacing:-0.5px">&minus;15</div>
           <div style="font-size:0.72rem;color:#57534e;line-height:1.35;margin-top:2px">mg/dL LDL<br>cholesterol drop</div>
@@ -2429,7 +2491,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 
       <!-- CALLOUT: WHY UNDERRATED -->
       <div style="margin:1.5rem 0 1.75rem;padding:1rem 1.15rem;background:#fef8ec;border-left:3px solid #CA8A04;border-radius:6px">
-        <div style="font-size:0.78rem;font-weight:700;color:#7A5300;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">Why nobody is talking about it</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#7A5300;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Why nobody is talking about it</div>
         <p style="margin:0;color:#57534e;font-size:0.95rem;line-height:1.65">Psyllium is off-patent, cheap, and commoditized. A bag lasts months and costs less than a single serving of a trendy greens powder. There is no margin to fund influencer campaigns, no proprietary blend to trademark, and no Netflix documentary coming. Its obscurity in wellness culture says more about marketing incentives than about the science.</p>
       </div>
 
@@ -2492,7 +2554,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
             <text x="610" y="225" text-anchor="middle" font-size="10.5" fill="#57534e">inflammation</text>
           </g>
         </svg>
-        <div style="font-size:0.75rem;color:#a8a29e;text-align:center;margin-top:6px;font-style:italic">Fig. 1 &mdash; Four mechanisms of action of psyllium gel along the GI tract.</div>
+        <div style="font-size:0.75rem;color:#a8a29e;text-align:center;margin-top:8px;font-style:italic">Fig. 1 &mdash; Four mechanisms of action of psyllium gel along the GI tract.</div>
       </div>
 
       <p>Crucially, psyllium is only partially fermented. Unlike inulin or pure beta-glucan, most of the gel remains intact all the way through the small intestine, giving it time to bind bile acids and blunt glucose absorption before the colonic bacteria get to it. This is why it is unusually effective across <em>multiple</em> organ systems from a single dose.</p>
@@ -2700,53 +2762,53 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 
       <div style="margin:1rem 0 1.5rem;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;font-size:0.86rem">
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;background:#faf5ef;font-weight:700;color:#0c0a09;font-size:0.8rem">
-          <div style="padding:10px 12px">Fiber</div>
-          <div style="padding:10px 8px;text-align:center">Viscous?</div>
-          <div style="padding:10px 8px;text-align:center">LDL effect</div>
-          <div style="padding:10px 8px;text-align:center">Glucose effect</div>
-          <div style="padding:10px 8px;text-align:center">Bowel effect</div>
+          <div style="padding:8px 12px">Fiber</div>
+          <div style="padding:8px 8px;text-align:center">Viscous?</div>
+          <div style="padding:8px 8px;text-align:center">LDL effect</div>
+          <div style="padding:8px 8px;text-align:center">Glucose effect</div>
+          <div style="padding:8px 8px;text-align:center">Bowel effect</div>
         </div>
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;border-top:1px solid #e5e7eb;background:#f0faf8">
-          <div style="padding:10px 12px;font-weight:600;color:#065F56">Psyllium</div>
-          <div style="padding:10px 8px;text-align:center;color:#065F56;font-weight:600">Very high</div>
-          <div style="padding:10px 8px;text-align:center;color:#065F56;font-weight:600">Strong</div>
-          <div style="padding:10px 8px;text-align:center;color:#065F56;font-weight:600">Strong</div>
-          <div style="padding:10px 8px;text-align:center;color:#065F56;font-weight:600">Strong</div>
+          <div style="padding:8px 12px;font-weight:600;color:#065F56">Psyllium</div>
+          <div style="padding:8px 8px;text-align:center;color:#065F56;font-weight:600">Very high</div>
+          <div style="padding:8px 8px;text-align:center;color:#065F56;font-weight:600">Strong</div>
+          <div style="padding:8px 8px;text-align:center;color:#065F56;font-weight:600">Strong</div>
+          <div style="padding:8px 8px;text-align:center;color:#065F56;font-weight:600">Strong</div>
         </div>
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;border-top:1px solid #e5e7eb">
-          <div style="padding:10px 12px;color:#0c0a09">Oat beta-glucan</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">High</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">Mild</div>
+          <div style="padding:8px 12px;color:#0c0a09">Oat beta-glucan</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">High</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">Mild</div>
         </div>
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;border-top:1px solid #e5e7eb">
-          <div style="padding:10px 12px;color:#0c0a09">Glucomannan</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">High</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 12px;color:#0c0a09">Glucomannan</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">High</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
         </div>
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;border-top:1px solid #e5e7eb">
-          <div style="padding:10px 12px;color:#0c0a09">Inulin / FOS</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">Low</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">Minimal</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">Minimal</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate (prebiotic)</div>
+          <div style="padding:8px 12px;color:#0c0a09">Inulin / FOS</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">Low</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">Minimal</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">Minimal</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate (prebiotic)</div>
         </div>
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;border-top:1px solid #e5e7eb">
-          <div style="padding:10px 12px;color:#0c0a09">Wheat bran</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">None</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">None</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">None</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate (bulking)</div>
+          <div style="padding:8px 12px;color:#0c0a09">Wheat bran</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">None</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">None</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">None</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate (bulking)</div>
         </div>
         <div style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr;border-top:1px solid #e5e7eb">
-          <div style="padding:10px 12px;color:#0c0a09">Methylcellulose</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">Minimal</div>
-          <div style="padding:10px 8px;text-align:center;color:#a8a29e">Minimal</div>
-          <div style="padding:10px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 12px;color:#0c0a09">Methylcellulose</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">Minimal</div>
+          <div style="padding:8px 8px;text-align:center;color:#a8a29e">Minimal</div>
+          <div style="padding:8px 8px;text-align:center;color:#57534e">Moderate</div>
         </div>
       </div>
 
@@ -2762,24 +2824,24 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 
       <!-- DOSE CALENDAR -->
       <div style="margin:1.25rem 0 1.5rem;padding:1.1rem 1.15rem;border:1px solid #e5e7eb;border-radius:12px;background:#fafaf9">
-        <div style="font-size:0.95rem;font-weight:600;color:#0c0a09;margin-bottom:10px">Suggested 4-week titration schedule</div>
+        <div style="font-size:0.95rem;font-weight:600;color:#0c0a09;margin-bottom:8px">Suggested 4-week titration schedule</div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:0.82rem">
-          <div style="padding:10px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
+          <div style="padding:8px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
             <div style="font-size:0.72rem;color:#a8a29e;letter-spacing:1px;text-transform:uppercase">Week 1</div>
             <div style="font-size:1.25rem;font-weight:700;color:#0D9488;margin:4px 0">3 g</div>
             <div style="color:#57534e;font-size:0.78rem">1&times; daily with 10 oz water</div>
           </div>
-          <div style="padding:10px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
+          <div style="padding:8px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
             <div style="font-size:0.72rem;color:#a8a29e;letter-spacing:1px;text-transform:uppercase">Week 2</div>
             <div style="font-size:1.25rem;font-weight:700;color:#0D9488;margin:4px 0">6 g</div>
             <div style="color:#57534e;font-size:0.78rem">2&times; daily, before meals</div>
           </div>
-          <div style="padding:10px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
+          <div style="padding:8px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
             <div style="font-size:0.72rem;color:#a8a29e;letter-spacing:1px;text-transform:uppercase">Week 3</div>
             <div style="font-size:1.25rem;font-weight:700;color:#0D9488;margin:4px 0">10 g</div>
             <div style="color:#57534e;font-size:0.78rem">2&times; daily, before meals</div>
           </div>
-          <div style="padding:10px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
+          <div style="padding:8px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
             <div style="font-size:0.72rem;color:#a8a29e;letter-spacing:1px;text-transform:uppercase">Week 4+</div>
             <div style="font-size:1.25rem;font-weight:700;color:#0D9488;margin:4px 0">10&ndash;15 g</div>
             <div style="color:#57534e;font-size:0.78rem">Maintenance, split doses</div>
@@ -2802,7 +2864,7 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 
       <!-- BOTTOM LINE CALLOUT -->
       <div style="margin:1.75rem 0 1rem;padding:1.1rem 1.2rem;background:#E6F7F5;border-left:3px solid #0D9488;border-radius:6px">
-        <div style="font-size:0.78rem;font-weight:700;color:#065F56;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">Bottom line</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#065F56;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Bottom line</div>
         <p style="margin:0;color:#065F56;font-size:0.95rem;line-height:1.7">Psyllium has a larger, higher-quality evidence base than almost any supplement marketed for metabolic health. At 10&ndash;15 g/day it meaningfully lowers LDL cholesterol, blunts post-meal glucose, nudges blood pressure down, normalizes bowel function, and costs pennies per serving. If we rebuilt the supplement aisle around evidence rather than marketing, psyllium would be the first thing most people were told to try.</p>
       </div>
 
@@ -3944,12 +4006,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-653" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">BPH (Benign Prostatic Hyperplasia): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Benign prostatic hyperplasia is one of the most heavily marketed supplement categories. Most over-the-counter "prostate formulas" combine several botanicals with weak independent evidence. The honest read of the trial literature: alpha-1 bl…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/bph-protocol.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/bph-protocol.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-653 -->
 
@@ -3963,12 +4025,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-657" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Recurrent Cold Sores (HSV): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Recurrent herpes labialis affects roughly 20–40% of adults at least once a year. Oral antivirals (acyclovir, valacyclovir) remain the strongest acute and suppressive interventions. Among supplements, three have credible RCT evidence for red…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/cold-sores-recurrent-hsv.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/cold-sores-recurrent-hsv.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-657 -->
 
@@ -3977,12 +4039,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-659" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Crohn's Disease: The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Crohn's disease management is driven by 5-ASAs, immunomodulators, biologic agents, and (in some patients) surgery. Supplements address the high-prevalence nutritional deficiencies that accompany the disease, plus a few adjunctive anti-infla…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/crohns-disease-adjunct.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/crohns-disease-adjunct.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-659 -->
 
@@ -3991,24 +4053,24 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-661" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Dry Eye Disease: The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Dry eye disease is multifactorial — meibomian gland dysfunction, aqueous-deficient tear film, and inflammatory components all coexist in varying proportions. Topical management (artificial tears, anti-inflammatory drops, punctal plugs) rema…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/dry-eye.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/dry-eye.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-661 -->
 
   <div class="article-full" id="article-662" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Dysmenorrhea (Menstrual Cramps): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Primary dysmenorrhea — the cramping pain at the start of menstruation without underlying pathology — affects roughly half of menstruating people. NSAIDs (ibuprofen, naproxen) and hormonal contraception remain the strongest interventions. Am…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/dysmenorrhea-protocol.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/dysmenorrhea-protocol.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-662 -->
 
@@ -4032,24 +4094,24 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-671" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">IBS-C (Constipation-Predominant): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>IBS-C combines the abdominal pain of IBS with a constipation-dominant bowel habit. Differs from chronic functional constipation in that pain and bloating dominate the symptom picture. Supplements that work for IBS-C may worsen IBS-D and vic…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/ibs-c-protocol.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/ibs-c-protocol.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-671 -->
 
   <div class="article-full" id="article-672" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">IBS-D (Diarrhea-Predominant): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>IBS-D is the diarrhea-dominant IBS subtype. Pharmacological options include rifaximin, loperamide, eluxadoline, and tricyclic antidepressants. Among supplements, peppermint oil and specific probiotic strains have the strongest RCT base — an…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/ibs-d-protocol.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/ibs-d-protocol.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-672 -->
 
@@ -4063,12 +4125,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-676" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Age-Related Macular Degeneration (AMD): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Age-related macular degeneration is the leading cause of blindness in adults over 65 in developed countries. The AREDS and AREDS2 trials remain among the cleanest and most influential supplement trials in medicine, producing a specific form…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/macular-degeneration.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/macular-degeneration.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-676 -->
 
@@ -4087,12 +4149,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-683" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">NAFLD / MASH (Fatty Liver Disease): The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Non-alcoholic fatty liver disease (NAFLD, increasingly renamed MASLD) and its inflammatory variant NASH/MASH are the most common chronic liver diseases globally. Weight loss (≥10%) is the single largest intervention. Among supplements, vita…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/nafld-protocol.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/nafld-protocol.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-683 -->
 
@@ -4108,12 +4170,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   <div class="article-full" id="article-688" style="display:none">
     <!-- last-reviewed: 2026-05-26 -->
     <div style="padding:1.5rem;max-width:740px;margin:0 auto">
-      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
+      <button onclick="showArticleList()" style="background:none;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem">&#8592; Back to articles</button>
       <div class="article-cat">Condition</div>
       <h2 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.4rem;line-height:1.25">Peptic Ulcer Disease: The Evidence-Based Supplement Protocol</h2>
       <div class="article-meta" style="margin-bottom:1.5rem">3 min read</div>
       <p>Peptic ulcer disease is treated with H. pylori eradication (where positive) and PPI therapy. NSAID-induced ulcers require NSAID withdrawal where possible. Several supplements have credible RCT evidence for accelerated healing or symptomatic…</p>
-      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/peptic-ulcer-disease.html" style="color:#1F7A6B;text-decoration:underline">Read the full article &rarr;</a></p>
+      <p style="margin-top:1.5rem"><a class="ar-readmore" href="condition/peptic-ulcer-disease.html" style="color:#155A50;text-decoration:underline">Read the full article &rarr;</a></p>
     </div>
   </div><!-- end article-688 -->
 
@@ -4347,8 +4409,8 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <div style="padding:1.5rem 2rem 2rem">
-      <h3 id="fb-title" style="font-size:1.15rem;font-weight:700;margin-bottom:6px">Flag an inaccuracy</h3>
-      <p style="font-size:0.85rem;color:var(--color-text-secondary);margin-bottom:14px;line-height:1.5">Found something wrong? Tell us what's off and link a source — we triage every submission with a citation. <span id="fb-context" style="display:block;margin-top:6px;font-size:0.78rem;color:var(--color-text-tertiary)"></span></p>
+      <h3 id="fb-title" style="font-size:1.15rem;font-weight:700;margin-bottom:8px">Flag an inaccuracy</h3>
+      <p style="font-size:0.85rem;color:var(--color-text-secondary);margin-bottom:16px;line-height:1.5">Found something wrong? Tell us what's off and link a source — we triage every submission with a citation. <span id="fb-context" style="display:block;margin-top:8px;font-size:0.78rem;color:var(--color-text-tertiary)"></span></p>
       <form id="fb-form" onsubmit="submitFeedback(event)" novalidate>
         <label class="fb-lbl" for="fb-claim">What's the inaccurate claim?</label>
         <textarea id="fb-claim" name="claim" rows="2" required placeholder="e.g., 'The article says creatine doses are 3-5g/day for cognitive benefits, but Prokopidis 2023 used 5-20g/day.'"></textarea>
@@ -4364,11 +4426,11 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
         <input id="fb-email" name="email" type="email" placeholder="If you'd like a reply">
 
         <div id="fb-err" class="fb-err" role="alert" style="display:none"></div>
-        <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+        <div style="display:flex;gap:8px;margin-top:16px;align-items:center">
           <button type="submit" id="fb-submit" class="fb-submit">Send</button>
           <button type="button" class="fb-cancel" onclick="closeFeedback()">Cancel</button>
         </div>
-        <div id="fb-success" role="status" aria-live="polite" style="display:none;font-size:0.9rem;color:#0D9488;font-weight:600;margin-top:14px">Thanks — we'll review and respond if your email is included. Submissions go to the editorial triage queue.</div>
+        <div id="fb-success" role="status" aria-live="polite" style="display:none;font-size:0.9rem;color:#0D9488;font-weight:600;margin-top:16px">Thanks — we'll review and respond if your email is included. Submissions go to the editorial triage queue.</div>
       </form>
     </div>
   </div>
@@ -4391,7 +4453,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
-    'index.js?v=teal1',
+    'index.js?v=design1',
     'nav-search.js?v=64e43b51',
     '_research-modal.js?v=c92ae724',
     'modal-stack.js?v=ba2acf0e',
