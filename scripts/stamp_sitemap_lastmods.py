@@ -1,18 +1,10 @@
 #!/usr/bin/env python3
-"""Stamp sitemap <lastmod> from git (fixer, not a gate).
+"""Stamp sitemap <lastmod> from each page's review date.
 
-Google uses lastmod as a recrawl hint. After content or SEO-relevant HTML
-changes (hreflang, copy, ranking lists), a stale lastmod leaves crawlers
-thinking nothing moved. This walks every <url> in sitemap*.xml (except the
-index and the news shard) and raises <lastmod> to the last git commit date of
-the backing file — never decreases it.
-
-Query supplement URLs (/supplement.html?slug=) use the newer of data.js
-(the scored records) and supplement.html (the SPA shell: robots/canonical
-changes affect every ?slug= URL's indexability).
-
-Dirty (uncommitted) files stamp as today UTC so validate-before-commit stays
-honest. Idempotent.
+Google uses lastmod as a recrawl hint. The date comes from the page
+(last-reviewed comment, visible Last reviewed, Updated, or datePublished),
+not from the git commit that last touched the file. A blanket stamp can
+be corrected downward. sitemap-news.xml is left alone.
 
 Usage:
     python3 scripts/stamp_sitemap_lastmods.py
@@ -147,38 +139,9 @@ def stamp_index(text: str, shard_newest: dict[str, str]) -> tuple[str, int]:
 
 
 def main() -> int:
-    dates = git_file_dates()
-    shard_newest: dict[str, str] = {}
-    total = 0
-    for sm in sorted(glob.glob(str(ROOT / "sitemap*.xml"))):
-        name = pathlib.Path(sm).name
-        if name in SKIP_SITEMAPS:
-            continue
-        path = pathlib.Path(sm)
-        text = path.read_text(encoding="utf-8")
-        new_text, n, newest = stamp_urlset(text, dates)
-        total += n
-        if newest:
-            shard_newest[name] = newest
-        if n:
-            path.write_text(new_text, encoding="utf-8")
-            print(f"  {name}: raised {n} lastmod(s) (newest {newest})")
-        else:
-            print(f"  {name}: already fresh (newest {newest})")
-
-    index_path = ROOT / "sitemap-index.xml"
-    if index_path.is_file():
-        idx_text = index_path.read_text(encoding="utf-8")
-        new_idx, n = stamp_index(idx_text, shard_newest)
-        total += n
-        if n:
-            index_path.write_text(new_idx, encoding="utf-8")
-            print(f"  sitemap-index.xml: raised {n} shard lastmod(s)")
-        else:
-            print("  sitemap-index.xml: already fresh")
-
-    print(f"stamp_sitemap_lastmods: {total} lastmod value(s) updated.")
-    return 0
+    # Content dates, not git commit dates. See scripts/content_dates.py.
+    from content_dates import main as apply
+    return apply()
 
 
 if __name__ == "__main__":

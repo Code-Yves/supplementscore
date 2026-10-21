@@ -355,6 +355,7 @@ for (const b of brands) {
         url,
         name: title,
         description,
+        publisher: { '@type': 'Organization', name: 'SupplementScore', url: 'https://supplementscore.org' },
         isPartOf: { '@type': 'WebSite', name: 'SupplementScore', url: 'https://supplementscore.org/' },
         about: { '@type': 'Brand', name: b.name, description: sentenceClip(b.knownFor, 280) }
       },
@@ -406,7 +407,7 @@ const indexDesc = 'Supplement brands with a product on a public USP, NSF Certifi
 const indexLd = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'WebPage', '@id': indexUrl, url: indexUrl, name: indexTitle, description: indexDesc },
+    { '@type': 'WebPage', '@id': indexUrl, url: indexUrl, name: indexTitle, description: indexDesc, publisher: { '@type': 'Organization', name: 'SupplementScore', url: 'https://supplementscore.org' } },
     { '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://supplementscore.org/' },
       { '@type': 'ListItem', position: 2, name: 'Verified brands', item: indexUrl }
