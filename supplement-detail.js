@@ -584,8 +584,8 @@
             + (readTime ? '<span class="det-art-meta">'+escHtml(readTime)+'</span>' : '')
             + '</a>';
         }).join('')
-      + '<a href="/methodology.html"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">How scores are calculated</span></span></a>'
-      + '<a href="/transparency.html"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">Funding, brand listings, and corrections</span></span></a>'
+      + '<a href="/about.html#methodology"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">How scores are calculated</span></span></a>'
+      + '<a href="/about.html#transparency"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">Funding, brand listings, and corrections</span></span></a>'
       + (SS_IX_SLUGS[slug] ? '<a href="/interactions/#s='+encodeURIComponent(slug)+'"><span class="det-art-left">'+ART_ICON+'<span class="det-art-title">Cited medication interactions</span></span></a>' : '')
       + '</div></div>';
   }
@@ -657,7 +657,7 @@
       +   '<div class="det-hero-l">'
       +     '<div class="det-hero-tier-row"><span class="det-tier '+escAttr(s.t)+'">'+escHtml(meta.label)+'</span></div>'
       +     '<h1 class="det-h1">'+escHtml(s.n)+'</h1>'
-      +     '<p class="ss-last-reviewed" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 12px">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/transparency.html">SupplementScore team</a></p>'
+      +     '<p class="ss-last-reviewed" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 12px">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/about.html#transparency">SupplementScore team</a></p>'
       +     (catsHtml ? '<div class="det-cats">'+catsHtml+'</div>' : '')
       +     (tldr ? '<p class="det-tldr">'+escHtml(tldr)+'</p>' : '')
       +     '<div class="det-stats">'+statsHtml+'</div>'
@@ -709,7 +709,7 @@
       +   '<div id="det-brands-slot"></div>'
 
       +   relatedSuppsHtml(s)
-      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="/methodology.html">methodology</a> for how scores are derived.</p>'
+      +   '<p class="det-disclaim">Educational reference, not medical advice. See the <a href="/about.html#methodology">methodology</a> for how scores are derived.</p>'
       + '</div>'
     + '</div>';
   }

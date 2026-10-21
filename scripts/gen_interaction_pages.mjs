@@ -156,11 +156,11 @@ function head(opts) {
   <h1>${esc(opts.h1)}</h1>
   <div class="ix-disclaimer" role="note">
     <strong>Talk to a pharmacist before you change anything.</strong>
-    <p>This is an educational list of interactions tied to a public source. It is not a complete medication review and it is not medical advice. Ask a pharmacist, or the clinician who prescribes the medicine, before you start, stop, or change a supplement. A pair that is missing here is not a safety clearance. SupplementScore takes no ads, sponsorships, or affiliate income. <a href="/transparency.html">How this site is funded</a>.</p>
+    <p>This is an educational list of interactions tied to a public source. It is not a complete medication review and it is not medical advice. Ask a pharmacist, or the clinician who prescribes the medicine, before you start, stop, or change a supplement. A pair that is missing here is not a safety clearance. SupplementScore takes no ads, sponsorships, or affiliate income. <a href="/about.html#transparency">How this site is funded</a>.</p>
   </div>
   <p class="ix-lede">${esc(opts.lede)}</p>
   ${opts.note ? `<p class="ix-note">${esc(opts.note)}</p>` : ''}
-  <p class="ix-meta">Last reviewed <time datetime="${data.updated}">15 October 2026</time> · <a href="/transparency.html">SupplementScore team</a></p>
+  <p class="ix-meta">Last reviewed <time datetime="${data.updated}">15 October 2026</time> · <a href="/about.html#transparency">SupplementScore team</a></p>
   ${opts.body}
 </main>
 ${footer}
@@ -258,7 +258,7 @@ if (!detail.includes('/* SS_IX_SLUGS_BEGIN */')) throw new Error('slug marker mi
 detail = detail.replace(/\/\* SS_IX_SLUGS_BEGIN \*\/[\s\S]*?\/\* SS_IX_SLUGS_END \*\//, block);
 fs.writeFileSync(detailPath, detail);
 
-const needle = '<a href="/transparency.html">Funding, brand listings, and corrections</a>';
+const needle = '<a href="/about.html#transparency">Funding, brand listings, and corrections</a>';
 let linked = 0;
 for (const slug of slugs) {
   const file = path.join(root, 'supplement', slug + '.html');
