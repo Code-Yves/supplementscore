@@ -305,9 +305,287 @@
 <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
 <noscript></noscript>
-<link rel="stylesheet" href="/critical.css?v=0b546e83">
+<style>
+/* Homepage first paint. Same rules as critical.css. Do not load the rest with media=print; Safari can leave that sheet unloaded. */
+/* Small blocking sheet: design tokens, margin reset, and body type.
+   The full styles.css loads after first paint. Keep these rules in sync
+   with the top of styles.css so the late sheet does not move the page. */
+/* ── Design system tokens ── */
+:root {
+  /* Surface + text — warm paper palette, gentler than pure white.
+
+     NAMING (2026-05-22 cleanup): the canonical names are now
+       --color-surface  → the lighter cream (#f6f2ea) used on cards,
+                          popovers, hovers, search inputs, any element
+                          that should sit "above" the page.
+       --color-page     → the darker cream (#ebe5d9) used on <body> as
+                          the actual page background.
+
+     The old `--color-background-primary` / `--color-background-secondary`
+     names are misleading: "primary" is actually the elevated surface, and
+     the page bg comes from "secondary". They're kept as aliases below so
+     existing rules keep working unchanged; new code should use the new
+     names. Bulk migration of existing references is intentionally
+     deferred — risk-free incremental adoption. */
+  --color-surface: #f6f2ea;
+  --color-page: #ebe5d9;
+  /* 2026-05-23 — Dedicated card-surface token. Sits between --color-surface
+     (near-white #f6f2ea) and --color-page (cream #ebe5d9) — leaning closer
+     to surface for a brighter, more luminous tint while still reading as a
+     defined surface against the page. Used by .sc / .sr-card / .article-card.
+     History: started at #f1ecdf (true 50% midpoint); brightened one notch
+     to #f4efe6 per user feedback. */
+  --color-card: #f4efe6;
+  /* Deprecated aliases — keep until references are migrated. */
+  --color-background-primary: var(--color-surface);
+  --color-background-secondary: var(--color-page);
+  --color-text-primary: #0c0a09;
+  --color-text-secondary: #57534e;
+  --color-text-tertiary: #6b6560; /* was #a8a29e — failed contrast on the cream page */
+  --color-border-primary: #78716c;
+  --color-border-secondary: #d6d3d1;
+  --color-border-tertiary: #dcdad7;
+  /* Brand (single source of truth) — Direction C: warm green-teal */
+  --color-brand: #1F7A6B;
+  --color-brand-hover: #176258;
+  --color-brand-soft: #7CC4B6;
+  --color-brand-deep: #155A50;  /* Round-11: was referenced via var(--color-brand-deep,#155A50) in .b-why-chip/.b-cta but never defined; now tokenized (same value, no visual change). */
+  /* Accent — soft coral, used sparingly for warmth */
+  --color-accent-coral: #E8967A;
+  --color-accent-coral-soft: #F5C9B8;
+  /* Tier palette — gently desaturated for the Approachable Health Reference voice */
+  --t1c:#1F8A7A;--t1bg:#E6F4F1;--t1tx:#0F4A41;
+  --t2c:#5A7BC4;--t2bg:#ECF0F7;--t2tx:#2D3F6E;
+  --t3c:#C2872B;--t3bg:#FBF1DE;--t3tx:#6B4716;
+  --t4c:#B85046;--t4bg:#FAE8E5;--t4tx:#6B231D;
+  /* Quick Reads — warm slate-taupe; neutral against the cream BG and
+     distinct from the four evidence-tier chromatic colors above. */
+  --t5c:#6B6256;--t5bg:#EFE9DD;--t5tx:#3F3A33;
+  --slp:#5E59B2;--slpbg:#EDECF7;--slptx:#26215C;
+  /* Warning / medical-alert */
+  --color-warn-bg: #FBF1DE;
+  --color-warn-border: #E5C66B;
+  --color-warn-text: #6B4716;
+  --color-warn-text-strong: #4A3010;
+  /* Focus ring */
+  --focus-ring: 0 0 0 2px rgba(31,122,107,.45);
+  /* Z-index scale */
+  --z-sticky: 40;
+  --z-dropdown: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
+/* scrollbar-gutter:stable reserves space for the vertical scrollbar even on
+   pages whose content fits in the viewport. Without this, navigating between
+   a tall page (Articles, Index) and a shorter page (Discover) makes the
+   scrollbar appear/disappear, shifting content horizontally by ~15px and
+   producing a "slight shift" on cross-page navigation. */
+.ss-last-reviewed{font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 12px}
+.ss-last-reviewed a{color:inherit}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  background:var(--color-background-secondary);
+  color:var(--color-text-primary);
+  min-height:100vh;
+  padding:0 1rem 4rem;
+  -webkit-font-smoothing:antialiased;
+}
+input,button{font-family:inherit}
+
+/* Homepage first paint. These match the mobile rules in styles.css and
+   index.css so the late sheets do not move the headline or the banner.
+   The directory reserves vertical space so the guide list below it is
+   already under the fold when the supplement cards render. */
+.legacy-trust-hero{display:none !important}
+.beta-bar{
+  background:var(--color-page);color:var(--color-brand);
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;height:32px;margin:20px -1rem 0;padding:0 1rem;
+  width:calc(100% + 2rem);box-sizing:border-box;
+  font-size:9px;font-weight:500;line-height:1;
+}
+.beta-bar-stats{display:inline-flex;align-items:center;gap:8px}
+.beta-bar-stat{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);white-space:nowrap}
+.beta-bar-stat-sep{font-size:11px;font-weight:400;opacity:.35;color:var(--color-brand)}
+.beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:var(--color-brand);flex:0 0 auto}
+.beta-bar-search{display:none}
+.ix-hero{max-width:1180px;margin:0 auto;padding:56px 24px 40px;text-align:center;position:relative}
+.hero-statbar{display:none}
+.ix-hero h1{font-size:64px;font-weight:700;letter-spacing:-1.8px;line-height:1.04;margin:0 auto 18px;max-width:22ch;color:var(--color-text-primary);text-wrap:pretty;text-wrap:balance}
+.ix-hero p.lede{font-size:17px;color:var(--color-text-secondary);max-width:56ch;margin:0 auto 28px;line-height:1.55;text-wrap:pretty;text-wrap:balance}
+.ix-search{max-width:480px;margin:0 auto 32px;position:relative}
+.ix-search input{width:100%;padding:12px 20px 12px 44px;font-family:inherit;font-size:14px;background:var(--color-surface);border:1.5px solid var(--color-border-secondary);color:var(--color-text-primary);border-radius:999px;box-sizing:border-box}
+.ix-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:16px;height:16px;pointer-events:none}
+.ix-hero-bg{display:none !important}
+/* Slides are taken out of flow here, in the blocking sheet. Until this
+   rule exists they stack at full height, then the late stylesheet
+   collapses them and the card below jumps. */
+#hero{position:relative;border-radius:18px;overflow:hidden;height:340px;min-height:340px;background:linear-gradient(90deg,#3A8276 0%,#4DA095 100%);color:#F8F4ED}
+#hero .hero-slide,#hero .hero-pattern-bg,#hero .hero-controls,#hero .hero-counter,#hero .hero-progress{position:absolute}
+#hero .hero-pattern-bg{inset:0}
+#hero .hero-slide{inset:36px 36px 92px 36px;opacity:0;z-index:3}
+#hero .hero-slide.active{opacity:1}
+#hero .hero-controls{right:30px;bottom:28px;z-index:5;display:flex;align-items:center;gap:10px}
+#hero .hero-counter{top:44px;right:32px;z-index:4}
+#hero .hero-progress{left:0;right:0;bottom:0;height:3px}
+#main-ui{min-height:calc(100svh - 240px)}
+@media(max-width:768px){
+  html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:0 !important}
+}
+@media(max-width:600px){
+  .beta-bar{position:fixed;top:0;left:0;right:0;width:100%;margin:0;height:calc(22px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;font-size:10px;gap:4px;z-index:31}
+  .beta-bar-pulse{display:none}
+  .beta-bar-stat,.beta-bar-stat-sep{font-size:9.5px;letter-spacing:.04em}
+  html.tab-supplements body,body.tab-supplements{padding-top:8px !important}
+  html.tab-profile body,body.tab-profile,html.tab-research body,body.tab-research{padding-top:calc(30px + env(safe-area-inset-top)) !important}
+  .ix-hero{padding:4px 0 0}
+  html.tab-supplements .beta-bar,body.tab-supplements .beta-bar{display:none !important}
+  .hero-statbar{display:flex;width:100%;height:28px;box-sizing:border-box;margin:0 0 12px;border:1px solid #abc8be;border-radius:10px;background:#f6f2ea;color:#1F7A6B;opacity:1;-webkit-font-smoothing:auto}
+  .hero-stat{flex:1 1 0;min-width:0;display:flex;justify-content:center;align-items:center;white-space:nowrap;padding:0 3px;font-size:11px;line-height:14px;color:#1F7A6B;opacity:1}
+  .hero-stat + .hero-stat{border-left:1px solid #bad0c6}
+  .hero-stat-num{font-weight:700;color:#1F7A6B;opacity:1}
+  .hero-stat-lbl{margin-left:3px;font-weight:400;color:#5b9c8f;opacity:1}
+  .ix-hero h1{font-size:40px;line-height:1.05;letter-spacing:-1.1px;margin:0 auto 8px;max-width:none;text-wrap:pretty;text-wrap:balance}
+  .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45;text-wrap:pretty;text-wrap:balance}
+  .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
+  .ix-hero .ix-search input{font-size:16px;padding:9px 16px 9px 38px}
+  #hero{height:200px !important;min-height:200px !important;max-height:200px !important;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px;overflow:hidden !important}
+  #hero .hero-slide{inset:14px 14px 56px 14px}
+}
+/* Supplement detail pages do not render the fixed beta-bar + site-nav.
+   Phones otherwise keep ~70px of empty body padding between Share/X and
+   the score card. Collapse that offset and park Share/X in a row above
+   the card. Homepage and article pages do not use main.det-wrap. */
+@media(max-width:768px){
+  body:has(main.det-wrap):not(.is-modal){
+    position:relative;
+    padding-top:calc(8px + env(safe-area-inset-top)) !important;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab,
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{
+    position:absolute !important;
+    top:calc(8px + env(safe-area-inset-top)) !important;
+    z-index:50;
+    width:44px !important;
+    height:44px !important;
+    min-width:44px;
+    min-height:44px;
+    padding:0 !important;
+    border-radius:50%;
+    justify-content:center;
+    box-sizing:border-box;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:60px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:8px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab svg,
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab svg{
+    width:24px !important;
+    height:24px !important;
+  }
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab .pg-share-lbl{display:none !important}
+  body:has(main.det-wrap):not(.is-modal) > main.det-wrap{margin-top:48px}
+  /* The homepage list opens this shell in an iframe under .ssm-chrome.
+     html.is-modal is set from the head before paint. Outranks the 70px
+     body offset and the standalone margin that clears the page FABs. */
+  html.is-modal body:has(main.det-wrap){
+    padding-top:0 !important;
+  }
+  html.is-modal main.det-wrap{
+    margin-top:0 !important;
+    padding-top:8px !important;
+  }
+}
+/* Homepage phones: hide the article carousel before the late stylesheet
+   arrives so the teal card does not flash between the lede and the search.
+   Desktop keeps #hero. index.css owns the settled layout. */
+@media(max-width:768px){
+  #hero{display:none !important}
+  .ix-hero p.lede,.ix-hero .lede{margin-bottom:16px !important}
+}
+/* Homepage filter bar, in the blocking sheet. index.css repeats this, but
+   iOS can leave that sheet on media=print, and the base styles.css fill
+   is what painted every segment teal. These selectors outrank it. */
+#main-sticky #sfbar-main.sfbar{
+  display:flex !important;flex:none !important;flex-direction:row !important;
+  align-items:stretch !important;gap:0 !important;grid-template-columns:none !important;
+  width:100% !important;height:36px !important;min-height:36px !important;max-height:36px !important;
+  margin:0 0 8px !important;padding:0 !important;box-sizing:border-box !important;
+  border:1px solid #abc8be !important;border-radius:10px !important;
+  background:#f6f2ea !important;background-image:none !important;overflow:visible !important;
+}
+#main-sticky #sfbar-main > .cdd{
+  position:relative !important;display:flex !important;flex:1 1 0 !important;
+  min-width:0 !important;max-width:none !important;height:100% !important;overflow:visible !important;
+}
+#main-sticky #sfbar-main .cdd-btn{
+  display:flex !important;align-items:center !important;justify-content:center !important;
+  width:100% !important;height:100% !important;min-width:0 !important;max-width:100% !important;
+  padding:0 4px !important;box-sizing:border-box !important;border:0 !important;border-radius:0 !important;
+  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
+  box-shadow:none !important;filter:none !important;transform:none !important;
+  color:#1F7A6B !important;overflow:hidden !important;transition:none !important;
+}
+#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{border-left:1px solid #bad0c6 !important}
+#main-sticky #sfbar-main .cdd-ico,
+#main-sticky #sfbar-main .cdd-chev{display:none !important}
+#main-sticky #sfbar-main .cdd-lbl{
+  font-size:12px !important;font-weight:700 !important;line-height:16px !important;
+  color:#1F7A6B !important;white-space:nowrap !important;overflow:hidden !important;
+  text-overflow:ellipsis !important;min-width:0 !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn{
+  background:#1F7A6B !important;background-color:#1F7A6B !important;background-image:none !important;color:#f6f2ea !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
+@media (hover:none), (pointer:coarse){
+  #main-sticky #sfbar-main .cdd-btn:hover,
+  #main-sticky #sfbar-main .cdd-btn:active,
+  #main-sticky #sfbar-main:hover .cdd-btn{
+    background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
+    color:#1F7A6B !important;transform:none !important;filter:none !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#1F7A6B !important}
+  #main-sticky #sfbar-main .cdd-btn.on,
+  #main-sticky #sfbar-main .cdd-btn.on:hover,
+  #main-sticky #sfbar-main .cdd-btn.on:active,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn:active{
+    background:#1F7A6B !important;background-color:#1F7A6B !important;color:#f6f2ea !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
+  .pg-close-fab:hover,.ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
+}
+h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
+a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
+</style>
+<link rel="preload" href="/styles.css?v=e4a10d2a" as="style">
+<link rel="preload" href="index.css?v=8fd9e12e" as="style">
+<script>
+/* Apply the full sheets as real stylesheets. Not media=print. */
+(function(){
+  function load(href){
+    var link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href=href;
+    document.head.appendChild(link);
+  }
+  load('/styles.css?v=e4a10d2a');
+  load('index.css?v=8fd9e12e');
+})();
+</script>
+<noscript>
 <link rel="stylesheet" href="/styles.css?v=e4a10d2a">
 <link rel="stylesheet" href="index.css?v=8fd9e12e">
+</noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
