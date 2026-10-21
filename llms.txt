@@ -1,0 +1,43 @@
+# SupplementScore
+
+> Who runs SupplementScore, how scores and evidence tiers are calculated, and how the site is funded. No ads, sponsors, or affiliate links.
+
+## Start here
+
+- [About](https://supplementscore.org/about.html): Who runs SupplementScore, how scores and evidence tiers are calculated, and how the site is funded. No ads, sponsors, or affiliate links.
+- [Methodology](https://supplementscore.org/about.html#methodology): How scores and evidence tiers are calculated.
+- [Browse](https://supplementscore.org/browse.html): Browse 200+ top-rated supplements by composite evidence score. Full database has 780+ supplements, ranked on real trial evidence, not marketing.
+- [Open data](https://supplementscore.org/data/): Download the SupplementScore database as JSON or CSV. Supplements, drug interactions, pairings, brand notes. CC-BY 4.0, no API key required.
+
+## Topic pages
+
+- [Supplements for anxiety](https://supplementscore.org/sx/anxiety.html)
+- [Supplements for bone](https://supplementscore.org/sx/bone-health.html)
+- [Supplements for heart](https://supplementscore.org/sx/cardiovascular.html)
+- [Supplements for focus](https://supplementscore.org/sx/cognition.html)
+- [Supplements for energy](https://supplementscore.org/sx/energy.html)
+- [Supplements for blood sugar](https://supplementscore.org/sx/glucose.html)
+- [Supplements for gut](https://supplementscore.org/sx/gut-health.html)
+- [Supplements for hormones](https://supplementscore.org/sx/hormones.html)
+- [Supplements for immunity](https://supplementscore.org/sx/immunity.html)
+- [Find supplements by symptom domain](https://supplementscore.org/sx/index.html): Browse supplements by symptom
+- [Supplements for joints](https://supplementscore.org/sx/joint-pain.html)
+- [Supplements for liver](https://supplementscore.org/sx/liver.html)
+- [Supplements for mood](https://supplementscore.org/sx/mood.html)
+- [Supplements for performance](https://supplementscore.org/sx/performance.html)
+- [Supplements for skin](https://supplementscore.org/sx/skin.html)
+- [Supplements for sleep](https://supplementscore.org/sx/sleep.html)
+- [Supplements for eyes](https://supplementscore.org/sx/vision.html)
+
+## Topic hubs
+
+- [Adaptogens](https://supplementscore.org/hub/adaptogens.html): Adaptogens: which ones have real trials
+- [Athletic performance](https://supplementscore.org/hub/athletic-performance.html): Athletic supplements: what the trials support
+- [Creatine](https://supplementscore.org/hub/creatine.html): Creatine evidence, dose, and safety
+- [Everything on a topic, in one place](https://supplementscore.org/hub/index.html): Topic hubs: supplements by goal
+- [Joint health](https://supplementscore.org/hub/joint-health.html): Joint supplements: evidence, dose, and safety
+- [Magnesium](https://supplementscore.org/hub/magnesium.html): Magnesium forms: evidence, dose, and safety
+- [Omega-3](https://supplementscore.org/hub/omega-3.html): Omega-3 evidence: EPA, DHA, and forms
+- [Probiotics](https://supplementscore.org/hub/probiotics.html): Probiotics by strain: evidence and safety
+- [Sleep supplements](https://supplementscore.org/hub/sleep.html): Sleep supplements: evidence, dose, and safety
+- [Vitamin D](https://supplementscore.org/hub/vitamin-d.html): Vitamin D evidence, dose, and safety
