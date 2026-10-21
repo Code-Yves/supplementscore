@@ -47,7 +47,8 @@
   color: #1F7A6B;
   margin-bottom: 18px;
 }
-.rs-hero h1{
+.rs-hero h1,
+.rs-hero h2{
   font-size: clamp(34px, 5.5vw, 56px);
   font-weight: 700; letter-spacing: -1.4px;
   line-height: 1.08; margin: 0 0 14px;
@@ -904,14 +905,15 @@
    layout-shift). */
 .abt-hero{max-width:1180px;margin:0 auto;padding:32px 24px 28px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:center}
 .abt-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--color-brand);display:block;margin-bottom:14px}
-.abt-hero h1{font-size:clamp(30px,5vw,50px);font-weight:700;letter-spacing:-1.4px;line-height:1.08;margin:0 0 14px;color:var(--color-text-primary)}
+.abt-hero h1,
+.abt-hero h2{font-size:clamp(30px,5vw,50px);font-weight:700;letter-spacing:-1.4px;line-height:1.08;margin:0 0 14px;color:var(--color-text-primary)}
 .abt-hero .lede{font-size:15px;color:var(--color-text-secondary);max-width:680px;line-height:1.65;margin:0 auto 28px}
 .abt-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:0.5px solid var(--color-border-tertiary);padding-top:22px;text-align:center}
 .abt-stat{padding:0 16px;border-right:0.5px solid var(--color-border-tertiary)}
 .abt-stat:last-child{border-right:0;padding-right:0}
 .abt-stat .num{font-size:34px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:var(--color-brand);font-variant-numeric:tabular-nums}
 .abt-stat .lbl{font-size:12px;color:var(--color-text-secondary);margin-top:5px}
-@media(max-width:820px){.abt-hero{padding:24px 18px 20px}.abt-hero h1{font-size:28px}.abt-stats{grid-template-columns:repeat(2,1fr);gap:18px 0}.abt-stat{padding:0 0 18px;border-right:0;border-bottom:0.5px solid var(--color-border-tertiary)}.abt-stat:nth-child(3),.abt-stat:nth-child(4){border-bottom:0;padding-bottom:0}}
+@media(max-width:820px){.abt-hero{padding:24px 18px 20px}.abt-hero h1,.abt-hero h2{font-size:28px}.abt-stats{grid-template-columns:repeat(2,1fr);gap:18px 0}.abt-stat{padding:0 0 18px;border-right:0;border-bottom:0.5px solid var(--color-border-tertiary)}.abt-stat:nth-child(3),.abt-stat:nth-child(4){border-bottom:0;padding-bottom:0}}
 .abt-sec{max-width:1180px;margin:0 auto;padding:40px 24px;border-bottom:0.5px solid var(--color-border-tertiary)}
 .abt-sec h2{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.8px;line-height:1.1;margin:0 0 6px;color:var(--color-text-primary)}
 .abt-sec-sub{font-size:14px;color:var(--color-text-secondary);margin:0 0 20px;line-height:1.5}
