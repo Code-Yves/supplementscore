@@ -5047,7 +5047,8 @@ function renderCard(s, hidden){
   var slug = _slcSlug(s.n);
   var ints = INTERACT_MAP[s.n] || [];
   var cau  = _slcCaution(s, et, ints);
-  var cauHtml = cau ? '<span class="lc-cau">' + escHtml(cau) + '</span>' : '';
+  var cauText = cau ? (et === 't4' ? cau : ('Interacts: ' + cau)) : '';
+  var cauHtml = cauText ? '<span class="lc-cau">' + escHtml(cauText) + '</span>' : '';
   return '<a class="sc ' + et + (hidden || '') + '" href="' + ssSuppHref(slug) + '" data-tier="' + et + '">'
     +   '<div class="lc-score"><div class="lc-score-num">' + sc + '</div></div>'
     +   '<div class="lc-mid">'
@@ -5064,9 +5065,12 @@ function renderAll(){const q=(document.getElementById('gs-inp')||{}).value||'';c
 if(af==='unproven'){let items=S.filter(s=>eTier(s)==='t3'&&match(s,q)).sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>10&&!q;const m=TIER_META.unproven||{};const banner=items.length?_filterBanner('Unproven',items.length+' supplement'+(items.length===1?'':'s'),m.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>','unproven'):'';document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('unproven',items.length,initShow):''}</div>`:'<div class="empty">No supplements found.</div>';return;}
 if(af==='az'){let items=S.filter(s=>match(s,q)).sort((a,b)=>a.n.localeCompare(b.n));const groups={};items.forEach(s=>{const letter=s.n.charAt(0).toUpperCase().replace(/[^A-Z]/,'#');if(!groups[letter])groups[letter]=[];groups[letter].push(s);});let html='';Object.keys(groups).sort((a,b)=>a==='#'?-1:b==='#'?1:a.localeCompare(b)).forEach(letter=>{const grp=groups[letter];html+=`<div class="az-letter-heading">${letter} <span style="font-size:12px;font-weight:400;color:var(--color-text-tertiary)">${grp.length}</span></div><div class="tier-sec"><div class="scards">${grp.map(s=>renderCard(s,'')).join('')}</div></div>`;});document.getElementById('s-content').innerHTML=html;return;}
 const tiers=af==='all'?TIERS:TIERS.filter(t=>t.id===af);const singleTier=af!=='all';let html='';tiers.forEach(t=>{const items=S.filter(s=>t.id==='t3'?(s.tr&&match(s,q)):(eTier(s)===t.id&&match(s,q))).sort((a,b)=>calcScore(b)-calcScore(a));if(!items.length)return;const hasMore=items.length>10&&!q;let banner='';if(singleTier){const m=TIER_META[t.id]||{};banner=_filterBanner(escHtml(t.label),items.length+' supplement'+(items.length===1?'':'s'),m.desc||t.desc||'',m.icon||'<circle cx="12" cy="12" r="10"/>',t.id);}html+=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=initShow?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn(t.id,items.length,initShow):''}</div>`;});document.getElementById('s-content').innerHTML=html||'<div class="empty">No supplements match your search.</div>';}
-/* A category pick waits four seconds on purpose, with the choice named
-   where the list will appear. A newer pick cancels the previous wait. */
+/* A category pick waits three seconds, with the choice named where the
+   list will appear. The list's height stays reserved so the page does
+   not jump. A newer pick cancels the previous wait. */
 var _listLoadToken=0;
+var LIST_LOAD_MS=3000;
+var LIST_LOAD_NOTE='Ranked by clinical evidence and safety.';
 function _scrollListAfterLoad(top){
   if(window._ssSkipResultScroll){window._ssSkipResultScroll=false;return;}
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -5091,6 +5095,7 @@ function _scrollListEl(el){
 function _listLoadHtml(message){
   return '<div class="ss-list-load" role="status" aria-live="polite" aria-busy="true">'
     +'<p class="ss-list-load-msg">'+escHtml(message)+'</p>'
+    +'<p class="ss-list-load-sub">'+escHtml(LIST_LOAD_NOTE)+'</p>'
     +'<div class="ss-list-load-track" aria-hidden="true"><div class="ss-list-load-bar"></div></div>'
     +'</div>';
 }
@@ -5098,13 +5103,15 @@ function _queueListLoad(message, render){
   var token=++_listLoadToken;
   var content=document.getElementById('s-content');
   if(!content){render();return;}
+  var hold=content.offsetHeight;
+  if(hold>0) content.style.minHeight=hold+'px';
   content.innerHTML=_listLoadHtml(message);
-  _scrollListEl(content);
   setTimeout(function(){
     if(token!==_listLoadToken)return;
     window._ssSkipResultScroll=true;
     render();
-  },4000);
+    if(content.offsetHeight>hold) content.style.minHeight='';
+  },LIST_LOAD_MS);
 }
 function setCatFilter(cat){if(!cat){af='az';renderAll();document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');document.querySelectorAll('.sfbtn')[0].className='sfbtn on-az';return;}_ddLabel('tier-filter','Tier\u2026');_ddLabel('az-filter','A\u2013Z');_ddLabel('pop-filter','Age & Sex');_ddLabel('sx-filter','Symptom');_ddLabel('art-filter','Research');document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');af='cat';const q=(document.getElementById('srch')||{}).value||'';const rowLimit=20;let items=S.filter(s=>s.tag.toLowerCase().includes(cat.toLowerCase())&&match(s,q));items.sort((a,b)=>calcScore(b)-calcScore(a));const hasMore=items.length>20&&!q;const m=CAT_META[cat]||{};const banner=items.length?_filterBanner('Best for '+escHtml(_catLabel(cat)),items.length+' supplement'+(items.length===1?'':'s'),m.desc||'Supplements grouped by their primary benefit area.',m.icon||'<circle cx="12" cy="12" r="10"/>'):'';let html=`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('cat',items.length,rowLimit):''}</div>`;document.getElementById('s-content').innerHTML=items.length?html:'<div class="empty">No supplements found for this category.</div>';document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');const content=document.getElementById('s-content');if(content){const stickyH=document.querySelector('.sticky-bar');const offset=stickyH?stickyH.getBoundingClientRect().bottom+12:128;const top=content.getBoundingClientRect().top+window.pageYOffset-offset;_scrollListAfterLoad(top);}}
 var _initialLoad=true;

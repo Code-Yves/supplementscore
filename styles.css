@@ -234,7 +234,7 @@ a.src-card-c-name:hover{color:var(--color-text-primary)}
    as a clearly defined surface against the page background. Was `transparent`
    per the 2026-05-22 "sit transparent on the cream page" decision; user
    feedback wanted a more visible card surface. */
-.sc,.sr-card{background:var(--color-card) !important;border:1px solid var(--color-border-tertiary);border-radius:12px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer;text-decoration:none;color:inherit}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.04);transform:translateY(-1px)}
+.sc,.sr-card{background:var(--color-card) !important;border:1px solid var(--color-border-tertiary);border-radius:16px;padding:0;overflow:hidden;transition:all .15s;display:flex;cursor:pointer;text-decoration:none;color:inherit}.sc:hover{border-color:var(--color-border-secondary);box-shadow:0 2px 12px rgba(0,0,0,.04);transform:translateY(-1px)}
 .sc .lc-mid,.sc .lc-arr,.sr-card .lc-mid,.sr-card .lc-arr{background:transparent !important}
 .sc-score-side{width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;flex-shrink:0}
 .sc-score-side.score-high{background:linear-gradient(180deg,var(--t1c),#0F766E)}.sc-score-side.score-mid{background:linear-gradient(180deg,var(--t2c),#3B5FC0)}.sc-score-side.score-low{background:linear-gradient(180deg,var(--t3c),#A16207)}.sc-score-side.score-bad{background:linear-gradient(180deg,var(--t4c),#991B1B)}
@@ -649,7 +649,7 @@ body.on-profile .ssux-recent{display:none !important}
 .lc-cats{font-size:11px;color:var(--color-text-tertiary);flex-shrink:0;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lc-row2{display:flex;align-items:flex-start;gap:14px;font-size:11.5px;color:var(--color-text-secondary);min-width:0}
 .lc-desc{flex:1;min-width:0;font-size:12px;color:var(--color-text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.lc-cau{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#B91C1C;font-weight:600;flex-shrink:1;min-width:0;max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+.lc-cau{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#57534e;font-weight:500;flex-shrink:1;min-width:0;max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
 .lc-arr{flex:0 0 24px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary);transition:color .15s,transform .15s;font-size:18px;align-self:center}
 .sc:hover .lc-arr{color:var(--lc-accent);transform:translateX(2px)}
 @media(max-width:640px){
@@ -2700,19 +2700,30 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
    Cream field, teal type, one progress bar. No icon. */
 .ss-list-load{
   background:#f6f2ea;
-  border:1px solid rgba(31,122,107,.18);
-  border-radius:12px;
+  border:1px solid #dcdad7;
+  border-radius:16px;
   padding:22px 20px 18px;
-  margin:4px 0 12px;
-  max-width:640px;
+  margin:0;
+  max-width:none;
+  width:100%;
+  box-sizing:border-box;
 }
 .ss-list-load-msg{
-  margin:0 0 14px;
-  color:#1F7A6B;
+  margin:0;
+  color:#155A50;
   font-size:16px;
   font-weight:600;
   line-height:1.35;
   letter-spacing:-.01em;
+  text-wrap:balance;
+}
+.ss-list-load-sub{
+  margin:4px 0 14px;
+  color:#57534e;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  text-wrap:balance;
 }
 .ss-list-load-track{
   height:4px;
@@ -2725,7 +2736,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   width:0;
   border-radius:999px;
   background:#1F7A6B;
-  animation:ss-list-load 4s linear forwards;
+  animation:ss-list-load 3s linear forwards;
 }
 @keyframes ss-list-load{ to{ width:100%; } }
 @media (prefers-reduced-motion: reduce){
@@ -4464,4 +4475,10 @@ main.sk-wrap .ar-faq > p{
     font-size:24px !important;
     box-sizing:border-box;
   }
+}
+
+/* Homepage column. Outranks the 800px cap above once this sheet applies. */
+#supplements-view,
+#supplements-view > .container{
+  max-width:1024px !important;
 }
