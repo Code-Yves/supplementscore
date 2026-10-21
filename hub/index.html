@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- last-reviewed: 2026-05-24 -->
+<!-- last-reviewed: 2026-10-21 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -29,7 +29,16 @@
     .hubidx-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand,#1F7A6B); margin: 0 0 8px; }
     .hubidx-title { font-size: 36px; font-weight: 800; letter-spacing: -.6px; margin: 0 0 12px; line-height: 1.1; }
     .hubidx-intro { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 28px; max-width: 720px; }
-    .hubidx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    /* 12 cards. Explicit columns so a two-column phone and a three-column
+       desktop each fill every row. auto-fit left one card alone between
+       those widths. */
+    .hubidx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 700px) {
+      .hubidx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .hubidx-card { padding: 14px; }
+      .hubidx-card-badge { width: 36px; height: 36px; font-size: 12px; }
+      .hubidx-card-title { font-size: 16px; }
+    }
     .hubidx-card { display: block; padding: 18px; border: 1px solid var(--color-border-tertiary,#e5e7eb); border-radius: 14px; text-decoration: none; color: inherit; background: var(--color-background-primary); transition: border-color .15s, transform .15s; }
     .hubidx-card:hover { border-color: var(--color-brand,#1F7A6B); }
     .hubidx-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
@@ -91,6 +100,21 @@
       "@type": "WebPage",
       "name": "Joint health hub",
       "url": "https://supplementscore.org/hub/joint-health.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Creatine for women",
+      "url": "https://supplementscore.org/a/creatine-for-women.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "GLP-1",
+      "url": "https://supplementscore.org/for/glp-1.html"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Women by age",
+      "url": "https://supplementscore.org/for/women-by-age.html"
     }
   ]
 }
@@ -204,9 +228,30 @@
       </div>
       <p class="hubidx-card-tag">Collagen, curcumin, boswellia, MSM, glucosamine, chondroitin — the trial record that ranks them for knee OA and tendon recovery.</p>
     </a>
+    <a class="hubidx-card" href="/a/creatine-for-women.html">
+      <div class="hubidx-card-head">
+        <div class="hubidx-card-badge">Cw</div>
+        <h2 class="hubidx-card-title">Creatine for women</h2>
+      </div>
+      <p class="hubidx-card-tag">Lean mass and leg strength after menopause. Not a fat-loss or bone-density supplement.</p>
+    </a>
+    <a class="hubidx-card" href="/for/glp-1.html">
+      <div class="hubidx-card-head">
+        <div class="hubidx-card-badge">G1</div>
+        <h2 class="hubidx-card-title">GLP-1</h2>
+      </div>
+      <p class="hubidx-card-tag">Ozempic, Wegovy, Mounjaro, and Zepbound, and why a GLP-1 supplement is not those drugs.</p>
+    </a>
+    <a class="hubidx-card" href="/for/women-by-age.html">
+      <div class="hubidx-card-head">
+        <div class="hubidx-card-badge">Wa</div>
+        <h2 class="hubidx-card-title">Women by age</h2>
+      </div>
+      <p class="hubidx-card-tag">What the trials cover for women in their 20s, 30s, 40s, 50s, and 60s.</p>
+    </a>
   </div>
   <div class="hubidx-foot">
-    Last reviewed 2026-05-24. Educational reference, not medical advice. <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a>
+    Last reviewed 2026-10-21. Educational reference, not medical advice. <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a>
   </div>
 </main>
 
