@@ -12,16 +12,13 @@
  *                        you do NOT need to bump a version to "wake up"
  *                        users — a normal page load already does it.
  *
- *  JS, JSON, images  → stale-while-revalidate
- *                      • Cached copy is served immediately for speed,
- *                      • Fresh copy is fetched in the background and
- *                        stored for the NEXT request.
- *                      • A code change ships on the user's second load.
- *                        If you need a hard cut (data.js schema change,
- *                        breaking app.js refactor), bump CACHE_VERSION
- *                        below — that triggers a full SW reinstall and
- *                        drops the runtime cache, forcing fresh JS on
- *                        the very next request.
+ *  JS                → network-first, cache:'no-cache'
+ *                      • Same rule as CSS. A cached app.js is what kept
+ *                        the old "Top 20" list and the dead article X
+ *                        on iPhones after a deploy. Images and JSON stay
+ *                        stale-while-revalidate.
+ *                      • Bump CACHE_VERSION for a hard cut that also
+ *                        drops the runtime cache and reloads open tabs.
  *
  *  PRECACHE_URLS     → offline-first install only.
  *                      The list below is fetched at SW install time so
@@ -56,7 +53,7 @@
  *   • HTML-only changes (same)
  *   • Small JS tweaks (stale-while-revalidate picks them up next load)
  */
-const CACHE_VERSION = 'v2026-10-20-catnames';
+const CACHE_VERSION = 'v2026-10-21-ios';
 const PRECACHE = 'ssc-precache-' + CACHE_VERSION;
 const RUNTIME = 'ssc-runtime-' + CACHE_VERSION;
 
@@ -82,11 +79,16 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  // Drop caches from prior versions
+  // Drop caches from prior versions, then reload open tabs once so an
+  // iPhone sitting on a bfcache snapshot picks up the new CSS and JS.
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
       keys.filter(k => k !== PRECACHE && k !== RUNTIME).map(k => caches.delete(k))
-    )).then(() => self.clients.claim())
+    )).then(() => self.clients.claim()).then(() => self.clients.matchAll({ type: 'window', includeUncontrolled: true })).then(clients => {
+      clients.forEach(client => {
+        try { client.postMessage({ type: 'ss-reload', v: CACHE_VERSION }); } catch (_) {}
+      });
+    })
   );
 });
 
@@ -106,9 +108,16 @@ self.addEventListener('fetch', (event) => {
   const isHtml = req.mode === 'navigate' || req.destination === 'document'
                  || url.pathname.endsWith('.html') || url.pathname === '/';
   const isStyle = req.destination === 'style' || url.pathname.endsWith('.css');
-  if (isHtml || isStyle) {
+  const isScript = req.destination === 'script' || url.pathname.endsWith('.js');
+  if (isHtml || isStyle || isScript) {
+    // cache:'no-cache' revalidates with the server. A plain fetch(req)
+    // honours GitHub Pages max-age=600, which is how an iPhone kept the
+    // pre-joined teal buttons after the new files were already deployed.
+    // A navigation Request cannot be cloned with RequestInit, so rebuild
+    // from the URL.
+    const fresh = fetch(req.url, { cache: 'no-cache', credentials: 'same-origin', redirect: 'follow' });
     event.respondWith(
-      fetch(req).then(response => {
+      fresh.then(response => {
         if (response && response.status === 200) {
           const respClone = response.clone();
           caches.open(RUNTIME).then(cache => cache.put(req, respClone));
@@ -119,8 +128,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Everything else (JS, JSON, images): stale-while-revalidate is fine —
-  // freshness matters less and the speed win on flaky mobile is real.
+  // JSON and images: stale-while-revalidate. Scripts are network-first
+  // above, with CSS and HTML.
   event.respondWith(
     caches.match(req).then(cached => {
       const fetchPromise = fetch(req).then(response => {

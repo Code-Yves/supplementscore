@@ -171,44 +171,17 @@
     return '';
   }
 
-  /* X-close handler — inside the iframe modal, postMessage the parent so
-     it closes the overlay (and doesn't navigate the parent away). When
-     standalone, mirror the existing .pg-close-fab session-stack logic so
-     back-navigation matches the rest of the site. */
-  function closeArticle(e){
-    if (e && e.preventDefault) e.preventDefault();
-    if (inIframe){
-      try { window.parent.postMessage({ type: 'rc-close' }, '*'); } catch(_){}
-      return;
-    }
-    /* A standalone comparison page belongs to the Compare hub — closing it should
-       return to /compare/, not the homepage or arbitrary history (user 2026-06-06). */
-    if ((location.pathname || '').indexOf('/compare/') === 0){
-      location.href = '/compare/index.html';
-      return;
-    }
-    var SKIP = 'ss-art-skip-push', KEY = 'ss-art-stack', OLD = 'ss-art-origin';
-    var stack = [];
-    try { stack = JSON.parse(sessionStorage.getItem(KEY) || '[]'); if (!Array.isArray(stack)) stack = []; } catch(_){ stack = []; }
-    if (stack.length){
-      var prev = stack.pop();
-      try { sessionStorage.setItem(KEY, JSON.stringify(stack)); } catch(_){}
-      try { sessionStorage.setItem(SKIP, '1'); } catch(_){}
-      location.href = prev;
-      return;
-    }
-    var o = null;
-    try { o = sessionStorage.getItem(OLD); } catch(_){}
-    if (o){
-      try { sessionStorage.removeItem(OLD); } catch(_){}
-      location.href = o;
-      return;
-    }
-    if (document.referrer && document.referrer.indexOf(location.origin) === 0 && history.length > 1){
-      history.back();
-    } else {
-      location.href = '/';
-    }
+  /* Where X goes if there is no same-site page to return to, and if JS
+     never runs. Articles return to the Research section; other templates
+     return to their own index. */
+  function closeFallback(){
+    var path = location.pathname || '';
+    if (path.indexOf('/compare/') === 0) return '/compare/';
+    if (path.indexOf('/condition/') === 0) return '/condition/';
+    if (path.indexOf('/stack/') === 0) return '/stack/';
+    if (path.indexOf('/for/') === 0) return '/';
+    if (path.indexOf('/a/') === 0) return '/#research';
+    return '/';
   }
 
   /* Share handler — uses Web Share API where available, falls back to
@@ -281,23 +254,14 @@
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share' +
       '</button>' +
       '<span class="rc-top-sep" aria-hidden="true"></span>' +
-      '<a class="rc-top-link rc-close" href="/" aria-label="Close">×</a>' +
+      '<a class="rc-top-link rc-close" href="' + closeFallback() + '" aria-label="Close">×</a>' +
     '</div>';
   wrap.insertBefore(topBar, wrap.firstChild);
   topBar.querySelector('.rc-share').addEventListener('click', share);
-  topBar.querySelector('.rc-close').addEventListener('click', closeArticle);
-  /* Safety net: also wire Close via event delegation so the X reliably works
-     even if a duplicate or re-rendered top bar appears (the documented
-     duplicate-chrome failure mode, where the visible X had no handler and just
-     followed its href="/" — which inside the iframe modal does nothing useful).
-     Attached once; closeArticle preventDefaults + is idempotent, so a double
-     fire with the direct handler above is harmless. */
-  if (!window.__rcCloseDelegated){
-    window.__rcCloseDelegated = true;
-    document.addEventListener('click', function(ev){
-      if (ev.target && ev.target.closest && ev.target.closest('.rc-close')) closeArticle(ev);
-    });
-  }
+  /* Close is a real link. _site-ux.js goes back when the previous page is
+     on this site, and otherwise lets this href load. No second listener:
+     preventDefault + history.back() from two handlers cancelled the
+     navigation on iPhone and the X appeared dead. */
 
   /* The legacy markup (back/close FABs, kickers, meta lines, SEO breadcrumb)
      was deleted from every article page by scripts/cleanup_legacy_chrome.py
