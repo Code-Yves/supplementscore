@@ -278,7 +278,7 @@ main.sk-wrap .ar-faq > p{
   main.sk-wrap p a,main.sk-wrap li a,
   main.det-wrap p a,main.det-wrap li a,
   .hub-wrap p a,.hub-wrap li a{
-    padding-top:13px;padding-bottom:13px;line-height:1.15;
+    padding-top:16px;padding-bottom:16px;line-height:1.15;
   }
   .hub-back,.hub-art-list li a,.hub-simple-list li a,.hub-sup-card{
     min-height:44px;box-sizing:border-box;
@@ -290,7 +290,8 @@ main.sk-wrap .ar-faq > p{
   main.det-wrap ol,main.det-wrap ul,
   .det-prose ol,.det-prose ul{
     margin-left:0 !important;
-    padding-left:1.25em !important;
+    padding-left:0 !important;
+    list-style-position:inside;
   }
   .rc-toc ul,.rc-rel-list ul{
     margin-left:0 !important;
@@ -316,10 +317,37 @@ main.ar-wrap > #hero.mag,
 main.sx-wrap > #hero.mag,
 main.ca-wrap > #hero.mag,
 main.sk-wrap > #hero.mag{margin:0 0 24px}
-#hero.mag .mag-side h3{text-wrap:balance;hyphens:none}
+#hero.mag .mag-side h2,#hero.mag .mag-side h3{text-wrap:balance;hyphens:none}
 @media (max-width:600px){
   main.ar-wrap #hero.mag h1,
   main.sx-wrap #hero.mag h1,
   main.ca-wrap #hero.mag h1,
   main.sk-wrap #hero.mag h1{font-size:20px !important}
+  main.ar-wrap > #hero.mag,
+  main.sx-wrap > #hero.mag,
+  main.ca-wrap > #hero.mag,
+  main.sk-wrap > #hero.mag{
+    margin-left:-16px !important;margin-right:-16px !important;
+    width:calc(100% + 32px);border-left:0;border-right:0;border-radius:0;
+  }
+}
+.ss-mentioned{
+  margin:32px 0 0;padding-top:24px;
+  border-top:1px solid var(--color-border-tertiary,#dcdad7);
+}
+.ss-mentioned-k,.ss-mentioned > h2{
+  margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:#57534e;
+}
+.ss-mentioned ul{list-style:none;margin:0;padding:0}
+.ss-mentioned li{margin:0;padding:0;list-style:none}
+.ss-mentioned a{
+  display:flex;align-items:center;width:100%;min-height:44px;box-sizing:border-box;
+  color:#155A50;text-decoration:none;font-weight:600;font-size:16px;line-height:1.3;
+}
+.ss-mentioned a:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:600px){
+  .rc-trust-by a,.ar-meta a[rel="author"]{
+    display:inline-flex;align-items:center;min-height:44px;min-width:44px;box-sizing:border-box;
+  }
 }

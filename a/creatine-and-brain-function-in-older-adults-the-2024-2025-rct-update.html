@@ -103,10 +103,10 @@
 </script>
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html {color-scheme:light}</style>
-  <link rel="stylesheet" href="/critical.css?v=design1">
-<link rel="stylesheet" href="/article-critical.css?v=design1">
+  <link rel="stylesheet" href="/critical.css?v=design2">
+<link rel="stylesheet" href="/article-critical.css?v=design2">
 <script>document.documentElement.classList.add("rc-hold")</script>
-<noscript><link rel="stylesheet" href="../styles.css?v=design1"></noscript>
+<noscript><link rel="stylesheet" href="../styles.css?v=design2"></noscript>
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
   <meta name="theme-color" content="#155A50">
@@ -244,7 +244,7 @@
 </footer>
 </main>
 
-<section class="ss-mentioned" id="ss-mentioned"><h2>Supplements mentioned</h2><ul><li><a href="/supplement/creatine-monohydrate.html">Creatine monohydrate</a></li></ul></section>
+<nav class="ss-mentioned" id="ss-mentioned" aria-label="Supplements mentioned"><p class="ss-mentioned-k">Supplements mentioned</p><ul><li><a href="/supplement/creatine-monohydrate.html">Creatine monohydrate</a></li></ul></nav>
 <!-- SS_FOOTER_BEGIN -->
 <!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
      the mockup review). Single vertical axis: brand → tagline → inline link
@@ -318,8 +318,8 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 /* Full stylesheet and the research header load after first paint. Header space is already reserved. */
 (function(){
   function start(){
-    var l=document.createElement("link"); l.rel="stylesheet"; l.href="../styles.css?v=design1"; document.head.appendChild(l);
-    var s=document.createElement("script"); s.src="../_research-chrome.js?v=design1"; s.async=false; document.body.appendChild(s);
+    var l=document.createElement("link"); l.rel="stylesheet"; l.href="../styles.css?v=design2"; document.head.appendChild(l);
+    var s=document.createElement("script"); s.src="../_research-chrome.js?v=design2"; s.async=false; document.body.appendChild(s);
   }
   setTimeout(start, 300);
 })();
