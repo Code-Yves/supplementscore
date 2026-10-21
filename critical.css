@@ -123,15 +123,16 @@ input,button{font-family:inherit}
 #hero.mag{position:relative;z-index:2;height:auto;min-height:0;max-height:none;margin:0 0 32px;padding:0;overflow:hidden;background:#f4efe6;color:#0c0a09;border:1px solid #dcdad7;border-radius:16px;box-shadow:none;touch-action:pan-y}
 #hero.mag .mag-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:24px 32px;padding:24px}
 #hero.mag .mag-lead{display:block;color:inherit;text-decoration:none}
-#hero.mag .mag-kicker{display:none}
-#hero.mag .mag-lead h2{margin:0 0 8px;font-size:28px;font-weight:700;letter-spacing:-.45px;line-height:1.15}
+#hero.mag .mag-kicker{display:block;margin:0 0 8px;font-size:12px;font-weight:650;letter-spacing:0;text-transform:none;color:#155A50;line-height:1.3}
+#hero.mag .mag-lead h2{margin:0 0 8px;font-size:28px;font-weight:700;letter-spacing:-.45px;line-height:1.15;color:#0c0a09}
 #hero.mag .mag-lead p{margin:0;color:#57534e;font-size:15px;line-height:1.5}
+#hero.mag .mag-more{display:inline-block;margin-top:16px;color:#155A50;font-size:14px;font-weight:650;line-height:1.3;text-decoration:underline;text-underline-offset:3px}
 #hero.mag .mag-side{display:flex;flex-direction:column;border-left:1px solid #dcdad7;padding-left:24px}
 #hero.mag .mag-side a{display:block;color:inherit;text-decoration:none;padding:16px 0;border-bottom:1px solid #dcdad7}
 #hero.mag .mag-side a:first-child{padding-top:0}
 #hero.mag .mag-side a:last-child{border-bottom:0;padding-bottom:0}
-#hero.mag .mag-meta{font-size:12px;color:#6b6560;font-variant-numeric:tabular-nums}
-#hero.mag .mag-side h3{margin:8px 0 0;font-size:16px;font-weight:650;letter-spacing:-.2px;line-height:1.3}
+#hero.mag .mag-meta{display:block;margin:0 0 8px;font-size:12px;color:#6b6560;font-variant-numeric:tabular-nums}
+#hero.mag .mag-side h3{margin:0;font-size:16px;font-weight:650;letter-spacing:-.2px;line-height:1.3;color:#0c0a09}
 #hero.mag .mag-pager{grid-column:1 / -1;display:flex;align-items:center;justify-content:flex-start;gap:2px;border-top:0;padding-top:8px}
 #hero.mag .mag-arrow{appearance:none;background:transparent;border:0;color:#155A50;font:inherit;font-size:22px;font-weight:650;line-height:1;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;cursor:pointer;border-radius:8px}
 #hero.mag .mag-arrow:focus-visible{outline:2px solid #1F7A6B;outline-offset:2px}
