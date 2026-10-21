@@ -1175,7 +1175,9 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
   #hero.mag{ max-width: none; margin-left: 0; margin-right: 0; }
 }
 #hero.mag .mag-lead:hover h2,
-#hero.mag .mag-side a:hover h3{ color: #1F7A6B; }
+#hero.mag .mag-side a:hover h3{ color: #0c0a09; }
+#hero.mag .mag-kicker{ color:#155A50; }
+#hero.mag .mag-more{ color:#155A50; }
 #hero.mag .mag-arrow:hover{ text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Active filter pill: darker teal fill, no outer ring ---------- */

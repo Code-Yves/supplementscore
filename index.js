@@ -473,6 +473,8 @@ function catCardClick(cat){
     else el.removeAttribute('data-show');
     var h=el.querySelector('h2, h3');
     if(h) h.textContent=a.title;
+    var k=el.querySelector('.mag-kicker');
+    if(k) k.textContent=a.cat||'';
     var p=el.querySelector('p');
     if(p) p.textContent=a.dek||'';
     var m=el.querySelector('.mag-meta');
