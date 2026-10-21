@@ -48,14 +48,23 @@
   function pager(shot) {
     var n = orderOf(shot.dataset.order).length;
     var i = Number(shot.dataset.i);
+    var mode = shot.dataset.pager || "words";
+    var prev = "Previous";
+    var next = "Next";
+    var extra = "";
+    if (mode === "arrows") { prev = "←"; next = "→"; extra = " pager-arrows"; }
+    if (mode === "earlier") { prev = "Earlier"; next = "Later"; }
+    if (mode === "ends") extra = " pager-ends";
     var label = "Showing " + (i + 1) + " of " + n + ". " + at(shot, 0).article.title;
-    return '<div class="pager" role="group" aria-label="Article rotation">'
-      + '<button type="button" class="pager-btn" data-dir="-1" aria-label="Previous article">Previous</button>'
+    return '<div class="pager' + extra + '" role="group" aria-label="Article rotation">'
+      + '<button type="button" class="pager-btn" data-dir="-1" aria-label="Previous article">' + prev + "</button>"
       + '<span class="pager-count">' + (i + 1) + " of " + n + "</span>"
-      + '<button type="button" class="pager-btn" data-dir="1" aria-label="Next article">Next</button>'
+      + '<button type="button" class="pager-btn" data-dir="1" aria-label="Next article">' + next + "</button>"
       + '<p class="sr" aria-live="polite">' + esc(label) + "</p>"
       + "</div>";
   }
+
+  function numClass(a) { return a.stat.length > 5 ? " long" : ""; }
 
   function read(a, cls) {
     return '<a class="' + (cls || "read") + '" href="' + esc(a.href) + '">Read article</a>';
@@ -162,6 +171,103 @@
       return '<div class="h10"><a class="h10-lead on-teal" href="' + esc(lead.article.href) + '"><div><div class="eyebrow">Now reading</div><h3>'
         + esc(lead.article.title) + '</h3></div><span class="read">Read article</span></a><div class="h10-pager">'
         + pager(shot) + '</div><div class="h10-next">' + next + "</div></div>";
+    },
+    v2a: function (shot) {
+      var a = at(shot, 0).article;
+      return '<article class="v2a"><a class="v2a-fig" href="' + esc(a.href) + '"><div class="num' + numClass(a) + '">'
+        + esc(a.stat) + "</div><p>" + esc(a.statNote) + '</p></a><div class="v2a-copy"><h3>' + esc(a.title)
+        + '</h3><p class="dek">' + esc(a.dek) + '</p><span class="meta">' + esc(meta(a)) + "</span>"
+        + read(a) + pager(shot) + "</div></article>";
+    },
+    v2b: function (shot) {
+      var a = at(shot, 0).article;
+      return '<article class="v2b"><a class="v2b-fig" href="' + esc(a.href) + '"><div class="num' + numClass(a) + '">'
+        + esc(a.stat) + '</div></a><div class="v2b-copy on-teal"><h3>' + esc(a.title) + '</h3><p class="dek">'
+        + esc(a.dek) + '</p><span class="meta">' + esc(meta(a)) + '</span><div class="v2b-foot">'
+        + read(a) + pager(shot) + "</div></div></article>";
+    },
+    v2c: function (shot) {
+      var a = at(shot, 0).article;
+      return '<article class="v2c"><div class="v2c-copy">' + pager(shot) + "<h3>" + esc(a.title)
+        + '</h3><p class="dek">' + esc(a.dek) + '</p><div class="v2c-foot"><span class="meta">' + esc(meta(a))
+        + "</span>" + read(a) + '</div></div><a class="v2c-fig" href="' + esc(a.href) + '"><div class="num' + numClass(a) + '">'
+        + esc(a.stat) + "</div><p>" + esc(a.statNote) + "</p></a></article>";
+    },
+    v2d: function (shot) {
+      var a = at(shot, 0).article;
+      return '<article class="v2d"><div class="v2d-row"><a class="v2d-fig" href="' + esc(a.href) + '"><div class="num' + numClass(a) + '">'
+        + esc(a.stat) + '</div></a><div class="v2d-copy"><p class="note">' + esc(a.statNote) + "</p><h3>"
+        + esc(a.title) + '</h3><p class="dek">' + esc(a.dek) + '</p><span class="meta">' + esc(meta(a)) + "</span>" + read(a) + '</div></div><div class="v2d-bar">'
+        + pager(shot) + "</div></article>";
+    },
+    v2e: function (shot) {
+      var a = at(shot, 0).article;
+      return '<article class="v2e"><a class="v2e-band" href="' + esc(a.href) + '"><div class="num' + numClass(a) + '">'
+        + esc(a.stat) + "</div><p>" + esc(a.statNote) + '</p></a><div class="v2e-copy"><h3>' + esc(a.title)
+        + '</h3><p class="dek">' + esc(a.dek) + '</p><div class="v2e-foot"><span class="meta">' + esc(meta(a))
+        + "</span>" + read(a) + "</div>" + pager(shot) + "</div></article>";
+    },
+    v6a: function (shot) {
+      var lead = at(shot, 0).article;
+      var side = "";
+      for (var k = 1; k <= 2; k++) {
+        var a = at(shot, k).article;
+        side += '<a href="' + esc(a.href) + '"><span class="meta">' + esc(shortMeta(a)) + "</span><h3>" + esc(a.title) + "</h3></a>";
+      }
+      return '<div class="v6a"><a class="v6a-fig" href="' + esc(lead.href) + '"><div class="num' + numClass(lead) + '">'
+        + esc(lead.stat) + "</div><p>" + esc(lead.statNote) + '</p></a><div class="v6a-lead"><h3>' + esc(lead.title)
+        + '</h3><p class="dek">' + esc(lead.dek) + '</p><span class="meta">' + esc(meta(lead)) + "</span>"
+        + read(lead) + pager(shot) + '</div><div class="v6a-side">' + side + "</div></div>";
+    },
+    v6b: function (shot) {
+      var lead = at(shot, 0).article;
+      var side = "";
+      for (var k = 1; k <= 2; k++) {
+        var a = at(shot, k).article;
+        side += '<a href="' + esc(a.href) + '"><h3>' + esc(a.title) + "</h3></a>";
+      }
+      return '<div class="v6b"><div class="v6b-lead"><h3>' + esc(lead.title) + '</h3><p class="dek">' + esc(lead.dek)
+        + '</p><div class="v6b-foot"><span class="meta">' + esc(meta(lead)) + "</span>" + read(lead)
+        + '</div></div><div class="v6b-side on-teal"><div class="also">Also in this rotation</div>' + side
+        + pager(shot) + "</div></div>";
+    },
+    v6c: function (shot) {
+      var lead = at(shot, 0).article;
+      var list = "";
+      for (var k = 1; k <= 2; k++) {
+        var a = at(shot, k).article;
+        list += '<a href="' + esc(a.href) + '"><span class="meta">' + esc(shortMeta(a)) + "</span><strong>" + esc(a.title) + "</strong></a>";
+      }
+      return '<div class="v6c"><div class="v6c-lead on-teal"><div class="v6c-top"><h3>' + esc(lead.title)
+        + '</h3><a class="num' + numClass(lead) + '" href="' + esc(lead.href) + '">' + esc(lead.stat)
+        + '</a></div><p class="dek">' + esc(lead.dek) + '</p><div class="v6c-foot">' + pager(shot) + read(lead)
+        + '</div></div><div class="v6c-list">' + list + "</div></div>";
+    },
+    v6d: function (shot) {
+      var lead = at(shot, 0).article;
+      var side = "";
+      for (var k = 1; k <= 2; k++) {
+        var a = at(shot, k).article;
+        side += '<a href="' + esc(a.href) + '"><span class="meta">' + esc(shortMeta(a)) + "</span><h3>" + esc(a.title)
+          + "</h3><p>" + esc(a.statNote) + "</p></a>";
+      }
+      return '<div class="v6d"><div class="v6d-grid"><a class="v6d-lead" href="' + esc(lead.href) + '"><span class="meta">'
+        + esc(meta(lead)) + "</span><h3>" + esc(lead.title) + '</h3><p class="dek">' + esc(lead.dek)
+        + '</p><span class="read">Read article</span></a><div class="v6d-side">' + side + '</div></div><div class="v6d-bar">'
+        + pager(shot) + "</div></div>";
+    },
+    v6e: function (shot) {
+      var lead = at(shot, 0).article;
+      var next = "";
+      for (var k = 1; k <= 2; k++) {
+        var a = at(shot, k).article;
+        next += '<a href="' + esc(a.href) + '"><span class="meta">' + esc(shortMeta(a)) + "</span><strong>" + esc(a.title) + "</strong></a>";
+      }
+      return '<div class="v6e"><div class="v6e-lead"><div class="v6e-fig on-teal"><a class="num' + numClass(lead) + '" href="'
+        + esc(lead.href) + '">' + esc(lead.stat) + "</a><p>" + esc(lead.statNote) + "</p>" + pager(shot)
+        + '</div><div class="v6e-copy"><h3>' + esc(lead.title) + '</h3><p class="dek">' + esc(lead.dek)
+        + '</p><div class="v6e-foot"><span class="meta">' + esc(meta(lead)) + "</span>" + read(lead)
+        + "</div></div></div><div class=\"v6e-next\">" + next + "</div></div>";
     }
   };
 
