@@ -137,18 +137,41 @@ def add_visible(text: str, date: str) -> str:
         )
         text = re.sub(
             r"(<p class=\"ca-meta\">)Updated \d{4}-\d{2}-\d{2}",
-            lambda m: f"{m.group(1)}Last reviewed {pretty(date)}",
+            lambda m: f'{m.group(1)}Last reviewed <time datetime="{date}">{pretty(date)}</time>',
             text,
             count=1,
         )
+        bare = re.search(
+            r'(<p class="ca-meta">Last reviewed )(?!<time datetime=)([^·<]+)',
+            text,
+        )
+        if bare:
+            text = (
+                text[: bare.start()]
+                + bare.group(1)
+                + f'<time datetime="{date}">{pretty(date)}</time> '
+                + text[bare.end() :]
+            )
         return text
     meta = re.search(r"(<p class=\"ca-meta\">)Updated \d{4}-\d{2}-\d{2}", text)
     if meta:
         return (
             text[: meta.start()]
             + meta.group(1)
-            + f"Last reviewed {pretty(date)}"
+            + f'Last reviewed <time datetime="{date}">{pretty(date)}</time>'
             + text[meta.end() :]
+        )
+    # Reader chrome hides .ca-meta and reads the first <time datetime>.
+    bare = re.search(
+        r'(<p class="ca-meta">Last reviewed )(?!<time datetime=)([^·<]+)',
+        text,
+    )
+    if bare:
+        return (
+            text[: bare.start()]
+            + bare.group(1)
+            + f'<time datetime="{date}">{pretty(date)}</time> '
+            + text[bare.end() :]
         )
     h1 = re.search(r"</h1>", text)
     if not h1:
