@@ -75,25 +75,104 @@ test('hero arrows, keyboard, and swipe', async ({ page }, testInfo) => {
   expect(errors, errors.join('\n')).toEqual([]);
 });
 
-test('article prev, next, share, and contents', async ({ page, context }) => {
+async function openContents(page, testInfo) {
+  await page.waitForSelector('.ar-toc');
+  if (testInfo.project.name === 'iphone') {
+    const open = await page.locator('.ar-toc details').evaluate((el) => el.open);
+    if (!open) await page.locator('.ar-toc summary').click();
+  }
+  await page.waitForSelector('.ar-toc a');
+}
+
+test('article prev, next, share, and contents', async ({ page, context }, testInfo) => {
   const errors = trackConsole(page);
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await goto(page, ARTICLE);
-  await page.waitForSelector('.rc-toc a');
-  await page.waitForSelector('.rc-next');
+  await page.waitForSelector('.ar-toc');
+  await page.waitForSelector('.ar-prevnext a');
   await assertNoEntityText(page);
 
-  expectTaps(await tapFailures(page, '.rc-prev, .rc-next, .rc-share'), 'article chrome');
-  expectTaps(await tapFailures(page, '.rc-toc a'), 'table of contents');
+  const spec = await page.evaluate(() => {
+    const col = document.querySelector('.ar-column');
+    const toc = document.querySelector('.ar-toc');
+    const kicker = document.querySelector('.ar-kicker');
+    const h2 = document.querySelector('.ar-column h2');
+    const para = h2 && h2.nextElementSibling && h2.nextElementSibling.tagName === 'P' ? h2.nextElementSibling : null;
+    const cs = para ? getComputedStyle(para) : null;
+    const end = document.querySelector('.ar-end');
+    const kids = end ? [...end.children].map((el) => (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 60)) : [];
+    const gap = end && end.children[1] ? getComputedStyle(end.children[1]).marginTop : '';
+    const tocBox = toc ? toc.getBoundingClientRect() : null;
+    const colBox = col ? col.getBoundingClientRect() : null;
+    return {
+      kicker: kicker ? kicker.textContent.trim() : '',
+      kickerColor: kicker ? getComputedStyle(kicker).color : '',
+      h1: (document.querySelector('.ar-titleblock h1') || {}).textContent || '',
+      byline: (document.querySelector('.ar-byline') || {}).innerText || '',
+      dek: !!document.querySelector('.ar-dek'),
+      colDisplay: col ? getComputedStyle(col).display : '',
+      colW: colBox ? Math.round(colBox.width) : 0,
+      fontSize: cs ? cs.fontSize : '',
+      lineHeight: cs ? cs.lineHeight : '',
+      tocW: tocBox ? Math.round(tocBox.width) : 0,
+      tocOpen: !!document.querySelector('.ar-toc details') && document.querySelector('.ar-toc details').open,
+      overlap: !!(tocBox && colBox && tocBox.right > colBox.left + 1 && tocBox.left < colBox.right),
+      tocLinks: [...document.querySelectorAll('.ar-toc a')].map((a) => a.textContent.trim()),
+      hero: !!document.querySelector('#hero.mag'),
+      floating: !!document.querySelector('.ssux-toc'),
+      side: !!document.querySelector('.mag-side'),
+      kids,
+      gap,
+      summary: (document.querySelector('.ar-toc summary') || {}).textContent || '',
+    };
+  });
+  expect(spec.kicker.length, 'category kicker').toBeGreaterThan(0);
+  expect(spec.kickerColor).toBe('rgb(21, 90, 80)');
+  expect(spec.h1).toMatch(/Nature's Ozempic/);
+  expect(spec.dek, 'dek').toBe(true);
+  expect(spec.byline).toMatch(/Updated/);
+  expect(spec.byline).toMatch(/Reviewed/);
+  expect(spec.fontSize).toBe('18px');
+  expect(spec.lineHeight).toBe('28.8px');
+  expect(spec.hero, 'magazine hero removed').toBe(false);
+  expect(spec.floating, 'floating panel removed').toBe(false);
+  expect(spec.side, 'side column removed').toBe(false);
+  expect(spec.summary).toBe('On this page');
+  expect(spec.tocLinks).toEqual([
+    'Bottom line',
+    'What Berberine Actually Is',
+    'The Clinical Evidence: Real But Limited',
+    'Limitations and Safety Considerations',
+    'The Honest Assessment',
+    'Sources',
+  ]);
+  expect(spec.kids[0]).toMatch(/^Sources/);
+  expect(spec.kids[1]).toMatch(/Supplements mentioned/);
+  expect(spec.kids[2]).toMatch(/Related/);
+  expect(spec.kids[spec.kids.length - 1]).toMatch(/Previous/);
+  expect(spec.gap).toBe('8px');
+  if (testInfo.project.name === 'desktop') {
+    expect(spec.colW).toBeLessThanOrEqual(700);
+    expect(spec.colW).toBeGreaterThan(640);
+    expect(spec.tocW).toBe(200);
+    expect(spec.tocOpen, 'desktop contents stay open').toBe(true);
+    expect(spec.overlap, 'rail overlaps the column').toBe(false);
+  } else {
+    expect(spec.tocOpen, 'phone contents start collapsed').toBe(false);
+  }
 
-  const nextHref = await page.locator('.rc-next').getAttribute('href');
+  await openContents(page, testInfo);
+  expectTaps(await tapFailures(page, '.ar-prevnext a, .rc-share'), 'article chrome');
+  expectTaps(await tapFailures(page, '.ar-toc a'), 'table of contents');
+
+  const nextHref = await page.locator('.ar-prevnext a', { hasText: 'Next' }).getAttribute('href');
   expect(nextHref).toContain('bergamot');
-  await page.locator('.rc-next').click();
+  await page.locator('.ar-prevnext a', { hasText: 'Next' }).click();
   await page.waitForURL(/bergamot/);
-  await page.waitForSelector('.rc-prev');
-  await page.locator('.rc-prev').click();
+  await page.waitForSelector('.ar-prevnext a');
+  await page.locator('.ar-prevnext a', { hasText: 'Previous' }).click();
   await page.waitForURL(/berberine-is-it-really-nature-s-ozempic/);
-  await page.waitForSelector('.rc-toc a');
+  await openContents(page, testInfo);
 
   await page.evaluate(() => {
     try {
@@ -108,9 +187,9 @@ test('article prev, next, share, and contents', async ({ page, context }) => {
   expect(copied).toContain('berberine-is-it-really-nature-s-ozempic');
 
   const before = await scrollY(page);
-  const target = await page.locator('.rc-toc a').nth(1).getAttribute('href');
+  const target = await page.locator('.ar-toc a').nth(1).getAttribute('href');
   const id = decodeURIComponent(target.replace(/^#/, ''));
-  await page.locator('.rc-toc a').nth(1).click();
+  await page.locator('.ar-toc a').nth(1).click();
   await expect.poll(async () => page.evaluate((headingId) => {
     const el = document.getElementById(headingId);
     return el ? el.getBoundingClientRect().top : 9999;

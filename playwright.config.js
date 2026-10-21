@@ -5,6 +5,7 @@ process.env.FONTCONFIG_FILE = process.env.FONTCONFIG_FILE || path.join(__dirname
 const { defineConfig, devices } = require('@playwright/test');
 
 const iPhone = devices['iPhone 13'];
+const port = process.env.PW_PORT || '4173';
 
 module.exports = defineConfig({
   testDir: './tests/e2e',
@@ -24,7 +25,7 @@ module.exports = defineConfig({
   },
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: 'http://127.0.0.1:' + port,
     colorScheme: 'light',
     locale: 'en-US',
     timezoneId: 'UTC',
@@ -32,9 +33,9 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'python3 -m http.server 4173 --bind 127.0.0.1',
-    url: 'http://127.0.0.1:4173/',
-    reuseExistingServer: !process.env.CI,
+    command: 'python3 -m http.server ' + port + ' --bind 127.0.0.1',
+    url: 'http://127.0.0.1:' + port + '/',
+    reuseExistingServer: !process.env.CI && !process.env.PW_PORT,
     timeout: 30000,
   },
   projects: [

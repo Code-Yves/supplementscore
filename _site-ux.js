@@ -399,6 +399,9 @@
 
   /* ---------- Sticky TOC for /a/ articles ---------- */
   function initStickyToc(){
+    /* Article pages draw one TOC from their own headings. This fixed
+       right-hand list was a second, overlapping panel. */
+    return;
     if (!/\/a\//.test(location.pathname)) return;
     var article = document.querySelector('main.ar-wrap, .ar-content');
     if (!article) return;

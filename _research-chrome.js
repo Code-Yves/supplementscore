@@ -258,6 +258,53 @@
       .replace(/-/g, '\u2011')
       .trim();
   }
+  function decodeText(root){
+    if (!root) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function(n){
+      if (n.nodeValue && n.nodeValue.indexOf('&') !== -1) n.nodeValue = decodeEntities(n.nodeValue);
+    });
+  }
+
+  function injectArticleLayout(){
+    if (document.getElementById('ar-layout')) return;
+    var css = ''
+      + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{max-width:1024px;margin:0 auto;padding:16px 24px 64px;box-sizing:border-box;background:transparent}'
+      + 'html.rc-chrome-active main.ar-wrap .ar-column,html.rc-chrome-active main.sx-wrap .ar-column,html.rc-chrome-active main.ca-wrap .ar-column,html.rc-chrome-active main.sk-wrap .ar-column{max-width:700px;min-width:0;width:100%;font-size:18px;line-height:1.6;color:#0c0a09}'
+      + 'html.rc-chrome-active main.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sx-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.ca-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sk-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:18px;line-height:1.6;color:#0c0a09}'
+      + 'html.rc-chrome-active .ar-titleblock h1{text-wrap:balance;max-width:22em}'
+      + 'html.rc-chrome-active .ar-titleblock .ar-kicker{margin:0 0 8px;color:#155A50;font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1.4}'
+      + 'html.rc-chrome-active .ar-titleblock .ar-dek{margin:0 0 8px;font-size:18px;line-height:1.6;color:#0c0a09}'
+      + 'html.rc-chrome-active .ar-titleblock .ar-byline{margin:0 0 16px;font-size:14px;line-height:1.5;color:#57534e}'
+      + 'html.rc-chrome-active .ar-byline a{color:#155A50;text-decoration:underline;text-underline-offset:2px}'
+      + 'html.rc-chrome-active .ar-toc{width:200px;max-width:200px;box-sizing:border-box}'
+      + 'html.rc-chrome-active .ar-toc summary{display:flex;align-items:center;min-height:48px;font-weight:700;color:#0c0a09;cursor:pointer}'
+      + 'html.rc-chrome-active .ar-toc a{display:flex;align-items:center;width:100%;box-sizing:border-box;min-height:44px;padding:4px 0;color:#0c0a09;text-decoration:none}'
+      + 'html.rc-chrome-active .ar-toc a:focus-visible,html.rc-chrome-active .ar-toc summary:focus-visible{outline:2px solid #155A50;outline-offset:2px}'
+      + 'html.rc-chrome-active .ar-end>*+*{margin-top:8px}'
+      + 'html.rc-chrome-active .ar-prevnext{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}'
+      + 'html.rc-chrome-active .ar-prevnext a{min-height:48px;display:inline-flex;align-items:center;padding:8px 12px;color:#155A50}'
+      + 'html.rc-chrome-active .ssux-toc,html.rc-chrome-active .mag-side,html.rc-chrome-active #hero.mag{display:none}'
+      + '@media(min-width:901px){'
+      + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{display:grid;grid-template-columns:200px minmax(0,700px);column-gap:32px;align-items:start;justify-content:start}'
+      + 'html.rc-chrome-active main.ar-wrap>.ar-toc,html.rc-chrome-active main.sx-wrap>.ar-toc,html.rc-chrome-active main.ca-wrap>.ar-toc,html.rc-chrome-active main.sk-wrap>.ar-toc{position:sticky;top:24px;align-self:start;width:200px}'
+      + '}'
+      + '@media(max-width:900px){'
+      + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{display:flex;flex-direction:column;padding:16px 16px 64px;max-width:none}'
+      + 'html.rc-chrome-active main.ar-wrap>.ar-column,html.rc-chrome-active main.sx-wrap>.ar-column,html.rc-chrome-active main.ca-wrap>.ar-column,html.rc-chrome-active main.sk-wrap>.ar-column{display:contents}'
+      + 'html.rc-chrome-active main.ar-wrap>.ar-column>*,html.rc-chrome-active main.sx-wrap>.ar-column>*,html.rc-chrome-active main.ca-wrap>.ar-column>*,html.rc-chrome-active main.sk-wrap>.ar-column>*{order:4}'
+      + 'html.rc-chrome-active main.ar-wrap>.ar-column>.rc-top,html.rc-chrome-active main.sx-wrap>.ar-column>.rc-top,html.rc-chrome-active main.ca-wrap>.ar-column>.rc-top,html.rc-chrome-active main.sk-wrap>.ar-column>.rc-top{order:0}'
+      + 'html.rc-chrome-active main.ar-wrap>.ar-column>.ar-titleblock,html.rc-chrome-active main.sx-wrap>.ar-column>.ar-titleblock,html.rc-chrome-active main.ca-wrap>.ar-column>.ar-titleblock,html.rc-chrome-active main.sk-wrap>.ar-column>.ar-titleblock{order:1}'
+      + 'html.rc-chrome-active main.ar-wrap>.ar-toc,html.rc-chrome-active main.sx-wrap>.ar-toc,html.rc-chrome-active main.ca-wrap>.ar-toc,html.rc-chrome-active main.sk-wrap>.ar-toc{order:2;width:100%;max-width:none}'
+      + 'html.rc-chrome-active .ar-toc a{min-height:48px}'
+      + '}';
+    var style = document.createElement('style');
+    style.id = 'ar-layout';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
 
   /* ---------- build the chrome ---------- */
 
@@ -272,24 +319,8 @@
   var prevHref = metaContent('rc-prev') || (window.RC_PREV_NEXT && window.RC_PREV_NEXT.prev && window.RC_PREV_NEXT.prev.href) || '';
   var nextHref = metaContent('rc-next') || (window.RC_PREV_NEXT && window.RC_PREV_NEXT.next && window.RC_PREV_NEXT.next.href) || '';
 
-  var leftGrp = '';
-  if (prevHref || nextHref){
-    leftGrp = '<div class="rc-top-grp">';
-    if (prevHref){
-      leftGrp += '<a class="rc-top-link rc-prev" href="' + prevHref + '" aria-label="Previous">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="15 18 9 12 15 6"/></svg> Prev' +
-      '</a>';
-    }
-    if (nextHref){
-      leftGrp += '<a class="rc-top-link rc-next" href="' + nextHref + '" aria-label="Next">' +
-        'Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="9 18 15 12 9 6"/></svg>' +
-      '</a>';
-    }
-    leftGrp += '</div>';
-  } else {
-    /* Empty placeholder keeps Share/Close right-aligned via flex-justify */
-    leftGrp = '<div class="rc-top-grp" aria-hidden="true"></div>';
-  }
+  /* Prev/Next live at the end of the article, after the disclaimer. */
+  var leftGrp = '<div class="rc-top-grp" aria-hidden="true"></div>';
 
   var topBar = el('div', 'rc-top');
   topBar.innerHTML = leftGrp +
@@ -318,131 +349,64 @@
      Anything that wants to opt out of the chrome can still check this class. */
   document.documentElement.classList.add('rc-chrome-active');
 
-  /* 2. CATEGORY EYEBROW above the H1 — typographic, no fill (consistent
-     with the no-filled-callouts site convention). The legacy kickers are
-     hidden above, so we always inject this fresh element. */
-  /* Always insert the category row. Its height is fixed in the blocking
-     sheet, including when a template has no category label, so the headline
-     does not jump. */
+  decodeText(wrap);
+  if (document.title && document.title.indexOf('&') !== -1) document.title = decodeEntities(document.title);
+  injectArticleLayout();
+
+  /* Plain title block: teal category, balanced headline, dek, byline.
+     No magazine card and no side column of other articles. */
   var category = detectCategory();
-  var eyebrow = el('div', 'rc-cat', category || '');
-  h1.parentNode.insertBefore(eyebrow, h1);
-
-  /* 3. TRUST LINE under H1 — read time, sources count, reviewed date */
-  var readMin = detectReadTime();
-  var srcCount = detectSourcesCount();
   var reviewed = detectReviewedDate();
-
-  var trustHtml = '';
-  trustHtml += '<span class="rc-trust-item">' + readMin + ' min</span>';
-  if (srcCount > 0){
-    trustHtml += '<span class="rc-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> <b>' + srcCount + '</b> ' + (srcCount === 1 ? 'study' : 'studies') + ' cited</span>';
-    /* Evidence meter — coarse heuristic on source count, identical to the
-       modal/v2 renderer (articleTrustHtml in app.js) so /a/ pages and the
-       in-site card show the same strength label. */
-    var rcBars = srcCount >= 20 ? 4 : srcCount >= 10 ? 3 : srcCount >= 5 ? 2 : 1;
-    var rcBarLbl = rcBars >= 4 ? 'Strong' : rcBars >= 3 ? 'Solid' : rcBars >= 2 ? 'Moderate' : 'Limited';
-    var rcBarsHtml = '';
-    for (var _b = 1; _b <= 4; _b++){ rcBarsHtml += '<span' + (_b <= rcBars ? ' class="on"' : '') + '></span>'; }
-    trustHtml += '<span class="rc-trust-item"><span class="rc-trust-bars">' + rcBarsHtml + '</span><b>' + rcBarLbl + '</b> evidence</span>';
+  var updated = reviewed;
+  var stamp = (wrap.innerHTML || '').match(/last-reviewed:\s*(\d{4}-\d{2}-\d{2})/);
+  if (stamp){
+    var parts = stamp[1].split('-');
+    reviewed = formatDate(new Date(+parts[0], +parts[1] - 1, +parts[2]));
   }
-  /* Visible byline — lifted from the (hidden) authored .ar-meta line so the
-     author/editorial attribution stays on screen, not only in JSON-LD. */
-  var authorLink = wrap.querySelector('.ar-meta a[rel="author"]');
+  var updTime = wrap.querySelector('.ss-last-reviewed time, .ar-meta time, .sx-meta time, .ca-meta time, .sk-meta time');
+  if (updTime){
+    var dtv = (updTime.getAttribute('datetime') || updTime.textContent || '').trim();
+    var ymd = /^(\d{4})-(\d{2})-(\d{2})/.exec(dtv);
+    var d = ymd ? new Date(+ymd[1], +ymd[2] - 1, +ymd[3]) : new Date(dtv);
+    if (!isNaN(d.getTime())) updated = formatDate(d);
+  }
+
+  var sectionName = articleSection() || category || '';
+  var block = el('header', 'ar-titleblock');
+  var kicker = el('p', 'ar-kicker', sectionName);
+  block.appendChild(kicker);
+  if (h1.textContent.indexOf('-') !== -1) h1.textContent = h1.textContent.replace(/-/g, '\u2011');
+  block.appendChild(h1);
+
+  var dek = wrap.querySelector('p.ar-lede, p.ca-lede, p.sk-lede, p.sx-lede');
+  if (!dek){
+    var paras = wrap.querySelectorAll('p');
+    for (var pi = 0; pi < paras.length; pi++){
+      var cand = paras[pi];
+      if (isMetaPara(cand)) continue;
+      if (cand.closest && cand.closest('.ar-bottomline, .ar-foot, .ar-editorial, .ar-related, .rc-aend')) continue;
+      dek = cand;
+      break;
+    }
+  }
+  if (dek){
+    dek.classList.add('ar-dek');
+    block.appendChild(dek);
+  }
+
+  var authorLink = wrap.querySelector('.ar-meta a[rel="author"], .sx-meta a[rel="author"], .ca-meta a[rel="author"], .sk-meta a[rel="author"]');
+  var byHtml = '';
   if (authorLink){
-    trustHtml += '<span class="rc-trust-item rc-trust-by">By <a href="' + authorLink.getAttribute('href') + '" rel="author" style="color:inherit;text-decoration:underline;text-underline-offset:2px">' + authorLink.textContent + '</a></span>';
+    byHtml += 'By <a href="' + authorLink.getAttribute('href') + '" rel="author">' + authorLink.textContent + '</a>';
   }
-  if (reviewed){
-    /* "Updated" for /a/ articles (date = last content revision, not a
-       clinical review); other templates keep their "Reviewed" wording. */
-    var revLbl = authorLink ? 'Updated' : 'Reviewed';
-    trustHtml += '<span class="rc-trust-item rc-trust-rev">' + revLbl + ' · ' + reviewed + '</span>';
+  if (updated) byHtml += (byHtml ? ' \u00b7 ' : '') + 'Updated ' + updated;
+  if (reviewed) byHtml += (byHtml ? ' \u00b7 ' : '') + 'Reviewed ' + reviewed;
+  if (byHtml){
+    var byline = el('p', 'ar-byline', byHtml);
+    block.appendChild(byline);
   }
-
-  var trust = el('div', 'rc-trust', trustHtml);
-  /* Insert trust line right after H1 — and after any kicker that follows H1 */
-  h1.parentNode.insertBefore(trust, h1.nextSibling);
-
-  /* Magazine grid: this story as the lead, previous and next as the side
-     column. Same card as the homepage hero. */
-  (function buildMagazineHero(){
-    if (document.getElementById('hero')) return;
-    var sectionName = articleSection() || category || '';
-    if (eyebrow){
-      eyebrow.className = 'mag-kicker';
-      eyebrow.textContent = sectionName;
-    }
-    if (h1 && h1.textContent.indexOf('-') !== -1) h1.textContent = h1.textContent.replace(/-/g, '\u2011');
-    var lede = wrap.querySelector('p.ar-lede, p.ca-lede, p.sk-lede, p.sx-lede');
-    var hero = el('section', 'mag');
-    hero.id = 'hero';
-    hero.setAttribute('aria-label', 'Article');
-    var grid = el('div', 'mag-grid');
-    var lead = el('div', 'mag-lead');
-    if (eyebrow) lead.appendChild(eyebrow);
-    lead.appendChild(h1);
-    if (lede) lead.appendChild(lede);
-    grid.appendChild(lead);
-    var side = el('div', 'mag-side');
-    function sideLink(href){
-      if (!href) return;
-      var a = document.createElement('a');
-      a.href = href;
-      var kick = el('span', 'mag-kicker', '');
-      var h2 = document.createElement('h2');
-      h2.className = 'mag-side-title';
-      h2.textContent = plainTitle(titleFromHref(href));
-      a.appendChild(kick);
-      a.appendChild(h2);
-      side.appendChild(a);
-      fetch(href, { credentials: 'same-origin' }).then(function(r){
-        return r.ok ? r.text() : '';
-      }).then(function(html){
-        if (!html) return;
-        var tm = html.match(/<title>([^<]*)<\/title>/i);
-        if (tm){
-          var t = plainTitle(tm[1]);
-          if (t) h2.textContent = t;
-        }
-        var sm = html.match(/"articleSection"\s*:\s*"([^"]+)"/);
-        if (sm) kick.textContent = sm[1];
-      }).catch(function(){});
-    }
-    sideLink(prevHref);
-    sideLink(nextHref);
-    if (side.children.length) grid.appendChild(side);
-    var pager = el('div', 'mag-pager');
-    function arrow(href, dir, label){
-      if (!href) return;
-      var a = document.createElement('a');
-      a.className = 'mag-arrow';
-      a.href = href;
-      a.setAttribute('aria-label', label);
-      a.textContent = dir < 0 ? '\u2190' : '\u2192';
-      pager.appendChild(a);
-    }
-    arrow(prevHref, -1, 'Previous');
-    arrow(nextHref, 1, 'Next');
-    if (pager.children.length) grid.appendChild(pager);
-    hero.appendChild(grid);
-    if (topBar.nextSibling) wrap.insertBefore(hero, topBar.nextSibling);
-    else wrap.appendChild(hero);
-    if (trust.parentNode) wrap.insertBefore(trust, hero.nextSibling);
-    var swipe = null;
-    hero.addEventListener('pointerdown', function(e){
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      if (e.target.closest && e.target.closest('a, button')) { swipe = null; return; }
-      swipe = { x: e.clientX, y: e.clientY, id: e.pointerId };
-    });
-    hero.addEventListener('pointerup', function(e){
-      if (!swipe || e.pointerId !== swipe.id) return;
-      var dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
-      swipe = null;
-      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
-      var href = dx < 0 ? nextHref : prevHref;
-      if (href) window.location.href = href;
-    });
-  })();
+  if (topBar.nextSibling) wrap.insertBefore(block, topBar.nextSibling);
+  else wrap.appendChild(block);
 
   /* 4. TOC + section numbering. Pull body section headings — prefer H2s, but
      fall back to H3s on pages that use h3 throughout (legacy template).
@@ -901,109 +865,107 @@
     });
   }
 
-  /* Only build the "On this page" TOC for genuinely multi-section articles
-     (>=3 h2s). Listicles ("top 10 ...") have their numbered list as the main
-     body and only 1-2 trailing h2s ("How to Use", "What Was Excluded"); the TOC
-     is then both low-value and mis-placed (it renders before the first h2, which
-     on a listicle is near the bottom). Suppressing it for <3 sections fixes that. */
-  if (h2s.length >= 3){
-    /* Build TOC items */
-    var totalMin = readMin;
-    var perMin = Math.max(1, Math.round(totalMin / h2s.length));
-    var tocItems = '';
-    h2s.forEach(function(h, idx){
-      var slug = slugify(h.textContent || '') || ('sec-' + (idx + 1));
-      h.id = h.id || slug;
-      /* Prepend section number label to the h2 (small typographic accent). */
-      if (!h.previousElementSibling || !h.previousElementSibling.classList || !h.previousElementSibling.classList.contains('rc-sec-n')){
-        var label = el('div', 'rc-sec-n', pad2(idx + 1));
-        h.parentNode.insertBefore(label, h);
-      }
-      /* Per-section "N min" sub-label removed 2026-05-24 — felt noisy under
-         each H2. The "N min" total still appears in the trust line and in
-         each TOC item (.rc-toc-m), which is sufficient. */
-      /* First item gets the active green-bar accent — matches the article
-         template's "current section" highlight. */
-      var liCls = idx === 0 ? 'rc-toc-li rc-toc-li-on' : 'rc-toc-li';
-      tocItems += '<li class="' + liCls + '"><a href="#' + h.id + '">' +
-                    '<span class="rc-toc-n">' + pad2(idx + 1) + '</span>' +
-                    '<span class="rc-toc-t">' + (h.textContent || '').trim() + '</span>' +
-                    '<span class="rc-toc-m">' + perMin + ' min</span>' +
-                  '</a></li>';
+  function aendByLabel(label){
+    var found = null;
+    wrap.querySelectorAll('.rc-aend').forEach(function(n){
+      var k = n.querySelector('.rc-aend-k span');
+      var name = k ? (k.textContent || '').trim().toLowerCase() : '';
+      if (name === label) found = n;
     });
-    var toc = el('div', 'rc-toc');
-    toc.innerHTML =
-      '<div class="rc-toc-k"><span>On this page</span><span class="rc-toc-k-r">' + h2s.length + ' sections · ' + totalMin + ' min</span></div>' +
-      '<ul>' + tocItems + '</ul>';
-    /* Place TOC right before the first h2 so it sits above the body content. */
-    h2s[0].parentNode.insertBefore(toc, h2s[0].previousElementSibling /* the sec-n we just inserted */ || h2s[0]);
+    return found;
+  }
 
-    /* 4b. THE BOTTOM LINE callout. If the article doesn't already have a
-       hand-authored .bl block, synthesize one from the article lede.
-       Place it BEFORE the TOC. */
-    if (!wrap.querySelector('.rc-bl, .bl, .ar-bottomline')){
-      var ledeParas = [];
-
-      /* (1) Strongest signal: an explicit lede class on the page template */
-      var explicit = wrap.querySelector('.ca-lede, .sk-lede, .ar-lede, .sx-lede, .lede, [data-lede]');
-      if (explicit){
-        ledeParas.push(explicit);
-        /* Optionally include the immediately-following paragraph as sub */
-        var nxt = explicit.nextElementSibling;
-        if (nxt && nxt.tagName === 'P' && !isMetaPara(nxt)){
-          ledeParas.push(nxt);
-        }
-      }
-
-      /* (2) Fall back: walk back from first h2 collecting paragraphs that
-         AREN'T meta/byline paragraphs */
-      if (!ledeParas.length){
-        var firstH = h2s[0];
-        var prev = firstH.previousSibling;
-        while (prev && ledeParas.length < 2){
-          if (prev.nodeType === 1){
-            if (prev.classList && (prev.classList.contains('rc-sec-n') || prev.classList.contains('rc-trust') || prev.classList.contains('rc-cat'))){
-              prev = prev.previousSibling;
-              continue;
-            }
-            if (prev.tagName === 'P' && !isMetaPara(prev)){
-              ledeParas.unshift(prev);
-            } else if (prev.tagName === 'H1'){
-              break;
-            }
-          }
-          prev = prev.previousSibling;
-        }
-      }
-
-      /* (3) Last resort: first non-meta <p> in the wrap */
-      if (!ledeParas.length){
-        var ps = wrap.querySelectorAll('p');
-        for (var i = 0; i < ps.length; i++){
-          if (!isMetaPara(ps[i])){
-            ledeParas.push(ps[i]);
-            break;
-          }
-        }
-      }
-
-      if (ledeParas.length){
-        var headlineText = ledeParas[0].innerHTML;
-        var subText = ledeParas[1] ? ledeParas[1].innerHTML : '';
-        var bl = el('div', 'rc-bl');
-        bl.innerHTML =
-          '<div class="rc-bl-k">The Bottom Line</div>' +
-          '<div class="rc-bl-headline">' + headlineText + '</div>' +
-          (subText ? '<div class="rc-bl-sub">' + subText + '</div>' : '');
-        toc.parentNode.insertBefore(bl, toc);
-        ledeParas.forEach(function(p){ p.style.display = 'none'; });
-      }
+  function buildReadingColumn(){
+    var items = [];
+    var bl = wrap.querySelector('.ar-bottomline, .rc-bl, .bl');
+    if (bl){
+      if (!bl.id) bl.id = 'bottom-line';
+      items.push({ id: bl.id, label: 'Bottom line' });
     }
+    h2s.forEach(function(h, idx){
+      var slug = h.id || slugify(h.textContent || '') || ('sec-' + (idx + 1));
+      h.id = slug;
+      var label = (h.textContent || '').trim().replace(/\s+/g, ' ');
+      if (label) items.push({ id: slug, label: label });
+    });
+    var sources = aendByLabel('sources');
+    if (sources){
+      if (!sources.id) sources.id = 'sources';
+      items.push({ id: sources.id, label: 'Sources' });
+    }
+
+    var mentioned = document.getElementById('ss-mentioned');
+    var supplements = aendByLabel('supplements in this article');
+    if (mentioned && supplements && supplements.parentNode) supplements.parentNode.removeChild(supplements);
+    if (!mentioned && supplements){
+      var lab = supplements.querySelector('.rc-aend-k span');
+      if (lab) lab.textContent = 'Supplements mentioned';
+      mentioned = supplements;
+    }
+    var related = aendByLabel('related articles');
+    var note = wrap.querySelector('.ar-editorial, .ca-editorial, .sk-editorial, .sx-editorial');
+    var disclaimer = wrap.querySelector('footer.ar-foot, footer.sx-foot, footer.ca-foot, footer.sk-foot');
+    var end = el('div', 'ar-end');
+    [sources, mentioned, related, note, disclaimer].forEach(function(node){
+      if (node && node.parentNode) end.appendChild(node);
+    });
+    if (prevHref || nextHref){
+      var jump = document.createElement('nav');
+      jump.className = 'ar-prevnext';
+      jump.setAttribute('aria-label', 'Previous and next articles');
+      if (prevHref){
+        var prevA = document.createElement('a');
+        prevA.href = prevHref;
+        prevA.textContent = 'Previous';
+        jump.appendChild(prevA);
+      }
+      if (nextHref){
+        var nextA = document.createElement('a');
+        nextA.href = nextHref;
+        nextA.textContent = 'Next';
+        jump.appendChild(nextA);
+      }
+      end.appendChild(jump);
+    }
+
+    var toc = null;
+    if (items.length){
+      toc = document.createElement('nav');
+      toc.className = 'ar-toc';
+      toc.setAttribute('aria-label', 'On this page');
+      var details = document.createElement('details');
+      details.className = 'ar-toc-details';
+      var summary = document.createElement('summary');
+      summary.textContent = 'On this page';
+      details.appendChild(summary);
+      var ol = document.createElement('ol');
+      items.forEach(function(item){
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + item.id;
+        a.textContent = item.label;
+        li.appendChild(a);
+        ol.appendChild(li);
+      });
+      details.appendChild(ol);
+      toc.appendChild(details);
+      var wide = window.matchMedia('(min-width: 901px)');
+      function syncToc(){ details.open = !!wide.matches; }
+      syncToc();
+      if (wide.addEventListener) wide.addEventListener('change', syncToc);
+    }
+
+    var column = el('div', 'ar-column');
+    while (wrap.firstChild) column.appendChild(wrap.firstChild);
+    column.appendChild(end);
+    if (toc) wrap.appendChild(toc);
+    wrap.appendChild(column);
   }
 
   /* 5. TAIL BLOCKS — rebuild "Supplements", "Related articles", "Sources"
      into mockup-v7 .rc-aend treatment so they stop being plain link lists. */
   try { normalizeTailBlocks(); } catch(err){ /* fail-safe: never block render */ }
+  try { buildReadingColumn(); } catch(err){ /* keep the article readable */ }
   } catch (err) { /* reveal the article even if chrome setup throws */ }
   finally {
     document.documentElement.classList.add('rc-chrome-active');

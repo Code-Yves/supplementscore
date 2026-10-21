@@ -3,7 +3,7 @@ const { install, goto } = require('./helpers');
 
 const SHOTS = [
   ['homepage', '/', '#s-content .sc'],
-  ['article', '/a/berberine-is-it-really-nature-s-ozempic.html', '.rc-toc'],
+  ['article', '/a/berberine-is-it-really-nature-s-ozempic.html', '.ar-toc'],
   ['supplement', '/supplement/magnesium.html', 'h1.det-h1'],
   ['topic', '/hub/sleep.html', 'h1.hub-title'],
   ['about', '/about.html', 'main.ab-wrap h1'],

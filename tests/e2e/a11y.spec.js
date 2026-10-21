@@ -14,7 +14,7 @@ const PAGES = [
   {
     name: 'article',
     path: '/a/berberine-is-it-really-nature-s-ozempic.html',
-    ready: '.rc-toc',
+    ready: '.ar-toc',
     include: ['main.ar-wrap', 'footer.site-footer'],
   },
   {
@@ -66,7 +66,7 @@ for (const entry of PAGES) {
   });
 }
 
-test('tap targets on the homepage and an article', async ({ page }) => {
+test('tap targets on the homepage and an article', async ({ page }, testInfo) => {
   await goto(page, '/');
   await page.waitForSelector('#sfbar-main .cdd-btn', { timeout: 60000 });
   await page.waitForSelector('#s-content .tier-more', { timeout: 60000 });
@@ -79,7 +79,9 @@ test('tap targets on the homepage and an article', async ({ page }) => {
   expectTaps(await tapFailures(page, '#cat-filter-menu .cdd-item'), 'goal menu items');
 
   await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
-  await page.waitForSelector('.rc-toc a');
-  expectTaps(await tapFailures(page, '.rc-prev, .rc-next, .rc-share, .rc-close'), 'article bar');
-  expectTaps(await tapFailures(page, '.rc-toc a'), 'contents links');
+  await page.waitForSelector('.ar-toc');
+  if (testInfo.project.name === 'iphone') await page.locator('.ar-toc summary').click();
+  await page.waitForSelector('.ar-toc a');
+  expectTaps(await tapFailures(page, '.ar-prevnext a, .rc-share, .rc-close'), 'article bar');
+  expectTaps(await tapFailures(page, '.ar-toc a, .ar-toc summary'), 'contents links');
 });
