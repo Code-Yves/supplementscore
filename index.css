@@ -1766,3 +1766,205 @@ body.on-profile #main-sticky{
     opacity: 1;
   }
 }
+
+/* 2026-10-21 — Homepage "Search supplements by" row.
+   One joined cream bar, split into four segments, matching the phone
+   stats bar. Teal fill is only the active choice, or hover / press /
+   open when nothing is selected. No icons. The section label is solid
+   11px type with a hairline that starts after the words. */
+#main-sticky .sfbar-label{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  max-width:none !important;
+  width:100% !important;
+  margin:0 0 6px !important;
+  padding:0 !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  line-height:14px !important;
+  letter-spacing:0 !important;
+  text-transform:uppercase !important;
+  color:#1F7A6B !important;
+  opacity:1 !important;
+  -webkit-font-smoothing:auto;
+}
+#main-sticky .sfbar-label::after{
+  content:none !important;
+  display:none !important;
+}
+#main-sticky .sfbar-label-text{
+  flex:none;
+  font-size:11px;
+  font-weight:700;
+  line-height:14px;
+  letter-spacing:0;
+  text-transform:uppercase;
+  color:#1F7A6B;
+  opacity:1;
+  -webkit-font-smoothing:auto;
+}
+#main-sticky .sfbar-label-rule{
+  flex:1 1 auto;
+  height:1px;
+  min-width:12px;
+  background:#abc8be;
+  opacity:1;
+}
+#main-sticky #sfbar-main.sfbar{
+  display:flex !important;
+  flex:none !important;
+  flex-direction:row !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  grid-template-columns:none !important;
+  width:100% !important;
+  height:36px !important;
+  min-height:36px !important;
+  max-height:36px !important;
+  margin:0 0 8px !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  border:1px solid #abc8be !important;
+  border-radius:10px !important;
+  background:#f6f2ea !important;
+  background-image:none !important;
+  overflow:visible !important;
+  -webkit-font-smoothing:auto;
+}
+#main-sticky #sfbar-main > .cdd{
+  position:relative !important;
+  display:flex !important;
+  flex:1 1 0 !important;
+  align-items:stretch !important;
+  min-width:0 !important;
+  width:auto !important;
+  max-width:none !important;
+  height:100% !important;
+}
+#main-sticky #sfbar-main .cdd-btn{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important;
+  align-self:stretch !important;
+  gap:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 4px !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:#f6f2ea !important;
+  background-color:#f6f2ea !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  filter:none !important;
+  transform:none !important;
+  color:#1F7A6B !important;
+  opacity:1 !important;
+  cursor:pointer;
+  transition:none !important;
+}
+#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{
+  border-left:1px solid #bad0c6 !important;
+}
+#main-sticky #sfbar-main > .cdd:first-child > .cdd-btn{
+  border-top-left-radius:9px !important;
+  border-bottom-left-radius:9px !important;
+}
+#main-sticky #sfbar-main > .cdd:last-child > .cdd-btn{
+  border-top-right-radius:9px !important;
+  border-bottom-right-radius:9px !important;
+}
+#main-sticky #sfbar-main .cdd-ico,
+#main-sticky #sfbar-main .cdd-chev{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+#main-sticky #sfbar-main .cdd-lbl{
+  font-size:12px !important;
+  font-weight:700 !important;
+  line-height:16px !important;
+  letter-spacing:0 !important;
+  color:#1F7A6B !important;
+  opacity:1 !important;
+  white-space:nowrap !important;
+  -webkit-font-smoothing:auto;
+}
+#main-sticky #sfbar-main #art-filter-wrap .cdd-btn,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-ico,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-lbl{
+  color:#1F7A6B !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn,
+#main-sticky #sfbar-main .cdd-btn:active,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
+#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active{
+  background:#1F7A6B !important;
+  background-color:#1F7A6B !important;
+  background-image:none !important;
+  border-color:#1F7A6B !important;
+  box-shadow:none !important;
+  filter:none !important;
+  transform:none !important;
+  color:#f6f2ea !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+#main-sticky #sfbar-main .cdd-open .cdd-lbl,
+#main-sticky #sfbar-main .cdd-btn:active .cdd-lbl,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on .cdd-lbl,
+#main-sticky #sfbar-main #art-filter-wrap.cdd-open .cdd-lbl,
+#main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active .cdd-lbl{
+  color:#f6f2ea !important;
+}
+#main-sticky #sfbar-main > .cdd:has(> .cdd-btn.on) + .cdd > .cdd-btn,
+#main-sticky #sfbar-main > .cdd.cdd-open + .cdd > .cdd-btn,
+#main-sticky #sfbar-main > .cdd:has(> .cdd-btn:active) + .cdd > .cdd-btn{
+  border-left-color:#1F7A6B !important;
+}
+@media (hover:hover) and (pointer:fine){
+  #main-sticky #sfbar-main .cdd-btn:hover,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover:not(.on){
+    background:#1F7A6B !important;
+    background-color:#1F7A6B !important;
+    background-image:none !important;
+    border-color:#1F7A6B !important;
+    box-shadow:none !important;
+    filter:none !important;
+    transform:none !important;
+    color:#f6f2ea !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{
+    color:#f6f2ea !important;
+  }
+  #main-sticky #sfbar-main > .cdd:has(> .cdd-btn:hover) + .cdd > .cdd-btn{
+    border-left-color:#1F7A6B !important;
+  }
+}
+#main-sticky #sfbar-main .cdd-btn:focus-visible{
+  outline:2px solid #1F7A6B !important;
+  outline-offset:-3px !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on:focus-visible,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn:focus-visible{
+  outline-color:#f6f2ea !important;
+}
+
+/* Phone: the article carousel sits between the lede and the search.
+   Hide it. The 16px lede margin replaces the carousel's own margin so
+   the intro and the search keep a clean gap. Desktop (>768px) is unchanged. */
+@media (max-width:768px){
+  #hero{ display:none !important; }
+  .ix-hero p.lede,
+  .ix-hero .lede{ margin-bottom:16px !important; }
+}
