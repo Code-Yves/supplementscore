@@ -106,8 +106,8 @@ input,button{font-family:inherit}
 .beta-bar-search{display:none}
 .ix-hero{max-width:1180px;margin:0 auto;padding:56px 24px 40px;text-align:center;position:relative}
 .hero-statbar{display:none}
-.ix-hero h1{font-size:64px;font-weight:700;letter-spacing:-1.8px;line-height:1.04;margin:0 auto 18px;max-width:22ch;color:var(--color-text-primary)}
-.ix-hero p.lede{font-size:17px;color:var(--color-text-secondary);max-width:56ch;margin:0 auto 28px;line-height:1.55}
+.ix-hero h1{font-size:64px;font-weight:700;letter-spacing:-1.8px;line-height:1.04;margin:0 auto 18px;max-width:22ch;color:var(--color-text-primary);text-wrap:pretty;text-wrap:balance}
+.ix-hero p.lede{font-size:17px;color:var(--color-text-secondary);max-width:56ch;margin:0 auto 28px;line-height:1.55;text-wrap:pretty;text-wrap:balance}
 .ix-search{max-width:480px;margin:0 auto 32px;position:relative}
 .ix-search input{width:100%;padding:12px 20px 12px 44px;font-family:inherit;font-size:14px;background:var(--color-surface);border:1.5px solid var(--color-border-secondary);color:var(--color-text-primary);border-radius:999px;box-sizing:border-box}
 .ix-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:16px;height:16px;pointer-events:none}
@@ -140,8 +140,8 @@ input,button{font-family:inherit}
   .hero-stat + .hero-stat{border-left:1px solid #bad0c6}
   .hero-stat-num{font-weight:700;color:#1F7A6B;opacity:1}
   .hero-stat-lbl{margin-left:3px;font-weight:400;color:#5b9c8f;opacity:1}
-  .ix-hero h1{font-size:40px;line-height:1.05;letter-spacing:-1.1px;margin:0 auto 8px;max-width:none}
-  .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45}
+  .ix-hero h1{font-size:40px;line-height:1.05;letter-spacing:-1.1px;margin:0 auto 8px;max-width:none;text-wrap:pretty;text-wrap:balance}
+  .ix-hero p.lede,.ix-hero .lede{font-size:12px;margin:0 auto 10px;max-width:360px;line-height:1.45;text-wrap:pretty;text-wrap:balance}
   .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
   .ix-hero .ix-search input{font-size:16px;padding:9px 16px 9px 38px}
   #hero{height:200px !important;min-height:200px !important;max-height:200px !important;margin:8px 0 4px;padding:14px 16px 12px;border-radius:14px;overflow:hidden !important}

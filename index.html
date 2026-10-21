@@ -305,12 +305,12 @@
 <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
 <noscript></noscript>
-<link rel="stylesheet" href="/critical.css?v=ship1021">
+<link rel="stylesheet" href="/critical.css?v=barfix1">
 <link rel="stylesheet" href="/styles.css?v=hdr11" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/styles.css?v=hdr11"></noscript>
 
-<link rel="stylesheet" href="index.css?v=ship1021" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="index.css?v=ship1021"></noscript>
+<link rel="stylesheet" href="index.css?v=barfix1" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="index.css?v=barfix1"></noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -553,7 +553,7 @@
   <h1>Know which<br><span style="color:var(--t1c)">supplements</span><br>actually work.</h1>
   <!-- "Every score" stripped from the lede per copy direction; new first word
        capitalised so the sentence still reads as a complete statement. -->
-  <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+  <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non&#8209;profit.</p>
 
   <form class="ix-search" id="ix-hero-form" role="search" action="search.html" method="GET">
     <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -959,11 +959,7 @@
     </form>
   </div>
   <div class="sfbar-row">
-    <!-- 2026-10-21 — Joined cream segments. Teal marks the active
-         choice (or hover / press). The hairline is a sibling of the
-         label text so it cannot run through the letters. -->
-    <div class="sfbar-label"><span class="sfbar-label-text">Search supplements by</span><span class="sfbar-label-rule" aria-hidden="true"></span></div>
-    <div class="sfbar" id="sfbar-main"></div>
+    <div class="sfbar" id="sfbar-main" role="group" aria-label="Search supplements by"></div>
   </div>
 </div>
 <div class="gs-res" id="gs-res">
@@ -4392,7 +4388,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'home-decor.js?v=6dbb5572',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
-    'app.js?v=ship1021',
+    'app.js?v=barfix1',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',

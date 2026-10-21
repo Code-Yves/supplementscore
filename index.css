@@ -350,6 +350,8 @@
   line-height: 1.04; margin: 0 auto 18px;
   max-width: 22ch;
   color: var(--color-text-primary);
+  text-wrap: pretty;
+  text-wrap: balance;
 }
 /* Direction A: lede 16→17 and measure 600px→56ch for a calmer rag.
    Margin bumps so the search field below has more breathing room. */
@@ -357,6 +359,8 @@
   font-size: 17px; color: var(--color-text-secondary);
   max-width: 56ch; margin: 0 auto 28px;
   line-height: 1.55;
+  text-wrap: pretty;
+  text-wrap: balance;
 }
 .ix-sources{
   /* Was 640px when the strip was a wrap-flex of inline logos. The new
@@ -1767,50 +1771,17 @@ body.on-profile #main-sticky{
   }
 }
 
-/* 2026-10-21 — Homepage "Search supplements by" row.
-   One joined cream bar, split into four segments, matching the phone
-   stats bar. Teal fill is only the active choice, or hover / press /
-   open when nothing is selected. No icons. The section label is solid
-   11px type with a hairline that starts after the words. */
-#main-sticky .sfbar-label{
-  display:flex !important;
-  align-items:center !important;
-  gap:8px !important;
-  max-width:none !important;
-  width:100% !important;
-  margin:0 0 6px !important;
-  padding:0 !important;
-  font-size:11px !important;
-  font-weight:700 !important;
-  line-height:14px !important;
-  letter-spacing:0 !important;
-  text-transform:uppercase !important;
-  color:#1F7A6B !important;
-  opacity:1 !important;
-  -webkit-font-smoothing:auto;
+/* 2026-10-21 — Homepage filter row.
+   One joined cream bar. Teal is only the selected segment, or the
+   segment whose menu is open. Hover teal is limited to real pointers.
+   The visible "Search supplements by" label is gone; the bar's
+   aria-label keeps the name. */
+#main-sticky .sfbar-label{ display:none !important; }
+#main-sticky .sticky-bar-search,
+body.hero-search-gone #main-sticky .sticky-bar-search{
+  margin-bottom:12px !important;
 }
-#main-sticky .sfbar-label::after{
-  content:none !important;
-  display:none !important;
-}
-#main-sticky .sfbar-label-text{
-  flex:none;
-  font-size:11px;
-  font-weight:700;
-  line-height:14px;
-  letter-spacing:0;
-  text-transform:uppercase;
-  color:#1F7A6B;
-  opacity:1;
-  -webkit-font-smoothing:auto;
-}
-#main-sticky .sfbar-label-rule{
-  flex:1 1 auto;
-  height:1px;
-  min-width:12px;
-  background:#abc8be;
-  opacity:1;
-}
+#main-sticky .sfbar-row{ gap:0 !important; }
 #main-sticky #sfbar-main.sfbar{
   display:flex !important;
   flex:none !important;
@@ -1841,6 +1812,7 @@ body.on-profile #main-sticky{
   width:auto !important;
   max-width:none !important;
   height:100% !important;
+  overflow:visible !important;
 }
 #main-sticky #sfbar-main .cdd-btn{
   display:flex !important;
@@ -1867,6 +1839,9 @@ body.on-profile #main-sticky{
   opacity:1 !important;
   cursor:pointer;
   transition:none !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  overflow:hidden !important;
 }
 #main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{
   border-left:1px solid #bad0c6 !important;
@@ -1895,6 +1870,10 @@ body.on-profile #main-sticky{
   color:#1F7A6B !important;
   opacity:1 !important;
   white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  min-width:0 !important;
+  max-width:100% !important;
   -webkit-font-smoothing:auto;
 }
 #main-sticky #sfbar-main #art-filter-wrap .cdd-btn,
@@ -1904,10 +1883,8 @@ body.on-profile #main-sticky{
 }
 #main-sticky #sfbar-main .cdd-btn.on,
 #main-sticky #sfbar-main .cdd-open > .cdd-btn,
-#main-sticky #sfbar-main .cdd-btn:active,
 #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
-#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn,
-#main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active{
+#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn{
   background:#1F7A6B !important;
   background-color:#1F7A6B !important;
   background-image:none !important;
@@ -1918,19 +1895,18 @@ body.on-profile #main-sticky{
   color:#f6f2ea !important;
 }
 #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
-#main-sticky #sfbar-main .cdd-open .cdd-lbl,
-#main-sticky #sfbar-main .cdd-btn:active .cdd-lbl,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
 #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on .cdd-lbl,
-#main-sticky #sfbar-main #art-filter-wrap.cdd-open .cdd-lbl,
-#main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active .cdd-lbl{
+#main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn .cdd-lbl{
   color:#f6f2ea !important;
 }
 #main-sticky #sfbar-main > .cdd:has(> .cdd-btn.on) + .cdd > .cdd-btn,
-#main-sticky #sfbar-main > .cdd.cdd-open + .cdd > .cdd-btn,
-#main-sticky #sfbar-main > .cdd:has(> .cdd-btn:active) + .cdd > .cdd-btn{
+#main-sticky #sfbar-main > .cdd.cdd-open + .cdd > .cdd-btn{
   border-left-color:#1F7A6B !important;
 }
-@media (hover:hover) and (pointer:fine){
+/* Hover teal only where a pointer can hover. Touch keeps cream
+   except the selected or open segment. */
+@media (hover:hover){
   #main-sticky #sfbar-main .cdd-btn:hover,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover:not(.on){
@@ -1951,6 +1927,91 @@ body.on-profile #main-sticky{
     border-left-color:#1F7A6B !important;
   }
 }
+@media (hover:none), (pointer:coarse){
+  #main-sticky #sfbar-main .cdd-btn:hover,
+  #main-sticky #sfbar-main .cdd-btn:active,
+  #main-sticky #sfbar-main:hover .cdd-btn,
+  #main-sticky #sfbar-main:active .cdd-btn,
+  #main-sticky #sfbar-main:focus-within .cdd-btn,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active{
+    background:#f6f2ea !important;
+    background-color:#f6f2ea !important;
+    background-image:none !important;
+    box-shadow:none !important;
+    filter:none !important;
+    transform:none !important;
+    color:#1F7A6B !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #main-sticky #sfbar-main .cdd-btn:active .cdd-lbl,
+  #main-sticky #sfbar-main:hover .cdd-lbl,
+  #main-sticky #sfbar-main:focus-within .cdd-lbl,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active .cdd-lbl{
+    color:#1F7A6B !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn.on,
+  #main-sticky #sfbar-main .cdd-btn.on:hover,
+  #main-sticky #sfbar-main .cdd-btn.on:active,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn:active,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on:hover,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on:active,
+  #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn,
+  #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn:hover,
+  #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn:active{
+    background:#1F7A6B !important;
+    background-color:#1F7A6B !important;
+    background-image:none !important;
+    color:#f6f2ea !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl,
+  #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on .cdd-lbl,
+  #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn .cdd-lbl{
+    color:#f6f2ea !important;
+  }
+}
+/* Menus stay inside the screen. First segment opens to the right of
+   its left edge; the last opens back from the bar's right edge.
+   Middle menus use the same idea so a 375px phone cannot clip them. */
+#main-sticky #sfbar-main .cdd-menu{
+  box-sizing:border-box !important;
+  width:max-content !important;
+  min-width:0 !important;
+  max-height:280px !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+}
+#main-sticky #sfbar-main > .cdd:first-child .cdd-menu{
+  left:0 !important;
+  right:auto !important;
+  max-width:min(400%, calc(100vw - 32px)) !important;
+}
+#main-sticky #sfbar-main > .cdd:nth-child(2) .cdd-menu{
+  left:0 !important;
+  right:auto !important;
+  max-width:min(300%, calc(100vw - 32px)) !important;
+}
+#main-sticky #sfbar-main > .cdd:nth-child(3) .cdd-menu{
+  left:auto !important;
+  right:0 !important;
+  max-width:min(300%, calc(100vw - 32px)) !important;
+}
+#main-sticky #sfbar-main > .cdd:last-child .cdd-menu{
+  left:auto !important;
+  right:0 !important;
+  max-width:min(400%, calc(100vw - 32px)) !important;
+}
+#main-sticky #sfbar-main .cdd-item,
+#main-sticky #sfbar-main .pop-lbl,
+#main-sticky #sfbar-main .pop-ct{
+  white-space:normal !important;
+  overflow-wrap:anywhere;
+}
 #main-sticky #sfbar-main .cdd-btn:focus-visible{
   outline:2px solid #1F7A6B !important;
   outline-offset:-3px !important;
@@ -1963,6 +2024,12 @@ body.on-profile #main-sticky{
 /* Phone: the article carousel sits between the lede and the search.
    Hide it. The 16px lede margin replaces the carousel's own margin so
    the intro and the search keep a clean gap. Desktop (>768px) is unchanged. */
+.ix-hero h1,
+.ix-hero p.lede,
+.ix-hero .lede{
+  text-wrap: pretty;
+  text-wrap: balance;
+}
 @media (max-width:768px){
   #hero{ display:none !important; }
   .ix-hero p.lede,
