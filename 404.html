@@ -116,10 +116,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html{color-scheme:light}</style>
-  <link rel="stylesheet" href="/critical.css?v=d9d8bbe5">
-<link rel="stylesheet" href="/article-critical.css?v=3e7b832e">
-<link rel="stylesheet" href="/styles.css?v=e4a10d2a" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/styles.css?v=e4a10d2a"></noscript>
+  <link rel="stylesheet" href="/critical.css?v=design1">
+<link rel="stylesheet" href="/article-critical.css?v=design1">
+<link rel="stylesheet" href="/styles.css?v=design1" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/styles.css?v=design1"></noscript>
   <style>
     /* Centered single-CTA 404. Replaces the cluttered 6-card + highest-rated
        block (2026-05-27) per user feedback. Single source of recovery: back
@@ -127,44 +127,44 @@
     html, body { background: var(--color-background-primary); color: var(--color-text-primary); }
     body {
       font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-      margin: 0; min-height: 100vh;
+      margin:0; min-height: 100vh;
       /* Column, not a centered row: the home header, the message, and the
          footer are siblings. A row flex shoved the header off the left edge
          and the footer off the right. */
       display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
-      padding: 0;
+      padding:0;
     }
     .nf-wrap {
       max-width: 480px; width: 100%; text-align: center;
-      padding: 32px 24px;
-      margin: 24px auto;
+      padding:32px 24px;
+      margin:24px auto;
       box-sizing: border-box;
     }
     .nf-leaf {
-      width: 56px; height: 56px; margin: 0 auto 24px;
+      width: 56px; height: 56px; margin:0 auto 24px;
       display: inline-flex; align-items: center; justify-content: center;
-      background: rgba(31,122,107,.08); border-radius: 16px;
+      background: rgba(21,90,80,.08); border-radius: 16px;
       color: var(--color-brand);
     }
     .nf-leaf svg { width: 30px; height: 30px; }
     .nf-eyebrow {
       font-size: 11px; font-weight: 700; letter-spacing: .14em;
       text-transform: uppercase; color: var(--color-text-tertiary);
-      margin: 0 0 10px;
+      margin:0 0 8px;
     }
     .nf-wrap h1 {
       font-family: "Mona Sans", "Plus Jakarta Sans", system-ui, sans-serif;
       font-size: 2rem; font-weight: 800; letter-spacing: -.5px;
-      line-height: 1.2; margin: 0 0 14px;
+      line-height: 1.2; margin:0 0 16px;
     }
     .nf-lede {
       font-size: 15.5px; line-height: 1.55;
-      color: var(--color-text-secondary); margin: 0 0 28px;
+      color: var(--color-text-secondary); margin:0 0 28px;
     }
     .nf-cta {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; gap:8px;
       min-height: 44px; box-sizing: border-box;
-      padding: 12px 22px; border-radius: 999px;
+      padding:12px 24px; border-radius: 999px;
       background: var(--color-brand); color: #fff;
       font-size: 14.5px; font-weight: 600; text-decoration: none;
       transition: background .15s, transform .12s;
@@ -173,35 +173,35 @@
     .nf-cta svg { width: 16px; height: 16px; }
 
     .nf-search {
-      display: flex; gap: 8px; margin: 0 0 18px; justify-content: center;
+      display: flex; gap:8px; margin:0 0 16px; justify-content: center;
     }
     .nf-search input {
       flex: 1; min-width: 0; max-width: 280px;
-      padding: 11px 14px; border-radius: 999px;
-      border: 1px solid rgba(31,122,107,.25);
+      padding:11px 16px; border-radius: 999px;
+      border: 1px solid rgba(21,90,80,.25);
       background: var(--color-background-primary);
       color: var(--color-text-primary);
       font: inherit; font-size: 16px;
     }
     .nf-search button {
-      padding: 11px 16px; border-radius: 999px; border: 0;
+      padding:11px 16px; border-radius: 999px; border: 0;
       min-height: 44px; box-sizing: border-box;
-      background: rgba(31,122,107,.12); color: var(--color-brand);
+      background: rgba(21,90,80,.12); color: var(--color-brand);
       font: inherit; font-size: 16px; font-weight: 600; cursor: pointer;
     }
-    .nf-search button:hover { background: rgba(31,122,107,.2); }
+    .nf-search button:hover { background: rgba(21,90,80,.2); }
     .nf-links {
-      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
-      margin: 0 0 22px;
+      display: flex; flex-wrap: wrap; gap:8px; justify-content: center;
+      margin:0 0 24px;
     }
     .nf-links a {
       font-size: 13.5px; font-weight: 600; text-decoration: none;
-      color: var(--color-brand); padding: 10px 14px;
+      color: var(--color-brand); padding:8px 16px;
       min-height: 44px; box-sizing: border-box;
       display: inline-flex; align-items: center;
-      border-radius: 999px; border: 1px solid rgba(31,122,107,.25);
+      border-radius: 999px; border: 1px solid rgba(21,90,80,.25);
     }
-    .nf-links a:hover { background: rgba(31,122,107,.08); }
+    .nf-links a:hover { background: rgba(21,90,80,.08); }
     @media (max-width: 420px) {
       .nf-search { flex-direction: column; align-items: stretch; }
       .nf-search input { max-width: none; }

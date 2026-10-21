@@ -14,7 +14,7 @@
     --txt: #0c0a09;
     --txt-2: #57534e;
     --txt-3: #8a8378;
-    --brand: #1F7A6B;
+    --brand: #155A50;
     --t1c: #1F8A7A;
     --hairline: rgba(12,10,9,.08);
   }
@@ -24,19 +24,19 @@
 
   /* Page-level label above each variant so they're easy to discuss. */
   .variant-label{
-    max-width: 1180px; margin: 0 auto 12px;
+    max-width: 1180px; margin:0 auto 12px;
     font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
     color: var(--brand);
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap:8px;
   }
   .variant-label::before{
     content: ""; display:inline-block; width: 22px; height:1px; background:var(--brand);
   }
   .variant-label small{
-    margin-left: 8px; color:var(--txt-2); font-weight: 500; letter-spacing: .04em; text-transform: none;
+    margin-left:8px; color:var(--txt-2); font-weight: 500; letter-spacing: .04em; text-transform: none;
   }
   .variant-frame{
-    max-width: 1180px; margin: 0 auto 48px;
+    max-width: 1180px; margin:0 auto 48px;
     background: var(--bg);
     border-radius: 14px;
     overflow: hidden;
@@ -53,7 +53,7 @@
     color: rgba(255,255,255,.92);
     height: 32px;
     display: flex; align-items: center; justify-content: center;
-    gap: 8px;
+    gap:8px;
     font-size: 10px;
   }
   .banner .pulse{
@@ -65,27 +65,27 @@
 
   /* H1, lede, search — base styles match index.css .ix-hero */
   .hero{
-    padding: 40px 24px 24px;
+    padding:40px 24px 24px;
     text-align: center;
   }
   .h1{
     font-size: clamp(40px, 5.8vw, 64px);
     font-weight: 700; letter-spacing: -1.8px;
-    line-height: 1.04; margin: 0 auto 18px;
+    line-height: 1.04; margin:0 auto 16px;
     max-width: 22ch;
   }
   .h1 .accent{ color: var(--t1c); }
   .lede{
     font-size: 17px; color: var(--txt-2);
-    max-width: 56ch; margin: 0 auto 28px;
+    max-width: 56ch; margin:0 auto 28px;
     line-height: 1.55;
   }
   .search-wrap{
-    max-width: 480px; margin: 0 auto;
+    max-width: 480px; margin:0 auto;
     position: relative;
   }
   .search-input{
-    width: 100%; padding: 12px 20px 12px 44px;
+    width: 100%; padding:12px 20px 12px 44px;
     font-family: inherit; font-size: 14px;
     background: var(--bg-card);
     border: 1.5px solid rgba(0,0,0,.08);
@@ -102,18 +102,18 @@
 
   /* Article card placeholder (visual filler so we can judge balance) */
   .article-card{
-    margin: 0 24px 32px;
+    margin:0 24px 32px;
     background: linear-gradient(90deg, #3A8276 0%, #4DA095 100%);
     color: #F8F4ED;
     border-radius: 14px;
-    padding: 32px 36px 28px;
+    padding:32px 36px 28px;
     min-height: 200px;
     position: relative;
   }
-  .article-card .pills{ display: flex; gap: 8px; align-items: center; }
+  .article-card .pills{ display: flex; gap:8px; align-items: center; }
   .article-card .pill{
     font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 20px;
+    padding:4px 8px; border-radius: 20px;
     background: rgba(255,255,255,.2); color:#fff;
   }
   .article-card .pill.featured{
@@ -127,7 +127,7 @@
   }
   .article-card h2{
     font-size: 28px; font-weight: 800; line-height: 1.2;
-    margin: 14px 0 12px; color:#fff; max-width: 720px;
+    margin:16px 0 12px; color:#fff; max-width: 720px;
   }
   .article-card .desc{
     font-size: 14px; line-height: 1.6;
@@ -139,15 +139,15 @@
      ──────────────────────────────────────────── */
 
   /* A — Generous spacing (just more padding) */
-  .v-a .hero{ padding: 96px 24px 56px; }
+  .v-a .hero{ padding:96px 24px 56px; }
 
   /* B — Editorial eyebrow + hairline below search */
-  .v-b .hero{ padding: 64px 24px 24px; }
+  .v-b .hero{ padding:64px 24px 24px; }
   .v-b .eyebrow{
     font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
     color: var(--brand);
-    margin: 0 0 22px;
-    display: inline-flex; align-items: center; gap: 12px;
+    margin:0 0 24px;
+    display: inline-flex; align-items: center; gap:12px;
   }
   .v-b .eyebrow::before,
   .v-b .eyebrow::after{
@@ -156,24 +156,24 @@
   .v-b .hero::after{
     content:""; display:block;
     width: 64px; height: 1px; background: var(--hairline);
-    margin: 40px auto 0;
+    margin:40px auto 0;
   }
 
   /* C — Smaller H1 + reflow */
-  .v-c .hero{ padding: 80px 24px 44px; }
+  .v-c .hero{ padding:80px 24px 44px; }
   .v-c .h1{
     font-size: clamp(34px, 4.6vw, 52px);
     letter-spacing: -1.2px;
     max-width: 22ch;
-    margin-bottom: 14px;
+    margin-bottom:16px;
   }
-  .v-c .lede{ font-size: 16px; margin-bottom: 24px; }
+  .v-c .lede{ font-size: 16px; margin-bottom:24px; }
 
   /* D — Ornament/icon above H1 */
-  .v-d .hero{ padding: 72px 24px 36px; }
+  .v-d .hero{ padding:72px 24px 36px; }
   .v-d .ornament{
     width: 44px; height: 44px;
-    margin: 0 auto 22px;
+    margin:0 auto 24px;
     display: flex; align-items: center; justify-content: center;
     border-radius: 12px;
     background: rgba(31,138,122,.10);
@@ -183,26 +183,26 @@
 
   /* Mobile reduction of frame margins so variants don't bust out */
   @media (max-width: 720px){
-    body{padding: 16px;}
-    .article-card{ margin: 0 16px 24px; padding: 22px; }
+    body{padding:16px;}
+    .article-card{ margin:0 16px 24px; padding:24px; }
     .article-card .counter{ top: 22px; right: 16px; font-size: 9.5px; }
     .article-card h2{ font-size: 18px; }
     .article-card .desc{ font-size: 12px; }
-    .v-a .hero{ padding: 56px 18px 32px; }
-    .v-b .hero{ padding: 40px 18px 18px; }
-    .v-c .hero{ padding: 44px 18px 28px; }
-    .v-d .hero{ padding: 44px 18px 24px; }
+    .v-a .hero{ padding:56px 16px 32px; }
+    .v-b .hero{ padding:40px 16px 16px; }
+    .v-c .hero{ padding:44px 16px 28px; }
+    .v-d .hero{ padding:44px 16px 24px; }
   }
 
   /* Intro */
   .intro{
-    max-width: 1180px; margin: 0 auto 36px;
-    padding: 18px 22px; background: var(--bg-card); border-radius: 12px;
+    max-width: 1180px; margin:0 auto 36px;
+    padding:16px 24px; background: var(--bg-card); border-radius: 12px;
     font-size: 13px; color: var(--txt-2); line-height: 1.55;
   }
-  .intro h1{ margin: 0 0 6px; font-size: 18px; color: var(--txt); }
+  .intro h1{ margin:0 0 8px; font-size: 18px; color: var(--txt); }
   .intro code{
-    background: rgba(0,0,0,.05); padding: 1px 6px; border-radius: 4px;
+    background: rgba(0,0,0,.05); padding:1px 8px; border-radius: 4px;
     font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px;
   }
 </style>

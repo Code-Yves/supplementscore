@@ -10,23 +10,23 @@
 <meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
-<link rel="stylesheet" href="/critical.css?v=d9d8bbe5">
-<link rel="stylesheet" href="/article-critical.css?v=3e7b832e">
-<link rel="stylesheet" href="/styles.css?v=e4a10d2a" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/styles.css?v=e4a10d2a"></noscript>
+<link rel="stylesheet" href="/critical.css?v=design1">
+<link rel="stylesheet" href="/article-critical.css?v=design1">
+<link rel="stylesheet" href="/styles.css?v=design1" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/styles.css?v=design1"></noscript>
 <link rel="stylesheet" href="/page-chrome.css?v=b91199a7">
 <style>
 /* Medication-page-only: red eyebrow, alert note, bucket headers, grid sup-list. */
 .dt-eyebrow{color:#B91C1C}
-.dt-note{padding:14px 18px;background:var(--t4bg);color:var(--t4tx);border:1px solid var(--t4c);border-radius:10px;font-size:13.5px;line-height:1.55;margin:14px 0 22px}
+.dt-note{padding:16px 16px;background:var(--t4bg);color:var(--t4tx);border:1px solid var(--t4c);border-radius:10px;font-size:13.5px;line-height:1.55;margin:16px 0 24px}
 /* Override the shared .dt-card h2 — medication buckets use a larger flex header with a status pill. */
-.dt-card h2{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:700;color:var(--color-text-primary);margin:0 0 12px;letter-spacing:0;text-transform:none}
+.dt-card h2{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700;color:var(--color-text-primary);margin:0 0 12px;letter-spacing:0;text-transform:none}
 .dt-card h2 .pill{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:5px}
 .bucket-avoid h2 .pill{background:var(--t4bg);color:var(--t4tx)}
 .bucket-caution h2 .pill{background:var(--t3bg);color:var(--t3tx)}
 .bucket-extra h2 .pill{background:var(--t1bg);color:var(--t1tx)}
 .sup-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
-.sup-list a{padding:10px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:10px;font-size:13px;color:var(--color-text-primary);text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all .15s}
+.sup-list a{padding:8px 12px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:10px;font-size:13px;color:var(--color-text-primary);text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all .15s}
 .sup-list a:hover{border-color:var(--color-brand);color:var(--color-brand)}
 </style>
   <link rel="canonical" href="https://supplementscore.org/medication.html">
@@ -109,12 +109,12 @@
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
-  <meta name="theme-color" content="#1F7A6B">
+  <meta name="theme-color" content="#155A50">
   <meta name="apple-mobile-web-app-title" content="SuppScore">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=7f5bfaf1" defer></script>
+  <script src="_site-ux.js?v=design1" defer></script>
 </head>
 <body>
 <header class="ss-pagebar">
@@ -224,7 +224,7 @@
       }).join('');
       slot.innerHTML =
         '<section class="dt-card">'
-        + '<h2>Drill into specific drug<span class="pill" style="background:rgba(31,122,107,.10);color:var(--color-brand)">Per-molecule</span></h2>'
+        + '<h2>Drill into specific drug<span class="pill" style="background:rgba(21,90,80,.10);color:var(--color-brand)">Per-molecule</span></h2>'
         + '<p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 12px">' + molecules.length + ' molecule' + (molecules.length>1?'s':'') + ' in this class behave differently from the class default. Tap to expand.</p>'
         + '<div class="mol-list">' + rows + '</div>'
         + '</section>';
@@ -235,13 +235,13 @@
 <style>
   .mol-list{display:flex;flex-direction:column;gap:8px}
   .mol-detail{border:1px solid var(--color-border-tertiary);border-radius:10px;background:var(--color-background-secondary);overflow:hidden}
-  .mol-sum{padding:11px 14px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;font-size:13.5px;color:var(--color-text-primary);user-select:none;transition:background .15s}
+  .mol-sum{padding:11px 16px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;font-size:13.5px;color:var(--color-text-primary);user-select:none;transition:background .15s}
   .mol-sum:hover{background:var(--color-background-primary)}
   .mol-sum strong{font-weight:700}
-  .mol-meta{font-size:11.5px;color:var(--color-text-tertiary);font-weight:400}
-  .mol-body{padding:0 14px 14px;border-top:1px solid var(--color-border-tertiary);background:var(--color-background-primary)}
-  .mol-vsclass{font-size:13px;color:var(--color-text-secondary);margin:12px 0 14px;line-height:1.55}
-  .mol-ov{padding:10px 0;border-top:1px solid var(--color-border-tertiary)}
+  .mol-meta{font-size:12px;color:var(--color-text-tertiary);font-weight:400}
+  .mol-body{padding:0 16px 16px;border-top:1px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+  .mol-vsclass{font-size:13px;color:var(--color-text-secondary);margin:12px 0 16px;line-height:1.55}
+  .mol-ov{padding:8px 0;border-top:1px solid var(--color-border-tertiary)}
   .mol-ov:first-of-type{border-top:0}
   .mol-ov-h{display:flex;align-items:center;gap:8px;font-size:13.5px;margin-bottom:4px}
   .mol-tag{font-size:9.5px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:5px;flex-shrink:0}

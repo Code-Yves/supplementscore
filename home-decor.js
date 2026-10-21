@@ -48,7 +48,7 @@
   window.addEventListener('orientationchange', refreshMobileFlag);
   window.addEventListener('pageshow', refreshMobileFlag);
   /* Brand teal, expressed as RGB triplet so we can vary alpha
-     freely. Matches --color-brand (#1F7A6B) with a touch more
+     freely. Matches --color-brand (#155A50) with a touch more
      saturation — identical to the value tuned in the mockups. */
   var COLOR = '25, 152, 126';
 

@@ -23,5 +23,5 @@
 
   <!-- Footer wordmark -->
   <text x="1120" y="582" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="28"
-        font-weight="800" fill="#1F7A6B" text-anchor="end">supplementscore<tspan fill="#8A8780">.org</tspan></text>
+        font-weight="800" fill="#155A50" text-anchor="end">supplementscore<tspan fill="#8A8780">.org</tspan></text>
 </svg>
