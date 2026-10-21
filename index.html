@@ -305,12 +305,12 @@
 <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
 <noscript></noscript>
-<link rel="stylesheet" href="/critical.css?v=statbar2">
+<link rel="stylesheet" href="/critical.css?v=ship1021">
 <link rel="stylesheet" href="/styles.css?v=hdr11" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/styles.css?v=hdr11"></noscript>
 
-<link rel="stylesheet" href="index.css?v=statbar2" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="index.css?v=statbar2"></noscript>
+<link rel="stylesheet" href="index.css?v=ship1021" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="index.css?v=ship1021"></noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -959,15 +959,10 @@
     </form>
   </div>
   <div class="sfbar-row">
-    <!-- 2026-05-22 — V3 label treatment: small uppercase brand-green
-         heading + trailing hairline rule. Replaces the previous "all four
-         buttons look identical" pattern by explicitly framing the three
-         filters as a search action. The Articles button (4th .cdd in
-         #sfbar-main) is styled as an outlined CTA via the
-         `#art-filter-wrap .cdd-btn` override in styles.css so it reads as
-         a different kind of action without changing the underlying flex
-         layout. -->
-    <div class="sfbar-label">Search supplements by</div>
+    <!-- 2026-10-21 — Joined cream segments. Teal marks the active
+         choice (or hover / press). The hairline is a sibling of the
+         label text so it cannot run through the letters. -->
+    <div class="sfbar-label"><span class="sfbar-label-text">Search supplements by</span><span class="sfbar-label-rule" aria-hidden="true"></span></div>
     <div class="sfbar" id="sfbar-main"></div>
   </div>
 </div>
@@ -4397,7 +4392,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'home-decor.js?v=6dbb5572',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
-    'app.js?v=catnames1',
+    'app.js?v=ship1021',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',

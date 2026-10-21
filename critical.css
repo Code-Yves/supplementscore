@@ -190,3 +190,10 @@ input,button{font-family:inherit}
     padding-top:8px !important;
   }
 }
+/* Homepage phones: hide the article carousel before the late stylesheet
+   arrives so the teal card does not flash between the lede and the search.
+   Desktop keeps #hero. index.css owns the settled layout. */
+@media(max-width:768px){
+  #hero{display:none !important}
+  .ix-hero p.lede,.ix-hero .lede{margin-bottom:16px !important}
+}

@@ -5322,11 +5322,11 @@ function _catPick(v){
     document.querySelectorAll('.sfbtn').forEach(b=>b.className='sfbtn');
     af='t3';
     const items=S.filter(s=>s.tr).sort((a,b)=>calcScore(b)-calcScore(a));
-    const rowLimit=20;const hasMore=items.length>rowLimit;
+    const rowLimit=10;const hasMore=items.length>rowLimit;
     const shownN=Math.min(rowLimit,items.length);
-    const m={desc:'Highest evidence scores first. Show more reveals the rest of this ranked list, 20 at a time.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
+    const m={desc:'Highest evidence scores first. Show more reveals the rest of this ranked list, 10 at a time.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
     const banner=_filterBanner('Top '+shownN+' supplements by evidence score','Ranked list',m.desc,m.icon,'t3');
-    document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('t3',items.length,rowLimit):''}</div>`:'<div class="empty">No trending supplements found.</div>';
+    document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('t3',items.length,rowLimit,10):''}</div>`:'<div class="empty">No trending supplements found.</div>';
     return;
   }
   _ddLabel('cat-filter',_catLabel(v));_ddActive('cat-filter');setCatFilter(v);
