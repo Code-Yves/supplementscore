@@ -452,79 +452,101 @@ function reorderArticles(){
 function catCardClick(cat){
   filterArticles(cat);
 }
-/* Hero carousel */
+/* Magazine hero. One lead and two side stories move together. */
 (function(){
-  const SLIDES=document.querySelectorAll('.hero-slide');
-  const TOTAL=SLIDES.length;
-  if(!TOTAL) return;
-  let current=0, timer;
-  const dotsEl=document.getElementById('hero-dots');
-  const counterEl=document.getElementById('hero-current');
-  const PATTERNS=document.querySelectorAll('.hero-pattern-bg');
-  const PCOUNT=PATTERNS.length;
-  let lastPattern=-1;
-  function rotatePattern(){
-    if(!PCOUNT) return;
-    let idx;
-    if(PCOUNT===1){idx=0;}
-    else{do{idx=Math.floor(Math.random()*PCOUNT);}while(idx===lastPattern);}
-    PATTERNS.forEach((p,i)=>p.classList.toggle('active',i===idx));
-    lastPattern=idx;
+  var hero=document.getElementById('hero');
+  var dataEl=document.getElementById('mag-articles');
+  if(!hero||!dataEl) return;
+  var articles;
+  try{ articles=JSON.parse(dataEl.textContent); }catch(e){ return; }
+  var total=articles.length;
+  if(!total) return;
+  var i=0;
+  var lead=hero.querySelector('.mag-lead');
+  var sides=hero.querySelectorAll('.mag-side a');
+  var count=document.getElementById('mag-count');
+  var live=document.getElementById('mag-live');
+  function fill(el,a){
+    if(!el||!a) return;
+    el.setAttribute('href', a.href);
+    if(a.show) el.setAttribute('data-show', String(a.show));
+    else el.removeAttribute('data-show');
+    var h=el.querySelector('h2, h3');
+    if(h) h.textContent=a.title;
+    var p=el.querySelector('p');
+    if(p) p.textContent=a.dek||'';
+    var m=el.querySelector('.mag-meta');
+    if(m) m.textContent=a.meta||'';
   }
-  function renderDots(){
-    if(!dotsEl) return;
-    dotsEl.innerHTML='';
-    for(let i=0;i<TOTAL;i++){
-      const d=document.createElement('button');
-      d.className='hero-dot'+(i===current?' active':'');
-      d.onclick=(e)=>{e.stopPropagation();window.heroGoto(i);};
-      dotsEl.appendChild(d);
-    }
+  function show(n){
+    i=(n%total+total)%total;
+    fill(lead, articles[i]);
+    fill(sides[0], articles[(i+1)%total]);
+    fill(sides[1], articles[(i+2)%total]);
+    if(count) count.textContent=(i+1)+' of '+total;
+    if(live) live.textContent='Showing '+(i+1)+' of '+total+'. '+articles[i].title;
   }
-  const progressEl=document.getElementById('hero-progress-fill');
-  function restartProgress(){
-    if(!progressEl) return;
-    progressEl.classList.remove('run');
-    /* force reflow so the animation restarts */
-    void progressEl.offsetWidth;
-    progressEl.classList.add('run');
-  }
-  window.heroGoto=function(i){
-    SLIDES.forEach((s,idx)=>s.classList.toggle('active',idx===i));
-    current=i;
-    if(counterEl) counterEl.textContent=(i+1)+' / '+TOTAL;
-    renderDots();
-    rotatePattern();
-    restartProgress();
-    resetTimer();
-  };
-  window.heroNext=function(){window.heroGoto((current+1)%TOTAL);};
-  window.heroPrev=function(){window.heroGoto((current-1+TOTAL)%TOTAL);};
-  /* Click the CTA → open the currently-active slide's article */
+  function step(dir){ show(i+dir); }
+  window.heroGoto=function(n){ show(n); };
+  window.heroNext=function(){ step(1); };
+  window.heroPrev=function(){ step(-1); };
   window.heroReadActive=function(){
-    const active=SLIDES[current];
-    if(!active) return;
-    /* Each slide has onclick="showArticle(<id>)" — extract the id and call directly */
-    const oc=active.getAttribute('onclick')||'';
-    const m=oc.match(/showArticle\s*\(\s*(\d+)\s*\)/);
-    if(m && typeof window.showArticle==='function'){window.showArticle(parseInt(m[1],10));return;}
-    /* Fallback: synthesize a click */
-    active.click();
+    var a=articles[i];
+    if(a&&a.show&&typeof window.showArticle==='function'){ window.showArticle(a.show); return; }
+    if(a&&a.href) window.location.href=a.href;
   };
-  function resetTimer(){
-    clearInterval(timer);
-    timer=setInterval(()=>window.heroGoto((current+1)%TOTAL),12000);
+  hero.addEventListener('click', function(e){
+    var btn=e.target.closest&&e.target.closest('.mag-arrow');
+    if(!btn) return;
+    e.preventDefault();
+    step(Number(btn.getAttribute('data-dir'))||1);
+  });
+  hero.addEventListener('keydown', function(e){
+    if(e.target&&e.target.closest&&e.target.closest('input, textarea')) return;
+    if(e.key==='ArrowLeft'){ e.preventDefault(); step(-1); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); step(1); }
+  });
+  var swipe=null, suppressUntil=0, last=0;
+  function begin(x,y,id){ swipe={x:x,y:y,id:id}; }
+  function end(x,y,id){
+    if(!swipe) return;
+    if(id!=null&&swipe.id!=null&&id!==swipe.id) return;
+    var dx=x-swipe.x, dy=y-swipe.y;
+    swipe=null;
+    if(Math.abs(dx)<48||Math.abs(dx)<Math.abs(dy)) return;
+    var now=Date.now();
+    if(now-last<350) return;
+    last=now;
+    /* Only the click the browser fires for this gesture. A later tap still works. */
+    suppressUntil=now+400;
+    step(dx<0?1:-1);
   }
-  rotatePattern();
-  renderDots();
-  if(counterEl) counterEl.textContent='1 / '+TOTAL;
-  restartProgress();
-  resetTimer();
-  const hero=document.getElementById('hero');
-  if(hero){
-    hero.addEventListener('mouseenter',()=>{clearInterval(timer);if(progressEl)progressEl.style.animationPlayState='paused';});
-    hero.addEventListener('mouseleave',()=>{if(progressEl)progressEl.style.animationPlayState='';resetTimer();});
-  }
+  hero.addEventListener('pointerdown', function(e){
+    if(e.pointerType==='mouse'&&e.button!==0) return;
+    if(e.target.closest&&e.target.closest('button')){ swipe=null; return; }
+    begin(e.clientX, e.clientY, e.pointerId);
+  });
+  hero.addEventListener('pointerup', function(e){ end(e.clientX, e.clientY, e.pointerId); });
+  hero.addEventListener('touchstart', function(e){
+    if(e.target.closest&&e.target.closest('button')){ swipe=null; return; }
+    var t=e.changedTouches[0];
+    begin(t.clientX, t.clientY, null);
+  }, {passive:true});
+  hero.addEventListener('touchend', function(e){
+    var t=e.changedTouches[0];
+    end(t.clientX, t.clientY, null);
+  }, {passive:true});
+  hero.addEventListener('click', function(e){
+    if(Date.now()<suppressUntil){
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    var a=e.target.closest&&e.target.closest('a[data-show]');
+    if(!a) return;
+    e.preventDefault();
+    if(typeof window.showArticle==='function') window.showArticle(Number(a.getAttribute('data-show')));
+  }, true);
 })();
 function initCatCardCounts(){
   const counts={};

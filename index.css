@@ -1170,7 +1170,13 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
   background: var(--color-background-primary);
 }
-#hero{ position: relative; z-index: 2; }
+#hero.mag{ position: relative; z-index: 2; }
+@media (min-width: 601px){
+  #hero.mag{ max-width: 760px; margin-left: auto; margin-right: auto; }
+}
+#hero.mag .mag-lead:hover h2,
+#hero.mag .mag-side a:hover h3{ color: #1F7A6B; }
+#hero.mag .mag-arrow:hover{ text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Active filter pill: darker teal fill, no outer ring ---------- */
 
@@ -1320,81 +1326,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
     left: 14px !important;
   }
 
-  /* Rotating-article hero — fine-tuned for mobile:
-     - tighter padding so badges and counter aren't crammed against the edges
-     - smaller headline (was 19, now 16) so it fits in 2 lines instead of 3
-     - smaller description (was 13, now 12) clamped to 2 lines
-     - smaller pill labels at the top
-     - smaller "Read article" CTA + arrow buttons so the bottom row feels
-       proportional to the card, not larger than the headline.
-     - meta + controls share a single row at the bottom (already true in
-       markup; just shrink them so they fit cleanly) */
-  /* min-height required because .hero-slide is position:absolute and doesn't
-     contribute to the height of #hero. 200 px gives room for 2-line headline +
-     clamped description + meta + controls without overflow.
-     Bottom margin trimmed to 4 (was 10) — combined with the sticky panel's
-     mobile margin-top (also trimmed below) the visible gap between the
-     rotating-hero card and the filter pills lands at ~16 px instead of 42. */
-  #hero{
-    margin: 8px 0 4px !important;
-    height: auto !important;
-    min-height: 200px !important;
-    padding: 14px 16px 12px !important;
-    border-radius: 14px !important;
-  }
-  #hero .hero-slide{ inset: 14px 14px 56px 14px !important; }
-  #hero .hero-slide-top{ gap: 6px !important; }
-  /* 2026-05-23 — Mobile-only: smaller, lighter pills. font-size 10→9,
-     font-weight 700→500 to drop the bold treatment, padding tightened. */
-  #hero .hero-slide-featured,
-  #hero .hero-slide-badge{
-    font-size: 9px !important;
-    font-weight: 500 !important;
-    padding: 2px 6px !important;
-    letter-spacing: 0.3px !important;
-  }
-  #hero .hero-slide-headline{
-    font-size: 16.5px !important;
-    line-height: 1.25 !important;
-    margin: 8px 0 6px !important;
-    letter-spacing: -0.1px;
-  }
-  #hero .hero-slide-desc{
-    font-size: 12px !important;
-    line-height: 1.45 !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 6px !important;
-  }
-  #hero .hero-slide-meta{ font-size: 11px !important; margin: 0 !important; gap: 4px; }
-  /* Controls row (‹ › "Read article"). Arrows and the read button stay
-     at least 44px so they can be tapped on a phone. */
-  #hero .hero-controls{ gap: 6px !important; right: 14px !important; bottom: 14px !important; }
-  #hero .hero-arrow{ width: 44px !important; height: 44px !important; }
-  #hero .hero-cta{
-    padding: 10px 14px !important;
-    min-height: 44px !important;
-    box-sizing: border-box;
-    font-size: 11.5px !important;
-    border-radius: 6px !important;
-  }
-  /* Counter — smaller font, sits cleanly top-right without crowding pills.
-     2026-05-21 — top:12 → 16 to align the counter's baseline with the
-     BREAKING / GUIDE pills row on the left at mobile sizes. Slide inset
-     top is 14px and pills add ~2px padding-top, so the pill text starts
-     near y 16 from the card top; matching the counter top puts the two
-     on a shared visual row. */
-  #hero .hero-counter{
-    font-size: 9.5px !important;
-    top: 16px !important;
-    right: 14px !important;
-    left: auto !important;
-    letter-spacing: 0.4px;
-  }
-  /* The progress bar at the bottom — thinner so it doesn't read as a CTA */
-  #hero .hero-progress{ height: 2px !important; }
+  /* Magazine hero stacks in the blocking sheet. Do not pin a carousel height. */
 
   /* Mobile sticky panel — search + pills. The hero search at the top is
      visible at landing; once the user scrolls past it, the IntersectionObserver
@@ -1599,35 +1531,9 @@ body.on-profile #main-sticky{
     max-width: 100%;
   }
 
-  /* The blocking sheet locks #hero at 200px (max-height included), which
-     clips the control row once it sits under the read-time line. Let the
-     in-flow slide set the height. */
   .ix-hero { padding-bottom: 0 !important; }
   .ix-hero p.lede,
   .ix-hero .lede { margin-bottom: 0 !important; }
-  #hero {
-    display: flex !important;
-    flex-direction: column !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    margin: 16px 0 !important;
-    padding: 14px 16px 12px !important;
-  }
-  #hero .hero-slide.active {
-    position: relative !important;
-    inset: auto !important;
-    height: auto !important;
-    transform: none !important;
-  }
-  #hero .hero-controls {
-    position: relative !important;
-    right: auto !important;
-    bottom: auto !important;
-    margin: 12px 0 0 auto !important;
-    width: max-content;
-    max-width: 100%;
-  }
 
   #supplements-view .pg { padding-top: 0 !important; }
   #main-sticky.sticky-bar {
@@ -2092,9 +1998,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   border-left-color:#bad0c6 !important;
 }
 
-/* Phone: the article carousel sits between the lede and the search.
-   Hide it. The 16px lede margin replaces the carousel's own margin so
-   the intro and the search keep a clean gap. Desktop (>768px) is unchanged. */
+/* Phone: the magazine hero stays visible and stacks. Desktop is unchanged. */
 .ix-hero h1,
 .ix-hero p.lede,
 .ix-hero .lede{
@@ -2102,7 +2006,5 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   text-wrap: balance;
 }
 @media (max-width:768px){
-  #hero{ display:none !important; }
-  .ix-hero p.lede,
-  .ix-hero .lede{ margin-bottom:16px !important; }
+  #hero.mag{ display:block !important; height:auto !important; min-height:0 !important; max-height:none !important; }
 }
