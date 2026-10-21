@@ -1175,6 +1175,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
   #hero.mag{ max-width: none; margin-left:0; margin-right:0; }
 }
 #hero.mag .mag-lead:hover h2,
+#hero.mag .mag-side a:hover h2,
 #hero.mag .mag-side a:hover h3{ color: #0c0a09; }
 #hero.mag .mag-kicker{ color:#155A50; }
 #hero.mag .mag-more{ color:#155A50; }
@@ -2072,6 +2073,16 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   margin:0 0 32px !important;
   border-radius:16px;
 }
+@media (max-width:600px){
+  #supplements-view #hero.mag{
+    margin-left:-16px !important;
+    margin-right:-16px !important;
+    width:calc(100% + 32px) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    border-radius:0 !important;
+  }
+}
 #supplements-view .pg{
   padding-top:0;
   padding-bottom:0;
@@ -2216,7 +2227,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
 }
-h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h3{
+h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h3{
   text-wrap:balance;hyphens:none;
 }
 #hero.mag a.mag-arrow{text-decoration:none;color:#155A50}

@@ -435,7 +435,7 @@ input,button{font-family:inherit}
 #hero.mag .mag-side a:first-child{padding-top:0}
 #hero.mag .mag-side a:last-child{border-bottom:0;padding-bottom:0}
 #hero.mag .mag-meta{display:block;margin:0 0 8px;font-size:12px;color:#6b6560;font-variant-numeric:tabular-nums}
-#hero.mag .mag-side h3{margin:0;font-size:16px;font-weight:650;letter-spacing:-.2px;line-height:1.3;color:#0c0a09}
+#hero.mag .mag-side h2,#hero.mag .mag-side h3{margin:0 !important;font-size:16px !important;font-weight:650 !important;letter-spacing:-.2px !important;line-height:1.3 !important;color:#0c0a09 !important}
 #hero.mag .mag-pager{grid-column:1 / -1;display:flex;align-items:center;justify-content:flex-start;gap:2px;border-top:0;padding-top:8px}
 #hero.mag .mag-arrow{appearance:none;background:transparent;border:0;color:#155A50;font:inherit;font-size:22px;font-weight:650;line-height:1;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;cursor:pointer;border-radius:8px}
 #hero.mag .mag-arrow:focus-visible{outline:2px solid #155A50;outline-offset:2px}
@@ -463,7 +463,7 @@ input,button{font-family:inherit}
   .ix-hero p.lede,.ix-hero .lede{font-size:16px;margin:0 0 24px;max-width:62ch;line-height:1.45;text-align:left;text-wrap:pretty;text-wrap:balance}
   .ix-hero .ix-search{position:sticky;top:22px;z-index:55;margin:0 auto}
   .ix-hero .ix-search input{font-size:16px;padding:8px 16px 8px 38px}
-  #hero.mag{margin:0 0 32px}
+  #hero.mag{margin:0 -16px 32px;width:calc(100% + 32px);border-left:0;border-right:0;border-radius:0}
   #hero.mag .mag-grid{grid-template-columns:1fr;gap:0;padding:16px}
   #hero.mag .mag-side{border-left:0;padding-left:0;margin-top:16px;border-top:1px solid #dcdad7}
   #hero.mag .mag-side a:first-child{padding-top:16px}
@@ -661,14 +661,14 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
   #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl{color:#155A50 !important}
 }
-h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h3{
+h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h3{
   text-wrap:balance;hyphens:none;
 }
 #hero.mag a.mag-arrow{text-decoration:none;color:#155A50}
 
 </style>
-<link rel="preload" href="/styles.css?v=design1" as="style">
-<link rel="preload" href="index.css?v=design1" as="style">
+<link rel="preload" href="/styles.css?v=design2" as="style">
+<link rel="preload" href="index.css?v=design2" as="style">
 <script>
 /* Apply the full sheets as real stylesheets. Not media=print. */
 (function(){
@@ -678,13 +678,13 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h3{
     link.href=href;
     document.head.appendChild(link);
   }
-  load('/styles.css?v=design1');
-  load('index.css?v=design1');
+  load('/styles.css?v=design2');
+  load('index.css?v=design2');
 })();
 </script>
 <noscript>
-<link rel="stylesheet" href="/styles.css?v=design1">
-<link rel="stylesheet" href="index.css?v=design1">
+<link rel="stylesheet" href="/styles.css?v=design2">
+<link rel="stylesheet" href="index.css?v=design2">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->

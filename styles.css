@@ -643,7 +643,7 @@ body.on-profile .ssux-recent{display:none !important}
    file) since it ships as an <a> element. */
 .lc-score{flex:0 0 64px;display:flex;align-items:center;justify-content:center;background:var(--lc-tint);color:var(--lc-accent);padding:8px 8px;line-height:1;border-right:1px solid var(--lc-tint-bd)}
 .lc-score-num{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
-.lc-mid{flex:1;padding:11px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.lc-mid{flex:1;padding:8px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .lc-row1{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
 .lc-name{font-size:14px;font-weight:600;color:var(--color-brand);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .lc-cats{font-size:11px;color:var(--color-text-tertiary);flex-shrink:0;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -657,7 +657,7 @@ body.on-profile .ssux-recent{display:none !important}
   .lc-cats{font-size:12px;white-space:normal}
   .lc-row2{flex-direction:column;gap:4px;align-items:flex-start}
   .lc-cau{order:-1;line-height:1.4;white-space:normal;min-width:0;flex-shrink:1;max-width:none;overflow:visible}
-  .lc-mid{padding:8px 12px}
+  .lc-mid{padding:8px 16px}
   .lc-score{flex:0 0 56px}
 }
 .empty{text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px}
@@ -2448,7 +2448,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 }
 
 /* Accessibility — skip-to-content link (visually hidden until focused) */
-.skip-link{position:absolute;left:0;top:-40px;background:var(--color-brand);color:#fff;padding:8px 16px;z-index:10000;text-decoration:none;border-radius:0 0 6px 0;font-weight:600}
+.skip-link{position:absolute;left:0;top:-64px;background:var(--color-brand);color:#fff;padding:12px 16px;min-height:44px;min-width:44px;box-sizing:border-box;display:inline-flex;align-items:center;z-index:10000;text-decoration:none;border-radius:0 0 6px 0;font-weight:600}
 .skip-link:focus{top:0;outline:2px solid #fff;outline-offset:-4px}
 
 /* Article Bottom Line callout (2026-05-27).
@@ -2909,7 +2909,7 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 }
 .site-footer-leaf svg{width:13px;height:13px;fill:#F8F4ED}
 .site-footer-brand{font-size:18px;font-weight:600;color:#F8F4ED;letter-spacing:-.2px;line-height:1}
-.site-footer-brand-tld{color:rgba(248,244,237,.6);font-weight:400}
+.site-footer-brand-tld{color:#F8F4ED;opacity:.85;font-weight:400}
 .site-footer-tag{
   /* Direction B (2026-05-23, updated to fit on 1 line at desktop widths) —
      wider cap so the full statement reads as a single line on the 800px-
@@ -3272,7 +3272,7 @@ body.tab-supplements #nav-search-pill{display:none !important}
 /* Undo toast */
 .rn-undo-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(12px);background:#1e293b;color:#f1f5f9;font-size:12.5px;padding:8px 16px;border-radius:10px;display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.22)}
 .rn-undo-toast.visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
-.rn-undo-btn{background:none;border:none;color:#7DD3FC;font-size:12.5px;font-weight:600;cursor:pointer;padding:12px 16px;margin:-8px -12px -8px -2px}
+.rn-undo-btn{background:none;border:none;color:#7DD3FC;font-size:12px;font-weight:600;cursor:pointer;padding:12px 16px;margin:-8px -12px -8px -2px;min-height:44px;min-width:44px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center}
 .rn-undo-btn:hover{color:#BAE6FD}
 
 /* Plan card filter search */
@@ -4512,7 +4512,7 @@ main.sk-wrap .ar-faq > p{
   main.sk-wrap p a,main.sk-wrap li a,
   main.det-wrap p a,main.det-wrap li a,
   .hub-wrap p a,.hub-wrap li a{
-    padding-top:13px;padding-bottom:13px;line-height:1.15;
+    padding-top:16px;padding-bottom:16px;line-height:1.15;
   }
   .hub-back,.hub-art-list li a,.hub-simple-list li a,.hub-sup-card{
     min-height:44px;box-sizing:border-box;
@@ -4524,7 +4524,8 @@ main.sk-wrap .ar-faq > p{
   main.det-wrap ol,main.det-wrap ul,
   .det-prose ol,.det-prose ul{
     margin-left:0 !important;
-    padding-left:1.25em !important;
+    padding-left:0 !important;
+    list-style-position:inside;
   }
   .rc-toc ul,.rc-rel-list ul{
     margin-left:0 !important;
@@ -4550,10 +4551,40 @@ main.ar-wrap > #hero.mag,
 main.sx-wrap > #hero.mag,
 main.ca-wrap > #hero.mag,
 main.sk-wrap > #hero.mag{margin:0 0 24px}
-#hero.mag .mag-side h3{text-wrap:balance;hyphens:none}
+#hero.mag .mag-side h2,#hero.mag .mag-side h3{text-wrap:balance;hyphens:none}
 @media (max-width:600px){
   main.ar-wrap #hero.mag h1,
   main.sx-wrap #hero.mag h1,
   main.ca-wrap #hero.mag h1,
   main.sk-wrap #hero.mag h1{font-size:20px !important}
+  main.ar-wrap > #hero.mag,
+  main.sx-wrap > #hero.mag,
+  main.ca-wrap > #hero.mag,
+  main.sk-wrap > #hero.mag,
+  #supplements-view #hero.mag{
+    margin-left:-16px !important;margin-right:-16px !important;
+    width:calc(100% + 32px) !important;border-left:0 !important;border-right:0 !important;border-radius:0 !important;
+  }
+  .rc-trust-by a,.ar-meta a[rel="author"]{
+    display:inline-flex;align-items:center;min-height:44px;min-width:44px;box-sizing:border-box;
+  }
+  .det-cat-pill{
+    display:inline-flex !important;align-items:center;justify-content:center;
+    min-width:44px !important;min-height:44px !important;padding:8px 16px !important;box-sizing:border-box;
+  }
 }
+.ss-mentioned{
+  margin:32px 0 0;padding-top:24px;
+  border-top:1px solid var(--color-border-tertiary,#dcdad7);
+}
+.ss-mentioned-k,.ss-mentioned > h2{
+  margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:#57534e;
+}
+.ss-mentioned ul{list-style:none;margin:0;padding:0}
+.ss-mentioned li{margin:0;padding:0;list-style:none}
+.ss-mentioned a{
+  display:flex;align-items:center;width:100%;min-height:44px;box-sizing:border-box;
+  color:#155A50;text-decoration:none;font-weight:600;font-size:16px;line-height:1.3;
+}
+.ss-mentioned a:hover{text-decoration:underline;text-underline-offset:3px}

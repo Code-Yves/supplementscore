@@ -238,7 +238,10 @@
   }
 
   function plainTitle(raw){
-    return String(raw || '').replace(/\s*\|\s*SupplementScore\s*$/i, '').replace(/-/g, '\u2011').trim();
+    return String(raw || '')
+      .replace(/\s*(?:\||\u2014|\u2013|-)\s*SupplementScore\s*$/i, '')
+      .replace(/-/g, '\u2011')
+      .trim();
   }
 
   /* ---------- build the chrome ---------- */
@@ -371,10 +374,11 @@
       var a = document.createElement('a');
       a.href = href;
       var kick = el('span', 'mag-kicker', '');
-      var h3 = document.createElement('h3');
-      h3.textContent = plainTitle(titleFromHref(href));
+      var h2 = document.createElement('h2');
+      h2.className = 'mag-side-title';
+      h2.textContent = plainTitle(titleFromHref(href));
       a.appendChild(kick);
-      a.appendChild(h3);
+      a.appendChild(h2);
       side.appendChild(a);
       fetch(href, { credentials: 'same-origin' }).then(function(r){
         return r.ok ? r.text() : '';
@@ -383,7 +387,7 @@
         var tm = html.match(/<title>([^<]*)<\/title>/i);
         if (tm){
           var t = plainTitle(tm[1]);
-          if (t) h3.textContent = t;
+          if (t) h2.textContent = t;
         }
         var sm = html.match(/"articleSection"\s*:\s*"([^"]+)"/);
         if (sm) kick.textContent = sm[1];
