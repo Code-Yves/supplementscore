@@ -5160,7 +5160,13 @@ function toggleDD(id){const m=document.getElementById(id+'-menu');if(!m)return;c
 function closeDD(id){document.getElementById(id+'-menu').classList.remove('open');document.getElementById(id+'-wrap').classList.remove('cdd-open');}
 function _ddLabel(id,txt){const lbl=document.querySelector('#'+id+'-wrap .cdd-lbl');if(lbl)lbl.textContent=txt;}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}
-document.addEventListener('click',function(e){if(!e.target.closest('.cdd'))document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');m.parentElement.classList.remove('cdd-open');});});
+function _closeCddOutside(e){if(e.target.closest&&e.target.closest('.cdd'))return;document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');if(m.parentElement)m.parentElement.classList.remove('cdd-open');});}
+document.addEventListener('click',_closeCddOutside);
+document.addEventListener('touchend',_closeCddOutside,{passive:true});
+/* bfcache can restore a menu that was open when the user left, which
+   paints that segment teal on the way back. Close menus on restore.
+   A real selection (.on) stays. */
+window.addEventListener('pageshow',function(e){if(!e.persisted)return;document.querySelectorAll('.cdd-menu.open').forEach(m=>{m.classList.remove('open');if(m.parentElement)m.parentElement.classList.remove('cdd-open');});if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();});
 function initAllTab(){if(_allTabInit)return;const sfbar=document.getElementById('sfbar-main');if(!sfbar)return;_allTabInit=true;const tierCounts=TIERS.map(t=>({...t,count:t.id==='t3'?S.filter(s=>s.tr).length:S.filter(s=>eTier(s)===t.id).length}));const azOpts=[{val:'all',label:'All A\u2013Z ('+S.length+')'}].concat(AZ_PAIRS.map(p=>{const count=S.filter(s=>{const c=s.n.charAt(0).toUpperCase();return c===p[0]||c===p[1];}).length;return{val:p[0]+p[1],label:p[0]+' & '+p[1]+' ('+count+')'};}));const trCount=S.filter(s=>s.tr).length;
 /* 2026-05-21 \u2014 Goal + Symptom dropdowns now show a per-option supplement
    count beneath the label, matching the Age & Sex dropdown's two-line item

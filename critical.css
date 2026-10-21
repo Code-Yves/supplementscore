@@ -197,3 +197,63 @@ input,button{font-family:inherit}
   #hero{display:none !important}
   .ix-hero p.lede,.ix-hero .lede{margin-bottom:16px !important}
 }
+/* Homepage filter bar, in the blocking sheet. index.css repeats this, but
+   iOS can leave that sheet on media=print, and the base styles.css fill
+   is what painted every segment teal. These selectors outrank it. */
+#main-sticky #sfbar-main.sfbar{
+  display:flex !important;flex:none !important;flex-direction:row !important;
+  align-items:stretch !important;gap:0 !important;grid-template-columns:none !important;
+  width:100% !important;height:36px !important;min-height:36px !important;max-height:36px !important;
+  margin:0 0 8px !important;padding:0 !important;box-sizing:border-box !important;
+  border:1px solid #abc8be !important;border-radius:10px !important;
+  background:#f6f2ea !important;background-image:none !important;overflow:visible !important;
+}
+#main-sticky #sfbar-main > .cdd{
+  position:relative !important;display:flex !important;flex:1 1 0 !important;
+  min-width:0 !important;max-width:none !important;height:100% !important;overflow:visible !important;
+}
+#main-sticky #sfbar-main .cdd-btn{
+  display:flex !important;align-items:center !important;justify-content:center !important;
+  width:100% !important;height:100% !important;min-width:0 !important;max-width:100% !important;
+  padding:0 4px !important;box-sizing:border-box !important;border:0 !important;border-radius:0 !important;
+  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
+  box-shadow:none !important;filter:none !important;transform:none !important;
+  color:#1F7A6B !important;overflow:hidden !important;transition:none !important;
+}
+#main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{border-left:1px solid #bad0c6 !important}
+#main-sticky #sfbar-main .cdd-ico,
+#main-sticky #sfbar-main .cdd-chev{display:none !important}
+#main-sticky #sfbar-main .cdd-lbl{
+  font-size:12px !important;font-weight:700 !important;line-height:16px !important;
+  color:#1F7A6B !important;white-space:nowrap !important;overflow:hidden !important;
+  text-overflow:ellipsis !important;min-width:0 !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn{
+  background:#1F7A6B !important;background-color:#1F7A6B !important;background-image:none !important;color:#f6f2ea !important;
+}
+#main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+#main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
+@media (hover:none), (pointer:coarse){
+  #main-sticky #sfbar-main .cdd-btn:hover,
+  #main-sticky #sfbar-main .cdd-btn:active,
+  #main-sticky #sfbar-main:hover .cdd-btn{
+    background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
+    color:#1F7A6B !important;transform:none !important;filter:none !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
+  #main-sticky #sfbar-main .cdd-btn:active .cdd-lbl{color:#1F7A6B !important}
+  #main-sticky #sfbar-main .cdd-btn.on,
+  #main-sticky #sfbar-main .cdd-btn.on:hover,
+  #main-sticky #sfbar-main .cdd-btn.on:active,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn:hover,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn:active{
+    background:#1F7A6B !important;background-color:#1F7A6B !important;color:#f6f2ea !important;
+  }
+  #main-sticky #sfbar-main .cdd-btn.on .cdd-lbl,
+  #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
+  .pg-close-fab:hover,.ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
+}
+h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
+a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}

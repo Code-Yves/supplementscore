@@ -1906,7 +1906,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
 }
 /* Hover teal only where a pointer can hover. Touch keeps cream
    except the selected or open segment. */
-@media (hover:hover){
+@media (hover:hover) and (pointer:fine){
   #main-sticky #sfbar-main .cdd-btn:hover,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover:not(.on){

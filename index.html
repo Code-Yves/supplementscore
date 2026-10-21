@@ -305,12 +305,9 @@
 <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
 <noscript></noscript>
-<link rel="stylesheet" href="/critical.css?v=barfix1">
-<link rel="stylesheet" href="/styles.css?v=hdr11" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/styles.css?v=hdr11"></noscript>
-
-<link rel="stylesheet" href="index.css?v=barfix1" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="index.css?v=barfix1"></noscript>
+<link rel="stylesheet" href="/critical.css?v=0b546e83">
+<link rel="stylesheet" href="/styles.css?v=e4a10d2a">
+<link rel="stylesheet" href="index.css?v=dba3de3f">
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
   <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
@@ -321,7 +318,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://api.github.com https://www.fda.gov https://www.efsa.europa.eu; base-uri 'self'; form-action 'self' https://formspree.io;">
-  <script src="_site-ux.js?v=b12faq01" defer></script>
+  <script src="_site-ux.js?v=7f5bfaf1" defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -4385,18 +4382,18 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 <script>
 (function(){
   var urls = [
-    'home-decor.js?v=6dbb5572',
+    'home-decor.js?v=4cc4ab9c',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
-    'app.js?v=barfix1',
+    'app.js?v=e46d3a1a',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
-    'index.js?v=eb5e0470',
+    'index.js?v=c770a587',
     'nav-search.js?v=64e43b51',
     '_research-modal.js?v=c92ae724',
     'modal-stack.js?v=ba2acf0e',
-    'supplement-modal.js?v=m768modtap'
+    'supplement-modal.js?v=bef4bd25'
   ];
   function start(){
     urls.forEach(function(u){
@@ -4492,8 +4489,17 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 /* Register service worker for offline + instant repeat visits.
  * Skipped on browsers without SW support; safe to leave on. */
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  navigator.serviceWorker.addEventListener('message', function(e){
+    var d = e.data || {};
+    if (d.type !== 'ss-reload') return;
+    try {
+      if (sessionStorage.getItem('ss-reloaded') === d.v) return;
+      sessionStorage.setItem('ss-reloaded', d.v);
+    } catch (err) {}
+    location.reload();
+  });
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').catch(function(){});
+    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(function(){});
   });
 }
 </script>

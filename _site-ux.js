@@ -8,6 +8,68 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
+  /* Close / X. Capture phase runs before any inline onclick that calls
+     preventDefault + history.back(). On iPhone that pair often does
+     nothing (history.length is already > 1, and back is a no-op), which
+     swallowed the real href. One handler: go back when the previous page
+     is on this site, otherwise follow the link. The link's href is the
+     fallback when JS never runs. */
+  function closeFallback(){
+    var path = location.pathname || '';
+    if (path.indexOf('/compare/') === 0) return '/compare/';
+    if (path.indexOf('/condition/') === 0) return '/condition/';
+    if (path.indexOf('/stack/') === 0) return '/stack/';
+    if (path.indexOf('/brand/') === 0) return '/brands.html';
+    if (path.indexOf('/m/') === 0 || path.indexOf('/medication') === 0) return '/';
+    if (path.indexOf('/sx/') === 0) return '/symptom.html';
+    if (path.indexOf('/hub/') === 0) return '/';
+    if (path.indexOf('/data') === 0) return '/data/';
+    if (path.indexOf('/a/') === 0 || path.indexOf('/for/') === 0) return '/#research';
+    return '/';
+  }
+  function sameSite(url){
+    try {
+      var u = new URL(url, location.href);
+      if (u.origin !== location.origin) return false;
+      if (u.pathname === location.pathname && u.search === location.search && u.hash === location.hash) return false;
+      return true;
+    } catch (e) { return false; }
+  }
+  /* Safari can leave a print stylesheet on media=print when it was served
+     from cache (onload never fires). Flip those sheets as soon as this
+     file runs, including after a bfcache restore. */
+  function armPrintSheets(){
+    document.querySelectorAll('link[rel="stylesheet"][media="print"]').forEach(function(l){
+      if (l.sheet) l.media = 'all';
+    });
+  }
+  armPrintSheets();
+  window.addEventListener('pageshow', armPrintSheets);
+
+  document.addEventListener('click', function(ev){
+    var el = ev.target && ev.target.closest && ev.target.closest('a.rc-close, a.pg-close-fab, a.reader-close-fab, a.ss-pagebar-x, a.hub-close-fab, a.d-close-fab, a.bro-close-fab, a.cmp-close-fab');
+    if (!el) return;
+    var fb = el.getAttribute('data-ss-fallback') || closeFallback();
+    var href = el.getAttribute('href');
+    if (!href || href === '#' || href === '#/') el.setAttribute('href', fb);
+    var dest = el.href || fb;
+    ev.stopImmediatePropagation();
+    var framed = false;
+    try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    if (framed && el.classList.contains('rc-close')){
+      ev.preventDefault();
+      try { window.parent.postMessage({ type: 'rc-close' }, '*'); } catch (e) {}
+      setTimeout(function(){ if (location.href === dest) return; try { if (window.self !== window.top) location.href = dest; } catch (e2) {} }, 400);
+      return;
+    }
+    if (sameSite(document.referrer)){
+      ev.preventDefault();
+      var start = location.href;
+      history.back();
+      setTimeout(function(){ if (location.href === start) location.href = dest; }, 450);
+    }
+  }, true);
+
   /* ---------- iframe-context detection (2026-05-18) ----------
      When this page is rendered inside the supplement-modal iframe (.ssm)
      or any other parent overlay, the parent already shows its own close

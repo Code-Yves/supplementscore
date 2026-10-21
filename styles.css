@@ -2504,15 +2504,17 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   padding:6px 8px;
   border-radius:9px;
   border:1px solid transparent;
-  background:var(--color-brand);
-  color:#fff;
+  /* Cream until a segment is actually selected. The old brand fill made
+     every segment look active on phones that had not applied index.css. */
+  background:#f6f2ea;
+  color:#1F7A6B;
   font-family:inherit;
   display:flex;
   box-shadow:0 1px 3px rgba(31,122,107,.14);
   transition:background .15s, box-shadow .15s, transform .12s;
 }
-.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:#fff;display:block}
-.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:#fff;letter-spacing:.01em}
+.sfbar .cdd-ico{width:15px;height:15px;flex-shrink:0;color:#1F7A6B;display:block}
+.sfbar .cdd-lbl{font-size:10.5px;font-weight:600;line-height:1;color:#1F7A6B;letter-spacing:.01em}
 .sfbar .cdd-chev{display:none} /* chevron hidden in block layout */
 .sfbar .cdd-btn:hover:not(.on){
   background:var(--color-brand-hover);
@@ -2545,6 +2547,24 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .sfbar .cdd-btn:focus-visible{
   outline:2px solid #fff;
   outline-offset:-3px;
+}
+/* iOS reports :hover after a tap and keeps it. That rule above would
+   leave the tapped segment teal. Coarse pointers stay cream unless the
+   segment is actually selected (.on) or its menu is open. */
+@media (hover:none), (pointer:coarse){
+  .sfbar .cdd-btn:hover:not(.on),
+  .sfbar .cdd-btn:active:not(.on),
+  .sfbar #art-filter-wrap .cdd-btn:hover:not(.on),
+  .sfbar #art-filter-wrap .cdd-btn:active:not(.on){
+    background:#f6f2ea;
+    color:#1F7A6B;
+    box-shadow:none;
+    transform:none;
+    filter:none;
+  }
+  .hub-close-fab:hover,.pg-close-fab:hover,.d-close-fab:hover,
+  .reader-close-fab:hover,.bro-close-fab:hover,.cmp-close-fab:hover,
+  .ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
 }
 
 /* 2026-05-24 — Sfbar layout: all 4 buttons (Goal / Age & Sex / Symptom /
