@@ -1172,7 +1172,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 }
 #hero.mag{ position: relative; z-index: 2; }
 @media (min-width: 601px){
-  #hero.mag{ max-width: 760px; margin-left: auto; margin-right: auto; }
+  #hero.mag{ max-width: none; margin-left: 0; margin-right: 0; }
 }
 #hero.mag .mag-lead:hover h2,
 #hero.mag .mag-side a:hover h3{ color: #1F7A6B; }
@@ -1249,16 +1249,17 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
      compact on phones. */
   .ix-hero h1{
     font-size: 40px !important;
-    margin: 0 auto 8px !important;
+    margin: 0 0 16px !important;
     line-height: 1.05 !important;
     letter-spacing: -1.1px;
-    max-width: none !important;
+    max-width: 11em !important;
+    text-align: left;
   }
   /* Lede widened from 300→360 with a slightly tighter font so the copy
      reads as 2 paragraph lines on standard mobile (≥390 CSS px). On the
      very narrowest screens it may relax to 3 lines, which is acceptable
      since the type stays readable. */
-  .ix-hero .lede{ font-size: 12px !important; margin: 0 auto 10px !important; max-width: 360px !important; line-height: 1.45; }
+  .ix-hero .lede{ font-size: 16px !important; margin: 0 0 24px !important; max-width: 62ch !important; line-height: 1.45; text-align: left; }
 
   /* 2026-05-21 — Stats row restored to a single inline editorial row with
      slash dividers (matching desktop), per user direction. Earlier pass
@@ -1452,9 +1453,13 @@ body.on-profile #main-sticky{
      by" and hide the hero copy. #ix-hero-form outranks the ≤600px
      `.ix-hero .ix-search { display:flex !important }` rule. */
   .ix-hero #ix-hero-form {
-    display: none !important;
+    display: block !important;
+    width: 100%;
   }
   #main-sticky .sticky-bar-search {
+    display: none !important;
+  }
+  body.hero-search-gone #main-sticky .sticky-bar-search {
     display: block !important;
   }
 }
@@ -1640,13 +1645,11 @@ body.on-profile #main-sticky{
     width: 100%;
     height: 28px;
     box-sizing: border-box;
-    margin: 0 0 12px;
-    /* Flattened equivalents of the previous translucent hairline and
-       label, so the edges stay the same color without alpha blending. */
-    border: 1px solid #abc8be;
-    border-radius: 10px;
+    margin: 0 0 16px;
+    border: 1px solid #dcdad7;
+    border-radius: 16px;
     background: #f6f2ea;
-    color: #1F7A6B;
+    color: #155A50;
     opacity: 1;
     -webkit-font-smoothing: auto;
   }
@@ -1660,21 +1663,21 @@ body.on-profile #main-sticky{
     padding: 0 3px;
     font-size: 11px;
     line-height: 14px;
-    color: #1F7A6B;
+    color: #155A50;
     opacity: 1;
   }
   .hero-stat + .hero-stat {
-    border-left: 1px solid #bad0c6;
+    border-left: 1px solid #dcdad7;
   }
   .hero-stat-num {
     font-weight: 700;
-    color: #1F7A6B;
+    color: #155A50;
     opacity: 1;
   }
   .hero-stat-lbl {
     margin-left: 3px;
     font-weight: 400;
-    color: #5b9c8f;
+    color: #155A50;
     opacity: 1;
   }
 }
@@ -1699,14 +1702,14 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   gap:0 !important;
   grid-template-columns:none !important;
   width:100% !important;
-  height:36px !important;
-  min-height:36px !important;
-  max-height:36px !important;
-  margin:0 0 8px !important;
+  height:44px !important;
+  min-height:44px !important;
+  max-height:44px !important;
+  margin:0 0 32px !important;
   padding:0 !important;
   box-sizing:border-box !important;
-  border:1px solid #abc8be !important;
-  border-radius:10px !important;
+  border:1px solid #dcdad7 !important;
+  border-radius:16px !important;
   background:#f6f2ea !important;
   background-image:none !important;
   overflow:visible !important;
@@ -1744,7 +1747,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   box-shadow:none !important;
   filter:none !important;
   transform:none !important;
-  color:#1F7A6B !important;
+  color:#155A50 !important;
   opacity:1 !important;
   cursor:pointer;
   transition:none !important;
@@ -1753,15 +1756,15 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   overflow:hidden !important;
 }
 #main-sticky #sfbar-main > .cdd + .cdd > .cdd-btn{
-  border-left:1px solid #bad0c6 !important;
+  border-left:1px solid #dcdad7 !important;
 }
 #main-sticky #sfbar-main > .cdd:first-child > .cdd-btn{
-  border-top-left-radius:9px !important;
-  border-bottom-left-radius:9px !important;
+  border-top-left-radius:15px !important;
+  border-bottom-left-radius:15px !important;
 }
 #main-sticky #sfbar-main > .cdd:last-child > .cdd-btn{
-  border-top-right-radius:9px !important;
-  border-bottom-right-radius:9px !important;
+  border-top-right-radius:15px !important;
+  border-bottom-right-radius:15px !important;
 }
 #main-sticky #sfbar-main .cdd-ico,
 #main-sticky #sfbar-main .cdd-chev{
@@ -1776,7 +1779,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   font-weight:700 !important;
   line-height:16px !important;
   letter-spacing:0 !important;
-  color:#1F7A6B !important;
+  color:#155A50 !important;
   opacity:1 !important;
   white-space:nowrap !important;
   overflow:hidden !important;
@@ -1788,16 +1791,16 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
 #main-sticky #sfbar-main #art-filter-wrap .cdd-btn,
 #main-sticky #sfbar-main #art-filter-wrap .cdd-ico,
 #main-sticky #sfbar-main #art-filter-wrap .cdd-lbl{
-  color:#1F7A6B !important;
+  color:#155A50 !important;
 }
 #main-sticky #sfbar-main .cdd-btn.on,
 #main-sticky #sfbar-main .cdd-open > .cdd-btn,
 #main-sticky #sfbar-main #art-filter-wrap .cdd-btn.on,
 #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn{
   background:#1F7A6B !important;
-  background-color:#1F7A6B !important;
+  background-color:#155A50 !important;
   background-image:none !important;
-  border-color:#1F7A6B !important;
+  border-color:#155A50 !important;
   box-shadow:none !important;
   filter:none !important;
   transform:none !important;
@@ -1811,7 +1814,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
 }
 #main-sticky #sfbar-main > .cdd:has(> .cdd-btn.on) + .cdd > .cdd-btn,
 #main-sticky #sfbar-main > .cdd.cdd-open + .cdd > .cdd-btn{
-  border-left-color:#1F7A6B !important;
+  border-left-color:#155A50 !important;
 }
 /* Hover teal only where a pointer can hover. Touch keeps cream
    except the selected or open segment. */
@@ -1820,9 +1823,9 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover:not(.on){
     background:#1F7A6B !important;
-    background-color:#1F7A6B !important;
+    background-color:#155A50 !important;
     background-image:none !important;
-    border-color:#1F7A6B !important;
+    border-color:#155A50 !important;
     box-shadow:none !important;
     filter:none !important;
     transform:none !important;
@@ -1833,7 +1836,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
     color:#f6f2ea !important;
   }
   #main-sticky #sfbar-main > .cdd:has(> .cdd-btn:hover) + .cdd > .cdd-btn{
-    border-left-color:#1F7A6B !important;
+    border-left-color:#155A50 !important;
   }
   /* A hovered segment is the only teal one. The saved selection
      returns when the pointer leaves. */
@@ -1848,19 +1851,19 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
     background:#f6f2ea !important;
     background-color:#f6f2ea !important;
     background-image:none !important;
-    color:#1F7A6B !important;
+    color:#155A50 !important;
     box-shadow:none !important;
     filter:none !important;
   }
   #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) > .cdd-btn.on .cdd-lbl,
   #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) #art-filter-wrap:not(:hover) > .cdd-btn.on .cdd-lbl{
-    color:#1F7A6B !important;
+    color:#155A50 !important;
   }
   #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) + .cdd > .cdd-btn{
-    border-left-color:#bad0c6 !important;
+    border-left-color:#dcdad7 !important;
   }
   #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:hover + .cdd > .cdd-btn{
-    border-left-color:#1F7A6B !important;
+    border-left-color:#155A50 !important;
   }
 }
 @media (hover:none), (pointer:coarse){
@@ -1877,7 +1880,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
     box-shadow:none !important;
     filter:none !important;
     transform:none !important;
-    color:#1F7A6B !important;
+    color:#155A50 !important;
   }
   #main-sticky #sfbar-main .cdd-btn:hover .cdd-lbl,
   #main-sticky #sfbar-main .cdd-btn:active .cdd-lbl,
@@ -1885,7 +1888,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   #main-sticky #sfbar-main:focus-within .cdd-lbl,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:hover .cdd-lbl,
   #main-sticky #sfbar-main #art-filter-wrap .cdd-btn:active .cdd-lbl{
-    color:#1F7A6B !important;
+    color:#155A50 !important;
   }
   #main-sticky #sfbar-main .cdd-btn.on,
   #main-sticky #sfbar-main .cdd-btn.on:hover,
@@ -1900,7 +1903,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn:hover,
   #main-sticky #sfbar-main #art-filter-wrap.cdd-open > .cdd-btn:active{
     background:#1F7A6B !important;
-    background-color:#1F7A6B !important;
+    background-color:#155A50 !important;
     background-image:none !important;
     color:#f6f2ea !important;
   }
@@ -1983,7 +1986,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   background:#f6f2ea !important;
   background-color:#f6f2ea !important;
   background-image:none !important;
-  color:#1F7A6B !important;
+  color:#155A50 !important;
   box-shadow:none !important;
   filter:none !important;
   outline-color:transparent !important;
@@ -1992,10 +1995,10 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl,
 #main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn .cdd-lbl,
 #main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on .cdd-lbl{
-  color:#1F7A6B !important;
+  color:#155A50 !important;
 }
 #main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{
-  border-left-color:#bad0c6 !important;
+  border-left-color:#dcdad7 !important;
 }
 
 /* Phone: the magazine hero stays visible and stacks. Desktop is unchanged. */
@@ -2007,4 +2010,148 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
 }
 @media (max-width:768px){
   #hero.mag{ display:block !important; height:auto !important; min-height:0 !important; max-height:none !important; }
+}
+
+/* 2026-10-21 — One homepage column. These outrank the 800px cap, the
+   760px hero, the sticky bar's negative margin, and the centered masthead. */
+#supplements-view,
+#supplements-view > .container{
+  max-width:1024px !important;
+}
+#supplements-view > .container{
+  padding-left:24px;
+  padding-right:24px;
+  box-sizing:border-box;
+}
+#supplements-view .ix-hero{
+  max-width:none !important;
+  margin:0;
+  padding:16px 0 0 !important;
+  text-align:left !important;
+  overflow:visible;
+}
+#supplements-view .ix-hero h1{
+  margin:0 0 16px !important;
+  max-width:22ch !important;
+  text-align:left !important;
+  text-wrap:balance;
+}
+@media (min-width:601px){
+  #supplements-view .ix-hero h1{
+    font-size:min(64px, calc((100vw - 80px) / 13.2)) !important;
+    letter-spacing:-0.028em;
+  }
+}
+#supplements-view .ix-hero p.lede,
+#supplements-view .ix-hero .lede{
+  max-width:62ch !important;
+  margin:0 0 24px !important;
+  text-align:left !important;
+  text-wrap:balance;
+}
+#supplements-view .ix-hero .ix-search{
+  max-width:none !important;
+  width:100%;
+  margin:0 0 32px !important;
+}
+#supplements-view .ix-hero .ix-search input,
+#supplements-view .ix-search-sticky input{
+  height:48px !important;
+  border-radius:16px !important;
+  padding:0 16px 0 44px !important;
+  font-size:16px !important;
+  box-sizing:border-box;
+}
+#supplements-view #hero.mag{
+  max-width:none !important;
+  width:auto;
+  margin:0 0 32px !important;
+  border-radius:16px;
+}
+#supplements-view .pg{
+  padding-top:0;
+  padding-bottom:0;
+}
+#supplements-view #main-sticky.sticky-bar{
+  margin:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  padding:0 !important;
+  left:auto !important;
+  right:auto !important;
+  background:var(--color-page) !important;
+  box-sizing:border-box;
+}
+#s-content{
+  display:flow-root;
+}
+#s-content .pop-head{
+  padding:0 0 16px;
+  margin:0;
+}
+#s-content .pop-head-lbl,
+#s-content .pop-head-t{
+  margin-bottom:8px;
+}
+#s-content .ss-list-load{
+  margin:0;
+  max-width:none;
+  width:100%;
+}
+#supplements-view #main-sticky #sfbar-main.sfbar{
+  height:auto !important;
+  min-height:46px !important;
+  max-height:none !important;
+}
+#supplements-view #main-sticky #sfbar-main .cdd,
+#supplements-view #main-sticky #sfbar-main .cdd-btn{
+  min-height:44px !important;
+  height:44px !important;
+}
+@media (min-width:601px){
+  body.tab-supplements .beta-bar{
+    max-width:1024px;
+    width:100%;
+    margin:16px auto 0;
+    padding:0 24px;
+    box-sizing:border-box;
+    justify-content:flex-start;
+    background:var(--color-page);
+  }
+  body.tab-supplements .beta-bar-pulse{display:none}
+  body.tab-supplements .beta-bar,
+  body.tab-supplements .beta-bar-stat,
+  body.tab-supplements .beta-bar-stat-sep{color:#155A50}
+  body.tab-supplements.hero-search-gone .beta-bar{justify-content:space-between}
+}
+@media (max-width:600px){
+  #supplements-view > .container{
+    padding-left:0;
+    padding-right:0;
+  }
+  #supplements-view .ix-hero{
+    padding:0 !important;
+  }
+  #supplements-view .ix-hero h1{
+    font-size:40px !important;
+    letter-spacing:-1.1px;
+    line-height:1.05;
+    max-width:11em !important;
+  }
+  #supplements-view .ix-hero p.lede,
+  #supplements-view .ix-hero .lede{
+    font-size:16px !important;
+  }
+}
+@media (max-width:768px){
+  #supplements-view .ix-hero #ix-hero-form{
+    display:block !important;
+    width:100%;
+  }
+  #supplements-view #main-sticky .sticky-bar-search{
+    display:none !important;
+  }
+  body.hero-search-gone #supplements-view #main-sticky .sticky-bar-search{
+    display:block !important;
+  }
 }
