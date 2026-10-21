@@ -1774,8 +1774,9 @@ body.on-profile #main-sticky{
 }
 
 /* 2026-10-21 — Homepage filter row.
-   One joined cream bar. Teal is only the selected segment, or the
-   segment whose menu is open. Hover teal is limited to real pointers.
+   One joined cream bar. At most one segment is teal: the open menu,
+   or, while a real pointer is over another segment, that hovered
+   segment, otherwise the saved selection. Touch never paints :hover.
    The visible "Search supplements by" label is gone; the bar's
    aria-label keeps the name. */
 #main-sticky .sfbar-label{ display:none !important; }
@@ -1928,6 +1929,33 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
   #main-sticky #sfbar-main > .cdd:has(> .cdd-btn:hover) + .cdd > .cdd-btn{
     border-left-color:#1F7A6B !important;
   }
+  /* A hovered segment is the only teal one. The saved selection
+     returns when the pointer leaves. */
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) > .cdd-btn.on,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) > .cdd-btn.on:hover,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) > .cdd-btn.on:focus,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) > .cdd-btn.on:focus-visible,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) #art-filter-wrap:not(:hover) > .cdd-btn.on,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) #art-filter-wrap:not(:hover) > .cdd-btn.on:hover,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) #art-filter-wrap:not(:hover) > .cdd-btn.on:focus,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) #art-filter-wrap:not(:hover) > .cdd-btn.on:focus-visible{
+    background:#f6f2ea !important;
+    background-color:#f6f2ea !important;
+    background-image:none !important;
+    color:#1F7A6B !important;
+    box-shadow:none !important;
+    filter:none !important;
+  }
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) > .cdd-btn.on .cdd-lbl,
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) #art-filter-wrap:not(:hover) > .cdd-btn.on .cdd-lbl{
+    color:#1F7A6B !important;
+  }
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:not(:hover) + .cdd > .cdd-btn{
+    border-left-color:#bad0c6 !important;
+  }
+  #main-sticky #sfbar-main:not(:has(.cdd-open)):has(> .cdd:hover) > .cdd:hover + .cdd > .cdd-btn{
+    border-left-color:#1F7A6B !important;
+  }
 }
 @media (hover:none), (pointer:coarse){
   #main-sticky #sfbar-main .cdd-btn:hover,
@@ -2021,6 +2049,47 @@ body.hero-search-gone #main-sticky .sticky-bar-search{
 #main-sticky #sfbar-main .cdd-btn.on:focus-visible,
 #main-sticky #sfbar-main .cdd-open > .cdd-btn:focus-visible{
   outline-color:#f6f2ea !important;
+}
+/* Open menu is the only teal segment, including a saved .on and any
+   :focus / :active / :focus-visible left on another segment. Research
+   repeats the rule because its #art-filter-wrap selectors outrank the
+   generic .cdd-btn.on fill. */
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus-visible,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus-visible,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn:hover,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn:active,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn:focus,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn:focus-visible,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on:hover,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on:active,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on:focus,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on:focus-visible{
+  background:#f6f2ea !important;
+  background-color:#f6f2ea !important;
+  background-image:none !important;
+  color:#1F7A6B !important;
+  box-shadow:none !important;
+  filter:none !important;
+  outline-color:transparent !important;
+}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#main-sticky #sfbar-main:has(.cdd-open) #art-filter-wrap:not(.cdd-open) > .cdd-btn.on .cdd-lbl{
+  color:#1F7A6B !important;
+}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{
+  border-left-color:#bad0c6 !important;
 }
 
 /* Phone: the article carousel sits between the lede and the search.

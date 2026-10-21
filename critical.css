@@ -255,5 +255,24 @@ input,button{font-family:inherit}
   #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
   .pg-close-fab:hover,.ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
 }
+/* One teal segment. An open menu wins over a saved selection and over
+   :hover, :active, or :focus left on another segment. Closing the menu
+   drops .cdd-open, so only .on (or nothing) is teal again. */
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus-visible,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus-visible{
+  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
+  color:#1F7A6B !important;box-shadow:none !important;filter:none !important;outline-color:transparent !important;
+}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#1F7A6B !important}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{border-left-color:#bad0c6 !important}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
