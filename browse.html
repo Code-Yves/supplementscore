@@ -26,20 +26,32 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
 <link rel="stylesheet" href="/critical.css?v=0b546e83">
 <link rel="stylesheet" href="/article-critical.css?v=3e7b832e">
-<link rel="stylesheet" href="/styles.css?v=e4a10d2a" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/styles.css?v=e4a10d2a"></noscript>
+<link rel="stylesheet" href="/styles.css?v=e4a10d2a">
 <style>
-  .bro-wrap{max-width:1200px;margin:0 auto;padding:48px 24px 64px;color:var(--color-text-primary)}
+  .bro-wrap{width:100%;max-width:1200px;margin:0 auto;padding:48px 24px 64px;color:var(--color-text-primary);box-sizing:border-box}
   .bro-kicker{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-brand);margin-bottom:8px}
-  .bro-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.5px;line-height:1.2;margin:0 0 12px}
-  .bro-lede{font-size:16px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 32px;max-width:680px}
-  .bro-list{column-count:4;column-gap:24px;list-style:none;padding:0;margin:0;font-size:13.5px;line-height:1.7}
-  .bro-list li{break-inside:avoid;margin-bottom:4px}
-  .bro-list a{color:var(--color-text-primary);text-decoration:none}
+  .bro-wrap h1{font-size:2.1rem;font-weight:700;letter-spacing:-.5px;line-height:1.2;margin:0 0 12px;text-wrap:pretty;text-wrap:balance}
+  .bro-lede{font-size:16px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 20px;max-width:680px;text-wrap:pretty;text-wrap:balance}
+  .bro-wrap .bro-search{max-width:560px;margin:0 0 8px;position:relative;z-index:6}
+  .bro-wrap .bro-search input{font-size:16px}
+  @media (min-width:769px){.bro-wrap .bro-search input{font-size:14px}}
+  .bro-status{margin:0 0 18px;font-size:13.5px;line-height:1.45;color:var(--color-text-secondary);min-height:0}
+  .bro-status:empty{display:none}
+  .bro-status.is-empty{margin:4px 0 28px;padding:18px 16px;border:1px dashed var(--color-border-secondary,#d6d3d1);border-radius:12px;background:var(--color-background-primary,#fff);color:var(--color-text-secondary)}
+  .bro-status b{color:var(--color-text-primary);font-weight:650}
+  /* Columns size themselves to the container. A fixed column-count let the
+     last column paint past the right edge and clip the name. */
+  .bro-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));
+    column-gap:24px;row-gap:2px;
+    list-style:none;padding:0;margin:0;
+    width:100%;min-width:0;
+    font-size:13.5px;line-height:1.7
+  }
+  .bro-list li{min-width:0;margin:0}
+  .bro-list a{display:block;color:var(--color-text-primary);text-decoration:none;overflow-wrap:anywhere}
   .bro-list a:hover{color:var(--color-brand);text-decoration:underline}
-  @media (max-width:1024px){.bro-list{column-count:3}}
-  @media (max-width:720px){.bro-list{column-count:2}}
-  @media (max-width:480px){.bro-list{column-count:1}}
   .bro-foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--color-border-tertiary);font-size:12.5px;color:var(--color-text-tertiary);line-height:1.6}
   .bro-close-fab{position:fixed;top:18px;right:18px;width:36px;height:36px;border-radius:50%;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);text-decoration:none;z-index:50}
 </style>
@@ -92,7 +104,17 @@
   <h1>Browse all supplements</h1>
   <p class="bro-lede">Browse 200 top-rated supplements by composite evidence score. Full database has 780+ supplements.</p>
 
-  <ul class="bro-list">
+  <form class="ix-search bro-search" role="search" action="/search.html" method="GET">
+    <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <circle cx="7" cy="7" r="5"/>
+      <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
+    </svg>
+    <input type="search" id="bro-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" enterkeyhint="search" aria-label="Search supplements or conditions" aria-autocomplete="list" aria-controls="bro-ac bro-list" aria-expanded="false">
+    <div class="gs-ac" id="bro-ac" role="listbox" aria-label="Search suggestions"></div>
+  </form>
+  <p class="bro-status" id="bro-status" role="status" aria-live="polite"></p>
+
+  <ul class="bro-list" id="bro-list">
     <li><a href="/supplement/oral-rehydration-salts.html">Oral rehydration salts (WHO formula)</a></li>
     <li><a href="/supplement/electrolyte-replacement.html">Electrolyte replacement (clinical)</a></li>
     <li><a href="/supplement/creatine-monohydrate.html">Creatine monohydrate</a></li>
@@ -369,5 +391,8 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 </script>
 </footer>
 <!-- SS_FOOTER_END -->
+<script src="/data.js?v=73269c9a" defer></script>
+<script src="/search-index.js?v=f025ae57" defer></script>
+<script src="/browse-search.js?v=ef548022" defer></script>
 </body>
 </html>
