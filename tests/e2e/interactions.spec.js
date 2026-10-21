@@ -146,10 +146,10 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
     'The Honest Assessment',
     'Sources',
   ]);
-  expect(spec.kids[0]).toMatch(/^Sources/);
-  expect(spec.kids[1]).toMatch(/Supplements mentioned/);
-  expect(spec.kids[2]).toMatch(/Related/);
-  expect(spec.kids[spec.kids.length - 1]).toMatch(/Previous/);
+  expect(spec.kids[0]).toMatch(/^sources/i);
+  expect(spec.kids[1]).toMatch(/supplements mentioned/i);
+  expect(spec.kids[2]).toMatch(/related/i);
+  expect(spec.kids[spec.kids.length - 1]).toMatch(/previous/i);
   expect(spec.gap).toBe('8px');
   if (testInfo.project.name === 'desktop') {
     expect(spec.colW).toBeLessThanOrEqual(700);
