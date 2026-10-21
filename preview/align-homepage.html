@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Homepage alignment preview — not live</title>
+<style>
+  :root {
+    --page: #ebe5d9;
+    --card: #f4efe6;
+    --surface: #f6f2ea;
+    --ink: #0c0a09;
+    --muted: #57534e;
+    --faint: #6b6560;
+    --line: #dcdad7;
+    --teal: #1F7A6B;
+    --teal-deep: #155A50;
+    --pad: 24px;
+    --gap: 32px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .note {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 16px 24px 0;
+    font-size: 13px;
+    color: var(--faint);
+  }
+  .audit {
+    max-width: 1024px;
+    margin: 8px auto 0;
+    padding: 0 24px 8px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .audit li { margin: 0 0 8px; }
+  .audit strong { color: var(--ink); }
+  .frame {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+  }
+  .stats {
+    margin: 0 0 16px;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--teal-deep);
+  }
+  .stats span { color: var(--faint); font-weight: 500; padding: 0 8px; }
+  h1 {
+    margin: 0 0 16px;
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -1.8px;
+    line-height: 1.04;
+  }
+  h1 span { color: var(--teal); }
+  .lede {
+    margin: 0 0 24px;
+    max-width: 62ch;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    margin: 0 0 32px;
+    padding: 0 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--faint);
+  }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .search input:focus { outline: none; }
+  .search:focus-within { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .mag {
+    margin: 0 0 32px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    touch-action: pan-y;
+  }
+  .mag-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px 32px;
+    padding: 24px 24px 8px;
+  }
+  .mag a { color: inherit; text-decoration: none; }
+  .mag-lead h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -.45px;
+    line-height: 1.15;
+  }
+  .mag-lead p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+  .mag-side { border-left: 1px solid var(--line); padding-left: 24px; }
+  .mag-side a { display: block; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .mag-side a:first-child { padding-top: 0; }
+  .mag-side a:last-child { border-bottom: 0; padding-bottom: 0; }
+  .mag-meta { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .mag-side h3 { margin: 8px 0 0; font-size: 16px; font-weight: 650; letter-spacing: -.2px; line-height: 1.3; }
+  .mag a:hover h2, .mag a:hover h3 { color: var(--teal-deep); }
+  .mag-pager {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px 8px;
+  }
+  .mag-arrow {
+    appearance: none;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--teal-deep);
+    font: inherit;
+    font-size: 22px;
+    font-weight: 650;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .mag-arrow:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .mag-count { font-size: 13px; color: var(--faint); font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: center; }
+  .sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  .bar {
+    display: flex;
+    height: 44px;
+    margin: 0 0 32px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .bar button {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 44px;
+    border: 0;
+    border-left: 1px solid var(--line);
+    background: transparent;
+    color: var(--teal-deep);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .bar button:first-child { border-left: 0; }
+  .bar button:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
+  .kicker {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--teal-deep);
+  }
+  .list-title { margin: 0 0 8px; font-size: 20px; font-weight: 700; letter-spacing: -.3px; line-height: 1.2; }
+  .list-dek { margin: 0 0 16px; max-width: 62ch; font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .card {
+    display: flex;
+    align-items: stretch;
+    margin: 0 0 8px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: inherit;
+    text-decoration: none;
+    min-height: 44px;
+  }
+  .score {
+    flex: 0 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--line);
+    color: var(--teal-deep);
+    font-size: 20px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .card-body { flex: 1; min-width: 0; padding: 16px; }
+  .card-top { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+  .card-name { font-size: 15px; font-weight: 650; }
+  .card-cats { font-size: 13px; color: var(--faint); }
+  .card-bot { display: flex; gap: 16px; margin-top: 8px; align-items: baseline; }
+  .card-desc { flex: 1; margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+  .card-note { flex: 0 1 46%; margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); font-weight: 500; }
+  .chev { flex: 0 0 44px; display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 18px; }
+  @media (max-width: 700px) {
+    .frame { padding: 16px 16px 32px; }
+    h1 { font-size: 40px; letter-spacing: -1.2px; }
+    .lede { font-size: 16px; margin-bottom: 24px; }
+    .mag-grid { grid-template-columns: 1fr; gap: 0; padding: 24px 16px 8px; }
+    .mag-side { border-left: 0; padding-left: 0; margin-top: 16px; border-top: 1px solid var(--line); }
+    .mag-side a:first-child { padding-top: 16px; }
+    .mag-lead h2 { font-size: 24px; }
+    .mag-pager { padding-left: 8px; }
+    .card-top, .card-bot { flex-direction: column; gap: 4px; }
+    .card-note { flex-basis: auto; }
+    .bar button { font-size: 13px; padding: 0 4px; }
+  }
+</style>
+</head>
+<body>
+<p class="note">Preview only. This page is not linked from the site and is not on the live homepage. Topics stay off this layout; they remain at /hub/.</p>
+<ol class="audit">
+  <li><strong>One column.</strong> The hero card, category bar, and ranked list currently use different widths. Here they share a 1024px column with a 24px gutter (16px on a phone).</li>
+  <li><strong>One left edge.</strong> Stats, headline, lede, search, hero card, category bar, list heading, and list cards start on the same line. The masthead is left-aligned with the list.</li>
+  <li><strong>8px vertical scale.</strong> 16px under the stats and headline, 24px under the lede, 32px between search, hero, category bar, and the ranked heading, 8px inside that heading, 16px before the first card, 8px between cards.</li>
+  <li><strong>Shared card chrome.</strong> Hero and list cards use 16px radius, a 1px #dcdad7 border, and #f4efe6. Hero padding is 24px.</li>
+  <li><strong>No “Lead” label.</strong> The larger title is the lead story.</li>
+  <li><strong>Quieter pager.</strong> ← and → sit on the text edge, 44px targets, no full-width rule.</li>
+  <li><strong>Interaction note is text.</strong> “Interacts:” uses the same secondary color as the description, not the red tag.</li>
+  <li><strong>Category bar.</strong> The same four segments, now 44px tall and the same radius and border as the cards.</li>
+</ol>
+
+<div class="frame" id="layout">
+  <p class="stats">780+ supplements <span>/</span> 3,200+ studies <span>/</span> 0 endorsements</p>
+  <h1>Know which<br><span>supplements</span><br>actually work.</h1>
+  <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non-profit.</p>
+  <form class="search" role="search" action="/search.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg>
+    <input type="search" name="q" placeholder="Search supplements, categories, or conditions…" aria-label="Search the index">
+  </form>
+
+  <section class="mag" id="hero" aria-label="Articles">
+    <div class="mag-grid">
+      <a class="mag-lead" href="a/the-10-most-dangerous-supplements-still-legally-sold.html">
+        <h2>The 10 Most Dangerous Supplements (Still Legally Sold)</h2>
+        <p>Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that’s just an FDA warning away from a recall.</p>
+      </a>
+      <div class="mag-side">
+        <a href="a/supplements-to-preserve-muscle-on-glp-1-drugs.html">
+          <span class="mag-meta">Jun 6, 2026 · 7 min</span>
+          <h3>Supplements to Preserve Muscle on Ozempic</h3>
+        </a>
+        <a href="a/supplements-for-kids-in-competitive-sports.html">
+          <span class="mag-meta">Jun 6, 2026 · 8 min</span>
+          <h3>Supplements for Kids in Competitive Sports</h3>
+        </a>
+      </div>
+    </div>
+    <div class="mag-pager" role="group" aria-label="Article rotation">
+      <button type="button" class="mag-arrow" data-dir="-1" aria-label="Previous article">←</button>
+      <span class="mag-count" id="mag-count">1 of 20</span>
+      <button type="button" class="mag-arrow" data-dir="1" aria-label="Next article">→</button>
+      <p class="sr" id="mag-live" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <div class="bar" role="group" aria-label="Search supplements by">
+    <button type="button">Goal</button>
+    <button type="button">Age &amp; Sex</button>
+    <button type="button">Symptom</button>
+    <button type="button">Research</button>
+  </div>
+
+  <p class="kicker">Ranked list</p>
+  <h2 class="list-title">Top 10 supplements by evidence score</h2>
+  <p class="list-dek">Highest evidence scores first. Show more reveals the rest of this ranked list, 10 at a time.</p>
+
+  <a class="card" href="/supplement/creatine-monohydrate.html">
+    <div class="score">96</div>
+    <div class="card-body">
+      <div class="card-top">
+        <span class="card-name">Creatine monohydrate</span>
+        <span class="card-cats">Performance · Cognition</span>
+      </div>
+      <div class="card-bot">
+        <p class="card-desc">The single most researched ergogenic supplement in existence, with over 500 RCTs confirming it raises phosphocreatine stores to increase strength, power output, and lean mass.</p>
+        <p class="card-note">Interacts: growth hormone / IGF-1 therapy</p>
+      </div>
+    </div>
+    <span class="chev" aria-hidden="true">›</span>
+  </a>
+  <a class="card" href="/supplement/vitamin-d3.html">
+    <div class="score">83</div>
+    <div class="card-body">
+      <div class="card-top">
+        <span class="card-name">Vitamin D3</span>
+        <span class="card-cats">Bone · Immunity</span>
+      </div>
+      <div class="card-bot">
+        <p class="card-desc">The preferred form of supplemental vitamin D. Converts more efficiently to active 25(OH)D than D2 in head-to-head trials.</p>
+        <p class="card-note">Interacts: thiazide diuretics</p>
+      </div>
+    </div>
+    <span class="chev" aria-hidden="true">›</span>
+  </a>
+</div>
+<script type="application/json" id="mag-articles">[{"title":"The 10 Most Dangerous Supplements (Still Legally Sold)","dek":"Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that’s just an FDA warning away from a recall.","meta":"May 9, 2026 · 4 min","href":"a/the-10-most-dangerous-supplements-still-legally-sold.html"},{"title":"Supplements to Preserve Muscle on Ozempic","dek":"Up to 40% of the weight lost on a GLP-1 drug can be muscle. Protein and resistance training do the heavy lifting — here’s exactly where creatine, HMB, vitamin D and omega-3 fit, and what to skip.","meta":"Jun 6, 2026 · 7 min","href":"a/supplements-to-preserve-muscle-on-glp-1-drugs.html"},{"title":"Supplements for Kids in Competitive Sports","dek":"For most young athletes, food, sleep and training beat anything in a tub — and the real risks are contamination and stimulants.","meta":"Jun 6, 2026 · 8 min","href":"a/supplements-for-kids-in-competitive-sports.html"},{"title":"Why “Detox” Supplements Are a $3 Billion Scam","dek":"Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.","meta":"Updated Mar 29, 2026 · 6 min","href":"a/why-detox-supplements-are-a-3-billion-scam.html"},{"title":"Berberine: Is It Really Nature’s Ozempic?","dek":"Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence.","meta":"Updated Mar 8, 2026 · 7 min","href":"a/berberine-is-it-really-nature-s-ozempic.html"},{"title":"The 10 Most Overhyped Supplements of 2026","dek":"The TikTok-to-trial-data gap, in 10 entries. Supplements with huge marketing budgets and thin clinical evidence.","meta":"May 12, 2026 · 4 min","href":"a/the-10-most-overhyped-supplements-of-2026.html"},{"title":"CDC Warning: Kava Poisoning Calls Have Climbed Sharply","dek":"The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024.","meta":"Updated Apr 24, 2026 · 6 min","href":"#article-4"},{"title":"The Cheapest Effective Supplements vs the Priciest Hyped Ones","dek":"$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence.","meta":"May 9, 2026 · 4 min","href":"a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html"},{"title":"NAD+ Precursors: Separating Hype from Longevity Evidence","dek":"NMN and NR are sold as anti-aging miracles. The mouse data is compelling — human trials are more nuanced.","meta":"Updated Apr 11, 2026 · 9 min","href":"a/nmn-and-nad-why-raising-a-biomarker-isn-t-the-same-as-slowing-aging.html"},{"title":"Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation","dek":"High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity.","meta":"Updated Apr 9, 2026 · 6 min","href":"a/turmeric-vs-curcumin-why-the-supplement-industry-misleads-you.html"},{"title":"12 Supplement Mistakes You Should Literally Never Make","dek":"Twelve mistakes with documented hospital outcomes — and the people who keep making them.","meta":"May 9, 2026 · 5 min","href":"a/12-supplement-mistakes-you-should-literally-never-make.html"},{"title":"Why Most Probiotic Supplements Don’t Actually Work","dek":"The probiotic market sells billions of CFUs that mostly die in stomach acid.","meta":"Updated Apr 14, 2026 · 8 min","href":"a/the-science-of-gut-health-beyond-probiotics.html"},{"title":"Collagen Peptides: Are You Paying $40 for Gelatin?","dek":"The skin and joint claims have more marketing than evidence behind them.","meta":"Updated Apr 2, 2026 · 7 min","href":"a/the-truth-about-collagen-supplements-what-13-clinical-trials-actually-show.html"},{"title":"Green Tea Extract: When ‘Healthy’ Damages Your Liver","dek":"High-dose EGCG extracts are tied to acute liver injury. Brewed tea is a different story.","meta":"Updated Apr 30, 2026 · 7 min","href":"a/green-tea-extract-and-liver-failure-what-you-need-to-know.html"},{"title":"Psyllium Husk: 100+ Clinical Trials and an FDA Health Claim","dek":"More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it.","meta":"Updated Apr 17, 2026 · 11 min","href":"#article-92"},{"title":"Creatine for Brain Health: What the New Meta-Analyses Actually Show","dek":"Two new meta-analyses confirm creatine improves memory in healthy adults. The effect is real, and smaller than the marketing.","meta":"Updated Apr 24, 2026 · 7 min","href":"a/creatine-for-brain-health-what-the-new-meta-analyses-actually-show.html"},{"title":"10 Supplements That Interact With the Most Prescription Drugs","dek":"St. John’s Wort, berberine, magnesium, melatonin — the supplements that interact with the most drug classes.","meta":"May 9, 2026 · 4 min","href":"a/10-supplements-that-interact-with-the-most-prescription-drugs.html"},{"title":"Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide","dek":"What the human trials actually show for the four forms people are sold.","meta":"Updated Apr 8, 2026 · 8 min","href":"a/magnesium-forms-explained-glycinate-vs-citrate-vs-threonate-vs-oxide.html"},{"title":"The 10 Supplements People Are Actually Deficient In","dek":"The nutrients where a pill fills a population-wide gap — not the trendy ones.","meta":"May 9, 2026 · 4 min","href":"a/the-10-supplements-people-are-actually-deficient-in.html"},{"title":"LMNT vs Liquid IV vs DIY: The Electrolyte Price War","dek":"Sodium-to-sugar ratios, cost per serving, and whether the same drink can be made at home.","meta":"Updated Apr 10, 2026 · 6 min","href":"a/electrolytes-for-athletes-science-vs-marketing.html"}]</script>
+<script>
+(function () {
+  var articles = JSON.parse(document.getElementById('mag-articles').textContent);
+  var hero = document.getElementById('hero');
+  var i = 0;
+  var lead = hero.querySelector('.mag-lead');
+  var sides = hero.querySelectorAll('.mag-side a');
+  var count = document.getElementById('mag-count');
+  var live = document.getElementById('mag-live');
+  function fill(el, a) {
+    el.setAttribute('href', a.href);
+    var h = el.querySelector('h2, h3');
+    if (h) h.textContent = a.title;
+    var p = el.querySelector('p');
+    if (p) p.textContent = a.dek || '';
+    var m = el.querySelector('.mag-meta');
+    if (m) m.textContent = a.meta || '';
+  }
+  function show(n) {
+    i = (n % articles.length + articles.length) % articles.length;
+    fill(lead, articles[i]);
+    fill(sides[0], articles[(i + 1) % articles.length]);
+    fill(sides[1], articles[(i + 2) % articles.length]);
+    count.textContent = (i + 1) + ' of ' + articles.length;
+    live.textContent = 'Showing ' + (i + 1) + ' of ' + articles.length + '. ' + articles[i].title;
+  }
+  hero.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.mag-arrow');
+    if (!btn) return;
+    e.preventDefault();
+    show(i + (Number(btn.getAttribute('data-dir')) || 1));
+  });
+  hero.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+  });
+  var swipe = null;
+  hero.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('button')) return;
+    swipe = { x: e.clientX, y: e.clientY };
+  });
+  hero.addEventListener('pointerup', function (e) {
+    if (!swipe) return;
+    var dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+    swipe = null;
+    if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
+    show(i + (dx < 0 ? 1 : -1));
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>
