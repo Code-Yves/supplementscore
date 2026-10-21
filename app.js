@@ -5156,7 +5156,7 @@ function _dd(id,label,opts,onSelect){
     <div class="cdd-menu" id="${id}-menu">${opts.map(o=>`<div class="cdd-item" data-val="${o.val}" onclick="${onSelect}('${o.val}');closeDD('${id}')">${o.label}</div>`).join('')}</div>
   </div>`;
 }
-function toggleDD(id){const m=document.getElementById(id+'-menu');if(!m)return;const open=m.classList.toggle('open');if(open){document.querySelectorAll('.cdd-menu.open').forEach(x=>{if(x.id!==id+'-menu')x.classList.remove('open');});}const wrap=document.getElementById(id+'-wrap');if(wrap)wrap.classList.toggle('cdd-open',open);}
+function toggleDD(id){const m=document.getElementById(id+'-menu');if(!m)return;const open=m.classList.toggle('open');document.querySelectorAll('.cdd-menu.open').forEach(x=>{if(x.id!==id+'-menu')x.classList.remove('open');});document.querySelectorAll('.cdd.cdd-open').forEach(w=>{if(w.id!==id+'-wrap')w.classList.remove('cdd-open');});const wrap=document.getElementById(id+'-wrap');if(wrap)wrap.classList.toggle('cdd-open',open);if(open){document.querySelectorAll('.cdd-btn').forEach(b=>{if(!wrap||!wrap.contains(b))b.blur();});}}
 function closeDD(id){document.getElementById(id+'-menu').classList.remove('open');document.getElementById(id+'-wrap').classList.remove('cdd-open');}
 function _ddLabel(id,txt){const lbl=document.querySelector('#'+id+'-wrap .cdd-lbl');if(lbl)lbl.textContent=txt;}
 function _ddActive(id){document.querySelectorAll('.cdd-btn').forEach(b=>b.classList.remove('on'));if(!id)return;const btn=document.querySelector('#'+id+'-wrap .cdd-btn');if(btn)btn.classList.add('on');}

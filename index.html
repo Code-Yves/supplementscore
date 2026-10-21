@@ -564,11 +564,30 @@ input,button{font-family:inherit}
   #main-sticky #sfbar-main .cdd-open > .cdd-btn .cdd-lbl{color:#f6f2ea !important}
   .pg-close-fab:hover,.ss-pagebar-x:hover,.rc-close:hover{transform:none !important}
 }
+/* One teal segment. An open menu wins over a saved selection and over
+   :hover, :active, or :focus left on another segment. Closing the menu
+   drops .cdd-open, so only .on (or nothing) is teal again. */
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn:focus-visible,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:hover,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:active,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on:focus-visible{
+  background:#f6f2ea !important;background-color:#f6f2ea !important;background-image:none !important;
+  color:#1F7A6B !important;box-shadow:none !important;filter:none !important;outline-color:transparent !important;
+}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn .cdd-lbl,
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open) > .cdd-btn.on .cdd-lbl{color:#1F7A6B !important}
+#main-sticky #sfbar-main:has(.cdd-open) > .cdd:not(.cdd-open):has(> .cdd-btn) + .cdd > .cdd-btn{border-left-color:#bad0c6 !important}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
 </style>
 <link rel="preload" href="/styles.css?v=e4a10d2a" as="style">
-<link rel="preload" href="index.css?v=8fd9e12e" as="style">
+<link rel="preload" href="index.css?v=a2a90ba3" as="style">
 <script>
 /* Apply the full sheets as real stylesheets. Not media=print. */
 (function(){
@@ -579,12 +598,12 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
     document.head.appendChild(link);
   }
   load('/styles.css?v=e4a10d2a');
-  load('index.css?v=8fd9e12e');
+  load('index.css?v=a2a90ba3');
 })();
 </script>
 <noscript>
 <link rel="stylesheet" href="/styles.css?v=e4a10d2a">
-<link rel="stylesheet" href="index.css?v=8fd9e12e">
+<link rel="stylesheet" href="index.css?v=a2a90ba3">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
@@ -4661,7 +4680,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'home-decor.js?v=4cc4ab9c',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
-    'app.js?v=e46d3a1a',
+    'app.js?v=4504c001',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
