@@ -1061,9 +1061,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         (function () {
           var longPh = 'Search supplements, research, conditions\u2026';
           var shortPh = 'Supplements, research, conditions';
-          var mq = window.matchMedia('(max-width: 600px)');
+          var narrowPh = 'Supplements, research';
+          var phone = window.matchMedia('(max-width: 600px)');
+          var narrow = window.matchMedia('(max-width: 359px)');
           function sync() {
-            var text = mq.matches ? shortPh : longPh;
+            var text = narrow.matches ? narrowPh : phone.matches ? shortPh : longPh;
             ['ix-hero-search', 'ix-sticky-search'].forEach(function (id) {
               var el = document.getElementById(id);
               if (!el) return;
@@ -1072,7 +1074,8 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
             });
           }
           sync();
-          if (mq.addEventListener) mq.addEventListener('change', sync);
+          if (phone.addEventListener) phone.addEventListener('change', sync);
+          if (narrow.addEventListener) narrow.addEventListener('change', sync);
         })();
       </script>
       <div class="gs-ac" id="ix-sticky-ac" role="listbox" aria-label="Search suggestions"></div>
