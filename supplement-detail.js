@@ -216,7 +216,13 @@
   /* Only treat as modal chrome when ACTUALLY framed (inside the .ssm iframe).
      A top-level tab opened/shared with ?modal=1 must keep its own X/Share FABs,
      otherwise the user is stranded with no close/share control (fixed 2026-06-06). */
-  if (p.get('modal') === '1' && window.self !== window.top) document.body.classList.add('is-modal');
+  if (p.get('modal') === '1' && window.self !== window.top) {
+    document.body.classList.add('is-modal');
+    var modalMain = document.querySelector('main.det-wrap');
+    if (modalMain && !modalMain.getAttribute('aria-label')) modalMain.setAttribute('aria-label', 'Supplement detail');
+    var modalFooter = document.querySelector('footer.site-footer');
+    if (modalFooter) modalFooter.setAttribute('hidden', '');
+  }
   /* window.__ART_MANIFEST is set synchronously by a/manifest.js (loaded above)
      so the Sources & further reading renderer below can use it immediately. */
 

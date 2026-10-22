@@ -150,29 +150,128 @@
   armPrintSheets();
   window.addEventListener('pageshow', armPrintSheets);
 
+  /* About / Methodology / Transparency (and any other same-page hash on
+     that screen) must not push a history entry. × and Back were popping
+     those hashes one at a time, so the overlay stayed open on the previous
+     tab. replaceState keeps a single entry for the page itself. */
+  var hashHops = 0;
+  var ignoreHash = 0;
+  window.addEventListener('hashchange', function(){
+    if (ignoreHash) { ignoreHash--; return; }
+    hashHops++;
+  });
+  function replacePageHash(id){
+    var next = location.pathname + location.search + (id ? '#' + id : '');
+    if ((location.pathname + location.search + location.hash) === next) return;
+    ignoreHash++;
+    try { history.replaceState(history.state, '', next); } catch (e) { ignoreHash = Math.max(0, ignoreHash - 1); }
+    try { window.dispatchEvent(new HashChangeEvent('hashchange')); } catch (e2) {}
+  }
   document.addEventListener('click', function(ev){
-    var el = ev.target && ev.target.closest && ev.target.closest('a.rc-close, a.pg-close-fab, a.reader-close-fab, a.ss-pagebar-x, a.hub-close-fab, a.d-close-fab, a.bro-close-fab, a.cmp-close-fab');
+    if (!document.querySelector('.ab-jump')) return;
+    if (ev.defaultPrevented) return;
+    if (ev.button || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target && ev.target.closest && ev.target.closest('a[href]');
+    if (!a || a.classList.contains('ss-pagebar-x')) return;
+    var url;
+    try { url = new URL(a.href, location.href); } catch (e) { return; }
+    if (url.origin !== location.origin) return;
+    if (url.pathname !== location.pathname || url.search !== location.search) return;
+    var id = '';
+    try { id = decodeURIComponent((url.hash || '').replace(/^#/, '')); } catch (e2) { id = (url.hash || '').replace(/^#/, ''); }
+    if (!id || !document.getElementById(id)) return;
+    ev.preventDefault();
+    var target = document.getElementById(id);
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try { target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); } catch (e3) {}
+    replacePageHash(id);
+  }, true);
+
+  var CLOSE_SEL = 'a.rc-close, a.pg-close-fab, a.reader-close-fab, a.ss-pagebar-x, a.hub-close-fab, a.d-close-fab, a.bro-close-fab, a.cmp-close-fab';
+
+  function leaveDocument(dest){
+    var path = location.pathname + location.search;
+    var start = location.href;
+    var steps = hashHops > 0 ? Math.min(hashHops + 1, 6) : 1;
+    hashHops = 0;
+    if (!sameSite(document.referrer)) {
+      location.href = dest;
+      return;
+    }
+    try { history.go(-steps); } catch (e) { location.href = dest; return; }
+    setTimeout(function(){
+      var sameDoc = (location.pathname + location.search) === path;
+      if (location.href !== start && !sameDoc) return;
+      if (sameDoc && sameSite(document.referrer)) {
+        var again = location.href;
+        try { history.back(); } catch (e2) { location.href = dest; return; }
+        setTimeout(function(){
+          if (location.href === again || (location.pathname + location.search) === path) location.href = dest;
+        }, 300);
+        return;
+      }
+      location.href = dest;
+    }, 450);
+  }
+
+  function runClose(el){
     if (!el) return;
     var fb = el.getAttribute('data-ss-fallback') || closeFallback();
     var href = el.getAttribute('href');
     if (!href || href === '#' || href === '#/') el.setAttribute('href', fb);
     var dest = el.href || fb;
-    ev.stopImmediatePropagation();
     var framed = false;
     try { framed = window.self !== window.top; } catch (e) { framed = true; }
     if (framed && el.classList.contains('rc-close')){
-      ev.preventDefault();
-      try { window.parent.postMessage({ type: 'rc-close' }, '*'); } catch (e) {}
-      setTimeout(function(){ if (location.href === dest) return; try { if (window.self !== window.top) location.href = dest; } catch (e2) {} }, 400);
+      try { window.parent.postMessage({ type: 'rc-close' }, '*'); } catch (e2) {}
+      setTimeout(function(){ if (location.href === dest) return; try { if (window.self !== window.top) location.href = dest; } catch (e3) {} }, 400);
       return;
     }
-    if (sameSite(document.referrer)){
-      ev.preventDefault();
-      var start = location.href;
-      history.back();
-      setTimeout(function(){ if (location.href === start) location.href = dest; }, 450);
-    }
+    leaveDocument(dest);
+  }
+
+  document.addEventListener('click', function(ev){
+    var el = ev.target && ev.target.closest && ev.target.closest(CLOSE_SEL);
+    if (!el) return;
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
+    runClose(el);
   }, true);
+
+  function visibleClose(){
+    var list = document.querySelectorAll(CLOSE_SEL);
+    for (var i = 0; i < list.length; i++) {
+      var el = list[i];
+      if (el.closest('[hidden]')) continue;
+      var cs = window.getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      var r = el.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) continue;
+      return el;
+    }
+    return null;
+  }
+  document.addEventListener('keydown', function(ev){
+    if (ev.key !== 'Escape' || ev.defaultPrevented) return;
+    if (document.querySelector('.cdd-menu.open, .cdd-open')) return;
+    var src = document.getElementById('sources-modal');
+    if (src && src.classList.contains('open')) {
+      ev.preventDefault();
+      src.classList.remove('open');
+      return;
+    }
+    var fb = document.getElementById('fb-modal');
+    if (fb && fb.classList.contains('open')) {
+      ev.preventDefault();
+      if (typeof window.closeFeedback === 'function') window.closeFeedback();
+      else fb.classList.remove('open');
+      return;
+    }
+    var el = visibleClose();
+    if (!el) return;
+    ev.preventDefault();
+    runClose(el);
+  });
 
   /* ---------- iframe-context detection (2026-05-18) ----------
      When this page is rendered inside the supplement-modal iframe (.ssm)
@@ -193,13 +292,13 @@
   /* ---------- shared style block ---------- */
   var css = ''
     /* back-to-top */
-  + '.ssux-top{position:fixed;right:18px;bottom:18px;width:42px;height:42px;border-radius:50%;'
-  + 'background:var(--color-brand,#155A50);color:#F8F4ED;border:none;cursor:pointer;'
+  + '.ssux-top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;min-width:44px;min-height:44px;max-width:44px;max-height:44px;'
+  + 'box-sizing:border-box;border-radius:50%;background:#fff;color:#155A50;border:0;cursor:pointer;'
   + 'display:none;align-items:center;justify-content:center;z-index:80;'
-  + 'box-shadow:0 6px 18px rgba(15,91,80,.32);transition:transform .15s,background .15s,opacity .2s;'
+  + 'box-shadow:0 0 0 1px #155A50,0 6px 18px rgba(15,91,80,.28);transition:transform .15s,color .15s,opacity .2s;'
   + 'opacity:0;font-family:inherit}'
   + '.ssux-top.show{display:flex;opacity:1}'
-  + '.ssux-top:hover{transform:translateY(-2px);background:#155b50}'
+  + '.ssux-top:hover{transform:translateY(-2px);background:#fff;color:#0f3d36}'
   + '.ssux-top svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'
     /* reading progress */
   + '.ssux-rp{position:fixed;top:0;left:0;height:3px;width:0;'
@@ -328,10 +427,70 @@
   + '.ssa-body{flex:1;padding:0;overflow:visible}'
   + '.ssa-body .ar-wrap{max-width:none;margin:0;padding:24px 28px 56px}'
   + '@media(max-width:600px){.ssa-modal{padding:0}.ssa-pane{border-radius:0;border:none;min-height:100vh;max-width:100%}'
-  +   '.ssa-chrome{border-radius:0}.ssa-body .ar-wrap{padding:16px 16px 40px}}';
+  +   '.ssa-chrome{border-radius:0}.ssa-body .ar-wrap{padding:16px 16px 40px}}'
+    /* One close control: 44px round ×. The ring is a shadow, not a border,
+       so the border box stays exactly 44px (a 1px border snaps to 43.998). */
+  + '.ss-x{width:44px !important;height:44px !important;min-width:44px !important;min-height:44px !important;'
+  +   'max-width:44px !important;max-height:44px !important;'
+  +   'border-radius:50% !important;background:var(--color-background-primary,#fff) !important;'
+  +   'border:0 !important;'
+  +   'box-shadow:0 0 0 1px #d6d3d1,0 2px 12px rgba(0,0,0,.14) !important;color:var(--color-text-secondary,#57534e) !important;'
+  +   'padding:0 !important;box-sizing:border-box !important;flex-shrink:0 !important;'
+  +   'display:inline-flex;align-items:center;justify-content:center;text-decoration:none;'
+  +   'line-height:0;cursor:pointer;font-size:0 !important;transform:none !important}'
+  + '.ss-x:hover,.ss-x:active{transform:none !important;color:var(--color-text-primary,#0c0a09) !important}'
+  + '.ss-x svg{width:18px !important;height:18px !important;display:block !important;flex:none}'
+  + 'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
+  + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab,html:not(.ss-in-iframe) a.ss-x.rc-close{'
+  +   'position:fixed !important;top:8px !important;right:16px !important;z-index:80 !important}'
+  + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab svg{width:18px !important;height:18px !important}'
+  + 'html.rc-chrome-active a.ss-x.reader-close-fab,html.rc-chrome-active a.ss-x.pg-close-fab{display:none !important}'
+  + 'body:has(.ss-pagebar) a.ss-x.pg-close-fab,body:has(.ss-pagebar) a.ss-x.hub-close-fab,'
+  + 'body:has(.ss-pagebar) a.ss-x.bro-close-fab,body:has(.ss-pagebar) a.ss-x.cmp-close-fab,'
+  + 'body:has(.ss-pagebar) a.ss-x.d-close-fab{display:none !important}'
+    /* Phone: every corner × sits 8px from the top and 16px from the right. */
+  + '@media(max-width:768px){'
+  +   'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
+  +   'html:not(.ss-in-iframe) a.ss-x.rc-close{'
+  +     'position:fixed !important;top:8px !important;right:16px !important;z-index:80 !important}'
+  +   'button.pg-share-fab{top:8px !important;right:68px !important;width:44px !important;height:44px !important;'
+  +     'min-width:44px !important;min-height:44px !important;padding:0 !important;border-radius:50% !important}'
+  +   'html.rc-chrome-active:not(.ss-in-iframe) main .rc-top{padding-right:68px !important}'
+  + '}'
+  + 'body.is-modal>footer.site-footer{display:none !important}'
+  + 'nav.ss-page-actions{position:absolute;width:0;height:0;margin:0;padding:0;border:0;overflow:visible}';
   var styleEl = document.createElement('style');
   styleEl.textContent = css;
   document.head.appendChild(styleEl);
+
+  var XSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  var PAINT_SEL = CLOSE_SEL + ', button.ssm-x, button.art-modal-close, button.src-modal-close';
+  function paintCloses(root){
+    var nodes = [];
+    if (root && root.nodeType === 1 && root.matches && root.matches(PAINT_SEL)) nodes.push(root);
+    var scope = root && root.querySelectorAll ? root : document;
+    if (scope.querySelectorAll) nodes = nodes.concat(Array.prototype.slice.call(scope.querySelectorAll(PAINT_SEL)));
+    nodes.forEach(function(el){
+      el.classList.add('ss-x');
+      if (el.querySelector('svg')) return;
+      el.textContent = '';
+      el.insertAdjacentHTML('afterbegin', XSVG);
+    });
+  }
+  function startPaint(){
+    paintCloses(document);
+    if (!document.body || !window.MutationObserver) return;
+    var obs = new MutationObserver(function(recs){
+      recs.forEach(function(rec){
+        Array.prototype.forEach.call(rec.addedNodes || [], function(n){
+          if (n.nodeType === 1) paintCloses(n);
+        });
+      });
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
+  if (document.body) startPaint();
+  else document.addEventListener('DOMContentLoaded', startPaint);
 
   /* ---------- back-to-top button ---------- */
   function initBackToTop(){
@@ -667,6 +826,8 @@
     initRecentlyViewedStrip();
     initBreadcrumbs();
     initShareFab();
+    placePageActions();
+    nameModalMain();
     /* 2026-05-24 — belt-and-braces: also remove any pre-existing
        .ssux-handout buttons in case an older cached page injected one. */
     try {
@@ -745,6 +906,37 @@
     /* Insert BEFORE the close FAB in DOM so screen readers hit Share
        first (matches the article modal's Share→Close order). */
     closeFab.parentNode.insertBefore(btn, closeFab);
+  }
+
+  /* The supplement close (and its share control) are body-level, so they
+     sit outside every landmark. A zero-size nav keeps them in the
+     accessibility tree without taking layout space. Fixed children still
+     position against the viewport. */
+  function placePageActions(){
+    if (document.querySelector('nav.ss-page-actions')) return;
+    if (!document.body || document.body.classList.contains('is-modal')) return;
+    var closeFab = document.querySelector('.pg-close-fab, .reader-close-fab');
+    if (!closeFab) return;
+    if (closeFab.closest('main, nav, header, footer, [role="main"], [role="navigation"]')) return;
+    var share = document.querySelector('.pg-share-fab');
+    var nav = document.createElement('nav');
+    nav.className = 'ss-page-actions';
+    nav.setAttribute('aria-label', 'Page');
+    var before = (share && share.parentNode === closeFab.parentNode) ? share : closeFab;
+    closeFab.parentNode.insertBefore(nav, before);
+    if (share && share.parentNode === nav.parentNode) nav.appendChild(share);
+    nav.appendChild(closeFab);
+  }
+
+  /* The supplement card iframe repeats the page's unnamed main and footer.
+     Name this main and hide the footer (the stylesheet also hides it) so
+     the open card is not a second copy of those landmarks. */
+  function nameModalMain(){
+    if (!document.body || !document.body.classList.contains('is-modal')) return;
+    var main = document.querySelector('main.det-wrap');
+    if (main && !main.getAttribute('aria-label')) main.setAttribute('aria-label', 'Supplement detail');
+    var footer = document.querySelector('footer.site-footer');
+    if (footer) footer.setAttribute('hidden', '');
   }
 
   function _copyShareUrl(url){
