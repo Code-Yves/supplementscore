@@ -89,6 +89,16 @@
     .ab-rev-row{font-size:13.5px;line-height:1.5;margin-bottom:8px}
     .ab-rev-date{display:block;color:var(--color-text-tertiary);font-variant-numeric:tabular-nums;margin-bottom:2px}
     .pg-share-fab,.pg-share-toast{display:none !important}
+    /* Body padding is already 0 on this page. The shared footer bleed
+       (width calc(100% + 2rem) and a -1rem margin) then sticks out: 1px
+       once the scrollbar gutter is reserved, and 16px on a 390px phone. */
+    body:has(main.ab-wrap) > footer.site-footer{
+      width:100%;
+      max-width:100%;
+      margin-left:0;
+      margin-right:0;
+      box-sizing:border-box;
+    }
     @media (min-width:640px){
       .ab-rev-row{display:grid;grid-template-columns:108px 1fr;gap:12px}
       .ab-rev-date{margin-bottom:0}

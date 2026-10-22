@@ -10,6 +10,95 @@ test.beforeEach(async ({ page }) => {
   await install(page);
 });
 
+test('homepage search placeholder stays inside the field', async ({ page }, testInfo) => {
+  await goto(page, '/');
+  await page.waitForSelector('#ix-hero-search');
+  const phone = testInfo.project.name === 'iphone';
+  const expected = phone
+    ? 'Supplements, research, conditions'
+    : 'Search supplements, research, conditions…';
+  const box = await page.evaluate(() => {
+    function field(id) {
+      const input = document.getElementById(id);
+      const ph = getComputedStyle(input, '::placeholder');
+      const cs = getComputedStyle(input);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.font = ph.fontStyle + ' ' + ph.fontWeight + ' ' + ph.fontSize + ' ' + ph.fontFamily;
+      const text = input.getAttribute('placeholder') || '';
+      const width = ctx.measureText(text).width;
+      const avail = input.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const icon = input.parentElement.querySelector('.ico');
+      const iconBox = icon.getBoundingClientRect();
+      const inputBox = input.getBoundingClientRect();
+      const pad = parseFloat(cs.paddingLeft);
+      return {
+        text,
+        aria: input.getAttribute('aria-label'),
+        color: ph.color,
+        width,
+        avail,
+        fits: width <= avail + 0.5,
+        icon: {
+          w: iconBox.width,
+          h: iconBox.height,
+          color: getComputedStyle(icon).color,
+          inPad: iconBox.left >= inputBox.left && iconBox.right <= inputBox.left + pad + 1,
+        },
+      };
+    }
+    return { hero: field('ix-hero-search'), sticky: field('ix-sticky-search') };
+  });
+  expect(box.hero.text).toBe(expected);
+  expect(box.hero.aria).toBe(expected);
+  expect(box.hero.color).toBe('rgb(107, 101, 96)');
+  expect(box.hero.fits, JSON.stringify(box.hero)).toBe(true);
+  expect(box.hero.icon.w).toBeGreaterThanOrEqual(14);
+  expect(box.hero.icon.h).toBeGreaterThanOrEqual(14);
+  expect(box.hero.icon.color).toBe('rgb(87, 83, 78)');
+  expect(box.hero.icon.inPad, JSON.stringify(box.hero.icon)).toBe(true);
+  expect(box.sticky.text).toBe(expected);
+  expect(box.sticky.aria).toBe(expected);
+});
+
+test('homepage search placeholder fits at 320', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop');
+  async function fields() {
+    return page.evaluate(() => {
+      function field(id) {
+        const input = document.getElementById(id);
+        const ph = getComputedStyle(input, '::placeholder');
+        const cs = getComputedStyle(input);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.font = ph.fontStyle + ' ' + ph.fontWeight + ' ' + ph.fontSize + ' ' + ph.fontFamily;
+        const text = input.getAttribute('placeholder') || '';
+        const width = ctx.measureText(text).width;
+        const avail = input.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        return { text, aria: input.getAttribute('aria-label'), width, avail, fits: width <= avail + 0.5 };
+      }
+      return { hero: field('ix-hero-search'), sticky: field('ix-sticky-search') };
+    });
+  }
+  await page.setViewportSize({ width: 320, height: 700 });
+  await goto(page, '/');
+  await page.waitForSelector('#ix-hero-search');
+  const narrow = await fields();
+  expect(narrow.hero.text).toBe('Supplements, research');
+  expect(narrow.hero.aria).toBe(narrow.hero.text);
+  expect(narrow.sticky.text).toBe('Supplements, research');
+  expect(narrow.sticky.aria).toBe(narrow.sticky.text);
+  expect(narrow.hero.fits, JSON.stringify(narrow.hero)).toBe(true);
+
+  await page.setViewportSize({ width: 360, height: 700 });
+  await page.waitForFunction(() => document.getElementById('ix-hero-search').getAttribute('placeholder') === 'Supplements, research, conditions');
+  const mid = await fields();
+  expect(mid.hero.text).toBe('Supplements, research, conditions');
+  expect(mid.hero.aria).toBe(mid.hero.text);
+  expect(mid.sticky.text).toBe(mid.hero.text);
+  expect(mid.hero.fits, JSON.stringify(mid.hero)).toBe(true);
+});
+
 test('search opens the matching supplement', async ({ page }) => {
   const errors = trackConsole(page);
   await goto(page, '/');
@@ -141,12 +230,12 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   expect(spec.side, 'side column removed').toBe(false);
   expect(spec.summary).toBe('On this page');
   expect(spec.tocLinks).toEqual([
-    'Bottom line',
     'What Berberine Actually Is',
     'The Clinical Evidence: Real But Limited',
     'Limitations and Safety Considerations',
     'The Honest Assessment',
     'Sources',
+    'Supplements mentioned',
   ]);
   expect(spec.kids[0]).toMatch(/^sources/i);
   expect(spec.kids[1]).toMatch(/supplements mentioned/i);
@@ -195,10 +284,7 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   });
   expect(bergamot.dek).toBe('Bergamot (Citrus bergamia), a Calabrian citrus, contains flavonoids that act like very mild plant statins.');
   expect(bergamot.intro, 'intro stays in the column').toBe(true);
-  expect(bergamot.mentioned.some((name) => /bergamot/i.test(name))).toBe(true);
-  for (const extra of ['Lactobacillus rhamnosus GG', 'Lactobacillus gasseri', 'L-Carnitine', 'Kaempferol']) {
-    expect(bergamot.mentioned, 'mentioned drops related-article supplements').not.toContain(extra);
-  }
+  expect(bergamot.mentioned).toEqual(['Bergamot']);
   expect(bergamot.pad, 'mentioned list indent').toBe('0px');
   expect(Math.abs(bergamot.flush), 'mentioned list flush with the column').toBeLessThanOrEqual(1);
   expect(bergamot.share, 'share icon stays').toBe(true);

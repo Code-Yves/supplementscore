@@ -276,7 +276,7 @@
       + 'html.rc-chrome-active main.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sx-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.ca-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sk-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:18px;line-height:1.6;color:#0c0a09}'
       + 'html.rc-chrome-active .ar-titleblock h1{text-wrap:balance;max-width:22em}'
       + 'html.rc-chrome-active .ar-titleblock .ar-kicker{margin:0 0 8px;color:#155A50;font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1.4}'
-      + 'html.rc-chrome-active .ar-titleblock .ar-dek{margin:0 0 8px;font-size:18px;line-height:1.6;color:#0c0a09}'
+      + 'html.rc-chrome-active .ar-titleblock .ar-dek{margin:0 0 8px;font-size:18px;line-height:1.6;color:#0c0a09;text-wrap:balance}'
       + 'html.rc-chrome-active .ar-titleblock .ar-byline{margin:0 0 16px;font-size:14px;line-height:1.5;color:#57534e}'
       + 'html.rc-chrome-active .ar-byline a{color:#155A50;text-decoration:underline;text-underline-offset:2px}'
       + 'html.rc-chrome-active .ar-toc{width:200px;max-width:200px;box-sizing:border-box}'
@@ -292,6 +292,7 @@
       + 'html.rc-chrome-active .ssux-toc,html.rc-chrome-active .mag-side,html.rc-chrome-active #hero.mag{display:none}'
       + '@media(min-width:901px){'
       + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{display:grid;grid-template-columns:200px minmax(0,700px);column-gap:32px;align-items:start;justify-content:start}'
+      + 'html.rc-chrome-active main.ar-wrap.ar-no-toc>.ar-column{grid-column:2}'
       + 'html.rc-chrome-active main.ar-wrap>.ar-toc,html.rc-chrome-active main.sx-wrap>.ar-toc,html.rc-chrome-active main.ca-wrap>.ar-toc,html.rc-chrome-active main.sk-wrap>.ar-toc{position:sticky;top:24px;align-self:start;width:200px}'
       + '}'
       + '@media(max-width:900px){'
@@ -435,9 +436,9 @@
     return out;
   }
   var h2s = collectBodyHeadings('h2');
-  /* If a page has zero h2s in its body, fall back to h3s (e.g. older /a/
-     templates where every section is an h3). */
-  if (h2s.length === 0){
+  /* Article contents use real h2 sections only. Other templates still fall
+     back to h3s when a page never uses h2. */
+  if (!wrap.classList.contains('ar-wrap') && h2s.length === 0){
     h2s = collectBodyHeadings('h3');
   }
 
@@ -876,57 +877,82 @@
     return found;
   }
 
-  function normName(s){
-    return (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
-  }
-  /* Supplements mentioned is this article's own list. The generated
-     #ss-mentioned nav also matches names inside Related article titles;
-     those are not supplements the article discusses. */
-  function filterOwnSupplements(nav){
-    if (!nav || !wrap.classList.contains('ar-wrap')) return nav;
-    var clone = wrap.cloneNode(true);
-    clone.querySelectorAll('.ar-related, .ca-related, .sx-related, .sk-related, .rc-aend, .ss-mentioned').forEach(function(n){
-      if (n.parentNode) n.parentNode.removeChild(n);
-    });
-    var body = normName(clone.innerText || clone.textContent || '');
-    var titles = [];
-    var related = aendByLabel('related articles');
-    if (related){
-      related.querySelectorAll('.rc-rel-title').forEach(function(n){
-        var t = normName(n.textContent);
-        if (t) titles.push(t);
-      });
-    }
-    var list = nav.querySelector('ul');
-    if (!list) return nav;
-    [].slice.call(list.querySelectorAll('li')).forEach(function(li){
-      var a = li.querySelector('a');
-      var name = normName(a ? a.textContent : li.textContent);
+  /* Supplements mentioned is rebuilt from supplement links in the article
+     body. Related blocks and the generated #ss-mentioned nav are not sources. */
+  function mentionedFromBody(){
+    var seen = {};
+    var items = [];
+    wrap.querySelectorAll('a[href]').forEach(function(a){
+      if (a.closest('.rc-aend, .ar-related, .ca-related, .sx-related, .sk-related, .ss-mentioned')) return;
+      var href = a.getAttribute('href') || '';
+      var slug = slugFromHref(href);
+      if (!slug || seen[slug]) return;
+      var name = (a.textContent || '').replace(/\s+/g, ' ').trim();
       if (!name) return;
-      if (body.indexOf(name) !== -1) return;
-      var fromRelated = titles.some(function(t){ return t.indexOf(name) !== -1; });
-      if (fromRelated && li.parentNode) li.parentNode.removeChild(li);
+      seen[slug] = true;
+      items.push({ href: href, name: name });
     });
-    if (!list.querySelector('li')){
-      if (nav.parentNode) nav.parentNode.removeChild(nav);
+    var nav = document.getElementById('ss-mentioned');
+    if (!items.length){
+      if (nav && nav.parentNode) nav.parentNode.removeChild(nav);
       return null;
     }
-    var label = nav.querySelector('.ss-mentioned-k, h2');
-    if (label){
-      var next = document.createElement('div');
-      next.className = 'ss-mentioned-k rc-aend-k';
-      next.textContent = (label.textContent || '').replace(/[.\s]+$/, '');
-      label.parentNode.replaceChild(next, label);
+    if (!nav){
+      nav = document.createElement('nav');
+      nav.id = 'ss-mentioned';
+      nav.setAttribute('aria-label', 'Supplements mentioned');
+      wrap.appendChild(nav);
     }
+    nav.className = 'ss-mentioned';
+    nav.innerHTML = '';
+    var label = document.createElement('div');
+    label.className = 'ss-mentioned-k rc-aend-k';
+    label.textContent = 'Supplements mentioned';
+    nav.appendChild(label);
+    var ul = document.createElement('ul');
+    items.forEach(function(item){
+      var li = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = item.href;
+      link.textContent = item.name;
+      li.appendChild(link);
+      ul.appendChild(li);
+    });
+    nav.appendChild(ul);
+    applyDisplayNames(nav);
     return nav;
   }
 
+  /* Body links are often the lowercase slug ("omega-3"). The mentioned
+     list uses the supplement's display name once the catalog loads.
+     A label that is already proper case stays as written. */
+  function applyDisplayNames(nav){
+    if (!nav) return;
+    loadSupplementMeta().then(function(meta){
+      nav.querySelectorAll('a[href]').forEach(function(a){
+        var slug = slugFromHref(a.getAttribute('href') || '');
+        var label = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        var display = slug && meta[slug] && meta[slug].name;
+        if (display && label && label === label.toLowerCase()) a.textContent = display;
+      });
+      nav.setAttribute('data-names', 'display');
+    });
+  }
+
+  function filterOwnSupplements(nav){
+    if (!wrap.classList.contains('ar-wrap')) return nav;
+    return mentionedFromBody();
+  }
+
   function buildReadingColumn(){
+    var article = wrap.classList.contains('ar-wrap');
     var items = [];
-    var bl = wrap.querySelector('.ar-bottomline, .rc-bl, .bl');
-    if (bl){
-      if (!bl.id) bl.id = 'bottom-line';
-      items.push({ id: bl.id, label: 'Bottom line' });
+    if (!article){
+      var bl = wrap.querySelector('.ar-bottomline, .rc-bl, .bl');
+      if (bl){
+        if (!bl.id) bl.id = 'bottom-line';
+        items.push({ id: bl.id, label: 'Bottom line' });
+      }
     }
     h2s.forEach(function(h, idx){
       var slug = h.id || slugify(h.textContent || '') || ('sec-' + (idx + 1));
@@ -946,6 +972,7 @@
     if (!mentioned && supplements){
       var lab = supplements.querySelector('.rc-aend-k span');
       if (lab) lab.textContent = 'Supplements mentioned';
+      if (!supplements.id) supplements.id = 'ss-mentioned';
       mentioned = supplements;
     }
     var related = aendByLabel('related articles');
@@ -978,6 +1005,16 @@
         jump.appendChild(nextA);
       }
       end.appendChild(jump);
+    }
+
+    if (article && mentioned){
+      if (!mentioned.id) mentioned.id = 'ss-mentioned';
+      items.push({ id: mentioned.id, label: 'Supplements mentioned' });
+    }
+    /* A contents list of one or two entries is noise. Hide it. */
+    if (article && items.length < 3){
+      items = [];
+      wrap.classList.add('ar-no-toc');
     }
 
     var toc = null;

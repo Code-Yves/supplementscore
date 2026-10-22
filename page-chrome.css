@@ -149,13 +149,13 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
     letter-spacing:-.4px;
   }
 }
-/* The shared footer is wider than the page by 2rem so it can bleed under
-   the old body padding. Pages with this bar zero that padding, so the
-   bleed becomes a horizontal scrollbar (1px at 1280, and wider than a
-   phone). Keep the footer inside the page. */
+/* These pages zero body padding, so the shared footer bleed
+   (width: calc(100% + 2rem); margin: 0 -1rem) hangs past the viewport:
+   1px at 1280 once the scrollbar gutter is reserved, and 16px on a phone. */
 body:has(.ss-pagebar) > footer.site-footer{
   width:100%;
   max-width:100%;
   margin-left:0;
   margin-right:0;
+  box-sizing:border-box;
 }
