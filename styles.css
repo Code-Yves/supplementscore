@@ -4713,7 +4713,7 @@ main.sk-wrap p a,main.sk-wrap li a{
 #sfbar-main #art-filter-menu .cdd-item{
   align-items:stretch;
   justify-content:center;
-  gap:2px;
+  gap:8px;
 }
 #sfbar-main #art-filter-menu .art-name{
   font-size:14px;

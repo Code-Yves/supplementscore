@@ -280,7 +280,7 @@ body.tab-research .site-footer {
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
-  gap: 2px;
+  gap: 8px;
 }
 #research-view .rh-opt-top {
   display: flex;
@@ -361,7 +361,7 @@ body.tab-research .site-footer {
   flex: 1 1 auto;
 }
 #research-view .rh-sec-blurb {
-  margin: 2px 0 0;
+  margin: 8px 0 0;
   color: #57534e;
   font-size: 14px;
   font-weight: 400;

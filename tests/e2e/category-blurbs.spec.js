@@ -158,6 +158,12 @@ test.describe('research category descriptions', () => {
     checkRows(menu, source, 'type menu');
     expect(menu.map((row) => row.id)).toContain('all');
     expect(menu.map((row) => row.id)).toContain('research-update');
+    const gaps = await page.evaluate(() => ({
+      home: getComputedStyle(document.querySelector('#art-filter-menu .cdd-item')).gap,
+      menu: getComputedStyle(document.querySelector('#rh-type-menu [role="option"]')).gap,
+      section: getComputedStyle(document.querySelector('.rh-sec-blurb')).marginTop,
+    }));
+    expect(gaps).toEqual({ home: '8px', menu: '8px', section: '8px' });
     expect(errors, errors.join('\n')).toEqual([]);
   });
 
@@ -202,6 +208,11 @@ test.describe('research category descriptions', () => {
     await page.evaluate(() => document.getElementById('rh-type-btn').click());
     const menu = await rowMetrics(page, '#rh-type-menu [role="option"]', '.rh-opt-blurb');
     checkRows(menu, source, 'phone type menu');
+    const gaps = await page.evaluate(() => ({
+      home: getComputedStyle(document.querySelector('#art-filter-menu .cdd-item')).gap,
+      menu: getComputedStyle(document.querySelector('#rh-type-menu [role="option"]')).gap,
+    }));
+    expect(gaps).toEqual({ home: '8px', menu: '8px' });
     expect(errors, errors.join('\n')).toEqual([]);
   });
 });
