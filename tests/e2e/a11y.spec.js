@@ -47,6 +47,13 @@ for (const entry of PAGES) {
     await goto(page, entry.path);
     await page.waitForSelector(entry.ready, { timeout: 60000 });
     if (entry.name === 'homepage') await page.waitForSelector('#s-content .sc', { timeout: 60000 });
+    if (entry.name === 'supplement') {
+      await page.waitForFunction(() => {
+        const links = [...document.querySelectorAll('link[rel="stylesheet"]')];
+        if (!links.some((link) => /\/styles\.css/.test(link.href))) return false;
+        return links.every((link) => !!link.sheet);
+      }, null, { timeout: 20000 });
+    }
     await assertNoEntityText(page);
 
     let builder = new AxeBuilder({ page });
