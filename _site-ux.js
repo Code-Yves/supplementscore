@@ -8,6 +8,30 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
+  /* One muted "100% non-profit" in the visible desktop header.
+     The homepage writes its own into the stats bar. Other pages get it
+     beside the wordmark, or in the empty side of the tab nav. Never the
+     footer, and never a filter menu. */
+  (function placeNonprofit(){
+    if (document.querySelector('.ss-np')) return;
+    var el = document.createElement('span');
+    el.className = 'ss-np';
+    el.textContent = '100% non-profit';
+    var pagebar = document.querySelector('.ss-pagebar-inner');
+    if (pagebar) {
+      pagebar.insertBefore(el, pagebar.querySelector('.ss-pagebar-x'));
+      return;
+    }
+    var nav = document.querySelector('nav.site-nav');
+    var inner = nav && nav.querySelector('.site-nav-inner');
+    if (inner && nav.style.display !== 'none' && !inner.querySelector('.site-nav-search-pill')) {
+      inner.appendChild(el);
+      return;
+    }
+    var bar = document.querySelector('.beta-bar');
+    if (bar && !bar.closest('footer')) bar.appendChild(el);
+  })();
+
   /* A refresh was landing on the footer.
      Chromium scroll-anchors to whatever was on screen. Research chrome,
      a stylesheet applied after first paint, and slots filled in after
