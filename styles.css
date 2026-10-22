@@ -4710,6 +4710,23 @@ main.sk-wrap p a,main.sk-wrap li a{
   background:rgba(21,90,80,.08);
   outline:none;
 }
+#sfbar-main #art-filter-menu .cdd-item{
+  align-items:stretch;
+  justify-content:center;
+  gap:2px;
+}
+#sfbar-main #art-filter-menu .art-name{
+  font-size:14px;
+  font-weight:600;
+  line-height:1.25;
+  color:#0c0a09;
+}
+#sfbar-main #art-filter-menu .art-blurb{
+  font-size:12px;
+  font-weight:400;
+  line-height:1.3;
+  color:#57534e;
+}
 @media (max-width:600px){
   #sfbar-main .cdd-lbl{font-size:12px}
   #sfbar-main .cdd-btn{padding:0 4px;gap:2px}

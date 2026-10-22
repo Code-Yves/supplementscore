@@ -5334,23 +5334,18 @@ _artCardEls.forEach(function(c){
   if (!cat) return;
   _artCounts[cat] = (_artCounts[cat] || 0) + 1;
 });
-function _artLbl(label, cat){
-  var n = _artCounts[cat] || 0;
-  return n ? label + ' (' + n + ')' : label;
+function _artItemHtml(id){
+  var meta = (window.SS_RESEARCH_CATS || {})[id] || {};
+  var label = meta.label || id;
+  var n = _artCounts[id] || 0;
+  var name = n ? label + ' (' + n + ')' : label;
+  var blurb = meta.blurb || '';
+  return '<span class="art-name">' + escHtml(name) + '</span>' +
+    (blurb ? '<span class="art-blurb">' + escHtml(blurb) + '</span>' : '');
 }
-var artOpts=[
-  {val:'quickread',   label:_artLbl('Top 10 Lists',  'quickread')},
-  {val:'guide',       label:_artLbl('Guide',         'guide')},
-  {val:'breakthrough',label:_artLbl('Breakthrough',  'breakthrough')},
-  {val:'kids',        label:_artLbl('Kids',          'kids')},
-  {val:'myth',        label:_artLbl('Reality Check', 'myth')},
-  {val:'safety',      label:_artLbl('Safety Alert',  'safety')},
-  /* 2026-05-24 — Population filter removed per user request. The 11 surfaced
-     /for/ population pages (vegans, pregnancy, seniors, women, men, etc.)
-     are deleted; the dropdown entry no longer makes sense. */
-  {val:'condition',   label:_artLbl('Condition',     'condition')},
-  {val:'stack',       label:_artLbl('Stack',         'stack')}
-];
+var artOpts=['quickread','guide','breakthrough','kids','myth','safety','condition','stack'].map(function(id){
+  return {val:id, label:_artItemHtml(id)};
+});
 sfbar.innerHTML=_dd('cat-filter','Goal',catOpts,'_catPick')+_dd('pop-filter','Age & Sex',popOpts,'_popPick')+_dd('sx-filter','Symptom',sxOpts,'_sxPick')+_dd('art-filter','Research',artOpts,'_artPick');_catPick('__trending__');_ddLabel('cat-filter','Goal');_ddActive(null);_initialLoad=false;}
 var SX_KEYWORDS = {
   Sleep:['sleep','insomnia'],
@@ -5478,8 +5473,8 @@ function _popPick(v, quiet){const p=POPULATIONS[v];if(!p)return;if(!quiet){_ddLa
    originals. */
 function _artPick(v, quiet){
   if(!quiet){
-    var artNames={all:'Research',quickread:'Top 10 Lists',guide:'Guide',breakthrough:'Breakthrough',kids:'Kids',myth:'Reality Check',safety:'Safety Alert',condition:'Condition',stack:'Stack'};
-    var artName=artNames[v]||'Research';
+    var artMeta=(window.SS_RESEARCH_CATS||{})[v]||{};
+    var artName=artMeta.label||'Research';
     _ddLabel('cat-filter','Goal');
     _ddLabel('pop-filter','Age & Sex');
     _ddLabel('sx-filter','Symptom');
