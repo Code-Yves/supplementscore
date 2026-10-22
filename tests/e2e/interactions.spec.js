@@ -141,12 +141,12 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   expect(spec.side, 'side column removed').toBe(false);
   expect(spec.summary).toBe('On this page');
   expect(spec.tocLinks).toEqual([
-    'Bottom line',
     'What Berberine Actually Is',
     'The Clinical Evidence: Real But Limited',
     'Limitations and Safety Considerations',
     'The Honest Assessment',
     'Sources',
+    'Supplements mentioned',
   ]);
   expect(spec.kids[0]).toMatch(/^sources/i);
   expect(spec.kids[1]).toMatch(/supplements mentioned/i);
@@ -195,10 +195,7 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   });
   expect(bergamot.dek).toBe('Bergamot (Citrus bergamia), a Calabrian citrus, contains flavonoids that act like very mild plant statins.');
   expect(bergamot.intro, 'intro stays in the column').toBe(true);
-  expect(bergamot.mentioned.some((name) => /bergamot/i.test(name))).toBe(true);
-  for (const extra of ['Lactobacillus rhamnosus GG', 'Lactobacillus gasseri', 'L-Carnitine', 'Kaempferol']) {
-    expect(bergamot.mentioned, 'mentioned drops related-article supplements').not.toContain(extra);
-  }
+  expect(bergamot.mentioned).toEqual(['Bergamot']);
   expect(bergamot.pad, 'mentioned list indent').toBe('0px');
   expect(Math.abs(bergamot.flush), 'mentioned list flush with the column').toBeLessThanOrEqual(1);
   expect(bergamot.share, 'share icon stays').toBe(true);
