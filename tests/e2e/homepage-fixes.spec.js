@@ -94,3 +94,36 @@ test('reality check uses one kicker', async ({ page }) => {
   expect(hair && hair.kicker).toBe('Reality Check');
   expect(errors, errors.join('\n')).toEqual([]);
 });
+
+test('card kickers match their category', async ({ page }) => {
+  const errors = trackConsole(page);
+  await goto(page, '/');
+  await page.waitForFunction(() => {
+    const list = document.querySelector('#research-list-view .article-list, #rh-source .article-list');
+    return list && list.dataset.deferredLoaded === '1';
+  }, null, { timeout: 30000 });
+  const mismatches = await page.evaluate(() => {
+    const label = {
+      quickread: 'Top 10 Lists',
+      guide: 'Guide',
+      breakthrough: 'Breakthrough',
+      kids: 'Kids',
+      myth: 'Reality Check',
+      safety: 'Safety Alert',
+      'research-update': 'Research Update',
+      condition: 'Condition',
+      stack: 'Stack',
+    };
+    const rows = [];
+    document.querySelectorAll('#research-list-view .article-card, #rh-source .article-card').forEach((card) => {
+      const cat = card.getAttribute('data-category') || '';
+      const node = card.querySelector('.article-cat');
+      if (!node || !label[cat]) return;
+      const kicker = node.textContent.replace(/featured/ig, '').replace(/\s+/g, ' ').trim();
+      if (kicker !== label[cat]) rows.push(cat + ' shows ' + kicker);
+    });
+    return rows;
+  });
+  expect(mismatches).toEqual([]);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
