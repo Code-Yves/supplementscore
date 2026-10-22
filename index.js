@@ -318,6 +318,10 @@ const ARTICLE_CAT_LABELS={all:'All Research',quickread:'Quick Reads',guide:'Guid
   }
 })();
 function filterArticles(cat, shouldScroll) {
+  if (window.RH && typeof window.RH.setType === 'function') {
+    window.RH.setType(cat || 'all');
+    return;
+  }
   if(shouldScroll === undefined) shouldScroll = true;
   window._articleCategoryFilter = cat || 'all';
   // Sync the compact toolbar dropdown — mark active option, mirror to button
@@ -702,7 +706,7 @@ if (document.querySelector('.article-list')) {
   var allowed = {research:1, about:1, profile:1, supplements:1};
   function applyHash(){
     if (typeof switchTab !== 'function') return false;
-    var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+    var h = (location.hash || '').replace(/^#/, '').toLowerCase().split('?')[0];
     switchTab(allowed[h] ? h : 'supplements');
     // Drop the anti-flash override now that switchTab has set inline display
     // rules on the views. Leaving it in place would block in-page tab clicks
@@ -1224,7 +1228,7 @@ if (typeof renderAll === 'function') {
   // Track which tab is active so the observer can gate on it
   var indexSections = { '': 1, 'supplements': 1 };
   function isOnIndex() {
-    var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+    var h = (location.hash || '').replace(/^#/, '').toLowerCase().split('?')[0];
     return !!indexSections[h];
   }
 
@@ -1390,6 +1394,7 @@ if (typeof renderAll === 'function') {
    article via the existing showArticle(id).
    ============================================================ */
 (function(){
+  if (document.getElementById('rh-root')) return;
   var input=document.getElementById('rs-search-input');
   if(!input)return;
   var ac=document.getElementById('rs-search-ac');

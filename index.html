@@ -28,7 +28,7 @@
    (added 2026-09-24 in 497e0ae0c). It now lives at /evidence-guide.html.
    Send the old anchor there so bookmarks do not land on a missing section. */
 (function(){
-  var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+  var h = (location.hash || '').replace(/^#/, '').toLowerCase().split('?')[0];
   if (h === 'ss-popular-h' || h === 'popular-evidence-guides' || h === 'evidence-guide') {
     location.replace('/evidence-guide.html#ss-popular-h');
   }
@@ -45,7 +45,7 @@
    The attribute is removed by index.js once switchTab has taken over, so
    subsequent in-page tab clicks behave normally. */
 (function(){
-  var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+  var h = (location.hash || '').replace(/^#/, '').toLowerCase().split('?')[0];
   if (h === 'research' || h === 'about') {
     document.documentElement.setAttribute('data-pre-tab', h);
   }
@@ -117,7 +117,7 @@
   // not a previous scroll position. Restore is only for "back to where I was"
   // navigations like the X close button or browser-back from a sub-page.
   window.addEventListener('DOMContentLoaded', function(){
-    var hash = (location.hash || '').replace(/^#/, '').toLowerCase();
+    var hash = (location.hash || '').replace(/^#/, '').toLowerCase().split('?')[0];
     var TAB_HASHES = {research:1, about:1, profile:1, supplements:1};
     if (TAB_HASHES[hash]) {
       // Tab-hash arrival (e.g. clicked "Articles" from discover.html).
@@ -727,11 +727,13 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   }
   load('/styles.css?v=design3');
   load('index.css?v=design3');
+  load('research-hybrid.css');
 })();
 </script>
 <noscript>
 <link rel="stylesheet" href="/styles.css?v=design3">
 <link rel="stylesheet" href="index.css?v=design3">
+<link rel="stylesheet" href="research-hybrid.css">
 </noscript>
   <!-- Analytics: uncomment one line below to enable Plausible (privacy-friendly, no cookies, GDPR-clean).
        Sign up at https://plausible.io and replace the data-domain if needed. -->
@@ -1690,125 +1692,45 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 <div id="research-view" style="display:none">
 <div class="articles-section">
 
-  <!-- 2026-05-24 — Back-to-main link. Switches the tab-hash back to
-       #supplements (the homepage main view) instead of relying on the
-       browser-history back arrow, which doesn't work when Research was
-       opened by direct URL (e.g. shared #research link). -->
-  <a href="#supplements" class="rs-back" onclick="window._tabSwitchByUser=true">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-    Back to main
-  </a>
-
-  <!-- ARTICLE LIST VIEW -->
   <div id="research-list-view">
-    <!-- Old .articles-hdr is hidden via CSS; replaced by .rs-hero below -->
-    <div class="articles-hdr">
-      <div class="articles-hdr-top">
-        <span class="articles-hdr-badge">Research Hub</span>
-        <div class="articles-hdr-stats">
-          <span class="articles-hdr-stat"><b>221</b> articles</span>
+    <div id="rh-root" class="rh mode-sections">
+      <a href="#supplements" class="rs-back rh-index" onclick="window._tabSwitchByUser=true">← Index</a>
+      <header class="rh-mast">
+        <p class="rh-kicker">Research &amp; Insights</p>
+        <h1 tabindex="-1">What the trials actually show.</h1>
+        <p class="rh-lede">Evidence-based reviews, safety alerts, and deep dives into supplement science. Every article is checked against the peer-reviewed literature — no sponsors, no affiliate links, no hype.</p>
+      </header>
+      <div class="rh-bar" id="rh-bar">
+        <div class="rh-search">
+          <svg class="rh-ico" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="rs-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search articles" aria-label="Search articles">
+          <button type="button" class="rh-clear" id="rh-clear" aria-label="Clear search" hidden>&times;</button>
         </div>
-      </div>
-      <div class="articles-hdr-title">Research & Insights</div>
-      <div class="articles-hdr-sub">Evidence-based research, safety alerts, and deep dives into supplement science.</div>
-    </div>
-
-    <!-- Clean hero -->
-    <section class="rs-hero">
-      <!-- Funnel-plot ambient background. Decorative; hidden under
-           prefers-reduced-motion via index.css. Animation runs in the
-           <script> further down (rs-hero funnel-plot ambient). -->
-      <canvas class="rs-hero-bg" aria-hidden="true"></canvas>
-      <div class="eb">Research &amp; Insights</div>
-      <h2>What the trials<br><span style="color:var(--t1c)">actually</span> show.</h2>
-      <p class="lede">Evidence-based reviews, safety alerts, and deep dives into supplement science. Every article is checked against the peer-reviewed literature — no sponsors, no affiliate links, no hype.</p>
-
-    </section>
-    
-
-
-    <!-- Toolbar: category dropdown + search input on a single row -->
-    <div class="rs-toolbar">
-
-      <div class="rs-cat-dd" id="rs-cat-dd">
-        <button type="button" class="rs-cat-dd-btn"
-                aria-haspopup="listbox" aria-expanded="false"
-                onclick="rsCatDdToggle(event)">
-          <span class="rs-cat-dd-label" id="rs-cat-dd-label" data-cat="all">All</span>
-          <span class="rs-cat-dd-count" id="rs-cat-dd-count">0</span>
-          <svg class="rs-cat-dd-chv" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <button type="button" class="rh-cell" id="rh-type-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="rh-type-menu">
+          <span class="rh-cell-k">Type</span>
+          <span class="rh-cell-v" id="rh-type-label">All</span>
+          <span class="rh-cell-n" id="rh-type-count">0</span>
+          <svg class="rh-chev" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <nav class="rs-cat rs-cat-dd-panel" aria-label="Article categories" hidden>
-          <a class="on" data-cat="all"
-             onclick="filterArticles('all'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">All</span>
-            <span class="n" data-total-count>0</span>
-          </a>
-          <a data-cat="quickread"
-             onclick="filterArticles('quickread'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Top 10 Lists</span>
-            <span class="n" data-cat-count="quickread">0</span>
-          </a>
-          <a data-cat="guide"
-             onclick="filterArticles('guide'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Guide</span>
-            <span class="n" data-cat-count="guide">0</span>
-          </a>
-          <a data-cat="breakthrough"
-             onclick="filterArticles('breakthrough'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Breakthrough</span>
-            <span class="n" data-cat-count="breakthrough">0</span>
-          </a>
-          <a data-cat="kids"
-             onclick="filterArticles('kids'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Kids</span>
-            <span class="n" data-cat-count="kids">0</span>
-          </a>
-          <a data-cat="myth"
-             onclick="filterArticles('myth'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Reality Check</span>
-            <span class="n" data-cat-count="myth">0</span>
-          </a>
-          <a data-cat="safety"
-             onclick="filterArticles('safety'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Safety Alert</span>
-            <span class="n" data-cat-count="safety">0</span>
-          </a>
-          <a data-cat="research-update"
-             onclick="filterArticles('research-update'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Research Update</span>
-            <span class="n" data-cat-count="research-update">0</span>
-          </a>
-          <a data-cat="condition"
-             onclick="filterArticles('condition'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Condition</span>
-            <span class="n" data-cat-count="condition">0</span>
-          </a>
-          <a data-cat="stack"
-             onclick="filterArticles('stack'); rsActivateCat(this); rsCatDdSync(); rsCatDdClose(); return false;">
-            <span class="lbl">Stack</span>
-            <span class="n" data-cat-count="stack">0</span>
-          </a>
-        </nav>
+        <button type="button" class="rh-cell" id="rh-sort-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="rh-sort-menu">
+          <span class="rh-cell-k">Sort</span>
+          <span class="rh-cell-v" id="rh-sort-label">Newest</span>
+          <svg class="rh-chev" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="rh-type-menu" class="rh-menu" role="listbox" aria-label="Article type" hidden></div>
+        <div id="rh-sort-menu" class="rh-menu" role="listbox" aria-label="Sort articles" hidden></div>
       </div>
-
-      <div class="rs-search">
-        <svg class="rs-search-ico" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="rs-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search articles…" aria-label="Search articles" aria-controls="rs-search-ac" aria-expanded="false">
-        <div class="rs-search-ac" id="rs-search-ac" role="listbox" hidden></div>
+      <div id="rh-sections" class="rh-sections"></div>
+      <div id="rh-list" class="rh-list">
+        <button type="button" class="rh-allcats" id="rh-allcats">← All categories</button>
+        <p id="rh-status" class="rh-status" tabindex="-1" aria-live="polite"></p>
+        <div id="rh-rows" class="rh-rows"></div>
+        <p class="rh-empty" id="rh-empty" hidden>No articles found.</p>
+        <button type="button" class="rh-load" id="rh-more" hidden>Load 24 more</button>
       </div>
-
     </div>
-
-
-    <!-- NO RESULTS STATE -->
-    <div id="articles-no-results" class="articles-no-results" style="display:none">
-      <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#155A50" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="12"/><line x1="11" y1="15" x2="11.01" y2="15"/></svg>
-      <div class="articles-no-results-title">No articles found</div>
-      <div class="articles-no-results-sub">Try a different search term or clear the filter.</div>
-    </div>
-
-    <div class="article-card article-featured" data-category="guide" onclick="showArticle(1)" style="cursor:pointer">
+    <div class="rh-source" id="rh-source">
+    <div class="article-card article-featured" data-category="guide" onclick="showArticle(1)" style="cursor:pointer" data-date="2026-04-08">
       <div class="article-side">
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
         <div class="article-side-div"></div>
@@ -1819,12 +1741,12 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <div class="article-cat"><span class="feat-kicker"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>Guide</div>
         <div class="article-title">The Complete Beginner's Guide to Supplements: What Actually Works in 2026</div>
         <div class="article-desc">A systematic evaluation of 780 supplements against the randomized-trial evidence base identified 12 that clear the bar for a healthy adult: vitamin D3 (in deficiency), creatine, omega-3, magnesium glycinate, B12 (in at-risk groups), and a handful of others. The rest of the aisle doesn’t.</div>
-        <div class="article-meta">Updated Apr 8, 2026 &middot; 12 min read</div>
+        <div class="article-meta">Apr 8, 2026 &middot; 12 min read</div>
       </div>
     </div>
 
     <div class="article-list">
-<a href="a/the-10-most-dangerous-supplements-still-legally-sold.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+<a href="a/the-10-most-dangerous-supplements-still-legally-sold.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.86 3h8.28L21 7.86v8.28L16.14 21H7.86L3 16.14V7.86z"/><path d="M12 8v5"/><path d="M12 16.5h.01" stroke-width="2"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1836,7 +1758,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="myth" onclick="showArticle(3)" style="cursor:pointer">
+      <div class="article-card" data-category="myth" onclick="showArticle(3)" style="cursor:pointer" data-date="2026-03-29">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
           <div class="article-side-div"></div>
@@ -1847,11 +1769,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Reality Check</div>
           <div class="article-title">Why "Detox" Supplements Are a $3 Billion Scam</div>
           <div class="article-desc">A $3B category built on a single undefined word — "toxins." The liver runs a two-phase enzymatic clearance system that processes everything from alcohol to acetaminophen; no capsule accelerates it, and several (milk thistle, chanca piedra, some bile-support blends) have been implicated in drug-induced liver injury.</div>
-          <div class="article-meta">Updated Mar 29, 2026</div>
+          <div class="article-meta">Mar 29, 2026</div>
         </div>
       </div>
 
-      <a href="a/the-10-most-overhyped-supplements-of-2026.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/the-10-most-overhyped-supplements-of-2026.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2l13 6V5L3 11z"/><path d="M16 8a4 4 0 0 1 0 8"/><path d="M5 13.5V17a2 2 0 0 0 4 0v-2"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1863,7 +1785,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="safety" onclick="showArticle(4)" style="cursor:pointer">
+      <div class="article-card" data-category="safety" onclick="showArticle(4)" style="cursor:pointer" data-date="2026-04-24">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div class="article-side-div"></div>
@@ -1874,11 +1796,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Safety Alert</div>
           <div class="article-title">CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</div>
           <div class="article-desc">April 2026 CDC MMWR: 1,955 kava calls from 2000–2025. Serious outcomes peaked at 39% in 2024. Kratom co-use reached 30% in 2025. No acute liver failure cases from kava alone.</div>
-          <div class="article-meta">Updated Apr 24, 2026</div>
+          <div class="article-meta">Apr 24, 2026</div>
         </div>
       </div>
 
-      <a href="a/12-supplement-mistakes-you-should-literally-never-make.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/12-supplement-mistakes-you-should-literally-never-make.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1890,7 +1812,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="guide" onclick="showArticle(10)" style="cursor:pointer">
+      <div class="article-card" data-category="guide" onclick="showArticle(10)" style="cursor:pointer" data-date="2026-03-28">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
           <div class="article-side-div"></div>
@@ -1901,11 +1823,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Guide</div>
           <div class="article-title">Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide</div>
           <div class="article-desc">The form of magnesium you take determines how much your body absorbs and where it acts. Most people are taking the wrong one.</div>
-          <div class="article-meta">Updated Mar 28, 2026</div>
+          <div class="article-meta">Mar 28, 2026</div>
         </div>
       </div>
 
-      <a href="a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11"/><path d="M14.5 9.5a2.5 2.5 0 0 0-5 0c0 1.5 1 2 2.5 2.5s2.5 1 2.5 2.5a2.5 2.5 0 0 1-5 0"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1917,7 +1839,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="myth" onclick="showArticle(11)" style="cursor:pointer">
+      <div class="article-card" data-category="myth" onclick="showArticle(11)" style="cursor:pointer" data-date="2026-03-18">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
           <div class="article-side-div"></div>
@@ -1928,11 +1850,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Reality Check</div>
           <div class="article-title">Ashwagandha: The Most Overhyped Supplement of 2026?</div>
           <div class="article-desc">Real clinical evidence, real limitations, and why the wellness world's favorite adaptogen deserves a more honest conversation.</div>
-          <div class="article-meta">Updated Mar 18, 2026</div>
+          <div class="article-meta">Mar 18, 2026</div>
         </div>
       </div>
 
-      <a href="a/the-10-safest-supplements-on-earth.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/the-10-safest-supplements-on-earth.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4.5"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1944,7 +1866,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="breakthrough" onclick="showArticle(5)" style="cursor:pointer">
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(5)" style="cursor:pointer" data-date="2026-04-24">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           <div class="article-side-div"></div>
@@ -1955,11 +1877,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Research Update</div>
           <div class="article-title">Creatine for Brain Health: What the New Meta-Analyses Actually Show</div>
           <div class="article-desc">Prokopidis 2023 and Xu 2024 confirm creatine improves memory and cognition in healthy adults — not just athletes.</div>
-          <div class="article-meta">Updated Apr 24, 2026</div>
+          <div class="article-meta">Apr 24, 2026</div>
         </div>
       </div>
 
-      <a href="a/10-supplements-that-interact-with-the-most-prescription-drugs.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/10-supplements-that-interact-with-the-most-prescription-drugs.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 14.5a3.5 3.5 0 0 1 0-5L13 6a3.5 3.5 0 0 1 5 5L16.5 12.5"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5L11 18a3.5 3.5 0 0 1-5-5l1.5-1.5"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1971,7 +1893,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="myth" onclick="showArticle(15)" style="cursor:pointer">
+      <div class="article-card" data-category="myth" onclick="showArticle(15)" style="cursor:pointer" data-date="2026-03-25">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
           <div class="article-side-div"></div>
@@ -1982,11 +1904,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Reality Check</div>
           <div class="article-title">Are Multivitamins a Waste of Money?</div>
           <div class="article-desc">The USPSTF 2022 conclusion was damning for most people — but there are specific populations for whom multivitamins still make sense.</div>
-          <div class="article-meta">Updated Mar 25, 2026</div>
+          <div class="article-meta">Mar 25, 2026</div>
         </div>
       </div>
 
-      <a href="a/10-wild-fun-facts-about-the-supplement-industry.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/10-wild-fun-facts-about-the-supplement-industry.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -1998,7 +1920,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="guide" onclick="showArticle(2)" style="cursor:pointer">
+      <div class="article-card" data-category="guide" onclick="showArticle(2)" style="cursor:pointer" data-date="2026-04-05">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
           <div class="article-side-div"></div>
@@ -2009,11 +1931,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Stacks</div>
           <div class="article-title">The Evidence-Based Sleep Stack: What to Take and When</div>
           <div class="article-desc">Magnesium, L-theanine, and melatonin timed correctly can meaningfully improve sleep quality.</div>
-          <div class="article-meta">Updated Apr 5, 2026</div>
+          <div class="article-meta">Apr 5, 2026</div>
         </div>
       </div>
 
-      <a href="a/the-10-most-studied-supplements-on-earth.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/the-10-most-studied-supplements-on-earth.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -2025,7 +1947,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="safety" onclick="showArticle(9)" style="cursor:pointer">
+      <div class="article-card" data-category="safety" onclick="showArticle(9)" style="cursor:pointer" data-date="2026-04-04">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div class="article-side-div"></div>
@@ -2036,11 +1958,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Safety Alert</div>
           <div class="article-title">5 Supplements That Can Dangerously Interact With Common Medications</div>
           <div class="article-desc">From St. John's Wort to fish oil, these widely used supplements can cause serious problems when combined with prescription drugs.</div>
-          <div class="article-meta">Updated Apr 4, 2026</div>
+          <div class="article-meta">Apr 4, 2026</div>
         </div>
       </div>
 
-      <a href="a/10-hidden-gem-supplements-no-one-markets.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/10-hidden-gem-supplements-no-one-markets.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/><path d="M9 3l3 5 3-5"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -2052,7 +1974,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="breakthrough" onclick="showArticle(8)" style="cursor:pointer">
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(8)" style="cursor:pointer" data-date="2026-04-07">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           <div class="article-side-div"></div>
@@ -2063,11 +1985,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Research Update</div>
           <div class="article-title">The Truth About Collagen Supplements: What 13 Clinical Trials Actually Show</div>
           <div class="article-desc">Some forms of collagen do improve skin elasticity and joint comfort — but the details matter more than the marketing suggests.</div>
-          <div class="article-meta">Updated Apr 7, 2026</div>
+          <div class="article-meta">Apr 7, 2026</div>
         </div>
       </div>
 
-      <a href="a/the-10-supplements-people-are-actually-deficient-in.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex">
+      <a href="a/the-10-supplements-people-are-actually-deficient-in.html" class="article-card" data-category="quickread" style="cursor:pointer;text-decoration:none;color:inherit;display:flex" data-date="2026-05-09">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V11"/><path d="M11 21V14"/><path d="M17 21V17"/></svg>
           <div class="article-side-div"></div><div class="article-side-stat">4</div><div class="article-side-label">min read</div>
@@ -2079,7 +2001,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-meta">May 9, 2026</div>
         </div>
       </a>
-      <div class="article-card" data-category="breakthrough" onclick="showArticle(6)" style="cursor:pointer">
+      <div class="article-card" data-category="breakthrough" onclick="showArticle(6)" style="cursor:pointer" data-date="2026-03-01">
         <div class="article-side">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           <div class="article-side-div"></div>
@@ -2090,11 +2012,13 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="article-cat">Research Update</div>
           <div class="article-title">NMN and NAD+: Why Raising a Biomarker Isn't the Same as Slowing Aging</div>
           <div class="article-desc">12 human trials confirm NMN raises NAD+ levels, but no meaningful health improvements have followed. What's missing?</div>
-          <div class="article-meta">Updated Mar 1, 2026</div>
+          <div class="article-meta">Mar 1, 2026</div>
         </div>
       </div>
 
             <!-- Deferred article cards: data/article-cards-deferred.html (loaded by loadDeferredArticleCards in index.js) -->
+</div><!-- end article-list -->
+</div><!-- end rh-source -->
 </div><!-- end research-list-view -->
 
   <!-- Reality Check / Trending article chart component -->
@@ -4501,6 +4425,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'a/manifest.js?v=0324b59d',
     'search-index.js?v=f025ae57',
     'index.js?v=design3',
+    'research-hybrid.js',
     'nav-search.js?v=64e43b51',
     '_research-modal.js?v=c92ae724',
     'modal-stack.js?v=ba2acf0e',
