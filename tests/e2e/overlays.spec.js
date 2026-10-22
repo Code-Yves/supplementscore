@@ -229,7 +229,7 @@ async function cornerBox(page, selector) {
       h: rect.height,
       top: rect.top,
       right: window.innerWidth - rect.right,
-      inset: document.documentElement.clientWidth - rect.right,
+      inset: document.documentElement.offsetWidth - rect.right,
       cssTop: cs.top,
       cssRight: cs.right,
     };
