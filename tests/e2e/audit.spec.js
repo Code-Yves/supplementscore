@@ -4,6 +4,8 @@ const { install, goto } = require('./helpers');
 const BERGAMOT = '/a/bergamot-citrus-extract-italy-s-answer-to-high-cholesterol.html';
 const STUDIED = '/a/the-10-most-studied-supplements-on-earth.html';
 const BERBERINE = '/a/berberine-is-it-really-nature-s-ozempic.html';
+const EXERCISE = '/a/how-exercise-outperforms-every-supplement.html';
+const KAEMPFEROL = '/a/kaempferol-the-flavonoid-activating-autophagy-and-longevity-pathways.html';
 const STUDIED_DEK = 'These ten supplements have survived more scrutiny than most prescription drugs, from creatine and omega-3 to psyllium husk, oat beta-glucan, and oral rehydration salts.';
 
 const ARTICLES = [
@@ -173,3 +175,150 @@ for (const [name, urlPath, ready] of PAGES) {
     expect(box.footerRight, JSON.stringify(box)).toBeLessThanOrEqual(box.inner);
   });
 }
+
+test('hidden contents list keeps the reading column at the same left edge', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'measured at 1280');
+  await goto(page, BERBERINE);
+  await page.waitForSelector('main.ar-wrap .ar-toc');
+  await page.waitForSelector('main.ar-wrap .ar-column');
+  const withContents = await page.evaluate(() => Math.round(document.querySelector('main.ar-wrap .ar-column').getBoundingClientRect().left));
+  await goto(page, STUDIED);
+  await page.waitForSelector('main.ar-wrap.ar-no-toc .ar-column');
+  const hidden = await page.evaluate(() => {
+    const column = document.querySelector('main.ar-wrap .ar-column');
+    return {
+      left: Math.round(column.getBoundingClientRect().left),
+      toc: !!document.querySelector('.ar-toc'),
+    };
+  });
+  expect(hidden.toc).toBe(false);
+  expect(withContents).toBe(377);
+  expect(hidden.left).toBe(withContents);
+});
+
+test('article deks use balanced wrapping', async ({ page }) => {
+  await goto(page, STUDIED);
+  await page.waitForSelector('.ar-dek');
+  const wrap = await page.locator('.ar-dek').evaluate((el) => getComputedStyle(el).textWrap);
+  expect(wrap).toBe('balance');
+});
+
+async function mentionedNames(page, urlPath) {
+  await goto(page, urlPath);
+  await page.waitForSelector('#ss-mentioned[data-names="display"]');
+  return page.evaluate(() => {
+    return [...document.querySelectorAll('.ar-end #ss-mentioned a')].map((a) => {
+      return (a.textContent || '').replace(/\u2011/g, '-').replace(/\s+/g, ' ').trim();
+    });
+  });
+}
+
+test('exercise mentioned names use the supplement display name', async ({ page }) => {
+  const names = await mentionedNames(page, EXERCISE);
+  expect(names).toEqual(['Omega-3 (EPA/DHA)', 'Berberine', 'Ashwagandha']);
+});
+
+test('kaempferol mentioned names use the supplement display name', async ({ page }) => {
+  const names = await mentionedNames(page, KAEMPFEROL);
+  expect(names).toContain('Saffron (Crocus sativus)');
+  expect(names).toContain('Quercetin');
+  expect(names.join(' ')).not.toMatch(/\bsaffron\b/);
+  expect(names.join(' ')).not.toMatch(/\bquercetin\b/);
+});
+
+test('exercise chart title is an h3', async ({ page }) => {
+  await goto(page, EXERCISE);
+  await page.waitForSelector('.rc-chart-title');
+  const chart = await page.locator('.rc-chart-title').evaluate((el) => ({
+    tag: el.tagName,
+    text: (el.textContent || '').replace(/\u2011/g, '-').trim(),
+  }));
+  expect(chart.tag).toBe('H3');
+  expect(chart.text).toBe('Effect size for same endpoint');
+  const state = await articleState(page);
+  expect(state.skips).toEqual([]);
+});
+
+test('reviewed-against text is stone and meets contrast', async ({ page }) => {
+  await goto(page, EXERCISE);
+  await page.waitForFunction(() => {
+    const line = [...document.querySelectorAll('p, div, li, span')].find((el) => {
+      return /^Reviewed against \d+/.test((el.textContent || '').replace(/\s+/g, ' ').trim());
+    });
+    return !!line && getComputedStyle(line).color === 'rgb(87, 83, 78)';
+  });
+  const contrast = await page.evaluate(() => {
+    const line = [...document.querySelectorAll('p, div, li, span')].find((el) => {
+      return /^Reviewed against \d+/.test((el.textContent || '').replace(/\s+/g, ' ').trim());
+    });
+    function parse(color) {
+      const match = String(color).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
+    }
+    function linear(channel) {
+      const s = channel / 255;
+      return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+    }
+    function lum(rgb) {
+      return 0.2126 * linear(rgb[0]) + 0.7152 * linear(rgb[1]) + 0.0722 * linear(rgb[2]);
+    }
+    let bg = null;
+    let node = line;
+    while (node && node !== document.documentElement) {
+      const color = getComputedStyle(node).backgroundColor;
+      const parsed = parse(color);
+      if (parsed && !/rgba\(0,\s*0,\s*0,\s*0\)/.test(color) && color !== 'transparent') {
+        bg = parsed;
+        break;
+      }
+      node = node.parentElement;
+    }
+    if (!bg) bg = parse(getComputedStyle(document.body).backgroundColor) || [255, 255, 255];
+    const fg = parse(getComputedStyle(line).color);
+    const lighter = Math.max(lum(fg), lum(bg));
+    const darker = Math.min(lum(fg), lum(bg));
+    return {
+      color: getComputedStyle(line).color,
+      ratio: (lighter + 0.05) / (darker + 0.05),
+    };
+  });
+  expect(contrast.color).toBe('rgb(87, 83, 78)');
+  expect(contrast.ratio).toBeGreaterThanOrEqual(4.5);
+});
+
+test('phone footer text is not covered by the back-to-top button', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'iphone', 'phone footer');
+  await goto(page, STUDIED);
+  await page.waitForSelector('footer.site-footer');
+  await page.waitForSelector('.ssux-top', { state: 'attached' });
+  await page.waitForFunction(() => {
+    const links = [...document.querySelectorAll('link[rel="stylesheet"]')];
+    return links.some((link) => /\/styles\.css/.test(link.href) && link.sheet);
+  });
+  await page.mouse.wheel(0, 240);
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.waitForSelector('.ssux-top.show');
+  const box = await page.evaluate(() => {
+    const footer = document.querySelector('footer.site-footer');
+    const button = document.querySelector('.ssux-top');
+    const legal = document.querySelector('.site-footer-bottom');
+    const range = document.createRange();
+    range.selectNodeContents(legal);
+    const rects = [...range.getClientRects()].filter((rect) => rect.width > 0 && rect.height > 0);
+    const last = rects[rects.length - 1];
+    const buttonBox = button.getBoundingClientRect();
+    const separated = last.bottom <= buttonBox.top + 0.5
+      || last.top >= buttonBox.bottom - 0.5
+      || last.right <= buttonBox.left + 0.5
+      || last.left >= buttonBox.right - 0.5;
+    return {
+      pad: parseFloat(getComputedStyle(footer).paddingBottom),
+      buttonHeight: buttonBox.height,
+      separated,
+      lastBottom: Math.round(last.bottom),
+      buttonTop: Math.round(buttonBox.top),
+    };
+  });
+  expect(box.pad).toBeGreaterThanOrEqual(box.buttonHeight + 16);
+  expect(box.separated, JSON.stringify(box)).toBe(true);
+});

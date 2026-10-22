@@ -276,7 +276,7 @@
       + 'html.rc-chrome-active main.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sx-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.ca-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sk-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:18px;line-height:1.6;color:#0c0a09}'
       + 'html.rc-chrome-active .ar-titleblock h1{text-wrap:balance;max-width:22em}'
       + 'html.rc-chrome-active .ar-titleblock .ar-kicker{margin:0 0 8px;color:#155A50;font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1.4}'
-      + 'html.rc-chrome-active .ar-titleblock .ar-dek{margin:0 0 8px;font-size:18px;line-height:1.6;color:#0c0a09}'
+      + 'html.rc-chrome-active .ar-titleblock .ar-dek{margin:0 0 8px;font-size:18px;line-height:1.6;color:#0c0a09;text-wrap:balance}'
       + 'html.rc-chrome-active .ar-titleblock .ar-byline{margin:0 0 16px;font-size:14px;line-height:1.5;color:#57534e}'
       + 'html.rc-chrome-active .ar-byline a{color:#155A50;text-decoration:underline;text-underline-offset:2px}'
       + 'html.rc-chrome-active .ar-toc{width:200px;max-width:200px;box-sizing:border-box}'
@@ -292,7 +292,7 @@
       + 'html.rc-chrome-active .ssux-toc,html.rc-chrome-active .mag-side,html.rc-chrome-active #hero.mag{display:none}'
       + '@media(min-width:901px){'
       + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{display:grid;grid-template-columns:200px minmax(0,700px);column-gap:32px;align-items:start;justify-content:start}'
-      + 'html.rc-chrome-active main.ar-wrap.ar-no-toc{grid-template-columns:minmax(0,700px)}'
+      + 'html.rc-chrome-active main.ar-wrap.ar-no-toc>.ar-column{grid-column:2}'
       + 'html.rc-chrome-active main.ar-wrap>.ar-toc,html.rc-chrome-active main.sx-wrap>.ar-toc,html.rc-chrome-active main.ca-wrap>.ar-toc,html.rc-chrome-active main.sk-wrap>.ar-toc{position:sticky;top:24px;align-self:start;width:200px}'
       + '}'
       + '@media(max-width:900px){'
@@ -919,7 +919,24 @@
       ul.appendChild(li);
     });
     nav.appendChild(ul);
+    applyDisplayNames(nav);
     return nav;
+  }
+
+  /* Body links are often the lowercase slug ("omega-3"). The mentioned
+     list uses the supplement's display name once the catalog loads.
+     A label that is already proper case stays as written. */
+  function applyDisplayNames(nav){
+    if (!nav) return;
+    loadSupplementMeta().then(function(meta){
+      nav.querySelectorAll('a[href]').forEach(function(a){
+        var slug = slugFromHref(a.getAttribute('href') || '');
+        var label = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        var display = slug && meta[slug] && meta[slug].name;
+        if (display && label && label === label.toLowerCase()) a.textContent = display;
+      });
+      nav.setAttribute('data-names', 'display');
+    });
   }
 
   function filterOwnSupplements(nav){
