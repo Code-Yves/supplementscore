@@ -292,13 +292,13 @@
   /* ---------- shared style block ---------- */
   var css = ''
     /* back-to-top */
-  + '.ssux-top{position:fixed;right:18px;bottom:18px;width:42px;height:42px;border-radius:50%;'
-  + 'background:var(--color-brand,#155A50);color:#F8F4ED;border:none;cursor:pointer;'
+  + '.ssux-top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;min-width:44px;min-height:44px;max-width:44px;max-height:44px;'
+  + 'box-sizing:border-box;border-radius:50%;background:#fff;color:#155A50;border:0;cursor:pointer;'
   + 'display:none;align-items:center;justify-content:center;z-index:80;'
-  + 'box-shadow:0 6px 18px rgba(15,91,80,.32);transition:transform .15s,background .15s,opacity .2s;'
+  + 'box-shadow:0 0 0 1px #155A50,0 6px 18px rgba(15,91,80,.28);transition:transform .15s,color .15s,opacity .2s;'
   + 'opacity:0;font-family:inherit}'
   + '.ssux-top.show{display:flex;opacity:1}'
-  + '.ssux-top:hover{transform:translateY(-2px);background:#155b50}'
+  + '.ssux-top:hover{transform:translateY(-2px);background:#fff;color:#0f3d36}'
   + '.ssux-top svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'
     /* reading progress */
   + '.ssux-rp{position:fixed;top:0;left:0;height:3px;width:0;'
@@ -428,11 +428,13 @@
   + '.ssa-body .ar-wrap{max-width:none;margin:0;padding:24px 28px 56px}'
   + '@media(max-width:600px){.ssa-modal{padding:0}.ssa-pane{border-radius:0;border:none;min-height:100vh;max-width:100%}'
   +   '.ssa-chrome{border-radius:0}.ssa-body .ar-wrap{padding:16px 16px 40px}}'
-    /* One close control: 44px round ×, white disc, same icon and corner. */
+    /* One close control: 44px round ×. The ring is a shadow, not a border,
+       so the border box stays exactly 44px (a 1px border snaps to 43.998). */
   + '.ss-x{width:44px !important;height:44px !important;min-width:44px !important;min-height:44px !important;'
+  +   'max-width:44px !important;max-height:44px !important;'
   +   'border-radius:50% !important;background:var(--color-background-primary,#fff) !important;'
-  +   'border:1px solid var(--color-border-secondary,#d6d3d1) !important;'
-  +   'box-shadow:0 2px 12px rgba(0,0,0,.14) !important;color:var(--color-text-secondary,#57534e) !important;'
+  +   'border:0 !important;'
+  +   'box-shadow:0 0 0 1px #d6d3d1,0 2px 12px rgba(0,0,0,.14) !important;color:var(--color-text-secondary,#57534e) !important;'
   +   'padding:0 !important;box-sizing:border-box !important;flex-shrink:0 !important;'
   +   'display:inline-flex;align-items:center;justify-content:center;text-decoration:none;'
   +   'line-height:0;cursor:pointer;font-size:0 !important}'
@@ -444,7 +446,18 @@
   + 'html.rc-chrome-active a.ss-x.reader-close-fab,html.rc-chrome-active a.ss-x.pg-close-fab{display:none !important}'
   + 'body:has(.ss-pagebar) a.ss-x.pg-close-fab,body:has(.ss-pagebar) a.ss-x.hub-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.bro-close-fab,body:has(.ss-pagebar) a.ss-x.cmp-close-fab,'
-  + 'body:has(.ss-pagebar) a.ss-x.d-close-fab{display:none !important}';
+  + 'body:has(.ss-pagebar) a.ss-x.d-close-fab{display:none !important}'
+    /* Phone: every corner × sits 8px from the top and 16px from the right. */
+  + '@media(max-width:768px){'
+  +   'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
+  +   'html:not(.ss-in-iframe) a.ss-x.rc-close{'
+  +     'position:fixed !important;top:8px !important;right:16px !important;z-index:80 !important}'
+  +   'button.pg-share-fab{top:8px !important;right:68px !important;width:44px !important;height:44px !important;'
+  +     'min-width:44px !important;min-height:44px !important;padding:0 !important;border-radius:50% !important}'
+  +   'html.rc-chrome-active:not(.ss-in-iframe) main .rc-top{padding-right:68px !important}'
+  + '}'
+  + 'body.is-modal>footer.site-footer{display:none !important}'
+  + 'nav.ss-page-actions{position:absolute;width:0;height:0;margin:0;padding:0;border:0;overflow:visible}';
   var styleEl = document.createElement('style');
   styleEl.textContent = css;
   document.head.appendChild(styleEl);
@@ -781,6 +794,8 @@
     initRecentlyViewedStrip();
     initBreadcrumbs();
     initShareFab();
+    placePageActions();
+    nameModalMain();
     /* 2026-05-24 — belt-and-braces: also remove any pre-existing
        .ssux-handout buttons in case an older cached page injected one. */
     try {
@@ -859,6 +874,37 @@
     /* Insert BEFORE the close FAB in DOM so screen readers hit Share
        first (matches the article modal's Share→Close order). */
     closeFab.parentNode.insertBefore(btn, closeFab);
+  }
+
+  /* The supplement close (and its share control) are body-level, so they
+     sit outside every landmark. A zero-size nav keeps them in the
+     accessibility tree without taking layout space. Fixed children still
+     position against the viewport. */
+  function placePageActions(){
+    if (document.querySelector('nav.ss-page-actions')) return;
+    if (!document.body || document.body.classList.contains('is-modal')) return;
+    var closeFab = document.querySelector('.pg-close-fab, .reader-close-fab');
+    if (!closeFab) return;
+    if (closeFab.closest('main, nav, header, footer, [role="main"], [role="navigation"]')) return;
+    var share = document.querySelector('.pg-share-fab');
+    var nav = document.createElement('nav');
+    nav.className = 'ss-page-actions';
+    nav.setAttribute('aria-label', 'Page');
+    var before = (share && share.parentNode === closeFab.parentNode) ? share : closeFab;
+    closeFab.parentNode.insertBefore(nav, before);
+    if (share && share.parentNode === nav.parentNode) nav.appendChild(share);
+    nav.appendChild(closeFab);
+  }
+
+  /* The supplement card iframe repeats the page's unnamed main and footer.
+     Name this main and hide the footer (the stylesheet also hides it) so
+     the open card is not a second copy of those landmarks. */
+  function nameModalMain(){
+    if (!document.body || !document.body.classList.contains('is-modal')) return;
+    var main = document.querySelector('main.det-wrap');
+    if (main && !main.getAttribute('aria-label')) main.setAttribute('aria-label', 'Supplement detail');
+    var footer = document.querySelector('footer.site-footer');
+    if (footer) footer.setAttribute('hidden', '');
   }
 
   function _copyShareUrl(url){

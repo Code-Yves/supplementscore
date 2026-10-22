@@ -4354,8 +4354,12 @@ main.sk-wrap .ar-faq > p{
     justify-content:center;
     box-sizing:border-box;
   }
-  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:60px !important}
-  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{right:8px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-share-fab{right:68px !important}
+  body:has(main.det-wrap):not(.is-modal) > .pg-close-fab{
+    right:16px !important;
+    border:0 !important;
+    box-shadow:0 0 0 1px #d6d3d1,0 2px 12px rgba(0,0,0,.14) !important;
+  }
   body:has(main.det-wrap):not(.is-modal) > .pg-share-fab svg,
   body:has(main.det-wrap):not(.is-modal) > .pg-close-fab svg{
     width:24px !important;
