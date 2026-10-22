@@ -15,7 +15,7 @@ test('homepage search placeholder stays inside the field', async ({ page }, test
   await page.waitForSelector('#ix-hero-search');
   const phone = testInfo.project.name === 'iphone';
   const expected = phone
-    ? 'Search supplements, research…'
+    ? 'Supplements, research, conditions'
     : 'Search supplements, research, conditions…';
   const box = await page.evaluate(() => {
     function field(id) {
@@ -35,6 +35,7 @@ test('homepage search placeholder stays inside the field', async ({ page }, test
       return {
         text,
         aria: input.getAttribute('aria-label'),
+        color: ph.color,
         width,
         avail,
         fits: width <= avail + 0.5,
@@ -50,6 +51,7 @@ test('homepage search placeholder stays inside the field', async ({ page }, test
   });
   expect(box.hero.text).toBe(expected);
   expect(box.hero.aria).toBe(expected);
+  expect(box.hero.color).toBe('rgb(107, 101, 96)');
   expect(box.hero.fits, JSON.stringify(box.hero)).toBe(true);
   expect(box.hero.icon.w).toBeGreaterThanOrEqual(14);
   expect(box.hero.icon.h).toBeGreaterThanOrEqual(14);
