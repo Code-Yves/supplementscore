@@ -17,20 +17,12 @@
     ['condition', 'Condition'],
     ['stack', 'Stack']
   ];
-  var SORTS = [
-    ['new', 'Newest'],
-    ['old', 'Oldest'],
-    ['short', 'Shortest read'],
-    ['az', 'A–Z']
-  ];
   var TYPE_LABEL = {};
   TYPES.forEach(function (pair) { TYPE_LABEL[pair[0]] = pair[1]; });
-  var SORT_LABEL = {};
-  SORTS.forEach(function (pair) { SORT_LABEL[pair[0]] = pair[1]; });
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var MONTH_N = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
 
-  var state = { type: 'all', sort: 'new', q: '', shown: 24 };
+  var state = { type: 'all', q: '', shown: 24 };
   var articles = [];
   var openMenu = '';
   var booting = true;
@@ -127,20 +119,12 @@
       var blob = (a.title + ' ' + a.desc + ' ' + a.kicker + ' ' + (TYPE_LABEL[a.cat] || '')).toLowerCase();
       return q.split(/\s+/).filter(Boolean).every(function (word) { return blob.indexOf(word) !== -1; });
     });
-    var dir = state.sort === 'old' ? 1 : -1;
     list.sort(function (a, b) {
-      if (state.sort === 'az') return a.title.localeCompare(b.title) || a.date.localeCompare(b.date);
-      if (state.sort === 'short') {
-        var am = a.minutes || 9999;
-        var bm = b.minutes || 9999;
-        if (am !== bm) return am - bm;
-        return a.title.localeCompare(b.title);
-      }
       var ad = a.date || '';
       var bd = b.date || '';
       if (!ad && bd) return 1;
       if (ad && !bd) return -1;
-      if (ad !== bd) return ad < bd ? -dir : dir;
+      if (ad !== bd) return ad < bd ? 1 : -1;
       return a.title.localeCompare(b.title);
     });
     return list;
@@ -165,7 +149,6 @@
 
   function renderMenus(countMap) {
     var typeMenu = document.getElementById('rh-type-menu');
-    var sortMenu = document.getElementById('rh-sort-menu');
     if (typeMenu) {
       typeMenu.innerHTML = TYPES.map(function (pair) {
         var n = pair[0] === 'all' ? countMap.all : (countMap[pair[0]] || 0);
@@ -174,23 +157,12 @@
           '<span>' + esc(pair[1]) + '</span><span class="rh-opt-n">' + n + '</span></button>';
       }).join('');
     }
-    if (sortMenu) {
-      sortMenu.innerHTML = SORTS.map(function (pair) {
-        var on = state.sort === pair[0];
-        return '<button type="button" role="option" data-value="' + pair[0] + '" aria-selected="' + (on ? 'true' : 'false') + '">' +
-          '<span>' + esc(pair[1]) + '</span></button>';
-      }).join('');
-    }
     var typeLabel = document.getElementById('rh-type-label');
     var typeCount = document.getElementById('rh-type-count');
-    var sortLabel = document.getElementById('rh-sort-label');
     if (typeLabel) typeLabel.textContent = TYPE_LABEL[state.type] || 'All';
     if (typeCount) typeCount.textContent = String(state.type === 'all' ? countMap.all : (countMap[state.type] || 0));
-    if (sortLabel) sortLabel.textContent = SORT_LABEL[state.sort] || 'Newest';
     var typeBtn = document.getElementById('rh-type-btn');
-    var sortBtn = document.getElementById('rh-sort-btn');
     if (typeBtn) typeBtn.classList.toggle('is-set', state.type !== 'all');
-    if (sortBtn) sortBtn.classList.toggle('is-set', state.sort !== 'new');
   }
 
   function renderSections(countMap) {
@@ -221,7 +193,7 @@
     var empty = document.getElementById('rh-empty');
     var total = rows.length;
     var shown = Math.min(state.shown, total);
-    var label = 'Showing ' + shown + ' of ' + total + ' · ' + (SORT_LABEL[state.sort] || 'Newest');
+    var label = 'Showing ' + shown + ' of ' + total;
     if (status) status.textContent = label;
     if (live) live.textContent = label;
     if (box) box.innerHTML = rows.slice(0, shown).map(function (a) { return rowHtml(a, true); }).join('');
@@ -260,11 +232,8 @@
   function readUrl() {
     var params = hashQuery();
     var type = params.get('type') || 'all';
-    var sort = params.get('sort') || 'new';
     if (!TYPE_LABEL[type]) type = 'all';
-    if (!SORT_LABEL[sort]) sort = 'new';
     state.type = type;
-    state.sort = sort;
     state.q = params.get('q') || '';
     state.shown = 24;
   }
@@ -272,7 +241,6 @@
     if (booting) return;
     var params = new URLSearchParams();
     if (state.type !== 'all') params.set('type', state.type);
-    if (state.sort !== 'new') params.set('sort', state.sort);
     if (state.q) params.set('q', state.q);
     var qs = params.toString();
     var hash = '#research' + (qs ? '?' + qs : '');
@@ -298,14 +266,6 @@
     render();
     focusStatus();
   }
-  function setSort(sort) {
-    state.sort = SORT_LABEL[sort] ? sort : 'new';
-    state.shown = 24;
-    closeMenus();
-    writeUrl(true);
-    render();
-    focusStatus();
-  }
   function setQuery(q, push) {
     state.q = q;
     state.shown = 24;
@@ -315,7 +275,7 @@
 
   function closeMenus() {
     openMenu = '';
-    ['type', 'sort'].forEach(function (name) {
+    ['type'].forEach(function (name) {
       var menu = document.getElementById('rh-' + name + '-menu');
       var btn = document.getElementById('rh-' + name + '-btn');
       if (menu) menu.hidden = true;
@@ -340,11 +300,10 @@
       setType(see.getAttribute('data-cat') || 'all', true);
       return;
     }
-    var opt = e.target.closest && e.target.closest('#rh-type-menu [role="option"], #rh-sort-menu [role="option"]');
+    var opt = e.target.closest && e.target.closest('#rh-type-menu [role="option"]');
     if (opt) {
       e.preventDefault();
-      if (opt.closest('#rh-sort-menu')) setSort(opt.getAttribute('data-value'));
-      else setType(opt.getAttribute('data-value'), true);
+      setType(opt.getAttribute('data-value'), true);
       return;
     }
     var row = e.target.closest && e.target.closest('a.rh-row[data-show]');
@@ -355,9 +314,7 @@
   });
 
   var typeBtn = document.getElementById('rh-type-btn');
-  var sortBtn = document.getElementById('rh-sort-btn');
   if (typeBtn) typeBtn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu('type'); });
-  if (sortBtn) sortBtn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu('sort'); });
   document.addEventListener('click', function (e) {
     if (!openMenu) return;
     if (e.target.closest && e.target.closest('#rh-bar')) return;
@@ -429,13 +386,13 @@
   readUrl();
   render();
   booting = false;
+  if (hashQuery().has('sort')) writeUrl(false);
   if ((location.hash || '').replace(/^#/, '').split('?')[0].toLowerCase() === 'research') {
     if (typeof loadDeferredArticleCards === 'function') loadDeferredArticleCards();
   }
 
   window.RH = {
     setType: function (cat) { setType(cat, true); },
-    setSort: setSort,
     setQuery: function (q) { setQuery(q, false); },
     setShown: function (n) { state.shown = n; render(); }
   };

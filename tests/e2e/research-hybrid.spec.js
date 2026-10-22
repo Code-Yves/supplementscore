@@ -199,7 +199,8 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   }));
   expect(safety.n).toBe(24);
   expect(safety.cats.every((cat) => cat === 'safety')).toBe(true);
-  expect(safety.status).toMatch(/^Showing 24 of \d+ · Newest$/);
+  expect(safety.status).toMatch(/^Showing 24 of \d+$/);
+  expect(await page.locator('#rh-sort-btn, #rh-sort-menu').count()).toBe(0);
   expect(safety.focus).toBe('rh-status');
 
   await page.evaluate(() => document.getElementById('rh-more').click());
@@ -213,7 +214,7 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   expect(back.list).toBe(false);
   expect(await page.locator('#rh-type-label').innerText()).toBe('All');
 
-  await page.evaluate(() => { window.RH.setType('all'); window.RH.setSort('new'); window.RH.setShown(10000); });
+  await page.evaluate(() => { window.RH.setType('all'); window.RH.setShown(10000); });
   const newest = await page.evaluate(() => {
     const rows = [...document.querySelectorAll('#rh-rows .rh-row')];
     const dates = rows.map((row) => row.getAttribute('data-date'));
@@ -235,15 +236,6 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   expect(newest.magBeforeDanger).toBe(true);
   expect(newest.isoLabel).toBe(false);
   expect(newest.magLabel).toContain('Oct 15, 2026');
-
-  await page.evaluate(() => { window.RH.setSort('old'); window.RH.setShown(10000); });
-  const oldest = await page.evaluate(() => {
-    const dates = [...document.querySelectorAll('#rh-rows .rh-row')].map((row) => row.getAttribute('data-date'));
-    const all = [...document.querySelectorAll('#rh-source [data-date]')].map((el) => el.getAttribute('data-date')).filter(Boolean).sort();
-    return { first: dates[0], min: all[0], ascending: dates.every((d, i) => i === 0 || dates[i - 1] <= d) };
-  });
-  expect(oldest.first).toBe(oldest.min);
-  expect(oldest.ascending).toBe(true);
 
   await page.evaluate(() => window.RH.setQuery('ADHD protocol'));
   const adhd = await page.evaluate(() => {
@@ -385,13 +377,12 @@ test('research hybrid at 390', async ({ page }, testInfo) => {
   });
   expect(meta.color).toBe('rgb(87, 83, 78)');
   expect(meta.below).toBe(true);
-  await page.evaluate(() => document.getElementById('rh-sort-btn').click());
-  await page.evaluate(() => document.querySelector('#rh-sort-menu [data-value="old"]').click());
-  const oldest = await page.evaluate(() => {
+  expect(await page.locator('#rh-sort-btn, #rh-sort-menu').count()).toBe(0);
+  const newestPhone = await page.evaluate(() => {
     const dates = [...document.querySelectorAll('#rh-rows .rh-row')].map((row) => row.getAttribute('data-date'));
-    return dates.every((d, i) => i === 0 || dates[i - 1] <= d);
+    return dates.every((d, i) => i === 0 || dates[i - 1] >= d);
   });
-  expect(oldest).toBe(true);
+  expect(newestPhone).toBe(true);
   await axeClean(page);
   expect(errors, errors.join('\n')).toEqual([]);
 });

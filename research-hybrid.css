@@ -119,7 +119,7 @@ body.tab-research .site-footer {
 
 #research-view .rh-bar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: stretch;
   margin: 0 0 24px;
   border: 1px solid #dcdad7;
@@ -202,7 +202,7 @@ body.tab-research .site-footer {
   font-weight: 600;
   cursor: pointer;
 }
-#research-view #rh-sort-btn {
+#research-view #rh-type-btn {
   border-right: 0;
 }
 #research-view .rh-cell:focus-visible {
@@ -284,7 +284,7 @@ body.tab-research .site-footer {
 
 @media (max-width: 767px) {
   #research-view .rh-bar {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
   #research-view .rh-search {
     grid-column: 1 / -1;
