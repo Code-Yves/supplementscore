@@ -67,6 +67,41 @@ async function viewState(page) {
   });
 }
 
+async function expectNoSideScroll(page) {
+  const box = await page.evaluate(() => {
+    const doc = document.documentElement;
+    const bar = document.querySelector('.beta-bar').getBoundingClientRect();
+    const foot = document.querySelector('footer.site-footer').getBoundingClientRect();
+    return {
+      scrollWidth: doc.scrollWidth,
+      clientWidth: doc.clientWidth,
+      barLeft: bar.left,
+      barRight: bar.right,
+      footLeft: foot.left,
+      footRight: foot.right,
+    };
+  });
+  expect(box.scrollWidth, 'no horizontal overflow').toBeLessThanOrEqual(box.clientWidth);
+  expect(box.barLeft).toBeGreaterThanOrEqual(-0.5);
+  expect(Math.floor(box.barRight)).toBeLessThanOrEqual(box.clientWidth);
+  expect(box.footLeft).toBeGreaterThanOrEqual(-0.5);
+  expect(Math.floor(box.footRight)).toBeLessThanOrEqual(box.clientWidth);
+}
+
+async function sectionGrid(page) {
+  return page.evaluate(() => {
+    const grid = [...document.querySelectorAll('#rh-sections .rh-grid')].find((el) => el.querySelectorAll(':scope > .rh-row').length >= 3);
+    const cs = getComputedStyle(grid);
+    const rects = [...grid.querySelectorAll(':scope > .rh-row')].slice(0, 3).map((el) => el.getBoundingClientRect());
+    return {
+      tracks: cs.gridTemplateColumns.split(' ').filter(Boolean).length,
+      columnGap: cs.columnGap,
+      tops: rects.map((r) => Math.round(r.top)),
+      gaps: [Math.round(rects[1].left - rects[0].right), Math.round(rects[2].left - rects[1].right)],
+    };
+  });
+}
+
 async function axeClean(page) {
   const results = await new AxeBuilder({ page }).include('#rh-root').analyze();
   const bad = results.violations.filter((v) => v.impact !== 'minor');
@@ -112,7 +147,13 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   expect(inset).toBe(24);
   expect(state.searchExpanded).toBeNull();
   expect(state.searchHeight).toBeGreaterThanOrEqual(48);
-  expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
+  await expectNoSideScroll(page);
+  const grid = await sectionGrid(page);
+  expect(grid.tracks).toBe(3);
+  expect(grid.columnGap).toBe('24px');
+  expect(grid.tops[0]).toBe(grid.tops[1]);
+  expect(grid.tops[1]).toBe(grid.tops[2]);
+  expect(grid.gaps).toEqual([24, 24]);
 
   await page.evaluate(() => document.getElementById('rh-type-btn').click());
   const open = await page.evaluate(() => {
@@ -253,7 +294,11 @@ test('research hybrid at 768', async ({ page }, testInfo) => {
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
   expect(state.edges[0]).toBe(24);
   expect(state.maxWidth).toBe('1024px');
-  expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
+  await expectNoSideScroll(page);
+  const grid768 = await sectionGrid(page);
+  expect(grid768.tracks).toBe(3);
+  expect(grid768.columnGap).toBe('24px');
+  expect(grid768.gaps).toEqual([24, 24]);
   await page.evaluate(() => document.querySelector('.rh-seeall[data-cat="guide"]').click());
   expect(await viewState(page)).toMatchObject({ sections: false, list: true, allcats: true });
   const before = await page.locator('#rh-rows .rh-row').count();
@@ -277,7 +322,15 @@ test('research hybrid at 767', async ({ page }, testInfo) => {
   expect(state.searchHeight).toBe(44);
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
   expect(state.edges[0]).toBe(16);
-  expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
+  await expectNoSideScroll(page);
+  const stacked = await page.evaluate(() => {
+    const rows = [...document.querySelectorAll('#rh-rows .rh-row')].slice(0, 2).map((el) => el.getBoundingClientRect());
+    return {
+      sameLeft: Math.round(rows[0].left) === Math.round(rows[1].left),
+      stacked: rows[1].top >= rows[0].bottom - 1,
+    };
+  });
+  expect(stacked).toEqual({ sameLeft: true, stacked: true });
   const n = await page.locator('#rh-rows .rh-row').count();
   expect(n).toBe(24);
   await page.evaluate(() => document.getElementById('rh-more').click());
@@ -320,7 +373,7 @@ test('research hybrid at 390', async ({ page }, testInfo) => {
   expect(state.indexHeight).toBeGreaterThanOrEqual(44);
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
   expect(state.edges[0]).toBe(16);
-  expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
+  await expectNoSideScroll(page);
   expect(await page.locator('#rh-rows .rh-row').count()).toBe(24);
   await page.evaluate(() => document.getElementById('rh-more').click());
   await expect.poll(() => page.locator('#rh-rows .rh-row').count()).toBe(48);
