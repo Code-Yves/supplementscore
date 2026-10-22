@@ -10,6 +10,57 @@ test.beforeEach(async ({ page }) => {
   await install(page);
 });
 
+test('homepage search placeholder stays inside the field', async ({ page }, testInfo) => {
+  await goto(page, '/');
+  await page.waitForSelector('#ix-hero-search');
+  const phone = testInfo.project.name === 'iphone';
+  const expected = phone
+    ? 'Supplements, research, conditions'
+    : 'Search supplements, research, conditions…';
+  const box = await page.evaluate(() => {
+    function field(id) {
+      const input = document.getElementById(id);
+      const ph = getComputedStyle(input, '::placeholder');
+      const cs = getComputedStyle(input);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.font = ph.fontStyle + ' ' + ph.fontWeight + ' ' + ph.fontSize + ' ' + ph.fontFamily;
+      const text = input.getAttribute('placeholder') || '';
+      const width = ctx.measureText(text).width;
+      const avail = input.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const icon = input.parentElement.querySelector('.ico');
+      const iconBox = icon.getBoundingClientRect();
+      const inputBox = input.getBoundingClientRect();
+      const pad = parseFloat(cs.paddingLeft);
+      return {
+        text,
+        aria: input.getAttribute('aria-label'),
+        color: ph.color,
+        width,
+        avail,
+        fits: width <= avail + 0.5,
+        icon: {
+          w: iconBox.width,
+          h: iconBox.height,
+          color: getComputedStyle(icon).color,
+          inPad: iconBox.left >= inputBox.left && iconBox.right <= inputBox.left + pad + 1,
+        },
+      };
+    }
+    return { hero: field('ix-hero-search'), sticky: field('ix-sticky-search') };
+  });
+  expect(box.hero.text).toBe(expected);
+  expect(box.hero.aria).toBe(expected);
+  expect(box.hero.color).toBe('rgb(107, 101, 96)');
+  expect(box.hero.fits, JSON.stringify(box.hero)).toBe(true);
+  expect(box.hero.icon.w).toBeGreaterThanOrEqual(14);
+  expect(box.hero.icon.h).toBeGreaterThanOrEqual(14);
+  expect(box.hero.icon.color).toBe('rgb(87, 83, 78)');
+  expect(box.hero.icon.inPad, JSON.stringify(box.hero.icon)).toBe(true);
+  expect(box.sticky.text).toBe(expected);
+  expect(box.sticky.aria).toBe(expected);
+});
+
 test('search opens the matching supplement', async ({ page }) => {
   const errors = trackConsole(page);
   await goto(page, '/');
