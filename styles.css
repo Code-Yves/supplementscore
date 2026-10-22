@@ -4695,6 +4695,10 @@ main.sk-wrap p a,main.sk-wrap li a{
 @media (max-width:600px){
   #sfbar-main .cdd-lbl{font-size:12px}
   #sfbar-main .cdd-btn{padding:0 4px;gap:2px}
+  #sfbar-main .cdd-menu{
+    max-height:none;
+    overflow:visible;
+  }
 }
 #s-content .pop-head{
   margin:0;

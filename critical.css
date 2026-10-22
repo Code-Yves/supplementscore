@@ -378,6 +378,10 @@ a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipul
 @media (max-width:600px){
   #sfbar-main .cdd-lbl{font-size:12px}
   #sfbar-main .cdd-btn{padding:0 4px;gap:2px}
+  #sfbar-main .cdd-menu{
+    max-height:none;
+    overflow:visible;
+  }
 }
 #s-content .pop-head{
   margin:0;

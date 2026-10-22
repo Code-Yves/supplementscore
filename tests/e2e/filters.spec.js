@@ -31,30 +31,66 @@ async function menuState(page, id) {
     const menuBottom = menuRect.bottom + scroll;
     const listTop = listRect.top + scroll;
     const overlaps = menuRect.bottom > listRect.top + 1 && menuRect.top < listRect.bottom - 1;
+    const clips = [];
+    let el = menu.parentElement;
+    while (el && el !== document.body && el !== document.documentElement) {
+      const cs = getComputedStyle(el);
+      const box = el.getBoundingClientRect();
+      const cutX = cs.overflowX !== 'visible' && (menuRect.left < box.left - 1 || menuRect.right > box.right + 1);
+      const cutY = cs.overflowY !== 'visible' && (menuRect.top < box.top - 1 || menuRect.bottom > box.bottom + 1);
+      if (cutX || cutY) clips.push((el.id || el.className || el.tagName) + ' ' + cs.overflowX + '/' + cs.overflowY);
+      el = el.parentElement;
+    }
+    const vw = window.innerWidth;
+    const active = document.activeElement;
+    const focusedItem = !!(active && menu.contains(active) && active.classList.contains('cdd-item'));
+    let tinted = 0;
+    menu.querySelectorAll('.cdd-item').forEach((item) => {
+      const bg = getComputedStyle(item).backgroundColor;
+      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') tinted += 1;
+    });
+    const btn = document.querySelector('#' + menuId + '-wrap .cdd-btn');
     return {
       open: menu.classList.contains('open'),
+      expanded: btn ? btn.getAttribute('aria-expanded') : '',
       position: style.position,
       overlaps,
       gap: listTop - menuBottom,
       height: menuRect.height,
+      maxHeight: style.maxHeight,
+      overflowY: style.overflowY,
+      clips,
+      fitsWidth: menuRect.width <= vw + 1 && menuRect.left >= -1 && menuRect.right <= vw + 1,
+      focusedItem,
+      tinted,
     };
   }, id);
 }
 
-async function openMenu(page, id) {
+async function openMenu(page, id, projectName) {
   await page.evaluate((menuId) => {
     document.querySelector('#' + menuId + '-wrap .cdd-btn').click();
   }, id);
   const state = await menuState(page, id);
   expect(state.open, id + ' opens').toBe(true);
+  expect(state.expanded, id + ' aria-expanded').toBe('true');
   expect(state.position, id + ' menu position').toBe('static');
   expect(state.overlaps, id + ' menu overlaps the list').toBe(false);
   expect(state.gap, id + ' menu gap above the list').toBeGreaterThanOrEqual(-1);
   expect(state.height, id + ' menu height').toBeGreaterThan(40);
+  expect(state.clips, id + ' ancestor clips the open menu').toEqual([]);
+  expect(state.fitsWidth, id + ' menu fits the viewport width').toBe(true);
+  expect(state.focusedItem, id + ' pre-highlights an option').toBe(false);
+  expect(state.tinted, id + ' pre-highlights an option').toBe(0);
+  if (projectName === 'iphone') {
+    expect(state.maxHeight, id + ' phone menu grows in flow').toBe('none');
+    expect(state.overflowY, id + ' phone menu grows in flow').toBe('visible');
+  }
 }
 
 async function expectClosed(page) {
   await expect.poll(async () => page.locator('#sfbar-main .cdd-menu.open').count()).toBe(0);
+  await expect(page.locator('#sfbar-main .cdd-btn[aria-expanded="true"]')).toHaveCount(0);
 }
 
 test.describe('homepage category menus', () => {
@@ -64,7 +100,7 @@ test.describe('homepage category menus', () => {
     await install(page);
   });
 
-  test('every option in every menu', async ({ page }) => {
+  test('every option in every menu', async ({ page }, testInfo) => {
     const errors = trackConsole(page);
     await goto(page, '/');
     await page.waitForSelector('#sfbar-main .cdd-item', { state: 'attached', timeout: 60000 });
@@ -95,12 +131,41 @@ test.describe('homepage category menus', () => {
     const total = menus.reduce((sum, menu) => sum + menu.items.length, 0);
     expect(total).toBeGreaterThan(40);
 
+    const look = await page.evaluate(() => {
+      const bar = document.getElementById('sfbar-main');
+      const barCs = getComputedStyle(bar);
+      const chevs = [...bar.querySelectorAll('.cdd-chev')].map((el) => {
+        const s = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        return { display: s.display, w: r.width, h: r.height, visibility: s.visibility };
+      });
+      const research = document.querySelector('#art-filter-wrap .cdd-lbl');
+      return {
+        borders: [barCs.borderTopWidth, barCs.borderRightWidth, barCs.borderBottomWidth, barCs.borderLeftWidth],
+        borderColor: barCs.borderTopColor,
+        chevs,
+        researchColor: getComputedStyle(research).color,
+        open: bar.querySelectorAll('.cdd-menu.open').length,
+      };
+    });
+    expect(look.borders, 'outer border').toEqual(['1px', '1px', '1px', '1px']);
+    expect(look.borderColor, 'outer border color').toBe('rgb(220, 218, 215)');
+    expect(look.chevs, 'one chevron per cell').toHaveLength(4);
+    for (const chev of look.chevs) {
+      expect(chev.display, 'chevron display').not.toBe('none');
+      expect(chev.visibility, 'chevron visibility').not.toBe('hidden');
+      expect(chev.w, 'chevron width').toBeGreaterThan(4);
+      expect(chev.h, 'chevron height').toBeGreaterThan(4);
+    }
+    expect(look.researchColor, 'Research is not teal when nothing is selected').toBe('rgb(12, 10, 9)');
+    expect(look.open, 'menus start closed').toBe(0);
+
     for (const menu of menus) {
-      await openMenu(page, menu.id);
+      await openMenu(page, menu.id, testInfo.project.name);
       await page.keyboard.press('Escape');
       await expectClosed(page);
 
-      await openMenu(page, menu.id);
+      await openMenu(page, menu.id, testInfo.project.name);
       await page.evaluate(() => document.querySelector('h1').click());
       await expectClosed(page);
     }
@@ -110,7 +175,7 @@ test.describe('homepage category menus', () => {
       for (const item of menu.items) {
         const where = menu.id + ' / ' + item.val;
         const before = await scrollY(page);
-        await openMenu(page, menu.id);
+        await openMenu(page, menu.id, testInfo.project.name);
         const picked = await page.evaluate(({ menuId, val }) => {
           const menuEl = document.getElementById(menuId + '-menu');
           const node = [...menuEl.querySelectorAll('.cdd-item')].find((el) => el.getAttribute('data-val') === val);
@@ -159,6 +224,25 @@ test.describe('homepage category menus', () => {
 
         expect(results.lit, where + ' selected buttons').toBe(1);
         expect(results.litId, where + ' lit menu').toBe(menu.id + '-wrap');
+        if (menu.id === 'cat-filter' && item.val === menu.items[0].val) {
+          const selected = await page.evaluate(() => {
+            const on = document.querySelector('#sfbar-main .cdd-btn.on');
+            const researchBtn = document.querySelector('#art-filter-wrap .cdd-btn');
+            const researchLbl = document.querySelector('#art-filter-wrap .cdd-lbl');
+            return {
+              shadow: getComputedStyle(on).boxShadow,
+              color: getComputedStyle(on).color,
+              researchOn: researchBtn.classList.contains('on'),
+              researchColor: getComputedStyle(researchLbl).color,
+              researchShadow: getComputedStyle(researchBtn).boxShadow,
+            };
+          });
+          expect(selected.shadow, 'selected 3px underline').toBe('rgb(21, 90, 80) 0px -3px 0px 0px inset');
+          expect(selected.color, 'selected label').toBe('rgb(21, 90, 80)');
+          expect(selected.researchOn, 'Research stays unselected').toBe(false);
+          expect(selected.researchColor, 'Research is not teal when unselected').toBe('rgb(12, 10, 9)');
+          expect(selected.researchShadow, 'Research has no underline').toBe('none');
+        }
         expect(results.empty, where + ' empty state').toBe(false);
         expect(results.total, where + ' result count').toBeGreaterThan(0);
         expect(results.visible, where + ' visible results').toBeGreaterThan(0);

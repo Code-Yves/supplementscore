@@ -5222,8 +5222,9 @@ function toggleDD(id){
   if(btn)btn.setAttribute('aria-expanded',open?'true':'false');
   if(open){
     _cddPark(m,wrap);
-    const first=m.querySelector('.cdd-item');
-    if(first)first.focus();
+    /* Leave every option unfocused. Focusing the first item painted
+       Performance (and the first row of every other menu) as if it were
+       already chosen. Arrow keys still move into the list from here. */
   }else{
     _cddUnpark(m);
   }
