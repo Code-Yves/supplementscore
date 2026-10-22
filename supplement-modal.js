@@ -35,8 +35,7 @@
      article overlay and is invisible. */
   + '.ssm.over-rc{z-index:9500}'
   + '.ssm-bd{position:absolute;inset:0;background:rgba(15,12,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer}'
-  + '.ssm-card{position:relative;max-width:980px;width:calc(100% - 32px);margin:32px auto;height:calc(100vh - 64px);background:var(--color-background-secondary,#ebe5d9);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(10px) scale(.99);transition:transform .2s ease;border:1px solid var(--color-border-tertiary,#dcdad7)}'
-  + '.ssm.open .ssm-card{transform:translateY(0) scale(1)}'
+  + '.ssm-card{position:relative;max-width:980px;width:calc(100% - 32px);margin:32px auto;height:calc(100vh - 64px);background:var(--color-background-secondary,#ebe5d9);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;border:1px solid var(--color-border-tertiary,#dcdad7)}'
   /* Top chrome (2026-05-20) — V2 chrome bar matching .art-modal.v2-chrome
      in styles.css: a static-positioned, padded bar with a hairline
      border-bottom; transparent inline Share + X buttons separated by a
@@ -68,6 +67,9 @@
   +   '.ssm-x{padding:0;border:0;width:44px;height:44px;min-width:44px;max-width:44px;min-height:44px;max-height:44px}'
   +   '.ssm-x svg{width:18px;height:18px}'
   + '}'
+  /* Desktop: the same viewport corner as the supplement page and the article.
+     No scale on the card, so a fixed × is not trapped or measured mid-zoom. */
+  + '@media(min-width:769px){.ssm-x{position:fixed;top:8px;right:16px;z-index:1002}}'
   + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:8px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'

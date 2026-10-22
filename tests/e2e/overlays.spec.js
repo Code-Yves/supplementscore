@@ -209,16 +209,44 @@ function contrast(fg, bg) {
 }
 
 async function cornerBox(page, selector) {
+  await page.waitForFunction((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return false;
+    let node = el;
+    while (node) {
+      if (node.getAnimations().some((anim) => anim.playState === 'running')) return false;
+      node = node.parentElement;
+    }
+    const width = el.getBoundingClientRect().width;
+    return width >= 44 && width < 44.01;
+  }, selector);
   return page.evaluate((sel) => {
     const el = document.querySelector(sel);
     const rect = el.getBoundingClientRect();
+    const cs = getComputedStyle(el);
     return {
       w: rect.width,
       h: rect.height,
       top: rect.top,
       right: window.innerWidth - rect.right,
+      inset: document.documentElement.clientWidth - rect.right,
+      cssTop: cs.top,
+      cssRight: cs.right,
     };
   }, selector);
+}
+
+function expectCorner(box, label) {
+  expect(box.w, label + ' width').toBeGreaterThanOrEqual(44);
+  expect(box.w, label + ' width').toBeLessThan(44.01);
+  expect(box.h, label + ' height').toBeGreaterThanOrEqual(44);
+  expect(box.h, label + ' height').toBeLessThan(44.01);
+  expect(box.top, label + ' top').toBeGreaterThanOrEqual(7.5);
+  expect(box.top, label + ' top').toBeLessThanOrEqual(8.5);
+  expect(box.inset, label + ' right').toBeGreaterThanOrEqual(15.5);
+  expect(box.inset, label + ' right').toBeLessThanOrEqual(16.5);
+  expect(box.cssTop, label + ' css top').toBe('8px');
+  expect(box.cssRight, label + ' css right').toBe('16px');
 }
 
 test('phone close controls are 44px and share one corner', async ({ page }, testInfo) => {
@@ -230,15 +258,7 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
   for (const [path, selector] of targets) {
     await goto(page, path);
     await page.waitForSelector(selector);
-    const box = await cornerBox(page, selector);
-    expect(box.w, path + ' width').toBeGreaterThanOrEqual(44);
-    expect(box.w, path + ' width').toBeLessThan(44.01);
-    expect(box.h, path + ' height').toBeGreaterThanOrEqual(44);
-    expect(box.h, path + ' height').toBeLessThan(44.01);
-    expect(box.top, path + ' top').toBeGreaterThanOrEqual(7.5);
-    expect(box.top, path + ' top').toBeLessThanOrEqual(8.5);
-    expect(box.right, path + ' right').toBeGreaterThanOrEqual(15.5);
-    expect(box.right, path + ' right').toBeLessThanOrEqual(16.5);
+    expectCorner(await cornerBox(page, selector), path);
   }
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
@@ -260,6 +280,22 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
     };
   });
   expect(contrast(share.fg, share.bg)).toBeGreaterThanOrEqual(4.5);
+});
+
+test('desktop close controls share one corner', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop corner');
+  const targets = [
+    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x'],
+    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
+  ];
+  for (const [path, selector] of targets) {
+    await goto(page, path);
+    await page.waitForSelector(selector);
+    expectCorner(await cornerBox(page, selector), path);
+  }
+  await openSupplement(page);
+  await page.waitForSelector('.ssm-x.ss-x');
+  expectCorner(await cornerBox(page, '.ssm-x'), 'detail');
 });
 
 test('supplement close is inside a landmark and the open card does not repeat one', async ({ page }) => {
