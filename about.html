@@ -612,9 +612,19 @@ function submitContrib(){
     }
     return 'about';
   }
+  var spy = !location.hash;
+  function pinHash(id){
+    if (!id || (location.hash || '') === '#' + id) return;
+    try { history.replaceState(history.state, '', location.pathname + location.search + '#' + id); } catch (e) {}
+  }
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if (en.isIntersecting) mark(en.target.id); });
+      if (!spy) return;
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        mark(en.target.id);
+        pinHash(en.target.id);
+      });
     }, { rootMargin: '-20% 0px -55% 0px', threshold: 0 });
     ['about','methodology','transparency'].forEach(function(id){
       var el = document.getElementById(id);
@@ -623,9 +633,16 @@ function submitContrib(){
   }
   function fromHash(){
     var h = (location.hash || '').replace('#','');
-    if (!h) { mark('about'); return; }
-    var node = document.getElementById(h);
-    mark(node ? sectionOf(node) : 'about');
+    var node = h ? document.getElementById(h) : null;
+    var id = node ? sectionOf(node) : 'about';
+    mark(id);
+    spy = false;
+    if (node && node.getBoundingClientRect) {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      try { node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); } catch (e) {}
+    }
+    clearTimeout(fromHash._t);
+    fromHash._t = setTimeout(function(){ spy = true; }, 600);
   }
   fromHash();
   window.addEventListener('hashchange', fromHash);

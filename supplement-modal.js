@@ -51,10 +51,10 @@
   + '.ssm-share:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:2px}'
   + '.ssm-share.copied{background:transparent;color:var(--color-brand,#155A50)}'
   + '.ssm-share svg{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-  + '.ssm-x{order:2;width:auto;height:auto;padding:8px 8px;border-radius:6px;border:none;background:transparent;color:#6B7280;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;transition:color .12s;font-family:inherit}'
-  + '.ssm-x:hover{background:transparent;color:#0c0a09;transform:none}'
+  + '.ssm-x{order:2;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;box-sizing:border-box;border-radius:50%;border:1px solid var(--color-border-secondary,#d6d3d1);background:var(--color-background-primary,#fff);box-shadow:0 2px 12px rgba(0,0,0,.14);color:var(--color-text-secondary,#57534e);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:0;flex-shrink:0;font-family:inherit}'
+  + '.ssm-x:hover{color:var(--color-text-primary,#1c1917);transform:none}'
   + '.ssm-x:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:2px}'
-  + '.ssm-x svg{width:13px;height:13px;display:block}'
+  + '.ssm-x svg{width:18px;height:18px;display:block}'
   + '@media(max-width:500px){.ssm-share{padding:16px 12px}.ssm-x{padding:16px 12px}.ssm-share .ssm-share-lbl{display:none}.ssm-chrome{padding:2px 8px}}'
   /* Phones: 44px share and close, 24px icons, equal gap. Comes after the
      ≤500px padding rule so it wins there. Desktop widths keep 13px icons. */
@@ -62,9 +62,10 @@
   +   '.ssm-chrome{padding:8px 12px}'
   +   '.ssm-actions{gap:8px}'
   +   '.ssm-actions::before{display:none}'
-  +   '.ssm-share,.ssm-x{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;box-sizing:border-box;justify-content:center;border-radius:8px;flex-shrink:0}'
+  +   '.ssm-share{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;box-sizing:border-box;justify-content:center;border-radius:8px;flex-shrink:0}'
   +   '.ssm-share .ssm-share-lbl{display:none}'
-  +   '.ssm-share svg,.ssm-x svg{width:24px;height:24px}'
+  +   '.ssm-share svg{width:24px;height:24px}'
+  +   '.ssm-x svg{width:18px;height:18px}'
   + '}'
   + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:8px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
@@ -227,6 +228,12 @@
     }
   }
 
+  function stripSupplementQuery(){
+    if (!/[?&]supplement=/.test(location.search)) return;
+    var search = location.search.replace(/([?&])supplement=[^&]*/g, '$1').replace(/[?&]$/, '').replace(/\?&/, '?').replace(/&&/g, '&');
+    if (search === '?') search = '';
+    try { history.replaceState(history.state && history.state.ssm ? null : history.state, '', location.pathname + search + location.hash); } catch(e){}
+  }
   function close(fromHistory) {
     if (!openSlug) return;
     openSlug = null;
@@ -238,7 +245,9 @@
     document.body.classList.remove('ssm-locked');
     setTimeout(function(){ if (!openSlug) frame.src = 'about:blank'; }, 220);
     if (!fromHistory && history.state && history.state.ssm) {
-      try { history.back(); } catch(e){}
+      try { history.back(); } catch(e){ stripSupplementQuery(); }
+    } else if (!fromHistory) {
+      stripSupplementQuery();
     }
     /* Site-wide modal back-stack (2026-05-13).
        After this supplement modal closes, if SSModalStack has a previous
@@ -341,9 +350,26 @@
     }
   });
 
-  // Esc closes
+  // Esc closes the layer in front. About/compare inside the frame has its
+  // own ×; send Esc there so it returns to the supplement in one step
+  // instead of dismissing the whole card and leaving ?supplement= behind.
   document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && openSlug) { e.preventDefault(); close(); }
+    if (e.key !== 'Escape' || !openSlug || e.defaultPrevented) return;
+    try {
+      var win = frame.contentWindow;
+      var pn = (win && win.location && win.location.pathname) || '';
+      var isSupplement = /\/supplement(?:\.html|\/[a-z0-9-]+\.html)$/i.test(pn);
+      if (!isSupplement && win && win.document) {
+        var inner = win.document.querySelector('a.ss-pagebar-x, a.pg-close-fab, a.reader-close-fab, a.rc-close, a.hub-close-fab, a.cmp-close-fab, a.d-close-fab');
+        if (inner && inner.getBoundingClientRect().width > 0) {
+          e.preventDefault();
+          inner.click();
+          return;
+        }
+      }
+    } catch (err) {}
+    e.preventDefault();
+    close();
   });
 
   // Intercept supplement links anywhere in the document.

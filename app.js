@@ -6903,6 +6903,10 @@ document.addEventListener('keydown',function(e){
     if(suppModal&&suppModal.classList.contains('open')){closeSuppModal();return;}
     var artModal=document.getElementById('art-modal');
     if(artModal&&artModal.classList.contains('open')){closeArtModal();return;}
+    var srcModal=document.getElementById('sources-modal');
+    if(srcModal&&srcModal.classList.contains('open')){srcModal.classList.remove('open');return;}
+    var fbModal=document.getElementById('fb-modal');
+    if(fbModal&&fbModal.classList.contains('open')){closeFeedback();return;}
   }
 
   // Article modal: left/right arrow navigation (ignored while typing).

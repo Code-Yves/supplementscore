@@ -188,7 +188,7 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
       pad: ul ? getComputedStyle(ul).paddingLeft : '',
       flush: link && end ? Math.round(link.getBoundingClientRect().left - end.getBoundingClientRect().left) : 99,
       share: !!document.querySelector('.rc-share svg'),
-      close: ((document.querySelector('.rc-close') || {}).textContent || '').trim(),
+      close: !!document.querySelector('.rc-close svg'),
       arrows: document.querySelectorAll('.ar-end .rc-rel-arrow, .ar-end .rc-supp-row-arrow').length,
       labels,
     };
@@ -202,7 +202,7 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   expect(bergamot.pad, 'mentioned list indent').toBe('0px');
   expect(Math.abs(bergamot.flush), 'mentioned list flush with the column').toBeLessThanOrEqual(1);
   expect(bergamot.share, 'share icon stays').toBe(true);
-  expect(bergamot.close).toBe('×');
+  expect(bergamot.close, 'round close icon stays').toBe(true);
   expect(bergamot.arrows, 'related arrows stay').toBeGreaterThan(0);
   for (const label of bergamot.labels) {
     expect(label.size, label.text).toBe('11px');

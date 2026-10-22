@@ -3791,16 +3791,22 @@ html.rc-chrome-active main.sx-wrap h3{
   background:var(--color-border-tertiary,#e5e7eb);
 }
 .rc-top-link.rc-close{
-  font-size:22px;line-height:1;font-weight:400;
-  width:24px;height:24px;justify-content:center;padding:0;
+  width:44px;height:44px;min-width:44px;min-height:44px;
+  border-radius:50%;
+  background:var(--color-background-primary,#fff);
+  border:1px solid var(--color-border-secondary,#d6d3d1);
+  box-shadow:0 2px 12px rgba(0,0,0,.14);
+  color:var(--color-text-secondary,#57534e);
+  justify-content:center;padding:0;line-height:0;font-size:0;flex-shrink:0;
 }
+.rc-top-link.rc-close svg{width:18px;height:18px;display:block}
 /* Mobile: ≥44px effective tap targets for the article top bar (2026-06-06).
    Padding (not size) grows the hit area; buttons stay visually flat/text. */
 @media(max-width:640px){
   .rc-top{padding:8px 0 4px}
   .rc-top-grp{gap:4px}
   .rc-top-link{padding:16px 8px}
-  .rc-top-link.rc-close{width:44px;height:44px;padding:0}
+  .rc-top-link.rc-close{width:44px;height:44px;padding:0;font-size:0}
 }
 
 /* Category eyebrow above H1 (when not already present) — leading dash, small caps */
@@ -4413,7 +4419,8 @@ main.sk-wrap .ar-faq > p{
     min-width:44px;
     min-height:44px;
     padding:0 !important;
-    font-size:24px !important;
+    font-size:0 !important;
+    border-radius:50% !important;
     box-sizing:border-box;
   }
 }

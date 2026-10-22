@@ -61,8 +61,10 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
 .ss-pagebar-name{font-size:14.5px;font-weight:700;letter-spacing:-.3px;line-height:1;color:var(--color-text-primary,#1c1917)}
 .ss-pagebar-name span{color:var(--color-text-tertiary,#78716c);font-weight:500}
 .ss-pagebar-x{
-  width:40px;
-  height:40px;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  min-height:44px;
   border-radius:50%;
   background:var(--color-background-primary,#fff);
   border:1px solid var(--color-border-secondary,#d6d3d1);
@@ -146,4 +148,14 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
     line-height:1.15 !important;
     letter-spacing:-.4px;
   }
+}
+/* The shared footer is wider than the page by 2rem so it can bleed under
+   the old body padding. Pages with this bar zero that padding, so the
+   bleed becomes a horizontal scrollbar (1px at 1280, and wider than a
+   phone). Keep the footer inside the page. */
+body:has(.ss-pagebar) > footer.site-footer{
+  width:100%;
+  max-width:100%;
+  margin-left:0;
+  margin-right:0;
 }
