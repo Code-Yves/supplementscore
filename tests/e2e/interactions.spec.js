@@ -109,6 +109,7 @@ test('search opens the matching supplement', async ({ page }) => {
   await expect(suggestion).toBeVisible();
   await expect(suggestion).toContainText(/magnesium/i);
   expectTaps(await tapFailures(page, '#ix-ac .gs-ac-item'), 'search suggestion');
+  await page.waitForFunction(() => window.SSModal && typeof window.SSModal.open === 'function');
   await suggestion.click();
   await expect(page.locator('.ssm.open iframe.ssm-frame')).toHaveAttribute('src', /slug=magnesium/i);
   expect(errors, errors.join('\n')).toEqual([]);
