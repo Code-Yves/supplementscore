@@ -154,6 +154,15 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   expect(grid.tops[0]).toBe(grid.tops[1]);
   expect(grid.tops[1]).toBe(grid.tops[2]);
   expect(grid.gaps).toEqual([24, 24]);
+  const sectionSpace = await page.evaluate(() => {
+    const sec = document.querySelector('#rh-sections .rh-sec');
+    const head = document.querySelector('#rh-sections .rh-sec-h');
+    return {
+      sec: getComputedStyle(sec).marginBottom,
+      head: getComputedStyle(head).marginBottom,
+    };
+  });
+  expect(sectionSpace).toEqual({ sec: '24px', head: '16px' });
 
   await page.evaluate(() => document.getElementById('rh-type-btn').click());
   const open = await page.evaluate(() => {

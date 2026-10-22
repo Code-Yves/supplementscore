@@ -321,14 +321,14 @@ body.tab-research .site-footer {
 }
 
 #research-view .rh-sec {
-  margin: 0 0 28px;
+  margin: 0 0 24px;
 }
 #research-view .rh-sec-h {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 0 0 12px;
+  margin: 0 0 16px;
 }
 #research-view .rh-sec-h h2 {
   margin: 0;
