@@ -583,12 +583,31 @@ function initCatCardCounts(){
    ARTICLE_TOP_MIX set (~20 cards) for first paint; this loader fetches the
    rest after boot, reinjects, then re-runs reorder / load-more / counts.
    Exposes window.SS_ARTICLE_CARDS_READY (Promise) so filters/search can wait. */
+function _researchCardKey(card){
+  /* Same identity the research page uses: href, else the manifest file for
+     a showArticle() card, else the title. The first card wins. */
+  const titleEl = card.querySelector('.article-title');
+  const title = ((titleEl && titleEl.textContent) || '').replace(/\s+/g, ' ').trim();
+  if (!title || /^See all \d+/i.test(title)) return '';
+  let href = card.tagName === 'A' ? (card.getAttribute('href') || '') : '';
+  const show = ((card.getAttribute('onclick') || '').match(/showArticle\((\d+)\)/) || [])[1] || '';
+  if (!href && show && window.__ART_MANIFEST) {
+    const file = window.__ART_MANIFEST[show] || window.__ART_MANIFEST[String(show)];
+    if (file) href = 'a/' + file;
+  }
+  return (href || ('id:' + show) || title).toLowerCase();
+}
 function _refreshArtDropdownCounts(){
-  const els = document.querySelectorAll('#research-list-view .article-card');
-  const counts = {all: els.length};
+  const els = document.querySelectorAll('#research-list-view .article-card, #rh-source .article-card');
+  const seen = new Set();
+  const counts = {all: 0};
   els.forEach(c => {
-    const cat = (c.getAttribute('data-category') || '').trim();
-    if (cat) counts[cat] = (counts[cat] || 0) + 1;
+    const key = _researchCardKey(c);
+    if (!key || seen.has(key)) return;
+    seen.add(key);
+    counts.all += 1;
+    const cat = (c.getAttribute('data-category') || 'guide').trim() || 'guide';
+    counts[cat] = (counts[cat] || 0) + 1;
   });
   try {
     if (typeof _artCounts !== 'undefined') {

@@ -160,9 +160,10 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
     return {
       sec: getComputedStyle(sec).marginBottom,
       head: getComputedStyle(head).marginBottom,
+      titleGap: getComputedStyle(head).gap,
     };
   });
-  expect(sectionSpace).toEqual({ sec: '24px', head: '16px' });
+  expect(sectionSpace).toEqual({ sec: '24px', head: '16px', titleGap: '16px' });
 
   await page.evaluate(() => document.getElementById('rh-type-btn').click());
   const open = await page.evaluate(() => {

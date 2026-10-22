@@ -653,7 +653,8 @@ body.on-profile .ssux-recent{display:none !important}
 .lc-arr{flex:0 0 24px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary);transition:color .15s,transform .15s;font-size:18px;align-self:center}
 .sc:hover .lc-arr{color:var(--lc-accent);transform:translateX(2px)}
 @media(max-width:640px){
-  .lc-row1{flex-direction:column;align-items:flex-start;gap:2px}
+  .lc-row1{flex-direction:column;align-items:stretch;gap:2px}
+  .lc-name{max-width:100%}
   .lc-cats{font-size:12px;white-space:normal}
   .lc-row2{flex-direction:column;gap:4px;align-items:flex-start}
   .lc-cau{order:-1;line-height:1.4;white-space:normal;min-width:0;flex-shrink:1;max-width:none;overflow:visible}
