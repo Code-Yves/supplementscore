@@ -282,20 +282,82 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
   expect(contrast(share.fg, share.bg)).toBeGreaterThanOrEqual(4.5);
 });
 
-test('desktop close controls share one corner', async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'desktop corner');
+async function panelCorner(page, closeSel, panelSel) {
+  await page.waitForFunction((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return false;
+    let node = el;
+    while (node) {
+      if (node.getAnimations().some((anim) => anim.playState === 'running')) return false;
+      node = node.parentElement;
+    }
+    const width = el.getBoundingClientRect().width;
+    return width >= 44 && width < 44.01;
+  }, closeSel);
+  return page.evaluate(({ closeSel, panelSel }) => {
+    const close = document.querySelector(closeSel);
+    const panel = document.querySelector(panelSel);
+    const cr = close.getBoundingClientRect();
+    const pr = panel.getBoundingClientRect();
+    return {
+      w: cr.width,
+      h: cr.height,
+      topGap: cr.top - pr.top,
+      rightGap: pr.right - cr.right,
+      windowGap: document.documentElement.clientWidth - cr.right,
+    };
+  }, { closeSel, panelSel });
+}
+
+function expectPanelCorner(box, label, top, right) {
+  expect(box.w, label + ' width').toBeGreaterThanOrEqual(44);
+  expect(box.w, label + ' width').toBeLessThan(44.01);
+  expect(box.h, label + ' height').toBeGreaterThanOrEqual(44);
+  expect(box.h, label + ' height').toBeLessThan(44.01);
+  expect(box.topGap, label + ' top').toBeGreaterThanOrEqual(top - 1);
+  expect(box.topGap, label + ' top').toBeLessThanOrEqual(top + 1);
+  expect(box.rightGap, label + ' right').toBeGreaterThanOrEqual(right - 1);
+  expect(box.rightGap, label + ' right').toBeLessThanOrEqual(right + 1);
+  expect(box.windowGap, label + ' window').toBeGreaterThan(40);
+}
+
+test('desktop close controls sit on the panel they close', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop panel corner');
   const targets = [
-    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x'],
-    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
+    ['/about.html', 'a.ss-pagebar-x', '.ss-pagebar-inner', 8, 16],
+    ['/terms.html', 'a.ss-pagebar-x', '.ss-pagebar-inner', 8, 16],
+    ['/condition/', 'a.ss-pagebar-x', '.ss-pagebar-inner', 8, 16],
+    ['/symptom.html', 'a.ss-pagebar-x', '.ss-pagebar-inner', 8, 16],
+    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x', '.rc-top', 16, 0],
+    ['/condition/anxiety-stack.html', 'a.rc-close.ss-x', '.rc-top', 16, 0],
+    ['/sx/anxiety.html', 'a.rc-close.ss-x', '.rc-top', 16, 0],
+    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x', 'main.det-wrap', 8, 24],
   ];
-  for (const [path, selector] of targets) {
+  for (const [path, closeSel, panelSel, top, right] of targets) {
     await goto(page, path);
-    await page.waitForSelector(selector);
-    expectCorner(await cornerBox(page, selector), path);
+    await page.waitForSelector(closeSel);
+    expectPanelCorner(await panelCorner(page, closeSel, panelSel), path, top, right);
   }
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
-  expectCorner(await cornerBox(page, '.ssm-x'), 'detail');
+  expectPanelCorner(await panelCorner(page, '.ssm-x', '.ssm-chrome'), 'detail', 16, 24);
+
+  const frame = await openAboutInModal(page);
+  await frame.locator('a.ss-pagebar-x').waitFor();
+  const overlay = await frame.locator('body').evaluate(() => {
+    const close = document.querySelector('a.ss-pagebar-x');
+    const panel = document.querySelector('.ss-pagebar-inner');
+    const cr = close.getBoundingClientRect();
+    const pr = panel.getBoundingClientRect();
+    return {
+      w: cr.width,
+      h: cr.height,
+      topGap: cr.top - pr.top,
+      rightGap: pr.right - cr.right,
+      windowGap: document.documentElement.clientWidth - cr.right,
+    };
+  });
+  expectPanelCorner(overlay, 'about overlay', 8, 16);
 });
 
 test('supplement close is inside a landmark and the open card does not repeat one', async ({ page }) => {
