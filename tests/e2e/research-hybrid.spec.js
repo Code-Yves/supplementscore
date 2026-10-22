@@ -104,6 +104,12 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   expect(state.marginLeft).toBe(state.marginRight);
   expect(state.inlineMargin).toBe('');
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
+  const inset = await page.evaluate(() => {
+    const section = document.querySelector('#research-view > .articles-section');
+    const h1 = document.querySelector('.rh-mast h1');
+    return Math.round(h1.getBoundingClientRect().left - section.getBoundingClientRect().left);
+  });
+  expect(inset).toBe(24);
   expect(state.searchExpanded).toBeNull();
   expect(state.searchHeight).toBeGreaterThanOrEqual(48);
   expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
@@ -208,8 +214,20 @@ test('research hybrid at 1280', async ({ page }, testInfo) => {
   const shared = await page.evaluate(() => [...document.querySelectorAll('#rh-rows .rh-sum, #rh-sections .rh-sum')].filter((el) => el.textContent.trim() === 'The Evidence-Based Supplement Protocol').length);
   expect(shared).toBe(0);
 
-  const readMore = await page.evaluate(() => getComputedStyle(document.querySelector('.rh-readmore')).color);
-  expect(readMore).toBe('rgb(21, 90, 80)');
+  const flat = await page.evaluate(() => {
+    const row = document.querySelector('.rh-grid .rh-row');
+    const cs = row ? getComputedStyle(row) : null;
+    return {
+      read: document.querySelectorAll('.rh-readmore').length,
+      bg: cs ? cs.backgroundColor : '',
+      border: cs ? cs.borderTopWidth : '',
+      see: [...document.querySelectorAll('.rh-title')].some((el) => /^See all \d+ condition protocols/.test(el.textContent.trim())),
+    };
+  });
+  expect(flat.read).toBe(0);
+  expect(flat.bg).toBe('rgba(0, 0, 0, 0)');
+  expect(flat.border).toBe('0px');
+  expect(flat.see).toBe(false);
   const metaColor = await page.evaluate(() => getComputedStyle(document.querySelector('#rh-rows .rh-meta')).color);
   expect(metaColor).toBe('rgb(87, 83, 78)');
   const sideVisible = await page.evaluate(() => {
@@ -233,6 +251,7 @@ test('research hybrid at 768', async ({ page }, testInfo) => {
   expect(state.sections).toBe(true);
   expect(state.list).toBe(false);
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
+  expect(state.edges[0]).toBe(24);
   expect(state.maxWidth).toBe('1024px');
   expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
   await page.evaluate(() => document.querySelector('.rh-seeall[data-cat="guide"]').click());
@@ -257,6 +276,7 @@ test('research hybrid at 767', async ({ page }, testInfo) => {
   expect(state.loadMore).toBe(true);
   expect(state.searchHeight).toBe(44);
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
+  expect(state.edges[0]).toBe(16);
   expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
   const n = await page.locator('#rh-rows .rh-row').count();
   expect(n).toBe(24);
@@ -299,6 +319,7 @@ test('research hybrid at 390', async ({ page }, testInfo) => {
   expect(state.searchExpanded).toBeNull();
   expect(state.indexHeight).toBeGreaterThanOrEqual(44);
   expect(Math.max(...state.edges) - Math.min(...state.edges)).toBeLessThanOrEqual(1);
+  expect(state.edges[0]).toBe(16);
   expect(state.scrollWidth).toBeLessThanOrEqual(state.clientWidth + 1);
   expect(await page.locator('#rh-rows .rh-row').count()).toBe(24);
   await page.evaluate(() => document.getElementById('rh-more').click());

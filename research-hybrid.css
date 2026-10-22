@@ -3,6 +3,13 @@
    #research-view so the homepage and articles keep their own layout.
    The column is the site's 1024px container. No script sets a margin. */
 
+/* The page body already pads 1rem. Cancel that while Research is open so
+   the section padding below is the only gutter: 24px from 768 up, 16px under. */
+html[data-pre-tab="research"] body,
+body.tab-research {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 #research-view > .articles-section {
   max-width: 1024px !important;
   margin-left: auto;
@@ -348,22 +355,29 @@
   box-shadow: inset 0 -3px 0 #155A50;
 }
 #research-view .rh-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-#research-view .rh-grid .rh-row {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+}
+#research-view .rh-grid .rh-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  row-gap: 4px;
+  align-items: start;
   min-width: 0;
   min-height: 44px;
-  padding: 16px;
-  border: 1px solid #dcdad7;
-  background: #fff;
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 1px solid #e7e5e4;
+  background: transparent;
   color: inherit;
   text-decoration: none;
+  box-shadow: none;
+}
+#research-view .rh-grid .rh-kicker,
+#research-view .rh-grid .rh-title,
+#research-view .rh-grid .rh-sum {
+  grid-column: 1;
 }
 #research-view .rh-grid .rh-title {
   font-size: 20px;
@@ -374,11 +388,12 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-#research-view .rh-readmore {
-  margin-top: auto;
-  color: #155A50;
-  font-size: 14px;
-  font-weight: 700;
+#research-view .rh-grid .rh-meta {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  text-align: right;
+  white-space: nowrap;
 }
 
 #research-view .rh-allcats {
@@ -448,10 +463,12 @@
   white-space: nowrap;
 }
 @media (max-width: 767px) {
-  #research-view .rh-rows .rh-row {
+  #research-view .rh-rows .rh-row,
+  #research-view .rh-grid .rh-row {
     grid-template-columns: minmax(0, 1fr);
   }
-  #research-view .rh-rows .rh-meta {
+  #research-view .rh-rows .rh-meta,
+  #research-view .rh-grid .rh-meta {
     grid-column: 1;
     grid-row: auto;
     text-align: left;

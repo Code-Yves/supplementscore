@@ -90,7 +90,7 @@
     var out = [];
     document.querySelectorAll('#rh-source .article-card').forEach(function (card) {
       var title = textOf(card.querySelector('.article-title'));
-      if (!title) return;
+      if (!title || /^See all \d+/i.test(title)) return;
       var link = hrefFor(card);
       var key = (link.href || ('id:' + link.show) || title).toLowerCase();
       if (seen[key]) return;
@@ -160,7 +160,6 @@
       '<span class="rh-title">' + esc(a.title) + '</span>' +
       '<span class="rh-sum">' + esc(a.desc) + '</span>' +
       '<span class="rh-meta">' + esc(meta) + '</span>' +
-      (compact ? '' : '<span class="rh-readmore">Read more</span>') +
       '</a>';
   }
 
