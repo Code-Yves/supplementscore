@@ -4,9 +4,9 @@
 (function (root) {
   var CATS = [
     { id: 'all', label: 'All', blurb: 'Every article in the research library' },
-    { id: 'quickread', label: 'Top 10 Lists', blurb: 'Ranked lists for a common question.' },
+    { id: 'quickread', label: 'Top 10 Lists', blurb: 'Ranked lists for a common question' },
     { id: 'guide', label: 'Guide', blurb: 'How to choose, dose, and compare supplements' },
-    { id: 'breakthrough', label: 'Breakthrough', blurb: 'New findings that could change the advice.' },
+    { id: 'breakthrough', label: 'Breakthrough', blurb: 'New findings that could change the advice' },
     { id: 'kids', label: 'Kids', blurb: 'Doses and safety for children and teens' },
     { id: 'myth', label: 'Reality Check', blurb: 'Popular claims checked against the trials' },
     { id: 'safety', label: 'Safety Alert', blurb: 'Harms, interactions, and what to avoid' },
