@@ -2829,6 +2829,12 @@ button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
   box-sizing:border-box;
   font-family:inherit;
 }
+/* The back-to-top button is 42px tall and sits 18px off the bottom.
+   On a phone that covers the last footer line. Padding clears the
+   button and leaves 16px between it and the text. */
+@media(max-width:600px){
+  .site-footer{padding-bottom:calc(42px + 18px + 16px)}
+}
 .site-footer-inner{
   max-width:1200px;margin:0 auto;
   /* Direction B (2026-05-23) — centered-column layout. All children align to
@@ -3529,11 +3535,11 @@ body.tab-supplements #nav-search-pill{display:none !important}
 .article-v2 .src-tag.industry{color:#991B1B;border-color:#991B1B;opacity:.7}
 .article-v2 .src-tag.mixed{color:#B45309;border-color:#B45309;opacity:.7}
 .article-v2 .sources-foot{
-  margin-top:16px;font-size:12px;color:#6B7280;
+  margin-top:16px;font-size:12px;color:#57534e;
   display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;
 }
 .article-v2 .sources-foot::before{content:'';width:14px;height:1.5px;background:#9CA3AF;opacity:.4}
-.article-v2 .sources-foot b{color:#4B5563;font-weight:600}
+.article-v2 .sources-foot b{color:#57534e;font-weight:600}
 
 /* Suppress the legacy .art-sources styling when we've upgraded the section. */
 .article-v2 .art-sources{margin-top:0;padding-top:0;border-top:0}

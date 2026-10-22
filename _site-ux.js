@@ -628,7 +628,38 @@
   /* Fetch and cache the article slug ordering, then wire Prev/Next on
      the standalone-article modal frame. Order matches sitemap-articles.xml. */
 
+  /* "Reviewed against N sources" is baked into article HTML with a
+     gray inline color. Repaint it stone (#57534e) wherever it shows up,
+     including lines injected after load. */
+  function paintReviewedAgainst(root){
+    var scope = root && root.querySelectorAll ? root : document;
+    var nodes = [];
+    if (scope.matches && scope.matches('p, div, li, span')) nodes.push(scope);
+    scope.querySelectorAll('p, div, li, span').forEach(function(el){ nodes.push(el); });
+    nodes.forEach(function(el){
+      var text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!/^Reviewed against \d+/.test(text) || text.length > 240) return;
+      el.style.color = '#57534e';
+      el.querySelectorAll('b, strong').forEach(function(child){ child.style.color = '#57534e'; });
+    });
+  }
+  function initReviewedColor(){
+    paintReviewedAgainst(document);
+    if (!window.MutationObserver || !document.body) return;
+    var obs = new MutationObserver(function(records){
+      records.forEach(function(record){
+        record.addedNodes.forEach(function(node){
+          if (!node || node.nodeType !== 1) return;
+          if ((node.textContent || '').indexOf('Reviewed against') === -1) return;
+          paintReviewedAgainst(node);
+        });
+      });
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
+
   function boot(){
+    initReviewedColor();
     initBackToTop();
     initReadingProgress();
     initHeroFocusPause();
