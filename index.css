@@ -661,7 +661,7 @@
   position: absolute; left: 18px; top: 50%;
   transform: translateY(-50%);
   width: 16px; height: 16px;
-  color: var(--color-text-tertiary); pointer-events: none;
+  color: #57534e; z-index: 2; pointer-events: none;
 }
 .ix-search #ix-ac{
   border-radius: 0 0 16px 16px;
@@ -1556,10 +1556,10 @@ body.on-profile #main-sticky{
     -webkit-appearance: none;
     appearance: none;
   }
-  /* No icon in this field. Drop the search-control inset so the
-     hint starts near the left edge of the pill. */
+  /* Both homepage fields carry the magnifying glass, so the sticky
+     field keeps the same left inset as the hero field. */
   #ix-sticky-search {
-    padding-left:12px !important;
+    padding-left:44px !important;
     padding-right:16px !important;
   }
   #ix-sticky-search::-webkit-search-decoration,

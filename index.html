@@ -420,7 +420,7 @@ input,button{font-family:inherit}
 .ix-hero p.lede{font-size:17px;color:var(--color-text-secondary);max-width:62ch;margin:0 0 24px;line-height:1.55;text-align:left;text-wrap:pretty;text-wrap:balance}
 .ix-search{max-width:none;width:100%;margin:0 0 32px;position:relative}
 .ix-search input{width:100%;height:48px;padding:0 20px 0 44px;font-family:inherit;font-size:16px;background:var(--color-surface);border:1px solid var(--color-border-tertiary);color:var(--color-text-primary);border-radius:16px;box-sizing:border-box}
-.ix-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:16px;height:16px;pointer-events:none}
+.ix-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#57534e;z-index:2;pointer-events:none}
 .ix-hero-bg{display:none !important}
 /* Magazine hero. Height comes from the stories, not a fixed teal slide. */
 #hero.mag{position:relative;z-index:2;height:auto;min-height:0;max-height:none;margin:0 0 32px;padding:0;overflow:hidden;background:#f4efe6;color:#0c0a09;border:1px solid #dcdad7;border-radius:16px;box-shadow:none;touch-action:pan-y}
@@ -974,11 +974,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non&#8209;profit.</p>
 
   <form class="ix-search" id="ix-hero-form" role="search" action="search.html" method="GET">
-    <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <circle cx="7" cy="7" r="5"/>
       <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
     </svg>
-    <input type="search" id="ix-hero-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index">
+    <input type="search" id="ix-hero-search" name="q" placeholder="Search supplements, research, conditions…" autocomplete="off" aria-label="Search supplements, research, conditions…">
     <div class="gs-ac" id="ix-ac" role="listbox" aria-label="Search suggestions"></div>
   </form>
 
@@ -1052,16 +1052,25 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 <div class="sticky-bar" id="main-sticky">
   <div class="sticky-bar-search">
     <form class="ix-search ix-search-sticky" role="search" action="search.html" method="GET" tabindex="-1">
-      
-      <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements, categories, or conditions…" autocomplete="off" aria-label="Search the index">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="7" cy="7" r="5"/>
+        <path d="M11 11l3.5 3.5" stroke-linecap="round"/>
+      </svg>
+      <input type="search" id="ix-sticky-search" name="q" placeholder="Search supplements, research, conditions…" autocomplete="off" aria-label="Search supplements, research, conditions…">
       <script>
         (function () {
-          var el = document.getElementById('ix-sticky-search');
-          if (!el) return;
-          var longPh = el.getAttribute('placeholder');
-          var shortPh = 'Search supplements or conditions';
-          var mq = window.matchMedia('(max-width: 768px)');
-          function sync() { el.placeholder = mq.matches ? shortPh : longPh; }
+          var longPh = 'Search supplements, research, conditions\u2026';
+          var shortPh = 'Search supplements, research\u2026';
+          var mq = window.matchMedia('(max-width: 600px)');
+          function sync() {
+            var text = mq.matches ? shortPh : longPh;
+            ['ix-hero-search', 'ix-sticky-search'].forEach(function (id) {
+              var el = document.getElementById(id);
+              if (!el) return;
+              el.placeholder = text;
+              el.setAttribute('aria-label', text);
+            });
+          }
           sync();
           if (mq.addEventListener) mq.addEventListener('change', sync);
         })();
