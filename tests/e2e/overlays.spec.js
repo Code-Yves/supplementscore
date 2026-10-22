@@ -289,7 +289,7 @@ test('supplement close is inside a landmark and the open card does not repeat on
 test('phone back-to-top is a 44px disc on the teal footer', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'iphone', 'phone back-to-top');
   await goto(page, '/supplement/l-theanine.html');
-  await page.waitForSelector('.ssux-top');
+  await page.waitForSelector('.ssux-top', { state: 'attached' });
   await page.evaluate(() => {
     window.dispatchEvent(new WheelEvent('wheel', { bubbles: true }));
     window.scrollTo(0, document.body.scrollHeight);
