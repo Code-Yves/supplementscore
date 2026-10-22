@@ -109,7 +109,8 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
       kickerColor: kicker ? getComputedStyle(kicker).color : '',
       h1: (document.querySelector('.ar-titleblock h1') || {}).textContent || '',
       byline: (document.querySelector('.ar-byline') || {}).innerText || '',
-      dek: !!document.querySelector('.ar-dek'),
+      dek: ((document.querySelector('.ar-dek') || {}).textContent || '').trim(),
+      introStays: /prescription drugs, not supplements/.test((document.querySelector('.ar-content, main.ar-wrap') || {}).innerText || ''),
       colDisplay: col ? getComputedStyle(col).display : '',
       colW: colBox ? Math.round(colBox.width) : 0,
       fontSize: cs ? cs.fontSize : '',
@@ -129,7 +130,8 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   expect(spec.kicker.length, 'category kicker').toBeGreaterThan(0);
   expect(spec.kickerColor).toBe('rgb(21, 90, 80)');
   expect(spec.h1).toMatch(/Nature's Ozempic/);
-  expect(spec.dek, 'dek').toBe(true);
+  expect(spec.dek).toBe('Berberine is a legitimate, evidence-backed supplement for blood sugar and cholesterol.');
+  expect(spec.introStays, 'dek is not the full intro').toBe(true);
   expect(spec.byline).toMatch(/Updated/);
   expect(spec.byline).toMatch(/Reviewed/);
   expect(spec.fontSize).toBe('18px');
@@ -169,6 +171,45 @@ test('article prev, next, share, and contents', async ({ page, context }, testIn
   expect(nextHref).toContain('bergamot');
   await page.locator('.ar-prevnext a', { hasText: 'Next' }).click();
   await page.waitForURL(/bergamot/);
+  await page.waitForSelector('.ar-dek');
+  const bergamot = await page.evaluate(() => {
+    const mentioned = [...document.querySelectorAll('.ar-end #ss-mentioned a, .ar-end .ss-mentioned a')].map((a) => a.textContent.trim());
+    const ul = document.querySelector('.ar-end .ss-mentioned ul');
+    const link = ul && ul.querySelector('a');
+    const end = document.querySelector('.ar-end');
+    const labels = [...document.querySelectorAll('.ar-end .rc-aend-k, .ar-end .ss-mentioned-k, .ar-bottomline-label, .ar-toc summary')].map((el) => {
+      const cs = getComputedStyle(el);
+      return { text: el.textContent.trim(), size: cs.fontSize, transform: cs.textTransform, spacing: cs.letterSpacing, weight: cs.fontWeight };
+    });
+    return {
+      dek: (document.querySelector('.ar-dek') || {}).textContent.trim(),
+      intro: /hybrid citrus fruit/.test((document.querySelector('.ar-content') || {}).innerText || ''),
+      mentioned,
+      pad: ul ? getComputedStyle(ul).paddingLeft : '',
+      flush: link && end ? Math.round(link.getBoundingClientRect().left - end.getBoundingClientRect().left) : 99,
+      share: !!document.querySelector('.rc-share svg'),
+      close: ((document.querySelector('.rc-close') || {}).textContent || '').trim(),
+      arrows: document.querySelectorAll('.ar-end .rc-rel-arrow, .ar-end .rc-supp-row-arrow').length,
+      labels,
+    };
+  });
+  expect(bergamot.dek).toBe('Bergamot (Citrus bergamia), a Calabrian citrus, contains flavonoids that act like very mild plant statins.');
+  expect(bergamot.intro, 'intro stays in the column').toBe(true);
+  expect(bergamot.mentioned.some((name) => /bergamot/i.test(name))).toBe(true);
+  for (const extra of ['Lactobacillus rhamnosus GG', 'Lactobacillus gasseri', 'L-Carnitine', 'Kaempferol']) {
+    expect(bergamot.mentioned, 'mentioned drops related-article supplements').not.toContain(extra);
+  }
+  expect(bergamot.pad, 'mentioned list indent').toBe('0px');
+  expect(Math.abs(bergamot.flush), 'mentioned list flush with the column').toBeLessThanOrEqual(1);
+  expect(bergamot.share, 'share icon stays').toBe(true);
+  expect(bergamot.close).toBe('×');
+  expect(bergamot.arrows, 'related arrows stay').toBeGreaterThan(0);
+  for (const label of bergamot.labels) {
+    expect(label.size, label.text).toBe('11px');
+    expect(label.transform, label.text).toBe('uppercase');
+    expect(label.weight, label.text).toBe('700');
+    expect(label.spacing, label.text).toBe('1.54px');
+  }
   await page.waitForSelector('.ar-prevnext a');
   await page.locator('.ar-prevnext a', { hasText: 'Previous' }).click();
   await page.waitForURL(/berberine-is-it-really-nature-s-ozempic/);

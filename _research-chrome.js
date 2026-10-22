@@ -281,6 +281,9 @@
       + 'html.rc-chrome-active .ar-byline a{color:#155A50;text-decoration:underline;text-underline-offset:2px}'
       + 'html.rc-chrome-active .ar-toc{width:200px;max-width:200px;box-sizing:border-box}'
       + 'html.rc-chrome-active .ar-toc summary{display:flex;align-items:center;min-height:48px;font-weight:700;color:#0c0a09;cursor:pointer}'
+      + 'html.rc-chrome-active main.ar-wrap .ar-bottomline-label,html.rc-chrome-active main.ar-wrap .ss-mentioned-k,html.rc-chrome-active main.ar-wrap .ss-mentioned>h2,html.rc-chrome-active main.ar-wrap .ar-toc summary,html.rc-chrome-active main.ar-wrap .rc-aend-k,html.rc-chrome-active main.ar-wrap .ar-editorial>strong,html.rc-chrome-active main.ar-wrap footer.ar-foot>strong{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#57534e}'
+      + 'html.rc-chrome-active main.ar-wrap .ar-editorial>strong,html.rc-chrome-active main.ar-wrap footer.ar-foot>strong{display:block;margin:0 0 8px}'
+      + 'html.rc-chrome-active main.ar-wrap .ar-column .ar-end nav.ss-mentioned ul,html.rc-chrome-active main.ar-wrap .ar-column .ar-end nav.ss-mentioned li{margin-left:0;padding-left:0;list-style:none}'
       + 'html.rc-chrome-active .ar-toc a{display:flex;align-items:center;width:100%;box-sizing:border-box;min-height:44px;padding:4px 0;color:#0c0a09;text-decoration:none}'
       + 'html.rc-chrome-active .ar-toc a:focus-visible,html.rc-chrome-active .ar-toc summary:focus-visible{outline:2px solid #155A50;outline-offset:2px}'
       + 'html.rc-chrome-active .ar-end>*+*{margin-top:8px}'
@@ -378,19 +381,17 @@
   if (h1.textContent.indexOf('-') !== -1) h1.textContent = h1.textContent.replace(/-/g, '\u2011');
   block.appendChild(h1);
 
-  var dek = wrap.querySelector('p.ar-lede, p.ca-lede, p.sk-lede, p.sx-lede');
-  if (!dek){
-    var paras = wrap.querySelectorAll('p');
-    for (var pi = 0; pi < paras.length; pi++){
-      var cand = paras[pi];
-      if (isMetaPara(cand)) continue;
-      if (cand.closest && cand.closest('.ar-bottomline, .ar-foot, .ar-editorial, .ar-related, .rc-aend')) continue;
-      dek = cand;
-      break;
-    }
-  }
-  if (dek){
-    dek.classList.add('ar-dek');
+  /* Dek is one sentence from the page description. The opening paragraph
+     stays in the column. Collapse spaces that were left inside parentheses. */
+  var descMeta = document.querySelector('meta[name="description"]') || document.querySelector('meta[property="og:description"]');
+  var descText = descMeta ? (descMeta.getAttribute('content') || '') : '';
+  descText = descText.replace(/\s+/g, ' ').replace(/\(\s+/g, '(').replace(/\s+\)/g, ')').trim();
+  var descSentence = descText.match(/^[\s\S]*?[.!?](?=\s|$)/);
+  if (descSentence) descText = descSentence[0].trim();
+  if (descText){
+    var dek = document.createElement('p');
+    dek.className = 'ar-dek';
+    dek.textContent = descText;
     block.appendChild(dek);
   }
 
@@ -875,6 +876,51 @@
     return found;
   }
 
+  function normName(s){
+    return (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+  /* Supplements mentioned is this article's own list. The generated
+     #ss-mentioned nav also matches names inside Related article titles;
+     those are not supplements the article discusses. */
+  function filterOwnSupplements(nav){
+    if (!nav || !wrap.classList.contains('ar-wrap')) return nav;
+    var clone = wrap.cloneNode(true);
+    clone.querySelectorAll('.ar-related, .ca-related, .sx-related, .sk-related, .rc-aend, .ss-mentioned').forEach(function(n){
+      if (n.parentNode) n.parentNode.removeChild(n);
+    });
+    var body = normName(clone.innerText || clone.textContent || '');
+    var titles = [];
+    var related = aendByLabel('related articles');
+    if (related){
+      related.querySelectorAll('.rc-rel-title').forEach(function(n){
+        var t = normName(n.textContent);
+        if (t) titles.push(t);
+      });
+    }
+    var list = nav.querySelector('ul');
+    if (!list) return nav;
+    [].slice.call(list.querySelectorAll('li')).forEach(function(li){
+      var a = li.querySelector('a');
+      var name = normName(a ? a.textContent : li.textContent);
+      if (!name) return;
+      if (body.indexOf(name) !== -1) return;
+      var fromRelated = titles.some(function(t){ return t.indexOf(name) !== -1; });
+      if (fromRelated && li.parentNode) li.parentNode.removeChild(li);
+    });
+    if (!list.querySelector('li')){
+      if (nav.parentNode) nav.parentNode.removeChild(nav);
+      return null;
+    }
+    var label = nav.querySelector('.ss-mentioned-k, h2');
+    if (label){
+      var next = document.createElement('div');
+      next.className = 'ss-mentioned-k rc-aend-k';
+      next.textContent = (label.textContent || '').replace(/[.\s]+$/, '');
+      label.parentNode.replaceChild(next, label);
+    }
+    return nav;
+  }
+
   function buildReadingColumn(){
     var items = [];
     var bl = wrap.querySelector('.ar-bottomline, .rc-bl, .bl');
@@ -894,7 +940,7 @@
       items.push({ id: sources.id, label: 'Sources' });
     }
 
-    var mentioned = document.getElementById('ss-mentioned');
+    var mentioned = filterOwnSupplements(document.getElementById('ss-mentioned'));
     var supplements = aendByLabel('supplements in this article');
     if (mentioned && supplements && supplements.parentNode) supplements.parentNode.removeChild(supplements);
     if (!mentioned && supplements){
@@ -903,6 +949,12 @@
       mentioned = supplements;
     }
     var related = aendByLabel('related articles');
+    if (wrap.classList.contains('ar-wrap')){
+      wrap.querySelectorAll('.ar-editorial > strong, footer.ar-foot > strong').forEach(function(s){
+        s.removeAttribute('style');
+        s.textContent = (s.textContent || '').replace(/[.\s]+$/, '');
+      });
+    }
     var note = wrap.querySelector('.ar-editorial, .ca-editorial, .sk-editorial, .sx-editorial');
     var disclaimer = wrap.querySelector('footer.ar-foot, footer.sx-foot, footer.ca-foot, footer.sk-foot');
     var end = el('div', 'ar-end');
