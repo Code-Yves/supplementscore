@@ -61,6 +61,44 @@ test('homepage search placeholder stays inside the field', async ({ page }, test
   expect(box.sticky.aria).toBe(expected);
 });
 
+test('homepage search placeholder fits at 320', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop');
+  async function fields() {
+    return page.evaluate(() => {
+      function field(id) {
+        const input = document.getElementById(id);
+        const ph = getComputedStyle(input, '::placeholder');
+        const cs = getComputedStyle(input);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.font = ph.fontStyle + ' ' + ph.fontWeight + ' ' + ph.fontSize + ' ' + ph.fontFamily;
+        const text = input.getAttribute('placeholder') || '';
+        const width = ctx.measureText(text).width;
+        const avail = input.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        return { text, aria: input.getAttribute('aria-label'), width, avail, fits: width <= avail + 0.5 };
+      }
+      return { hero: field('ix-hero-search'), sticky: field('ix-sticky-search') };
+    });
+  }
+  await page.setViewportSize({ width: 320, height: 700 });
+  await goto(page, '/');
+  await page.waitForSelector('#ix-hero-search');
+  const narrow = await fields();
+  expect(narrow.hero.text).toBe('Supplements, research');
+  expect(narrow.hero.aria).toBe(narrow.hero.text);
+  expect(narrow.sticky.text).toBe('Supplements, research');
+  expect(narrow.sticky.aria).toBe(narrow.sticky.text);
+  expect(narrow.hero.fits, JSON.stringify(narrow.hero)).toBe(true);
+
+  await page.setViewportSize({ width: 360, height: 700 });
+  await page.waitForFunction(() => document.getElementById('ix-hero-search').getAttribute('placeholder') === 'Supplements, research, conditions');
+  const mid = await fields();
+  expect(mid.hero.text).toBe('Supplements, research, conditions');
+  expect(mid.hero.aria).toBe(mid.hero.text);
+  expect(mid.sticky.text).toBe(mid.hero.text);
+  expect(mid.hero.fits, JSON.stringify(mid.hero)).toBe(true);
+});
+
 test('search opens the matching supplement', async ({ page }) => {
   const errors = trackConsole(page);
   await goto(page, '/');
