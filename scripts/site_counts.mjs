@@ -40,6 +40,17 @@ const NAMED_ENTITIES = {
   amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: '\u00a0',
   ndash: '\u2013', mdash: '\u2014', hellip: '\u2026',
   rsquo: '\u2019', lsquo: '\u2018', rdquo: '\u201d', ldquo: '\u201c',
+  aacute: '\u00e1', acirc: '\u00e2', aelig: '\u00e6', agrave: '\u00e0', aring: '\u00e5', atilde: '\u00e3', auml: '\u00e4',
+  ccedil: '\u00e7', eacute: '\u00e9', ecirc: '\u00ea', egrave: '\u00e8', euml: '\u00eb',
+  iacute: '\u00ed', icirc: '\u00ee', igrave: '\u00ec', iuml: '\u00ef',
+  ntilde: '\u00f1', oacute: '\u00f3', ocirc: '\u00f4', ograve: '\u00f2', oslash: '\u00f8', otilde: '\u00f5', ouml: '\u00f6',
+  uacute: '\u00fa', ucirc: '\u00fb', ugrave: '\u00f9', uuml: '\u00fc', yacute: '\u00fd', yuml: '\u00ff',
+  szlig: '\u00df', thorn: '\u00fe', eth: '\u00f0',
+  alpha: '\u03b1', beta: '\u03b2', gamma: '\u03b3', delta: '\u03b4', epsilon: '\u03b5', kappa: '\u03ba',
+  lambda: '\u03bb', mu: '\u03bc', nu: '\u03bd', omega: '\u03c9', pi: '\u03c0', sigma: '\u03c3', tau: '\u03c4', theta: '\u03b8',
+  prime: '\u2032', reg: '\u00ae', copy: '\u00a9', trade: '\u2122',
+  times: '\u00d7', divide: '\u00f7', minus: '\u2212', micro: '\u00b5', deg: '\u00b0',
+  bull: '\u2022', middot: '\u00b7',
 };
 
 function decodeEntities(s) {
@@ -137,14 +148,23 @@ function collectPmids(files) {
 }
 
 function existingBibRefs() {
-  const file = path.join(REPO, 'bibliography.html');
-  if (!fs.existsSync(file)) return new Map();
-  const html = fs.readFileSync(file, 'utf8');
   const out = new Map();
+  const jsonFile = path.join(REPO, 'data/bibliography.json');
+  if (fs.existsSync(jsonFile)) {
+    const rows = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+    for (const row of rows) {
+      const text = decodeEntities(row.reference || '').replace(/\s+/g, ' ').trim();
+      if (text && !/Citation text is not stored/i.test(text)) out.set(String(row.pmid), text);
+    }
+    if (out.size) return out;
+  }
+  const file = path.join(REPO, 'bibliography.html');
+  if (!fs.existsSync(file)) return out;
+  const html = fs.readFileSync(file, 'utf8');
   const re = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)\/"[^>]*>[^<]*<\/a><\/td><td>[\s\S]*?<\/td><td class="num">\d+<\/td><td class="bib-text">([\s\S]*?)<\/td>/g;
   let m;
   while ((m = re.exec(html))) {
-    const text = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const text = decodeEntities(m[2].replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
     if (text && !/Citation text is not stored/i.test(text)) out.set(m[1], text);
   }
   return out;
@@ -173,20 +193,108 @@ const FUNDER_COLOR = {
   none_disclosed: ['#8A8780', '#8A8780'],
 };
 
+function letterOf(reference) {
+  const text = decodeEntities(reference || '');
+  const match = text.match(/[A-Za-z]/);
+  return match ? match[0].toUpperCase() : '#';
+}
+
+const BIB_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'];
+
+const BIB_CLIENT = `<!-- BIB_SCRIPT:start -->
+<script>
+(function(){
+  var body = document.getElementById('bib-body');
+  var search = document.getElementById('bib-search');
+  var status = document.getElementById('bib-status');
+  var letters = document.getElementById('bib-letters');
+  var filter = 'all';
+  var letter = (letters && letters.getAttribute('data-default')) || 'A';
+  var rows = [];
+  var SEARCH_CAP = 60;
+  var COLORS = { public:'#0D9488', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#8A8780' };
+  var LABELS = { public:'public', nonprofit:'nonprofit', industry:'industry', mixed:'mixed', none_disclosed:'none disclosed' };
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function render(list, note, cap){
+    var shown = cap ? list.slice(0, cap) : list;
+    body.innerHTML = shown.map(function(row){
+      var color = COLORS[row.funder] || COLORS.none_disclosed;
+      var label = LABELS[row.funder] || row.funder;
+      var ref = row.reference ? esc(row.reference) : 'Cited on SupplementScore. Citation text is not stored separately from the page that links this PMID.';
+      return '<tr data-funder="'+row.funder+'"><td><a href="https://pubmed.ncbi.nlm.nih.gov/'+row.pmid+'/" target="_blank" rel="noopener">'+row.pmid+'</a></td><td><span class="bib-fpill" style="background:'+color+'1a;color:'+color+';border:1px solid '+color+'55">'+esc(label)+'</span></td><td class="num">'+row.cites+'</td><td class="bib-text">'+ref+'</td></tr>';
+    }).join('');
+    if (status) status.textContent = note;
+  }
+  function apply(){
+    var q = search.value.trim().toLowerCase();
+    var pool = rows.filter(function(r){ return filter === 'all' || r.funder === filter; });
+    if (q) {
+      var hits = pool.filter(function(r){
+        return String(r.pmid).indexOf(q) !== -1 || String(r.reference || '').toLowerCase().indexOf(q) !== -1;
+      });
+      render(hits, 'Showing ' + Math.min(hits.length, SEARCH_CAP) + ' of ' + hits.length + ' matches', SEARCH_CAP);
+      return;
+    }
+    var inLetter = pool.filter(function(r){ return r.letter === letter; });
+    render(inLetter, 'Showing ' + letter + ' · ' + inLetter.length + ' of ' + rows.length);
+  }
+  fetch('/data/bibliography.json').then(function(r){ return r.json(); }).then(function(data){
+    rows = data;
+    apply();
+  }).catch(function(){
+    if (status) status.textContent = 'The bibliography could not be loaded.';
+  });
+  search.addEventListener('input', apply);
+  if (letters) letters.addEventListener('click', function(e){
+    var b = e.target.closest('[data-letter]');
+    if (!b) return;
+    letter = b.getAttribute('data-letter');
+    [].forEach.call(letters.querySelectorAll('[data-letter]'), function(x){
+      var on = x === b;
+      x.classList.toggle('on', on);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    search.value = '';
+    apply();
+  });
+  [].forEach.call(document.querySelectorAll('.bib-stat'), function(b){
+    b.addEventListener('click', function(){
+      [].forEach.call(document.querySelectorAll('.bib-stat'), function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      filter = b.dataset.filter;
+      apply();
+    });
+  });
+})();
+</script>
+<!-- BIB_SCRIPT:end -->`;
+
 function buildBibliography(rows) {
   const counts = { all: rows.length, public: 0, nonprofit: 0, industry: 0, mixed: 0, none_disclosed: 0 };
-  for (const row of rows) counts[row.funder] = (counts[row.funder] || 0) + 1;
-  const body = rows.map((row) => {
-    const [color] = FUNDER_COLOR[row.funder] || FUNDER_COLOR.none_disclosed;
-    const label = FUNDER_LABEL[row.funder] || row.funder;
-    const ref = row.reference
-      ? esc(row.reference)
-      : 'Cited on SupplementScore. Citation text is not stored separately from the page that links this PMID.';
-    return `<tr data-funder="${row.funder}" data-cites="${row.cites}"><td><a href="https://pubmed.ncbi.nlm.nih.gov/${row.pmid}/" target="_blank" rel="noopener">${row.pmid}</a></td><td><span class="bib-fpill" style="background:${color}1a;color:${color};border:1px solid ${color}55">${label}</span></td><td class="num">${row.cites}</td><td class="bib-text">${ref}</td></tr>`;
+  const letterCounts = {};
+  const stored = rows.map((row) => {
+    counts[row.funder] = (counts[row.funder] || 0) + 1;
+    const reference = decodeEntities(row.reference || '');
+    const letter = letterOf(reference);
+    letterCounts[letter] = (letterCounts[letter] || 0) + 1;
+    return { pmid: row.pmid, cites: row.cites, funder: row.funder, reference, letter };
+  });
+  fs.mkdirSync(path.join(REPO, 'data'), { recursive: true });
+  fs.writeFileSync(path.join(REPO, 'data/bibliography.json'), JSON.stringify(stored));
+  const defaultLetter = letterCounts.A ? 'A' : (BIB_LETTERS.find((letter) => letterCounts[letter]) || 'A');
+  const buttons = BIB_LETTERS.filter((letter) => letterCounts[letter]).map((letter) => {
+    const on = letter === defaultLetter;
+    return `<button type="button" data-letter="${letter}" class="${on ? 'on' : ''}" aria-pressed="${on ? 'true' : 'false'}">${letter}</button>`;
   }).join('');
+  const letters = `<!-- BIB_LETTERS:start -->\n  <div class="bib-letters" id="bib-letters" data-default="${defaultLetter}" role="group" aria-label="Jump to a letter">\n    ${buttons}\n  </div>\n  <p class="bib-status" id="bib-status" aria-live="polite">Loading ${defaultLetter}…</p>\n  <!-- BIB_LETTERS:end -->`;
   const file = path.join(REPO, 'bibliography.html');
   let html = fs.readFileSync(file, 'utf8');
   const n = fmt(rows.length);
+  if (!html.includes('.bib-letters{')) {
+    html = html.replace('</style>', `    .bib-letters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}\n    .bib-letters button{min-height:44px;min-width:44px;padding:0 12px;border-radius:8px;border:1px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-primary);font:inherit;font-size:14px;cursor:pointer}\n    .bib-letters button.on,.bib-letters button:hover{background:var(--color-brand);color:#fff;border-color:var(--color-brand)}\n    .bib-status{font-size:13px;color:var(--color-text-secondary);margin:0 0 12px}\n  </style>`);
+  }
   html = html.replace(/Every PMID cited across SupplementScore — [\d,]+ unique PubMed sources/g, `Every PMID cited across SupplementScore — ${n} unique PubMed sources`);
   html = html.replace(/<button class="bib-stat on" data-filter="all" type="button">All \([\d,]+\)<\/button>/, `<button class="bib-stat on" data-filter="all" type="button">All (${n})</button>`);
   html = html.replace(/<button class="bib-stat" data-filter="public" type="button">Public \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="public" type="button">Public (${fmt(counts.public || 0)})</button>`);
@@ -194,7 +302,17 @@ function buildBibliography(rows) {
   html = html.replace(/<button class="bib-stat" data-filter="industry" type="button">Industry \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="industry" type="button">Industry (${fmt(counts.industry || 0)})</button>`);
   html = html.replace(/<button class="bib-stat" data-filter="mixed" type="button">Mixed \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="mixed" type="button">Mixed (${fmt(counts.mixed || 0)})</button>`);
   html = html.replace(/<button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed (${fmt(counts.none_disclosed || 0)})</button>`);
-  html = html.replace(/<tbody id="bib-body">[\s\S]*?<\/tbody>/, `<tbody id="bib-body">\n${body}\n    </tbody>`);
+  if (html.includes('<!-- BIB_LETTERS:start -->')) {
+    html = html.replace(/<!-- BIB_LETTERS:start -->[\s\S]*?<!-- BIB_LETTERS:end -->/, letters);
+  } else {
+    html = html.replace('<input type="text" id="bib-search"', `${letters}\n\n  <input type="text" id="bib-search"`);
+  }
+  html = html.replace(/<tbody id="bib-body">[\s\S]*?<\/tbody>/, '<tbody id="bib-body">\n    </tbody>');
+  if (html.includes('<!-- BIB_SCRIPT:start -->')) {
+    html = html.replace(/<!-- BIB_SCRIPT:start -->[\s\S]*?<!-- BIB_SCRIPT:end -->/, BIB_CLIENT);
+  } else {
+    html = html.replace(/<script>\s*\(function\(\)\{\s*var rows = \[\].slice.call\(document\.querySelectorAll\('#bib-body tr'\)\);[\s\S]*?\}\)\(\);\s*<\/script>/, BIB_CLIENT);
+  }
   html = html.replace(/Browse [\d,+]+ supplement entries/, `Browse ${fmt(canonicalPages().size)} supplement entries`);
   fs.writeFileSync(file, html);
 }
@@ -210,6 +328,11 @@ function applyTotals(supp, studies) {
     const next = html
       .replace(/780\+/g, suppTxt)
       .replace(/3,200\+/g, studyTxt)
+      .replace(/780 supplements scored/g, `${suppTxt} supplements scored`)
+      .replace(/780 supplement scores/g, `${suppTxt} supplement scores`)
+      .replace(/780-supplement/g, `${suppTxt}-supplement`)
+      .replace(/780 supplements/g, `${suppTxt} supplements`)
+      .replace(/3,223/g, studyTxt)
       .replace(/Filtering 733 supplements/g, `Filtering ${suppTxt} supplements`)
       .replace(/full 733-supp/g, `full ${suppTxt}-supp`);
     if (next !== html) fs.writeFileSync(file, next);
@@ -371,11 +494,31 @@ function check(expect) {
     if (text.includes('3,200+')) errors.push(`${name} still says 3,200+`);
     if (!text.includes(supp)) errors.push(`${name} does not include the supplement total ${supp}`);
   }
+  if (/780 supplements|780-supplement|780 supplement scores/.test(index)) {
+    errors.push('homepage still says 780 supplements');
+  }
+  if (!index.includes('Independent · No industry funding')) errors.push('homepage meta is missing Independent · No industry funding');
+  if (/Non-profit, evidence-based/.test(index)) errors.push('homepage meta description still says Non-profit');
+  if (!about.includes('Independent · No industry funding')) errors.push('about is missing Independent · No industry funding');
+  if (/free, public, non-profit reference/i.test(about)) errors.push('about still calls the site a non-profit reference');
+  if (/itself is a non-profit/i.test(about)) errors.push('about still says the site itself is a non-profit');
   if (!index.includes(studies) || !about.includes(studies) || !bib.includes(studies)) {
     errors.push(`study total ${studies} is missing from the homepage, about, or bibliography`);
   }
-  const rowCount = (bib.match(/<tr data-funder=/g) || []).length;
-  if (rowCount !== expect.studies) errors.push(`bibliography rows ${rowCount} != ${expect.studies}`);
+  const tbody = bib.match(/<tbody id="bib-body">([\s\S]*?)<\/tbody>/);
+  if (!tbody || /<tr[\s>]/.test(tbody[1])) errors.push('bibliography still inlines every row');
+  if (/&amp;[a-z]+;/.test(bib)) errors.push('bibliography HTML has a broken named entity');
+  if (!bib.includes('id="bib-letters"')) errors.push('bibliography is missing A–Z sections');
+  const bibFile = path.join(REPO, 'data/bibliography.json');
+  if (!fs.existsSync(bibFile)) errors.push('data/bibliography.json is missing');
+  else {
+    const bibJson = JSON.parse(fs.readFileSync(bibFile, 'utf8'));
+    if (!Array.isArray(bibJson) || bibJson.length !== expect.studies) {
+      errors.push(`bibliography json rows ${bibJson && bibJson.length} != ${expect.studies}`);
+    } else if (bibJson.some((row) => /&amp;[a-z]+;|&(?:auml|beta|ouml|uuml|eacute|ntilde);/.test(row.reference || ''))) {
+      errors.push('bibliography json still has a broken named entity');
+    }
+  }
   if (!bib.includes(`${studies} unique PubMed sources`)) errors.push('bibliography heading count does not match');
   if (app.includes('Top ' ) && app.includes('supplements by evidence score')) errors.push('trending list is still labeled as a top-by-score list');
   if (!app.includes('Trending supplements')) errors.push('trending list is not labeled Trending supplements');

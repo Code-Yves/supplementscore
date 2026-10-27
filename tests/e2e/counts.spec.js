@@ -27,8 +27,17 @@ test('homepage, bibliography, and the export use one pair of totals', async ({ p
 
   await goto(page, '/bibliography.html');
   await expect(page.locator('.bib-sub')).toContainText(studies + ' unique PubMed sources');
+  await page.waitForSelector('#bib-body tr');
   const rows = await page.locator('#bib-body tr').count();
-  expect(rows).toBe(counts.studies);
+  expect(rows).toBeGreaterThan(0);
+  expect(rows).toBeLessThan(counts.studies);
+  await expect(page.locator('#bib-status')).toContainText('Showing A');
+  const html = await page.content();
+  expect(html).not.toMatch(/&amp;[a-z]+;/);
+  await page.locator('#bib-letters button[data-letter="M"]').click();
+  await expect(page.locator('#bib-status')).toContainText('Showing M');
+  await page.locator('#bib-search').fill('beta');
+  await expect(page.locator('#bib-body')).not.toContainText('&beta;');
 
   await goto(page, '/browse.html');
   const lede = await page.locator('.bro-lede').innerText();
