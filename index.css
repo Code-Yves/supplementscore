@@ -377,8 +377,7 @@
   border-top: 1px solid var(--color-border-soft, rgba(0,0,0,.06));
   text-align:center;
 }
-/* First screen stays free of the logo row until Yves asks for it.
-   The rules below still centre the disclaimer with the label and logos. */
+/* 2026-05-21, confirmed 2026-10-27: the logo row stays off the first screen. */
 .ix-hero .ix-sources{ display:none !important; }
 .ix-sources-note{
   margin:12px auto 0;

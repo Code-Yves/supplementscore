@@ -17,7 +17,11 @@ test('homepage drops the regulator and trial-window claims', async ({ page }) =>
   expect(html).not.toContain('Public sources we cite');
   expect(html).toContain('See each page for regulator positions.');
   expect(html).toContain('updated with trials through early 2026');
-  await expect(page.locator('.ix-hero .ix-sources')).toBeHidden();
+  await expect(page.locator('.ix-hero .ix-sources')).toHaveCount(0);
+  const hero = await page.locator('.ix-hero').innerText();
+  expect(hero).not.toMatch(/Sources we cite/);
+  expect(hero).not.toMatch(/View all 51 other sources/);
+  expect(hero).not.toMatch(/None of these organisations/);
   const box = await page.evaluate(() => ({
     scroll: document.documentElement.scrollWidth,
     client: document.documentElement.clientWidth,
@@ -28,6 +32,6 @@ test('homepage drops the regulator and trial-window claims', async ({ page }) =>
 test('sources list carries the same non-endorsement note', async ({ page }) => {
   await goto(page, '/');
   await page.waitForSelector('#s-content .sc', { timeout: 60000 });
-  await page.locator('.ix-sources-more').evaluate((el) => el.click());
+  await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
   await expect(page.locator('#sources-modal .src-modal-sub')).toHaveText(NOTE);
 });
