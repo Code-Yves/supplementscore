@@ -183,6 +183,34 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
   expect(Math.abs(pinned.top)).toBeLessThanOrEqual(1);
 });
 
+test('symptom detail uses the normal content column', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop column');
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await goto(page, '/sx/sleep.html');
+  await page.waitForSelector('a.rc-close');
+  await page.waitForTimeout(100);
+  const sleep = await page.evaluate(() => {
+    const main = document.querySelector('main.sx-wrap');
+    const col = document.querySelector('.ar-column');
+    const close = document.querySelector('a.rc-close');
+    const bar = document.querySelector('.rc-top');
+    return {
+      mainW: main.getBoundingClientRect().width,
+      colW: col.getBoundingClientRect().width,
+      gap: bar.getBoundingClientRect().bottom - close.getBoundingClientRect().bottom,
+    };
+  });
+  expect(sleep.mainW).toBeGreaterThan(900);
+  expect(sleep.colW).toBeGreaterThan(700);
+  expect(sleep.gap).toBeGreaterThanOrEqual(8);
+
+  await goto(page, '/condition/dry-eye.html');
+  await page.waitForSelector('.ar-toc');
+  const tocW = await page.evaluate(() => document.querySelector('.ar-toc').getBoundingClientRect().width);
+  expect(tocW).toBeGreaterThan(150);
+  expect(tocW).toBeLessThan(220);
+});
+
 test('the homepage title keeps its offset from main', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'desktop offset');
   await page.setViewportSize({ width: 1280, height: 900 });
