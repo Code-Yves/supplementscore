@@ -1857,3 +1857,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   text-wrap:balance;hyphens:none;
 }
 #hero.mag a.mag-arrow{text-decoration:none;color:#155A50}
+
+/* After the logo grid's display:grid, so a phone still hides the row. */
+@media (max-width: 600px){
+  .ix-sources-label,
+  .ix-sources-logos{ display:none; }
+}
