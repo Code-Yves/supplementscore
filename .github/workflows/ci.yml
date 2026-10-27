@@ -34,6 +34,9 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
+      - name: Check alias catalog
+        run: node scripts/alias_catalog.mjs --check
+
       - name: Run regression suite
         run: npm test
         env:
