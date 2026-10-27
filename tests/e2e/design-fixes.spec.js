@@ -51,21 +51,30 @@ test('the non-profit claim is the independent funding line', async ({ page }, te
   expect(home.footer).toBe('Independent · No industry funding');
   expect(home.footer).not.toMatch(/non-profit/i);
   if (testInfo.project.name === 'desktop') {
-    await page.setViewportSize({ width: 1280, height: 900 });
     expect(home.shown).toBe(true);
-    const gap = await page.evaluate(() => {
-      const label = document.querySelector('.beta-bar > .ss-np');
-      const stats = document.querySelector('.beta-bar-stats');
-      const bar = document.querySelector('.beta-bar');
-      const lr = label.getBoundingClientRect();
-      const sr = stats.getBoundingClientRect();
-      const br = bar.getBoundingClientRect();
-      return { left: lr.left - sr.right, right: br.right - lr.right, top: lr.top - br.top, bottom: br.bottom - lr.bottom };
-    });
-    expect(gap.left).toBeGreaterThanOrEqual(16);
-    expect(gap.right).toBeGreaterThanOrEqual(-1);
-    expect(gap.top).toBeGreaterThanOrEqual(-1);
-    expect(gap.bottom).toBeGreaterThanOrEqual(-1);
+    for (const width of [1280, 1024]) {
+      await page.setViewportSize({ width, height: 900 });
+      const gap = await page.evaluate(() => {
+        const label = document.querySelector('.beta-bar > .ss-np');
+        const stats = document.querySelector('.beta-bar-stats');
+        const bar = document.querySelector('.beta-bar');
+        const lr = label.getBoundingClientRect();
+        const sr = stats.getBoundingClientRect();
+        const br = bar.getBoundingClientRect();
+        return {
+          left: lr.left - sr.right,
+          right: br.right - lr.right,
+          top: lr.top - br.top,
+          bottom: br.bottom - lr.bottom,
+          scroll: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        };
+      });
+      expect(gap.left, 'stats gap at ' + width).toBeGreaterThanOrEqual(16);
+      expect(gap.right, 'bar inset at ' + width).toBeGreaterThanOrEqual(-1);
+      expect(gap.top, 'bar top at ' + width).toBeGreaterThanOrEqual(-1);
+      expect(gap.bottom, 'bar bottom at ' + width).toBeGreaterThanOrEqual(-1);
+      expect(gap.scroll, 'horizontal overflow at ' + width).toBeLessThanOrEqual(1);
+    }
   } else {
     expect(home.shown).toBe(false);
   }

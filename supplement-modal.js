@@ -70,7 +70,12 @@
   /* Desktop: the × stays in the card chrome, 16px from that panel's corner.
      A fixed viewport offset sits outside the card, on the window.
      Phone padding above keeps the 8px / 16px viewport corner. */
-  + '@media(min-width:769px){.ssm-card{position:relative}.ssm-x{position:absolute;top:16px;right:16px;z-index:6}.ssm-chrome{padding-right:76px}}'
+  + '@media(min-width:769px){'
+  +   '.ssm-card{position:relative}'
+  +   '.ssm-actions{position:static}'
+  +   '.ssm-chrome{position:relative;padding-right:76px}'
+  +   '.ssm-x{position:absolute;top:16px;right:16px;z-index:6}'
+  + '}'
   + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:8px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'

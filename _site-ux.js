@@ -1004,12 +1004,12 @@
     if (!panel) return;
     var pr = panel.getBoundingClientRect();
     var br = document.body.getBoundingClientRect();
-    var cs = getComputedStyle(document.body);
-    var padL = parseFloat(cs.paddingLeft) || 0;
-    var padT = parseFloat(cs.paddingTop) || 0;
     nav.style.setProperty('position', 'absolute', 'important');
-    nav.style.setProperty('top', (pr.top - br.top - padT) + 'px', 'important');
-    nav.style.setProperty('left', (pr.left - br.left - padL) + 'px', 'important');
+    /* Absolute offsets are from the body's padding edge, which lines up
+       with the border box when the body has no border. Subtracting
+       padding shifts the × a second 16px away from the panel. */
+    nav.style.setProperty('top', (pr.top - br.top) + 'px', 'important');
+    nav.style.setProperty('left', (pr.left - br.left) + 'px', 'important');
     nav.style.setProperty('width', pr.width + 'px', 'important');
     nav.style.setProperty('height', '0px', 'important');
     nav.style.setProperty('transform', 'none', 'important');
