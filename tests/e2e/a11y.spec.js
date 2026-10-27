@@ -35,6 +35,12 @@ const PAGES = [
     ready: 'main.ab-wrap h1',
     include: ['main.ab-wrap', 'footer.site-footer'],
   },
+  {
+    name: 'symptom',
+    path: '/sx/sleep.html',
+    ready: 'a.rc-close',
+    include: ['main.sx-wrap', 'footer.site-footer'],
+  },
 ];
 
 test.beforeEach(async ({ page }) => {

@@ -183,6 +183,31 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
   expect(Math.abs(pinned.top)).toBeLessThanOrEqual(1);
 });
 
+test('the homepage skip link is pinned to the viewport', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop skip link');
+  async function skipBox() {
+    await page.waitForFunction(() => getComputedStyle(document.querySelector('.skip-link')).position === 'absolute');
+    return page.evaluate(() => {
+      const link = document.querySelector('.skip-link');
+      link.blur();
+      const hidden = link.getBoundingClientRect();
+      link.focus();
+      const shown = link.getBoundingClientRect();
+      return { hiddenBottom: hidden.bottom, focusedTop: shown.top };
+    });
+  }
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await goto(page, '/');
+  const home = await skipBox();
+  expect(home.hiddenBottom).toBeLessThanOrEqual(0);
+  expect(Math.abs(home.focusedTop)).toBeLessThanOrEqual(1);
+  await goto(page, '/#research');
+  await page.waitForSelector('#research-view .rh-mast h1');
+  const research = await skipBox();
+  expect(research.hiddenBottom).toBeLessThanOrEqual(0);
+  expect(Math.abs(research.focusedTop)).toBeLessThanOrEqual(1);
+});
+
 test('symptom detail uses the normal content column', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'desktop column');
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -203,7 +228,47 @@ test('symptom detail uses the normal content column', async ({ page }, testInfo)
   expect(sleep.mainW).toBeGreaterThan(900);
   expect(sleep.colW).toBeGreaterThan(700);
   expect(sleep.gap).toBeGreaterThanOrEqual(8);
+  const prose = await page.evaluate(() => {
+    function width(selector) {
+      const el = document.querySelector(selector);
+      return el ? el.getBoundingClientRect().width : 0;
+    }
+    const disclaim = document.querySelector('.sx-disclaim');
+    const visibleDek = [...document.querySelectorAll('.sx-sub, .ar-dek')].filter((el) => getComputedStyle(el).display !== 'none');
+    return {
+      title: width('.ar-titleblock'),
+      intro: width('.sx-intro'),
+      disclaim: width('.sx-disclaim'),
+      list: width('.sx-results'),
+      dek: visibleDek.length,
+      color: disclaim ? getComputedStyle(disclaim).color : '',
+      strong: disclaim ? getComputedStyle(disclaim.querySelector('strong')).color : '',
+    };
+  });
+  expect(prose.title).toBeGreaterThan(400);
+  expect(prose.title).toBeLessThanOrEqual(700);
+  expect(prose.intro).toBeLessThanOrEqual(700);
+  expect(prose.disclaim).toBeLessThanOrEqual(700);
+  expect(prose.list).toBeGreaterThan(900);
+  expect(prose.dek).toBe(1);
+  expect(prose.color).toBe('rgb(146, 64, 14)');
+  expect(prose.strong).toBe('rgb(146, 64, 14)');
 
+  await page.setViewportSize({ width: 390, height: 844 });
+  await goto(page, '/sx/sleep.html');
+  await page.waitForSelector('.ar-dek');
+  const phone = await page.evaluate(() => {
+    const visible = [...document.querySelectorAll('.sx-sub, .ar-dek')].filter((el) => getComputedStyle(el).display !== 'none');
+    const disclaim = document.querySelector('.sx-disclaim');
+    return {
+      dek: visible.length,
+      color: getComputedStyle(disclaim).color,
+    };
+  });
+  expect(phone.dek).toBe(1);
+  expect(phone.color).toBe('rgb(146, 64, 14)');
+
+  await page.setViewportSize({ width: 1280, height: 900 });
   await goto(page, '/condition/dry-eye.html');
   await page.waitForSelector('.ar-toc');
   const tocW = await page.evaluate(() => document.querySelector('.ar-toc').getBoundingClientRect().width);

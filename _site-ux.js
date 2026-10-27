@@ -553,7 +553,7 @@
   +   '.src-modal-panel,.art-modal-pane{position:relative}'
   +   '.src-modal-head,.art-modal-chrome{position:relative;padding-right:76px}'
   +   '.src-modal-close,.art-modal-close{position:absolute !important;top:16px !important;right:16px !important;z-index:3}'
-  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal){position:relative}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(:has(.beta-bar)):not(.is-modal){position:relative}'
   +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>a.ss-x,'
   +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{'
   +     'position:absolute !important;top:16px !important;pointer-events:auto;z-index:80 !important}'
