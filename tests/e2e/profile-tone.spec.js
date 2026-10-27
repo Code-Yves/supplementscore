@@ -19,8 +19,41 @@ test('profile wizard uses general ranges and a separate pregnancy question', asy
 
   const step3 = await page.locator('#wiz-step-3').evaluate((el) => el.textContent);
   expect(step3).toMatch(/Are you pregnant or breastfeeding/i);
+  expect(step3).toMatch(/We ask this so we can flag supplements to avoid during pregnancy or breastfeeding/);
+  expect(step3).not.toMatch(/not a sex/i);
   expect(step3).not.toMatch(/±25%|\+\/-25%/);
   expect(step3).toMatch(/discuss them with your doctor/i);
+
+  const safety = await page.evaluate(() => {
+    const blocked = (name) => {
+      const hit = _buildHardAvoidPredicate()(name);
+      return !!(hit && hit.reason);
+    };
+    const read = () => ({
+      flag: pregnantOrBf,
+      warns: profilePregnancyCaution(),
+      named: profileIsPregnant(),
+      hidden: document.getElementById('preg-field').hidden,
+      no: document.getElementById('preg-no').getAttribute('aria-checked'),
+      yes: document.getElementById('preg-yes').getAttribute('aria-checked'),
+    });
+    const initial = read();
+    const skipped = blocked('Berberine');
+    setPregnantOrBf(false);
+    const explicitNo = blocked('Berberine');
+    setPregnantOrBf(true);
+    pickSex('m');
+    const male = read();
+    const maleBlocked = blocked('Berberine');
+    return { initial, skipped, explicitNo, male, maleBlocked };
+  });
+  expect(safety.initial).toEqual({ flag: null, warns: true, named: false, hidden: false, no: 'false', yes: 'false' });
+  expect(safety.skipped).toBe(true);
+  expect(safety.explicitNo).toBe(false);
+  expect(safety.male.hidden).toBe(true);
+  expect(safety.male.warns).toBe(false);
+  expect(safety.male.named).toBe(false);
+  expect(safety.maleBlocked).toBe(false);
 
   const step5 = await page.locator('#wiz-step-5').evaluate((el) => el.textContent);
   expect(step5).not.toMatch(/filter out supplements that interact/i);

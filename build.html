@@ -189,7 +189,7 @@
         <button type="button" class="bm-opt" data-sex="f">Female</button>
         <button type="button" class="bm-opt" data-sex="x">Prefer not to say</button>
       </div>
-      <p class="bm-step-help" style="margin-top:16px">Are you pregnant or breastfeeding? This is a separate safety question, not a sex.</p>
+      <p class="bm-step-help" id="bm-preg-q" style="margin-top:16px">Are you pregnant or breastfeeding? We ask this so we can flag supplements to avoid during pregnancy or breastfeeding.</p>
       <div class="bm-opts" id="bm-preg">
         <button type="button" class="bm-opt" data-preg="no">No</button>
         <button type="button" class="bm-opt" data-preg="yes">Yes</button>
@@ -265,7 +265,7 @@
 <script>
 (function(){
   // ── Wizard state ─────────────────────────────────────────────────────
-  var state = { step:1, goals:new Set(), sex:null, pregnant:false, age:null, meds:new Set(), budget:null };
+  var state = { step:1, goals:new Set(), sex:null, pregnant:null, age:null, meds:new Set(), budget:null };
   var GOAL_KEYS = {
     Sleep:['sleep','insomnia'],
     Anxiety:['anxiety','stress','adapt'],
@@ -343,6 +343,14 @@
     return false;
   }
 
+  function paintPreg(){
+    var hide = state.sex === 'm';
+    var q = $('bm-preg-q');
+    var box = $('bm-preg');
+    if (q) q.hidden = hide;
+    if (box) box.hidden = hide;
+  }
+
   function updateNextButton(){
     var nx = $('bm-next');
     nx.disabled = !canAdvance();
@@ -363,6 +371,7 @@
     if (!b) return;
     state.sex = b.dataset.sex;
     $$('#bm-sex .bm-opt').forEach(function(x){ x.classList.toggle('on', x.dataset.sex === state.sex); });
+    paintPreg();
     updateNextButton();
   });
   $('bm-preg').addEventListener('click', function(e){
@@ -432,7 +441,7 @@
     matched = matched.filter(function(s){ return s.t !== 't4'; });
 
     // Pregnancy: exclude common contraindications
-    if (state.pregnant) {
+    if (state.sex !== 'm' && state.pregnant !== false) {
       var pregAvoid = ['ashwagandha','vitamin a','high','dha','vitex','licorice','black cohosh','dong quai','blue cohosh','pennyroyal','wormwood','rosemary (medicinal','high-dose vitamin','berberine','ho-shou-wu','tongkat ali'];
       matched = matched.filter(function(s){
         var n = (s.n || '').toLowerCase();
@@ -508,7 +517,7 @@
         warnHtml += '<div class="bm-warning"><strong>⚠︎</strong> ' + MED_WARN[m] + '</div>';
       }
     });
-    if (state.pregnant) {
+    if (state.pregnant === true && state.sex !== 'm') {
       warnHtml += '<div class="bm-warning"><strong>⚠︎</strong> Pregnancy / trying-to-conceive — supplements with insufficient pregnancy safety data have been excluded. The list below is conservative; always confirm any supplement with your OB.</div>';
     }
     $('bm-result-warnings').innerHTML = warnHtml;
@@ -540,7 +549,8 @@
   }
 
   window.restartWizard = function(){
-    state = { step:1, goals:new Set(), sex:null, pregnant:false, age:null, meds:new Set(), budget:null };
+    state = { step:1, goals:new Set(), sex:null, pregnant:null, age:null, meds:new Set(), budget:null };
+    paintPreg();
     $$('.bm-opt.on').forEach(function(x){ x.classList.remove('on'); });
     $('bm-results').classList.remove('show');
     $('bm-wizard').style.display = 'block';

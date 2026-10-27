@@ -1214,13 +1214,13 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
             </div>
           </div>
-          <div class="wiz-field-group">
+          <div class="wiz-field-group" id="preg-field">
             <label class="wiz-field-label" id="preg-label">Are you pregnant or breastfeeding?</label>
             <div class="pf-sex-pill" role="radiogroup" aria-labelledby="preg-label">
-              <button type="button" role="radio" aria-checked="true" class="pf-sex-opt sx-btn on-f" id="preg-no" onclick="setPregnantOrBf(false)">No</button>
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-no" onclick="setPregnantOrBf(false)">No</button>
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-yes" onclick="setPregnantOrBf(true)">Yes</button>
             </div>
-            <p class="wiz-field-opt" style="margin-top:6px">A separate safety question, not a sex. It filters known pregnancy cautions. It does not set a dose.</p>
+            <p class="wiz-field-opt" style="margin-top:6px">We ask this so we can flag supplements to avoid during pregnancy or breastfeeding.</p>
           </div>
           <div class="wiz-field-group">
             <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — used for BMI and for weight-based athletic doses)</span></label>

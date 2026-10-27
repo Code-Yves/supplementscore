@@ -287,7 +287,7 @@ function _buildHardAvoidPredicate(){
     if(health.kidney === 'severe' && CONDITIONS.ckd_stage_4_5) impliedConds.add('ckd_stage_4_5');
     if(health.liver === 'cirrhosis' && CONDITIONS.liver) impliedConds.add('liver');
     if(health.liver === 'impaired' && CONDITIONS.nafld) impliedConds.add('nafld');
-    if(typeof profileIsPregnant === 'function' && profileIsPregnant() && CONDITIONS.pregnant) impliedConds.add('pregnant');
+    if(typeof profilePregnancyCaution === 'function' && profilePregnancyCaution() && CONDITIONS.pregnant) impliedConds.add('pregnant');
   }
   const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ...impliedConds]);
   const condAvoid = {};
@@ -371,7 +371,7 @@ function profileAugmentationPass(recs, opts){
     if(health.liver === 'impaired' && CONDITIONS.nafld) _impliedConds.add('nafld');
     /* Round-4 fix: inject 'pregnant' synthetic condition so the hard-avoid list
        (teratogens, abortifacients, uterine stimulants) prunes recommendations. */
-    if(typeof profileIsPregnant === 'function' && profileIsPregnant() && CONDITIONS.pregnant) _impliedConds.add('pregnant');
+    if(typeof profilePregnancyCaution === 'function' && profilePregnancyCaution() && CONDITIONS.pregnant) _impliedConds.add('pregnant');
   }
   const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ..._impliedConds]);
 
@@ -726,15 +726,23 @@ if(_ageInput){
   updAge(_ageInput.value);
 }
 let sex=null;
-/* Pregnancy is a safety flag, not a sex value. Older saved profiles used sex 'fp'. */
-let pregnantOrBf=false;
+/* null means the question was skipped. Skipping keeps pregnancy warnings on.
+   Older saved profiles used sex 'fp'. */
+let pregnantOrBf=null;
 function _paintSex(){
   const bm=document.getElementById('bm'),bf=document.getElementById('bf');
   if(bm){bm.className='pf-sex-opt sx-btn'+(sex==='m'?' on-m':'');bm.setAttribute('aria-checked',sex==='m'?'true':'false');}
   if(bf){bf.className='pf-sex-opt sx-btn'+(sex==='f'?' on-f':'');bf.setAttribute('aria-checked',sex==='f'?'true':'false');}
   const no=document.getElementById('preg-no'),yes=document.getElementById('preg-yes');
-  if(no){no.className='pf-sex-opt sx-btn'+(!pregnantOrBf?' on-f':'');no.setAttribute('aria-checked',!pregnantOrBf?'true':'false');}
-  if(yes){yes.className='pf-sex-opt sx-btn'+(pregnantOrBf?' on-fp':'');yes.setAttribute('aria-checked',pregnantOrBf?'true':'false');}
+  const answered=pregnantOrBf===true||pregnantOrBf===false;
+  if(no){no.className='pf-sex-opt sx-btn'+(answered&&!pregnantOrBf?' on-f':'');no.setAttribute('aria-checked',answered&&!pregnantOrBf?'true':'false');}
+  if(yes){yes.className='pf-sex-opt sx-btn'+(answered&&pregnantOrBf?' on-fp':'');yes.setAttribute('aria-checked',answered&&pregnantOrBf?'true':'false');}
+  const field=document.getElementById('preg-field');
+  if(field){
+    const hide=sex==='m';
+    field.hidden=hide;
+    field.style.display=hide?'none':'';
+  }
 }
 function pickSex(s){
   if(s==='fp'){sex='f';pregnantOrBf=true;_paintSex();const serr=document.getElementById('serr');if(serr)serr.style.display='none';return;}
@@ -743,7 +751,10 @@ function pickSex(s){
   const serr=document.getElementById('serr');if(serr)serr.style.display='none';
 }
 function setPregnantOrBf(yes){pregnantOrBf=!!yes;_paintSex();}
-function profileIsPregnant(){return !!pregnantOrBf||sex==='fp';}
+/* Explicit yes only. Dose text and the summary line use this. */
+function profileIsPregnant(){return pregnantOrBf===true&&sex!=='m';}
+/* Unanswered stays cautious. Male hides the question and turns the warnings off. */
+function profilePregnancyCaution(){return sex!=='m'&&pregnantOrBf!==false;}
 function profileSexLabel(kind){
   const preg=profileIsPregnant();
   if(kind==='adj'){const base=sex==='m'?'Male':'Female';return preg?base+', pregnant or breastfeeding':base;}
@@ -6380,7 +6391,7 @@ function saveProfile(){
     bodyUnit:(typeof _bodyUnit==='function')?_bodyUnit():'imperial',heightCm:document.getElementById('prof-height-cm')?.value||'',weightKg:document.getElementById('prof-weight-kg')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
     // Plan B1 — Health Status fields
-    pregnantOrBf:!!pregnantOrBf,
+    pregnantOrBf:pregnantOrBf,
     kidney_fn:document.getElementById('kidney-fn')?.value||'normal',
     liver_fn:document.getElementById('liver-fn')?.value||'normal',
     smoking:document.getElementById('smoking-status')?.value||'never',
@@ -6478,7 +6489,12 @@ function loadProfile(){
     // sex==='' default elsewhere, which was previously the source of subtle "looks like
     // female by default" bugs after a tampered or stale localStorage payload.
     if(p.sex==='fp'){pickSex('f');setPregnantOrBf(true);}
-    else if(p.sex==='m'||p.sex==='f'){pickSex(p.sex);if(typeof p.pregnantOrBf==='boolean')setPregnantOrBf(p.pregnantOrBf);}
+    else if(p.sex==='m'||p.sex==='f'){
+      pickSex(p.sex);
+      if(p.pregnantOrBf===true)setPregnantOrBf(true);
+      else if(p.pregnantOrBf===false)setPregnantOrBf(false);
+      else{pregnantOrBf=null;_paintSex();}
+    }
     // Filter persisted Set members against the live key tables. A previous session may
     // have saved a med/condition/goal key that has since been removed from data.js;
     // without this filter, downstream code would do MEDS[k].avoid.forEach(...) and crash.
@@ -6565,7 +6581,7 @@ function clearProfile(){
   lsRemove('ss-profile');
   const asl=document.getElementById('asl');if(asl){asl.value=35;updAge(35);}
   sex=null;
-  pregnantOrBf=false;
+  pregnantOrBf=null;
   _paintSex();
   selectedMeds=new Set();renderMedChips();
   selectedConds=new Set();renderCondChips();
@@ -6606,7 +6622,8 @@ function getShareUrl(){
   const params=new URLSearchParams();
   params.set('age',age);
   if(sex)params.set('sex',sex);
-  params.set('preg', pregnantOrBf ? '1' : '0');
+  if(pregnantOrBf===true)params.set('preg','1');
+  else if(pregnantOrBf===false)params.set('preg','0');
   if(selectedMeds.size)params.set('meds',[...selectedMeds].join(','));
   if(selectedConds.size)params.set('conds',[...selectedConds].join(','));
   if(selectedGoals.size)params.set('goals',[...selectedGoals].join(','));
