@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Terms and the editorial board use the About cadence', async ({ page }) => {
   await goto(page, '/terms.html');
-  const terms = await page.locator('main, body').innerText();
+  const terms = await page.locator('body').innerText();
   expect(terms).not.toContain('Tier 1 entries weekly');
   expect(terms).toContain('Tier 1 every 30 days');
   await expect(page.locator('a[href="about.html#cadence"]')).toBeVisible();
