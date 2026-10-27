@@ -86,19 +86,26 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
 
 /* Index lists (browse, topic-hub supplement indexes). In-article links
    stay as written. Each row is a link: 16px type, a 48px target, a
-   hairline, and a teal arrow. */
+   hairline, and an arrow in the brand teal. Phone stays one column.
+   From 768 the rows share a height and a 32px column gap; from 1024
+   there are three columns, so 1280 is three as well. */
 .bro-list,.hub-simple-list{
   font-size:16px;
   row-gap:0;
+  column-gap:0;
   gap:0;
+  grid-template-columns:1fr;
+  align-items:stretch;
 }
-.hub-simple-list{grid-template-columns:1fr}
+.bro-list li,.hub-simple-list li{display:flex;min-width:0}
 .bro-list a,.hub-simple-list li a{
   display:flex;
+  flex:1;
   align-items:center;
   justify-content:space-between;
   gap:12px;
   min-height:48px;
+  height:100%;
   font-size:16px;
   line-height:1.3;
   font-weight:500;
@@ -116,9 +123,24 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
   width:8px;
   height:8px;
   margin-left:12px;
-  border-right:2px solid #0D9488;
-  border-top:2px solid #0D9488;
+  border-right:2px solid #155A50;
+  border-top:2px solid #155A50;
   transform:rotate(45deg);
+}
+@media(min-width:768px){
+  .bro-list,.hub-simple-list{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:32px;
+    gap:0 32px;
+  }
+}
+@media(min-width:1024px){
+  .bro-list,.hub-simple-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ss-pagebar-inner{
+    width:min(1024px,calc(100% - 32px));
+    max-width:1024px;
+    padding-left:var(--ss-np-pad,300px);
+  }
 }
 .bro-list a:hover,.hub-simple-list li a:hover{
   color:var(--color-brand,#155A50);

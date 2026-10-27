@@ -8,28 +8,46 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
-  /* One muted trust line in the visible desktop header.
-     The homepage writes its own into the stats bar. Other pages get it
-     beside the wordmark, or in the empty side of the tab nav. Never the
-     footer, and never a filter menu. */
+  /* One trust line, desktop only, at the left of the 1024px column.
+     The homepage already has it in the stats bar. Other pages get the
+     same element: inside a page bar, or on the body when the page has
+     neither. Never the footer, a menu, or a second copy. */
   (function placeTrustLine(){
-    if (document.querySelector('.ss-np')) return;
-    var el = document.createElement('span');
-    el.className = 'ss-np';
-    el.textContent = 'Independent · No industry funding';
-    var pagebar = document.querySelector('.ss-pagebar-inner');
-    if (pagebar) {
-      pagebar.insertBefore(el, pagebar.querySelector('.ss-pagebar-x'));
-      return;
+    var LABEL = 'Independent · No industry funding';
+    function ensure(){
+      if (!document.body || document.body.classList.contains('is-modal')) return null;
+      var el = document.querySelector('.ss-np');
+      if (el) return el;
+      el = document.createElement('span');
+      el.className = 'ss-np';
+      el.textContent = LABEL;
+      var pagebar = document.querySelector('.ss-pagebar-inner');
+      if (pagebar) pagebar.insertBefore(el, pagebar.firstChild);
+      else document.body.appendChild(el);
+      return el;
     }
-    var nav = document.querySelector('nav.site-nav');
-    var inner = nav && nav.querySelector('.site-nav-inner');
-    if (inner && nav.style.display !== 'none' && getComputedStyle(nav).display !== 'none' && !inner.querySelector('.site-nav-search-pill')) {
-      inner.appendChild(el);
-      return;
+    function align(){
+      var el = ensure();
+      if (!el) return;
+      var w = el.getBoundingClientRect().width;
+      if (w > 40) document.documentElement.style.setProperty('--ss-np-pad', Math.ceil(24 + w + 20) + 'px');
+      if (el.closest('.beta-bar, .ss-pagebar')) return;
+      if (!window.matchMedia('(min-width:1024px)').matches) return;
+      var vw = document.documentElement.clientWidth;
+      var cs = getComputedStyle(document.body);
+      var padL = parseFloat(cs.paddingLeft) || 0;
+      var padR = parseFloat(cs.paddingRight) || 0;
+      var inner = Math.max(0, vw - padL - padR);
+      var col = Math.min(1024, inner);
+      var desired = padL + (inner - col) / 2 + 24;
+      var parent = el.offsetParent || document.documentElement;
+      var pr = parent.getBoundingClientRect();
+      var border = parseFloat(getComputedStyle(parent).borderLeftWidth) || 0;
+      el.style.left = (desired - pr.left - border) + 'px';
     }
-    var bar = document.querySelector('.beta-bar');
-    if (bar && !bar.closest('footer')) bar.appendChild(el);
+    align();
+    window.addEventListener('resize', align);
+    window.addEventListener('load', align);
   })();
 
   /* A refresh was landing on the footer.
@@ -482,7 +500,7 @@
   +   'html.rc-chrome-active .ar-column,html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,'
   +   'html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{position:relative}'
   +   'a.ss-x.rc-close{position:absolute !important;top:16px !important;right:16px !important;z-index:5 !important}'
-  +   'html.rc-chrome-active .rc-top{padding-right:72px}'
+  +   'html.rc-chrome-active .rc-top{box-sizing:border-box;min-height:72px;padding-right:72px;align-items:center}'
   +   'body:has(main.det-wrap):not(.is-modal){position:relative}'
   +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions{'
   +     'position:absolute;top:0;left:50%;transform:translateX(-50%);'
@@ -502,8 +520,14 @@
   +     'position:absolute !important;top:16px !important;pointer-events:auto;z-index:80 !important}'
   +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>a.ss-x{right:16px !important}'
   +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{right:68px !important}'
-  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>main{padding-top:72px !important}'
+  +   'body:has(>nav.ss-page-actions):not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(:has(.beta-bar)):not(:has(main.ar-wrap)):not(:has(main.sx-wrap)):not(:has(main.ca-wrap)):not(:has(main.sk-wrap)):not(:has(.rc-top)):not(.is-modal)>main{padding-top:72px !important}'
   + '}'
+  + '@media(min-width:1024px){'
+  +   'body>.ss-np{display:inline-flex;position:absolute;top:16px;z-index:30;height:32px;align-items:center}'
+  +   'html.rc-chrome-active .ar-toc{padding-top:48px;box-sizing:border-box}'
+  +   '.ss-pagebar-inner{padding-left:var(--ss-np-pad,300px)}'
+  + '}'
+  + 'body.is-modal .ss-np{display:none !important}'
     /* Phone: every corner × sits 8px from the top and 16px from the right. */
   + '@media(max-width:768px){'
   +   'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'

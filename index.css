@@ -1816,6 +1816,9 @@ body.on-profile #main-sticky{
   body.tab-supplements .beta-bar-stat-sep{color:#155A50}
   body.tab-supplements.hero-search-gone .beta-bar{justify-content:space-between}
 }
+@media (min-width:1024px){
+  body.tab-supplements .beta-bar{padding-left:var(--ss-np-pad,300px)}
+}
 @media (max-width:600px){
   #supplements-view > .container{
     padding-left:0;
