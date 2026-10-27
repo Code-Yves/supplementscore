@@ -92,6 +92,9 @@ test('sleep guide names a caution and drops the alias card', async ({ page }, te
   const evidence = await page.locator('.sx-evidence p').evaluate((el) => el.textContent);
   expect(evidence).toContain('and Magnesium glycinate');
   await expect(page.locator('body')).not.toContainText('when this page lists them');
+  // Article chrome restyles column paragraphs to 18px after load. Measure
+  // once that stylesheet is in, or a fast read still sees the inline 16px.
+  await page.waitForFunction(() => !!document.getElementById('ar-layout'));
   const sizes = await page.locator('.sx-evidence p, .sx-avoid li').evaluateAll((els) => {
     return els.map((el) => getComputedStyle(el).fontSize);
   });

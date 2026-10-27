@@ -226,7 +226,7 @@ def write_compare(by_slug, write: bool):
 SX_CSS = """
     .sx-block{margin:0 0 22px}
     .sx-block h2{font-size:1.15rem;font-weight:750;letter-spacing:-.2px;margin:0 0 8px}
-    .sx-block p,.sx-block li{font-size:16px;line-height:1.6;color:var(--color-text-primary)}
+    .sx-block p,.sx-block li{font-size:16px !important;line-height:1.6;color:var(--color-text-primary)}
     .sx-block ul{margin:0;padding-left:1.25em}
     main.sx-wrap .sx-avoid ul,main.sx-wrap .sx-links ul{margin-left:0 !important;padding-left:1.25em !important;list-style-position:outside}
     .sx-block a{color:var(--color-brand,#155A50)}
@@ -245,7 +245,7 @@ def english_join(names):
 
 
 def ensure_sx_css(html):
-    if "main.sx-wrap .sx-avoid ul" in html and "font-size:14.5px" not in html:
+    if "font-size:16px !important" in html and "main.sx-wrap .sx-avoid ul" in html and "font-size:14.5px" not in html:
         return html
     html = re.sub(
         r"\n    \.sx-block\{margin:0 0 22px\}.*?\.sx-block a\{color:var\(--color-brand,#155A50\)\}\n",
@@ -394,6 +394,8 @@ def write_symptoms(by_slug, write: bool):
             problems.append(f"{path.name}: template still hedges about Tier 4")
         if not write and "font-size:14.5px" in text:
             problems.append(f"{path.name}: symptom body text is still 14.5px")
+        if not write and "font-size:16px !important" not in text:
+            problems.append(f"{path.name}: symptom body text loses to the article chrome size")
         if not write and "main.sx-wrap .sx-avoid ul" not in text:
             problems.append(f"{path.name}: phone list bullets can hang outside the margin")
     return changed, problems
