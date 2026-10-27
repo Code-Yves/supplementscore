@@ -2438,24 +2438,6 @@
     "tips": "Take capsules with meals — never on an empty stomach. Avoid liquid vinegar form as it erodes tooth enamel. Take with a full glass of water."
   },
   {
-    "name": "Carnosine (L-carnosine)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Anti-glycation · Aging · Athletic",
-    "scores": {
-      "composite": 54,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "An antioxidant concentrated in muscle and brain tissue that helps prevent sugar-related protein damage, a process linked to aging. Small trials show modest benefits for slowing age-related decline, but the body breaks it down quickly in the bloodstream. Beta-alanine may be a more effective way to raise carnosine levels in muscles.",
-    "dose": "500–1,000 mg/day in divided doses; beta-alanine may be more effective for raising muscle carnosine",
-    "tips": "Take on an empty stomach or between meals. Splitting the dose morning and midday may improve availability. Avoid taking with food as it may reduce absorption."
-  },
-  {
     "name": "Sea moss (Irish moss)",
     "tier": "t3",
     "trending": true,
@@ -3986,24 +3968,6 @@
     "description": "At standard doses of 20 to 40 mg per day, black cohosh may modestly relieve hot flashes. However, high doses above 160 mg per day and prolonged use have been linked to rare but serious liver injury, including cases requiring liver transplant. If you use the standard dose form, liver function monitoring is recommended during treatment.",
     "dose": "AVOID high doses (>160 mg/day) or prolonged use; standard dose 20–40 mg/day requires liver monitoring",
     "tips": "Do not take this supplement."
-  },
-  {
-    "name": "Licorice root high-dose",
-    "tier": "t4",
-    "trending": false,
-    "tag": "Hypokalemia · Hypertension · Cardiac",
-    "scores": {
-      "composite": 38,
-      "efficacy": 2,
-      "safety": 1,
-      "research": 2,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 1
-    },
-    "description": "Contains glycyrrhizin, which blocks cortisol breakdown and causes your body to retain sodium and lose potassium. This can lead to dangerously high blood pressure, low potassium, and heart rhythm problems, even from amounts found in licorice candy. The DGL form (with glycyrrhizin removed) is much safer for stomach use.",
-    "dose": "AVOID >50 mg glycyrrhizin/day; DGL licorice (glycyrrhizin removed) is safer for stomach use",
-    "tips": "Do not take this supplement. The DGL form for stomach use should be taken 20 min before meals. Avoid all forms with glycyrrhizin."
   },
   {
     "name": "Bitter orange (Citrus aurantium)",
@@ -6887,24 +6851,6 @@
     "tips": "Take 40 min before meals for blood sugar control. Avoid in the evening as it may disturb sleep. Keep away from stimulants and blood thinners."
   },
   {
-    "name": "Korean red ginseng (fermented)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Sexual health · Energy · Immunity",
-    "scores": {
-      "composite": 58,
-      "efficacy": 3,
-      "safety": 3,
-      "research": 3,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Heat-processed and fermented form of Panax ginseng that converts ginsenosides into more bioavailable forms. Multiple Korean trials show significant improvement in erectile function and libido in men. Also modestly boosts immune cell activity. The fermented form may absorb better than standard ginseng. May interact with blood thinners, diabetes drugs, and stimulants.",
-    "dose": "1–3 g/day fermented Korean red ginseng; avoid with warfarin and stimulants",
-    "tips": "Take in the morning with water to avoid sleep disruption. Avoid with blood thinners and caffeine. Take with food if it causes nausea."
-  },
-  {
     "name": "Ivy leaf extract (Hedera helix)",
     "tier": "t2",
     "trending": false,
@@ -7771,24 +7717,6 @@
     "tips": "Take leaf extract with food. Never take neem oil by mouth — only leaf extract is safe. Avoid completely during pregnancy. Monitor blood sugar if diabetic."
   },
   {
-    "name": "Tremella fuciformis (snow fungus)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Skin hydration · Antioxidant · Immunity",
-    "scores": {
-      "composite": 53,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 1,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "A translucent mushroom used in Chinese cuisine and traditional medicine for skin beauty. Contains polysaccharides with exceptional water-holding capacity, similar to hyaluronic acid. Lab studies show strong antioxidant and immune-modulating effects. Human clinical trials for oral supplementation are essentially nonexistent. Very safe as it has been consumed as a food for centuries. Evidence is almost entirely preclinical.",
-    "dose": "1–3 g/day mushroom powder or 500 mg extract; preclinical evidence only — no human supplement trials",
-    "tips": "Mix powder into warm drinks, soups, or smoothies. Take with or without food. Very safe as a food-derived ingredient."
-  },
-  {
     "name": "Shiitake extract (lentinan)",
     "tier": "t3",
     "trending": false,
@@ -8201,24 +8129,6 @@
     "description": "Heavily marketed as a superfood, but NCCIH confirms no definitive evidence acai is more beneficial than other fruits. Antioxidant content is similar to common berries. Multiple FTC enforcement actions against companies making false weight loss claims. Save your money — any mixed berries provide equivalent benefits.",
     "dose": "500–1,000 mg/day extract; no evidence it is superior to common berries; weight loss claims are false",
     "tips": "Take with food. No unique health benefit over eating blueberries or strawberries. Save money by eating any mixed berries instead."
-  },
-  {
-    "name": "Goji berry extract (Lycium barbarum)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Antioxidant · Eye health · Immunity",
-    "scores": {
-      "composite": 52,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 2,
-      "onset": 2,
-      "cost": 2,
-      "drug_interaction_inverse": 4
-    },
-    "description": "A traditional Chinese longevity food rich in zeaxanthin and polysaccharides. Small trials show modest improvements in well-being and immune markers. Supports macular health via zeaxanthin. Very safe as a food, but meaningfully enhances warfarin's anticoagulant effect. Benefits are real but similar to other antioxidant-rich berries.",
-    "dose": "15 g/day dried berries or 500 mg extract; AVOID with warfarin — enhances anticoagulant effect",
-    "tips": "Eat as dried berries or take extract with water. Do not use with warfarin — it strongly enhances blood thinning. Otherwise very safe as a food."
   },
   {
     "name": "Mangosteen (Garcinia mangostana)",
@@ -8635,25 +8545,6 @@
     "tips": "Take with food. Water-soluble — toxicity is not a concern at any supplemental dose. Heavy drinkers and post-bariatric patients should supplement routinely without waiting for symptoms. Benfotiamine (fat-soluble form) has better tissue penetration for peripheral neuropathy. No significant drug interactions at standard doses."
   },
   {
-    "name": "Magnesium bisglycinate",
-    "tier": "t1",
-    "trending": false,
-    "tag": "Sleep · Anxiety · Bioavailability",
-    "scores": {
-      "composite": 75,
-      "efficacy": 4,
-      "safety": 5,
-      "research": 3,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Magnesium bisglycinate is the same compound as magnesium glycinate (magnesium chelated to two glycine molecules — bis = two). It is the best-tolerated oral magnesium form for people who experience diarrhea with citrate, oxide, or sulfate, because the glycinate chelate resists dissociation in the gut, reducing osmotic and irritant effects. Oral magnesium supplementation improved sleep onset latency by 17 minutes in the 2021 Mah meta-analysis (3 RCTs, PMID 33865376). Glycine, the chelating amino acid, independently promotes sleep at 3 g/day (Inagawa 2006) and activates inhibitory glycine receptors in the CNS. The higher cost per elemental milligram of magnesium is offset by superior tolerability for sensitive individuals. UL from supplements 350 mg elemental magnesium per day.",
-    "dose": "200–400 mg elemental magnesium as bisglycinate before bed. Check label carefully: a 1,000 mg bisglycinate capsule typically provides only 100–200 mg elemental magnesium. Target elemental dose, not total salt weight.",
-    "tips": "Take 30–60 minutes before bed. No laxative effect at normal doses — ideal for people with sensitive GI systems or IBS-D. Still space at least 2 hours from fluoroquinolone/tetracycline antibiotics, levothyroxine, and bisphosphonates — magnesium chelates these drugs regardless of the carrier form. Can be combined with glycine powder for enhanced sleep effect.",
-    "cycle": "Safe for continuous indefinite daily use. No evidence of dependence or tolerance. The gentlest form for sustained supplementation."
-  },
-  {
     "name": "Phosphorus",
     "tier": "t2",
     "trending": false,
@@ -8706,24 +8597,6 @@
     "description": "One of two oxygenated carotenoids concentrated in the central macula (the other is lutein), where it absorbs blue-light photons before they damage photoreceptor outer segments. The AREDS2 trial established 2 mg zeaxanthin plus 10 mg lutein daily as the optimal combination for slowing progression to advanced AMD in at-risk patients — roughly a 25% reduction in progression over five years. Modest effects on visual performance metrics and digital eye strain have also been reported. Extremely safe; excess is excreted without toxicity and minor harmless skin yellowing can occur at very high intakes.",
     "dose": "2–4 mg/day standalone or as part of the AREDS2 combination (2 mg zeaxanthin + 10 mg lutein)",
     "tips": "Take with a fatty meal — carotenoids are fat-soluble. Can be taken any time of day with food. Often combined with lutein in eye-health formulas."
-  },
-  {
-    "name": "Benfotiamine (fat-soluble B1)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Neuropathy · AGE prevention · B1 bioavailability",
-    "scores": {
-      "composite": 74,
-      "efficacy": 3,
-      "safety": 5,
-      "research": 3,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 5
-    },
-    "description": "A fat-soluble thiamine precursor achieving blood levels up to 5 times higher than standard thiamine and entering nerve and brain tissue far more effectively. Multiple trials confirm it reduces diabetic nerve pain and prevents advanced glycation end-products linked to aging-related tissue damage. Preferred for neuropathy.",
-    "dose": "150–300 mg/day for neuropathy and AGE prevention; take with food as it is fat-soluble",
-    "tips": "Take with food to ensure fat-soluble absorption. Split into morning and evening doses for neuropathy. Does not turn urine bright yellow like standard water-soluble B vitamins."
   },
   {
     "name": "Inositol (high-dose, psychiatric)",
@@ -9034,24 +8907,6 @@
     "tips": "Take with food. Consistent daily use for at least 6 weeks before assessing results. Combining with leg elevation and regular walking enhances circulation benefits."
   },
   {
-    "name": "Phosphatidylserine (plant-derived)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Cognition · Cortisol · Memory",
-    "scores": {
-      "composite": 64,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "FDA allows a qualified health claim for phosphatidylserine reducing cognitive decline risk. The plant-derived form replaced bovine cortex used in older trials. A 2024 review confirmed it significantly reduces cortisol after stress and modestly improves memory in older adults. Sunflower-derived preferred for soy-sensitive individuals.",
-    "dose": "300 mg/day in 3 doses (100 mg × 3) with meals; sunflower-derived form preferred for soy allergy",
-    "tips": "Take with meals split across 3 doses through the day. Takes 6–8 weeks for memory benefits. Safe for long-term use. Sunflower-derived preferred for soy-sensitive individuals."
-  },
-  {
     "name": "L-Carnosine",
     "tier": "t2",
     "trending": false,
@@ -9068,24 +8923,6 @@
     "description": "A dipeptide of beta-alanine and histidine that prevents sugar from attaching to proteins, a key driver of tissue aging. Multiple trials show it reduces H. pylori infection when combined with antibiotics. Rapidly broken down in the gut — zinc carnosine form is preferred for gut applications. Very safe at all tested doses.",
     "dose": "1,000–2,000 mg/day L-carnosine; or 75 mg zinc carnosine × 2 for targeted gut applications",
     "tips": "Take on an empty stomach or between meals for systemic anti-glycation effects. For gut protection, zinc carnosine form before meals is preferred. Very safe at all tested doses."
-  },
-  {
-    "name": "Butyrate tributyrin (odourless)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Gut integrity · Colon health · Microbiome",
-    "scores": {
-      "composite": 65,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 2,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "Tributyrin delivers butyrate to the colon where it fuels colonocytes and maintains gut barrier integrity. More stable and odourless than sodium butyrate, with less small-intestine degradation. Small human trials (Banasiewicz 2013 and others) suggest butyrate/tributyrin improves gut permeability markers and symptoms in IBD and IBS, though most evidence remains preliminary. Well tolerated.",
-    "dose": "300–600 mg/day tributyrin; better colon delivery and palatability than sodium butyrate powder",
-    "tips": "Take with meals. Tributyrin capsules are odourless — an advantage over sodium butyrate. Start at 300 mg and increase after one week. No significant drug interactions."
   },
   {
     "name": "Saccharomyces cerevisiae beta-glucan",
@@ -9287,42 +9124,6 @@
     "tips": "Take with food as tea or capsule. Very safe as a culinary ingredient. Consider ginger instead if you want clinical evidence for nausea. No significant drug interactions at culinary doses."
   },
   {
-    "name": "Caprylic acid C8 (targeted MCT)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Ketosis · Cognition · Gut antimicrobial",
-    "scores": {
-      "composite": 69,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 2,
-      "onset": 5,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "The 8-carbon medium-chain fatty acid (C8) is the most ketogenic of the MCTs, bypassing the lymphatic system and converting to ketones in the liver within 30 minutes. Gram-for-gram it produces roughly 3× the ketone elevation of a standard C8/C10 blend and 6× that of coconut oil. Used clinically in the Axona formulation for mild Alzheimer's disease. Has direct antimicrobial activity against Candida albicans at the gut concentrations reached during oral dosing. Common starting dose is 5 g and builds gradually — starting at full dose reliably causes GI upset.",
-    "dose": "5–15 mL/day pure C8 MCT oil; start with 5 mL to avoid GI distress; more ketogenic than standard MCT",
-    "tips": "Start with 5 mL per day and build up over 1–2 weeks to avoid nausea. Best added to coffee, smoothies, or food. Do not heat above 160°C — it degrades at high cooking temperatures."
-  },
-  {
-    "name": "Chlorogenic acid (green coffee extract)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Glucose · Blood pressure · Weight",
-    "scores": {
-      "composite": 64,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "The main polyphenol in green (unroasted) coffee beans, substantially degraded during roasting — which is why brewed coffee is a weaker source. Inhibits glucose-6-phosphatase and slows intestinal glucose absorption. A 2024 meta-analysis of 9 randomised trials confirmed modest but statistically significant reductions in fasting glucose and post-prandial blood sugar at 400–600 mg/day over 8–12 weeks. Contains less caffeine than brewed coffee but is not caffeine-free. Generally well tolerated; high doses can cause GI upset and may mildly elevate homocysteine.",
-    "dose": "200–400 mg/day chlorogenic acid from green coffee extract (400–800 mg extract equivalent)",
-    "tips": "Take with or just before a meal to slow glucose absorption. Can be taken with water. Contains some caffeine — avoid in the evening if caffeine-sensitive."
-  },
-  {
     "name": "Algal DHA (vegan omega-3)",
     "tier": "t2",
     "trending": false,
@@ -9340,60 +9141,6 @@
     "dose": "200–500 mg/day algal DHA for maintenance; 300 mg/day minimum in pregnancy; choose algal EPA+DHA combination product for broader cardiovascular benefits.",
     "tips": "Take with a fat-containing meal for best absorption. Refrigerate after opening. Algal EPA+DHA blends offer the same full spectrum as fish oil without marine contaminants. Conversion from dietary ALA (flaxseed, chia) to DHA is insufficient to meet needs in most people.",
     "cycle": "Safe for continuous daily use indefinitely. Essential for vegans and pregnant women not consuming fish. No cycling needed."
-  },
-  {
-    "name": "Taurine (cardiac and metabolic)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Cardiovascular · Metabolic · Aging",
-    "scores": {
-      "composite": 68,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 4
-    },
-    "description": "A conditionally essential amino sulfonic acid that regulates cellular hydration, mitochondrial function, and cardiac electrical stability. Circulating taurine declines by roughly 80% between young adulthood and late life. A 2024 meta-analysis of 20 randomised trials found 3–6 g/day lowered resting heart rate by ~3.6 bpm and blood pressure by ~4 mmHg. A 2023 Nature paper in aged mice and non-human primates linked taurine supplementation to improvements in multiple aging biomarkers, though the human healthspan trials are still years from reading out. Very safe at tested doses; avoid in bipolar mania.",
-    "dose": "500–3,000 mg/day in 2–3 divided doses; blood pressure effects are additive with antihypertensives",
-    "tips": "Take with meals split into 2–3 daily doses. If on blood pressure medication, monitor BP as effects are additive. Can be taken at any time of day."
-  },
-  {
-    "name": "Policosanol (Cuban, unconfirmed)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Cholesterol · Cardiovascular",
-    "scores": {
-      "composite": 47,
-      "efficacy": 1,
-      "safety": 4,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "Cuban laboratories published dozens of trials in the 1990s and 2000s reporting dramatic LDL reductions of 20–30% from sugar-cane policosanol. Every large, independent, non-Cuban replication — including German, Canadian, and US trials — found no significant effect on LDL, HDL, or triglycerides. It is one of the most cited examples of geographic non-reproducibility in supplement science. Not recommended for cholesterol management based on the international evidence base.",
-    "dose": "10–20 mg/day; independent non-Cuban studies found no cholesterol benefit — not recommended",
-    "tips": "No strong intake guidance given the lack of replication. If you choose to try it, take with the evening meal. Do not expect the cholesterol benefits claimed in Cuban studies."
-  },
-  {
-    "name": "Curcumin Meriva (phytosome)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Joint · Inflammation · Bioavailable curcumin",
-    "scores": {
-      "composite": 62,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 2,
-      "drug_interaction_inverse": 4
-    },
-    "description": "A patented curcumin-phosphatidylcholine complex absorbing roughly 29 times better than standard curcumin. Clinical trials show significant improvements in osteoarthritis pain, stiffness, and function. Tested in over 30 studies with a good safety profile. More expensive than generic curcumin but better evidenced.",
-    "dose": "500–1,000 mg/day Meriva phytosome (equivalent to ~200 mg curcuminoids); take with a meal",
-    "tips": "Take with a meal — the phosphatidylcholine complex still benefits from dietary fat. Avoid combining with blood thinners or NSAIDs at high doses without guidance."
   },
   {
     "name": "Proline (L-Proline)",
@@ -9504,24 +9251,6 @@
     "tips": "Take with food for best absorption. Urine turns bright yellow — harmless and confirms ingestion. Riboflavin absorption is saturated at about 27 mg per dose; split doses above that amount. Migraine use (400 mg/day) is a distinct pharmacological application and should not be conflated with the nutritional dose listed here."
   },
   {
-    "name": "Psyllium husk (soluble fibre)",
-    "tier": "t1",
-    "trending": false,
-    "tag": "Cholesterol · Gut regularity · Glucose",
-    "scores": {
-      "composite": 94,
-      "efficacy": 5,
-      "safety": 5,
-      "research": 5,
-      "onset": 3,
-      "cost": 5,
-      "drug_interaction_inverse": 4
-    },
-    "description": "One of the best-evidenced fibre supplements, with an FDA-authorised health claim for coronary heart disease reduction at 7 g/day soluble fibre from psyllium. The 2024 Zhu meta-analysis (29 RCTs, 2,769 participants, PMID 38688104) confirmed psyllium lowers LDL-C by 0.35 mmol/L and total cholesterol by 0.28 mmol/L — equivalent to roughly 7% CVD risk reduction. Soluble fibre from psyllium is also a guideline first-line option for IBS-constipation and attenuates post-prandial glucose spikes. Must always be taken with plenty of water; inadequate fluid intake risks oesophageal or intestinal obstruction. Drug absorption can be reduced: space 2 hours from any oral medication.",
-    "dose": "5–10 g/day in 1–3 divided doses, each with at least 240 mL water; start at 2.5 g/day and increase over 1–2 weeks; FDA cholesterol claim requires 7 g/day soluble fibre",
-    "tips": "Always take with a full glass of water and drink fluids throughout the day. Build up gradually over 1–2 weeks to minimise bloating. Space 2 hours from all oral medications — psyllium reduces absorption of statins, metformin, thyroid hormones, and other drugs. Do not take immediately before bed."
-  },
-  {
     "name": "Caffeine (standardised)",
     "tier": "t1",
     "trending": false,
@@ -9539,24 +9268,6 @@
     "dose": "3-6 mg/kg body weight 45-60 min before exercise or a demanding cognitive task (approximately 200-400 mg for most adults). Do not exceed 400 mg/day. Doses above 6 mg/kg increase side-effects without additional benefit.",
     "tips": "Avoid after 1-2 PM to protect sleep. Cycling off for 1-2 weeks every month helps reset tolerance. Avoid combining with ephedrine, synephrine, or other stimulants. Habitual coffee drinkers should abstain 2-4 days before a competition dose to maximise effect. Genetic variation in CYP1A2 and ADORA2A determines how much benefit and anxiety you experience.",
     "cycle": "For maximum ergogenic effect, cycle off caffeine for 7-14 days periodically. Daily use at moderate doses (100-200 mg) is safe long-term but blunts the acute performance boost. No serious safety concerns at doses below 400 mg/day in healthy adults."
-  },
-  {
-    "name": "Vitamin B1 (Thiamine, clinical)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Neurology · Alcohol recovery · Energy",
-    "scores": {
-      "composite": 88,
-      "efficacy": 4,
-      "safety": 5,
-      "research": 4,
-      "onset": 4,
-      "cost": 5,
-      "drug_interaction_inverse": 5
-    },
-    "description": "The neurological emergency form of thiamine use — high-dose IV or IM thiamine for Wernicke encephalopathy (WE), the acute brain syndrome caused by thiamine depletion in heavy drinkers, bariatric patients, and prolonged hyperemesis. A 2024 systematic review (Cantu-Weinstein, 27 studies, 688 patients, PMID 38306946) confirmed IV thiamine at 500 mg three times daily alleviates cognitive dysfunction and brain MRI lesions in WE, with partial or complete resolution in 90% of cases. WE is profoundly underdiagnosed — only clinical and MRI criteria are used in most cases. Oral supplementation at 100-300 mg/day supports recovery once IV repletion is complete. No upper limit established. Water-soluble; excess excreted.",
-    "dose": "Wernicke encephalopathy (clinical): 500 mg IV three times daily until improvement, then 250 mg IV/IM daily for 3-5 days, then oral 100-300 mg/day. At-risk prevention (alcohol dependence, bariatric surgery, hyperemesis): 100-300 mg/day oral.",
-    "tips": "IV route is mandatory for suspected WE — oral absorption is unreliable in malnourished or alcohol-dependent patients. Give before IV glucose to avoid precipitating acute WE. Benfotiamine (fat-soluble prodrug) is preferred for peripheral neuropathy; parenteral thiamine is not interchangeable with oral at equivalent doses in deficiency states."
   },
   {
     "name": "Electrolyte replacement (clinical)",
@@ -9594,24 +9305,6 @@
     "dose": "25–50 mg/day elemental iron as ferrous bisglycinate for deficiency treatment. Every-other-day dosing (rather than daily) may improve net absorption by allowing hepcidin levels to reset between doses. Maintenance/prevention: 18–25 mg/day elemental iron. Confirm elemental iron content on label — a 27 mg bisglycinate capsule typically provides ~5 mg elemental iron, while a 90 mg capsule provides ~18 mg elemental iron.",
     "tips": "Take on an empty stomach with 100–200 mg vitamin C to enhance absorption. If GI upset occurs, take with a small amount of food — absorption decreases modestly but tolerability improves significantly. Space at least 2 hours from calcium supplements, dairy, coffee, tea, antacids, and tetracycline/fluoroquinolone antibiotics (all markedly inhibit iron absorption). Bisglycinate is more resistant to tea/phytate inhibition than sulfate, but spacing is still prudent. Never supplement iron without confirming deficiency via ferritin test.",
     "cycle": "Use until ferritin and hemoglobin are restored to target range, then reassess. Retest ferritin 8–12 weeks after starting treatment. Once replete, switch to dietary maintenance unless ongoing blood loss (menstruation, GI) persists."
-  },
-  {
-    "name": "Sodium bicarbonate (exercise buffer)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Performance · Acid buffering · Endurance",
-    "scores": {
-      "composite": 82,
-      "efficacy": 4,
-      "safety": 4,
-      "research": 4,
-      "onset": 4,
-      "cost": 5,
-      "drug_interaction_inverse": 4
-    },
-    "description": "Sodium bicarbonate is a well-established exercise buffer for high-intensity efforts lasting 1–10 minutes. It raises extracellular pH, increases bicarbonate buffering capacity (typically +5.2 mmol/L per the de Oliveira 2021 meta-analysis, PMID 34687438, 189 studies, 2,019 participants), and facilitates hydrogen ion removal from contracting muscle. ISSN and IOC both list it as an evidence-based performance supplement. Overall effect sizes are small-to-moderate (ES 0.17–0.22). The main practical limitation is GI distress in approximately 30% of users, which can itself impair performance. Combining sodium bicarbonate with beta-alanine may provide additive benefit — Curran-Bowen 2024 (PMID 38952910, 10 studies) found the combination significantly improved performance (SMD 0.32) where neither compound alone reached significance.",
-    "dose": "0.2–0.3 g/kg body weight 60–90 minutes before exercise; divided dosing (e.g. 0.1 g/kg every 30 min across 90 min) or enteric-coated capsules reduce GI side effects.",
-    "tips": "Start with 0.2 g/kg on a training day to assess GI tolerance before competition use. Take with a small carbohydrate meal. Enteric-coated capsules markedly reduce GI symptoms. Stacks well with beta-alanine for efforts lasting 1–10 minutes. Effects are most consistent in repeated-sprint and middle-distance scenarios; less reliable for continuous running."
   },
   {
     "name": "Oral rehydration salts (WHO formula)",
@@ -9686,24 +9379,6 @@
     "description": "Potassium is essential for blood pressure regulation, cardiac conduction, and fluid balance. The Filippini 2017 meta-analysis of 32 RCTs (PMID 28024910) confirmed that supplementation in hypertensive adults reduced systolic blood pressure by 4.48 mmHg (95% CI 3.07–5.90) and diastolic BP by 2.96 mmHg — with greater effects in those with high sodium intake or no antihypertensive drug use. A 2025 dose-response meta-analysis of RCTs (2000–2024) further characterised the U-shaped relationship between potassium excretion and blood pressure reduction. Most adults consume less than the WHO-recommended 3,510 mg/day. Critical safety note: in chronic kidney disease, potassium excretion is impaired and supplementation can cause life-threatening hyperkalaemia — always check renal function first. Drug interactions are significant: ACE inhibitors, ARBs, and potassium-sparing diuretics all raise serum potassium.",
     "dose": "Dietary target: 3,500–4,700 mg/day from food and supplements. OTC supplements in the US are capped at 99 mg per dose; higher clinical doses require medical supervision. Dietary sources (potatoes, legumes, bananas, leafy greens, dairy) are preferred and safer than supplements.",
     "tips": "Prioritise dietary sources over supplements — food provides potassium alongside complementary nutrients. OTC supplements are limited to 99 mg/dose in the US. Avoid supplementing without medical guidance if you have kidney disease, or if you take ACE inhibitors, ARBs, or potassium-sparing diuretics (spironolactone, amiloride). Space supplements across the day rather than taking a large dose at once."
-  },
-  {
-    "name": "Astragalus membranaceus (Huang Qi)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Immunity · TCM adaptogen · Cardiovascular",
-    "scores": {
-      "composite": 61,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "One of the most important herbs in Traditional Chinese Medicine, used for over 2,000 years to strengthen Qi and the immune system. Contains cycloastragenol, which activates telomerase in preclinical studies. Most human-trial evidence is from Chinese journals of variable methodological quality; the Zhang 2014 systematic review in heart failure is the most-cited anchor, with additional trials reporting improved immune markers in cancer patients receiving chemotherapy. Generally safe but may interact with immunosuppressants.",
-    "dose": "500–1,500 mg/day standardised root extract; traditionally decocted as a tea in TCM practice",
-    "tips": "Take with food. Avoid if on immunosuppressant medications. Allow 4–8 weeks for immune-modulating effects. Can be brewed as a traditional decoction with the dried root slices."
   },
   {
     "name": "Rehmannia glutinosa (Shu Di Huang)",
@@ -9812,24 +9487,6 @@
     "description": "A traditional Ayurvedic Medhya Rasayana (brain tonic) used for centuries to enhance memory and reduce anxiety. Contains shankhpushpine and convolamine. A 2024 randomised trial found 500 mg/day improved working memory scores by 18% over 8 weeks in healthy adults. Animal studies confirm anxiolytic and neuroprotective effects. Well tolerated with minimal side effects.",
     "dose": "500–1,000 mg/day standardised extract; 3–6 g/day as traditional churna",
     "tips": "Take with warm milk or water in the morning for cognitive benefits. Allow 4–8 weeks for noticeable effects. Can be combined with Brahmi in traditional practice. No significant drug interactions known."
-  },
-  {
-    "name": "Amalaki/Amla (Emblica officinalis, standardised)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Ayurveda · Antioxidant · Vitamin C source",
-    "scores": {
-      "composite": 69,
-      "efficacy": 3,
-      "safety": 5,
-      "research": 2,
-      "onset": 2,
-      "cost": 4,
-      "drug_interaction_inverse": 5
-    },
-    "description": "Indian gooseberry is one of the richest natural sources of vitamin C and contains unique tannins (emblicanin A/B) that are highly stable antioxidants. The Upadya 2019 (J Ayurveda Integr Med) study and Akhtar 2011 trial found standardised amla extract significantly reduced LDL cholesterol, triglycerides, and fasting blood glucose. Also improves endothelial function. Extremely safe with thousands of years of dietary use.",
-    "dose": "500–1,000 mg/day standardised extract (40% tannins); or 3–6 g/day whole fruit powder",
-    "tips": "Take with food. Extremely well tolerated. The vitamin C in amla is more heat-stable than synthetic ascorbic acid due to the protective tannin matrix. Can be used in cooking."
   },
   {
     "name": "Terminalia arjuna (Arjuna standardised extract)",
@@ -9959,24 +9616,6 @@
     "tips": "Take with a meal. Avoid if you have inflammatory conditions like IBD, arthritis, or asthma. Cycle 8 weeks on, 4 weeks off. Best used during dedicated hypertrophy training blocks."
   },
   {
-    "name": "Tributyrin (gut barrier, targeted)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Gut barrier · IBS · Microbiome support",
-    "scores": {
-      "composite": 65,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 2,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "Tributyrin delivers butyric acid directly to the intestinal epithelium where it fuels colonocytes and maintains tight junctions. Unlike sodium butyrate, tributyrin is odourless and survives gastric acid. Small pilot trials (Banasiewicz 2013 and others) suggest tributyrin improves gut permeability markers and bowel symptoms in IBS-D and IBD patients. Also being studied for colorectal cancer prevention.",
-    "dose": "300–900 mg/day tributyrin in divided doses; start with 300 mg and increase after one week",
-    "tips": "Take with meals. Start low and increase gradually. Odourless capsules are preferred. Can be combined with probiotics for synergistic gut barrier support. No known drug interactions."
-  },
-  {
     "name": "Partially hydrolysed guar gum (PHGG)",
     "tier": "t2",
     "trending": false,
@@ -9993,24 +9632,6 @@
     "description": "A water-soluble prebiotic fibre that normalises bowel habits in both constipation and diarrhoea-predominant IBS. Unlike psyllium, PHGG dissolves completely without thickening and is tasteless. A 2024 systematic review of 12 trials confirmed significant improvements in IBS symptom scores. Well tolerated with less bloating than other prebiotic fibres due to slow fermentation.",
     "dose": "5–7 g/day dissolved in any liquid; start at 3 g/day and increase over 1–2 weeks",
     "tips": "Dissolves completely in any cold or hot beverage without changing taste or texture. Start at 3 g and increase to 5–7 g over two weeks to minimise initial bloating. Take at any time of day."
-  },
-  {
-    "name": "Saccharomyces boulardii CNCM I-745",
-    "tier": "t1",
-    "trending": false,
-    "tag": "Gut health · Antibiotic-associated diarrhoea · C. diff prevention",
-    "scores": {
-      "composite": 86,
-      "efficacy": 4,
-      "safety": 5,
-      "research": 4,
-      "onset": 4,
-      "cost": 4,
-      "drug_interaction_inverse": 5
-    },
-    "description": "The CNCM I-745 designation identifies the specific, deposited strain behind most published S. boulardii trials — not a generic yeast. Being a eukaryote, it is intrinsically resistant to all antibacterial antibiotics, allowing co-administration from day one of any antibiotic course. Multiple meta-analyses confirm it reduces antibiotic-associated diarrhoea (AAD) risk by roughly 50% (Pillai Cochrane 2008, PMID 18254055; Waitzberg 2024 narrative review, PMID 38286962); one placebo-controlled RCT found S. boulardii halved C. difficile recurrence (RR 0.59). Guarino 2015 review (PMID 26447963) identifies it alongside LGG as having the strongest evidence of any probiotic for both AAD and acute gastroenteritis. Rare but serious risk: fungemia reported in immunocompromised patients with central venous catheters — contraindicated in that setting.",
-    "dose": "250–500 mg (approximately 5–10 billion CFU) twice daily. Begin at antibiotic day 1 (or within 48 hours) and continue for 1 week after completing the antibiotic course.",
-    "tips": "Can be taken at the same time as antibiotics — unlike bacterial probiotics, this yeast is not destroyed by antibacterial drugs. Use cool or room-temperature water; hot drinks kill the organism. Do not use in immunocompromised patients with central venous catheters (rare fungemia risk). Store per label — many formulations are shelf-stable."
   },
   {
     "name": "Bifidobacterium longum BB536",
@@ -10065,24 +9686,6 @@
     "description": "L. reuteri DSM 17938 has the strongest evidence of any probiotic for infantile colic. Vaz 2023 meta-analysis (PMID 37962097) of 15 probiotics found DSM 17938 specifically reduced crying by 64.66 minutes per day (p=0.03) in breastfed infants, with greater benefit than other strains. Gutierrez-Castellon 2017 network meta-analysis (32 RCTs, N=2,242, PMID 29390535) found DSM 17938 superior to all other interventions (WMD −51.3 min/day vs control). Zermiani 2021 (10 trials, PMID 34627993) confirmed significant crying time reduction in breastfed infants week by week. Also shown to improve functional constipation in children and adults. Important caution: widely-cited bone density benefits attributed to L. reuteri come from a different strain (ATCC PTA 6475, Nilsson 2018) — do not attribute those data to DSM 17938. Evidence is primarily in breastfed infants; formula-fed data are limited.",
     "dose": "100 million CFU/day (5 drops of the commercial preparation, e.g. BioGaia) for infant colic. For adult functional constipation, 10^8–10^9 CFU/day. Give for a minimum of 21–28 days.",
     "tips": "For infant colic, administer drops directly onto the nipple or mix into a small amount of expressed breastmilk — give before feeding. Shake well before each dose. Store refrigerated unless label specifies room temperature. Strain-specific — other L. reuteri strains (ATCC 55730, ATCC PTA 6475) do not share the same evidence profile. Evidence for formula-fed or caesarean-born infants is weaker."
-  },
-  {
-    "name": "Lion's mane (Hericium erinaceus, fruiting body)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Neuroprotection · NGF · Cognition",
-    "scores": {
-      "composite": 55,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 2,
-      "drug_interaction_inverse": 4
-    },
-    "description": "Contains hericenones and erinacines that stimulate nerve growth factor (NGF) production in preclinical models. Docherty 2023 (Nutrients) used 1.8 g/day for 28 days in healthy adults, finding improved reaction time and reduced stress. The older Mori 2009 trial in mild cognitive impairment showed improved cognitive scores over 12 weeks that reversed on cessation. Fruiting body extracts are preferred over mycelium-on-grain products which contain mostly starch.",
-    "dose": "1,000–3,000 mg/day fruiting body extract (hot-water or dual-extracted); avoid mycelium-on-grain products",
-    "tips": "Choose fruiting body extracts verified by beta-glucan content — mycelium-on-grain products are mostly filler starch. Take with food. Allow 8–12 weeks for cognitive effects. Benefits may reverse on cessation."
   },
   {
     "name": "Citrulline (L-citrulline, pure form)",
@@ -10173,42 +9776,6 @@
     "description": "Rich in gamma-linolenic acid (GLA), an omega-6 fatty acid that modulates prostaglandin production. A 2024 meta-analysis of 8 trials found EPO significantly reduced breast pain (mastalgia) severity. Also shows modest benefits for eczema and PMS symptoms. Very safe at standard doses. NICE guidelines note it may help cyclical breast pain when taken for 3–6 months.",
     "dose": "1,000–3,000 mg/day EPO (providing 80–240 mg GLA); take for at least 3 months for cyclical breast pain",
     "tips": "Take with food for better absorption. Allow 3–6 months for full benefits in cyclical breast pain. Very safe for long-term use. Avoid before surgery due to mild antiplatelet effects."
-  },
-  {
-    "name": "Chasteberry/Vitex standardised (BNO 1095)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "PMS · Menstrual regulation · Women's health",
-    "scores": {
-      "composite": 62,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 3
-    },
-    "description": "The standardised extract BNO 1095 has the strongest evidence among Vitex preparations for PMS. Pivotal RCTs of the BNO 1095 extract (Loch 2000, Schellenberg 2001 BMJ, and later replications) confirmed significant reductions in irritability, mood swings, breast tenderness, and bloating. Works by modulating dopamine and prolactin signalling. Takes 2–3 cycles to reach full effect. Avoid with dopamine agonists or oral contraceptives.",
-    "dose": "20 mg/day BNO 1095 extract or 4 mg/day Ze 440 extract; take continuously through the full cycle",
-    "tips": "Take every morning continuously — not just during PMS days. Allow 2–3 full menstrual cycles for maximum benefit. Avoid with oral contraceptives, HRT, or dopamine medications. Morning dosing is traditional."
-  },
-  {
-    "name": "Red raspberry leaf (pregnancy toning)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Pregnancy · Uterine toning · Traditional midwifery",
-    "scores": {
-      "composite": 54,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 2,
-      "onset": 2,
-      "cost": 4,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Traditional midwifery herb used in the third trimester to tone the uterus. The Simpson 2001 and Parsons 1999 trials found weak but consistent evidence that daily use from 32 weeks may shorten the second stage of labour by approximately 10 minutes; overall trial quality is low. Rich in fragarine, which appears to have a tonifying effect on uterine muscle. Generally considered safe from 32 weeks but evidence quality is low.",
-    "dose": "1–2 cups tea or 300–400 mg capsule twice daily from 32 weeks gestation only; avoid in first and second trimester",
-    "tips": "Do not take before 32 weeks — uterine stimulation is not appropriate early in pregnancy. Discuss with your midwife or obstetrician. Tea form is traditional. Not a substitute for proper obstetric care."
   },
   {
     "name": "Cranberry PAC (A-type proanthocyanidins)",
@@ -10318,60 +9885,6 @@
     "description": "A TCM herb classified as a Shen (spirit) calming and intelligence-boosting remedy for over 2,000 years. Contains tenuifolin and onjisaponins that cross the blood-brain barrier and enhance BDNF expression in animal models. A 2024 small RCT found 100 mg/day improved verbal memory in healthy older adults. May cause GI irritation at higher doses. Traditional formulas pair it with Acorus and Poria.",
     "dose": "100–300 mg/day root extract standardised to tenuifolin; traditional decoction 3–9 g/day",
     "tips": "Start at 100 mg/day to assess GI tolerance. Take with food. Traditional practice wraps the root in licorice to reduce stomach irritation. Allow 4–8 weeks for nootropic effects."
-  },
-  {
-    "name": "Lycium barbarum (goji berry extract, standardised)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Eye health · Antioxidant · TCM longevity",
-    "scores": {
-      "composite": 60,
-      "efficacy": 2,
-      "safety": 5,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "Goji berry has been used in TCM for thousands of years as a liver and kidney yin tonic for eye health and longevity. Contains zeaxanthin dipalmitate, a highly bioavailable carotenoid. The Li et al. 2021 RCT (Nutrients, 27 healthy adults, 28 g/day dried goji berries for 90 days) found significantly increased macular pigment optical density and skin carotenoid scores. Extract forms standardise the active carotenoids.",
-    "dose": "15–30 g/day dried berries or 500–1,000 mg/day standardised extract; rich in zeaxanthin dipalmitate",
-    "tips": "Can be eaten as dried berries (traditional) or taken as standardised extract. Take with a fat-containing meal for carotenoid absorption. Very safe as a food. Avoid concentrated extracts if on warfarin — mild anticoagulant activity."
-  },
-  {
-    "name": "He Shou Wu (processed Polygonum multiflorum)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "TCM longevity · Hair · Anti-aging",
-    "scores": {
-      "composite": 42,
-      "efficacy": 2,
-      "safety": 2,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 2
-    },
-    "description": "One of TCMs most famous longevity tonics, traditionally used for premature greying, hair loss, and essence (Jing) restoration. Contains emodin and stilbene glycosides. CRITICAL SAFETY CONCERN: multiple cases of severe liver injury reported worldwide. China NMPA issued safety warnings. Processed (Zhi) form is less hepatotoxic than raw form. Must be monitored with liver function tests. Avoid raw He Shou Wu entirely.",
-    "dose": "500–1,000 mg/day PROCESSED form only; must monitor liver function tests every 3 months; avoid raw form",
-    "tips": "ONLY use the processed (Zhi) form — raw He Shou Wu is significantly more hepatotoxic. Monitor liver function tests every 3 months. Stop immediately if jaundice, dark urine, or abdominal pain occur. Many experts recommend avoiding this herb entirely."
-  },
-  {
-    "name": "Jiaogulan (Gynostemma pentaphyllum)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Adaptogen · Metabolic · AMPK activator",
-    "scores": {
-      "composite": 54,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "Known as \"Southern Ginseng\" in China, jiaogulan contains gypenosides that activate AMPK — the same metabolic pathway as metformin and exercise. A 2024 small RCT found 450 mg/day reduced fasting blood glucose and insulin resistance in pre-diabetic adults. Also shows adaptogenic stress-reducing effects in animal models. Traditionally consumed as a longevity tea in Guizhou province.",
-    "dose": "450–900 mg/day standardised extract (98% gypenosides) or 3–5 cups of jiaogulan tea daily",
-    "tips": "Can be consumed as a pleasant caffeine-free tea or as capsules. Take with meals. Additive effects with blood sugar-lowering medications — monitor glucose if diabetic. Allow 4–8 weeks for metabolic effects."
   },
   {
     "name": "Dendrobium officinale (Shi Hu)",
@@ -10842,24 +10355,6 @@
     "tips": "Take with warm water or in soups. Very safe for long-term use. Milder than ginseng — suitable for those who find ginseng too stimulating. Can be added to broths and stews. No significant drug interactions."
   },
   {
-    "name": "Dong quai (Angelica sinensis, low-dose)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "TCM blood tonic · Women's health · Circulation",
-    "scores": {
-      "composite": 48,
-      "efficacy": 2,
-      "safety": 3,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Called the \"female ginseng\" in TCM, dong quai is used as a blood tonic for menstrual irregularity and menopausal symptoms. Contains ferulic acid and ligustilide with anti-inflammatory and vasodilatory effects. A 2024 review found modest evidence for menstrual pain relief and menopausal hot flashes. Caution: potent anticoagulant effects — do not combine with blood thinners. Photosensitising.",
-    "dose": "500–1,500 mg/day standardised root extract; traditionally used in combination formulas like Si Wu Tang",
-    "tips": "Do not combine with blood thinners — significant anticoagulant activity. Increases photosensitivity — use sunscreen. Best used in combination formulas per TCM tradition. Avoid during pregnancy — uterine stimulant effects."
-  },
-  {
     "name": "Black ant extract (Polyrhachis)",
     "tier": "t3",
     "trending": false,
@@ -10930,24 +10425,6 @@
     "description": "Water infused with dissolved molecular hydrogen (H2) gas. Over 50 small clinical trials show modest anti-inflammatory and antioxidant effects. A 2024 meta-analysis found hydrogen-rich water significantly reduced inflammatory markers (IL-6, CRP) in metabolic syndrome. Extremely safe — H2 is inert and non-toxic. Main limitation is that dissolved H2 escapes rapidly once the container is opened. Evidence is preliminary.",
     "dose": "500 mL–1.5 L hydrogen-rich water daily (0.5–1.6 ppm dissolved H2); drink immediately after opening",
     "tips": "Drink immediately after opening — dissolved hydrogen escapes within minutes. Hydrogen tablets dissolved in a sealed bottle are more practical than pre-packaged bottles. Extremely safe but evidence is still preliminary."
-  },
-  {
-    "name": "Tremella fuciformis polysaccharide (beauty mushroom)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Skin hydration · Hyaluronic acid alternative · Beauty",
-    "scores": {
-      "composite": 57,
-      "efficacy": 2,
-      "safety": 5,
-      "research": 1,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "Known as snow fungus or silver ear mushroom, Tremella contains polysaccharides structurally similar to hyaluronic acid with demonstrated water-holding capacity. Traditional Chinese medicine uses it as a yin-nourishing beauty food. Cell studies confirm it stimulates fibroblast proliferation and hyaluronic acid production. Almost no clinical trial data for oral supplementation. Extremely safe as a traditional food ingredient.",
-    "dose": "1,000–3,000 mg/day Tremella extract standardised to polysaccharide content; or include dried tremella in soups",
-    "tips": "Can be eaten as a traditional food in sweet soups. As a supplement, take with water daily. Allow 8–12 weeks for any skin hydration effects. Extremely safe. Better evidence exists for topical hyaluronic acid."
   },
   {
     "name": "Clenbuterol (weight loss/muscle)",
@@ -11094,24 +10571,6 @@
     "tips": "Avoid any supplement containing comfrey, borage seed oil (unless PA-free certified), coltsfoot, or gravel root. Butterbur must be PA-free (Petadolex brand). The damage is cumulative and silent until liver failure occurs."
   },
   {
-    "name": "Cesium chloride (high pH therapy)",
-    "tier": "t4",
-    "trending": false,
-    "tag": "Cardiac arrest · Pseudoscience · Lethal",
-    "scores": {
-      "composite": 26,
-      "efficacy": 1,
-      "safety": 1,
-      "research": 1,
-      "onset": 3,
-      "cost": 2,
-      "drug_interaction_inverse": 1
-    },
-    "description": "Marketed as \"high pH therapy\" for cancer based on the completely false claim that cancer cannot survive in an alkaline environment. Cesium chloride causes fatal cardiac arrhythmias by disrupting potassium channels. Multiple deaths documented including a widely reported 2024 case. FDA has issued multiple warnings. The alkaline cancer theory has been thoroughly debunked. There is absolutely no benefit.",
-    "dose": "AVOID — causes fatal cardiac arrhythmias; the \"alkaline cancer cure\" theory is debunked pseudoscience",
-    "tips": "Do not take cesium chloride for any reason. The alkaline cancer cure theory is scientifically false. Multiple deaths from cardiac arrest are documented. If someone recommends this, they are misinformed."
-  },
-  {
     "name": "GHB precursors (1,4-butanediol/GBL)",
     "tier": "t4",
     "trending": false,
@@ -11164,24 +10623,6 @@
     "description": "All parts of the oleander plant contain cardiac glycosides (oleandrin) that are lethal at small doses. Promoted fraudulently as a cancer treatment despite zero clinical evidence. A single leaf can kill a child. Causes fatal cardiac arrhythmias, vomiting, and multi-organ failure. The supplement Anvirzel containing oleander extract was denied FDA approval. Oleandrin was briefly promoted during COVID-19 with no evidence.",
     "dose": "NO safe dose — a single oleander leaf can be lethal; all products containing oleander extract should be avoided",
     "tips": "Do not take any product containing oleander or oleandrin. Lethal cardiac toxicity at tiny doses. The cancer treatment claims are completely fraudulent. Even handling the plant without gloves can cause poisoning."
-  },
-  {
-    "name": "Apricot kernels/Laetrile (amygdalin)",
-    "tier": "t4",
-    "trending": false,
-    "tag": "Cyanide poisoning · Cancer fraud · Lethal",
-    "scores": {
-      "composite": 31,
-      "efficacy": 1,
-      "safety": 1,
-      "research": 2,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 1
-    },
-    "description": "Amygdalin in apricot kernels converts to hydrogen cyanide in the body. Marketed as \"vitamin B17\" or Laetrile for cancer treatment — this is a complete fraud debunked in multiple clinical trials including an NCI-sponsored study. EFSA warns that 3 small kernels can exceed the safe cyanide limit for adults. Multiple deaths and hundreds of cyanide poisoning cases documented globally. There is zero anti-cancer benefit.",
-    "dose": "AVOID — converts to cyanide in the body; 3 small kernels can exceed safe cyanide limits; zero cancer benefit proven",
-    "tips": "Do not eat apricot kernels or take amygdalin/Laetrile. \"Vitamin B17\" does not exist — this is a fraudulent name. Multiple clinical trials proved no cancer benefit. Cyanide poisoning causes seizures, coma, and death."
   },
   {
     "name": "Andarine (S-4, SARM)",
@@ -12616,24 +12057,6 @@
     "tips": "Take with breakfast; MaquiBright has the best dry-eye evidence; often combined with lutein/zeaxanthin for ocular support"
   },
   {
-    "name": "Soursop / Graviola leaf (Annona muricata)",
-    "tier": "t4",
-    "trending": true,
-    "tag": "Traditional · Antioxidant · Potential neurotoxicity",
-    "scores": {
-      "composite": 34,
-      "efficacy": 1,
-      "safety": 1,
-      "research": 1,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Caribbean and South American tree leaves traditionally used for cancer, parasites, and blood pressure. Contains annonaceous acetogenins — potent mitochondrial Complex I inhibitors with documented cytotoxicity to cancer cells in vitro. However, chronic intake is epidemiologically linked to atypical parkinsonism in Guadeloupe and New Caledonia, where soursop/graviola is consumed regularly. Human efficacy for cancer is unproven while the neurotoxicity signal is concerning. Use very cautiously and short-term only.",
-    "dose": "No safe dose established; traditional infusions use 1–2 g leaf occasionally",
-    "tips": "Significant parkinsonism risk with chronic use — avoid regular or long-term intake; do not use if neurological disease present; informational listing, not a general recommendation"
-  },
-  {
     "name": "Korean red ginseng (Panax ginseng)",
     "tier": "t2",
     "trending": true,
@@ -12650,24 +12073,6 @@
     "description": "Steam-treated Panax ginseng root, which converts ginsenosides (Rb1, Rg1) into rarer compounds (Rg3, Rh2) with distinct pharmacology from white ginseng. Meta-analyses support modest improvements in erectile function, fatigue, immune function, and glycaemic control. Evidence for cognition is mixed but positive in older adults. More stimulating than American ginseng — prefer American if anxiety-prone. Drug interactions are meaningful: avoid with warfarin, MAOIs, and certain diabetes medications.",
     "dose": "200–400 mg standardised extract (4–7% ginsenosides) daily",
     "tips": "Take in the morning (can be stimulating); cycle 8-12 weeks on / 2-4 weeks off; avoid with hypertension, autoimmune conditions, and stimulants"
-  },
-  {
-    "name": "Japanese knotweed (Polygonum cuspidatum)",
-    "tier": "t3",
-    "trending": true,
-    "tag": "Resveratrol source · Lyme adjunct",
-    "scores": {
-      "composite": 54,
-      "efficacy": 2,
-      "safety": 3,
-      "research": 2,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 4
-    },
-    "description": "An invasive perennial that is the commercial source of most nutraceutical resveratrol (typically 50-98% trans-resveratrol extracts are derived from it). Whole-root extracts additionally provide emodin, polydatin (resveratrol's glucoside), and anthraquinones with their own bioactivity. Popular in the Buhner Lyme protocol as an anti-inflammatory and blood-brain-barrier support. Emodin content may cause laxative effects at high doses. A natural alternative to isolated resveratrol with broader constituent profile.",
-    "dose": "400–2000 mg whole-root extract (standardised to 8–50% resveratrol) daily",
-    "tips": "Prefer root extract over isolated resveratrol for broader action; start low to assess emodin-related GI effects; avoid in pregnancy and with strong anticoagulants"
   },
   {
     "name": "Naringenin",
@@ -13139,24 +12544,6 @@
     "tips": "Whole seeds preferred unless dietary restriction demands oil; do not heat; oxidises more slowly than flax but still store cold; complementary — not substitute — for DHA sources"
   },
   {
-    "name": "Gamma-oryzanol (rice bran)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Lipids · Menopause · Antioxidant",
-    "scores": {
-      "composite": 56,
-      "efficacy": 2,
-      "safety": 4,
-      "research": 2,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 4
-    },
-    "description": "A mixture of ferulic acid esters of triterpene alcohols and phytosterols from rice bran oil. Used extensively in Japan since the 1960s for hyperlipidaemia, menopausal symptoms, and mild anxiety. Human RCTs support modest LDL lowering (~10%), reduction of menopausal vasomotor symptoms, and mild anxiolytic effect. Safety record is excellent — gamma-oryzanol was Japan's prescription drug for menopause for decades. Often under-recognised in Western supplement markets.",
-    "dose": "100–300 mg gamma-oryzanol 3 times daily",
-    "tips": "Take with meals; lipid and menopausal effects take 8-12 weeks; well-tolerated; distinct from rice bran oil (which contains only small amounts of gamma-oryzanol)"
-  },
-  {
     "name": "Fenugreek seed extract (Testofen / standardised)",
     "tier": "t2",
     "trending": false,
@@ -13248,24 +12635,6 @@
     "tips": "Take with food; effects on cognition and circulation accrue over 4–8 weeks; avoid in pregnancy and with hepatotoxic medications."
   },
   {
-    "name": "Mucuna pruriens (velvet bean)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Dopamine precursor · Mood · Movement",
-    "scores": {
-      "composite": 62,
-      "efficacy": 3,
-      "safety": 3,
-      "research": 3,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Tropical legume whose seeds naturally contain L-DOPA, the immediate precursor to dopamine. Standardised extracts (typically 15–30% L-DOPA) have small clinical trials for early Parkinson disease symptoms and short-term mood / motivation effects in healthy adults. The natural-source L-DOPA is paired with native cofactors that may give a smoother pharmacokinetic profile than synthetic levodopa, but it is not a substitute for prescription Parkinson care. Caution alongside MAO-inhibitors and any dopaminergic medication.",
-    "dose": "200–500 mg of 15–30% L-DOPA standardised extract daily; PD trials use higher doses under physician supervision",
-    "tips": "Take on empty stomach for absorption; do NOT combine with prescription L-DOPA, MAOIs, or antipsychotics without specialist guidance; avoid in pregnancy."
-  },
-  {
     "name": "Reishi spore oil (triterpenoid extract)",
     "tier": "t3",
     "trending": false,
@@ -13284,24 +12653,6 @@
     "tips": "Always pick cracked-spore products; effects develop over weeks not days; potential mild antiplatelet effect — caution with anticoagulants."
   },
   {
-    "name": "Ho-shou-wu (Polygonum multiflorum / Fo-ti)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Adaptogen · Hair · Hepatotoxicity risk",
-    "scores": {
-      "composite": 42,
-      "efficacy": 2,
-      "safety": 2,
-      "research": 2,
-      "onset": 1,
-      "cost": 4,
-      "drug_interaction_inverse": 2
-    },
-    "description": "A traditional Chinese root preparation marketed for hair pigmentation, longevity, and adrenal support. Properly processed (long steam-cured) preparations have been used for centuries; raw or improperly cured material has been linked to drug-induced liver injury in case series from China, Australia, and Europe. The hepatotoxicity risk is real and not negligible — multiple regulatory authorities have issued advisories. If used at all, choose properly processed (zhi he shou wu) material from a reputable supplier and monitor liver enzymes; discontinue at any sign of jaundice, fatigue, or right-upper-quadrant pain.",
-    "dose": "Traditional dose 3–9 g/day prepared root; supplement extracts vary; safety margin is narrow",
-    "tips": "Hepatotoxicity is well documented — get baseline LFTs and recheck at 6 weeks; never use alongside other hepatotoxic herbs or medications; avoid in pregnancy and chronic liver disease."
-  },
-  {
     "name": "Gynostemma pentaphyllum (Jiaogulan)",
     "tier": "t3",
     "trending": false,
@@ -13318,42 +12669,6 @@
     "description": "Vining plant from southern China that contains gypenosides — saponins structurally related to ginsenosides. Small RCTs in non-alcoholic fatty liver disease and type 2 diabetes show modest improvements in fasting glucose, ALT, and lipid profile. Used traditionally as a daily tea. Generally well tolerated; the most common complaint is mild GI upset at higher doses. Caution alongside antidiabetic medications.",
     "dose": "200–450 mg standardised extract daily, or 3–6 g tea daily",
     "tips": "Take with or without food; monitor blood glucose if combining with antidiabetic medications; effects on lipids and glucose accrue over 8–12 weeks."
-  },
-  {
-    "name": "Tongkat Ali (Eurycoma longifolia)",
-    "tier": "t3",
-    "trending": true,
-    "tag": "Libido · Free testosterone · Stress",
-    "scores": {
-      "composite": 62,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 3
-    },
-    "description": "A Southeast Asian root extract with the strongest evidence for raising free (not total) testosterone in men with stress-related or age-related declines, and modest evidence for stress and exercise endpoints in both sexes. Standardised extracts (Physta, Eurycomanone-quantified) are what most positive trials use; generic root powders show inconsistent results. Effect size on testosterone is moderate, not pharmaceutical. A 2024 trial in healthy trained men found no benefit, suggesting it mainly helps those already deficient. European authorities flagged DNA-damage concerns from high-dose animal studies (no such harm seen in short-term human trials). Caution in hormone-sensitive cancers, pregnancy, and breastfeeding; use only if confirmed low testosterone.",
-    "dose": "200–400 mg standardised extract (e.g. Physta) daily for 4–12 weeks",
-    "tips": "Take morning or pre-workout; cycle 8 weeks on / 2 weeks off is a common practice; avoid in hormone-sensitive cancers, pregnancy, and breastfeeding."
-  },
-  {
-    "name": "Sulforaphane (broccoli isothiocyanate)",
-    "tier": "t2",
-    "trending": false,
-    "tag": "Nrf2 activation · Detox enzymes · Antioxidant",
-    "scores": {
-      "composite": 62,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 2,
-      "cost": 2,
-      "drug_interaction_inverse": 4
-    },
-    "description": "The most-studied isothiocyanate from cruciferous vegetables, formed from glucoraphanin via the enzyme myrosinase. Activates the Nrf2 pathway, upregulating the body’s endogenous phase II detoxification and antioxidant enzymes. Human trial evidence is strongest for short-term improvements in air-pollution biomarkers, modest improvements in autism behavioural endpoints (small studies), and helicobacter pylori suppression. Stabilised sulforaphane preparations vary widely in actual delivered content — look for products that disclose myrosinase activity or pre-formed sulforaphane assay.",
-    "dose": "10–40 mg sulforaphane per day (or glucoraphanin + active myrosinase)",
-    "tips": "Heat destroys myrosinase — raw broccoli sprouts or stabilised supplements are required; chewing dietary broccoli well activates plant myrosinase; avoid in pregnancy until more data."
   },
   {
     "name": "Broccoli sprout extract (BroccoMax / Avmacol)",
@@ -13446,24 +12761,6 @@
     "tips": "Take with food; mild blood-pressure-lowering effect — monitor if on antihypertensives; bitter taste, capsules tolerated better than liquid."
   },
   {
-    "name": "BPC-157 (oral pentadecapeptide)",
-    "tier": "t4",
-    "trending": false,
-    "tag": "Peptide · Tissue repair · Regulatory uncertainty",
-    "scores": {
-      "composite": 40,
-      "efficacy": 2,
-      "safety": 2,
-      "research": 2,
-      "onset": 3,
-      "cost": 1,
-      "drug_interaction_inverse": 2
-    },
-    "description": "A 15-amino-acid synthetic peptide derived from a fragment of a stomach-protective protein. Animal data are remarkable for tendon, ligament, and gut healing; human clinical trial evidence is essentially absent. Sold widely in the supplement and research-chemical markets despite an ambiguous regulatory status — the FDA has flagged BPC-157 as not eligible for compounded use, and several sports authorities ban it. Quality control across grey-market suppliers is highly variable. Capped at T4 here because the human evidence base does not yet support efficacy claims.",
-    "dose": "No established human dose; preclinical research uses 200–500 mcg/kg in animals",
-    "tips": "Verify legal status in your jurisdiction; banned by WADA for athletes; only consider via a clinician familiar with peptide therapy; avoid grey-market sources entirely."
-  },
-  {
     "name": "GHK-Cu (copper tripeptide, topical)",
     "tier": "t3",
     "trending": false,
@@ -13536,24 +12833,6 @@
     "tips": "Take with food; monitor lipid panel if used >250 mg/day or >3 months; commonly stacked with NMN/NR."
   },
   {
-    "name": "Adenosylcobalamin (active B12, mitochondrial)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "B12 active form · Mitochondrial · Energy",
-    "scores": {
-      "composite": 70,
-      "efficacy": 3,
-      "safety": 5,
-      "research": 3,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 5
-    },
-    "description": "One of the two active coenzyme forms of vitamin B12 (the other being methylcobalamin). Adenosylcobalamin is the form required by the mitochondrial enzyme methylmalonyl-CoA mutase and may be the more relevant form for energy and methylmalonic-acid lowering. Often paired with methylcobalamin to cover both methylation and mitochondrial pathways. Particularly relevant in MTHFR variants, vegan diets, and proton-pump-inhibitor users.",
-    "dose": "1,000–5,000 mcg adenosylcobalamin daily, ideally sublingual",
-    "tips": "Sublingual delivery bypasses intrinsic-factor dependence — useful in absorption issues; combine with methylcobalamin for full coverage; can turn urine bright pink (harmless)."
-  },
-  {
     "name": "Riboflavin-5-phosphate (active B2)",
     "tier": "t3",
     "trending": false,
@@ -13606,24 +12885,6 @@
     "description": "A patented stable crystalline form of L-5-methyltetrahydrofolate, distinct from Quatrefolic (a glucosamine salt of the same active folate). Both deliver pre-converted active folate that bypasses the MTHFR enzyme step. Especially relevant for the ~30% of the population with reduced-activity MTHFR variants. Equivalent in effect to Quatrefolic; choice between the two is largely about supply and price.",
     "dose": "400–1,000 mcg L-methylfolate daily",
     "tips": "Take with food; preferred over folic acid in MTHFR variants; over-methylation symptoms (irritability, insomnia) at high doses can sometimes be relieved by adding niacinamide."
-  },
-  {
-    "name": "Choline bitartrate (precursor, cost-effective)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Acetylcholine precursor · Liver · Cost-value",
-    "scores": {
-      "composite": 70,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 3,
-      "cost": 5,
-      "drug_interaction_inverse": 4
-    },
-    "description": "A simple choline salt that crosses the blood-brain barrier less efficiently than CDP-choline or alpha-GPC, but supplies the same essential nutrient at a fraction of the price. Useful for general choline-intake repletion (most adults consume below the AI), liver health, and as a base ingredient when stacked with another acetylcholine-targeted compound. Less optimal than CDP-choline or alpha-GPC for nootropic use.",
-    "dose": "500–1,500 mg/day with food",
-    "tips": "Take with meals (fishy body-odour at high doses can be reduced by splitting dose); pairs well with B5 (pantothenic acid) for acetylcholine synthesis; choose CDP-choline or alpha-GPC instead if cognitive endpoints are the goal."
   },
   {
     "name": "Trimethylglycine (TMG / betaine anhydrous)",
@@ -13734,24 +12995,6 @@
     "tips": "Combine with valerian or lemon balm; avoid with SSRIs/benzo-class sedatives (additive sedation)."
   },
   {
-    "name": "Vanadium (ultra-trace)",
-    "tier": "t4",
-    "trending": false,
-    "tag": "Trace mineral · Glucose · Caution",
-    "scores": {
-      "composite": 48,
-      "efficacy": 2,
-      "safety": 2,
-      "research": 2,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Vanadyl sulfate has small-trial evidence for modest insulin-sensitising effects in T2D, but at the doses studied (50-100 mg/day vanadyl sulfate ≈ 30 mg elemental V) toxicity (GI upset, kidney impact, green tongue) is common. Functional diet provides 6-30 mcg/day; no human deficiency state defined. Better insulin-sensitising tools exist (berberine, inositol, ALA, magnesium). We list it primarily to flag in diabetes med-interaction logic.",
-    "dose": "Avoid supplementation; trace levels (10-30 mcg) in food are sufficient",
-    "tips": "Vanadyl supplements can cause GI upset and may impair renal function; not recommended."
-  },
-  {
     "name": "Jambolan (Syzygium cumini)",
     "tier": "t4",
     "trending": false,
@@ -13806,24 +13049,6 @@
     "tips": "STW 5-II formulation is preferred; avoid in cholestatic liver disease or pregnancy; report any abdominal pain promptly."
   },
   {
-    "name": "Urolithin A (Mitopure)",
-    "tier": "t3",
-    "trending": true,
-    "tag": "Mitophagy · Longevity · Pomegranate-derived",
-    "scores": {
-      "composite": 62,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 3,
-      "cost": 1,
-      "drug_interaction_inverse": 4
-    },
-    "description": "Postbiotic produced by some gut microbes from ellagitannins (pomegranate, walnuts). Bypasses the variable gut conversion by being delivered directly. Small-to-moderate RCTs show muscle mitochondrial biogenesis/strength benefits in older adults at 500-1,000 mg/day for 4 months. Mechanism is selective mitophagy. Long-term data are limited. Branded as Mitopure.",
-    "dose": "500-1,000 mg/day with food",
-    "tips": "Most pomegranate juice + diet won't reach therapeutic levels because gut conversion is rare (~30% of people produce UA endogenously); direct dosing bypasses this."
-  },
-  {
     "name": "Mitoquinol (MitoQ)",
     "tier": "t3",
     "trending": false,
@@ -13840,42 +13065,6 @@
     "description": "Triphenylphosphonium-conjugated ubiquinol that accumulates ~1,000-fold in mitochondria. Strong preclinical antioxidant data; human RCTs in cardiovascular endothelial function (Rossman 2018) and NAFLD show modest benefit. Cost is high; standard ubiquinol is cheaper and supported by larger RCTs. Reserve MitoQ for specific endothelial-dysfunction or research contexts.",
     "dose": "5-20 mg/day",
     "tips": "Take in the morning with food; not interchangeable with regular CoQ10/ubiquinol on a milligram basis; expensive."
-  },
-  {
-    "name": "Methylene blue (oral)",
-    "tier": "t4",
-    "trending": false,
-    "tag": "Research-only · MAO-A inhibitor · Risky",
-    "scores": {
-      "composite": 36,
-      "efficacy": 2,
-      "safety": 1,
-      "research": 2,
-      "onset": 2,
-      "cost": 3,
-      "drug_interaction_inverse": 1
-    },
-    "description": "Pharmaceutical-grade methylene blue is FDA-approved for methaemoglobinaemia and ifosfamide-induced encephalopathy. Off-label oral micro-dosing (5-30 mg) for 'cognitive enhancement' has thin human evidence (one cognitive RCT) and significant risks: methylene blue is a potent MAO-A inhibitor and CONTRAINDICATED with serotonergic drugs (SSRIs, SNRIs, TCAs, MAOIs, tramadol, triptans, St. John's Wort, 5-HTP) — fatal serotonin syndrome reported. Industrial-grade methylene blue contains heavy metals and must NEVER be ingested.",
-    "dose": "AVOID outside research/medical supervision",
-    "tips": "Stains everything (urine blue/green, mouth, clothes); ABSOLUTELY do not combine with any serotonergic medication or supplement."
-  },
-  {
-    "name": "GlyNAC (glycine + NAC stack)",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Glutathione precursor · Aging · Methylation",
-    "scores": {
-      "composite": 61,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 2,
-      "onset": 3,
-      "cost": 3,
-      "drug_interaction_inverse": 3
-    },
-    "description": "1:1 glycine and N-acetylcysteine combination. Sekhar lab's open-label and small-RCT data in older adults show recovery of glutathione synthesis, mitochondrial function, and walking speed. The combination addresses age-related deficits in both substrates of glutathione synthesis. Cleaner safety than NAC alone for some users; glycine alone is sleep-improving.",
-    "dose": "100 mg/kg glycine + 100 mg/kg NAC daily, divided BID",
-    "tips": "E.g., 70 kg adult: 7 g glycine + 7 g NAC daily; pair with food; trial for ≥12 weeks to see effect; SMR analytics if goal is biomarker-driven."
   },
   {
     "name": "Lactobacillus plantarum 299v",
@@ -13984,24 +13173,6 @@
     "description": "'Snow fungus' polysaccharide with cosmetic-grade evidence for skin hydration (oral and topical). Small RCTs show modest moisture/elasticity benefit. Generally well-tolerated; quality varies by extract method (hot water vs alcohol).",
     "dose": "100-1,000 mg/day extract",
     "tips": "Choose hot-water-extracted; pair with hyaluronic acid for skin protocols."
-  },
-  {
-    "name": "Schisandra chinensis",
-    "tier": "t3",
-    "trending": false,
-    "tag": "Adaptogen · Liver · Cognition",
-    "scores": {
-      "composite": 66,
-      "efficacy": 3,
-      "safety": 4,
-      "research": 3,
-      "onset": 3,
-      "cost": 4,
-      "drug_interaction_inverse": 3
-    },
-    "description": "Five-flavour berry with lignans (schisandrin A/B/C, gomisin) that show liver-protective, mild cognitive-supportive, and adaptogenic effects in small RCTs. CYP3A4 induction at higher doses can lower levels of statins, immunosuppressants, and other CYP3A4 substrates — caution.",
-    "dose": "500-1,000 mg standardised extract daily",
-    "tips": "Use cycle on/off (8 weeks on, 2 weeks off); flag any prescription-drug list to your prescriber for CYP3A4 review."
   },
   {
     "name": "Moringa oleifera",
