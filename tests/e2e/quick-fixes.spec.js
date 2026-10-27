@@ -89,9 +89,8 @@ test('sleep guide names a caution and drops the alias card', async ({ page }, te
   await expect(page.locator('.sx-avoid')).toBeVisible();
   await expect(page.locator('a[href="/hub/sleep.html"]')).toBeVisible();
   await expect(page.locator('a[href="/supplement/magnesium-bisglycinate.html"]')).toHaveCount(0);
-  const evidence = await page.locator('.sx-evidence p').innerText();
-  const named = evidence.match(/The strongest records on this page are (.+?)\./);
-  expect(named && named[1]).toMatch(/ and /);
+  const evidence = await page.locator('.sx-evidence p').evaluate((el) => el.textContent);
+  expect(evidence).toContain('and Magnesium glycinate');
   await expect(page.locator('body')).not.toContainText('when this page lists them');
   const sizes = await page.locator('.sx-evidence p, .sx-avoid li').evaluateAll((els) => {
     return els.map((el) => getComputedStyle(el).fontSize);
