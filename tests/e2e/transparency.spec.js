@@ -135,6 +135,19 @@ test('this page uses About’s heading size and the 8px spacing', async ({ page 
   expect(type.statPad).toBe('16px');
   expect(type.lblGap).toBe('8px');
   expect(type.h2MarginBottom).toBe('8px');
+  const wrap = await page.evaluate(() => {
+    const cs = (sel) => getComputedStyle(document.querySelector(sel)).textWrap;
+    return {
+      lbl: cs('.made-lbl'),
+      p: cs('main.made-wrap h2 + p'),
+      li: cs('main.made-wrap li'),
+      note: cs('.made-note'),
+    };
+  });
+  expect(wrap.lbl).toBe('balance');
+  expect(wrap.p).toBe('pretty');
+  expect(wrap.li).toBe('pretty');
+  expect(wrap.note).toBe('pretty');
   const width = page.viewportSize().width;
   // Phone gutters stay at 16px. page-chrome.css already sets that on the shared shell.
   expect(type.pad).toBe(width > 768 ? '32px 24px 64px' : '16px 16px 64px');
