@@ -172,8 +172,77 @@
   <meta name="rc-prev" content="./riboflavin-for-migraine-prevention-the-400-mg-protocol.html">
   <meta name="rc-next" content="./rosehip-rosa-canina-for-osteoarthritis-the-gopo-trials.html">
   <!-- RC_PREVNEXT:end -->
+<link rel="stylesheet" href="/page-chrome.css?v=nav1">
 </head>
-<body><main class="ar-wrap">
+<body>
+<!-- SS_PAGEBAR_BEGIN -->
+<header class="ss-pagebar">
+  <div class="ss-pagebar-inner">
+    <a class="ss-pagebar-brand" href="/">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="ss-pagebar-name">SupplementScore<span>.org</span></span>
+    </a>
+    <nav class="ss-pagebar-nav" id="ss-pagebar-nav" aria-label="Primary">
+      <a href="/browse.html">Browse</a>
+      <a href="/condition/">Conditions</a>
+      <a href="/compare/index.html">Compare</a>
+      <a href="/#research" onclick="window._tabSwitchByUser=true">Research</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <form class="ss-pagebar-search" role="search" action="/search.html" method="get">
+      <input type="search" name="q" placeholder="Search" aria-label="Search supplements" autocomplete="off" enterkeyhint="search">
+    </form>
+    <button type="button" class="ss-pagebar-menu" aria-expanded="false" aria-controls="ss-pagebar-nav" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+    <a class="ss-pagebar-x" href="/#research" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </a>
+  </div>
+</header>
+<script>
+(function () {
+  var btn = document.querySelector('.ss-pagebar-menu');
+  var nav = document.getElementById('ss-pagebar-nav');
+  function setOpen(open) {
+    if (!btn || !nav) return;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+    nav.classList.toggle('is-open', open);
+  }
+  if (btn && nav) {
+    btn.addEventListener('click', function () {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape') setOpen(false);
+    });
+  }
+  if (!nav) return;
+  function norm(p) {
+    p = p || '/';
+    p = p.replace(/\/index\.html$/, '');
+    if (p.length > 1 && p.charAt(p.length - 1) === '/') p = p.slice(0, -1);
+    return p;
+  }
+  var here = norm(location.pathname);
+  var links = nav.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    var a = links[i];
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('#research') !== -1 && (here.indexOf('/a/') === 0 || location.hash === '#research')) {
+      a.setAttribute('aria-current', 'page');
+      continue;
+    }
+    var probe = document.createElement('a');
+    probe.href = href;
+    var dest = norm(probe.pathname);
+    if (!dest || dest === '/') continue;
+    if (here === dest || here.indexOf(dest + '/') === 0) a.setAttribute('aria-current', 'page');
+  }
+})();
+</script>
+<!-- SS_PAGEBAR_END --><main class="ar-wrap">
   <h1>Riboflavin for pediatric migraine prophylaxis: what the trials actually show</h1>
 <div class="ar-meta">6 min read &middot; By the <a href="/about.html#editorial" rel="author">SupplementScore team</a> &middot; <span class="ss-last-reviewed">Updated <time datetime="2026-05-23">May 23, 2026</time></span> &middot; <a href="/about.html#editorial">How we research</a> <!-- last-reviewed: 2026-05-18 --></div>
 <div class="ar-bottomline">

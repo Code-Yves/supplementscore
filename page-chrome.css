@@ -1,17 +1,17 @@
-/* Static info pages (transparency, about, privacy, and the same family).
-   Phones reserve 70px for a fixed homepage bar these pages do not render,
-   so the top is an empty band with no name and no way back. This bar is
-   the wordmark plus a close control. It does not apply to the homepage. */
+/* Slim top bar: wordmark, primary links, search, and a close control.
+   The homepage keeps its trust strip (.beta-bar). Article and supplement
+   pages keep their own horizontal padding so the reading column does not
+   shift. */
 
 /* html body beats the article/supplement 8px offset (same !important,
    one class). These pages render this bar instead of that offset. */
-html body:has(.ss-pagebar){
+html body:has(.ss-pagebar):not(.ss-home):not(:has(main.ar-wrap)):not(:has(main.det-wrap)):not(:has(main.sx-wrap)):not(:has(main.ca-wrap)):not(:has(main.sk-wrap)){
   padding-top:0 !important;
   padding-left:0 !important;
   padding-right:0 !important;
 }
-body:has(.ss-pagebar) > .site-nav,
-body:has(.ss-pagebar) > .beta-bar{display:none !important}
+body:has(.ss-pagebar):not(.ss-home) > .site-nav,
+body:has(.ss-pagebar):not(.ss-home) > .beta-bar{display:none !important}
 body:has(.ss-pagebar) .pg-close-fab,
 body:has(.ss-pagebar) .pg-share-fab,
 body:has(.ss-pagebar) .bro-close-fab,
@@ -41,7 +41,7 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
   gap:12px;
   box-sizing:border-box;
   width:100%;
-  max-width:800px;
+  max-width:1120px;
   min-height:56px;
   margin:0 auto;
   padding:8px 16px;
@@ -158,4 +158,131 @@ body:has(.ss-pagebar) > footer.site-footer{
   margin-left:0;
   margin-right:0;
   box-sizing:border-box;
+}
+
+/* Primary links and search. The menu button is the phone collapse. */
+.ss-pagebar-inner{position:static}
+.ss-pagebar-nav{
+  display:flex;
+  align-items:center;
+  gap:2px 14px;
+  flex:1 1 auto;
+  min-width:0;
+}
+.ss-pagebar-nav a{
+  color:var(--color-text-secondary,#44403c);
+  font-size:14px;
+  font-weight:650;
+  line-height:1.2;
+  text-decoration:none;
+  padding:8px 2px;
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  white-space:nowrap;
+}
+.ss-pagebar-nav a:hover{color:var(--color-brand,#155A50)}
+.ss-pagebar-nav a[aria-current="page"]{
+  color:var(--color-brand,#155A50);
+  box-shadow:inset 0 -2px 0 var(--color-brand,#155A50);
+}
+.ss-pagebar-nav a:focus-visible,
+.ss-pagebar-search input:focus-visible,
+.ss-pagebar-menu:focus-visible{
+  outline:2px solid var(--color-brand,#155A50);
+  outline-offset:2px;
+}
+.ss-pagebar-search{
+  display:flex;
+  align-items:center;
+  flex:0 1 200px;
+  min-width:0;
+  margin-left:auto;
+}
+.ss-pagebar-search input{
+  width:100%;
+  min-width:0;
+  height:44px;
+  box-sizing:border-box;
+  border:1px solid var(--color-border-secondary,#d6d3d1);
+  border-radius:999px;
+  padding:0 14px;
+  font:inherit;
+  font-size:14px;
+  color:var(--color-text-primary,#1c1917);
+  background:var(--color-background-primary,#fff);
+}
+.ss-pagebar-menu{
+  display:none;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  min-height:44px;
+  border-radius:50%;
+  background:var(--color-background-primary,#fff);
+  border:1px solid var(--color-border-secondary,#d6d3d1);
+  box-shadow:0 2px 12px rgba(0,0,0,.14);
+  color:var(--color-text-secondary,#57534e);
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  flex-shrink:0;
+  cursor:pointer;
+  box-sizing:border-box;
+}
+@media(max-width:900px){
+  .ss-pagebar-menu{display:inline-flex}
+  .ss-pagebar-search{flex:1 1 auto;max-width:none}
+  .ss-pagebar-nav{
+    display:none;
+    position:absolute;
+    left:0;
+    right:0;
+    top:100%;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding:8px 12px 12px;
+    background:var(--color-background-primary,#fff);
+    border-bottom:1px solid var(--color-border-tertiary,#e6e4df);
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    z-index:2;
+  }
+  .ss-pagebar-nav.is-open{display:flex}
+  .ss-pagebar-nav a{min-height:44px;padding:0 8px}
+}
+@media(max-width:380px){
+  .ss-pagebar-name{display:none}
+  .ss-pagebar-inner{gap:6px;padding-left:10px;padding-right:10px}
+}
+
+/* Homepage: the bar is in the padded body, so bleed it to the edges the
+   same way the trust strip does. Keep that strip. Sticky filters and the
+   research toolbar sit below the bar instead of covering it. */
+body.ss-home{--ss-bar-h:61px}
+body.ss-home > .ss-pagebar,
+body:has(main.ar-wrap) > .ss-pagebar,
+body:has(main.det-wrap) > .ss-pagebar,
+body:has(main.sx-wrap) > .ss-pagebar,
+body:has(main.ca-wrap) > .ss-pagebar,
+body:has(main.sk-wrap) > .ss-pagebar{
+  /* width:auto plus the 1rem negative margins reaches the viewport edge.
+     The scrollbar gutter makes that box 1px too wide (scrollWidth 1281).
+     The max-width drops that pixel so the research layout does not scroll sideways. */
+  width:auto;
+  max-width:calc(100% + 2rem - 1px);
+  margin-left:-1rem;
+  margin-right:-1rem;
+  box-sizing:border-box;
+}
+body.ss-home .ss-pagebar{z-index:95}
+body.ss-home #main-sticky,
+body.ss-home #main-sticky.sticky-bar,
+body.ss-home #ix-sticky-bar,
+body.ss-home .rs-toolbar{top:var(--ss-bar-h) !important}
+@media(max-width:600px){
+  body.ss-home.tab-supplements,
+  html.tab-supplements body.ss-home{padding-top:0 !important}
+  body.ss-home .ix-hero .ix-search{top:var(--ss-bar-h) !important}
 }
