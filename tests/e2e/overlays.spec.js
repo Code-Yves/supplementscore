@@ -314,13 +314,13 @@ test('desktop close controls share one corner', async ({ page }, testInfo) => {
 
 test('supplement close is inside a landmark and the open card does not repeat one', async ({ page }) => {
   await goto(page, '/supplement/l-theanine.html');
-  await page.waitForSelector('nav.ss-page-actions a.pg-close-fab');
+  await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
   const landmark = await page.evaluate(() => {
-    const close = document.querySelector('a.pg-close-fab');
-    const nav = close.closest('nav');
-    return nav ? nav.getAttribute('aria-label') : '';
+    const close = document.querySelector('header.ss-pagebar a.ss-pagebar-x');
+    const header = close && close.closest('header');
+    return header ? header.tagName : '';
   });
-  expect(landmark).toBe('Page');
+  expect(landmark).toBe('HEADER');
 
   await openSupplement(page);
   const frame = await page.frameLocator('iframe.ssm-frame').locator('body').evaluate(() => {
