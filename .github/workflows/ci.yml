@@ -34,6 +34,9 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
+      - name: Check the top bar matches the partial
+        run: python3 scripts/sync_pagebars.py --check
+
       - name: Run regression suite
         run: npm test
         env:
