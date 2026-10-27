@@ -41,7 +41,7 @@
      border-bottom; transparent inline Share + X buttons separated by a
      thin divider. Replaces the older absolute-positioned floating
      buttons that overlapped iframe content. */
-  + '.ssm-chrome{flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:0;padding:16px 24px;background:var(--color-background-secondary,#ebe5d9);border-bottom:1px solid var(--color-border-tertiary,#E8E5DF);position:relative;z-index:5}'
+  + '.ssm-chrome{flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:0;padding:16px;background:var(--color-background-secondary,#ebe5d9);border-bottom:1px solid var(--color-border-tertiary,#E8E5DF);position:relative;z-index:5}'
   + '.ssm-actions{display:flex;align-items:center;gap:0;position:relative}'
   /* Hairline divider sits between Share and X via order on the X button */
   + '.ssm-actions::before{content:"";display:inline-block;width:1px;height:14px;background:var(--color-border-tertiary,#E8E5DF);margin:0 8px;align-self:center;order:1}'
@@ -67,9 +67,10 @@
   +   '.ssm-x{padding:0;border:0;width:44px;height:44px;min-width:44px;max-width:44px;min-height:44px;max-height:44px}'
   +   '.ssm-x svg{width:18px;height:18px}'
   + '}'
-  /* Desktop: the same viewport corner as the supplement page and the article.
-     No scale on the card, so a fixed × is not trapped or measured mid-zoom. */
-  + '@media(min-width:769px){.ssm-x{position:fixed;top:8px;right:16px;z-index:1002}}'
+  /* Desktop: the × stays in the card chrome, 16px from that panel's corner.
+     A fixed viewport offset sits outside the card, on the window.
+     Phone padding above keeps the 8px / 16px viewport corner. */
+  + '@media(min-width:769px){.ssm-card{position:relative}.ssm-x{position:absolute;top:16px;right:16px;z-index:6}.ssm-chrome{padding-right:76px}}'
   + '.ssm-toast{position:absolute;top:60px;right:18px;z-index:6;background:#0c0a09;color:#fff;font-size:12.5px;font-weight:500;padding:8px 16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s;pointer-events:none;display:flex;align-items:center;gap:8px}'
   + '.ssm-toast.show{opacity:1;transform:translateY(0)}'
   + '.ssm-toast svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}'

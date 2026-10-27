@@ -8,6 +8,30 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
+  /* One muted trust line in the visible desktop header.
+     The homepage writes its own into the stats bar. Other pages get it
+     beside the wordmark, or in the empty side of the tab nav. Never the
+     footer, and never a filter menu. */
+  (function placeTrustLine(){
+    if (document.querySelector('.ss-np')) return;
+    var el = document.createElement('span');
+    el.className = 'ss-np';
+    el.textContent = 'Independent · No industry funding';
+    var pagebar = document.querySelector('.ss-pagebar-inner');
+    if (pagebar) {
+      pagebar.insertBefore(el, pagebar.querySelector('.ss-pagebar-x'));
+      return;
+    }
+    var nav = document.querySelector('nav.site-nav');
+    var inner = nav && nav.querySelector('.site-nav-inner');
+    if (inner && nav.style.display !== 'none' && getComputedStyle(nav).display !== 'none' && !inner.querySelector('.site-nav-search-pill')) {
+      inner.appendChild(el);
+      return;
+    }
+    var bar = document.querySelector('.beta-bar');
+    if (bar && !bar.closest('footer')) bar.appendChild(el);
+  })();
+
   /* A refresh was landing on the footer.
      Chromium scroll-anchors to whatever was on screen. Research chrome,
      a stylesheet applied after first paint, and slots filled in after
@@ -26,9 +50,11 @@
     var isHome = path === '/' || /\/index\.html$/.test(path);
     var hash = (location.hash || '').replace(/^#/, '');
     var tabHash = hash === 'research' || hash === 'about' || hash === 'profile' || hash === 'supplements';
-    var KEY = 'ss-scroll:' + path;
+    function scrollKey(){
+      return 'ss-scroll:' + (location.pathname || '/') + (location.hash || '');
+    }
     var user = false;
-    function markUser(){ user = true; }
+    function markUser(){ user = true; window.__ssScrollUser = true; }
     if (navType !== 'back_forward') {
       ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function(type){
         window.addEventListener(type, markUser, { capture: true, passive: true });
@@ -37,7 +63,7 @@
     if (!(isHome && navType !== 'reload')) {
       window.addEventListener('pagehide', function(){
         if (navType === 'reload' && !user) return;
-        try { sessionStorage.setItem(KEY, String(Math.round(window.scrollY || 0))); } catch (e) {}
+        try { sessionStorage.setItem(scrollKey(), String(Math.round(window.scrollY || 0))); } catch (e) {}
       });
     }
     function blurFooterFocus(){
@@ -62,9 +88,11 @@
     if (hash && !tabHash) return;
 
     var target = 0;
-    if (navType === 'reload' && !tabHash) {
+    /* Homepage reloads stay at the top. A saved offset is for the next
+       non-reload visit, and reading it here is what jumped a refresh. */
+    if (navType === 'reload' && !tabHash && !isHome) {
       var raw = null;
-      try { raw = sessionStorage.getItem(KEY); } catch (e) {}
+      try { raw = sessionStorage.getItem(scrollKey()); } catch (e) {}
       /* No saved offset: leave the browser's own restoration alone.
          Forcing the top here would undo a reload that already landed
          in the right place. */
@@ -440,14 +468,42 @@
   +   'line-height:0;cursor:pointer;font-size:0 !important;transform:none !important}'
   + '.ss-x:hover,.ss-x:active{transform:none !important;color:var(--color-text-primary,#0c0a09) !important}'
   + '.ss-x svg{width:18px !important;height:18px !important;display:block !important;flex:none}'
-  + 'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
-  + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab,html:not(.ss-in-iframe) a.ss-x.rc-close{'
-  +   'position:fixed !important;top:8px !important;right:16px !important;z-index:80 !important}'
   + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab svg{width:18px !important;height:18px !important}'
   + 'html.rc-chrome-active a.ss-x.reader-close-fab,html.rc-chrome-active a.ss-x.pg-close-fab{display:none !important}'
   + 'body:has(.ss-pagebar) a.ss-x.pg-close-fab,body:has(.ss-pagebar) a.ss-x.hub-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.bro-close-fab,body:has(.ss-pagebar) a.ss-x.cmp-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.d-close-fab{display:none !important}'
+    /* Desktop: every × sits 16px inside the top-right of the panel it closes.
+       A viewport right:16px lands outside a centered column once the scrollbar
+       gutter is counted. Phone rules below keep the viewport corner. */
+  + '@media(min-width:769px){'
+  +   '.ss-pagebar-inner{position:relative;min-height:76px;padding:16px 76px 16px 16px;box-sizing:border-box}'
+  +   'a.ss-pagebar-x{position:absolute !important;top:16px !important;right:16px !important;z-index:2}'
+  +   'html.rc-chrome-active .ar-column,html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,'
+  +   'html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{position:relative}'
+  +   'a.ss-x.rc-close{position:absolute !important;top:16px !important;right:16px !important;z-index:5 !important}'
+  +   'html.rc-chrome-active .rc-top{padding-right:72px}'
+  +   'body:has(main.det-wrap):not(.is-modal){position:relative}'
+  +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions{'
+  +     'position:absolute;top:0;left:50%;transform:translateX(-50%);'
+  +     'width:min(880px,calc(100% - 2rem));height:0;margin:0;padding:0;border:0;'
+  +     'overflow:visible;pointer-events:none;z-index:80}'
+  +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>a.ss-x.pg-close-fab{'
+  +     'position:absolute !important;top:16px !important;right:16px !important;z-index:80 !important;pointer-events:auto}'
+  +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{'
+  +     'position:absolute !important;top:16px !important;right:68px !important;pointer-events:auto}'
+  +   'body:has(main.det-wrap):not(.is-modal)>main.det-wrap{padding-top:72px}'
+  +   '.src-modal-panel,.art-modal-pane{position:relative}'
+  +   '.src-modal-head,.art-modal-chrome{position:relative;padding-right:76px}'
+  +   '.src-modal-close,.art-modal-close{position:absolute !important;top:16px !important;right:16px !important;z-index:3}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal){position:relative}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>a.ss-x,'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{'
+  +     'position:absolute !important;top:16px !important;pointer-events:auto;z-index:80 !important}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>a.ss-x{right:16px !important}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{right:68px !important}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>main{padding-top:72px !important}'
+  + '}'
     /* Phone: every corner × sits 8px from the top and 16px from the right. */
   + '@media(max-width:768px){'
   +   'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
@@ -827,6 +883,7 @@
     initBreadcrumbs();
     initShareFab();
     placePageActions();
+    alignFloatingPanel();
     nameModalMain();
     /* 2026-05-24 — belt-and-braces: also remove any pre-existing
        .ssux-handout buttons in case an older cached page injected one. */
@@ -928,6 +985,39 @@
     nav.appendChild(closeFab);
   }
 
+  /* Pages whose close is a body-level fab (not the supplement column and
+     not a page bar) size that fab's nav to the main panel, then the
+     desktop rule parks the × 16px inside that box. */
+  function alignFloatingPanel(){
+    var nav = document.querySelector('nav.ss-page-actions');
+    if (!nav) return;
+    var desktop = window.matchMedia('(min-width:769px)').matches;
+    var skip = !desktop || !document.body || document.body.classList.contains('is-modal')
+      || document.querySelector('.ss-pagebar') || document.querySelector('main.det-wrap');
+    if (skip) {
+      ['position','top','left','width','height','transform','margin','pointer-events','overflow'].forEach(function(prop){
+        nav.style.removeProperty(prop);
+      });
+      return;
+    }
+    var panel = document.querySelector('main');
+    if (!panel) return;
+    var pr = panel.getBoundingClientRect();
+    var br = document.body.getBoundingClientRect();
+    var cs = getComputedStyle(document.body);
+    var padL = parseFloat(cs.paddingLeft) || 0;
+    var padT = parseFloat(cs.paddingTop) || 0;
+    nav.style.setProperty('position', 'absolute', 'important');
+    nav.style.setProperty('top', (pr.top - br.top - padT) + 'px', 'important');
+    nav.style.setProperty('left', (pr.left - br.left - padL) + 'px', 'important');
+    nav.style.setProperty('width', pr.width + 'px', 'important');
+    nav.style.setProperty('height', '0px', 'important');
+    nav.style.setProperty('transform', 'none', 'important');
+    nav.style.setProperty('margin', '0', 'important');
+    nav.style.setProperty('pointer-events', 'none', 'important');
+    nav.style.setProperty('overflow', 'visible', 'important');
+  }
+
   /* The supplement card iframe repeats the page's unnamed main and footer.
      Name this main and hide the footer (the stylesheet also hides it) so
      the open card is not a second copy of those landmarks. */
@@ -981,6 +1071,8 @@
   } else {
     boot();
   }
+  window.addEventListener('resize', alignFloatingPanel);
+  window.addEventListener('load', alignFloatingPanel);
 
   /* Keep hyphenated headline compounds on one line (Most-Studied). */
   function keepHeadlineCompounds(){

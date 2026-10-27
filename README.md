@@ -1,6 +1,6 @@
 # SupplementScore
 
-**[supplementscore.org](https://supplementscore.org/)** — a non-profit, evidence-based supplement reference. No sponsorships, no affiliate links, no paid placements.
+**[supplementscore.org](https://supplementscore.org/)** — Independent · No industry funding. Evidence-based supplement reference. No sponsorships, no affiliate links, no paid placements.
 
 Every supplement is scored from peer-reviewed clinical trials and meta-analyses. Sources are weighted by funding independence and methodological strength. When the evidence changes, the score changes — and we keep a [public log](https://supplementscore.org/changed-our-mind.html) of every reversal.
 

@@ -803,6 +803,51 @@ body.tab-research.hero-search-gone .beta-bar{justify-content:center;}
 @keyframes ss-beta-pulse{0%{box-shadow:0 0 6px rgba(21,90,80,.55),0 0 0 0 rgba(21,90,80,.45)}70%{box-shadow:0 0 6px rgba(21,90,80,.55),0 0 0 7px rgba(21,90,80,0)}100%{box-shadow:0 0 6px rgba(21,90,80,.55),0 0 0 0 rgba(21,90,80,0)}}
 @media(prefers-reduced-motion:reduce){.beta-bar-pulse{animation:none;box-shadow:0 0 6px rgba(21,90,80,.6)}}
 @media(max-width:560px){.beta-bar{font-size:12px;gap:8px}.beta-bar-tag{display:none}.beta-bar-sep{display:none}}
+/* Desktop-only trust mark. Phones, tablets, dropdown menus, and the
+   footer keep the header they already have. 13px secondary text stays
+   on one line so the stats and the Index / Research / Profile tabs do not wrap. */
+.ss-np{
+  display:none;
+  align-items:center;
+  font-size:13px;
+  font-weight:500;
+  line-height:1;
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--color-text-secondary,#57534e);
+  white-space:nowrap;
+  flex:none;
+}
+@media(min-width:1024px){
+  .beta-bar>.ss-np,
+  .ss-pagebar-inner>.ss-np,
+  .site-nav-inner>.ss-np{display:inline-flex}
+  .beta-bar:has(>.ss-np){position:relative}
+  .beta-bar>.ss-np{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#57534e;
+  }
+  body.hero-search-gone .beta-bar>.ss-np{display:none}
+  .ss-pagebar-inner>.ss-np{margin-left:12px;margin-right:auto}
+  .site-nav-inner>.ss-np{grid-column:3;justify-self:end;align-self:center}
+  .site-nav-inner:has(.site-nav-search-pill)>.ss-np{display:none}
+}
+footer .ss-np,
+.cdd-menu .ss-np,
+.hero-statbar .ss-np{display:none !important}
+h1,h2,h3,
+.article-title,.hub-title,.det-h1,.hubidx-card-title,.hub-card-title,.hub-art-title,
+.art-name,.rh-opt-name,.rh-sec-title,.hub-card h2,.hub-card h3,
+.art-blurb,.rh-opt-blurb,.rh-sec-blurb,.hub-art-blurb{
+  text-wrap:balance;
+}
+.sens-pop-line,.sens-pop-line strong,.ar-callout,.ar-callout strong,
+.article-v2 .sens-pop,.article-v2 .sens-pop strong,.article-v2 .sens-pop p{
+  color:#92400E !important;
+}
 .page-header--center{text-align:center;border-bottom:none}
 .page-logo-label{font-size:13.5px;font-weight:800;color:var(--color-brand);letter-spacing:.07em;text-transform:uppercase;margin-bottom:16px}
 .page-logo-label span{font-weight:500;opacity:.4;letter-spacing:.04em}

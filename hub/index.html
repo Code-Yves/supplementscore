@@ -33,17 +33,15 @@
        desktop each fill every row. auto-fit left one card alone between
        those widths. */
     .hubidx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
-    @media (max-width: 700px) {
-      .hubidx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:8px; }
+    @media (max-width: 767px) {
+      .hubidx-grid { grid-template-columns: 1fr; gap:12px; }
       .hubidx-card { padding:16px; }
-      .hubidx-card-badge { width: 36px; height: 36px; font-size: 12px; }
       .hubidx-card-title { font-size: 16px; }
     }
     .hubidx-card { display: block; padding:16px; border: 1px solid var(--color-border-tertiary,#e5e7eb); border-radius: 14px; text-decoration: none; color: inherit; background: var(--color-background-primary); transition: border-color .15s, transform .15s; }
     .hubidx-card:hover { border-color: var(--color-brand,#155A50); }
     .hubidx-card-head { display: flex; align-items: center; gap:12px; margin-bottom:8px; }
-    .hubidx-card-badge { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg,#0D9488,#14B8A6); color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; letter-spacing: -.5px; }
-    .hubidx-card-title { font-size: 19px; font-weight: 700; margin:0; line-height: 1.2; }
+    .hubidx-card-title { font-size: 19px; font-weight: 700; margin:0; line-height: 1.2; text-wrap: balance; }
     .hubidx-card-tag { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin:0; }
     .hubidx-foot { margin-top:40px; font-size: 12px; color: var(--color-text-tertiary); padding:16px 0; border-top: 0.5px solid var(--color-border-tertiary); text-align: center; }
     .hubidx-foot a { color: inherit; text-decoration: underline; }
@@ -167,84 +165,72 @@
   <div class="hubidx-grid">
     <a class="hubidx-card" href="./magnesium.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Mg</div>
         <h2 class="hubidx-card-title">Magnesium</h2>
       </div>
       <p class="hubidx-card-tag">Everything on the most-supplemented mineral — forms, sleep, anxiety, migraine, glucose control.</p>
     </a>
     <a class="hubidx-card" href="./sleep.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Zz</div>
         <h2 class="hubidx-card-title">Sleep</h2>
       </div>
       <p class="hubidx-card-tag">Evidence-graded sleep supplements — melatonin dosing, magnesium glycinate, glycine, valerian, apigenin.</p>
     </a>
     <a class="hubidx-card" href="./probiotics.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">µB</div>
         <h2 class="hubidx-card-title">Probiotics</h2>
       </div>
       <p class="hubidx-card-tag">Strain-specific evidence for IBS, antibiotic-associated diarrhea, infant colic, eczema, mood.</p>
     </a>
     <a class="hubidx-card" href="./omega-3.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">ω3</div>
         <h2 class="hubidx-card-title">Omega-3</h2>
       </div>
       <p class="hubidx-card-tag">EPA, DHA, ALA, algal alternatives — and what the AF, depression, ADHD, and pregnancy trials show.</p>
     </a>
     <a class="hubidx-card" href="./vitamin-d.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">D3</div>
         <h2 class="hubidx-card-title">Vitamin D</h2>
       </div>
       <p class="hubidx-card-tag">Bone evidence, VITAL trial, infant drops, fall-prevention, and why bolus dosing failed.</p>
     </a>
     <a class="hubidx-card" href="./athletic-performance.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">AP</div>
         <h2 class="hubidx-card-title">Athletic performance</h2>
       </div>
       <p class="hubidx-card-tag">Ergogenics that work — creatine, caffeine, nitrate, beta-alanine — and the pre-workout safety record.</p>
     </a>
     <a class="hubidx-card" href="./creatine.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Cr</div>
         <h2 class="hubidx-card-title">Creatine</h2>
       </div>
       <p class="hubidx-card-tag">The most-studied legal ergogenic — strength, lean mass, and the 2024 cognition meta-analysis that reshaped brain health.</p>
     </a>
     <a class="hubidx-card" href="./adaptogens.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Ad</div>
         <h2 class="hubidx-card-title">Adaptogens</h2>
       </div>
       <p class="hubidx-card-tag">Ashwagandha, rhodiola, ginseng, schisandra, magnolia — which adaptogens have real RCT support and which ride the label.</p>
     </a>
     <a class="hubidx-card" href="./joint-health.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Jt</div>
         <h2 class="hubidx-card-title">Joint health</h2>
       </div>
       <p class="hubidx-card-tag">Collagen, curcumin, boswellia, MSM, glucosamine, chondroitin — the trial record that ranks them for knee OA and tendon recovery.</p>
     </a>
     <a class="hubidx-card" href="/a/creatine-for-women.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Cw</div>
         <h2 class="hubidx-card-title">Creatine for women</h2>
       </div>
       <p class="hubidx-card-tag">Lean mass and leg strength after menopause. Not a fat-loss or bone-density supplement.</p>
     </a>
     <a class="hubidx-card" href="/for/glp-1.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">G1</div>
         <h2 class="hubidx-card-title">GLP-1</h2>
       </div>
       <p class="hubidx-card-tag">Ozempic, Wegovy, Mounjaro, and Zepbound, and why a GLP-1 supplement is not those drugs.</p>
     </a>
     <a class="hubidx-card" href="/for/women-by-age.html">
       <div class="hubidx-card-head">
-        <div class="hubidx-card-badge">Wa</div>
         <h2 class="hubidx-card-title">Women by age</h2>
       </div>
       <p class="hubidx-card-tag">What the trials cover for women in their 20s, 30s, 40s, 50s, and 60s.</p>
@@ -284,7 +270,7 @@
       <a href="/transparency.html">How it's made</a>
     </nav>
     <div class="site-footer-contrib">
-      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-eyebrow">Independent · No industry funding</div>
       <div class="site-footer-contrib-title">Help build the database</div>
       <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
       <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>

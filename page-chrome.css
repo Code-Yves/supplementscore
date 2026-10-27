@@ -79,6 +79,51 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
 }
 .ss-pagebar-x:hover{color:var(--color-text-primary,#1c1917)}
 .ss-pagebar-x svg{width:18px;height:18px}
+@media(min-width:769px){
+  .ss-pagebar-inner{position:relative;min-height:76px;padding:16px 76px 16px 16px}
+  .ss-pagebar-x{position:absolute;top:16px;right:16px}
+}
+
+/* Index lists (browse, topic-hub supplement indexes). In-article links
+   stay as written. Each row is a link: 16px type, a 48px target, a
+   hairline, and a teal arrow. */
+.bro-list,.hub-simple-list{
+  font-size:16px;
+  row-gap:0;
+  gap:0;
+}
+.hub-simple-list{grid-template-columns:1fr}
+.bro-list a,.hub-simple-list li a{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:48px;
+  font-size:16px;
+  line-height:1.3;
+  font-weight:500;
+  padding:8px 4px;
+  border:0;
+  border-bottom:1px solid var(--color-border-tertiary,#e5e7eb);
+  border-radius:0;
+  box-sizing:border-box;
+  text-decoration:none;
+  color:var(--color-text-primary,#1c1917);
+}
+.bro-list a::after,.hub-simple-list li a::after{
+  content:"";
+  flex:none;
+  width:8px;
+  height:8px;
+  margin-left:12px;
+  border-right:2px solid #0D9488;
+  border-top:2px solid #0D9488;
+  transform:rotate(45deg);
+}
+.bro-list a:hover,.hub-simple-list li a:hover{
+  color:var(--color-brand,#155A50);
+  text-decoration:none;
+}
 
 @media(max-width:768px){
   .ss-pagebar-inner{padding:8px 16px;min-height:60px}
