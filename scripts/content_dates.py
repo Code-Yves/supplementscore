@@ -17,6 +17,7 @@ pages. Redirect stubs are left alone. sitemap-news.xml is not touched.
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import re
 import sys
@@ -283,6 +284,79 @@ def stamp_sitemaps(dates: dict[str, str]) -> tuple[int, dict[str, str]]:
     return changed, newest
 
 
+CARD_RE = re.compile(r'<a\b[^>]*\bhub-card\b[^>]*>.*?</a>', re.S)
+LIST_INDEXES = (
+    "compare/index.html",
+    "condition/index.html",
+    "m/index.html",
+)
+ABOUT_TRANS = re.compile(
+    r'(This section says, in one place, what we do not sell, how a score is chosen, how a brand gets listed, who pays for the site, and how to correct a mistake\. Last reviewed <time datetime=")(\d{4}-\d{2}-\d{2})(">)([^<]+)(</time>)'
+)
+
+
+def card_text(index_path: pathlib.Path, text: str) -> str:
+    """Hub cards show the linked page's own review date, not a second date."""
+
+    def repl(match: re.Match) -> str:
+        block = match.group(0)
+        href_m = re.search(r'href="([^"]+)"', block)
+        date_m = re.search(r"Updated (\d{4}-\d{2}-\d{2})", block)
+        if not href_m or not date_m:
+            return block
+        href = href_m.group(1).split("#", 1)[0].split("?", 1)[0]
+        if "://" in href or href.startswith("#"):
+            return block
+        target = (index_path.parent / href).resolve()
+        try:
+            target.relative_to(ROOT)
+        except ValueError:
+            return block
+        if not target.is_file():
+            return block
+        date = true_date(target.read_text(encoding="utf-8"))
+        if not date or date == date_m.group(1):
+            return block
+        return block[: date_m.start(1)] + date + block[date_m.end(1) :]
+
+    return CARD_RE.sub(repl, text)
+
+
+def align_about(text: str) -> str:
+    """The transparency line uses the page's own review date."""
+    date = true_date(text)
+    if not date:
+        return text
+
+    def repl(match: re.Match) -> str:
+        if match.group(2) == date and match.group(4) == pretty(date):
+            return match.group(0)
+        return f"{match.group(1)}{date}{match.group(3)}{pretty(date)}{match.group(5)}"
+
+    return ABOUT_TRANS.sub(repl, text, count=1)
+
+
+def sync_cross_page_dates(write: bool) -> list[str]:
+    drifted: list[str] = []
+    targets = [ROOT / rel for rel in LIST_INDEXES]
+    targets.append(ROOT / "about.html")
+    for path in targets:
+        if not path.is_file():
+            continue
+        original = path.read_text(encoding="utf-8")
+        if path.name == "about.html" and path.parent == ROOT:
+            updated = align_about(original)
+        else:
+            updated = card_text(path, original)
+        if updated == original:
+            continue
+        rel = path.relative_to(ROOT).as_posix()
+        drifted.append(rel)
+        if write:
+            path.write_text(updated, encoding="utf-8")
+    return drifted
+
+
 def main() -> int:
     child_dates: dict[str, list[str]] = {name: [] for name in INDEX_PAGES.values()}
     page_dates: dict[pathlib.Path, str] = {}
@@ -320,11 +394,40 @@ def main() -> int:
         else:
             loc_dates[f"{ORIGIN}/{rel}"] = date
     changed, newest = stamp_sitemaps(loc_dates)
+    drifted = sync_cross_page_dates(write=True)
     print(f"content_dates: rewrote {written} html file(s); sitemap lastmod edits {changed}")
+    if drifted:
+        print("  cross-page dates updated: " + ", ".join(drifted))
     for name, date in sorted(newest.items()):
         print(f"  {name} newest {date}")
     return 0
 
 
+def check() -> int:
+    problems: list[str] = []
+    terms = (ROOT / "terms.html").read_text(encoding="utf-8")
+    editorial = (ROOT / "editorial-board.html").read_text(encoding="utf-8")
+    if "Tier 1 entries weekly" in terms:
+        problems.append("terms.html still says Tier 1 is rechecked weekly")
+    if "about.html#cadence" not in terms:
+        problems.append("terms.html does not point at the About cadence")
+    if "quarterly re-review" in editorial:
+        problems.append("editorial-board.html still says quarterly re-review")
+    if "/about.html#cadence" not in editorial:
+        problems.append("editorial-board.html does not point at the About cadence")
+    for rel in sync_cross_page_dates(write=False):
+        problems.append(f"{rel} review dates do not match the linked pages")
+    if problems:
+        print("content_dates check failed:")
+        for item in problems:
+            print(f"  {item}")
+        return 1
+    print("content_dates: check ok")
+    return 0
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    parser = argparse.ArgumentParser(description="Keep review dates on the pages that own them.")
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    sys.exit(check() if args.check else main())
