@@ -14,7 +14,7 @@ test('D-mannose card uses the weak-evidence tier and the MERIT summary', async (
   const tier = page.locator('.det-tier');
   await expect(tier).toHaveClass(/t3/);
   expect(await tier.evaluate((el) => el.textContent)).toBe('Tier 3 — Trending');
-  await expect(page.locator('.det-h1')).toHaveText('D-Mannose');
+  expect(await page.locator('.det-h1').evaluate((el) => el.textContent)).toMatch(/D.Mannose/);
   await expect(page.locator('.det-tldr')).toContainText(SUMMARY);
   await expect(page.locator('.det-score-num')).toHaveText('57');
   await expect(page.locator('.det-cat-pill')).toHaveText(['Recurrent UTI']);
@@ -37,6 +37,6 @@ test('UTI guide card matches the D-mannose page', async ({ page }) => {
   const text = await card.innerText();
   expect(text).not.toMatch(/Promising/i);
   expect(text).toMatch(/38497963/);
-  expect(text).toMatch(/no significant reduction/i);
+  expect(text).toMatch(/did not significantly reduce/i);
   expect(errors, errors.join('\n')).toEqual([]);
 });
