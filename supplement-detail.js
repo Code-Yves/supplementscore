@@ -52,47 +52,81 @@
     var text = String(dose).trim();
     var warned = warningDoseLabel(text);
     if(warned) return warned;
-    // A leading digit is required. [\d.,]+ used to treat the period in
+    // "500 mL–1.5 L" uses two units. The shared range pattern only sees "0.5–1.6 ppm".
+    var vol = text.match(/^(\d[\d.,]*\s*(?:mL|ml|L|l)\s*[–\-−]\s*\d[\d.,]*\s*(?:mL|ml|L|l))/);
+    if(vol) return vol[1].replace(/\s+/g, ' ');
+    // A leading digit is required. [\d.,]+ treated the period in
     // "Do not take kratom. It is…" as a number and rendered ". It".
-    // The unit has to be a dose unit. Otherwise "SBT2055 or" becomes "2055 or".
-    var unitOk = /^(?:mg|mcg|µg|μg|ug|g|kg|iu|ml|l|cfu|kcal|mmol|mol|billion|million|b|k)$/i;
-    function accept(hit){
-      var cleaned = hit.replace(/\s+/g, ' ').trim();
-      var unit = cleaned.match(/[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?$/);
+    // Capsule, tablet, drop, cup, tablespoon and teaspoon stay valid units
+    // because the unit is any word, same as mg. A lone English word
+    // ("2055 or", "3A") is not a unit.
+    var rangeRe = /(\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
+    var singleRe = /(\d[\d.,]*\s*[BMK]?\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
+    var junkUnit = /^(?:or|and|the|it|as|if|of|to|a|an|in|on|for|with|from|by|at|is|are)$/i;
+    function accept(chunk, m){
+      var hit = m[1].replace(/\s+/g, ' ').trim();
+      var unit = hit.match(/[a-zA-Zµμ%]+$/);
       if(!unit) return null;
-      if(!unitOk.test(unit[0].split('/')[0])) return null;
-      return cleaned;
+      if(junkUnit.test(unit[0])) return null;
+      if(unit[0].length === 1 && !/^[gGlLbBmMkK%]$/.test(unit[0])) return null;
+      if(/^\d[\d.,]*\s*[BMK]$/i.test(hit)){
+        var rest = chunk.slice(m.index + m[1].length);
+        var more = rest.match(/^\s*(CFU(?:\/[A-Za-z]+)?)/i);
+        if(more) hit = (hit + ' ' + more[1]).replace(/\s+/g, ' ');
+      }
+      return {hit: hit, at: m.index, pct: unit[0] === '%'};
     }
-    var rangeRe = /\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?/g;
-    var singleRe = /\d[\d.,]*\s*[BMK]?\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?/g;
-    function search(chunk){
-      var m, hit;
-      rangeRe.lastIndex = 0;
-      while((m = rangeRe.exec(chunk))){
-        hit = accept(m[0]);
-        if(hit) return hit;
+    function pick(chunk){
+      var chosen = null;
+      var patterns = [rangeRe, singleRe];
+      for(var p = 0; p < patterns.length && !chosen; p++){
+        var re = new RegExp(patterns[p].source, 'g');
+        var m;
+        while((m = re.exec(chunk))){
+          var got = accept(chunk, m);
+          if(got){ chosen = got; break; }
+        }
       }
-      singleRe.lastIndex = 0;
-      while((m = singleRe.exec(chunk))){
-        hit = accept(m[0]);
-        if(hit) return hit;
+      if(!chosen) return null;
+      // "320 mg/day (85–95% fatty acids)" is a dose, not a purity range.
+      if(chosen.pct){
+        var re = new RegExp(singleRe.source, 'g');
+        var m, earlier = null;
+        while((m = re.exec(chunk))){
+          if(m.index >= chosen.at) break;
+          var got = accept(chunk, m);
+          if(got && !got.pct) earlier = got;
+        }
+        if(earlier) return earlier.hit;
       }
-      return null;
+      return chosen.hit;
     }
     // Semicolons and clause commas break the protocol. A comma before a
-    // digit is a thousands separator, not a new clause.
+    // digit is a thousands separator, not a new clause. The search stays
+    // in that first clause so a later example cannot replace the dose.
     var first = text.split(/\s*;\s*|\s*,\s*(?!\d)/)[0].trim();
-    var found = search(first);
-    if(found) return found;
-    // A later clause can supply the unit when the first clause is only a number.
-    // Do not scan the whole protocol: a warning ("not recommended… if MCT, 5–20 mL")
-    // would otherwise show the later dose.
-    if(/^\d[\d.,]*$/.test(first) || /\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*$/.test(first)){
-      return search(text) || 'See protocol';
+    var counted = first.match(/^(one|two|three)\s+(?:capsules?|tablets?|sachets?|drops?|cups?|teaspoons?|tablespoons?)(?:\/day)?/i);
+    if(counted){
+      var label = counted[0].replace(/\s+/g, ' ');
+      return label.charAt(0).toUpperCase() + label.slice(1);
     }
-    var w = first.split(/\s+/);
-    var phrase = w.slice(0, Math.min(3, w.length)).join(' ').replace(/[.,:;]+$/, '');
-    phrase = phrase.replace(/\s+(?:of|a|the|and|or|with|for|as|in|to)$/i, '');
+    var found = pick(first);
+    if(found) return found;
+    if(/^\d[\d.,]*$/.test(first) || /\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*$/.test(first)){
+      found = pick(text);
+      if(found) return found;
+      return 'See protocol';
+    }
+    var phrase = first.split(/\s+/).slice(0, 3).join(' ').replace(/[.,:;]+$/, '');
+    phrase = phrase.replace(/\s+of$/i, '');
+    var low = phrase.toLowerCase();
+    if(/^do not take\b/.test(low) || /^do not use\b/.test(low)) return 'Do not take';
+    if(/^do not supplement\b/.test(low)) return 'Do not supplement';
+    if(/^not recommended\b/.test(low) || /^not advised\b/.test(low)) return 'Not advised';
+    if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
+    if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
+    if(/^(?:avoid|avoided)\b/.test(low)) return 'Avoid';
+    if(/^topical only\b/.test(low)) return 'Topical only';
     return phrase || 'See protocol';
   }
 
