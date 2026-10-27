@@ -30,15 +30,18 @@
   // A protocol that opens with a warning is not a daily dose. Show a short
   // label and never a number pulled out of that warning — a lethal amount,
   // or another supplement's dose named as the alternative. A warning that
-  // applies only to some people (smokers, people on a medication) says so
-  // instead of telling everyone never to take it.
+  // applies only to some people says so, instead of telling everyone to avoid it.
   function warningDoseLabel(text){
     var t = String(text || '').trim();
     if(!/^(?:avoid|do\s+not|don'?t|not\s+recommended|not\s+advised|never\b|toxic\b|lethal\b|fatal\b|deadly\b|unsafe\b|dangerous\b|banned\b|contraindicated\b|(?:no|zero)\s+safe\b)/i.test(t)) return '';
     var opening = t.split(/[.!?](?:\s|$)/)[0];
     if(/\b(?:patients?\s+on\b|on\s+(?:medications?|medicines?|drugs?|warfarin|blood\s+thinners?|anticoagulants?)\b|taking\s+(?:medications?|medicines?|drugs?|warfarin)\b|CYP\s*\d|drug\s+interactions?)\b/i.test(opening)) return 'Check interactions';
     if(/\b(?:if\s+you\s+smoke|smokers?|have\s+ever\s+smoked|if\s+you(?:'re|\s+are)\s+pregnant|pregnan(?:t|cy)|breastfeed(?:ing)?|not\s+everyone|some\s+people|people\s+with|if\s+you\s+have)\b/i.test(opening)) return 'Not for everyone';
+    // A high dose or a concentrated extract can still leave a short-term or food use.
+    if(/\bhigh\s+doses?\b/i.test(opening) && /\b(?:if\s+used|short[\s-]term)\b/i.test(t)) return 'Not advised for some';
+    if(/\bconcentrated\b/i.test(opening) && /\b(?:food\s+amounts|are\s+safe)\b/i.test(t)) return 'Not advised for some';
     if(/^do\s+not\s+supplement\b/i.test(t)) return 'Do not supplement';
+    if(/^do\s+not\s+eat\b/i.test(t)) return 'Do not eat';
     if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Not advised';
     if(/^avoid\b/i.test(t)) return 'Avoid';
     return 'Do not take';
@@ -49,84 +52,59 @@
   // no unit in the protocol is not shown; the cell says "See protocol".
   function compactDose(dose){
     if(!dose || !String(dose).trim()) return 'See protocol';
-    var text = String(dose).trim();
+    var text = String(dose).replace(/\s+/g, ' ').trim();
     var warned = warningDoseLabel(text);
     if(warned) return warned;
-    // "500 mL–1.5 L" uses two units. The shared range pattern only sees "0.5–1.6 ppm".
-    var vol = text.match(/^(\d[\d.,]*\s*(?:mL|ml|L|l)\s*[–\-−]\s*\d[\d.,]*\s*(?:mL|ml|L|l))/);
-    if(vol) return vol[1].replace(/\s+/g, ' ');
-    // A leading digit is required. [\d.,]+ treated the period in
-    // "Do not take kratom. It is…" as a number and rendered ". It".
-    // Capsule, tablet, drop, cup, tablespoon and teaspoon stay valid units
-    // because the unit is any word, same as mg. A lone English word
-    // ("2055 or", "3A") is not a unit.
-    var rangeRe = /(\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
-    var singleRe = /(\d[\d.,]*\s*[BMK]?\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
-    var junkUnit = /^(?:or|and|the|it|as|if|of|to|a|an|in|on|for|with|from|by|at|is|are)$/i;
-    function accept(chunk, m){
-      var hit = m[1].replace(/\s+/g, ' ').trim();
-      var unit = hit.match(/[a-zA-Zµμ%]+$/);
-      if(!unit) return null;
-      if(junkUnit.test(unit[0])) return null;
-      if(unit[0].length === 1 && !/^[gGlLbBmMkK%]$/.test(unit[0])) return null;
-      if(/^\d[\d.,]*\s*[BMK]$/i.test(hit)){
-        var rest = chunk.slice(m.index + m[1].length);
-        var more = rest.match(/^\s*(CFU(?:\/[A-Za-z]+)?)/i);
-        if(more) hit = (hit + ' ' + more[1]).replace(/\s+/g, ' ');
+    var low = text.toLowerCase();
+    if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
+    if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
+    // Real dose units only. A time word or a capitalised word is not a unit,
+    // so "30-60 min", "3–5 days" and "2024 Endocrine" cannot win.
+    var num = '[0-9⁰¹²³⁴⁵⁶⁷⁸⁹][0-9⁰¹²³⁴⁵⁶⁷⁸⁹.,]*';
+    var unit = 'mg|mcg|µg|μg|ug|g|kg|iu|ml|l|cfu|kcal|mmol|mol|billion|million|ppm|fcc|fu|usp|%|capsules?|tablets?|drops?|scoops?|teaspoons?|tablespoons?|cups?|sachets?|sprays?';
+    var per = '(?:\\/(?:day|kg|week|dose|serving))?';
+    var bound = '(?![A-Za-zµμ%])';
+    var rangeRe = new RegExp('('+num+'\\s*(?:'+unit+')?'+bound+'\\s*[–\\-−]\\s*'+num+'\\s*(?:'+unit+')'+bound+per+')', 'ig');
+    var singleRe = new RegExp('('+num+'\\s*[BMK]?\\s*(?:'+unit+')'+bound+per+')', 'ig');
+    var countGapRe = new RegExp('('+num+')(?:\\s+[A-Za-z][A-Za-z0-9-]*){1,4}\\s+(capsules?|tablets?|drops?|scoops?|teaspoons?|tablespoons?|cups?|sachets?|sprays?)(\\/day)?'+bound, 'ig');
+    function collect(chunk){
+      var ranges = [], singles = [];
+      var m;
+      rangeRe.lastIndex = 0;
+      while((m = rangeRe.exec(chunk))) ranges.push({at: m.index, hit: m[1].replace(/\s+/g, ' ').trim()});
+      singleRe.lastIndex = 0;
+      while((m = singleRe.exec(chunk))) singles.push({at: m.index, hit: m[1].replace(/\s+/g, ' ').trim()});
+      countGapRe.lastIndex = 0;
+      while((m = countGapRe.exec(chunk))){
+        singles.push({at: m.index, hit: (m[1] + ' ' + m[2] + (m[3] || '')).replace(/\s+/g, ' ')});
       }
-      return {hit: hit, at: m.index, pct: unit[0] === '%'};
-    }
-    function pick(chunk){
-      var chosen = null;
-      var patterns = [rangeRe, singleRe];
-      for(var p = 0; p < patterns.length && !chosen; p++){
-        var re = new RegExp(patterns[p].source, 'g');
-        var m;
-        while((m = re.exec(chunk))){
-          var got = accept(chunk, m);
-          if(got){ chosen = got; break; }
-        }
-      }
-      if(!chosen) return null;
-      // "320 mg/day (85–95% fatty acids)" is a dose, not a purity range.
-      if(chosen.pct){
-        var re = new RegExp(singleRe.source, 'g');
-        var m, earlier = null;
-        while((m = re.exec(chunk))){
-          if(m.index >= chosen.at) break;
-          var got = accept(chunk, m);
-          if(got && !got.pct) earlier = got;
-        }
-        if(earlier) return earlier.hit;
-      }
-      return chosen.hit;
+      ranges.sort(function(a, b){ return a.at - b.at; });
+      singles.sort(function(a, b){ return a.at - b.at; });
+      var range = ranges[0], single = singles[0];
+      // "320 mg/day (85–95% fatty acids)" is a dose. A purity percent does not replace it.
+      if(range && /%$/.test(range.hit) && single && single.at < range.at && !/%$/.test(single.hit)) return single.hit;
+      if(range) return range.hit;
+      if(single) return single.hit;
+      return null;
     }
     // Semicolons and clause commas break the protocol. A comma before a
-    // digit is a thousands separator, not a new clause. The search stays
-    // in that first clause so a later example cannot replace the dose.
+    // digit is a thousands separator, not a new clause.
     var first = text.split(/\s*;\s*|\s*,\s*(?!\d)/)[0].trim();
-    var counted = first.match(/^(one|two|three)\s+(?:capsules?|tablets?|sachets?|drops?|cups?|teaspoons?|tablespoons?)(?:\/day)?/i);
+    var counted = first.match(/^(one|two|three)\s+(?:capsules?|tablets?|sachets?|drops?|scoops?|cups?|teaspoons?|tablespoons?)(?:\/day)?/i);
     if(counted){
       var label = counted[0].replace(/\s+/g, ' ');
       return label.charAt(0).toUpperCase() + label.slice(1);
     }
-    var found = pick(first);
+    var found = collect(first);
     if(found) return found;
-    if(/^\d[\d.,]*$/.test(first) || /\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*$/.test(first)){
-      found = pick(text);
+    // The opening names no amount. A later real unit can fill it in, unless
+    // the opening already says there is no dose. Otherwise keep the written label.
+    var denies = /^(?:no (?:established|evidence|safe|standardised|standardized)|zero safe|requires physician|only |topical use only)/i.test(first);
+    if(!denies){
+      found = collect(text);
       if(found) return found;
-      return 'See protocol';
     }
     var phrase = first.split(/\s+/).slice(0, 3).join(' ').replace(/[.,:;]+$/, '');
-    phrase = phrase.replace(/\s+of$/i, '');
-    var low = phrase.toLowerCase();
-    if(/^do not take\b/.test(low) || /^do not use\b/.test(low)) return 'Do not take';
-    if(/^do not supplement\b/.test(low)) return 'Do not supplement';
-    if(/^not recommended\b/.test(low) || /^not advised\b/.test(low)) return 'Not advised';
-    if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
-    if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
-    if(/^(?:avoid|avoided)\b/.test(low)) return 'Avoid';
-    if(/^topical only\b/.test(low)) return 'Topical only';
     return phrase || 'See protocol';
   }
 
