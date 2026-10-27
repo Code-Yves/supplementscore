@@ -1,25 +1,205 @@
-<!doctype html>
+<!DOCTYPE html>
+<!-- last-reviewed: 2026-10-27 -->
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="0; url=/about.html#transparency">
-<link rel="canonical" href="https://supplementscore.org/about.html#transparency">
-<title>Redirected — SupplementScore — Transparency</title>
-<meta name="robots" content="noindex">
-<style>body{font-family:system-ui;padding:40px;text-align:center;color:#3a3a3a;background:#F8F4ED}a{color:#155A50}</style>
-  <meta property="og:url" content="https://supplementscore.org/about.html#transparency">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="SupplementScore">
-  <meta property="og:title" content="Redirected — SupplementScore — Transparency">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Redirected — SupplementScore — Transparency">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>How SupplementScore is made — SupplementScore</title>
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+  <meta name="description" content="SupplementScore is openly mostly AI-generated, from the same credible sources doctors rely on. Study count and human-research-hours estimate, with the method for each.">
+  <link rel="canonical" href="https://supplementscore.org/transparency.html">
+  <meta property="og:title" content="How SupplementScore is made — SupplementScore">
+  <meta property="og:description" content="The site is openly mostly AI-generated. Here is the study count, the human-research-hours estimate, and the method for each.">
+  <meta property="og:url" content="https://supplementscore.org/transparency.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SupplementScore">
+  <meta property="og:image" content="https://supplementscore.org/og/default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="How SupplementScore is made">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How SupplementScore is made — SupplementScore">
+  <meta name="twitter:description" content="Mostly AI-generated, from the same credible sources doctors rely on. Counts and methods.">
+  <meta name="twitter:image" content="https://supplementscore.org/og/default.png">
+  <meta name="robots" content="index, follow">
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <style>html{color-scheme:light}</style>
+  <link rel="stylesheet" href="/critical.css?v=design3">
+  <link rel="stylesheet" href="/article-critical.css?v=design3">
+  <link rel="stylesheet" href="/styles.css?v=design3">
+  <link rel="stylesheet" href="/page-chrome.css?v=b91199a7">
+  <style>
+    body{background:var(--color-background-primary);color:var(--color-text-primary)}
+    .made-wrap{max-width:720px;margin:0 auto;padding:28px 20px 72px;line-height:1.65;font-size:16px;overflow-wrap:anywhere}
+    .made-wrap h1{font-size:2rem;font-weight:700;letter-spacing:-.4px;line-height:1.2;margin:0 0 8px;text-wrap:balance}
+    .made-kicker{font-size:13px;color:var(--color-text-tertiary);margin:0 0 20px}
+    .made-lede{font-size:17.5px;line-height:1.55;color:var(--color-text-secondary);margin:0 0 20px}
+    .made-wrap h2{font-size:1.35rem;font-weight:700;letter-spacing:-.2px;line-height:1.25;margin:32px 0 10px;padding-top:20px;border-top:1px solid var(--color-border-tertiary,#e6e4df)}
+    .made-wrap h3{font-size:1.08rem;font-weight:700;line-height:1.3;margin:22px 0 8px}
+    .made-wrap p{margin:0 0 16px}
+    .made-wrap ul{margin:0 0 16px 1.2em;padding:0}
+    .made-wrap li{margin:0 0 8px}
+    .made-wrap a{color:var(--color-brand,#155A50)}
+    .made-home{margin:0 0 18px}
+    .made-home a{display:inline-flex;align-items:center;min-height:44px;font-weight:650;text-decoration:none}
+    .made-home a:hover{text-decoration:underline}
+    .made-home a:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:3px;border-radius:4px}
+    .made-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 8px}
+    .made-stat{padding:14px 16px;border:1px solid var(--color-border-tertiary,#e6e4df);border-radius:10px;background:var(--color-background-secondary,#f6f2ea)}
+    .made-num{font-size:clamp(1.35rem, 4.2vw, 1.85rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;font-variant-numeric:tabular-nums;color:var(--color-text-primary)}
+    .made-lbl{margin-top:6px;font-size:13px;line-height:1.35;color:var(--color-text-secondary)}
+    .made-note{margin:0 0 16px;padding:12px 16px;border:1px solid var(--color-border-tertiary,#e6e4df);border-radius:10px;background:var(--color-background-secondary,#f6f2ea)}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+    body:has(main.made-wrap) > footer.site-footer{
+      width:100%;
+      max-width:100%;
+      margin-left:0;
+      margin-right:0;
+      box-sizing:border-box;
+    }
+    @media(max-width:639px){
+      .made-wrap{padding:24px 16px 64px}
+      .made-wrap h1{font-size:1.7rem}
+      .made-stats{grid-template-columns:1fr}
+    }
+  </style>
+  <script defer data-domain="supplementscore.org" src="https://plausible.io/js/script.js"></script>
+  <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#155A50">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://plausible.io https://www.fda.gov https://www.efsa.europa.eu; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <script src="/_site-ux.js?v=design3" defer></script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"How SupplementScore is made","url":"https://supplementscore.org/transparency.html","inLanguage":"en","dateModified":"2026-10-27","isPartOf":{"@type":"WebSite","name":"SupplementScore","url":"https://supplementscore.org"},"publisher":{"@type":"Organization","name":"SupplementScore","url":"https://supplementscore.org"},"description":"How SupplementScore pages are made, the study count, and the human-research-hours estimate, each with its method."}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://supplementscore.org/"},{"@type":"ListItem","position":2,"name":"How SupplementScore is made","item":"https://supplementscore.org/transparency.html"}]}
+  </script>
 </head>
 <body>
-<p>This page has moved to <a href="/about.html#transparency">About — Transparency</a>.</p>
-<script>location.replace('/about.html#transparency');</script>
+<header class="ss-pagebar">
+  <div class="ss-pagebar-inner">
+    <a class="ss-pagebar-brand" href="/">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
+      <span class="ss-pagebar-name">SupplementScore<span>.org</span></span>
+    </a>
+    <a class="ss-pagebar-x" href="/" aria-label="Close and return home">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </a>
+  </div>
+</header>
+
+<main class="pg-wrap made-wrap">
+  <p class="made-home"><a href="/">Back to the homepage</a></p>
+  <h1>How SupplementScore is made</h1>
+  <p class="made-lede">SupplementScore is openly mostly AI-generated. The pages are drawn from the same credible sources doctors rely on: PubMed, the Cochrane Library, ClinicalTrials.gov, the NIH Office of Dietary Supplements, the FDA, EFSA, EMA, and Health Canada.</p>
+  <p class="made-kicker">Counted from the site files on <time datetime="2026-10-27">27 October 2026</time>. English only.</p>
+
+  <div class="made-stats">
+    <div class="made-stat">
+      <div class="made-num">3,033</div>
+      <div class="made-lbl">Distinct studies (PubMed IDs)</div>
+    </div>
+    <div class="made-stat">
+      <div class="made-num">1,505,381,664</div>
+      <div class="made-lbl">Participant-hours, a lower bound</div>
+    </div>
+  </div>
+
+  <h2>Who writes the pages</h2>
+  <p>Language models draft the supplement cards, the articles, the comparisons, and the condition pages. A person sets the scoring rules, decides what is published, and corrects mistakes readers flag. The same public sources named above are the raw material: peer-reviewed papers and regulator documents, not ads and not affiliate reviews.</p>
+  <p>The site is bringing physicians on board. No physician signs a page before it is published, and a page does not carry a medical-review label. This is an educational reference. It is not personal medical advice. Scoring rules live on the <a href="/about.html#methodology">methodology</a> page.</p>
+
+  <h2>Study count: 3,033</h2>
+  <p>One study is one PubMed ID. The same ID on many pages counts once.</p>
+  <p><strong>Method.</strong> Read every <code>.html</code>, <code>.js</code>, and <code>.json</code> file in the site repository, except <code>node_modules</code>, <code>tests</code>, <code>scripts</code>, <code>outputs</code>, <code>_archive</code>, <code>reviews</code>, <code>_mockups</code>, <code>og</code>, <code>dist</code>, <code>_docs</code>, <code>fr</code>, <code>es</code>, and any filename containing “mockup”. Keep an ID when the text has <code>PMID</code> followed by a 6- to 9-digit number, or a <code>pubmed.ncbi.nlm.nih.gov/</code> link with that number. That scan found <strong>3,033</strong> distinct IDs. The procedure is <code>scripts/transparency_counts.py</code> in the public repository.</p>
+
+  <h2>Human research hours: 1,505,381,664</h2>
+  <p>This is a lower-bound estimate of time people spent inside the cited human studies. It is participant-time. It is not hours worked by SupplementScore staff, and it is not time a physician spent on these pages.</p>
+  <p><strong>Method.</strong> Use the HTML pages from the same file set, plus <code>data.js</code> (the supplement text). A sentence counts only when it has all three of these, and no extras:</p>
+  <ul>
+    <li>Exactly one PubMed ID.</li>
+    <li>Exactly one headcount: a number followed by participants, subjects, patients, volunteers, individuals, people, adults, women, men, children, or infants. Headcounts under 8 or over 100,000 are skipped.</li>
+    <li>Exactly one follow-up: “for”, “over”, “across”, “during”, “lasting”, “lasted”, “followed for”, “follow-up of”, or “median of” (including “a median of” and “mean of”), plus a number of days, weeks, months, or years. A form such as “12-week trial” counts too. Follow-up shorter than 7 days, or longer than 25 years, is skipped.</li>
+  </ul>
+  <p>A range such as 3–5 years uses the midpoint. Hours use 24 hours in a day, 168 in a week, 730.5 in a month (365.25 ÷ 12 days), and 8,766 in a year (365.25 days). People times those hours is the contribution. Each PubMed ID is kept once. If two sentences disagree, the count is rejected instead of averaged. Sentences that omit a headcount or a follow-up are left out. They are not guessed.</p>
+  <p>That rule matched <strong>24</strong> of the 3,033 studies. Their participant-hours sum to <strong>1,505,381,664</strong>. One of them is the Physicians' Health Study II, PubMed ID 23117775. The page states a follow-up of 11 years in 14,641 men, which is 1,411,773,066 of those hours. The other 23 studies make up the remaining 93,608,598 hours.</p>
+  <div class="made-note">Most cited studies never state both a headcount and a follow-up in the same sentence as a single PubMed ID. Those studies are in the study count. They are not in the hour total. The hour total is a floor, not a census of every trial behind the site.</div>
+
+  <h2>Money and corrections</h2>
+  <p>There are no ads, no sponsors, and no affiliate links. Who pays for hosting is in <a href="/about.html#transparency">About — Transparency</a>. To flag a wrong dose, study, or safety line, use <a href="/about.html#feedback">Flag an error</a> or write to <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> with the page, the sentence, and a public source.</p>
+  <p class="made-home"><a href="/">Back to the homepage</a></p>
+</main>
+<!-- SS_FOOTER_BEGIN -->
+<!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
+     the mockup review). Single vertical axis: brand → tagline → inline link
+     row (hairlines top/bottom) → centered contributor CTA → legal at bottom.
+     The previous brand+3-column grid is gone; .site-footer-grid and
+     .site-footer-col classes are no longer emitted. Old CSS rules for those
+     remain in place harmlessly (no markup references them). -->
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-row">
+      <span class="site-footer-leaf" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19C5 11 11 5 19 5C19 13 13 19 5 19Z"/></svg>
+      </span>
+      <span class="site-footer-brand">SupplementScore<span class="site-footer-brand-tld">.org</span></span>
+    </div>
+    <nav class="site-footer-links" aria-label="Footer navigation">
+      <a href="/">Home</a>
+      <a href="/browse.html">Browse</a>
+      <a href="/brands.html">Verified brands</a>
+      <a href="/hub/">Topics</a>
+      <a href="/condition/">Conditions</a>
+      <a href="/compare/index.html">Compare</a>
+      <a href="/#research" onclick="window._tabSwitchByUser=true">Research</a>
+      <a href="/evidence-guide.html">Evidence guide</a>
+      <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
+      <a href="/about.html">About</a>
+      <a href="/transparency.html">How SupplementScore is made</a>
+    </nav>
+    <div class="site-footer-contrib">
+      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-title">Help build the database</div>
+      <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
+      <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
+        <input type="email" placeholder="your@email.com" aria-label="Your email address" required>
+        <button type="submit" aria-label="Send" title="Send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
+      </form>
+    </div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+  </div>
+<script>
+/* Footer contributor form — small handler shared by every page that ships the
+   shared site-footer. Defined once on window so re-loads on subsequent pages
+   are no-ops. Posts to the same Formspree endpoint as the about-page form,
+   tagged with source='contributor-footer' so leads from here are attributable. */
+window.ssFooterContrib = window.ssFooterContrib || function(e){
+  e.preventDefault();
+  var form = e.target;
+  var input = form.querySelector('input[type=email]');
+  var btn = form.querySelector('button');
+  var email = (input.value || '').trim();
+  if (!email || email.indexOf('@') < 0 || email.length < 5) {
+    input.classList.add('is-invalid');
+    setTimeout(function(){ input.classList.remove('is-invalid'); }, 2000);
+    return false;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  fetch('https://formspree.io/f/mnjoylkz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email: email, source: 'contributor-footer', date: new Date().toISOString() })
+  }).then(function(r){
+    if (r.ok) { form.classList.add('is-success'); }
+    else { btn.disabled = false; btn.textContent = 'Try again'; }
+  }).catch(function(){ btn.disabled = false; btn.textContent = 'Try again'; });
+  return false;
+};
+</script>
+</footer>
+<!-- SS_FOOTER_END -->
 </body>
 </html>
