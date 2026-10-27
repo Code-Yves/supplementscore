@@ -387,7 +387,21 @@
   var block = el('header', 'ar-titleblock');
   var kicker = el('p', 'ar-kicker', sectionName);
   block.appendChild(kicker);
-  if (h1.textContent.indexOf('-') !== -1) h1.textContent = h1.textContent.replace(/-/g, '\u2011');
+  /* Plain hyphens stay inside a nowrap span so search can still split
+     "D-Mannose". Other headline compounds keep a non-breaking hyphen. */
+  (function keepHeadlineHyphens(node){
+    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+    var n;
+    while ((n = walker.nextNode())){
+      if (!n.nodeValue || n.nodeValue.indexOf('-') === -1) continue;
+      var parent = n.parentNode;
+      if (parent && parent.nodeType === 1){
+        var ws = (parent.style && parent.style.whiteSpace) || '';
+        if (ws === 'nowrap' || (parent.classList && parent.classList.contains('nowrap'))) continue;
+      }
+      n.nodeValue = n.nodeValue.replace(/-/g, '\u2011');
+    }
+  })(h1);
   block.appendChild(h1);
 
   /* Dek is one sentence from the page description. The opening paragraph

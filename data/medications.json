@@ -998,7 +998,7 @@
       "Probiotics",
       "Saccharomyces boulardii"
     ],
-    "note": "SGLT2 inhibitors cause glucose-rich urine — increased UTI and genital fungal infection risk. D-Mannose, cranberry, and probiotics reduce UTI rate. Concomitant ketogenic diet or low-carb fasting raises euglycemic ketoacidosis risk. Volume depletion and mild magnesium / B1 loss are common — replace as indicated. Combining with other glucose-lowering supplements compounds hypotension and hypoglycemia (latter is rare on SGLT2 alone)."
+    "note": "SGLT2 inhibitors cause glucose-rich urine — increased UTI and genital fungal infection risk. The 2024 MERIT trial found D-mannose no better than placebo for preventing recurrent UTIs. Concomitant ketogenic diet or low-carb fasting raises euglycemic ketoacidosis risk. Volume depletion and mild magnesium / B1 loss are common — replace as indicated. Combining with other glucose-lowering supplements compounds hypotension and hypoglycemia (latter is rare on SGLT2 alone)."
   },
   "dpp4": {
     "label": "DPP-4 inhibitors (sitagliptin, linagliptin, saxagliptin)",

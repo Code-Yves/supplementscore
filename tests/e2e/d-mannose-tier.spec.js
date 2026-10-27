@@ -3,20 +3,26 @@ const { install, goto, trackConsole } = require('./helpers');
 
 const SUMMARY = 'A large 2024 trial found no benefit for preventing recurrent UTIs.';
 const SAFETY = 'D-mannose is generally well tolerated. It can cause stomach upset or loose stools at high doses. Use caution in diabetes, because it is a sugar. There is no good pregnancy data.';
-const NB_NAME = 'D\u2011Mannose';
+const NAME = 'D-Mannose';
+const ARTICLE = 'D-Mannose for UTIs: Evidence Collapsed';
 
 test.beforeEach(async ({ page }) => {
   await install(page);
 });
 
-test('D-mannose card uses the weak-evidence tier and the MERIT summary', async ({ page }) => {
+test('D-mannose card uses the weak-evidence tier and the MERIT summary', async ({ page }, testInfo) => {
   const errors = trackConsole(page);
   await goto(page, '/supplement/d-mannose.html');
   await page.waitForSelector('.det-tier');
   const tier = page.locator('.det-tier');
   await expect(tier).toHaveClass(/t3/);
   expect(await tier.evaluate((el) => el.textContent)).toBe('Tier 3 — Trending');
-  expect(await page.locator('.det-h1').evaluate((el) => el.textContent)).toBe(NB_NAME);
+  expect(await page.locator('.det-h1').evaluate((el) => el.textContent)).toBe(NAME);
+  const nowrap = await page.locator('.det-h1 span').evaluate((el) => getComputedStyle(el).whiteSpace);
+  expect(nowrap).toBe('nowrap');
+  expect(await page.locator('.det-tldr').evaluate((el) => el.innerHTML)).toContain('white-space:nowrap');
+  const wrap = await page.locator('.det-tldr').evaluate((el) => getComputedStyle(el).textWrap);
+  expect(wrap).toBe(testInfo.project.name === 'iphone' ? 'pretty' : 'balance');
   await expect(page.locator('.det-tldr')).toContainText(SUMMARY);
   await expect(page.locator('.det-score-num')).toHaveText('57');
   await expect(page.locator('.det-cat-pill')).toHaveText(['Recurrent UTI']);
@@ -59,8 +65,9 @@ test('UTI compare pages show the downgraded D-mannose score', async ({ page }) =
     expect(meta).toContain('Recurrent UTI');
     expect(meta).not.toContain('Efficacy 2/5');
     const h1 = await page.locator('h1').evaluate((el) => el.textContent);
-    expect(h1).toContain(NB_NAME);
-    expect(h1.includes('D-Mannose')).toBe(false);
+    expect(h1).toContain(NAME);
+    expect(h1.includes('\u2011')).toBe(false);
+    expect(await page.locator('h1 span').evaluate((el) => getComputedStyle(el).whiteSpace)).toBe('nowrap');
   }
   const verdict = await page.locator('main').innerText();
   expect(verdict).not.toMatch(/strongest trial weight/i);
@@ -82,7 +89,27 @@ test('Evidence Collapsed article is not filed as a Breakthrough', async ({ page 
   await goto(page, '/a/d-mannose-for-utis-evidence-collapsed-with-the-2024-merit-trial.html');
   await expect(page.locator('.ar-kicker')).toHaveText('Research Update');
   const h1 = await page.locator('h1').evaluate((el) => el.textContent);
-  expect(h1.startsWith(NB_NAME)).toBe(true);
-  expect(h1.includes('D-Mannose')).toBe(false);
+  expect(h1.startsWith(NAME)).toBe(true);
+  expect(h1.includes('\u2011')).toBe(false);
+  expect(await page.locator('h1 span').first().evaluate((el) => getComputedStyle(el).whiteSpace)).toBe('nowrap');
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
+test('homepage search for mannose finds the Evidence Collapsed article', async ({ page }) => {
+  const errors = trackConsole(page);
+  await goto(page, '/');
+  await page.waitForFunction(() => typeof window.heroNext === 'function' && typeof window.loadDeferredArticleCards === 'function');
+  await page.evaluate(() => window.loadDeferredArticleCards());
+  await page.waitForFunction(() => [...document.querySelectorAll('.article-title')].some((el) => el.textContent.includes('D-Mannose for UTIs: Evidence Collapsed')));
+  const input = page.locator('#ix-hero-search');
+  await input.click();
+  await input.fill('mannose');
+  const hit = page.locator('#ix-ac.vis .gs-ac-item[data-type="art"]').filter({ hasText: ARTICLE });
+  await expect(hit.first()).toBeVisible();
+  const title = await hit.first().locator('.gs-ac-art-title').innerText();
+  expect(title).toContain('D-Mannose');
+  expect(title).not.toContain('\u2011');
+  await input.fill('d-mannose for utis');
+  await expect(hit.first()).toBeVisible();
   expect(errors, errors.join('\n')).toEqual([]);
 });

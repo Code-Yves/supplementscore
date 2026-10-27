@@ -1146,9 +1146,15 @@
       var walker = document.createTreeWalker(nodes[i], NodeFilter.SHOW_TEXT);
       var n;
       while ((n = walker.nextNode())){
-        if (n.nodeValue && n.nodeValue.indexOf('-') !== -1){
-          n.nodeValue = n.nodeValue.replace(/-/g, '\u2011');
+        if (!n.nodeValue || n.nodeValue.indexOf('-') === -1) continue;
+        /* A nowrap span keeps a plain hyphen (search splits on that
+           character) and still stops the word from breaking. */
+        var el = n.parentNode;
+        if (el && el.nodeType === 1){
+          var ws = (el.style && el.style.whiteSpace) || '';
+          if (ws === 'nowrap' || (el.classList && el.classList.contains('nowrap'))) continue;
         }
+        n.nodeValue = n.nodeValue.replace(/-/g, '\u2011');
       }
     }
   }
