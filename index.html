@@ -1107,7 +1107,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         </div>
         <div class="gate-step">
           <div class="gate-step-num">2</div>
-          <div class="gate-step-text"><strong>Upload blood work <span class="gate-optional">(optional)</span></strong>We'll flag deficiencies and tailor doses to your labs</div>
+          <div class="gate-step-text"><strong>Upload blood work <span class="gate-optional">(optional)</span></strong>We'll flag results outside a typical range. Doses stay general — discuss them with your doctor.</div>
         </div>
         <div class="gate-step">
           <div class="gate-step-num">3</div>
@@ -1202,22 +1202,28 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 3: About You -->
         <div class="wiz-step" id="wiz-step-3">
           <p class="wiz-step-q">About you</p>
-          <p class="wiz-step-sub">Used to calibrate doses and filter unsuitable supplements.</p>
+          <p class="wiz-step-sub">Used to filter unsuitable supplements. Doses stay general ranges — discuss them with your doctor.</p>
           <div class="wiz-field-group">
             <label class="wiz-field-label" for="asl">Age</label>
             <input type="number" class="wiz-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
           </div>
           <div class="wiz-field-group">
             <label class="wiz-field-label" id="sex-label">Biological sex</label>
-            <!-- Round-4 a11y: radiogroup so screen readers announce "1 of 3 selected". -->
             <div class="pf-sex-pill" role="radiogroup" aria-labelledby="sex-label">
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bm" onclick="pickSex('m')">Male</button>
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
-              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
             </div>
           </div>
           <div class="wiz-field-group">
-            <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — enables BMI and tightens doses by ±25%)</span></label>
+            <label class="wiz-field-label" id="preg-label">Are you pregnant or breastfeeding?</label>
+            <div class="pf-sex-pill" role="radiogroup" aria-labelledby="preg-label">
+              <button type="button" role="radio" aria-checked="true" class="pf-sex-opt sx-btn on-f" id="preg-no" onclick="setPregnantOrBf(false)">No</button>
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-yes" onclick="setPregnantOrBf(true)">Yes</button>
+            </div>
+            <p class="wiz-field-opt" style="margin-top:6px">A separate safety question, not a sex. It filters known pregnancy cautions. It does not set a dose.</p>
+          </div>
+          <div class="wiz-field-group">
+            <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — used for BMI and for weight-based athletic doses)</span></label>
             <div class="hw-unit-toggle" role="group" aria-label="Height and weight units">
               <button type="button" class="hw-unit-btn on" id="hw-unit-imperial" aria-pressed="true" onclick="setBodyUnit('imperial')">ft / lb</button>
               <button type="button" class="hw-unit-btn" id="hw-unit-metric" aria-pressed="false" onclick="setBodyUnit('metric')">cm / kg</button>
@@ -1266,7 +1272,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 5: Medications -->
         <div class="wiz-step" id="wiz-step-5">
           <p class="wiz-step-q">Any medications?</p>
-          <p class="wiz-step-sub">We'll filter out supplements that interact. What's in your cabinet?</p>
+          <p class="wiz-step-sub">We flag known conflicts from a partial list. No flag does not mean a combination is safe. Discuss interactions with your doctor or pharmacist.</p>
           <div class="drug-typeahead-wrap">
             <div class="drug-typeahead-input-wrap">
               <input type="text" id="drug-typeahead-input" class="drug-typeahead-input" placeholder="Start typing a drug name (generic or brand)..." autocomplete="off" oninput="onDrugTypeaheadInput(event)" onkeydown="onDrugTypeaheadKey(event)" onfocus="onDrugTypeaheadInput(event)">
@@ -1278,7 +1284,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
                to the chip-heavy Conditions and Health steps. Lists what gets
                filtered, with examples — non-clickable, just informational. -->
           <div class="wiz-meds-explainer">
-            <div class="wiz-meds-explainer-h">What we check for</div>
+            <div class="wiz-meds-explainer-h">Examples from the partial list</div>
             <ul class="wiz-meds-explainer-list">
               <li><b>Blood thinners</b> — warfarin, apixaban, rivaroxaban — flagged with vitamin K2, fish oil, ginkgo, garlic, ginger, vitamin E.</li>
               <li><b>Statins</b> — atorvastatin, rosuvastatin, simvastatin — boost CoQ10, flag red yeast rice and grapefruit-interacting items.</li>
@@ -1295,7 +1301,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 6: Health Status -->
         <div class="wiz-step" id="wiz-step-6">
           <p class="wiz-step-q">Health status</p>
-          <p class="wiz-step-sub">Helps us filter supplements that stress the kidneys or liver.</p>
+          <p class="wiz-step-sub">Used to flag supplements that can stress the kidneys or liver. We do not set a personal dose cap. Discuss doses with your doctor.</p>
           <div class="wiz-field-group">
             <label class="wiz-field-label" for="kidney-fn">Kidney function</label>
             <select id="kidney-fn" class="wiz-select" onchange="onHealthChange()">
@@ -1328,7 +1334,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 7: Blood Work -->
         <div class="wiz-step" id="wiz-step-7">
           <p class="wiz-step-q">Blood work <span class="wiz-optional">(optional)</span></p>
-          <p class="wiz-step-sub">Upload a lab PDF for more precise recommendations and tighter doses. 100% client&#8209;side &middot; nothing leaves your browser.</p>
+          <p class="wiz-step-sub">Upload a lab PDF to see which results sit outside a typical range. We will not set a dose from your labs. Discuss any change with your doctor. 100% client&#8209;side &middot; nothing leaves your browser.</p>
           <div id="bw-upload" class="bw-upload-zone" role="button" tabindex="0" aria-label="Upload lab report PDF" onclick="document.getElementById('bw-file').click()" onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('bw-file').click()" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="event.preventDefault();this.classList.remove('dragging');if(event.dataTransfer.files[0])handleBwUpload(event.dataTransfer.files[0])">
             <div class="bw-upload-icon">
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3-3 3 3"/></svg>
@@ -1356,17 +1362,17 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
                user which biomarkers feed dose calibration and why this is worth
                the extra step. Pure information, no clickable elements. -->
           <div class="wiz-meds-explainer">
-            <div class="wiz-meds-explainer-h">What labs change in your plan</div>
+            <div class="wiz-meds-explainer-h">What labs can flag</div>
             <ul class="wiz-meds-explainer-list">
-              <li><b>Vitamin D (25-OH)</b> — sets your D3 dose. Below 20 ng/mL → 4,000 IU; below 30 → 2,000 IU; otherwise 1,000 IU maintenance.</li>
-              <li><b>Ferritin / Iron</b> — flags deficiency or overload. Below 30 ng/mL pushes iron up; above 200 stops iron suggestions.</li>
-              <li><b>Vitamin B12 / MMA</b> — low B12 or elevated MMA pushes the form to methylcobalamin and the dose up to 1,000–2,000 mcg.</li>
-              <li><b>Magnesium RBC</b> — below 4.2 mg/dL nudges magnesium glycinate higher.</li>
-              <li><b>HbA1c, fasting glucose, lipids</b> — guide berberine, omega-3 dose, and red-yeast-rice flagging.</li>
-              <li><b>TSH, fT4, fT3</b> — low thyroid signals selenium + iodine; high signals avoid extra iodine.</li>
-              <li><b>eGFR, AST/ALT</b> — auto-cap doses on supplements that stress kidneys or liver.</li>
+              <li><b>Vitamin D (25-OH)</b> — flags a low or high result. A common adult maintenance range is 1,000–2,000 IU/day. Discuss the dose with your doctor.</li>
+              <li><b>Ferritin / Iron</b> — flags a low or high result. Discuss any iron dose with your doctor.</li>
+              <li><b>Vitamin B12 / MMA</b> — flags a low result. Discuss the dose with your doctor.</li>
+              <li><b>Magnesium RBC</b> — flags a low result. A common adult range is 200–400 mg elemental a day. Discuss the dose with your doctor.</li>
+              <li><b>HbA1c, fasting glucose, lipids</b> — flags results outside a typical range. Discuss any change with your doctor.</li>
+              <li><b>TSH, fT4, fT3</b> — flags a thyroid result. Do not start iodine or selenium from a lab value. Discuss them with your doctor.</li>
+              <li><b>eGFR, AST/ALT</b> — flags a kidney or liver result. We do not cap a dose from these numbers. Discuss them with your doctor.</li>
             </ul>
-            <p class="wiz-meds-explainer-foot">Skip if you don't have recent labs — the engine still works, it just uses population averages instead of your numbers.</p>
+            <p class="wiz-meds-explainer-foot">Skip if you don't have recent labs. The plan still uses general ranges, not a dose calculated from your numbers.</p>
           </div>
           <span id="pf-count-bw" style="display:none"></span>
         </div>

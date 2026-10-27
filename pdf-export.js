@@ -93,7 +93,7 @@ function generatePDF(mode){
   const recs=_allRecs();
   const selRecs=recs.filter(r=>selectedSupps.has(r.n));
   const age=document.getElementById('asl').value;
-  const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
+  const sexLabel=(typeof profileSexLabel==='function')?profileSexLabel('adj'):(sex==='m'?'Male':'Female');
   const monthYear=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const condLabel=selectedConds.size?[...selectedConds].map(k=>CONDITIONS[k]?.label||k).join(', '):'General Wellbeing';
   const medsLabel=selectedMeds.size?[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', '):'None';

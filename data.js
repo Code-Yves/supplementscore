@@ -1365,7 +1365,7 @@ const S=[
  */
 const CONDITIONS={
   /* ---------- Synthetic states (injected by profileAugmentationPass) ---------- */
-  /* Round-4 fix: pregnancy hard-filter. Auto-injected when sex==='fp' so the
+  /* Pregnancy hard-filter. Applied when the profile pregnancy question is Yes, not when sex is a third value.
      supps_avoid list prunes contraindicated supplements before recommendations
      reach the user. Sourced from NIH ODS, ACOG, and the data.js "Don't Take"
      pregnancy article (id 240). NOT user-selectable from the conditions chip. */
@@ -1466,7 +1466,7 @@ const CONDITIONS={
     supps_recommended:['Selenium','Vitamin D3','Iron'],
     supps_caution:['Iodine','Ashwagandha (KSM-66)','Bladderwrack (Fucus vesiculosus)'],
     supps_avoid:['Iodine','Raw thyroid glandulars'],
-    dose_modifiers:{'Selenium':'200 mcg/day selenomethionine — cap to avoid toxicity','Iodine':'≤150 mcg/day if euthyroid; AVOID in autoimmune unless deficient'},
+    dose_modifiers:{'Selenium':'55–200 mcg/day is a common range. Discuss selenium and iodine with your doctor.','Iodine':'Discuss iodine with your doctor. Do not start it from a thyroid result.'},
     monitoring:['tsh','freeT4','freeT3','tpo_ab','tg_ab']
   },
   menopause:{
@@ -1621,7 +1621,7 @@ const CONDITIONS={
     supps_recommended:['Vitamin D3','Iron','Omega-3 (EPA/DHA)'],
     supps_caution:['Magnesium','Potassium supplementation (clinical)','Vitamin C (moderate dose)','Creatine monohydrate','Phosphatidylserine'],
     supps_avoid:['Vitamin C (megadose)','Vitamin A (retinol, low-dose)','Aristolochic acid (in some herbal products)','Vitamin C (megadose)'],
-    dose_modifiers:{'Vitamin D3':'1,000-2,000 IU/day max unless directed','Magnesium':'Avoid >300 mg elemental/day','Vitamin C (moderate dose)':'Cap 250 mg/day to avoid oxalate accumulation','Creatine monohydrate':'Discuss with nephrologist; theoretical risk at high doses'},
+    dose_modifiers:{'Vitamin D3':'A common adult range is 1,000–2,000 IU/day. Discuss the dose with your doctor.','Magnesium':'Discuss the dose with your doctor before using magnesium with reduced kidney function.','Vitamin C (moderate dose)':'Discuss the dose with your doctor. High vitamin C can raise oxalate.','Creatine monohydrate':'Discuss creatine with your doctor before use with reduced kidney function.'},
     monitoring:['egfr','creatinine','potassium_serum','phosphorus']
   },
   ckd_stage_4_5:{
@@ -1630,7 +1630,7 @@ const CONDITIONS={
     supps_recommended:['Vitamin D3','Iron'],
     supps_caution:['Iron','Phosphatidylserine'],
     supps_avoid:['Magnesium','Potassium supplementation (clinical)','Vitamin C (megadose)','Vitamin C (moderate dose)','Creatine monohydrate','Vitamin A (retinol, low-dose)','Aristolochic acid (in some herbal products)','Calcium','Calcium carbonate/citrate (bone health)'],
-    dose_modifiers:{'Vitamin D3':'Per nephrologist — active form (calcitriol) often required','Iron':'Per nephrologist (often IV in dialysis)'},
+    dose_modifiers:{'Vitamin D3':'Discuss the dose with your doctor. Severe kidney disease often needs a prescribed form.','Iron':'Discuss the dose with your doctor.'},
     monitoring:['egfr','phosphorus','potassium_serum','calcium_serum','pth']
   },
   kidney_stones:{
@@ -1783,7 +1783,7 @@ const CONDITIONS={
     supps_recommended:['Selenium','Vitamin D3','Iron','Magnesium'],
     supps_caution:['Iodine','Ashwagandha (KSM-66)','Bladderwrack (Fucus vesiculosus)'],
     supps_avoid:['Iodine','Echinacea purpurea','Raw thyroid glandulars'],
-    dose_modifiers:{'Selenium':'200 mcg/day — RCTs show TPO antibody reduction','Iodine':'Most Hashimoto\'s patients are NOT iodine deficient — high doses can flare disease'},
+    dose_modifiers:{'Selenium':'55–200 mcg/day is a common range. Discuss the dose with your doctor.','Iodine':'Discuss iodine with your doctor. Many people with Hashimoto\'s are not iodine deficient, and high doses can flare disease.'},
     monitoring:['tsh','freeT4','freeT3','tpo_ab','tg_ab','vitD','ferritin']
   },
   graves:{
@@ -1919,7 +1919,7 @@ const BIOMARKERS={
   vitD:{name:'Vitamin D, 25-Hydroxy',unit:'ng/mL',low:30,optLow:40,optHigh:60,high:100,
     icon:'sun',gradient:['#FDE68A','#CA8A04'],
     desc:'Affects immune function, bone density, mood, and muscle recovery.',
-    supps:[{name:'Vitamin D3',dose:'4,000 IU/day with fatty meal',note:'Retest in 8-12 weeks'}]},
+    supps:[{name:'Vitamin D3',dose:'1,000–2,000 IU/day is a common adult maintenance range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'}]},
   b12:{name:'Vitamin B12',unit:'pg/mL',low:300,optLow:500,optHigh:1000,high:1500,
     icon:'pulse',gradient:['#FDE8E8','#B91C1C'],
     desc:'Suboptimal B12 can cause fatigue, brain fog, and nerve symptoms.',
@@ -1939,7 +1939,7 @@ const BIOMARKERS={
   tsh:{name:'TSH',unit:'mIU/L',low:0.1,optLow:0.5,optHigh:2.5,high:5.0,direction:'lower',
     icon:'thyroid',gradient:['#DBEAFE','#2563EB'],
     desc:'Thyroid-stimulating hormone. High TSH suggests underactive thyroid.',
-    supps:[{name:'Selenium',dose:'200 mcg/day selenomethionine',note:'Supports thyroid hormone conversion'}]},
+    supps:[{name:'Selenium',dose:'55–200 mcg/day is a common range. Discuss selenium and iodine with your doctor.',note:'A thyroid lab does not set the dose.'}]},
   crp:{name:'hs-CRP',unit:'mg/L',low:0,optLow:0,optHigh:1.0,high:3.0,highOnly:true,
     icon:'bolt',gradient:['#FFEDD5','#EA580C'],
     desc:'Inflammation marker. Elevated CRP increases cardiovascular and chronic disease risk.',
@@ -1980,7 +1980,7 @@ const BIOMARKERS={
   testosterone:{name:'Testosterone (Total)',unit:'ng/dL',low:300,optLow:500,optHigh:900,high:1200,
     icon:'bolt',gradient:['#E0E7FF','#3730A3'],
     desc:'Primary male androgen; also important in women at lower levels. Affects energy, libido, muscle, mood.',
-    supps:[{name:'Vitamin D3',dose:'4,000 IU/day with fatty meal',note:'Low D correlates with low T'},
+    supps:[{name:'Vitamin D3',dose:'1,000–2,000 IU/day is a common adult maintenance range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'},
            {name:'Zinc',dose:'15-30 mg/day with food',note:'Essential for T production'},
            {name:'Ashwagandha (KSM-66)',dose:'300-600 mg/day KSM-66 or Shoden',note:'Shown to raise T in stressed men'}]},
   freeTesto:{name:'Free Testosterone',unit:'pg/mL',low:47,optLow:80,optHigh:244,high:300,
@@ -2028,37 +2028,37 @@ const BIOMARKERS={
   alt:{name:'ALT (Liver enzyme)',unit:'U/L',low:5,optLow:7,optHigh:25,high:40,highOnly:true,
     icon:'leaf',gradient:['#FEF3C7','#B45309'],
     desc:'Alanine aminotransferase. Liver-specific enzyme; elevated levels suggest hepatic stress (NAFLD, alcohol, medications).',
-    supps:[{name:'NAC (N-Acetyl Cysteine)',dose:'600-1,200 mg/day',note:'Glutathione precursor studied for acetaminophen overdose and as an adjunct in some liver disorders — not a general detox treatment'},
+    supps:[{name:'NAC (N-Acetyl Cysteine)',dose:'600–1,200 mg/day is a common studied range. Discuss the dose with your doctor.',note:'A liver enzyme does not cap or set the dose.'},
            {name:'Milk thistle (Silymarin)',dose:'280-420 mg/day silymarin (phospholipid form)',note:'Multiple NAFLD trials show modest ALT/AST reduction'},
            {name:'Choline',dose:'250-550 mg/day',note:'Required for fat export from liver'}]},
   ast:{name:'AST (Liver enzyme)',unit:'U/L',low:8,optLow:10,optHigh:25,high:40,highOnly:true,
     icon:'leaf',gradient:['#FEF3C7','#B45309'],
     desc:'Aspartate aminotransferase. Less liver-specific than ALT (also in heart, muscle). AST/ALT ratio >2 suggests alcoholic liver disease.',
-    supps:[{name:'NAC (N-Acetyl Cysteine)',dose:'600-1,200 mg/day',note:'Glutathione precursor'},
+    supps:[{name:'NAC (N-Acetyl Cysteine)',dose:'600–1,200 mg/day is a common studied range. Discuss the dose with your doctor.',note:'A liver enzyme does not cap or set the dose.'},
            {name:'Milk thistle (Silymarin)',dose:'280-420 mg/day silymarin (phospholipid form)',note:'Liver-supportive evidence'}]},
   ggt:{name:'GGT (Liver enzyme)',unit:'U/L',low:5,optLow:7,optHigh:30,high:60,highOnly:true,
     icon:'leaf',gradient:['#FFEDD5','#9A3412'],
     desc:'Gamma-glutamyl transferase. Sensitive marker of oxidative stress, alcohol intake, and hepatobiliary disease. Often the first liver enzyme to rise.',
-    supps:[{name:'NAC (N-Acetyl Cysteine)',dose:'600-1,200 mg/day',note:'Replenishes glutathione (depleted when GGT is high)'},
+    supps:[{name:'NAC (N-Acetyl Cysteine)',dose:'600–1,200 mg/day is a common studied range. Discuss the dose with your doctor.',note:'A liver enzyme does not cap or set the dose.'},
            {name:'Milk thistle (Silymarin)',dose:'280-420 mg/day silymarin',note:'Anti-inflammatory liver support'},
            {name:'Curcumin (bioavailable form)',dose:'500 mg/day bioavailable curcumin',note:'Anti-inflammatory; modest GGT reduction in trials'}]},
   // ── Kidney ──────────────────────────────────────────────────────────────
   eGFR:{name:'eGFR (Kidney function)',unit:'mL/min/1.73m²',low:30,optLow:60,optHigh:90,high:120,higherBetter:true,
     icon:'globe',gradient:['#DBEAFE','#1E40AF'],
     desc:'Estimated glomerular filtration rate. Below 60 indicates chronic kidney disease. Declines naturally ~1 mL/min/year after age 40.',
-    supps:[{name:'CoQ10 (Ubiquinol)',dose:'100-200 mg/day ubiquinol',note:'May support mitochondrial function in kidney cells; consult nephrologist if eGFR <60'}]},
+    supps:[{name:'CoQ10 (Ubiquinol)',dose:'100–200 mg/day is a common studied range. Discuss the dose with your doctor.',note:'An eGFR result does not set or cap a dose.'}]},
   // ── Thyroid panel (beyond TSH) ──────────────────────────────────────────
   freeT3:{name:'Free T3',unit:'pg/mL',low:2.0,optLow:3.0,optHigh:4.4,high:5.0,
     icon:'thyroid',gradient:['#DBEAFE','#1D4ED8'],
     desc:'Free triiodothyronine — the active thyroid hormone. Low free T3 with normal TSH suggests poor T4→T3 conversion.',
-    supps:[{name:'Selenium',dose:'200 mcg/day selenomethionine',note:'Cofactor for T4→T3 conversion'},
-           {name:'Iodine',dose:'150-300 mcg/day (avoid if Hashimoto antibodies present)',note:'Required for thyroid hormone synthesis'},
+    supps:[{name:'Selenium',dose:'55–200 mcg/day is a common range. Discuss selenium and iodine with your doctor.',note:'A thyroid lab does not set the dose.'},
+           {name:'Iodine',dose:'150 mcg/day is a common adult amount from food. Discuss iodine with your doctor.',note:'Do not start iodine from a lab value.'},
            {name:'Tyrosine (L-tyrosine)',dose:'500-1,000 mg/day',note:'Amino acid precursor for thyroid hormones'}]},
   freeT4:{name:'Free T4',unit:'ng/dL',low:0.7,optLow:1.0,optHigh:1.8,high:2.5,
     icon:'thyroid',gradient:['#DBEAFE','#2563EB'],
     desc:'Free thyroxine — the storage form of thyroid hormone. Low free T4 with high TSH = primary hypothyroidism.',
-    supps:[{name:'Selenium',dose:'200 mcg/day selenomethionine',note:'Supports thyroid hormone synthesis'},
-           {name:'Iodine',dose:'150-300 mcg/day (avoid if Hashimoto antibodies present)',note:'Building block of T4'}]},
+    supps:[{name:'Selenium',dose:'55–200 mcg/day is a common range. Discuss selenium and iodine with your doctor.',note:'A thyroid lab does not set the dose.'},
+           {name:'Iodine',dose:'150 mcg/day is a common adult amount from food. Discuss iodine with your doctor.',note:'Do not start iodine from a lab value.'}]},
   // ── Hormonal ────────────────────────────────────────────────────────────
   dheaS:{name:'DHEA-S',unit:'μg/dL',low:30,optLow:100,optHigh:400,high:600,
     icon:'bolt',gradient:['#E0E7FF','#3730A3'],
@@ -2090,7 +2090,7 @@ const BIOMARKERS={
   selenium:{name:'Selenium',unit:'μg/L',low:70,optLow:120,optHigh:160,high:200,
     icon:'shield',gradient:['#FEF3C7','#A16207'],
     desc:'Trace mineral essential for thyroid hormone conversion, antioxidant defense (glutathione peroxidase), and immune function.',
-    supps:[{name:'Selenium',dose:'100-200 mcg/day selenomethionine',note:'Do not exceed 400 mcg/day long-term'}]},
+    supps:[{name:'Selenium',dose:'55–200 mcg/day is a common range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'}]},
   nonHdl:{name:'Non-HDL Cholesterol',unit:'mg/dL',low:60,optLow:80,optHigh:130,high:160,highOnly:true,
     icon:'heart',gradient:['#FEE2E2','#9F1239'],
     desc:'Total cholesterol minus HDL — captures all atherogenic lipoproteins (LDL + VLDL + IDL + Lp(a)). Often a better predictor than LDL-C alone.',
@@ -2103,14 +2103,14 @@ const BIOMARKERS={
     supps:[{name:'Vitamin A (retinol, low-dose)',dose:'2,500-5,000 IU/day retinol (do not exceed 10,000 IU/day chronically)',note:'Avoid supplementing if pregnant — teratogenic above 10,000 IU/day'}]}
 ,
   tsat:{name:'Transferrin Saturation (TSAT)',unit:'%',low:15,optLow:25,optHigh:45,high:55,icon:'droplet',gradient:['#FEE2E2','#DC2626'],desc:'Iron transport status. Low TSAT (<20%) is the earliest sign of iron deficiency, often present before low ferritin in patients with concomitant inflammation. High TSAT (>50%) suggests iron overload or hemochromatosis.',supps:[{name:'Iron',dose:'30-60 mg ferrous bisglycinate with vitamin C',note:'Re-test in 8-12 weeks; pair with ferritin'}]},
-  tpo_ab:{name:'TPO Antibodies (Anti-TPO)',unit:'IU/mL',low:0,optLow:0,optHigh:35,high:100,highOnly:true,icon:'shield',gradient:['#DBEAFE','#2563EB'],desc:'Antibodies against thyroid peroxidase. Elevated TPO antibodies (>35 IU/mL) indicate Hashimoto\'s thyroiditis or autoimmune thyroid disease. Levels do NOT correlate with disease severity but predict progression to overt hypothyroidism.',supps:[{name:'Selenium',dose:'200 mcg/day selenomethionine',note:'RCTs show 20-40% reduction in TPO antibodies over 6 months'},{name:'Vitamin D3',dose:'2,000-5,000 IU/day to reach 25-OH-D 40-60 ng/mL',note:'Low D associated with autoimmune thyroid'}]},
-  tg_ab:{name:'Thyroglobulin Antibodies (Anti-Tg)',unit:'IU/mL',low:0,optLow:0,optHigh:40,high:150,highOnly:true,icon:'shield',gradient:['#DBEAFE','#1E40AF'],desc:'Antibodies against thyroglobulin. Often elevated alongside TPO antibodies in Hashimoto\'s. Useful in autoimmune workup; persistent elevation in thyroid cancer follow-up may indicate recurrence.',supps:[{name:'Selenium',dose:'200 mcg/day selenomethionine',note:'Modest evidence for antibody reduction'}]},
+  tpo_ab:{name:'TPO Antibodies (Anti-TPO)',unit:'IU/mL',low:0,optLow:0,optHigh:35,high:100,highOnly:true,icon:'shield',gradient:['#DBEAFE','#2563EB'],desc:'Antibodies against thyroid peroxidase. Elevated TPO antibodies (>35 IU/mL) indicate Hashimoto\'s thyroiditis or autoimmune thyroid disease. Levels do NOT correlate with disease severity but predict progression to overt hypothyroidism.',supps:[{name:'Selenium',dose:'55–200 mcg/day is a common range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'},{name:'Vitamin D3',dose:'1,000–2,000 IU/day is a common adult maintenance range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'}]},
+  tg_ab:{name:'Thyroglobulin Antibodies (Anti-Tg)',unit:'IU/mL',low:0,optLow:0,optHigh:40,high:150,highOnly:true,icon:'shield',gradient:['#DBEAFE','#1E40AF'],desc:'Antibodies against thyroglobulin. Often elevated alongside TPO antibodies in Hashimoto\'s. Useful in autoimmune workup; persistent elevation in thyroid cancer follow-up may indicate recurrence.',supps:[{name:'Selenium',dose:'55–200 mcg/day is a common range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'}]},
   estradiol:{name:'Estradiol (E2)',unit:'pg/mL',low:15,optLow:50,optHigh:200,high:400,icon:'heart',gradient:['#FCE7F3','#DB2777'],desc:'Primary form of estrogen. Reference ranges vary widely by menstrual cycle phase, sex, and life stage. Low E2 in menopausal women relates to hot flashes, bone loss, and vaginal atrophy. High E2 in men can suggest aromatase activity issues.',supps:[{name:'DIM (Diindolylmethane)',dose:'100-200 mg/day',note:'Modulates 2-hydroxy : 16α-hydroxy estrone ratio'},{name:'Vitamin D3',dose:'2,000 IU/day',note:'Supports estrogen receptor function'}]},
   progesterone:{name:'Progesterone',unit:'ng/mL',low:1,optLow:10,optHigh:25,high:40,icon:'moon',gradient:['#E9D5FF','#7E22CE'],desc:'Reference ranges depend on cycle phase: <1 ng/mL follicular, >10 luteal. Low luteal progesterone is associated with luteal phase deficit, miscarriage, and PMS. Test day 21 of a 28-day cycle.',supps:[{name:'Vitex / Chasteberry (Vitex agnus-castus)',dose:'500-1,000 mg/day',note:'Multiple RCTs in PMS and luteal-phase support'},{name:'Vitamin B6 (P5P)',dose:'50 mg/day',note:'Cofactor in progesterone synthesis'}]},
   cortisol_am:{name:'Cortisol, Morning (8 AM)',unit:'mcg/dL',low:5,optLow:10,optHigh:18,high:25,icon:'sun',gradient:['#FEF3C7','#D97706'],desc:'AM cortisol assesses HPA axis function. Low (<5) suggests adrenal insufficiency; very high (>25) raises concern for Cushing\'s. Stress, depression, and chronic illness can alter the diurnal rhythm independently of values.',supps:[{name:'Ashwagandha (KSM-66)',dose:'600 mg/day',note:'Lowers elevated cortisol modestly'},{name:'Phosphatidylserine',dose:'300-600 mg/day',note:'Blunts exercise-induced cortisol'}]},
   amh:{name:'Anti-Müllerian Hormone (AMH)',unit:'ng/mL',low:0.5,optLow:1.0,optHigh:4.0,high:10,icon:'clock',gradient:['#FCE7F3','#BE185D'],desc:'Marker of ovarian reserve. Levels decline with age; very low (<0.5) suggests diminished reserve / approaching menopause. Elevated AMH (>4-5) is common in PCOS.',supps:[{name:'CoQ10 (Ubiquinol)',dose:'200-600 mg/day',note:'Supports oocyte mitochondrial quality'},{name:'Vitamin D3',dose:'2,000 IU/day',note:'Low D associated with reduced AMH'}]},
   mma:{name:'Methylmalonic Acid (MMA)',unit:'nmol/L',low:0,optLow:0,optHigh:270,high:500,highOnly:true,icon:'pulse',gradient:['#FEE2E2','#DC2626'],desc:'Functional B12 status marker. MMA accumulates when B12 is insufficient at the cellular level, even when serum B12 looks normal. Elevated MMA + symptoms = functional B12 deficiency.',supps:[{name:'Methylcobalamin (high-dose neurological)',dose:'1,000-5,000 mcg sublingual or IM',note:'Re-test MMA in 8 weeks; aim for normalization'},{name:'Adenosylcobalamin (dibencozide)',dose:'1,000 mcg/day',note:'Pairs with methyl form for full B12 cofactor restoration'}]},
-  alp:{name:'Alkaline Phosphatase (ALP)',unit:'U/L',low:40,optLow:50,optHigh:110,high:150,icon:'activity',gradient:['#FFEDD5','#EA580C'],desc:'Bone and liver isoenzyme marker. High ALP suggests bone turnover (Paget\'s, osteomalacia, fracture healing) or hepatobiliary disease (cholestasis, biliary obstruction). Low ALP can indicate hypophosphatasia or zinc deficiency.',supps:[{name:'Vitamin D3',dose:'2,000-4,000 IU/day',note:'If high ALP suggests osteomalacia'},{name:'Zinc',dose:'15-25 mg/day',note:'If low ALP — zinc is an ALP cofactor'}]},
+  alp:{name:'Alkaline Phosphatase (ALP)',unit:'U/L',low:40,optLow:50,optHigh:110,high:150,icon:'activity',gradient:['#FFEDD5','#EA580C'],desc:'Bone and liver isoenzyme marker. High ALP suggests bone turnover (Paget\'s, osteomalacia, fracture healing) or hepatobiliary disease (cholestasis, biliary obstruction). Low ALP can indicate hypophosphatasia or zinc deficiency.',supps:[{name:'Vitamin D3',dose:'1,000–2,000 IU/day is a common adult maintenance range. Discuss the dose with your doctor.',note:'A lab result does not set the dose.'},{name:'Zinc',dose:'15-25 mg/day',note:'If low ALP — zinc is an ALP cofactor'}]},
   creatinine:{name:'Creatinine, Serum',unit:'mg/dL',low:0.5,optLow:0.6,optHigh:1.2,high:1.5,icon:'clock',gradient:['#E0E7FF','#3730A3'],desc:'Kidney function marker. Reference range varies by sex and muscle mass. Use with eGFR for clinical interpretation. High muscle mass can falsely elevate creatinine; very low values may indicate sarcopenia or pregnancy.',supps:[{name:'Omega-3 (EPA/DHA)',dose:'2 g/day',note:'Renal-protective in CKD'},{name:'CoQ10 (Ubiquinol)',dose:'100-200 mg/day',note:'Some evidence for renal preservation'}]},
   cystatin_c:{name:'Cystatin C',unit:'mg/L',low:0.5,optLow:0.6,optHigh:1.0,high:1.4,highOnly:true,icon:'clock',gradient:['#E0E7FF','#4338CA'],desc:'Alternative kidney function marker, less affected by muscle mass than creatinine. Better for older adults, body-builders, or vegetarian/low-protein-diet patients. Cystatin-C-based eGFR may differ from creatinine-based eGFR.',supps:[{name:'Omega-3 (EPA/DHA)',dose:'2 g/day',note:'Renal protective'}]},
   potassium_serum:{name:'Potassium, Serum',unit:'mEq/L',low:3.5,optLow:3.8,optHigh:5.0,high:5.5,icon:'bolt',gradient:['#FEF3C7','#CA8A04'],desc:'Critical electrolyte; out-of-range values cause cardiac arrhythmia. Low potassium (<3.5) is common with diuretics; high potassium (>5.5) is common with ACE/ARB/spironolactone, CKD, and potassium supplementation. Test before adding any K-affecting supplement.',supps:[{name:'Potassium supplementation (clinical)',dose:'per clinician — DO NOT self-supplement K',note:'Hyperkalemia risk with renal disease, ACE/ARB, K-sparing diuretics'},{name:'Magnesium',dose:'400 mg/day',note:'Mg deficiency causes refractory K loss; correct Mg first'}]},
