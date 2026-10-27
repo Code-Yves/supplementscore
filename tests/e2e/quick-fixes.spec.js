@@ -79,14 +79,29 @@ test('comparison pages show the composite score', async ({ page }) => {
   await expect(table).toContainText('/100');
   await expect(table).toContainText('Melatonin');
   await expect(table).toContainText('Magnesium glycinate');
+  await expect(table.locator('thead th').first()).toContainText('Measure');
+  await expect(table.locator('thead th').first()).not.toHaveText('');
 });
 
-test('sleep guide names a caution and drops the alias card', async ({ page }) => {
+test('sleep guide names a caution and drops the alias card', async ({ page }, testInfo) => {
   await goto(page, '/sx/sleep.html');
   await expect(page.locator('.sx-evidence')).toBeVisible();
   await expect(page.locator('.sx-avoid')).toBeVisible();
   await expect(page.locator('a[href="/hub/sleep.html"]')).toBeVisible();
   await expect(page.locator('a[href="/supplement/magnesium-bisglycinate.html"]')).toHaveCount(0);
+  const evidence = await page.locator('.sx-evidence p').innerText();
+  const named = evidence.match(/The strongest records on this page are (.+?)\./);
+  expect(named && named[1]).toMatch(/ and /);
+  await expect(page.locator('body')).not.toContainText('when this page lists them');
+  const sizes = await page.locator('.sx-evidence p, .sx-avoid li').evaluateAll((els) => {
+    return els.map((el) => getComputedStyle(el).fontSize);
+  });
+  expect(new Set(sizes).size).toBe(1);
+  expect(sizes[0]).toBe('16px');
+  if (testInfo.project.name === 'iphone') {
+    const pad = await page.locator('.sx-avoid ul').evaluate((el) => getComputedStyle(el).paddingLeft);
+    expect(pad).not.toBe('0px');
+  }
 });
 
 test('prescription tags are not labelled Synergy', async ({ page }) => {

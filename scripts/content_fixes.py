@@ -139,7 +139,7 @@ def score_table(pairs):
         "<h2>Scores on the same scale</h2>\n"
         "<div style=\"overflow-x:auto\">\n"
         "<table class=\"cmp-table\">\n"
-        f"<thead><tr><th></th>{names}</tr></thead>\n"
+        f"<thead><tr><th><span class=\"sr-only\">Measure</span></th>{names}</tr></thead>\n"
         f"<tbody>{''.join(body)}</tbody>\n"
         "</table>\n"
         "</div>\n"
@@ -226,14 +226,41 @@ def write_compare(by_slug, write: bool):
 SX_CSS = """
     .sx-block{margin:0 0 22px}
     .sx-block h2{font-size:1.15rem;font-weight:750;letter-spacing:-.2px;margin:0 0 8px}
-    .sx-block p,.sx-block li{font-size:14.5px;line-height:1.6;color:var(--color-text-primary)}
-    .sx-block ul{margin:0;padding-left:1.2rem}
+    .sx-block p,.sx-block li{font-size:16px;line-height:1.6;color:var(--color-text-primary)}
+    .sx-block ul{margin:0;padding-left:1.25em}
+    main.sx-wrap .sx-avoid ul,main.sx-wrap .sx-links ul{margin-left:0 !important;padding-left:1.25em !important;list-style-position:outside}
     .sx-block a{color:var(--color-brand,#155A50)}
 """
 
 
-def guide_html(path: Path, names, compare_hrefs, by_slug):
-    top = ", ".join(html.escape(name) for name in names[:3]) or "the entries below"
+def english_join(names):
+    shown = [html.escape(name) for name in names[:3]]
+    if not shown:
+        return "the entries below"
+    if len(shown) == 1:
+        return shown[0]
+    if len(shown) == 2:
+        return f"{shown[0]} and {shown[1]}"
+    return ", ".join(shown[:-1]) + ", and " + shown[-1]
+
+
+def ensure_sx_css(html):
+    if "main.sx-wrap .sx-avoid ul" in html and "font-size:14.5px" not in html:
+        return html
+    html = re.sub(
+        r"\n    \.sx-block\{margin:0 0 22px\}.*?\.sx-block a\{color:var\(--color-brand,#155A50\)\}\n",
+        "\n",
+        html,
+        count=1,
+        flags=re.S,
+    )
+    if "</style>" not in html:
+        return html
+    return html.replace("</style>", SX_CSS + "</style>", 1)
+
+
+def guide_html(path: Path, names, slugs, compare_hrefs, by_slug):
+    top = english_join(names)
     hub = HUBS.get(path.name)
     links = []
     if hub:
@@ -243,6 +270,12 @@ def guide_html(path: Path, names, compare_hrefs, by_slug):
     for href, title in compare_hrefs[:4]:
         links.append(f'<li><a href="{html.escape(href)}">{html.escape(title)}</a></li>')
     links.append('<li><a href="/compare/index.html">All comparisons</a></li>')
+    avoid = [
+        "<li>Pregnancy, breastfeeding, children, and anyone taking a prescription drug should talk with a clinician before using this list.</li>",
+        "<li>Do not stack products from this list that sedate, thin the blood, or lower blood sugar with medicines that do the same thing.</li>",
+    ]
+    if any(by_slug.get(slug, {}).get("t") == "t4" for slug in slugs):
+        avoid.append("<li>Tier 4 entries on this page are warnings.</li>")
     return (
         "<!-- SS_SX_GUIDE:start -->\n"
         '<section class="sx-block sx-evidence"><h2>Evidence summary</h2>'
@@ -251,10 +284,8 @@ def guide_html(path: Path, names, compare_hrefs, by_slug):
         f"The strongest records on this page are {top}. A higher score is a stronger record in the database, "
         f"not a personal recommendation.</p></section>\n"
         '<section class="sx-block sx-avoid"><h2>Who should be careful</h2><ul>'
-        "<li>Pregnancy, breastfeeding, children, and anyone taking a prescription drug should talk with a clinician before using this list.</li>"
-        "<li>Do not stack products from this list that sedate, thin the blood, or lower blood sugar with medicines that do the same thing.</li>"
-        "<li>Tier 4 entries, when this page lists them, are warnings.</li>"
-        "</ul></section>\n"
+        + "".join(avoid)
+        + "</ul></section>\n"
         '<section class="sx-block sx-links"><h2>Comparisons and topic guides</h2><ul>'
         + "".join(links)
         + "</ul></section>\n"
@@ -331,7 +362,7 @@ def write_symptoms(by_slug, write: bool):
                     break
             if len(shared) >= 4:
                 break
-        block = guide_html(path, names, shared, by_slug)
+        block = guide_html(path, names, slugs, shared, by_slug)
         if "SS_SX_GUIDE:start" in new:
             new2, n = re.subn(
                 r"<!-- SS_SX_GUIDE:start -->.*?<!-- SS_SX_GUIDE:end -->",
@@ -350,8 +381,7 @@ def write_symptoms(by_slug, write: bool):
                 problems.append(f"{path.name}: no intro")
                 continue
             new = new[: intro.end()] + "\n\n" + block + new[intro.end() :]
-        if ".sx-block{" not in new:
-            new = new.replace("</style>", SX_CSS + "</style>", 1)
+        new = ensure_sx_css(new)
         if new != text:
             changed += 1
             if write:
@@ -360,6 +390,12 @@ def write_symptoms(by_slug, write: bool):
             problems.append(f"{path.name}: missing evidence summary")
         if not write and "sx-avoid" not in text:
             problems.append(f"{path.name}: missing caution section")
+        if not write and "when this page lists them" in text:
+            problems.append(f"{path.name}: template still hedges about Tier 4")
+        if not write and "font-size:14.5px" in text:
+            problems.append(f"{path.name}: symptom body text is still 14.5px")
+        if not write and "main.sx-wrap .sx-avoid ul" not in text:
+            problems.append(f"{path.name}: phone list bullets can hang outside the margin")
     return changed, problems
 
 
