@@ -28,12 +28,26 @@ test('creatine versus beta-alanine is Performance', async ({ page }) => {
 
 test('creatine search does not repeat an article URL', async ({ page }) => {
   await goto(page, '/');
+  await page.waitForFunction(() => typeof window.heroNext === 'function');
+  await page.locator('#ix-hero-search').click();
   await page.locator('#ix-hero-search').fill('creatine');
-  await page.waitForSelector('#ix-ac [data-href]');
-  const hrefs = await page.locator('#ix-ac [data-href]').evaluateAll((els) =>
-    els.map((el) => (el.getAttribute('data-href') || '').replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-').split('?')[0].toLowerCase())
-  );
+  await page.waitForSelector('#ix-ac.vis .gs-ac-item[data-type="art"]');
+  const hrefs = await page.locator('#ix-ac.vis .gs-ac-item[data-type="art"]').evaluateAll((els) => {
+    const manifest = window.__ART_MANIFEST || {};
+    return els.map((el) => {
+      let url = el.getAttribute('data-href') || '';
+      if (!url) {
+        const id = el.getAttribute('data-art-id');
+        const file = manifest[id] || manifest[String(id)];
+        if (file) url = '/a/' + file;
+      }
+      url = String(url).replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-').split('#')[0].split('?')[0].toLowerCase();
+      const cut = url.lastIndexOf('/a/');
+      return cut >= 0 ? url.slice(cut) : url;
+    });
+  });
   expect(hrefs.length).toBeGreaterThan(0);
+  expect(hrefs.every(Boolean)).toBe(true);
   expect(new Set(hrefs).size).toBe(hrefs.length);
 });
 
@@ -41,8 +55,10 @@ test('homepage search dropdown paints above the filter bar', async ({ page }, te
   test.skip(testInfo.project.name !== 'desktop', 'desktop overlap');
   await page.setViewportSize({ width: 1280, height: 900 });
   await goto(page, '/');
-  await page.locator('#ix-hero-search').fill('creatine');
-  await page.waitForSelector('#ix-ac .gs-ac-item');
+  await page.waitForFunction(() => typeof window.heroNext === 'function');
+  await page.locator('#ix-hero-search').click();
+  await page.locator('#ix-hero-search').fill('a');
+  await page.waitForSelector('#ix-ac.vis .gs-ac-item');
   const hit = await page.evaluate(() => {
     const menu = document.querySelector('#ix-ac');
     const bar = document.querySelector('#main-sticky');
@@ -91,7 +107,7 @@ test('kids multivitamin does not use the adult card', async ({ page }) => {
 });
 
 test('score-change log is a public CSV', async ({ page }) => {
-  const response = await page.goto('/data/score-changes.csv');
+  const response = await page.request.get('/data/score-changes.csv');
   expect(response.status()).toBe(200);
   expect(await response.text()).toContain('date,slug,from,to,reason');
   await goto(page, '/about.html');
