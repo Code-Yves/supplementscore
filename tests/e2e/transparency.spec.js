@@ -12,7 +12,12 @@ test('transparency page states both counts and the physician status', async ({ p
   await expect(page.locator('h1')).toHaveText('How SupplementScore is made');
   const text = await page.locator('main.made-wrap').innerText();
   expect(text).toContain('3,033');
-  expect(text).toContain('1,505,381,664');
+  expect(text).toContain('roughly 11,000');
+  expect(text).toContain('1.5 hours');
+  expect(text).toContain('4 hours');
+  expect(text).toContain('an estimate');
+  expect(text).not.toContain('1,505,381,664');
+  expect(text.toLowerCase()).not.toContain('participant-hour');
   expect(text).toContain('openly mostly AI-generated');
   expect(text).toContain('same credible sources doctors rely on');
   expect(text).toContain('bringing physicians on board');

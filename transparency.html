@@ -102,8 +102,8 @@
       <div class="made-lbl">Distinct studies (PubMed IDs)</div>
     </div>
     <div class="made-stat">
-      <div class="made-num">1,505,381,664</div>
-      <div class="made-lbl">Participant-hours, a lower bound</div>
+      <div class="made-num">Roughly 11,000</div>
+      <div class="made-lbl">Hours of human research, an estimate</div>
     </div>
   </div>
 
@@ -115,17 +115,30 @@
   <p>One study is one PubMed ID. The same ID on many pages counts once.</p>
   <p><strong>Method.</strong> Read every <code>.html</code>, <code>.js</code>, and <code>.json</code> file in the site repository, except <code>node_modules</code>, <code>tests</code>, <code>scripts</code>, <code>outputs</code>, <code>_archive</code>, <code>reviews</code>, <code>_mockups</code>, <code>og</code>, <code>dist</code>, <code>_docs</code>, <code>fr</code>, <code>es</code>, and any filename containing “mockup”. Keep an ID when the text has <code>PMID</code> followed by a 6- to 9-digit number, or a <code>pubmed.ncbi.nlm.nih.gov/</code> link with that number. That scan found <strong>3,033</strong> distinct IDs. The procedure is <code>scripts/transparency_counts.py</code> in the public repository.</p>
 
-  <h2>Human research hours: 1,505,381,664</h2>
-  <p>This is a lower-bound estimate of time people spent inside the cited human studies. It is participant-time. It is not hours worked by SupplementScore staff, and it is not time a physician spent on these pages.</p>
-  <p><strong>Method.</strong> Use the HTML pages from the same file set, plus <code>data.js</code> (the supplement text). A sentence counts only when it has all three of these, and no extras:</p>
+  <h2>Human research hours: roughly 11,000</h2>
+  <p>This is an estimate of the time one person would need to find, read, and appraise the cited studies, and to research and write the published pages. It is not time people spent inside the trials, and it is not a timesheet of hours already worked.</p>
+  <p><strong>Formula.</strong> 3,033 distinct studies × 1.5 hours, plus 1,633 published pages × 4 hours.</p>
+  <p>3,033 × 1.5 = 4,549.5 hours for the studies. 1,633 × 4 = 6,532 hours for the pages. Together that is 11,081.5 hours, which rounds to the nearest thousand: <strong>roughly 11,000 hours</strong>.</p>
+  <p><strong>Assumptions.</strong></p>
   <ul>
-    <li>Exactly one PubMed ID.</li>
-    <li>Exactly one headcount: a number followed by participants, subjects, patients, volunteers, individuals, people, adults, women, men, children, or infants. Headcounts under 8 or over 100,000 are skipped.</li>
-    <li>Exactly one follow-up: “for”, “over”, “across”, “during”, “lasting”, “lasted”, “followed for”, “follow-up of”, or “median of” (including “a median of” and “mean of”), plus a number of days, weeks, months, or years. A form such as “12-week trial” counts too. Follow-up shorter than 7 days, or longer than 25 years, is skipped.</li>
+    <li><strong>1.5 hours per study</strong> to find it, read it, and appraise it. A 2021 scoping review in the <cite>Journal of Clinical Epidemiology</cite> (Nussbaumer-Streit and colleagues, <a href="https://doi.org/10.1016/j.jclinepi.2021.05.019">doi:10.1016/j.jclinepi.2021.05.019</a>) reported that pulling the main facts from one study took one person about 41 to 65 minutes, and a short critical-appraisal checklist took about 10 to 21 minutes more. 1.5 hours (90 minutes) is a round figure near that band, with a little time left to find the paper. That review did not measure 1.5 hours, and it did not time this site.</li>
+    <li><strong>4 hours per published page</strong> to research and write the page after the studies are already counted, so those study hours are not added a second time inside the page hours. The same 4 hours is used for every page type below, from a short brand page to a long stack. No published timing study was found for writing a supplement page. Four hours is a stated assumption.</li>
   </ul>
-  <p>A range such as 3–5 years uses the midpoint. Hours use 24 hours in a day, 168 in a week, 730.5 in a month (365.25 ÷ 12 days), and 8,766 in a year (365.25 days). People times those hours is the contribution. Each PubMed ID is kept once. If two sentences disagree, the count is rejected instead of averaged. Sentences that omit a headcount or a follow-up are left out. They are not guessed.</p>
-  <p>That rule matched <strong>24</strong> of the 3,033 studies. Their participant-hours sum to <strong>1,505,381,664</strong>. One of them is the Physicians' Health Study II, PubMed ID 23117775. The page states a follow-up of 11 years in 14,641 men, which is 1,411,773,066 of those hours. The other 23 studies make up the remaining 93,608,598 hours.</p>
-  <div class="made-note">Most cited studies never state both a headcount and a follow-up in the same sentence as a single PubMed ID. Those studies are in the study count. They are not in the hour total. The hour total is a floor, not a census of every trial behind the site.</div>
+  <p><strong>Pages counted: 1,633.</strong> These are published English pages. Directory indexes and short redirect stubs are left out.</p>
+  <ul>
+    <li>734 supplement pages</li>
+    <li>609 articles</li>
+    <li>134 comparisons</li>
+    <li>60 condition guides</li>
+    <li>16 symptom pages</li>
+    <li>9 topic hubs</li>
+    <li>10 medication pages</li>
+    <li>9 stacks</li>
+    <li>7 audience guides</li>
+    <li>45 brand pages</li>
+  </ul>
+  <p>A page counts when it is an <code>.html</code> file in one of those folders, it is not named <code>index.html</code>, and the top of the file is not an <code>http-equiv</code> refresh redirect. The procedure for both numbers is <code>scripts/transparency_counts.py</code> in the public repository.</p>
+  <div class="made-note">Label this as an estimate. Rounding 11,081.5 hours to the nearest thousand gives roughly 11,000 hours. A faster reader, or a page that mostly repeats studies already counted, would land lower. A page that needed extra safety checking would land higher.</div>
 
   <h2>Money and corrections</h2>
   <p>There are no ads, no sponsors, and no affiliate links. Who pays for hosting is in <a href="/about.html#transparency">About — Transparency</a>. To flag a wrong dose, study, or safety line, use <a href="/about.html#feedback">Flag an error</a> or write to <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> with the page, the sentence, and a public source.</p>

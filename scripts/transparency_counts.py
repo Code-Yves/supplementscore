@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Count studies and a lower-bound human-research-hours estimate from site files.
+"""Count studies and an equivalent-hours estimate from site files.
 
 Study count
 -----------
@@ -13,33 +13,36 @@ An ID counts when the file text matches either:
   - pubmed.ncbi.nlm.nih.gov/ and the same kind of number
 The same ID in many files counts once.
 
-Human research hours
---------------------
-This is a lower bound on participant-hours in cited human studies, not staff
-time. From the same HTML files (plus data.js, the canonical supplement text):
+Equivalent human research hours
+-------------------------------
+This estimates the time one person would need to find, read, and appraise the
+cited studies and to research and write the published pages. It is not
+participant-time inside the trials.
 
-  A sentence may contribute only when it contains exactly one PubMed ID,
-  exactly one enrollment phrase, and exactly one follow-up phrase.
-  Enrollment is a number followed by participants, subjects, patients,
-  volunteers, individuals, people, adults, women, men, children, or infants.
-  Follow-up is "for/over/across/during/lasting/lasted/followed for/
-  follow-up of/median of/mean of/a median of" plus a number of days, weeks,
-  months, or years. A form such as "12-week trial" also counts.
-  A range such as 3-5 years uses the midpoint.
-  Follow-up shorter than 7 days is skipped.
-  Each PubMed ID is kept once. If two sentences disagree on the product of
-  people and hours, the script exits with an error.
+  studies x 1.5 hours
+  + published pages x 4 hours
 
-  Conversions: 1 day = 24 hours, 1 week = 168 hours,
-  1 month = 730.5 hours (365.25 / 12 days), 1 year = 8,766 hours (365.25 days).
+1.5 hours per study is a round assumption near the times reported by
+Nussbaumer-Streit and colleagues, Journal of Clinical Epidemiology, 2021
+(doi:10.1016/j.jclinepi.2021.05.019): extracting the main facts took one
+person about 41 to 65 minutes per study, and a short critical-appraisal
+checklist took about 10 to 21 minutes more. The paper did not measure
+1.5 hours.
 
-Studies that do not state both numbers in that shape are left out. They are
-not guessed.
+4 hours per page is a stated assumption for drafting a page after the studies
+are already counted. The same rate is used for every page type below. No
+published timing study was found for writing a supplement page.
+
+A published page is an HTML file in one of the folders below. index.html
+catalogs are left out. A file whose first 8 KB contains an http-equiv refresh
+is a redirect stub and is left out. Short aliases under s/, French and Spanish
+copies, legal pages, and app shells are not in these folders.
+
+The headline rounds the sum to the nearest thousand hours.
 """
 
 from __future__ import annotations
 
-import json
 import os
 import re
 import sys
@@ -65,31 +68,28 @@ SKIP_DIRS = {
     "es",
 }
 
+# (printed label, directory). Order is the order shown on the transparency page.
+PAGE_GROUPS = (
+    ("supplement_pages", "supplement"),
+    ("articles", "a"),
+    ("comparisons", "compare"),
+    ("condition_guides", "condition"),
+    ("symptom_pages", "sx"),
+    ("topic_hubs", "hub"),
+    ("medication_pages", "m"),
+    ("stacks", "stack"),
+    ("audience_guides", "for"),
+    ("brand_pages", "brand"),
+)
+
+HOURS_PER_STUDY = 1.5
+HOURS_PER_PAGE = 4.0
+
 PMID_RE = re.compile(
     r"(?:PMID[:\s#]*|pubmed\.ncbi\.nlm\.nih\.gov/)([0-9]{6,9})",
     re.I,
 )
-TAG_RE = re.compile(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>|<[^>]+>", re.I)
-PART_RE = re.compile(
-    r"(?P<n>\d{1,3}(?:,\d{3})+|\d{1,6})\s+"
-    r"(?:healthy\s+|older\s+|adult\s+|postmenopausal\s+|pregnant\s+|trained\s+|symptomatic\s+|newly diagnosed\s+)?"
-    r"(?:participants|subjects|patients|volunteers|individuals|people|adults|women|men|children|infants)\b",
-    re.I,
-)
-DUR_RES = [
-    re.compile(
-        r"(?:for|over|across|during|lasting|lasted|followed for|follow-up of|median of|mean of|a median of)\s+"
-        r"(?P<n>\d+(?:\.\d+)?)(?:\s*[-–]\s*(?P<n2>\d+(?:\.\d+)?))?\s*"
-        r"(?P<u>day|week|month|year|hour)s?\b",
-        re.I,
-    ),
-    re.compile(
-        r"(?P<n>\d+(?:\.\d+)?)\s*[-–]\s*(?P<u>day|week|month|year)s?\b"
-        r"(?:\s+(?:trial|study|rct|supplementation|treatment|intervention|follow-up|course))",
-        re.I,
-    ),
-]
-UNIT_HOURS = {"hour": 1.0, "day": 24.0, "week": 168.0, "month": 730.5, "year": 8766.0}
+REFRESH_RE = re.compile(r"http-equiv\s*=\s*['\"]refresh['\"]", re.I)
 
 
 def iter_files():
@@ -111,98 +111,64 @@ def study_ids() -> set[str]:
     return found
 
 
-def sentences(text: str) -> list[str]:
-    protected = re.sub(r"(\d)\.(\d)", r"\1<DOT>\2", text)
-    protected = re.sub(
-        r"\b(et al|vs|Dr|Mr|Mrs|Fig|e\.g|i\.e)\.",
-        lambda match: match.group(0).replace(".", "<DOT>"),
-        protected,
-        flags=re.I,
-    )
-    parts = re.split(r"(?<=[.!?])\s+", protected)
-    return [part.replace("<DOT>", ".") for part in parts]
+def is_redirect(path: Path) -> bool:
+    head = path.read_bytes()[:8192]
+    return REFRESH_RE.search(head.decode("utf-8", errors="ignore")) is not None
 
 
-def plain_html(raw: str) -> str:
-    text = TAG_RE.sub(" ", raw)
-    text = re.sub(r"\s+", " ", text)
-    return text
-
-
-def duration_hours(match: re.Match) -> float | None:
-    unit = match.group("u").lower()
-    if unit == "hour":
-        return None
-    first = float(match.group("n"))
-    second_raw = match.groupdict().get("n2")
-    second = float(second_raw) if second_raw else first
-    length = (first + second) / 2.0
-    hours = length * UNIT_HOURS[unit]
-    if hours < 24 * 7:
-        return None
-    if hours > 8766 * 25:
-        return None
-    return hours
-
-
-def hours_by_pmid() -> dict[str, tuple[int, float, str]]:
-    """Map PMID -> (people, hours_each, source). Disagreeing duplicates error."""
-    chosen: dict[str, tuple[int, float, str]] = {}
-    blobs: list[tuple[str, str]] = []
-    for path in iter_files():
-        if path.suffix.lower() != ".html":
-            continue
-        blobs.append((path.relative_to(ROOT).as_posix(), plain_html(path.read_text(encoding="utf-8", errors="ignore"))))
-    data_js = ROOT / "data.js"
-    if data_js.exists():
-        blobs.append(("data.js", data_js.read_text(encoding="utf-8", errors="ignore")))
-
-    for source, text in blobs:
-        for sentence in sentences(text):
-            ids = PMID_RE.findall(sentence)
-            if len(ids) != 1:
+def published_pages() -> dict[str, list[Path]]:
+    grouped: dict[str, list[Path]] = {}
+    for label, folder in PAGE_GROUPS:
+        directory = ROOT / folder
+        if not directory.is_dir():
+            raise SystemExit(f"missing page folder: {folder}")
+        pages = []
+        for path in sorted(directory.glob("*.html")):
+            if path.name == "index.html":
                 continue
-            enrollments = list(PART_RE.finditer(sentence))
-            durations = []
-            for pattern in DUR_RES:
-                durations.extend(pattern.finditer(sentence))
-            if len(enrollments) != 1 or len(durations) != 1:
+            if "mockup" in path.name.lower():
                 continue
-            people = int(enrollments[0].group("n").replace(",", ""))
-            if people < 8 or people > 100000:
+            if is_redirect(path):
                 continue
-            each = duration_hours(durations[0])
-            if each is None:
-                continue
-            pmid = ids[0]
-            product = people * each
-            previous = chosen.get(pmid)
-            if previous is None:
-                chosen[pmid] = (people, each, source)
-                continue
-            if abs(previous[0] * previous[1] - product) > 0.1:
-                raise SystemExit(
-                    f"PMID {pmid} disagrees: {previous} vs {(people, each, source)}"
-                )
-    return chosen
+            pages.append(path)
+        if not pages:
+            raise SystemExit(f"no published pages in {folder}")
+        grouped[label] = pages
+    return grouped
+
+
+def round_thousands(hours: float) -> int:
+    return int(round(hours / 1000.0) * 1000)
+
+
+def fmt_hours(hours: float) -> str:
+    if abs(hours - round(hours)) < 1e-9:
+        return str(int(round(hours)))
+    return f"{hours:.1f}"
 
 
 def main() -> int:
     studies = study_ids()
-    hours = hours_by_pmid()
-    total = sum(people * each for people, each, _source in hours.values())
-    # 730.5 and 8766 are exact in binary for the durations this corpus hits,
-    # so the sum should land on a whole number of hours.
-    if abs(total - round(total)) > 1e-6:
-        raise SystemExit(f"participant-hours are not a whole number: {total}")
-    total_hours = int(round(total))
+    pages = published_pages()
+    page_count = sum(len(paths) for paths in pages.values())
+    study_hours = len(studies) * HOURS_PER_STUDY
+    page_hours = page_count * HOURS_PER_PAGE
+    total = study_hours + page_hours
+    rounded = round_thousands(total)
     print(f"studies {len(studies)}")
-    print(f"timed_studies {len(hours)}")
-    print(f"participant_hours {total_hours}")
-    ranked = sorted(hours.items(), key=lambda item: -(item[1][0] * item[1][1]))
+    for label, _folder in PAGE_GROUPS:
+        print(f"pages_{label} {len(pages[label])}")
+    print(f"pages {page_count}")
+    print(f"hours_per_study {fmt_hours(HOURS_PER_STUDY)}")
+    print(f"hours_per_page {fmt_hours(HOURS_PER_PAGE)}")
+    print(f"study_hours {fmt_hours(study_hours)}")
+    print(f"page_hours {fmt_hours(page_hours)}")
+    print(f"total_hours {fmt_hours(total)}")
+    print(f"rounded_hours {rounded}")
     if "--list" in sys.argv:
-        for pmid, (people, each, source) in ranked:
-            print(f"{pmid} people={people} hours_each={each:.1f} person_hours={people * each:.0f} {source}")
+        for label, paths in pages.items():
+            for path in paths:
+                print(f"{label} {path.relative_to(ROOT).as_posix()}")
     return 0
 
 
