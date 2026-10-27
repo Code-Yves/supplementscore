@@ -36,8 +36,30 @@ function band(sc) {
   return 'bad';
 }
 
+const NAMED_ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: '\u00a0',
+  ndash: '\u2013', mdash: '\u2014', hellip: '\u2026',
+  rsquo: '\u2019', lsquo: '\u2018', rdquo: '\u201d', ldquo: '\u201c',
+};
+
+function decodeEntities(s) {
+  let prev = '';
+  let cur = String(s);
+  for (let i = 0; i < 4 && cur !== prev; i++) {
+    prev = cur;
+    cur = cur
+      .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+      .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+      .replace(/&([a-z]+);/gi, (full, name) => {
+        const ch = NAMED_ENTITIES[name.toLowerCase()];
+        return ch == null ? full : ch;
+      });
+  }
+  return cur;
+}
+
 function esc(s) {
-  return String(s)
+  return decodeEntities(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -382,7 +404,12 @@ function trendingCopy() {
       "const banner=_filterBanner('Top '+shownN+' supplements by evidence score','Ranked list',m.desc,m.icon,'t3');",
       "const banner=_filterBanner('Trending supplements','Showing '+shownN+' of '+items.length,m.desc,m.icon,'t3');"
     );
-  if (next === src) throw new Error('Could not relabel the trending banner in app.js');
+  if (next === src) {
+    if (!src.includes('Trending supplements') || !src.includes('It is not the highest scores on the site')) {
+      throw new Error('Could not relabel the trending banner in app.js');
+    }
+    return;
+  }
   fs.writeFileSync(file, next);
 }
 
