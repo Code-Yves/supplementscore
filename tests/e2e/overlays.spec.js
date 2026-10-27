@@ -180,8 +180,8 @@ test('close controls share one round ×', async ({ page }) => {
   expectRound(await roundClose(page, 'a.rc-close'), 'article');
 
   await goto(page, '/supplement/l-theanine.html');
-  await page.waitForSelector('a.pg-close-fab.ss-x');
-  expectRound(await roundClose(page, 'a.pg-close-fab'), 'supplement');
+  await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
+  expectRound(await roundClose(page, 'header.ss-pagebar a.ss-pagebar-x'), 'supplement');
 
   await goto(page, '/');
   await page.locator('.ix-sources-more').evaluate((el) => el.click());
@@ -193,6 +193,18 @@ test('close controls share one round ×', async ({ page }) => {
   await openSupplement(page);
   expectRound(await roundClose(page, '.ssm-x'), 'supplement modal');
 });
+
+async function expectDisc(page, selector, label) {
+  await page.waitForSelector(selector);
+  const box = await page.locator(selector).evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    return { w: rect.width, h: rect.height };
+  });
+  expect(box.w, label + ' width').toBeGreaterThanOrEqual(44);
+  expect(box.w, label + ' width').toBeLessThan(44.01);
+  expect(box.h, label + ' height').toBeGreaterThanOrEqual(44);
+  expect(box.h, label + ' height').toBeLessThan(44.01);
+}
 
 function contrast(fg, bg) {
   function lin(channel) {
@@ -252,7 +264,6 @@ function expectCorner(box, label) {
 test('phone close controls are 44px and share one corner', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'iphone', 'phone corner');
   const targets = [
-    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x'],
     ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
   ];
   for (const [path, selector] of targets) {
@@ -260,6 +271,8 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
     await page.waitForSelector(selector);
     expectCorner(await cornerBox(page, selector), path);
   }
+  await goto(page, '/supplement/l-theanine.html');
+  await expectDisc(page, 'header.ss-pagebar a.ss-pagebar-x', 'supplement');
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
   const modal = await cornerBox(page, '.ssm-x');
@@ -285,7 +298,6 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
 test('desktop close controls share one corner', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'desktop corner');
   const targets = [
-    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x'],
     ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
   ];
   for (const [path, selector] of targets) {
@@ -293,6 +305,8 @@ test('desktop close controls share one corner', async ({ page }, testInfo) => {
     await page.waitForSelector(selector);
     expectCorner(await cornerBox(page, selector), path);
   }
+  await goto(page, '/supplement/l-theanine.html');
+  await expectDisc(page, 'header.ss-pagebar a.ss-pagebar-x', 'supplement');
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
   expectCorner(await cornerBox(page, '.ssm-x'), 'detail');

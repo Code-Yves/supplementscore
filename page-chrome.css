@@ -267,7 +267,11 @@ body:has(main.det-wrap) > .ss-pagebar,
 body:has(main.sx-wrap) > .ss-pagebar,
 body:has(main.ca-wrap) > .ss-pagebar,
 body:has(main.sk-wrap) > .ss-pagebar{
-  width:calc(100% + 2rem);
+  /* width:auto plus the 1rem negative margins reaches the viewport edge.
+     The scrollbar gutter makes that box 1px too wide (scrollWidth 1281).
+     The max-width drops that pixel so the research layout does not scroll sideways. */
+  width:auto;
+  max-width:calc(100% + 2rem - 1px);
   margin-left:-1rem;
   margin-right:-1rem;
   box-sizing:border-box;
