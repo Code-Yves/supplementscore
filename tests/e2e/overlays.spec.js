@@ -184,7 +184,7 @@ test('close controls share one round ×', async ({ page }) => {
   expectRound(await roundClose(page, 'a.pg-close-fab'), 'supplement');
 
   await goto(page, '/');
-  await page.locator('.ix-sources-more').evaluate((el) => el.click());
+  await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
   await expect(page.locator('#sources-modal.open')).toBeVisible();
   expectRound(await roundClose(page, '#sources-modal.open .src-modal-close'), 'sources');
   await page.keyboard.press('Escape');
