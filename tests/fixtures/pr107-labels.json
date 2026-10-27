@@ -50,7 +50,7 @@
   {
     "supplement": "Activated charcoal (oral)",
     "slug": "activated-charcoal",
-    "expected": "Not advised",
+    "expected": "Avoid",
     "detail": true
   },
   {
@@ -62,7 +62,7 @@
   {
     "supplement": "Vanadium",
     "slug": "vanadium",
-    "expected": "Do not supplement",
+    "expected": "Avoid",
     "detail": true
   },
   {
@@ -260,13 +260,13 @@
   {
     "supplement": "Wild yam (Dioscorea villosa)",
     "slug": "wild-yam",
-    "expected": "Not advised",
+    "expected": "Avoid",
     "detail": true
   },
   {
     "supplement": "Coconut oil (supplement form)",
     "slug": "coconut-oil",
-    "expected": "Not advised",
+    "expected": "Avoid",
     "detail": true
   },
   {
@@ -302,7 +302,7 @@
   {
     "supplement": "Fadogia agrestis",
     "slug": "fadogia-agrestis",
-    "expected": "Not advised",
+    "expected": "Avoid",
     "detail": true
   },
   {
@@ -488,7 +488,7 @@
   {
     "supplement": "NAD+ (direct oral supplement)",
     "slug": "nad",
-    "expected": "Not advised",
+    "expected": "Avoid",
     "detail": true
   },
   {

@@ -4,10 +4,11 @@ const labels = require('../fixtures/pr107-labels.json');
 const paired = require('../fixtures/static-detail-doses.json');
 
 // Expected labels are the post-ship recommendations for the 88 hotfix
-// sentences. Wormwood high-dose and herbal diuretics are "Avoid". Methylene
-// blue and chronic licorice root stay "Avoid" because a prescribed or
-// deglycyrrhizinated use remains. Lethal, fatal, toxic, banned, illegal,
-// controlled-substance, carcinogen, and no-safe-dose sentences are "Do not take".
+// sentences. Wormwood high-dose, herbal diuretics, "not recommended", and
+// "do not supplement" are "Avoid". Methylene blue and chronic licorice root
+// stay "Avoid" because a prescribed or deglycyrrhizinated use remains.
+// Lethal, fatal, toxic, banned, illegal, controlled-substance, carcinogen,
+// and no-safe-dose sentences are "Do not take".
 
 test.beforeEach(async ({ page }) => {
   await install(page);
@@ -60,7 +61,7 @@ test('stacked static stats do not split words at 320px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });
   const cases = [
     { slug: 'grapefruit-seed-extract', label: 'Check interactions' },
-    { slug: 'vanadium', label: 'Do not supplement' },
+    { slug: 'vanadium', label: 'Avoid' },
   ];
   for (const item of cases) {
     await goto(page, '/supplement/' + item.slug + '.html');

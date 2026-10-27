@@ -39,7 +39,7 @@ const CASES = [
   },
   {
     slug: 'nad',
-    label: 'Not advised',
+    label: 'Avoid',
     forbidden: /250|500|mg/i,
   },
   {

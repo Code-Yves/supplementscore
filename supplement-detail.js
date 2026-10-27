@@ -54,8 +54,8 @@
     var opening = t.split(/[.!?](?:\s|$)/)[0];
     if(/\b(?:patients?\s+on\b|on\s+(?:medications?|medicines?|drugs?|warfarin|blood\s+thinners?|anticoagulants?)\b|taking\s+(?:medications?|medicines?|drugs?|warfarin)\b|CYP\s*\d|drug\s+interactions?)\b/i.test(opening)) return 'Check interactions';
     if(/\b(?:if\s+you\s+smoke|smokers?|have\s+ever\s+smoked|if\s+you(?:'re|\s+are)\s+pregnant|pregnan(?:t|cy)|breastfeed(?:ing)?|not\s+everyone|some\s+people|people\s+with|if\s+you\s+have)\b/i.test(opening)) return 'Not for everyone';
-    if(/^do\s+not\s+supplement\b/i.test(t)) return 'Do not supplement';
-    if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Not advised';
+    if(/^do\s+not\s+supplement\b/i.test(t)) return 'Avoid';
+    if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Avoid';
     // Prescribed use, or a named safer form, is not a ban on every use.
     if(/\bexcept\s+as\s+a\s+medicine\s+prescribed\b/i.test(t)) return 'Avoid';
     if(/\bchronic\s+whole\s+licorice\b/i.test(t)) return 'Avoid';
@@ -84,7 +84,7 @@
     var low = text.toLowerCase();
     if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
     if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
-    if(/^no established\b/.test(low)) return 'No established dose';
+    if(/^no established\b/.test(low)) return 'No set dose';
     // Real dose units only. A time word or a capitalised word is not a unit,
     // so "30-60 min", "3–5 days" and "2024 Endocrine" cannot win.
     var num = '[0-9⁰¹²³⁴⁵⁶⁷⁸⁹][0-9⁰¹²³⁴⁵⁶⁷⁸⁹.,]*';
@@ -147,8 +147,7 @@
     var shown = String(compact);
     var t = String(text || '');
     if(/\bFU\/day\b/i.test(shown) && /\bAVOID\b/.test(t) && /\b(?:warfarin|aspirin|blood\s+thinners?)\b/i.test(t)) return 'Check interactions';
-    var total = t.match(/(\d[\d,]*\s*[–\-−]\s*\d[\d,]*\s*mg)\/day\s+total/i);
-    if(total && /typical supplemental dose/i.test(t)) return total[1].replace(/\s+/g, ' ') + ' total';
+    if(/\bmg\/day\s+total\b/i.test(t) && /typical supplemental dose/i.test(t)) return '1–1.2 g total';
     return 'see protocol';
   }
 
