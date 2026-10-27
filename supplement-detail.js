@@ -118,7 +118,11 @@
   }
 
   function bucketLabel(b){
-    return b === 'avoid' ? 'Avoid' : b === 'caution' ? 'Caution' : b === 'extra' ? 'Synergy' : '';
+    if (b === 'avoid') return 'Avoid';
+    if (b === 'caution') return 'Caution';
+    if (b === 'extra') return 'Possible benefit (low evidence)';
+    if (b === 'clear') return 'No known conflict';
+    return '';
   }
   function bucketClass(b){
     return b === 'avoid' ? 'avoid' : b === 'caution' ? 'caution' : b === 'extra' ? 'support' : '';

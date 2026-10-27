@@ -40,6 +40,9 @@ jobs:
       - name: Check bibliography, scores, and totals
         run: node scripts/site_counts.mjs --check
 
+      - name: Check comparison scores, symptom guides, and product warnings
+        run: python3 scripts/content_fixes.py --check
+
       - name: Run regression suite
         run: npm test
         env:

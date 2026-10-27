@@ -652,7 +652,7 @@
    Bump specificity to (0,2,0) by scoping under .ix-hero — same as
    the offending rule, with source order winning the tie. ix-sources
    gets an explicit z-index:1 so the relationship is unambiguous. */
-.ix-hero .ix-search{ z-index: 5; }
+.ix-hero .ix-search{ z-index: 200; }
 .ix-hero .ix-sources{ z-index: 1; }
 .ix-search input{
   width: 100%; padding:12px 20px 12px 44px;
@@ -1144,19 +1144,16 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 /* ---------- z-index ladder for the Index landing ----------
    Designed top-down so each layer's relationships are explicit:
 
-    100  .gs-ac autocomplete  hero search dropdown (above EVERYTHING below)
+    200  #ix-hero-form     hero search, including its dropdown
      90  .beta-bar         green status banner — always on top of chrome
-     80  #main-sticky      sticky filter pills (under banner; under dropdown)
-     50  .ix-search        the hero search container
-     40  .ix-hero          headline + lede + search wrapper
+     80  #main-sticky      sticky filter pills (under the search dropdown)
       2  #hero             rotating-article carousel
       0  .ix-hero-bg       (hidden anyway)
 
-   2026-05-25 — dropdown raised 60 → 100 so it sits above #main-sticky's
-   filter pills. Previously the hero dropdown extended down past the hero
-   and was occluded by the "Goal / Age & Sex / Symptom / Research" pills.
-   The fix prioritizes the rule that a SEARCH DROPDOWN must always cover
-   chrome below it, even if that chrome is a sticky bar.
+   The dropdown's own z-index cannot escape a parent stacking context.
+   .ix-hero used to be z-index 40, so the filter bar (z-index 80) painted
+   through the Research rows. The hero itself stays z-index:auto, and the
+   search form is the layer above the filter bar.
 
    Earlier this was tangled — the banner sat at z=20 which is BELOW
    the .ix-hero stacking context I introduced (z=40) to keep the
@@ -1168,11 +1165,11 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 .beta-bar{ z-index: 90 !important; }
 .ix-hero{
   position: relative;
-  z-index: 40;
+  z-index: auto;
   overflow: visible;
 }
 .ix-search{ position: relative; z-index: 50; }
-#ix-hero-form{ position: relative; z-index: 50; }
+#ix-hero-form{ position: relative; z-index: 200; }
 .gs-ac,
 #ix-ac,
 #ix-sticky-ac{
