@@ -105,11 +105,12 @@ test('homepage search for mannose finds the Evidence Collapsed article', async (
   await input.click();
   await input.fill('mannose');
   const hit = page.locator('#ix-ac.vis .gs-ac-item[data-type="art"]').filter({ hasText: ARTICLE });
-  await expect(hit.first()).toBeVisible();
-  const title = await hit.first().locator('.gs-ac-art-title').innerText();
+  await expect(hit).toHaveCount(1);
+  await expect(hit).toHaveAttribute('data-href', /d-mannose-for-utis-evidence-collapsed/);
+  const title = await hit.locator('.gs-ac-art-title').innerText();
   expect(title).toContain('D-Mannose');
   expect(title).not.toContain('\u2011');
   await input.fill('d-mannose for utis');
-  await expect(hit.first()).toBeVisible();
+  await expect(hit).toHaveCount(1);
   expect(errors, errors.join('\n')).toEqual([]);
 });
