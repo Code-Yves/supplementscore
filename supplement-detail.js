@@ -31,6 +31,23 @@
   // label and never a number pulled out of that warning — a lethal amount,
   // or another supplement's dose named as the alternative. A warning that
   // applies only to some people says so, instead of telling everyone to avoid it.
+  // "Avoid" is the soft label. Lethal, fatal, toxic, banned, illegal, a
+  // controlled substance, a carcinogen, or no safe dose is "Do not take".
+  function severeDoseWarning(t){
+    if(/\b(?:lethal|fatal)\b/i.test(t)) return true;
+    // "toxic compounds" describes a preparation (kava), not a ban on the herb.
+    if(/\btoxic\b(?!\s+compounds\b)/i.test(t)) return true;
+    // A WADA-only ban, or a comparison with a banned drug, is not this item's ban.
+    if(/\bbanned\b(?!\s+by\s+wada\b)/i.test(t) && !/\bsimilar\s+to\s+banned\b/i.test(t)) return true;
+    if(/\billegal\b/i.test(t)) return true;
+    if(/controlled\s+substance/i.test(t) || /\bschedule\s+i\b/i.test(t)) return true;
+    if(/carcinogen/i.test(t)) return true;
+    if(/\bno\s+safe\s+(?:dose|intake|supplement)\b/i.test(t)) return true;
+    if(/\bdeaths?\b/i.test(t)) return true;
+    if(/industrial\s+bleach/i.test(t)) return true;
+    if(/\b(?:not\s+approved\s+for\s+human\s+use|never\s+approved|withdrawn\s+from\s+all\s+markets)\b/i.test(t)) return true;
+    return false;
+  }
   function warningDoseLabel(text){
     var t = String(text || '').trim();
     if(!/^(?:avoid|do\s+not|don'?t|not\s+recommended|not\s+advised|never\b|toxic\b|lethal\b|fatal\b|deadly\b|unsafe\b|dangerous\b|banned\b|contraindicated\b|(?:no|zero)\s+safe\b)/i.test(t)) return '';
@@ -41,8 +58,11 @@
     if(/\bhigh\s+doses?\b/i.test(opening) && /\b(?:if\s+used|short[\s-]term)\b/i.test(t)) return 'Not advised for some';
     if(/\bconcentrated\b/i.test(opening) && /\b(?:food\s+amounts|are\s+safe)\b/i.test(t)) return 'Not advised for some';
     if(/^do\s+not\s+supplement\b/i.test(t)) return 'Do not supplement';
-    if(/^do\s+not\s+eat\b/i.test(t)) return 'Do not eat';
     if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Not advised';
+    // Prescribed use, or a named safer form, is not a ban on every use.
+    if(/\bexcept\s+as\s+a\s+medicine\s+prescribed\b/i.test(t)) return 'Avoid';
+    if(/\bchronic\s+whole\s+licorice\b/i.test(t)) return 'Avoid';
+    if(severeDoseWarning(t)) return 'Do not take';
     if(/^avoid\b/i.test(t)) return 'Avoid';
     return 'Do not take';
   }
@@ -55,6 +75,8 @@
     var text = String(dose).replace(/\s+/g, ' ').trim();
     var warned = warningDoseLabel(text);
     if(warned) return warned;
+    // An upper limit, or a dose that produced a null result, is not a dose to take.
+    if(/^safe upper limits\b/i.test(text) || /^null results\b/i.test(text)) return 'See protocol';
     var low = text.toLowerCase();
     if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
     if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
@@ -106,6 +128,16 @@
     }
     var phrase = first.split(/\s+/).slice(0, 3).join(' ').replace(/[.,:;]+$/, '');
     return phrase || 'See protocol';
+  }
+
+  // The line under Daily dose. Nattokinase keeps its dose; the blood-thinner
+  // caution sits underneath, in place of "see protocol".
+  function doseStatSub(text, compact){
+    if(!compact || compact === 'See protocol') return '';
+    var shown = String(compact);
+    var t = String(text || '');
+    if(/\bFU\/day\b/i.test(shown) && /\bAVOID\b/.test(t) && /\b(?:warfarin|aspirin|blood\s+thinners?)\b/i.test(t)) return 'Check interactions';
+    return 'see protocol';
   }
 
   // "Continuous" / "Cycled" derived from cycle prose
@@ -398,6 +430,7 @@
 
   var tldr = tldrFromDesc(s.desc);
   var dose = compactDose(s.dose);
+  var sub = doseStatSub(s.dose, dose);
   var cycle = cycleSummary(s.cycle);
   var cats = categoriesFromTag(s.tag);
 
@@ -532,7 +565,7 @@
   // Hero stats — Onset / Daily dose / Cost rating
   var statsHtml =
       '<div class="det-stat"><div class="det-stat-lbl">Onset</div><div class="det-stat-val">'+escHtml(onsetLabel(s.o))+'</div><div class="det-stat-sub">to see effects</div></div>'
-    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div>'+(dose==='See protocol'?'':'<div class="det-stat-sub">see protocol</div>')+'</div>'
+    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div>'+(sub?('<div class="det-stat-sub">'+escHtml(sub)+'</div>'):'')+'</div>'
     + '<div class="det-stat"><div class="det-stat-lbl">Cost</div><div class="det-stat-val">'+escHtml(costLabel(s.c))+'</div><div class="det-stat-sub">value rating</div></div>';
 
   // Hero sub-score bars

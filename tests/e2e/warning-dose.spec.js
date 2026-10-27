@@ -6,17 +6,17 @@ const { install, goto, trackConsole } = require('./helpers');
 const CASES = [
   {
     slug: 'pennyroyal-oil',
-    label: 'Avoid',
+    label: 'Do not take',
     forbidden: /10\s*mL/i,
   },
   {
     slug: 'oil-of-wintergreen',
-    label: 'Avoid',
+    label: 'Do not take',
     forbidden: /teaspoon|21/i,
   },
   {
     slug: 'camphor-oil',
-    label: 'Avoid',
+    label: 'Do not take',
     forbidden: /2\s*g/i,
   },
   {
@@ -51,7 +51,7 @@ const CASES = [
 
 const UNCHANGED = [
   { slug: 'creatine-monohydrate', label: '3-5 g/day' },
-  { slug: 'nattokinase', label: '2,000–4,000 FU/day' },
+  { slug: 'nattokinase', label: '2,000–4,000 FU/day', sub: 'Check interactions' },
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -92,5 +92,18 @@ for (const item of UNCHANGED) {
   test(item.slug + ' keeps its real daily dose', async ({ page }) => {
     await goto(page, '/supplement/' + item.slug + '.html');
     expect(await dailyDose(page)).toBe(item.label);
+    if (item.sub) {
+      const stat = page.locator('.det-stat').filter({
+        has: page.locator('.det-stat-lbl', { hasText: 'Daily dose' }),
+      });
+      expect((await stat.locator('.det-stat-sub').innerText()).replace(/\s+/g, ' ').trim()).toBe(item.sub);
+      await goto(page, '/supplement.html?slug=' + item.slug);
+      await page.waitForSelector('.det-stat-val', { timeout: 60000 });
+      expect(await dailyDose(page)).toBe(item.label);
+      const live = page.locator('.det-stat').filter({
+        has: page.locator('.det-stat-lbl', { hasText: 'Daily dose' }),
+      });
+      expect((await live.locator('.det-stat-sub').innerText()).replace(/\s+/g, ' ').trim()).toBe(item.sub);
+    }
   });
 }

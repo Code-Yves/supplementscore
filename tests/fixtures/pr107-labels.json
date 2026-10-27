@@ -1,0 +1,530 @@
+[
+  {
+    "supplement": "Kava (high-dose/extract)",
+    "slug": "kava",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Tianeptine (\"gas station heroin\")",
+    "slug": "tianeptine",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Aristolochic acid (in some herbal products)",
+    "slug": "aristolochic-acid",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Ephedra analogues (synephrine)",
+    "slug": "ephedra-analogues",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Kratom (Mitragyna speciosa)",
+    "slug": "kratom",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "DMAA/DMHA novel stimulant pre-workouts",
+    "slug": "dmaa-dmha-novel-stimulant-pre-workouts",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Usnic acid (weight loss)",
+    "slug": "usnic-acid",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Colloidal silver",
+    "slug": "colloidal-silver",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Activated charcoal (oral)",
+    "slug": "activated-charcoal",
+    "expected": "Not advised",
+    "detail": true
+  },
+  {
+    "supplement": "Melatonin (high-dose, nightly)",
+    "slug": "melatonin-high-dose-nightly",
+    "expected": "Avoid",
+    "detail": false
+  },
+  {
+    "supplement": "Vanadium",
+    "slug": "vanadium",
+    "expected": "Do not supplement",
+    "detail": true
+  },
+  {
+    "supplement": "Greater celandine (Chelidonium majus)",
+    "slug": "greater-celandine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Black cohosh high-dose",
+    "slug": "black-cohosh-high-dose",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Bitter orange (Citrus aurantium)",
+    "slug": "bitter-orange",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Androstenedione (prohormone)",
+    "slug": "androstenedione",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "1,3-DMBA (dimethylbutylamine)",
+    "slug": "1-3-dmba",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Methyl-1-testosterone (oral steroid)",
+    "slug": "methyl-1-testosterone",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Phenibut",
+    "slug": "phenibut",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Yohimbe bark (Pausinystalia yohimbe)",
+    "slug": "yohimbe-bark",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Aconite (Aconitum napellus)",
+    "slug": "aconite",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Calomel (mercurous chloride)",
+    "slug": "calomel",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Comfrey (Symphytum officinale, oral)",
+    "slug": "comfrey",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Pennyroyal oil (Mentha pulegium)",
+    "slug": "pennyroyal-oil",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Colloidal gold",
+    "slug": "colloidal-gold",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Cesium chloride (alkaline therapy)",
+    "slug": "cesium-chloride",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Germander (Teucrium chamaedrys)",
+    "slug": "germander",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "SARMs (Selective Androgen Receptor Modulators)",
+    "slug": "sarms",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "DNP (2,4-Dinitrophenol)",
+    "slug": "dnp",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Borax (boron supplement form)",
+    "slug": "borax",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Coltsfoot (Tussilago farfara)",
+    "slug": "coltsfoot",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Chaparral (Larrea tridentata)",
+    "slug": "chaparral",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Lobelia (Lobelia inflata)",
+    "slug": "lobelia",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Sassafras oil",
+    "slug": "sassafras-oil",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Ma huang (raw Ephedra herb)",
+    "slug": "ma-huang",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Methyl synephrine",
+    "slug": "methyl-synephrine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Silver protein (mild silver protein)",
+    "slug": "silver-protein",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Wormwood high-dose (Artemisia absinthium)",
+    "slug": "wormwood-high-dose",
+    "expected": "Not advised for some",
+    "detail": true
+  },
+  {
+    "supplement": "Comfrey root tea (internal)",
+    "slug": "comfrey-root-tea",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Foxglove (Digitalis purpurea)",
+    "slug": "foxglove",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Hydrazine sulfate",
+    "slug": "hydrazine-sulfate",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Laetrile (amygdalin / vitamin B17)",
+    "slug": "laetrile",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Raw thyroid glandulars",
+    "slug": "raw-thyroid-glandulars",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Strychnine (nux vomica)",
+    "slug": "strychnine",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Wild yam (Dioscorea villosa)",
+    "slug": "wild-yam",
+    "expected": "Not advised",
+    "detail": true
+  },
+  {
+    "supplement": "Coconut oil (supplement form)",
+    "slug": "coconut-oil",
+    "expected": "Not advised",
+    "detail": true
+  },
+  {
+    "supplement": "Oil of wintergreen (oral)",
+    "slug": "oil-of-wintergreen",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Amanita muscaria (fly agaric)",
+    "slug": "amanita-muscaria",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Camphor oil (oral)",
+    "slug": "camphor-oil",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Calamus root (Acorus calamus)",
+    "slug": "calamus-root",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Miracle Mineral Supplement (MMS / chlorine dioxide)",
+    "slug": "miracle-mineral-supplement",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Fadogia agrestis",
+    "slug": "fadogia-agrestis",
+    "expected": "Not advised",
+    "detail": true
+  },
+  {
+    "supplement": "Beta-carotene (standalone supplement)",
+    "slug": "beta-carotene",
+    "expected": "Not for everyone",
+    "detail": true
+  },
+  {
+    "supplement": "Belladonna (Atropa belladonna)",
+    "slug": "belladonna",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Raw adrenal glandulars",
+    "slug": "raw-adrenal-glandulars",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Khat (Catha edulis)",
+    "slug": "khat",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Black salve (escharotic)",
+    "slug": "black-salve",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Turpentine (oral)",
+    "slug": "turpentine",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Yellow oleander (Thevetia peruviana)",
+    "slug": "yellow-oleander",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Poke root (Phytolacca americana)",
+    "slug": "poke-root",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Croton oil (Croton tiglium)",
+    "slug": "croton-oil",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Thunder god vine (Tripterygium wilfordii)",
+    "slug": "thunder-god-vine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Jimsonweed (Datura stramonium)",
+    "slug": "jimsonweed",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Methylene blue (pharmaceutical grade)",
+    "slug": "methylene-blue",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Clenbuterol (weight loss/muscle)",
+    "slug": "clenbuterol",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "2,4-Dinitrophenol (DNP)",
+    "slug": "2-4-dinitrophenol",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Sibutramine (hidden in supplements)",
+    "slug": "sibutramine",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Phenolphthalein (hidden laxative)",
+    "slug": "phenolphthalein",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Higenamine (norcoclaurine, pre-workout)",
+    "slug": "higenamine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Licorice root (high-dose/chronic)",
+    "slug": "licorice-root",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Aconitum (monkshood/aconite)",
+    "slug": "aconitum",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Pyrrolizidine alkaloid herbs (comfrey/borage/coltsfoot)",
+    "slug": "pyrrolizidine-alkaloid-herbs",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "GHB precursors (1,4-butanediol/GBL)",
+    "slug": "ghb-precursors",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Sodium chlorite (MMS/Miracle Mineral Supplement)",
+    "slug": "sodium-chlorite",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Oleander extract (Nerium oleander)",
+    "slug": "oleander-extract",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Andarine (S-4, SARM)",
+    "slug": "andarine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Ostarine (MK-2866/Enobosarm, SARM)",
+    "slug": "ostarine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Diuretic supplements (herbal water pills)",
+    "slug": "diuretic-supplements",
+    "expected": "Not advised for some",
+    "detail": true
+  },
+  {
+    "supplement": "Tiratricol (TRIAC, thyroid hormone analogue)",
+    "slug": "tiratricol",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Strychnos nux-vomica (strychnine-containing)",
+    "slug": "strychnos-nux-vomica",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Thyroid glandular supplements (desiccated)",
+    "slug": "thyroid-glandular-supplements",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Khat extract (Catha edulis)",
+    "slug": "khat-extract",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "NAD+ (direct oral supplement)",
+    "slug": "nad",
+    "expected": "Not advised",
+    "detail": true
+  },
+  {
+    "supplement": "Melanotan II (tanning peptide)",
+    "slug": "melanotan-ii",
+    "expected": "Do not take",
+    "detail": true
+  },
+  {
+    "supplement": "Peptide secretagogues (GHRP/ipamorelin)",
+    "slug": "peptide-secretagogues",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Grapefruit seed extract",
+    "slug": "grapefruit-seed-extract",
+    "expected": "Check interactions",
+    "detail": true
+  },
+  {
+    "supplement": "BMPEA (β-methylphenethylamine)",
+    "slug": "bmpea",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "Methylsynephrine (oxilofrine)",
+    "slug": "methylsynephrine",
+    "expected": "Avoid",
+    "detail": true
+  },
+  {
+    "supplement": "7-Hydroxymitragynine (concentrated kratom alkaloid)",
+    "slug": "7-hydroxymitragynine",
+    "expected": "Avoid",
+    "detail": true
+  }
+]
