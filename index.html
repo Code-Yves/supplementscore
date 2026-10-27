@@ -858,7 +858,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       <div class="stat-sub">100% independent &amp; non-profit</div>
     </div>
   </div>
-  <div class="logo-strip" role="group" aria-label="Trusted research sources">
+  <div class="logo-strip" role="group" aria-label="Sources we cite">
     <a class="lk" href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" aria-label="NIH"><img class="mk" width="120" height="22" src="source-logos/nih.svg" alt="NIH" loading="lazy" decoding="async"></a>
     <a class="lk" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener noreferrer" aria-label="Cochrane Library"><img class="mk" width="120" height="22" src="source-logos/cochrane.svg" alt="Cochrane Library" loading="lazy" decoding="async"></a>
     <a class="lk" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" aria-label="PubMed"><img class="mk" width="120" height="22" src="source-logos/pubmed.svg" alt="PubMed" loading="lazy" decoding="async"></a>
@@ -872,12 +872,13 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <a class="lk" href="https://www.nejm.org/" target="_blank" rel="noopener noreferrer" aria-label="New England Journal of Medicine"><img class="mk" width="120" height="22" src="source-logos/nejm.svg" alt="New England Journal of Medicine" loading="lazy" decoding="async"></a>
     <a class="lk" href="https://med.stanford.edu/" target="_blank" rel="noopener noreferrer" aria-label="Stanford Medicine"><img class="mk" width="120" height="22" src="source-logos/stanford.svg" alt="Stanford Medicine" loading="lazy" decoding="async"></a>
   </div>
+  <p class="ix-sources-note">Public sources we cite. None of these organisations reviews or endorses SupplementScore.</p>
   <button type="button" class="smb" onclick="toggleSrcSidebar()" aria-label="Toggle sources panel" aria-expanded="false" id="smb-sources">
     <span id="sml2">More info on sources</span>
     <svg aria-hidden="true" class="chv" id="chv2" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <div class="src-detail" id="src-detail2">
-    <div class="src-desc-text">Every rating, dose, and recommendation is drawn from <strong>randomised controlled trials (RCTs)</strong> and <strong>meta-analyses</strong> published between 2024 and early 2026. No supplement company funding influences these ratings.</div>
+    <div class="src-desc-text">Every rating, dose, and recommendation is drawn from <strong>randomised controlled trials (RCTs)</strong> and <strong>meta-analyses</strong> updated with trials through early 2026. No supplement company funding influences these ratings.</div>
     <div class="src-grid">
       <a class="src-item" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" class="src-il"><use href="#lg-cochrane"/></svg><div><div class="src-in">Cochrane</div><div class="src-is">Systematic reviews</div></div></a>
       <a class="src-item" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" class="src-il"><use href="#lg-pubmed"/></svg><div><div class="src-in">PubMed</div><div class="src-is">NLM biomedical index</div></div></a>
@@ -984,9 +985,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <div class="gs-ac" id="ix-ac" role="listbox" aria-label="Search suggestions"></div>
   </form>
 
-  <!-- 2026-05-21 — Source-logos strip hidden from the Index hero. Markup is kept so the existing #sources-modal trigger ("View all 51 other sources") still resolves correctly when reached from the footer's Methodology → "Sources we trust" link. The visual logo strip is replaced just below by the rotating-article hero (#hero). -->
-  <div class="ix-sources" style="display:none">
-    <div class="ix-sources-label">Sources from</div>
+  <!-- Source logos sit under the search on desktop. Phones hide the row and keep the disclaimer. The "view all" button still opens #sources-modal. -->
+  <div class="ix-sources">
+    <div class="ix-sources-label">Sources we cite</div>
     <div class="ix-sources-logos">
       <img src="source-logos/nih.svg"       alt="NIH" width="120" height="32" loading="lazy" decoding="async">
       <img src="source-logos/cochrane.svg"  alt="Cochrane" width="120" height="32" loading="lazy" decoding="async">
@@ -1003,6 +1004,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <svg class="ix-sources-more-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
+    <p class="ix-sources-note">Public sources we cite. None of these organisations reviews or endorses SupplementScore.</p>
   </div>
 </section>
 
@@ -1528,7 +1530,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <div class="abt-tier t1">
       <div class="tn">TIER 01</div>
       <div class="tname">Proven Effective</div>
-      <div class="tdesc">Backed by multiple large clinical trials, systematic reviews, and meta-analyses. Consistent, replicated results across independent research groups. Considered safe and effective by the WHO, NIH, and EFSA.</div>
+      <div class="tdesc">Backed by multiple large clinical trials, systematic reviews, and meta-analyses. Consistent, replicated results across independent research groups. Backed by meta-analyses; see each page for regulator positions.</div>
       <div class="tpill">RCTs &amp; Meta-Analyses</div>
     </div>
     <div class="abt-tier t2">
@@ -4457,7 +4459,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     <div role="dialog" aria-modal="true" class="src-modal-head">
       <div>
         <div role="dialog" aria-modal="true" class="src-modal-title" id="src-modal-title">All 61 Sources</div>
-        <div role="dialog" aria-modal="true" class="src-modal-sub">Every score is drawn exclusively from these institutions &amp; journals</div>
+        <div role="dialog" aria-modal="true" class="src-modal-sub">Public sources we cite. None of these organisations reviews or endorses SupplementScore.</div>
       </div>
       <button class="src-modal-close" onclick="document.getElementById('sources-modal').classList.remove('open')" aria-label="Close">&times;</button>
     </div>

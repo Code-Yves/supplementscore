@@ -376,9 +376,21 @@
   padding:24px 20px 8px;
   border-top: 1px solid var(--color-border-soft, rgba(0,0,0,.06));
 }
-/* Hide the source-logos block on phones — eats vertical space and pushes
-   the actual list below the fold. Logos remain on tablet/desktop. */
-@media (max-width: 600px){ .ix-sources{ display: none; } }
+/* Phones keep the disclaimer and hide the logo row. The row is tall and
+   pushes the article hero down; the sentence still has to be on the page. */
+@media (max-width: 600px){
+  .ix-sources{ display:block; margin:16px 0 0; padding:0; border-top:0; }
+  .ix-sources-label,
+  .ix-sources-logos{ display:none; }
+  .ix-sources-note{ margin-top:0; }
+}
+.ix-sources-note{
+  margin:12px 0 0;
+  max-width:62ch;
+  font-size:13px;
+  line-height:1.45;
+  color:var(--color-text-secondary,#57534e);
+}
 /* Direction A — Tighter Editorial (2026-05-20):
    tracking .12em→.22em and size 9→9.5 nudge "Sources from" toward a
    small-caps masthead feel. */
