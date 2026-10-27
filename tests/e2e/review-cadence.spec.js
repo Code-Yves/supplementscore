@@ -10,11 +10,12 @@ test('Terms and the editorial board use the About cadence', async ({ page }) => 
   const terms = await page.locator('body').innerText();
   expect(terms).not.toContain('Tier 1 entries weekly');
   expect(terms).toContain('Tier 1 every 30 days');
-  await expect(page.locator('a[href="about.html#cadence"]')).toBeVisible();
+  await expect(page.locator('a', { hasText: 'methodology page' })).toHaveAttribute('href', 'about.html#cadence');
 
   await goto(page, '/editorial-board.html');
   const board = await page.locator('body').innerText();
   expect(board).not.toContain('quarterly re-review');
+  expect(board).not.toContain('no separate quarterly cycle');
   expect(board).toContain('Tier 1 is every 30 days');
   await expect(page.locator('a[href="/about.html#cadence"]')).toBeVisible();
 
