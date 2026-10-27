@@ -1790,21 +1790,21 @@
   },
   {
     "name": "D-Mannose",
-    "tier": "t2",
+    "tier": "t3",
     "trending": false,
-    "tag": "UTI prevention · Bladder health",
+    "tag": "Recurrent UTI",
     "scores": {
-      "composite": 64,
-      "efficacy": 2,
+      "composite": 57,
+      "efficacy": 1,
       "safety": 5,
       "research": 2,
       "onset": 4,
       "cost": 3,
       "drug_interaction_inverse": 5
     },
-    "description": "Evidence has weakened considerably. The large MERIT trial (JAMA 2024, 598 women in UK primary care) found D-mannose did NOT significantly reduce recurrent UTIs versus placebo. Earlier small trials had suggested benefit comparable to low-dose antibiotics, but these were lower quality. It works in principle by preventing E. coli from adhering to the bladder wall. Very safe with no significant side effects — may still be worth a trial alongside cranberry extract, but is no longer first-line evidence-based prevention.",
-    "dose": "2 g/day for prevention (note: 2024 MERIT trial found no benefit at this dose); 2 g × 3 daily at symptom onset",
-    "tips": "Take with a full glass of water at any time of day. Can be taken with or without food. No major drug interactions. Can be combined with cranberry extract. Not a substitute for medical evaluation of recurrent UTIs."
+    "description": "A large 2024 trial found no benefit for preventing recurrent UTIs. The MERIT trial (Hayward and colleagues, JAMA Internal Medicine, 2024; PMID 38497963; 598 women in UK primary care) found D-mannose did not significantly reduce recurrent UTIs versus placebo. Earlier, smaller trials had suggested a benefit; those studies were lower quality, and this page follows MERIT. D-mannose can bind E. coli in the lab, but that mechanism did not produce a clinical benefit in MERIT. It is generally well tolerated. There is limited data in pregnancy; discuss any use with your obstetric clinician. Do not use it to treat an active infection.",
+    "dose": "2 g/day was the dose MERIT tested for prevention, and that trial found no benefit.",
+    "tips": "If you take it, use a full glass of water, with or without food. It does not treat an active infection and it is not a substitute for medical evaluation of recurrent UTIs."
   },
   {
     "name": "Astragalus (Astragalus membranaceus)",
