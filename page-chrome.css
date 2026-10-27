@@ -139,7 +139,9 @@ body:has(.ss-pagebar) .sr-back{display:none !important}
   .ss-pagebar-inner{
     width:min(1024px,calc(100% - 32px));
     max-width:1024px;
-    padding-left:var(--ss-np-pad,300px);
+    justify-content:flex-start;
+    gap:0;
+    padding-left:24px;
   }
 }
 .bro-list a:hover,.hub-simple-list li a:hover{

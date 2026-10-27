@@ -435,9 +435,12 @@ input,button{font-family:inherit}
 .beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:var(--color-brand);flex:0 0 auto}
 .beta-bar-search{display:none}
 .ss-np{display:none;align-items:center;font-size:13px;font-weight:500;line-height:1;letter-spacing:0;text-transform:none;color:#57534e;white-space:nowrap;flex:none;pointer-events:none}
+header.ss-np-banner{display:none}
 @media(min-width:1024px){
   .beta-bar:has(>.ss-np){position:relative}
-  .beta-bar>.ss-np{display:inline-flex;position:absolute;left:max(24px,calc((100% - 1024px) / 2 + 24px));right:auto;top:50%;transform:translateY(-50%);margin:0}
+  .beta-bar>.ss-np{display:inline-flex;position:absolute;left:max(24px,calc((100% - 1024px) / 2 + 24px));right:auto;top:50%;height:32px;transform:translateY(-50%);margin:0}
+  html[data-pre-tab="research"] .beta-bar>.ss-np,
+  body.tab-research .beta-bar>.ss-np{left:max(40px,calc((100% - 1024px) / 2 + 24px))}
 }
 .ix-hero{max-width:1024px;margin:0 auto;padding:16px 0 0;text-align:left;position:relative}
 .hero-statbar{display:none}

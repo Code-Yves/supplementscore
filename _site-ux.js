@@ -17,14 +17,49 @@
     function ensure(){
       if (!document.body || document.body.classList.contains('is-modal')) return null;
       var el = document.querySelector('.ss-np');
-      if (el) return el;
-      el = document.createElement('span');
-      el.className = 'ss-np';
-      el.textContent = LABEL;
-      var pagebar = document.querySelector('.ss-pagebar-inner');
-      if (pagebar) pagebar.insertBefore(el, pagebar.firstChild);
-      else document.body.appendChild(el);
+      if (!el) {
+        el = document.createElement('span');
+        el.className = 'ss-np';
+        el.textContent = LABEL;
+        var pagebar = document.querySelector('.ss-pagebar-inner');
+        if (pagebar) {
+          var brand = pagebar.querySelector('.ss-pagebar-brand');
+          if (brand) brand.insertAdjacentElement('afterend', el);
+          else pagebar.insertBefore(el, pagebar.firstChild);
+        } else {
+          var banner = document.createElement('header');
+          banner.className = 'ss-np-banner';
+          banner.appendChild(el);
+          document.body.insertBefore(banner, document.body.firstChild);
+        }
+      } else if (el.parentElement === document.body) {
+        var wrap = document.createElement('header');
+        wrap.className = 'ss-np-banner';
+        el.parentElement.insertBefore(wrap, el);
+        wrap.appendChild(el);
+      }
       return el;
+    }
+    /* documentElement.clientWidth includes the scrollbar gutter, but the
+       columns are centered in the body's layout width, which does not.
+       Reading the body keeps the label on the same edge as the homepage. */
+    function columnLeft(){
+      var L = document.body.clientWidth;
+      var gutter = 16;
+      var inner = Math.max(0, L - gutter * 2);
+      var col = Math.min(1024, inner);
+      return gutter + (inner - col) / 2 + 24;
+    }
+    function rowCenter(){
+      var nodes = document.querySelectorAll('a.rc-close, a.pg-close-fab, a.reader-close-fab, a.hub-close-fab, a.cmp-close-fab, a.bro-close-fab, a.d-close-fab');
+      for (var i = 0; i < nodes.length; i++) {
+        var s = getComputedStyle(nodes[i]);
+        if (s.display === 'none' || s.visibility === 'hidden') continue;
+        var r = nodes[i].getBoundingClientRect();
+        if (r.width < 8 || r.height < 8) continue;
+        return r.top + r.height / 2 + window.scrollY;
+      }
+      return 38;
     }
     function align(){
       var el = ensure();
@@ -33,21 +68,25 @@
       if (w > 40) document.documentElement.style.setProperty('--ss-np-pad', Math.ceil(24 + w + 20) + 'px');
       if (el.closest('.beta-bar, .ss-pagebar')) return;
       if (!window.matchMedia('(min-width:1024px)').matches) return;
-      var vw = document.documentElement.clientWidth;
-      var cs = getComputedStyle(document.body);
-      var padL = parseFloat(cs.paddingLeft) || 0;
-      var padR = parseFloat(cs.paddingRight) || 0;
-      var inner = Math.max(0, vw - padL - padR);
-      var col = Math.min(1024, inner);
-      var desired = padL + (inner - col) / 2 + 24;
-      var parent = el.offsetParent || document.documentElement;
+      var banner = el.closest('header.ss-np-banner') || el;
+      var parent = banner.offsetParent || document.documentElement;
       var pr = parent.getBoundingClientRect();
       var border = parseFloat(getComputedStyle(parent).borderLeftWidth) || 0;
-      el.style.left = (desired - pr.left - border) + 'px';
+      banner.style.left = (columnLeft() - pr.left - window.scrollX - border) + 'px';
+      var h = 32;
+      var parentTop = pr.top + window.scrollY;
+      banner.style.top = (rowCenter() - h / 2 - parentTop) + 'px';
+      banner.style.height = h + 'px';
     }
-    align();
     window.addEventListener('resize', align);
     window.addEventListener('load', align);
+    var tries = 0;
+    var timer = setInterval(function(){
+      tries++;
+      align();
+      if (document.querySelector('a.rc-close') || tries > 20) clearInterval(timer);
+    }, 100);
+    setTimeout(align, 0);
   })();
 
   /* A refresh was landing on the footer.
@@ -523,9 +562,11 @@
   +   'body:has(>nav.ss-page-actions):not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(:has(.beta-bar)):not(:has(main.ar-wrap)):not(:has(main.sx-wrap)):not(:has(main.ca-wrap)):not(:has(main.sk-wrap)):not(:has(.rc-top)):not(.is-modal)>main{padding-top:72px !important}'
   + '}'
   + '@media(min-width:1024px){'
-  +   'body>.ss-np{display:inline-flex;position:absolute;top:16px;z-index:30;height:32px;align-items:center}'
-  +   'html.rc-chrome-active .ar-toc{padding-top:48px;box-sizing:border-box}'
-  +   '.ss-pagebar-inner{padding-left:var(--ss-np-pad,300px)}'
+  +   'header.ss-np-banner{display:flex;align-items:center;position:absolute;z-index:30;height:32px;margin:0;padding:0;border:0;background:transparent;pointer-events:none}'
+  +   'header.ss-np-banner>.ss-np{display:inline-flex;position:static;height:32px;align-items:center}'
+  +   'html.rc-chrome-active .ar-toc{padding-top:64px;box-sizing:border-box}'
+  +   '.ss-pagebar-inner{justify-content:flex-start;gap:0;padding-left:24px}'
+  +   '.ss-pagebar-inner>.ss-np{position:static;height:32px;margin:0 0 0 22px;transform:none}'
   + '}'
   + 'body.is-modal .ss-np{display:none !important}'
     /* Phone: every corner × sits 8px from the top and 16px from the right. */

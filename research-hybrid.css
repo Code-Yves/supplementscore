@@ -23,10 +23,6 @@ body.tab-research .site-footer {
   max-width: 100% !important;
   box-sizing: border-box;
 }
-html[data-pre-tab="research"] .beta-bar,
-body.tab-research .beta-bar {
-  margin-top: 16px !important;
-}
 #research-view > .articles-section {
   max-width: 1024px !important;
   margin-left: auto;

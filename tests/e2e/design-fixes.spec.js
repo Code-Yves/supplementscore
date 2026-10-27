@@ -76,47 +76,62 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
       const el = document.querySelector('.ss-np');
       const shown = el && getComputedStyle(el).display !== 'none';
       const lr = shown ? el.getBoundingClientRect() : null;
-      const vw = document.documentElement.clientWidth;
-      const cs = getComputedStyle(document.body);
-      const padL = parseFloat(cs.paddingLeft) || 0;
-      const padR = parseFloat(cs.paddingRight) || 0;
-      const inner = Math.max(0, vw - padL - padR);
-      const col = Math.min(1024, inner);
-      const colLeft = padL + (inner - col) / 2;
-      const neighbour = document.querySelector('.beta-bar-stats, .ss-pagebar-brand');
-      const nr = neighbour ? neighbour.getBoundingClientRect() : null;
+      const brand = document.querySelector('.ss-pagebar-brand');
+      const br = brand ? brand.getBoundingClientRect() : null;
+      const stats = document.querySelector('.beta-bar-stats');
+      const sr = stats ? stats.getBoundingClientRect() : null;
+      const bar = document.querySelector('.beta-bar');
+      const barRect = bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect() : null;
+      const close = document.querySelector('a.rc-close, a.pg-close-fab, a.ss-pagebar-x');
+      const cr = close && getComputedStyle(close).display !== 'none' ? close.getBoundingClientRect() : null;
+      const row = cr || (br && br.width ? br : null) || barRect;
       return {
         shown: !!shown,
         count: document.querySelectorAll('.ss-np').length,
+        text: el ? el.textContent : '',
         left: lr ? lr.left : null,
-        right: lr ? lr.right : null,
-        top: lr ? lr.top : null,
-        inset: lr ? lr.left - colLeft : null,
-        colRight: colLeft + col,
-        gap: lr && nr ? nr.left - lr.right : null,
+        height: lr ? lr.height : null,
+        cy: lr ? lr.top + lr.height / 2 : null,
+        rowCy: row ? row.top + row.height / 2 : null,
+        brandLeft: br ? br.left : null,
+        afterBrand: lr && br ? lr.left - br.right : null,
+        statsGap: lr && sr ? sr.left - lr.right : null,
+        inHeader: !!(el && el.closest('header, [role="banner"]')),
+        inBar: !!(el && el.closest('.beta-bar, .ss-pagebar')),
       };
     });
   }
+  function expectColumn(box, home, path) {
+    expect(box.shown, path).toBe(true);
+    expect(box.count, path).toBe(1);
+    expect(box.text, path).toBe('Independent · No industry funding');
+    expect(box.height, path).toBeGreaterThanOrEqual(31);
+    expect(box.height, path).toBeLessThanOrEqual(33);
+    expect(Math.abs(box.cy - box.rowCy), path).toBeLessThanOrEqual(2);
+    if (box.afterBrand !== null) {
+      expect(box.afterBrand, path).toBeGreaterThanOrEqual(20);
+      expect(box.afterBrand, path).toBeLessThanOrEqual(24);
+      expect(Math.abs(box.brandLeft - home.left), path).toBeLessThanOrEqual(2);
+    } else {
+      expect(Math.abs(box.left - home.left), path).toBeLessThanOrEqual(2);
+      expect(box.inHeader || box.inBar, path).toBe(true);
+    }
+    if (box.statsGap !== null) expect(box.statsGap, path).toBeGreaterThanOrEqual(16);
+  }
+
   await page.setViewportSize({ width: 1280, height: 900 });
   await goto(page, '/');
   const home = await labelBox();
-  expect(home.shown).toBe(true);
-  expect(home.count).toBe(1);
-  expect(home.inset).toBeGreaterThanOrEqual(16);
-  expect(home.inset).toBeLessThanOrEqual(28);
-  expect(home.right).toBeLessThanOrEqual(home.colRight + 1);
-  expect(home.gap).toBeGreaterThanOrEqual(16);
+  expectColumn(home, home, '/');
+  expect(home.inBar).toBe(true);
 
   await goto(page, '/#research');
   await page.waitForSelector('#research-view .rh-mast h1');
   const research = await labelBox();
-  expect(research.shown).toBe(true);
-  expect(Math.abs(research.left - home.left)).toBeLessThanOrEqual(2);
-  expect(Math.abs(research.right - home.right)).toBeLessThanOrEqual(2);
-  expect(Math.abs(research.top - home.top)).toBeLessThanOrEqual(2);
-  expect(research.inset).toBeGreaterThanOrEqual(16);
-  expect(research.right).toBeLessThanOrEqual(research.colRight + 1);
-  expect(research.gap).toBeGreaterThanOrEqual(16);
+  expectColumn(research, home, '/#research');
+  const researchBar = await page.evaluate(() => document.querySelector('.beta-bar').getBoundingClientRect().top);
+  expect(researchBar).toBeGreaterThanOrEqual(19);
+  expect(researchBar).toBeLessThanOrEqual(21);
 
   const paths = [
     '/a/berberine-is-it-really-nature-s-ozempic.html',
@@ -124,22 +139,48 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
     '/condition/dry-eye.html',
     '/hub/index.html',
     '/hub/sleep.html',
+    '/brand/thorne.html',
+    '/brands.html',
+    '/404.html',
+    '/sx/sleep.html',
   ];
   for (const path of paths) {
     await goto(page, path);
-    const box = await labelBox();
-    expect(box.shown, path).toBe(true);
-    expect(box.count, path).toBe(1);
-    expect(box.inset, path).toBeGreaterThanOrEqual(16);
-    expect(box.inset, path).toBeLessThanOrEqual(28);
-    expect(box.right, path).toBeLessThanOrEqual(box.colRight + 1);
-    if (box.gap !== null) expect(box.gap, path).toBeGreaterThanOrEqual(16);
+    await page.waitForSelector('.ss-np');
+    if (path.indexOf('/a/') === 0 || path.indexOf('/condition/') === 0 || path.indexOf('/sx/') === 0) {
+      await page.waitForSelector('a.rc-close', { timeout: 5000 });
+    }
+    await page.waitForTimeout(150);
+    expectColumn(await labelBox(), home, path);
   }
+
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await goto(page, '/');
+  const homeNarrow = await labelBox();
+  await goto(page, '/#research');
+  await page.waitForSelector('#research-view .rh-mast h1');
+  const researchNarrow = await labelBox();
+  expect(Math.abs(researchNarrow.left - homeNarrow.left)).toBeLessThanOrEqual(2);
+  await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
+  await page.waitForSelector('a.rc-close');
+  await page.waitForTimeout(150);
+  const articleNarrow = await labelBox();
+  expect(Math.abs(articleNarrow.left - homeNarrow.left)).toBeLessThanOrEqual(2);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await goto(page, '/');
   const phone = await labelBox();
   expect(phone.shown).toBe(false);
+  await goto(page, '/#research');
+  await page.waitForSelector('#research-view .rh-mast h1');
+  await page.evaluate(() => window.scrollTo(0, 600));
+  const pinned = await page.evaluate(() => {
+    const bar = document.querySelector('.beta-bar');
+    const r = bar.getBoundingClientRect();
+    return { top: r.top, position: getComputedStyle(bar).position };
+  });
+  expect(pinned.position).toBe('fixed');
+  expect(Math.abs(pinned.top)).toBeLessThanOrEqual(1);
 });
 
 test('the homepage title keeps its offset from main', async ({ page }, testInfo) => {
