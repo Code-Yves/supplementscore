@@ -295,9 +295,16 @@ test('phone footer text is not covered by the back-to-top button', async ({ page
     const links = [...document.querySelectorAll('link[rel="stylesheet"]')];
     return links.some((link) => /\/styles\.css/.test(link.href) && link.sheet);
   });
-  await page.mouse.wheel(0, 240);
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await page.waitForSelector('.ssux-top.show');
+  // The button adds .show only on a scroll event, and only once the offset
+  // passes 600. Scrolling before the article has height leaves the offset
+  // under that line, and a later layout growth does not fire another scroll.
+  await page.waitForFunction(() => document.documentElement.scrollHeight > window.innerHeight + 700);
+  await page.evaluate(() => new Promise((resolve) => {
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    window.dispatchEvent(new Event('scroll'));
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  }));
+  await expect(page.locator('.ssux-top.show')).toBeVisible();
   const box = await page.evaluate(() => {
     const footer = document.querySelector('footer.site-footer');
     const button = document.querySelector('.ssux-top');
