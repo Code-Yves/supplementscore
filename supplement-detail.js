@@ -27,12 +27,31 @@
     return out;
   }
 
+  // A protocol that opens with a warning is not a daily dose. Show a short
+  // label and never a number pulled out of that warning — a lethal amount,
+  // or another supplement's dose named as the alternative. A warning that
+  // applies only to some people (smokers, people on a medication) says so
+  // instead of telling everyone never to take it.
+  function warningDoseLabel(text){
+    var t = String(text || '').trim();
+    if(!/^(?:avoid|do\s+not|don'?t|not\s+recommended|not\s+advised|never\b|toxic\b|lethal\b|fatal\b|deadly\b|unsafe\b|dangerous\b|banned\b|contraindicated\b|(?:no|zero)\s+safe\b)/i.test(t)) return '';
+    var opening = t.split(/[.!?](?:\s|$)/)[0];
+    if(/\b(?:patients?\s+on\b|on\s+(?:medications?|medicines?|drugs?|warfarin|blood\s+thinners?|anticoagulants?)\b|taking\s+(?:medications?|medicines?|drugs?|warfarin)\b|CYP\s*\d|drug\s+interactions?)\b/i.test(opening)) return 'Check interactions';
+    if(/\b(?:if\s+you\s+smoke|smokers?|have\s+ever\s+smoked|if\s+you(?:'re|\s+are)\s+pregnant|pregnan(?:t|cy)|breastfeed(?:ing)?|not\s+everyone|some\s+people|people\s+with|if\s+you\s+have)\b/i.test(opening)) return 'Not for everyone';
+    if(/^do\s+not\s+supplement\b/i.test(t)) return 'Do not supplement';
+    if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Not advised';
+    if(/^avoid\b/i.test(t)) return 'Avoid';
+    return 'Do not take';
+  }
+
   // Compact dose for hero stat cell — handles ranges ("3-5 g") and singles ("400 mg").
   // Thousands separators stay intact ("1,000–2,000 mg"). A bare number with
   // no unit in the protocol is not shown; the cell says "See protocol".
   function compactDose(dose){
     if(!dose || !String(dose).trim()) return 'See protocol';
     var text = String(dose).trim();
+    var warned = warningDoseLabel(text);
+    if(warned) return warned;
     var rangeRe = /([\d.,]+\s*[–\-−]\s*[\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
     var singleRe = /([\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
     // Semicolons and clause commas break the protocol. A comma before a
