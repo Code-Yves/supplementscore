@@ -375,27 +375,24 @@
   max-width: 900px; margin:32px auto 0;
   padding:24px 20px 8px;
   border-top: 1px solid var(--color-border-soft, rgba(0,0,0,.06));
+  text-align:center;
 }
-/* Phones keep the disclaimer and hide the logo row. The row is tall and
-   pushes the article hero down; the sentence still has to be on the page. */
-@media (max-width: 600px){
-  .ix-sources{ display:block; margin:16px 0 0; padding:0; border-top:0; }
-  .ix-sources-label,
-  .ix-sources-logos{ display:none; }
-  .ix-sources-note{ margin-top:0; }
-}
+/* First screen stays free of the logo row until Yves asks for it.
+   The rules below still centre the disclaimer with the label and logos. */
+.ix-hero .ix-sources{ display:none !important; }
 .ix-sources-note{
-  margin:12px 0 0;
+  margin:12px auto 0;
   max-width:62ch;
   font-size:13px;
   line-height:1.45;
+  text-align:center;
   color:var(--color-text-secondary,#57534e);
 }
 /* Direction A — Tighter Editorial (2026-05-20):
    tracking .12em→.22em and size 9→9.5 nudge "Sources from" toward a
    small-caps masthead feel. */
 .ix-sources-label{
-  font-size: 9.5px; font-weight: 600; letter-spacing: .22em;
+  font-size: 12px; font-weight: 600; letter-spacing: .22em;
   text-transform: uppercase; color: var(--color-text-tertiary);
   text-align: center; margin-bottom:16px;
 }
@@ -487,7 +484,8 @@
   font-family: inherit; font-size: 12.5px; font-weight: 400; letter-spacing: .01em;
   color: var(--color-text-tertiary);
   border: 0; background: transparent;
-  padding:4px 16px;
+  min-height:44px;
+  padding:10px 16px;
   display: inline-flex; align-items: center; justify-content: center; gap:8px;
   white-space: nowrap; align-self: center;
   cursor: pointer;
@@ -606,7 +604,8 @@
   letter-spacing: -.01em;
 }
 .src-modal-sub{
-  font-size: 11px; color: var(--color-text-tertiary); margin-top:2px;
+  font-size: 12px; color: var(--color-text-tertiary); margin-top:2px;
+  text-align:center;
 }
 .src-modal-close{
   width: 44px; height: 44px; min-width: 44px; min-height: 44px;
@@ -1858,8 +1857,11 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 }
 #hero.mag a.mag-arrow{text-decoration:none;color:#155A50}
 
-/* After the logo grid's display:grid, so a phone still hides the row. */
+/* Phones must not point at logos that are hidden. The whole first-screen
+   row stays off; this also drops the label if the row is turned back on. */
 @media (max-width: 600px){
+  .ix-hero .ix-sources{ display:none !important; }
   .ix-sources-label,
   .ix-sources-logos{ display:none; }
+  .ix-sources-note{ margin-top:0; }
 }
