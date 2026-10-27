@@ -83,7 +83,8 @@
     if(supplemental && /\bmg\/day\s+total\b/i.test(text)) return supplemental[1].replace(/\s+/g, ' ');
     var low = text.toLowerCase();
     if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
-    if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
+    // Both spaces are non-breaking so "No human dose" stays on one line at 390px.
+    if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No\u00A0human\u00A0dose';
     if(/^no established\b/.test(low)) return 'No set dose';
     // Real dose units only. A time word or a capitalised word is not a unit,
     // so "30-60 min", "3–5 days" and "2024 Endocrine" cannot win.
