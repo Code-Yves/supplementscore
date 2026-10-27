@@ -22,7 +22,7 @@
   {
     "supplement": "Calcium",
     "slug": "calcium",
-    "expected": "1,000–1,200 mg/day"
+    "expected": "500 mg/day"
   },
   {
     "supplement": "Calendula (Calendula officinalis)",
@@ -63,5 +63,65 @@
     "supplement": "Senolytic stack (quercetin + dasatinib protocols)",
     "slug": "senolytic-stack",
     "expected": "1,000 mg"
+  },
+  {
+    "supplement": "Androsterone",
+    "slug": "androsterone",
+    "expected": "No established dose"
+  },
+  {
+    "supplement": "C60 fullerene (carbon 60)",
+    "slug": "c60-fullerene",
+    "expected": "No established dose"
+  },
+  {
+    "supplement": "MOTS-c (mitochondrial peptide)",
+    "slug": "mots-c",
+    "expected": "No established dose"
+  },
+  {
+    "supplement": "Black ant extract (Polyrhachis)",
+    "slug": "black-ant-extract",
+    "expected": "No established dose"
+  },
+  {
+    "supplement": "CBD (Cannabidiol)",
+    "slug": "cbd",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Essential oils (oral, general)",
+    "slug": "essential-oils",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Omega-3-6-9 blends",
+    "slug": "omega-3-6-9-blends",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Rapamycin (off-label longevity)",
+    "slug": "rapamycin",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Tung oil tree extract (Vernicia fordii)",
+    "slug": "tung-oil-tree-extract",
+    "expected": "Topical only"
+  },
+  {
+    "supplement": "Hemp seed oil",
+    "slug": "hemp-seed-oil",
+    "expected": "1–2 tbsp/day"
+  },
+  {
+    "supplement": "Flaxseed oil (ALA omega-3)",
+    "slug": "flaxseed-oil",
+    "expected": "1–2 tbsp/day"
+  },
+  {
+    "supplement": "Detox supplements",
+    "slug": "detox-supplements",
+    "expected": "Avoid"
   }
 ]

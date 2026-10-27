@@ -4,11 +4,10 @@ const labels = require('../fixtures/pr107-labels.json');
 const paired = require('../fixtures/static-detail-doses.json');
 
 // Expected labels are the post-ship recommendations for the 88 hotfix
-// sentences. Wormwood high-dose and herbal diuretics stay "Not advised for
-// some": the warning still leaves a short-term or food use. Methylene blue
-// and chronic licorice root stay "Avoid" because a prescribed or deglycyrrhizinated
-// use remains. Lethal, fatal, toxic, banned, illegal, controlled-substance,
-// carcinogen, and no-safe-dose sentences are "Do not take".
+// sentences. Wormwood high-dose and herbal diuretics are "Avoid". Methylene
+// blue and chronic licorice root stay "Avoid" because a prescribed or
+// deglycyrrhizinated use remains. Lethal, fatal, toxic, banned, illegal,
+// controlled-substance, carcinogen, and no-safe-dose sentences are "Do not take".
 
 test.beforeEach(async ({ page }) => {
   await install(page);

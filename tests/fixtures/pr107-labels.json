@@ -218,7 +218,7 @@
   {
     "supplement": "Wormwood high-dose (Artemisia absinthium)",
     "slug": "wormwood-high-dose",
-    "expected": "Not advised for some",
+    "expected": "Avoid",
     "detail": true
   },
   {
@@ -458,7 +458,7 @@
   {
     "supplement": "Diuretic supplements (herbal water pills)",
     "slug": "diuretic-supplements",
-    "expected": "Not advised for some",
+    "expected": "Avoid",
     "detail": true
   },
   {

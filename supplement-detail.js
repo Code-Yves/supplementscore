@@ -54,9 +54,6 @@
     var opening = t.split(/[.!?](?:\s|$)/)[0];
     if(/\b(?:patients?\s+on\b|on\s+(?:medications?|medicines?|drugs?|warfarin|blood\s+thinners?|anticoagulants?)\b|taking\s+(?:medications?|medicines?|drugs?|warfarin)\b|CYP\s*\d|drug\s+interactions?)\b/i.test(opening)) return 'Check interactions';
     if(/\b(?:if\s+you\s+smoke|smokers?|have\s+ever\s+smoked|if\s+you(?:'re|\s+are)\s+pregnant|pregnan(?:t|cy)|breastfeed(?:ing)?|not\s+everyone|some\s+people|people\s+with|if\s+you\s+have)\b/i.test(opening)) return 'Not for everyone';
-    // A high dose or a concentrated extract can still leave a short-term or food use.
-    if(/\bhigh\s+doses?\b/i.test(opening) && /\b(?:if\s+used|short[\s-]term)\b/i.test(t)) return 'Not advised for some';
-    if(/\bconcentrated\b/i.test(opening) && /\b(?:food\s+amounts|are\s+safe)\b/i.test(t)) return 'Not advised for some';
     if(/^do\s+not\s+supplement\b/i.test(t)) return 'Do not supplement';
     if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Not advised';
     // Prescribed use, or a named safer form, is not a ban on every use.
@@ -77,9 +74,17 @@
     if(warned) return warned;
     // An upper limit, or a dose that produced a null result, is not a dose to take.
     if(/^safe upper limits\b/i.test(text) || /^null results\b/i.test(text)) return 'See protocol';
+    // "Do not use" with no studied dose is an avoid, not a chopped sentence.
+    if(/^no evidence-based dose\b/i.test(text) && /\bdo not use\b/i.test(text)) return 'Avoid';
+    // These openings name a product or a supervision rule, not a dose to copy.
+    if(/^(?:only pharmaceutical-grade|only enteric-coated|pure omega-3|requires physician supervision)\b/i.test(text)) return 'See protocol';
+    // The first number can be a total-intake target. The supplement dose is the later one.
+    var supplemental = text.match(/typical supplemental dose:\s*(\d[\d.,]*\s*mg\/day)/i);
+    if(supplemental && /\bmg\/day\s+total\b/i.test(text)) return supplemental[1].replace(/\s+/g, ' ');
     var low = text.toLowerCase();
     if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
     if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No human dose';
+    if(/^no established\b/.test(low)) return 'No established dose';
     // Real dose units only. A time word or a capitalised word is not a unit,
     // so "30-60 min", "3–5 days" and "2024 Endocrine" cannot win.
     var num = '[0-9⁰¹²³⁴⁵⁶⁷⁸⁹][0-9⁰¹²³⁴⁵⁶⁷⁸⁹.,]*';
@@ -118,16 +123,21 @@
       return label.charAt(0).toUpperCase() + label.slice(1);
     }
     var found = collect(first);
-    if(found) return found;
+    if(found) return tidyDose(found);
+    if(/^topical use only\b/i.test(first)) return 'Topical only';
     // The opening names no amount. A later real unit can fill it in, unless
     // the opening already says there is no dose. Otherwise keep the written label.
     var denies = /^(?:no (?:established|evidence|safe|standardised|standardized)|zero safe|requires physician|only |topical use only)/i.test(first);
     if(!denies){
       found = collect(text);
-      if(found) return found;
+      if(found) return tidyDose(found);
     }
     var phrase = first.split(/\s+/).slice(0, 3).join(' ').replace(/[.,:;]+$/, '');
     return phrase || 'See protocol';
+  }
+
+  function tidyDose(hit){
+    return String(hit).replace(/tablespoons\/day/gi, 'tbsp/day').replace(/tablespoon\/day/gi, 'tbsp/day');
   }
 
   // The line under Daily dose. Nattokinase keeps its dose; the blood-thinner
@@ -137,6 +147,8 @@
     var shown = String(compact);
     var t = String(text || '');
     if(/\bFU\/day\b/i.test(shown) && /\bAVOID\b/.test(t) && /\b(?:warfarin|aspirin|blood\s+thinners?)\b/i.test(t)) return 'Check interactions';
+    var total = t.match(/(\d[\d,]*\s*[–\-−]\s*\d[\d,]*\s*mg)\/day\s+total/i);
+    if(total && /typical supplemental dose/i.test(t)) return total[1].replace(/\s+/g, ' ') + ' total';
     return 'see protocol';
   }
 
