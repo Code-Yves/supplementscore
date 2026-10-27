@@ -31,25 +31,28 @@
   <link rel="stylesheet" href="/page-chrome.css?v=b91199a7">
   <style>
     body{background:var(--color-background-primary);color:var(--color-text-primary)}
-    .made-wrap{max-width:720px;margin:0 auto;padding:28px 20px 72px;line-height:1.65;font-size:16px;overflow-wrap:anywhere}
-    .made-wrap h1{font-size:2rem;font-weight:700;letter-spacing:-.4px;line-height:1.2;margin:0 0 8px;text-wrap:balance}
-    .made-kicker{font-size:13px;color:var(--color-text-tertiary);margin:0 0 20px}
-    .made-lede{font-size:17.5px;line-height:1.55;color:var(--color-text-secondary);margin:0 0 20px}
-    .made-wrap h2{font-size:1.35rem;font-weight:700;letter-spacing:-.2px;line-height:1.25;margin:32px 0 10px;padding-top:20px;border-top:1px solid var(--color-border-tertiary,#e6e4df)}
-    .made-wrap h3{font-size:1.08rem;font-weight:700;line-height:1.3;margin:22px 0 8px}
-    .made-wrap p{margin:0 0 16px}
+    .made-wrap{max-width:720px;margin:0 auto;padding:32px 24px 64px;line-height:1.65;font-size:17.5px;overflow-wrap:anywhere}
+    .made-wrap h1{font-size:2rem;font-weight:700;letter-spacing:-.4px;line-height:1.2;margin:0 0 8px;text-wrap:balance;color:var(--color-text-primary)}
+    .made-wrap p.made-kicker{font-size:13px;color:var(--color-text-tertiary);margin:0 0 20px}
+    .made-wrap p.made-lede{font-size:17.5px;line-height:1.55;color:var(--color-text-secondary);margin:0 0 20px}
+    .made-wrap h2{font-size:23.2px;font-weight:700;letter-spacing:-.2px;line-height:1.25;margin:32px 0 8px;padding-top:20px;border-top:1px solid var(--color-border-tertiary,#e6e4df);color:var(--color-text-primary)}
+    .made-wrap h3{font-size:1.08rem;font-weight:700;line-height:1.3;margin:22px 0 8px;color:var(--color-text-primary)}
+    .made-wrap p{margin:0 0 16px;font-size:17.5px;color:var(--color-text-secondary)}
     .made-wrap ul{margin:0 0 16px 1.2em;padding:0}
-    .made-wrap li{margin:0 0 8px}
+    .made-wrap li{margin:0 0 8px;font-size:17.5px;color:var(--color-text-secondary)}
     .made-wrap a{color:var(--color-brand,#155A50)}
-    .made-home{margin:0 0 18px}
+    .made-home{margin:0 0 16px}
     .made-home a{display:inline-flex;align-items:center;min-height:44px;font-weight:650;text-decoration:none}
     .made-home a:hover{text-decoration:underline}
     .made-home a:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:3px;border-radius:4px}
-    .made-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 8px}
-    .made-stat{padding:14px 16px;border:1px solid var(--color-border-tertiary,#e6e4df);border-radius:10px;background:var(--color-background-secondary,#f6f2ea)}
+    .made-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 8px}
+    .made-stat{padding:16px;border:1px solid var(--color-border-tertiary,#e6e4df);border-radius:10px;background:var(--color-background-secondary,#f6f2ea)}
     .made-num{font-size:clamp(1.35rem, 4.2vw, 1.85rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;font-variant-numeric:tabular-nums;color:var(--color-text-primary)}
-    .made-lbl{margin-top:6px;font-size:13px;line-height:1.35;color:var(--color-text-secondary)}
-    .made-note{margin:0 0 16px;padding:12px 16px;border:1px solid var(--color-border-tertiary,#e6e4df);border-radius:10px;background:var(--color-background-secondary,#f6f2ea)}
+    .made-lbl{margin-top:8px;font-size:13px;line-height:1.35;color:var(--color-text-secondary)}
+    .made-note{margin:0 0 16px;padding:16px;border:1px solid var(--color-border-tertiary,#e6e4df);border-radius:10px;background:var(--color-background-secondary,#f6f2ea);font-size:17.5px;color:var(--color-text-secondary)}
+    .made-rules{margin:0 0 16px}
+    .made-rules summary{cursor:pointer;font-weight:650;font-size:17.5px;color:var(--color-text-primary);min-height:44px;padding:8px 0;box-sizing:border-box}
+    .made-rules summary:focus-visible{outline:2px solid var(--color-brand,#155A50);outline-offset:3px;border-radius:4px}
     code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
     body:has(main.made-wrap) > footer.site-footer{
       width:100%;
@@ -98,12 +101,12 @@
 
   <div class="made-stats">
     <div class="made-stat">
-      <div class="made-num">3,033</div>
+      <div class="made-num"><span data-ss-count="studies">3,033</span></div>
       <div class="made-lbl">Distinct studies (PubMed IDs)</div>
     </div>
     <div class="made-stat">
-      <div class="made-num">Roughly 11,000</div>
-      <div class="made-lbl">Hours of human research, an estimate</div>
+      <div class="made-num">About <span data-ss-count="rounded_hours">11,000</span></div>
+      <div class="made-lbl">Hours one person would need to do this by hand. An estimate, not time worked.</div>
     </div>
   </div>
 
@@ -111,37 +114,41 @@
   <p>Language models draft the supplement cards, the articles, the comparisons, and the condition pages. A person sets the scoring rules, decides what is published, and corrects mistakes readers flag. The same public sources named above are the raw material: peer-reviewed papers and regulator documents, not ads and not affiliate reviews.</p>
   <p>The site is bringing physicians on board. No physician signs a page before it is published, and a page does not carry a medical-review label. This is an educational reference. It is not personal medical advice. Scoring rules live on the <a href="/about.html#methodology">methodology</a> page.</p>
 
-  <h2>Study count: 3,033</h2>
+  <h2>Study count: <span data-ss-count="studies">3,033</span></h2>
   <p>One study is one PubMed ID. The same ID on many pages counts once.</p>
-  <p><strong>Method.</strong> Read every <code>.html</code>, <code>.js</code>, and <code>.json</code> file in the site repository, except <code>node_modules</code>, <code>tests</code>, <code>scripts</code>, <code>outputs</code>, <code>_archive</code>, <code>reviews</code>, <code>_mockups</code>, <code>og</code>, <code>dist</code>, <code>_docs</code>, <code>fr</code>, <code>es</code>, and any filename containing “mockup”. Keep an ID when the text has <code>PMID</code> followed by a 6- to 9-digit number, or a <code>pubmed.ncbi.nlm.nih.gov/</code> link with that number. That scan found <strong>3,033</strong> distinct IDs. The procedure is <code>scripts/transparency_counts.py</code> in the public repository.</p>
+  <p>The count reads the site’s pages and data files and keeps each PubMed ID once. That scan found <strong><span data-ss-count="studies">3,033</span></strong> distinct IDs. The procedure is scripts/transparency_counts.py in the public repository.</p>
+  <details class="made-rules">
+    <summary>Full file rules</summary>
+    <p>Read every <code>.html</code>, <code>.js</code>, and <code>.json</code> file in the site repository, except <code>node_modules</code>, <code>tests</code>, <code>scripts</code>, <code>outputs</code>, <code>_archive</code>, <code>reviews</code>, <code>_mockups</code>, <code>og</code>, <code>dist</code>, <code>_docs</code>, <code>fr</code>, <code>es</code>, and any filename containing “mockup”. Keep an ID when the text has <code>PMID</code> followed by a 6- to 9-digit number, or a <code>pubmed.ncbi.nlm.nih.gov/</code> link with that number.</p>
+  </details>
 
-  <h2>Human research hours: roughly 11,000</h2>
+  <h2>Estimated research hours: about <span data-ss-count="rounded_hours">11,000</span></h2>
   <p>This is an estimate of the time one person would need to find, read, and appraise the cited studies, and to research and write the published pages. It is not time people spent inside the trials, and it is not a timesheet of hours already worked.</p>
-  <p><strong>Formula.</strong> 3,033 distinct studies × 1.5 hours, plus 1,633 published pages × 4 hours.</p>
-  <p>3,033 × 1.5 = 4,549.5 hours for the studies. 1,633 × 4 = 6,532 hours for the pages. Together that is 11,081.5 hours, which rounds to the nearest thousand: <strong>roughly 11,000 hours</strong>.</p>
+  <p><strong>Formula.</strong> <span data-ss-count="studies">3,033</span> distinct studies × <span data-ss-count="hours_per_study">1.5</span> hours, plus <span data-ss-count="pages">1,633</span> published pages × <span data-ss-count="hours_per_page">4</span> hours.</p>
+  <p><span data-ss-count="studies">3,033</span> × <span data-ss-count="hours_per_study">1.5</span> = <span data-ss-count="study_hours">4,549.5</span> hours for the studies. <span data-ss-count="pages">1,633</span> × <span data-ss-count="hours_per_page">4</span> = <span data-ss-count="page_hours">6,532</span> hours for the pages. Together that is <span data-ss-count="total_hours">11,081.5</span> hours, which rounds to the nearest thousand: <strong>about <span data-ss-count="rounded_hours">11,000</span> hours</strong>.</p>
   <p><strong>Assumptions.</strong></p>
   <ul>
-    <li><strong>1.5 hours per study</strong> to find it, read it, and appraise it. A 2021 scoping review in the <cite>Journal of Clinical Epidemiology</cite> (Nussbaumer-Streit and colleagues, <a href="https://doi.org/10.1016/j.jclinepi.2021.05.019">doi:10.1016/j.jclinepi.2021.05.019</a>) reported that pulling the main facts from one study took one person about 41 to 65 minutes, and a short critical-appraisal checklist took about 10 to 21 minutes more. 1.5 hours (90 minutes) is a round figure near that band, with a little time left to find the paper. That review did not measure 1.5 hours, and it did not time this site.</li>
-    <li><strong>4 hours per published page</strong> to research and write the page after the studies are already counted, so those study hours are not added a second time inside the page hours. The same 4 hours is used for every page type below, from a short brand page to a long stack. No published timing study was found for writing a supplement page. Four hours is a stated assumption.</li>
+    <li><strong><span data-ss-count="hours_per_study">1.5</span> hours per study</strong> to find it, read it, and appraise it. A 2021 scoping review in the <cite>Journal of Clinical Epidemiology</cite> (Nussbaumer-Streit and colleagues, <a href="https://doi.org/10.1016/j.jclinepi.2021.05.019">doi:10.1016/j.jclinepi.2021.05.019</a>) reported that pulling the main facts from one study took one person about 41 to 65 minutes, and a short critical-appraisal checklist took about 10 to 21 minutes more. <span data-ss-count="hours_per_study">1.5</span> hours (90 minutes) is a round figure near that band, with a little time left to find the paper. That review did not measure <span data-ss-count="hours_per_study">1.5</span> hours, and it did not time this site.</li>
+    <li><strong><span data-ss-count="hours_per_page">4</span> hours per published page</strong> to research and write the page after the studies are already counted, so those study hours are not added a second time inside the page hours. The same <span data-ss-count="hours_per_page">4</span> hours is used for every page type below, from a short brand page to a long stack. No published timing study was found for writing a supplement page. <span data-ss-count="hours_per_page">4</span> hours is a stated assumption.</li>
   </ul>
-  <p><strong>Pages counted: 1,633.</strong> These are published English pages. Directory indexes and short redirect stubs are left out.</p>
+  <p><strong>Pages counted: <span data-ss-count="pages">1,633</span>.</strong> These are published English pages. Directory indexes and short redirect stubs are left out.</p>
   <ul>
-    <li>734 supplement pages</li>
-    <li>609 articles</li>
-    <li>134 comparisons</li>
-    <li>60 condition guides</li>
-    <li>16 symptom pages</li>
-    <li>9 topic hubs</li>
-    <li>10 medication pages</li>
-    <li>9 stacks</li>
-    <li>7 audience guides</li>
-    <li>45 brand pages</li>
+    <li><span data-ss-count="pages_supplement_pages">734</span> supplement pages</li>
+    <li><span data-ss-count="pages_articles">609</span> articles</li>
+    <li><span data-ss-count="pages_comparisons">134</span> comparisons</li>
+    <li><span data-ss-count="pages_condition_guides">60</span> condition guides</li>
+    <li><span data-ss-count="pages_symptom_pages">16</span> symptom pages</li>
+    <li><span data-ss-count="pages_topic_hubs">9</span> topic hubs</li>
+    <li><span data-ss-count="pages_medication_pages">10</span> medication pages</li>
+    <li><span data-ss-count="pages_stacks">9</span> stacks</li>
+    <li><span data-ss-count="pages_audience_guides">7</span> audience guides</li>
+    <li><span data-ss-count="pages_brand_pages">45</span> brand pages</li>
   </ul>
-  <p>A page counts when it is an <code>.html</code> file in one of those folders, it is not named <code>index.html</code>, and the top of the file is not an <code>http-equiv</code> refresh redirect. The procedure for both numbers is <code>scripts/transparency_counts.py</code> in the public repository.</p>
-  <div class="made-note">Label this as an estimate. Rounding 11,081.5 hours to the nearest thousand gives roughly 11,000 hours. A faster reader, or a page that mostly repeats studies already counted, would land lower. A page that needed extra safety checking would land higher.</div>
+  <p>A page counts when it is an HTML file in one of those folders, it is not named index.html, and the top of the file is not a refresh redirect. The same script produces the study count and these page counts.</p>
+  <div class="made-note">This is an estimate. A faster reader, or a page that mostly repeats studies already counted, would land lower. A page that needed extra safety checking would land higher.</div>
 
   <h2>Money and corrections</h2>
-  <p>There are no ads, no sponsors, and no affiliate links. Who pays for hosting is in <a href="/about.html#transparency">About — Transparency</a>. To flag a wrong dose, study, or safety line, use <a href="/about.html#feedback">Flag an error</a> or write to <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> with the page, the sentence, and a public source.</p>
+  <p>There are no ads, no sponsors, and no affiliate links. Who pays for hosting is in <a href="/about.html#site-funding">About — Funding</a>. To flag a wrong dose, study, or safety line, use <a href="/about.html#feedback">Flag an error</a> or write to <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> with the page, the sentence, and a public source.</p>
   <p class="made-home"><a href="/">Back to the homepage</a></p>
 </main>
 <!-- SS_FOOTER_BEGIN -->
@@ -170,7 +177,7 @@
       <a href="/evidence-guide.html">Evidence guide</a>
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>
-      <a href="/transparency.html">How SupplementScore is made</a>
+      <a href="/transparency.html">How it's made</a>
     </nav>
     <div class="site-footer-contrib">
       <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
