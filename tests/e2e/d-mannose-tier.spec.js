@@ -2,6 +2,8 @@ const { test, expect } = require('@playwright/test');
 const { install, goto, trackConsole } = require('./helpers');
 
 const SUMMARY = 'A large 2024 trial found no benefit for preventing recurrent UTIs.';
+const SAFETY = 'D-mannose is generally well tolerated. It can cause stomach upset or loose stools at high doses. Use caution in diabetes, because it is a sugar. There is no good pregnancy data.';
+const NB_NAME = 'D\u2011Mannose';
 
 test.beforeEach(async ({ page }) => {
   await install(page);
@@ -14,7 +16,7 @@ test('D-mannose card uses the weak-evidence tier and the MERIT summary', async (
   const tier = page.locator('.det-tier');
   await expect(tier).toHaveClass(/t3/);
   expect(await tier.evaluate((el) => el.textContent)).toBe('Tier 3 — Trending');
-  expect(await page.locator('.det-h1').evaluate((el) => el.textContent)).toMatch(/D.Mannose/);
+  expect(await page.locator('.det-h1').evaluate((el) => el.textContent)).toBe(NB_NAME);
   await expect(page.locator('.det-tldr')).toContainText(SUMMARY);
   await expect(page.locator('.det-score-num')).toHaveText('57');
   await expect(page.locator('.det-cat-pill')).toHaveText(['Recurrent UTI']);
@@ -38,5 +40,49 @@ test('UTI guide card matches the D-mannose page', async ({ page }) => {
   expect(text).not.toMatch(/Promising/i);
   expect(text).toMatch(/38497963/);
   expect(text).toMatch(/did not significantly reduce/i);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
+test('UTI compare pages show the downgraded D-mannose score', async ({ page }) => {
+  const errors = trackConsole(page);
+  const pages = [
+    '/compare/d-mannose-vs-cranberry-for-uti.html',
+    '/compare/lactoferrin-vs-d-mannose-for-uti.html',
+  ];
+  for (const path of pages) {
+    await goto(page, path);
+    const row = page.locator('.rc-supp-row[data-supp-slug="d-mannose"]');
+    await expect(row).toBeVisible();
+    await expect(row.locator('.rc-supp-row-s')).toHaveText('57');
+    const meta = await row.locator('.rc-supp-row-meta').innerText();
+    expect(meta).toContain('Efficacy 1/5');
+    expect(meta).toContain('Recurrent UTI');
+    expect(meta).not.toContain('Efficacy 2/5');
+    const h1 = await page.locator('h1').evaluate((el) => el.textContent);
+    expect(h1).toContain(NB_NAME);
+    expect(h1.includes('D-Mannose')).toBe(false);
+  }
+  const verdict = await page.locator('main').innerText();
+  expect(verdict).not.toMatch(/strongest trial weight/i);
+  expect(verdict).not.toMatch(/better trial weight/i);
+  expect(verdict).toMatch(/no better than placebo/i);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
+test('D-mannose safety answer is about safety', async ({ page }) => {
+  const errors = trackConsole(page);
+  await goto(page, '/supplement/d-mannose.html');
+  const question = page.getByRole('heading', { name: /Is D.Mannose safe\?/ });
+  await expect(question.locator('xpath=following-sibling::p[1]')).toHaveText(SAFETY);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
+test('Evidence Collapsed article is not filed as a Breakthrough', async ({ page }) => {
+  const errors = trackConsole(page);
+  await goto(page, '/a/d-mannose-for-utis-evidence-collapsed-with-the-2024-merit-trial.html');
+  await expect(page.locator('.ar-kicker')).toHaveText('Research Update');
+  const h1 = await page.locator('h1').evaluate((el) => el.textContent);
+  expect(h1.startsWith(NB_NAME)).toBe(true);
+  expect(h1.includes('D-Mannose')).toBe(false);
   expect(errors, errors.join('\n')).toEqual([]);
 });
