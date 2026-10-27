@@ -114,3 +114,63 @@ test('homepage search for mannose finds the Evidence Collapsed article', async (
   await expect(hit).toHaveCount(1);
   expect(errors, errors.join('\n')).toEqual([]);
 });
+
+test('detail pop-up keeps hyphenated summary words together', async ({ page }) => {
+  const errors = trackConsole(page);
+  await goto(page, '/');
+  await page.waitForFunction(() => typeof window.heroNext === 'function');
+  await page.locator('#ix-hero-search').click();
+  await page.locator('#ix-hero-search').fill('D-Mannose');
+  const suggestion = page.locator('#ix-ac.vis .gs-ac-item[data-type="supp"][data-name="D-Mannose"]');
+  await expect(suggestion).toBeVisible();
+  await page.waitForFunction(() => window.SSModal && typeof window.SSModal.open === 'function');
+  await suggestion.click();
+  const tldr = page.frameLocator('iframe.ssm-frame').locator('.det-tldr');
+  await expect(tldr).toContainText('found D-mannose');
+  const report = await tldr.evaluate((el) => {
+    const words = (el.textContent.match(/[^\s]*-[^\s]*/g) || []).filter((word) => /[A-Za-z0-9]/.test(word));
+    const spans = [...el.querySelectorAll('span')]
+      .filter((span) => getComputedStyle(span).whiteSpace === 'nowrap')
+      .map((span) => span.textContent);
+    const range = document.createRange();
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const chars = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      for (let i = 0; i < node.nodeValue.length; i++) {
+        range.setStart(node, i);
+        range.setEnd(node, i + 1);
+        const rect = range.getBoundingClientRect();
+        if (!rect.width && !rect.height) continue;
+        chars.push({ ch: node.nodeValue[i], top: Math.round(rect.top) });
+      }
+    }
+    const lines = [];
+    let cur = null;
+    for (const c of chars) {
+      if (!cur || Math.abs(c.top - cur.top) > 2) {
+        cur = { top: c.top, text: '' };
+        lines.push(cur);
+      }
+      cur.text += c.ch;
+    }
+    return { words, spans, lines: lines.map((line) => line.text) };
+  });
+  for (const word of report.words) {
+    expect(report.spans.some((span) => span.includes(word)), word).toBe(true);
+  }
+  expect(report.lines.join('\n')).not.toMatch(/D-\s*$/m);
+  expect(report.lines.some((line) => line.includes('D-mannose'))).toBe(true);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
+test('uva ursi does not recommend D-mannose', async ({ page }) => {
+  const errors = trackConsole(page);
+  await goto(page, '/supplement.html?slug=uva-ursi&modal=1');
+  await page.waitForSelector('#det-evidence');
+  const evidence = await page.locator('#det-evidence').innerText();
+  expect(evidence).not.toMatch(/D-mannose, or lactobacilli/i);
+  expect(evidence).toMatch(/cranberry or lactobacilli/i);
+  expect(evidence).toMatch(/no better than placebo/i);
+  expect(errors, errors.join('\n')).toEqual([]);
+});

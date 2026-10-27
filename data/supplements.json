@@ -11908,7 +11908,7 @@
       "cost": 4,
       "drug_interaction_inverse": 3
     },
-    "description": "A bearberry leaf preparation whose active glycoside arbutin is hydrolysed to hydroquinone in alkaline urine, providing antimicrobial action in the bladder. Traditional European use for acute uncomplicated UTI with some supporting clinical data. Hydroquinone raises concerns about hepatotoxicity and potential carcinogenicity with prolonged use, so courses must be short (under 1 week) and infrequent (max 5 times per year). Not appropriate for chronic UTI prevention — use cranberry, D-mannose, or lactobacilli instead.",
+    "description": "A bearberry leaf preparation whose active glycoside arbutin is hydrolysed to hydroquinone in alkaline urine, providing antimicrobial action in the bladder. Traditional European use for acute uncomplicated UTI with some supporting clinical data. Hydroquinone raises concerns about hepatotoxicity and potential carcinogenicity with prolonged use, so courses must be short (under 1 week) and infrequent (max 5 times per year). Not appropriate for chronic UTI prevention — use cranberry or lactobacilli instead. The 2024 MERIT trial found D-mannose no better than placebo.",
     "dose": "400–800 mg standardised extract (20% arbutin) 3 times daily for max 5–7 days",
     "tips": "Short-course only; alkalinise urine (bicarbonate-rich diet) to convert arbutin to hydroquinone; avoid in pregnancy, kidney disease, and children; not for prevention"
   },

@@ -12,6 +12,16 @@
 (function(){
   function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
   function escAttr(s){return escHtml(s);}
+  /* The pop-up summary is built from supplement data, not the static page.
+     Escape first, then keep every hyphenated word on one line so "D-mannose"
+     cannot break after the hyphen. */
+  function summaryHtml(text){
+    return escHtml(text).split(/(\s+)/).map(function(part){
+      if (!part || part.indexOf('-') === -1 || /^\s+$/.test(part)) return part;
+      if (!/[A-Za-z0-9]/.test(part)) return part;
+      return '<span style="white-space:nowrap">' + part + '</span>';
+    }).join('');
+  }
 
   // Onset / Cost / Drug labels are global (from data.js): OL_SHORT, CL, DL
   function onsetLabel(v){return (typeof OL_SHORT!=='undefined' && OL_SHORT[v]) || '—';}
@@ -753,7 +763,7 @@
       +     '<h1 class="det-h1">'+escHtml(s.n)+'</h1>'
       +     '<p class="ss-last-reviewed" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 12px">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/about.html#transparency">SupplementScore team</a></p>'
       +     (catsHtml ? '<div class="det-cats">'+catsHtml+'</div>' : '')
-      +     (tldr ? '<p class="det-tldr">'+escHtml(tldr)+'</p>' : '')
+      +     (tldr ? '<p class="det-tldr">'+summaryHtml(tldr)+'</p>' : '')
       +     '<div class="det-stats">'+statsHtml+'</div>'
       +     '<div class="det-bars">'+barsHtml+'</div>'
       +   '</div>'
