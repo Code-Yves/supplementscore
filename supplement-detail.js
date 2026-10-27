@@ -52,20 +52,47 @@
     var text = String(dose).trim();
     var warned = warningDoseLabel(text);
     if(warned) return warned;
-    var rangeRe = /([\d.,]+\s*[–\-−]\s*[\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
-    var singleRe = /([\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
+    // A leading digit is required. [\d.,]+ used to treat the period in
+    // "Do not take kratom. It is…" as a number and rendered ". It".
+    // The unit has to be a dose unit. Otherwise "SBT2055 or" becomes "2055 or".
+    var unitOk = /^(?:mg|mcg|µg|μg|ug|g|kg|iu|ml|l|cfu|kcal|mmol|mol|billion|million|b|k)$/i;
+    function accept(hit){
+      var cleaned = hit.replace(/\s+/g, ' ').trim();
+      var unit = cleaned.match(/[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?$/);
+      if(!unit) return null;
+      if(!unitOk.test(unit[0].split('/')[0])) return null;
+      return cleaned;
+    }
+    var rangeRe = /\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?/g;
+    var singleRe = /\d[\d.,]*\s*[BMK]?\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?/g;
+    function search(chunk){
+      var m, hit;
+      rangeRe.lastIndex = 0;
+      while((m = rangeRe.exec(chunk))){
+        hit = accept(m[0]);
+        if(hit) return hit;
+      }
+      singleRe.lastIndex = 0;
+      while((m = singleRe.exec(chunk))){
+        hit = accept(m[0]);
+        if(hit) return hit;
+      }
+      return null;
+    }
     // Semicolons and clause commas break the protocol. A comma before a
     // digit is a thousands separator, not a new clause.
     var first = text.split(/\s*;\s*|\s*,\s*(?!\d)/)[0].trim();
-    var m = first.match(rangeRe) || first.match(singleRe);
-    if(m) return m[1].replace(/\s+/g, ' ');
-    if(/^[\d.,]+$/.test(first) || /[\d.,]+\s*[–\-−]\s*[\d.,]+$/.test(first)){
-      m = text.match(rangeRe) || text.match(singleRe);
-      if(m) return m[1].replace(/\s+/g, ' ');
-      return 'See protocol';
+    var found = search(first);
+    if(found) return found;
+    // A later clause can supply the unit when the first clause is only a number.
+    // Do not scan the whole protocol: a warning ("not recommended… if MCT, 5–20 mL")
+    // would otherwise show the later dose.
+    if(/^\d[\d.,]*$/.test(first) || /\d[\d.,]*\s*[–\-−]\s*\d[\d.,]*$/.test(first)){
+      return search(text) || 'See protocol';
     }
     var w = first.split(/\s+/);
-    var phrase = w.slice(0, Math.min(3, w.length)).join(' ');
+    var phrase = w.slice(0, Math.min(3, w.length)).join(' ').replace(/[.,:;]+$/, '');
+    phrase = phrase.replace(/\s+(?:of|a|the|and|or|with|for|as|in|to)$/i, '');
     return phrase || 'See protocol';
   }
 
@@ -128,12 +155,11 @@
     return b === 'avoid' ? 'avoid' : b === 'caution' ? 'caution' : b === 'extra' ? 'support' : '';
   }
 
-  /* ── Dynamic JSON-LD (DietarySupplement + BreadcrumbList) ───────────────────
-     supplement.html ships a static WebPage JSON-LD block as a fallback for
-     non-JS crawlers. When we have a real ?slug= and a resolved supplement, we
-     inject a richer DietarySupplement block plus a supplement-specific
-     BreadcrumbList. Google has executed JS for indexing since 2019 — these
-     dynamic blocks are picked up. See [[project_launch_prep_2026_06_06]]. */
+  /* ── Dynamic JSON-LD (MedicalEntity + BreadcrumbList) ──────────────────────
+     DietarySupplement subclasses Product, so Google Product snippets require
+     offers, review, or aggregateRating. This site does not sell supplements.
+     Keep the type MedicalEntity and do not emit Product fields
+     (activeIngredient, isProprietary, recommendedIntake). */
   function injectSchema(s, slug){
     if (!s || !slug) return;
     var url = window.__SS_CANON ? window.__SS_CANON(slug) : 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
@@ -141,7 +167,6 @@
     // Extract alternateName from a parenthesized qualifier ("Omega-3 (EPA/DHA)" → "EPA/DHA")
     var altMatch = name.match(/\(([^)]+)\)/);
     var altName = altMatch ? altMatch[1].trim() : null;
-    var bareName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
     // Description: cap at ~480 chars to keep JSON-LD lean. Strip newlines.
     var desc = (s.desc || '').replace(/\s+/g, ' ').trim();
     if (desc.length > 480) desc = desc.slice(0, 477).trim() + '…';
@@ -154,24 +179,12 @@
       t4: 'Documented safety risks including possible organ damage, drug interactions, or regulatory warnings. Do not use without clinician supervision. SupplementScore Tier 4.'
     };
     var safety = safetyByTier[s.t] || 'See methodology for current evidence rating.';
-    // Recommended intake — DietarySupplement inherits a few medical-related
-    // properties; recommendedIntake takes a RecommendedDoseSchedule.
-    var doseObj = null;
-    if (s.dose) {
-      doseObj = {
-        "@type": "RecommendedDoseSchedule",
-        "doseUnit": "varies — see description",
-        "doseSchedule": String(s.dose).slice(0, 200)
-      };
-    }
     var ogImg = document.querySelector('meta[property="og:image"]');
     var supplementSchema = {
       "@context": "https://schema.org",
       "@type": "MedicalEntity",
       "name": name,
       "description": desc || (name + ' — evidence-based supplement detail.'),
-      "activeIngredient": bareName || name,
-      "isProprietary": false,
       "safetyConsideration": safety,
       "url": url,
       "image": (ogImg && ogImg.getAttribute('content')) || "https://supplementscore.org/og/default.png",
@@ -185,7 +198,6 @@
       "mainEntityOfPage": {"@type": "WebPage", "@id": url}
     };
     if (altName) supplementSchema.alternateName = altName;
-    if (doseObj) supplementSchema.recommendedIntake = doseObj;
 
     var breadcrumbSchema = {
       "@context": "https://schema.org",

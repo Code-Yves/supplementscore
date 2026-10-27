@@ -30,7 +30,6 @@ function buildSchema(s, slug) {
   const name = s.n || '';
   const altMatch = name.match(/\(([^)]+)\)/);
   const altName = altMatch ? altMatch[1].trim() : null;
-  const bareName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
   let desc = (s.desc || '').replace(/\s+/g, ' ').trim();
   if (desc.length > 480) desc = desc.slice(0, 477).trim() + '…';
   const safetyByTier = {
@@ -40,21 +39,11 @@ function buildSchema(s, slug) {
     t4: 'Documented safety risks including possible organ damage, drug interactions, or regulatory warnings. Do not use without clinician supervision. SupplementScore Tier 4.'
   };
   const safety = safetyByTier[s.t] || 'See methodology for current evidence rating.';
-  let doseObj = null;
-  if (s.dose) {
-    doseObj = {
-      "@type": "RecommendedDoseSchedule",
-      "doseUnit": "varies — see description",
-      "doseSchedule": String(s.dose).slice(0, 200)
-    };
-  }
   const supplement = {
     "@context": "https://schema.org",
     "@type": "MedicalEntity",
     "name": name,
     "description": desc || (name + ' — evidence-based supplement detail.'),
-    "activeIngredient": bareName || name,
-    "isProprietary": false,
     "safetyConsideration": safety,
     "url": url,
     "image": "https://supplementscore.org/og/default.png",
@@ -68,7 +57,11 @@ function buildSchema(s, slug) {
     "mainEntityOfPage": {"@type": "WebPage", "@id": url}
   };
   if (altName) supplement.alternateName = altName;
-  if (doseObj) supplement.recommendedIntake = doseObj;
+  for (const banned of ["activeIngredient", "isProprietary", "recommendedIntake"]) {
+    if (Object.prototype.hasOwnProperty.call(supplement, banned)) {
+      throw new Error("Product field reintroduced: " + banned);
+    }
+  }
 
   const breadcrumb = {
     "@context": "https://schema.org",
@@ -111,9 +104,8 @@ for (const s of samples) {
   console.log(`json valid:     ${ok ? 'YES' : 'NO'}`);
   console.log(`name:           ${supplement.name}`);
   console.log(`alternateName:  ${supplement.alternateName || '(none)'}`);
-  console.log(`activeIngred:   ${supplement.activeIngredient}`);
   console.log(`safetyConsid:   ${supplement.safetyConsideration.slice(0, 100)}…`);
-  console.log(`hasDose:        ${!!supplement.recommendedIntake}`);
+  console.log(`productFields:  none`);
   console.log(`desc length:    ${supplement.description.length}`);
   if (supplement['@type'] !== 'MedicalEntity') {
     errors++;
