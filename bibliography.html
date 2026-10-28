@@ -36,7 +36,8 @@
     .bib-sub { color: var(--color-text-secondary); font-size: 14.5px; margin-bottom:20px; max-width: 720px; line-height: 1.55; }
     .bib-stats { display: flex; gap:8px; flex-wrap: wrap; margin:16px 0 24px; }
     .bib-stat { font-size: 12px; padding:8px 14px; border-radius: 999px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); cursor: pointer; transition: all .12s; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; }
-    .bib-stat.on, .bib-stat:hover { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
+    .bib-stat:hover { background: rgba(21, 90, 80, .08); color: var(--color-brand); border-color: var(--color-brand); }
+    .bib-stat.on, .bib-stat.on:hover { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
     .bib-search { width: 100%; padding:11px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; background: var(--color-background-primary); margin-bottom:16px; box-sizing: border-box; }
     .bib-search:focus { border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(123,31,162,.12); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; }
@@ -45,7 +46,7 @@
     tbody tr:last-child td { border-bottom: 0; }
     tbody tr.hidden { display: none; }
     .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
-    .bib-fpill { display: inline-block; font-size: 12px; font-weight: 700; padding:2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
+    .bib-fpill { display: inline-block; font-size: 12px; font-weight: 700; padding:2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; }
     .bib-text { color: var(--color-text-secondary); line-height: 1.5; max-width: 600px; }
     .bib-foot { margin-top:28px; font-size: 12px; color: var(--color-text-tertiary); padding:16px 0; border-top: 0.5px solid var(--color-border-tertiary); }
     @media (max-width: 640px) {
@@ -142,12 +143,12 @@
   <p class="bib-sub">Every PMID cited across SupplementScore — 3,222 unique PubMed sources. Filter by funder type to verify the evidence base for any tier call. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC-BY 4.0</a> — reuse with attribution.</p>
 
   <div class="bib-stats">
-    <button class="bib-stat on" data-filter="all" type="button">All (3,222)</button>
-    <button class="bib-stat" data-filter="public" type="button">Public (1,069)</button>
-    <button class="bib-stat" data-filter="nonprofit" type="button">Nonprofit (43)</button>
-    <button class="bib-stat" data-filter="industry" type="button">Industry (205)</button>
-    <button class="bib-stat" data-filter="mixed" type="button">Mixed (105)</button>
-    <button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed (1,800)</button>
+    <button class="bib-stat on" data-filter="all" type="button" aria-pressed="true">All (3,222)</button>
+    <button class="bib-stat" data-filter="public" type="button" aria-pressed="false">Public (1,069)</button>
+    <button class="bib-stat" data-filter="nonprofit" type="button" aria-pressed="false">Nonprofit (43)</button>
+    <button class="bib-stat" data-filter="industry" type="button" aria-pressed="false">Industry (205)</button>
+    <button class="bib-stat" data-filter="mixed" type="button" aria-pressed="false">Mixed (105)</button>
+    <button class="bib-stat" data-filter="none_disclosed" type="button" aria-pressed="false">No funder disclosed (1,800)</button>
   </div>
 
   <!-- BIB_LETTERS:start -->
@@ -181,7 +182,7 @@
   var letter = (letters && letters.getAttribute('data-default')) || 'A';
   var rows = [];
   var SEARCH_CAP = 60;
-  var COLORS = { public:'#155A50', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#57534E' };
+  var COLORS = { public:'#155A50', nonprofit:'#1E4FA8', industry:'#7C4A03', mixed:'#7B1FA2', none_disclosed:'#57534E' };
   var LABELS = { public:'public', nonprofit:'nonprofit', industry:'industry', mixed:'mixed', none_disclosed:'none disclosed' };
   function esc(s){
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -243,8 +244,12 @@
   });
   [].forEach.call(document.querySelectorAll('.bib-stat'), function(b){
     b.addEventListener('click', function(){
-      [].forEach.call(document.querySelectorAll('.bib-stat'), function(x){ x.classList.remove('on'); });
+      [].forEach.call(document.querySelectorAll('.bib-stat'), function(x){
+        x.classList.remove('on');
+        x.setAttribute('aria-pressed', 'false');
+      });
       b.classList.add('on');
+      b.setAttribute('aria-pressed', 'true');
       filter = b.dataset.filter;
       apply();
     });
