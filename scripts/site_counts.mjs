@@ -186,11 +186,11 @@ const FUNDER_LABEL = {
   none_disclosed: 'none disclosed',
 };
 const FUNDER_COLOR = {
-  public: ['#0D9488', '#0D9488'],
-  nonprofit: ['#4B7BE5', '#4B7BE5'],
-  industry: ['#CA8A04', '#CA8A04'],
+  public: ['#155A50', '#155A50'],
+  nonprofit: ['#1E4FA8', '#1E4FA8'],
+  industry: ['#7C4A03', '#7C4A03'],
   mixed: ['#7B1FA2', '#7B1FA2'],
-  none_disclosed: ['#8A8780', '#8A8780'],
+  none_disclosed: ['#57534E', '#57534E'],
 };
 
 function letterOf(reference) {
@@ -212,7 +212,7 @@ const BIB_CLIENT = `<!-- BIB_SCRIPT:start -->
   var letter = (letters && letters.getAttribute('data-default')) || 'A';
   var rows = [];
   var SEARCH_CAP = 60;
-  var COLORS = { public:'#0D9488', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#8A8780' };
+  var COLORS = { public:'#155A50', nonprofit:'#1E4FA8', industry:'#7C4A03', mixed:'#7B1FA2', none_disclosed:'#57534E' };
   var LABELS = { public:'public', nonprofit:'nonprofit', industry:'industry', mixed:'mixed', none_disclosed:'none disclosed' };
   function esc(s){
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -274,8 +274,12 @@ const BIB_CLIENT = `<!-- BIB_SCRIPT:start -->
   });
   [].forEach.call(document.querySelectorAll('.bib-stat'), function(b){
     b.addEventListener('click', function(){
-      [].forEach.call(document.querySelectorAll('.bib-stat'), function(x){ x.classList.remove('on'); });
+      [].forEach.call(document.querySelectorAll('.bib-stat'), function(x){
+        x.classList.remove('on');
+        x.setAttribute('aria-pressed', 'false');
+      });
       b.classList.add('on');
+      b.setAttribute('aria-pressed', 'true');
       filter = b.dataset.filter;
       apply();
     });
@@ -309,12 +313,12 @@ function buildBibliography(rows) {
     html = html.replace('</style>', `    .bib-letters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}\n    .bib-letters button{min-height:44px;min-width:44px;padding:0 12px;border-radius:8px;border:1px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-primary);font:inherit;font-size:14px;cursor:pointer}\n    .bib-letters button.on,.bib-letters button:hover{background:var(--color-brand);color:#fff;border-color:var(--color-brand)}\n    .bib-status{font-size:13px;color:var(--color-text-secondary);margin:0 0 12px}\n  </style>`);
   }
   html = html.replace(/Every PMID cited across SupplementScore — [\d,]+ unique PubMed sources/g, `Every PMID cited across SupplementScore — ${n} unique PubMed sources`);
-  html = html.replace(/<button class="bib-stat on" data-filter="all" type="button">All \([\d,]+\)<\/button>/, `<button class="bib-stat on" data-filter="all" type="button">All (${n})</button>`);
-  html = html.replace(/<button class="bib-stat" data-filter="public" type="button">Public \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="public" type="button">Public (${fmt(counts.public || 0)})</button>`);
-  html = html.replace(/<button class="bib-stat" data-filter="nonprofit" type="button">Nonprofit \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="nonprofit" type="button">Nonprofit (${fmt(counts.nonprofit || 0)})</button>`);
-  html = html.replace(/<button class="bib-stat" data-filter="industry" type="button">Industry \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="industry" type="button">Industry (${fmt(counts.industry || 0)})</button>`);
-  html = html.replace(/<button class="bib-stat" data-filter="mixed" type="button">Mixed \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="mixed" type="button">Mixed (${fmt(counts.mixed || 0)})</button>`);
-  html = html.replace(/<button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed (${fmt(counts.none_disclosed || 0)})</button>`);
+  html = html.replace(/<button class="bib-stat on" data-filter="all" type="button"(?: aria-pressed="(?:true|false)")?>All \([\d,]+\)<\/button>/, `<button class="bib-stat on" data-filter="all" type="button" aria-pressed="true">All (${n})</button>`);
+  html = html.replace(/<button class="bib-stat" data-filter="public" type="button"(?: aria-pressed="(?:true|false)")?>Public \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="public" type="button" aria-pressed="false">Public (${fmt(counts.public || 0)})</button>`);
+  html = html.replace(/<button class="bib-stat" data-filter="nonprofit" type="button"(?: aria-pressed="(?:true|false)")?>Nonprofit \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="nonprofit" type="button" aria-pressed="false">Nonprofit (${fmt(counts.nonprofit || 0)})</button>`);
+  html = html.replace(/<button class="bib-stat" data-filter="industry" type="button"(?: aria-pressed="(?:true|false)")?>Industry \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="industry" type="button" aria-pressed="false">Industry (${fmt(counts.industry || 0)})</button>`);
+  html = html.replace(/<button class="bib-stat" data-filter="mixed" type="button"(?: aria-pressed="(?:true|false)")?>Mixed \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="mixed" type="button" aria-pressed="false">Mixed (${fmt(counts.mixed || 0)})</button>`);
+  html = html.replace(/<button class="bib-stat" data-filter="none_disclosed" type="button"(?: aria-pressed="(?:true|false)")?>No funder disclosed \([\d,]+\)<\/button>/, `<button class="bib-stat" data-filter="none_disclosed" type="button" aria-pressed="false">No funder disclosed (${fmt(counts.none_disclosed || 0)})</button>`);
   if (html.includes('<!-- BIB_LETTERS:start -->')) {
     html = html.replace(/<!-- BIB_LETTERS:start -->[\s\S]*?<!-- BIB_LETTERS:end -->/, letters);
   } else {
