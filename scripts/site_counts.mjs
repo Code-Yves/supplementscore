@@ -161,7 +161,7 @@ function existingBibRefs() {
   const file = path.join(REPO, 'bibliography.html');
   if (!fs.existsSync(file)) return out;
   const html = fs.readFileSync(file, 'utf8');
-  const re = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)\/"[^>]*>[^<]*<\/a><\/td><td>[\s\S]*?<\/td><td class="num">\d+<\/td><td class="bib-text">([\s\S]*?)<\/td>/g;
+  const re = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)\/"[^>]*>[^<]*<\/a><\/td><td\b[^>]*>[\s\S]*?<\/td><td class="num"[^>]*>\d+<\/td><td class="bib-text">([\s\S]*?)<\/td>/g;
   let m;
   while ((m = re.exec(html))) {
     const text = decodeEntities(m[2].replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
@@ -217,28 +217,41 @@ const BIB_CLIENT = `<!-- BIB_SCRIPT:start -->
   function esc(s){
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
+  function fmt(n){
+    return Number(n).toLocaleString('en-US');
+  }
+  function paintLetters(){
+    if (!letters) return;
+    var searching = !!(search && search.value.trim());
+    [].forEach.call(letters.querySelectorAll('[data-letter]'), function(x){
+      var on = !searching && x.getAttribute('data-letter') === letter;
+      x.classList.toggle('on', on);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
   function render(list, note, cap){
     var shown = cap ? list.slice(0, cap) : list;
     body.innerHTML = shown.map(function(row){
       var color = COLORS[row.funder] || COLORS.none_disclosed;
       var label = LABELS[row.funder] || row.funder;
       var ref = row.reference ? esc(row.reference) : 'Cited on SupplementScore. Citation text is not stored separately from the page that links this PMID.';
-      return '<tr data-funder="'+row.funder+'"><td><a href="https://pubmed.ncbi.nlm.nih.gov/'+row.pmid+'/" target="_blank" rel="noopener">'+row.pmid+'</a></td><td><span class="bib-fpill" style="background:'+color+'1a;color:'+color+';border:1px solid '+color+'55">'+esc(label)+'</span></td><td class="num">'+row.cites+'</td><td class="bib-text">'+ref+'</td></tr>';
+      return '<tr data-funder="'+row.funder+'"><td class="bib-pmid" data-label="PMID"><a href="https://pubmed.ncbi.nlm.nih.gov/'+row.pmid+'/" target="_blank" rel="noopener">'+row.pmid+'</a></td><td class="bib-funder" data-label="Funder"><span class="bib-fpill" style="background:'+color+'1a;color:'+color+';border:1px solid '+color+'55">'+esc(label)+'</span></td><td class="num" data-label="Cites">'+row.cites+'</td><td class="bib-text">'+ref+'</td></tr>';
     }).join('');
     if (status) status.textContent = note;
   }
   function apply(){
+    paintLetters();
     var q = search.value.trim().toLowerCase();
     var pool = rows.filter(function(r){ return filter === 'all' || r.funder === filter; });
     if (q) {
       var hits = pool.filter(function(r){
         return String(r.pmid).indexOf(q) !== -1 || String(r.reference || '').toLowerCase().indexOf(q) !== -1;
       });
-      render(hits, 'Showing ' + Math.min(hits.length, SEARCH_CAP) + ' of ' + hits.length + ' matches', SEARCH_CAP);
+      render(hits, 'Showing ' + fmt(Math.min(hits.length, SEARCH_CAP)) + ' of ' + fmt(hits.length) + ' matches', SEARCH_CAP);
       return;
     }
     var inLetter = pool.filter(function(r){ return r.letter === letter; });
-    render(inLetter, 'Showing ' + letter + ' · ' + inLetter.length + ' of ' + rows.length);
+    render(inLetter, 'Showing ' + letter + ' · ' + fmt(inLetter.length) + ' of ' + fmt(rows.length));
   }
   fetch('/data/bibliography.json').then(function(r){ return r.json(); }).then(function(data){
     rows = data;
@@ -494,7 +507,7 @@ function check(expect) {
     if (text.includes('3,200+')) errors.push(`${name} still says 3,200+`);
     if (!text.includes(supp)) errors.push(`${name} does not include the supplement total ${supp}`);
   }
-  if (/780 supplements|780-supplement|780 supplement scores/.test(index)) {
+  if (/780 supplements|780-supplement|780 supplement scores|>780</.test(index)) {
     errors.push('homepage still says 780 supplements');
   }
   if (!index.includes('Independent · No industry funding')) errors.push('homepage meta is missing Independent · No industry funding');
