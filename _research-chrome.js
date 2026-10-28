@@ -271,6 +271,10 @@
   function injectArticleLayout(){
     if (document.getElementById('ar-layout')) return;
     var css = ''
+      + 'html.rc-chrome-active .cmp-scroll{overflow-x:auto;max-width:100%;min-width:0}'
+      + 'html.rc-chrome-active .cmp-scroll--fit>table.cmp-table{width:100%;table-layout:fixed}'
+      + 'html.rc-chrome-active .cmp-scroll--fit>table.cmp-table th,html.rc-chrome-active .cmp-scroll--fit>table.cmp-table td{overflow-wrap:break-word;padding:10px 8px}'
+      + '@media(min-width:601px){html.rc-chrome-active .cmp-scroll--fit>table.cmp-table th,html.rc-chrome-active .cmp-scroll--fit>table.cmp-table td{padding:12px 16px}}'
       + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{max-width:1024px;margin:0 auto;padding:16px 24px 64px;box-sizing:border-box;background:transparent}'
       + 'html.rc-chrome-active main.ar-wrap .ar-column,html.rc-chrome-active main.sx-wrap .ar-column,html.rc-chrome-active main.ca-wrap .ar-column,html.rc-chrome-active main.sk-wrap .ar-column{max-width:700px;min-width:0;width:100%;font-size:18px;line-height:1.6;color:#0c0a09}'
       + 'html.rc-chrome-active main.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sx-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.ca-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sk-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:18px;line-height:1.6;color:#0c0a09}'
@@ -966,7 +970,38 @@
     return mentionedFromBody();
   }
 
+  /* Phone chrome turns the article into a column flex. A bare table is a flex
+     item, so its min-content width paints past the screen and overflow:clip
+     on the body cuts it off. Score tables already sit in an overflow-x:auto
+     div. Every other comparison table gets the same kind of container. */
+  function containCompareTables(root){
+    if (!root || !root.classList || !root.classList.contains('ca-wrap')) return;
+    root.querySelectorAll('table.cmp-table').forEach(function(table){
+      var parent = table.parentElement;
+      if (!parent) return;
+      var inline = parent.getAttribute('style') || '';
+      var already = parent.classList.contains('cmp-scroll') || /overflow-x\s*:\s*auto/.test(inline);
+      if (already){
+        parent.classList.add('cmp-scroll');
+        parent.style.maxWidth = '100%';
+        parent.style.minWidth = '0';
+        if (!parent.style.overflowX) parent.style.overflowX = 'auto';
+        return;
+      }
+      var scroller = document.createElement('div');
+      scroller.className = 'cmp-scroll';
+      scroller.setAttribute('style', 'overflow-x:auto;max-width:100%;min-width:0');
+      var row = table.querySelector('tr');
+      var cols = row ? row.children.length : 0;
+      if (cols > 4) table.style.minWidth = Math.max(cols * 96, 520) + 'px';
+      else scroller.classList.add('cmp-scroll--fit');
+      parent.insertBefore(scroller, table);
+      scroller.appendChild(table);
+    });
+  }
+
   function buildReadingColumn(){
+    containCompareTables(wrap);
     var article = wrap.classList.contains('ar-wrap');
     var items = [];
     if (!article){
