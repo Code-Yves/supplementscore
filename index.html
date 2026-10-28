@@ -1202,7 +1202,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 3: About You -->
         <div class="wiz-step" id="wiz-step-3">
           <p class="wiz-step-q">About you</p>
-          <p class="wiz-step-sub">Used to filter unsuitable supplements. Doses stay general ranges — discuss them with your doctor.</p>
+          <p class="wiz-step-sub" style="text-wrap:pretty">Used to filter unsuitable supplements. Doses stay general ranges — discuss them with your doctor.</p>
           <div class="wiz-field-group">
             <label class="wiz-field-label" for="asl">Age</label>
             <input type="number" class="wiz-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
@@ -1220,7 +1220,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-no" onclick="setPregnantOrBf(false)">No</button>
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-yes" onclick="setPregnantOrBf(true)">Yes</button>
             </div>
-            <p class="wiz-field-opt" style="margin-top:6px">We ask this so we can flag supplements to avoid during pregnancy or breastfeeding.</p>
+            <p class="wiz-preg-help">We ask this so we can flag supplements to avoid during pregnancy or breastfeeding.</p>
           </div>
           <div class="wiz-field-group">
             <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — used for BMI and for weight-based athletic doses)</span></label>
