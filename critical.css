@@ -237,6 +237,9 @@ header.ss-np-banner{display:none}
 @keyframes ss-list-load{to{width:100%}}
 @media (prefers-reduced-motion: reduce){.ss-list-load-bar{animation:none !important;width:38%}}
 h1,h2,.lede,.det-tldr{text-wrap:pretty;text-wrap:balance}
+@media (max-width:600px){
+  .det-tldr{text-wrap:pretty}
+}
 a.rc-close,a.pg-close-fab,a.ss-pagebar-x,a.reader-close-fab{touch-action:manipulation}
 
 /* Homepage category bar. Four equal cells, in-flow menu.
