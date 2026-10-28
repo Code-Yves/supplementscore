@@ -272,9 +272,22 @@
     if (document.getElementById('ar-layout')) return;
     var css = ''
       + 'html.rc-chrome-active .cmp-scroll{overflow-x:auto;max-width:100%;min-width:0}'
+      + 'html.rc-chrome-active .cmp-scroll-frame{position:relative;max-width:100%;min-width:0}'
+      + 'html.rc-chrome-active .cmp-scroll--wide:focus-visible{outline:2px solid #155A50;outline-offset:3px}'
+      + 'html.rc-chrome-active .cmp-scroll-frame.is-scrollable::after{content:"";position:absolute;top:0;right:0;bottom:0;width:28px;pointer-events:none;background:linear-gradient(to right,rgba(246,242,234,0),var(--color-background-primary,#f6f2ea))}'
+      + '@media(max-width:600px){'
       + 'html.rc-chrome-active .cmp-scroll--fit>table.cmp-table{width:100%;table-layout:fixed}'
       + 'html.rc-chrome-active .cmp-scroll--fit>table.cmp-table th,html.rc-chrome-active .cmp-scroll--fit>table.cmp-table td{overflow-wrap:break-word;padding:10px 8px}'
-      + '@media(min-width:601px){html.rc-chrome-active .cmp-scroll--fit>table.cmp-table th,html.rc-chrome-active .cmp-scroll--fit>table.cmp-table td{padding:12px 16px}}'
+      + 'html.rc-chrome-active .cmp-verdict{overflow-x:auto;max-width:100%;min-width:0}'
+      + 'html.rc-chrome-active .cmp-verdict>table.cmp-table{display:block;width:100%;min-width:0 !important;table-layout:auto;margin:0 0 8px;font-size:15px}'
+      + 'html.rc-chrome-active .cmp-verdict thead{display:none}'
+      + 'html.rc-chrome-active .cmp-verdict tbody,html.rc-chrome-active .cmp-verdict tr{display:block;width:100%}'
+      + 'html.rc-chrome-active .cmp-verdict tr{margin:0 0 12px;padding:0 0 10px;border-bottom:1px solid var(--color-border-tertiary)}'
+      + 'html.rc-chrome-active .cmp-verdict td{display:block;width:auto !important;max-width:none;padding:0;border:0;font-size:15px;line-height:1.45;font-weight:400}'
+      + 'html.rc-chrome-active .cmp-verdict td:first-child{font-weight:700;margin:0 0 4px;color:var(--color-text-primary)}'
+      + 'html.rc-chrome-active .cmp-verdict td:nth-child(2){margin:0 0 6px}'
+      + 'html.rc-chrome-active .cmp-verdict td:nth-child(2)::before{content:attr(data-choice-label) ": ";font-weight:700}'
+      + '}'
       + 'html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{max-width:1024px;margin:0 auto;padding:16px 24px 64px;box-sizing:border-box;background:transparent}'
       + 'html.rc-chrome-active main.ar-wrap .ar-column,html.rc-chrome-active main.sx-wrap .ar-column,html.rc-chrome-active main.ca-wrap .ar-column,html.rc-chrome-active main.sk-wrap .ar-column{max-width:700px;min-width:0;width:100%;font-size:18px;line-height:1.6;color:#0c0a09}'
       + 'html.rc-chrome-active main.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sx-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.ca-wrap .ar-column p:not(.ar-kicker):not(.ar-byline),html.rc-chrome-active main.sk-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:18px;line-height:1.6;color:#0c0a09}'
@@ -973,7 +986,68 @@
   /* Phone chrome turns the article into a column flex. A bare table is a flex
      item, so its min-content width paints past the screen and overflow:clip
      on the body cuts it off. Score tables already sit in an overflow-x:auto
-     div. Every other comparison table gets the same kind of container. */
+     div. Every other comparison table gets the same kind of container.
+     Three-column quick-verdict tables stack under 600px instead of scrolling. */
+  function headingBefore(table){
+    var node = table;
+    while (node && !(node.classList && node.classList.contains('ca-wrap'))){
+      var prev = node.previousElementSibling;
+      while (prev){
+        if (/^H[2-4]$/.test(prev.tagName)) return (prev.textContent || '').replace(/\s+/g, ' ').trim();
+        prev = prev.previousElementSibling;
+      }
+      node = node.parentElement;
+    }
+    return '';
+  }
+  function columnCount(table){
+    var row = table.querySelector('tr');
+    return row ? row.children.length : 0;
+  }
+  function isQuickVerdict(table){
+    return columnCount(table) === 3 && /^quick verdict$/i.test(headingBefore(table));
+  }
+  function choiceLabel(table){
+    var heads = table.querySelectorAll('thead th');
+    var label = heads[1] ? (heads[1].textContent || '').replace(/\s+/g, ' ').trim() : '';
+    return label || 'Better choice';
+  }
+  function scrollLabel(table){
+    var heading = headingBefore(table) || 'Comparison';
+    return heading + '. Scroll sideways to see every column.';
+  }
+  function frameScroller(el){
+    if (el.parentElement && el.parentElement.classList.contains('cmp-scroll-frame')) return;
+    var frame = document.createElement('div');
+    frame.className = 'cmp-scroll-frame';
+    el.parentNode.insertBefore(frame, el);
+    frame.appendChild(el);
+  }
+  function markWide(el, table){
+    el.classList.add('cmp-scroll', 'cmp-scroll--wide');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'region');
+    if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', scrollLabel(table));
+    el.style.maxWidth = '100%';
+    el.style.minWidth = '0';
+    if (!el.style.overflowX) el.style.overflowX = 'auto';
+    frameScroller(el);
+  }
+  function markVerdict(el, table){
+    el.classList.add('cmp-scroll', 'cmp-verdict');
+    el.classList.remove('cmp-scroll--wide', 'cmp-scroll--fit');
+    el.removeAttribute('tabindex');
+    el.removeAttribute('role');
+    if (el.getAttribute('aria-label') === 'Comparison table') el.removeAttribute('aria-label');
+    el.style.maxWidth = '100%';
+    el.style.minWidth = '0';
+    if (!el.style.overflowX) el.style.overflowX = 'auto';
+    var label = choiceLabel(table);
+    [].forEach.call(table.querySelectorAll('tbody tr'), function(row){
+      var cell = row.children[1];
+      if (cell) cell.setAttribute('data-choice-label', label);
+    });
+  }
   function containCompareTables(root){
     if (!root || !root.classList || !root.classList.contains('ca-wrap')) return;
     root.querySelectorAll('table.cmp-table').forEach(function(table){
@@ -981,22 +1055,36 @@
       if (!parent) return;
       var inline = parent.getAttribute('style') || '';
       var already = parent.classList.contains('cmp-scroll') || /overflow-x\s*:\s*auto/.test(inline);
-      if (already){
-        parent.classList.add('cmp-scroll');
-        parent.style.maxWidth = '100%';
-        parent.style.minWidth = '0';
-        if (!parent.style.overflowX) parent.style.overflowX = 'auto';
+      var scroller = parent;
+      if (!already){
+        scroller = document.createElement('div');
+        scroller.className = 'cmp-scroll';
+        scroller.setAttribute('style', 'overflow-x:auto;max-width:100%;min-width:0');
+        parent.insertBefore(scroller, table);
+        scroller.appendChild(table);
+      } else {
+        scroller.classList.add('cmp-scroll');
+        scroller.style.maxWidth = '100%';
+        scroller.style.minWidth = '0';
+        if (!scroller.style.overflowX) scroller.style.overflowX = 'auto';
+      }
+      if (isQuickVerdict(table)){
+        markVerdict(scroller, table);
         return;
       }
-      var scroller = document.createElement('div');
-      scroller.className = 'cmp-scroll';
-      scroller.setAttribute('style', 'overflow-x:auto;max-width:100%;min-width:0');
-      var row = table.querySelector('tr');
-      var cols = row ? row.children.length : 0;
-      if (cols > 4) table.style.minWidth = Math.max(cols * 96, 520) + 'px';
-      else scroller.classList.add('cmp-scroll--fit');
-      parent.insertBefore(scroller, table);
-      scroller.appendChild(table);
+      var cols = columnCount(table);
+      if (cols > 4 || already){
+        if (cols > 4) table.style.minWidth = Math.max(cols * 96, 520) + 'px';
+        markWide(scroller, table);
+        return;
+      }
+      scroller.classList.add('cmp-scroll--fit');
+    });
+  }
+  function refreshScrollHints(){
+    [].forEach.call(document.querySelectorAll('.cmp-scroll--wide'), function(el){
+      var frame = el.parentElement && el.parentElement.classList.contains('cmp-scroll-frame') ? el.parentElement : el;
+      frame.classList.toggle('is-scrollable', el.scrollWidth > el.clientWidth + 2);
     });
   }
 
@@ -1112,6 +1200,9 @@
      into mockup-v7 .rc-aend treatment so they stop being plain link lists. */
   try { normalizeTailBlocks(); } catch(err){ /* fail-safe: never block render */ }
   try { buildReadingColumn(); } catch(err){ /* keep the article readable */ }
+  document.documentElement.classList.add('rc-chrome-active');
+  requestAnimationFrame(refreshScrollHints);
+  window.addEventListener('resize', refreshScrollHints);
   } catch (err) { /* reveal the article even if chrome setup throws */ }
   finally {
     document.documentElement.classList.add('rc-chrome-active');
