@@ -273,7 +273,7 @@
     var css = ''
       + 'html.rc-chrome-active .cmp-scroll{overflow-x:auto;max-width:100%;min-width:0}'
       + 'html.rc-chrome-active .cmp-scroll-frame{position:relative;max-width:100%;min-width:0}'
-      + 'html.rc-chrome-active .cmp-scroll--wide:focus-visible{outline:2px solid #155A50;outline-offset:3px}'
+      + 'html.rc-chrome-active .cmp-scroll:focus-visible{outline:2px solid #155A50;outline-offset:3px}'
       + 'html.rc-chrome-active .cmp-scroll-frame.is-scrollable::after{content:"";position:absolute;top:0;right:0;bottom:0;width:28px;pointer-events:none;background:linear-gradient(to right,rgba(246,242,234,0),var(--color-background-primary,#f6f2ea))}'
       + 'html.rc-chrome-active table.cmp-table th,html.rc-chrome-active table.cmp-table td{overflow-wrap:normal;word-break:normal;hyphens:none}'
       + '@media(max-width:600px){'
@@ -1029,8 +1029,7 @@
     el.parentNode.insertBefore(frame, el);
     frame.appendChild(el);
   }
-  function markWide(el, table){
-    el.classList.add('cmp-scroll', 'cmp-scroll--wide');
+  function prepareScroller(el, table){
     el.dataset.scrollLabel = scrollLabel(table);
     el.removeAttribute('tabindex');
     el.removeAttribute('role');
@@ -1039,6 +1038,10 @@
     el.style.minWidth = '0';
     if (!el.style.overflowX) el.style.overflowX = 'auto';
     frameScroller(el);
+  }
+  function markWide(el, table){
+    el.classList.add('cmp-scroll', 'cmp-scroll--wide');
+    prepareScroller(el, table);
   }
   function markVerdict(el, table){
     table.setAttribute('data-cmp-stack', 'verdict');
@@ -1086,6 +1089,7 @@
         return;
       }
       scroller.classList.add('cmp-scroll--fit');
+      prepareScroller(scroller, table);
     });
   }
   function refreshOneScroller(el){
@@ -1108,7 +1112,7 @@
     }
   }
   function refreshScrollHints(){
-    [].forEach.call(document.querySelectorAll('.cmp-scroll--wide'), refreshOneScroller);
+    [].forEach.call(document.querySelectorAll('.cmp-scroll:not(.cmp-verdict)'), refreshOneScroller);
   }
 
   function buildReadingColumn(){
