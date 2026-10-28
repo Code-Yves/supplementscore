@@ -1952,7 +1952,7 @@ function _toggleBwRow(rowEl){
 /* Round-4 update: loader text matches the actual decision pipeline so the wait
    feels deliberate rather than padded. */
 const LOAD_STEPS=[
-  {at:0, text:'Filtering 733 supplements…', sub:'Matching to your age, sex, and goals'},
+  {at:0, text:'Filtering 734 supplements…', sub:'Matching to your age, sex, and goals'},
   {at:20,text:'Noting medications you listed…', sub:'A partial list of known conflicts, not a complete screen'},
   {at:45,text:'Reading the labs you entered…', sub:'Flagging results outside a typical range. Doses stay general.'},
   {at:70,text:'Ranking by personal fit…', sub:'Evidence × your profile'},
@@ -2245,7 +2245,7 @@ function filterSuppSearch(q){
     dd.style.display='block';
     return;
   }
-  // Fuzzy-ish match on name or tag (category) across the full 733-supp
+  // Fuzzy-ish match on name or tag (category) across the full 734-supp
   // database. Prefer name matches first. Exclude anything already in
   // the user's plan so the dropdown only offers add-able items.
   const scored=[];
@@ -5456,8 +5456,8 @@ function _catPick(v, quiet){
     const items=S.filter(s=>s.tr).sort((a,b)=>calcScore(b)-calcScore(a));
     const rowLimit=10;const hasMore=items.length>rowLimit;
     const shownN=Math.min(rowLimit,items.length);
-    const m={desc:'Highest evidence scores first. Show more reveals the rest of this ranked list, 10 at a time.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
-    const banner=_filterBanner('Top '+shownN+' supplements by evidence score','Ranked list',m.desc,m.icon,'t3');
+    const m={desc:'A trending subset, ranked inside this list. It is not the highest scores on the site. Show more reveals the rest, 10 at a time.',icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'};
+    const banner=_filterBanner('Trending supplements','Showing '+shownN+' of '+items.length,m.desc,m.icon,'t3');
     document.getElementById('s-content').innerHTML=items.length?`<div class="tier-sec">${banner}<div class="scards">${items.map((s,i)=>renderCard(s,hasMore&&i>=rowLimit?' tier-hidden':'')).join('')}</div>${hasMore?_loadMoreBtn('t3',items.length,rowLimit,10):''}</div>`:'<div class="empty">No trending supplements found.</div>';
     return;
   }

@@ -43,6 +43,7 @@ The headline rounds the sum to the nearest thousand hours.
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import sys
@@ -106,6 +107,17 @@ def iter_files():
 def study_ids() -> set[str]:
     found: set[str] = set()
     for path in iter_files():
+        if path.name == "bibliography.json":
+            # Citation prose mentions other papers. Count only this export's PMIDs.
+            try:
+                rows = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            for row in rows:
+                pmid = str(row.get("pmid", ""))
+                if re.fullmatch(r"[0-9]{6,9}", pmid):
+                    found.add(pmid)
+            continue
         text = path.read_text(encoding="utf-8", errors="ignore")
         found.update(PMID_RE.findall(text))
     return found

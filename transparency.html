@@ -99,7 +99,7 @@
 
   <div class="made-stats">
     <div class="made-stat">
-      <div class="made-num"><span data-ss-count="studies">3,032</span></div>
+      <div class="made-num"><span data-ss-count="studies">3,294</span></div>
       <div class="made-lbl">Distinct studies (PubMed IDs)</div>
     </div>
     <div class="made-stat">
@@ -112,9 +112,9 @@
   <p>Language models draft the supplement cards, the articles, the comparisons, and the condition pages. A person sets the scoring rules, decides what is published, and corrects mistakes readers flag. The same public sources named above are the raw material: peer-reviewed papers and regulator documents, not ads and not affiliate reviews.</p>
   <p>The site is bringing physicians on board. No physician signs a page before it is published, and a page does not carry a medical-review label. This is an educational reference. It is not personal medical advice. Scoring rules live on the <a href="/about.html#methodology">methodology</a> page.</p>
 
-  <h2>Study count: <span data-ss-count="studies">3,032</span></h2>
+  <h2>Study count: <span data-ss-count="studies">3,294</span></h2>
   <p>One study is one PubMed ID. The same ID on many pages counts once.</p>
-  <p>The count reads the site’s pages and data files and keeps each PubMed ID once. That scan found <strong><span data-ss-count="studies">3,032</span></strong> distinct IDs. The procedure is scripts/transparency_counts.py in the public repository.</p>
+  <p>The count reads the site’s pages and data files and keeps each PubMed ID once. That scan found <strong><span data-ss-count="studies">3,294</span></strong> distinct IDs. The procedure is scripts/transparency_counts.py in the public repository.</p>
   <details class="made-rules">
     <summary>Full file rules</summary>
     <p>Read every <code>.html</code>, <code>.js</code>, and <code>.json</code> file in the site repository, except <code>node_modules</code>, <code>tests</code>, <code>scripts</code>, <code>outputs</code>, <code>_archive</code>, <code>reviews</code>, <code>_mockups</code>, <code>og</code>, <code>dist</code>, <code>_docs</code>, <code>fr</code>, <code>es</code>, and any filename containing “mockup”. Keep an ID when the text has <code>PMID</code> followed by a 6- to 9-digit number, or a <code>pubmed.ncbi.nlm.nih.gov/</code> link with that number.</p>
@@ -122,8 +122,8 @@
 
   <h2>Estimated research hours: about <span data-ss-count="rounded_hours">11,000</span></h2>
   <p>This is an estimate of the time one person would need to find, read, and appraise the cited studies, and to research and write the published pages. It is not time people spent inside the trials, and it is not a timesheet of hours already worked.</p>
-  <p><strong>Formula.</strong> <span data-ss-count="studies">3,032</span> distinct studies × <span data-ss-count="hours_per_study">1.5</span> hours, plus <span data-ss-count="pages">1,633</span> published pages × <span data-ss-count="hours_per_page">4</span> hours.</p>
-  <p><span data-ss-count="studies">3,032</span> × <span data-ss-count="hours_per_study">1.5</span> = <span data-ss-count="study_hours">4,548</span> hours for the studies. <span data-ss-count="pages">1,633</span> × <span data-ss-count="hours_per_page">4</span> = <span data-ss-count="page_hours">6,532</span> hours for the pages. Together that is <span data-ss-count="total_hours">11,080</span> hours, which rounds to the nearest thousand: <strong>about <span data-ss-count="rounded_hours">11,000</span> hours</strong>.</p>
+  <p><strong>Formula.</strong> <span data-ss-count="studies">3,294</span> distinct studies × <span data-ss-count="hours_per_study">1.5</span> hours, plus <span data-ss-count="pages">1,633</span> published pages × <span data-ss-count="hours_per_page">4</span> hours.</p>
+  <p><span data-ss-count="studies">3,294</span> × <span data-ss-count="hours_per_study">1.5</span> = <span data-ss-count="study_hours">4,941</span> hours for the studies. <span data-ss-count="pages">1,633</span> × <span data-ss-count="hours_per_page">4</span> = <span data-ss-count="page_hours">6,532</span> hours for the pages. Together that is <span data-ss-count="total_hours">11,473</span> hours, which rounds to the nearest thousand: <strong>about <span data-ss-count="rounded_hours">11,000</span> hours</strong>.</p>
   <p><strong>Assumptions.</strong></p>
   <ul>
     <li><strong><span data-ss-count="hours_per_study">1.5</span> hours per study</strong> to find it, read it, and appraise it. A 2021 scoping review in the <cite>Journal of Clinical Epidemiology</cite> (Nussbaumer-Streit and colleagues, <a href="https://doi.org/10.1016/j.jclinepi.2021.05.019">doi:10.1016/j.jclinepi.2021.05.019</a>) reported that pulling the main facts from one study took one person about 41 to 65 minutes, and a short critical-appraisal checklist took about 10 to 21 minutes more. <span data-ss-count="hours_per_study">1.5</span> hours (90 minutes) is a round figure near that band, with a little time left to find the paper. That review did not measure <span data-ss-count="hours_per_study">1.5</span> hours, and it did not time this site.</li>

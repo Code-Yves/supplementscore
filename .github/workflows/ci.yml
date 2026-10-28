@@ -37,6 +37,9 @@ jobs:
       - name: Check alias catalog
         run: node scripts/alias_catalog.mjs --check
 
+      - name: Check bibliography, scores, and totals
+        run: node scripts/site_counts.mjs --check
+
       - name: Run regression suite
         run: npm test
         env:

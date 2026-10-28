@@ -6,14 +6,18 @@
   <title>Bibliography — SupplementScore</title>
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
-  <meta name="description" content="Every PMID cited across SupplementScore — 7 unique PubMed sources, sortable by funder type and citation count.">
+  <meta name="description" content="Every PMID cited across SupplementScore — 3,222 unique PubMed sources, sortable by funder type and citation count.">
   <link rel="canonical" href="https://supplementscore.org/bibliography.html">
   <meta property="og:title" content="Bibliography — SupplementScore">
   <meta property="og:description" content="Every PMID cited across the site, browseable + sortable.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
-  <style>html{color-scheme:light}</style>
+  <style>html{color-scheme:light}    .bib-letters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+    .bib-letters button{min-height:44px;min-width:44px;padding:0 12px;border-radius:8px;border:1px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-primary);font:inherit;font-size:14px;cursor:pointer}
+    .bib-letters button.on,.bib-letters button:hover{background:var(--color-brand);color:#fff;border-color:var(--color-brand)}
+    .bib-status{font-size:13px;color:var(--color-text-secondary);margin:0 0 12px}
+  </style>
   <link rel="stylesheet" href="/critical.css?v=design3">
 <link rel="stylesheet" href="/article-critical.css?v=design3">
 <link rel="stylesheet" href="/styles.css?v=design3" media="print" onload="this.media='all'">
@@ -44,6 +48,43 @@
     .bib-fpill { display: inline-block; font-size: 10px; font-weight: 700; padding:2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
     .bib-text { color: var(--color-text-secondary); line-height: 1.5; max-width: 600px; }
     .bib-foot { margin-top:28px; font-size: 12px; color: var(--color-text-tertiary); padding:16px 0; border-top: 0.5px solid var(--color-border-tertiary); }
+    @media (max-width: 640px) {
+      .bib-wrap { padding: 24px 16px 48px; }
+      table { display: block; width: 100%; border: 0; overflow: visible; background: transparent; }
+      thead { display: none; }
+      #bib-body { display: block; }
+      #bib-body tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 12px;
+        margin: 0 0 10px;
+        padding: 14px 14px 12px;
+        border: 0.5px solid var(--color-border-tertiary);
+        border-radius: 12px;
+        background: var(--color-background-primary);
+      }
+      #bib-body td {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        padding: 0;
+        border: 0;
+        text-align: left;
+      }
+      #bib-body td.bib-text {
+        order: -1;
+        flex: 1 0 100%;
+        max-width: none;
+        color: var(--color-text-primary);
+        overflow-wrap: anywhere;
+      }
+      #bib-body td.num::before {
+        content: attr(data-label) " ";
+        font-weight: 700;
+        color: var(--color-text-tertiary);
+      }
+    }
   </style>
 <!-- SEO-BC-SCHEMA:start -->
 <script type="application/ld+json">
@@ -71,7 +112,7 @@
   <meta property="og:url" content="https://supplementscore.org/bibliography.html">
   <meta property="og:site_name" content="SupplementScore">
   <meta name="twitter:title" content="Bibliography">
-  <meta name="twitter:description" content="Every PMID cited across SupplementScore — 7 unique PubMed sources, sortable by funder type and citation count.">
+  <meta name="twitter:description" content="Every PMID cited across SupplementScore — 3,222 unique PubMed sources, sortable by funder type and citation count.">
   <meta property="og:image" content="https://supplementscore.org/og/default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -98,16 +139,23 @@
     Back to Supplement Score
   </a>
   <h1 class="bib-h1">Bibliography</h1>
-  <p class="bib-sub">Every PMID cited across SupplementScore — 7 unique PubMed sources. Filter by funder type to verify the evidence base for any tier call. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC-BY 4.0</a> — reuse with attribution.</p>
+  <p class="bib-sub">Every PMID cited across SupplementScore — 3,222 unique PubMed sources. Filter by funder type to verify the evidence base for any tier call. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC-BY 4.0</a> — reuse with attribution.</p>
 
   <div class="bib-stats">
-    <button class="bib-stat on" data-filter="all" type="button">All (7)</button>
-    <button class="bib-stat" data-filter="public" type="button">Public (0)</button>
-    <button class="bib-stat" data-filter="nonprofit" type="button">Nonprofit (0)</button>
-    <button class="bib-stat" data-filter="industry" type="button">Industry (0)</button>
-    <button class="bib-stat" data-filter="mixed" type="button">Mixed (0)</button>
-    <button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed (7)</button>
+    <button class="bib-stat on" data-filter="all" type="button">All (3,222)</button>
+    <button class="bib-stat" data-filter="public" type="button">Public (1,069)</button>
+    <button class="bib-stat" data-filter="nonprofit" type="button">Nonprofit (43)</button>
+    <button class="bib-stat" data-filter="industry" type="button">Industry (205)</button>
+    <button class="bib-stat" data-filter="mixed" type="button">Mixed (105)</button>
+    <button class="bib-stat" data-filter="none_disclosed" type="button">No funder disclosed (1,800)</button>
   </div>
+
+  <!-- BIB_LETTERS:start -->
+  <div class="bib-letters" id="bib-letters" data-default="A" role="group" aria-label="Jump to a letter">
+    <button type="button" data-letter="A" class="on" aria-pressed="true">A</button><button type="button" data-letter="B" class="" aria-pressed="false">B</button><button type="button" data-letter="C" class="" aria-pressed="false">C</button><button type="button" data-letter="D" class="" aria-pressed="false">D</button><button type="button" data-letter="E" class="" aria-pressed="false">E</button><button type="button" data-letter="F" class="" aria-pressed="false">F</button><button type="button" data-letter="G" class="" aria-pressed="false">G</button><button type="button" data-letter="H" class="" aria-pressed="false">H</button><button type="button" data-letter="I" class="" aria-pressed="false">I</button><button type="button" data-letter="J" class="" aria-pressed="false">J</button><button type="button" data-letter="K" class="" aria-pressed="false">K</button><button type="button" data-letter="L" class="" aria-pressed="false">L</button><button type="button" data-letter="M" class="" aria-pressed="false">M</button><button type="button" data-letter="N" class="" aria-pressed="false">N</button><button type="button" data-letter="O" class="" aria-pressed="false">O</button><button type="button" data-letter="P" class="" aria-pressed="false">P</button><button type="button" data-letter="Q" class="" aria-pressed="false">Q</button><button type="button" data-letter="R" class="" aria-pressed="false">R</button><button type="button" data-letter="S" class="" aria-pressed="false">S</button><button type="button" data-letter="T" class="" aria-pressed="false">T</button><button type="button" data-letter="U" class="" aria-pressed="false">U</button><button type="button" data-letter="V" class="" aria-pressed="false">V</button><button type="button" data-letter="W" class="" aria-pressed="false">W</button><button type="button" data-letter="X" class="" aria-pressed="false">X</button><button type="button" data-letter="Y" class="" aria-pressed="false">Y</button><button type="button" data-letter="Z" class="" aria-pressed="false">Z</button><button type="button" data-letter="#" class="" aria-pressed="false">#</button>
+  </div>
+  <p class="bib-status" id="bib-status" aria-live="polite">Loading A…</p>
+  <!-- BIB_LETTERS:end -->
 
   <input type="text" id="bib-search" class="bib-search" placeholder="Filter by PMID, author, journal, year..." autocomplete="off">
 
@@ -116,29 +164,83 @@
       <tr><th style="width:90px">PMID</th><th style="width:130px">Funder type</th><th style="width:80px;text-align:right">Cites</th><th>Reference</th></tr>
     </thead>
     <tbody id="bib-body">
-      <tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/12092213/" target="_blank" rel="noopener">12092213</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Trifan A, Balan G, Stanciu C. &quot;Pancreatic enzymes replacement therapy in chronic pancreatitis: an update.&quot; Rev Med Chir Soc Med Nat Iasi , 2001;105(4):646-50. PMID: 12092213 .</td></tr><tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/22722514/" target="_blank" rel="noopener">22722514</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Baraldi S, Hepgul N, Mondelli V, Pariante CM. &quot;Symptomatic treatment of interferon-α-induced depression in hepatitis C: a systematic review.&quot; J Clin Psychopharmacol , 2012;32(4):531-43. PMID: 22722514 . DOI: 10.1097/JCP.0b013e31825d9982 .</td></tr><tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/33549728/" target="_blank" rel="noopener">33549728</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Donoso A, et al. &quot;Therapeutic uses of natural astaxanthin: An evidence-based review focused on human clinical trials.&quot; Pharmacol Res , 2021;166:105479. PMID: 33549728 . DOI: 10.1016/j.phrs.2021.105479 .</td></tr><tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/34445021/" target="_blank" rel="noopener">34445021</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Todorova V, et al. &quot;Plant Adaptogens — History and Future Perspectives.&quot; Nutrients , 2021;13(8):2861. PMID: 34445021 . DOI: 10.3390/nu13082861 .</td></tr><tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/37348963/" target="_blank" rel="noopener">37348963</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Small C, et al. &quot;The Alkylamine Stimulant 1,3-Dimethylamylamine Exhibits Substrate-Like Regulation of Dopamine Transporter Function and Localization.&quot; J Pharmacol Exp Ther , 2023;386(2):266-273. PMID: 37348963 . DOI: 10.1124/jpet.122.001573 .</td></tr><tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/38501161/" target="_blank" rel="noopener">38501161</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Dewi L, et al. &quot;Cordyceps militaris accelerates stem cell recruitment to human skeletal muscle after exercise.&quot; Food Funct , 2024;15(8):4010-4020. PMID: 38501161 . DOI: 10.1039/d3fo03770c .</td></tr><tr data-funder="none_disclosed" data-cites="1"><td><a href="https://pubmed.ncbi.nlm.nih.gov/38612968/" target="_blank" rel="noopener">38612968</a></td><td><span class="bib-fpill" style="background:#8A87801a;color:#8A8780;border:1px solid #8A878055">none disclosed</span></td><td class="num">1</td><td class="bib-text">Szumny D, et al. &quot;Extract from chokeberry, honeysuckle berry, and bilberry improves near visual acuity in people with presbyopia.&quot; Nutrients , 2024;16(7):926. PMID: 38612968 . DOI: 10.3390/nu16070926 .</td></tr>
     </tbody>
   </table>
 
-  <div class="bib-foot">Browse 700+ supplement entries: <a href="index.html" style="color:inherit;text-decoration:underline">Index</a> · See methodology: <a href="/about.html#methodology" style="color:inherit;text-decoration:underline">Methodology</a> · Suggest a missing citation: use the "Report inaccuracy" button on any supplement card.</div>
+  <div class="bib-foot">Browse 734 supplement entries: <a href="index.html" style="color:inherit;text-decoration:underline">Index</a> · See methodology: <a href="/about.html#methodology" style="color:inherit;text-decoration:underline">Methodology</a> · Suggest a missing citation: use the "Report inaccuracy" button on any supplement card.</div>
 </main>
 
+<!-- BIB_SCRIPT:start -->
 <script>
 (function(){
-  var rows = [].slice.call(document.querySelectorAll('#bib-body tr'));
+  var body = document.getElementById('bib-body');
   var search = document.getElementById('bib-search');
+  var status = document.getElementById('bib-status');
+  var letters = document.getElementById('bib-letters');
   var filter = 'all';
-
-  function apply() {
-    var q = search.value.trim().toLowerCase();
-    rows.forEach(function(r){
-      var matchFilter = (filter === 'all') || (r.dataset.funder === filter);
-      var matchSearch = !q || r.textContent.toLowerCase().indexOf(q) !== -1;
-      r.classList.toggle('hidden', !(matchFilter && matchSearch));
+  var letter = (letters && letters.getAttribute('data-default')) || 'A';
+  var rows = [];
+  var SEARCH_CAP = 60;
+  var COLORS = { public:'#0D9488', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#8A8780' };
+  var LABELS = { public:'public', nonprofit:'nonprofit', industry:'industry', mixed:'mixed', none_disclosed:'none disclosed' };
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function fmt(n){
+    return Number(n).toLocaleString('en-US');
+  }
+  function paintLetters(){
+    if (!letters) return;
+    var searching = !!(search && search.value.trim());
+    [].forEach.call(letters.querySelectorAll('[data-letter]'), function(x){
+      var on = !searching && x.getAttribute('data-letter') === letter;
+      x.classList.toggle('on', on);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
   }
-
+  function render(list, note, cap){
+    var shown = cap ? list.slice(0, cap) : list;
+    body.innerHTML = shown.map(function(row){
+      var color = COLORS[row.funder] || COLORS.none_disclosed;
+      var label = LABELS[row.funder] || row.funder;
+      var ref = row.reference ? esc(row.reference) : 'Cited on SupplementScore. Citation text is not stored separately from the page that links this PMID.';
+      return '<tr data-funder="'+row.funder+'"><td class="bib-pmid" data-label="PMID"><a href="https://pubmed.ncbi.nlm.nih.gov/'+row.pmid+'/" target="_blank" rel="noopener">'+row.pmid+'</a></td><td class="bib-funder" data-label="Funder"><span class="bib-fpill" style="background:'+color+'1a;color:'+color+';border:1px solid '+color+'55">'+esc(label)+'</span></td><td class="num" data-label="Cites">'+row.cites+'</td><td class="bib-text">'+ref+'</td></tr>';
+    }).join('');
+    if (status) status.textContent = note;
+  }
+  function apply(){
+    paintLetters();
+    var q = search.value.trim().toLowerCase();
+    var pool = rows.filter(function(r){ return filter === 'all' || r.funder === filter; });
+    if (q) {
+      var hits = pool.filter(function(r){
+        return String(r.pmid).indexOf(q) !== -1 || String(r.reference || '').toLowerCase().indexOf(q) !== -1;
+      });
+      render(hits, 'Showing ' + fmt(Math.min(hits.length, SEARCH_CAP)) + ' of ' + fmt(hits.length) + ' matches', SEARCH_CAP);
+      return;
+    }
+    var inLetter = pool.filter(function(r){ return r.letter === letter; });
+    render(inLetter, 'Showing ' + letter + ' · ' + fmt(inLetter.length) + ' of ' + fmt(rows.length));
+  }
+  fetch('/data/bibliography.json').then(function(r){ return r.json(); }).then(function(data){
+    rows = data;
+    apply();
+  }).catch(function(){
+    if (status) status.textContent = 'The bibliography could not be loaded.';
+  });
   search.addEventListener('input', apply);
+  if (letters) letters.addEventListener('click', function(e){
+    var b = e.target.closest('[data-letter]');
+    if (!b) return;
+    letter = b.getAttribute('data-letter');
+    [].forEach.call(letters.querySelectorAll('[data-letter]'), function(x){
+      var on = x === b;
+      x.classList.toggle('on', on);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    search.value = '';
+    apply();
+  });
   [].forEach.call(document.querySelectorAll('.bib-stat'), function(b){
     b.addEventListener('click', function(){
       [].forEach.call(document.querySelectorAll('.bib-stat'), function(x){ x.classList.remove('on'); });
@@ -149,6 +251,7 @@
   });
 })();
 </script>
+<!-- BIB_SCRIPT:end -->
 <!-- SS_FOOTER_BEGIN -->
 <!-- 2026-05-23 — Footer rewritten in centered-column layout (Direction B from
      the mockup review). Single vertical axis: brand → tagline → inline link
