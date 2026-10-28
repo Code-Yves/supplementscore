@@ -842,6 +842,25 @@ if (typeof renderAll === 'function') {
      build; cleared if the page injects more cards dynamically. */
   let _artIndex = null;
   window.invalidateArtIndex = function(){ _artIndex = null; };
+  /* One article can sit on the page twice, and the two copies do not always
+     share a string: a featured card may use a unicode hyphen, or one copy
+     is an href and the other is showArticle(id). Key by the /a/ path. */
+  function artCanonical(href, articleId){
+    var url = href || '';
+    if (!url && articleId && window.__ART_MANIFEST){
+      var file = window.__ART_MANIFEST[articleId] || window.__ART_MANIFEST[String(articleId)];
+      if (file) url = '/a/' + file;
+    }
+    if (!url) return '';
+    url = String(url).replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-');
+    url = url.split('#')[0].split('?')[0];
+    try { url = decodeURIComponent(url); } catch (e) {}
+    var low = url.toLowerCase();
+    var cut = low.lastIndexOf('/a/');
+    if (cut >= 0) return low.slice(cut);
+    if (low.indexOf('a/') === 0) return '/' + low;
+    return low;
+  }
   function buildArtIndex(){
     if (_artIndex) return _artIndex;
     _artIndex = [];
@@ -860,12 +879,13 @@ if (typeof renderAll === 'function') {
       const cat = (catEl ? catEl.textContent.trim() : '') || (card.getAttribute('data-category') || '');
       const minEl = card.querySelector('.article-side-stat');
       const min = minEl ? (minEl.textContent || '').trim() : '';
-      const href = card.tagName === 'A' ? card.getAttribute('href') : '';
+      let href = card.tagName === 'A' ? card.getAttribute('href') : '';
       const onclickAttr = card.getAttribute('onclick') || '';
       const showMatch = onclickAttr.match(/showArticle\((\d+)\)/);
       const articleId = showMatch ? parseInt(showMatch[1], 10) : 0;
       if (!href && !articleId) return;
-      const key = (href || ('id:' + articleId) || title).toLowerCase();
+      if (href) href = href.replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-');
+      const key = artCanonical(href, articleId) || ('id:' + articleId) || title.toLowerCase();
       if (seen.has(key)) return;
       seen.add(key);
       _artIndex.push({ title, cat, min, href, articleId });

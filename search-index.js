@@ -321,6 +321,10 @@
       else if ((m.extra   || []).indexOf(name) >= 0) bucket = 'extra';
       if (bucket) hits.push({ slug: k, name: m.label, bucket: bucket });
     });
+    var rank = { avoid: 0, caution: 1, extra: 2, clear: 3 };
+    hits.sort(function (a, b) {
+      return (rank[a.bucket] - rank[b.bucket]) || String(a.name).localeCompare(String(b.name));
+    });
     return hits;
   }
   function articlesForSupplement(name) {

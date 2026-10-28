@@ -1262,7 +1262,7 @@
         <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
       </form>
     </div>
-    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
 /* Footer contributor form — small handler shared by every page that ships the
@@ -1308,7 +1308,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
   // carry their own trailing \b inside the alternation (e.g. \bdha\b).
   var TOPICS = [
     ['Sleep',        /\b(sleep|insomnia|melatonin|valerian|hops|tart cherry|apigenin|chamomile|bedtime)/i],
-    ['Stress & mood', /\b(stress|anxious|anxiety|cortisol|mood|depress|adaptogen|ashwagandha|rhodiola|holy basil|tulsi|lemon balm|saffron|st\.?\s?john|5-htp|tryptophan|\bsame\b)/i],
+    ['Stress & mood', /\b(stress|anxious|anxiety|cortisol|mood|depress|adaptogen|ashwagandha|rhodiola|holy basil|tulsi|lemon balm|saffron|st\.?\s?john|5-htp|tryptophan)/i],
     ['Cognition',    /\b(cogniti|memory|focus|nootropic|\bbrain\b|bacopa|lion'?s? mane|ginkgo|alpha-gpc|citicoline|cdp-choline|phosphatidylserine|l-threonate|threonate|attention)/i],
     ['Performance',  /\b(muscle|protein|whey|casein|plant protein|pea protein|leucine|creatine|\bbcaa|beta-alanine|citrulline|arginine|beetroot|pumps|training|performance|ergogenic|\bmps\b)/i],
     ['Heart & BP',   /\b(blood pressure|hypertens|cardio|cardiovascular|lipid|cholesterol|triglycerid|hawthorn|garlic|olive leaf|hibiscus|pomegranate|omega-3|fish oil|krill|algal|\bepa\b|\bdha\b|coq10)/i],
@@ -1359,6 +1359,12 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     var topics = [];
     for (var i = 0; i < TOPICS.length; i++){
       if (TOPICS[i][1].test(hay)) topics.push(TOPICS[i][0]);
+    }
+    /* "same shelf" is not SAMe. The haystack is lowercased, so the
+       case-sensitive name is tested on the original title. */
+    if (/\bSAMe\b/.test(title) && topics.indexOf('Stress & mood') < 0){
+      var sleepAt = topics.indexOf('Sleep');
+      topics.splice(sleepAt >= 0 ? sleepAt + 1 : 0, 0, 'Stress & mood');
     }
     if (!topics.length) topics.push('Other');
     card.dataset.topics  = topics.join('|');
