@@ -760,7 +760,7 @@
       +   '</div>'
       +   '<div class="det-hero-l">'
       +     '<div class="det-hero-tier-row"><span class="det-tier '+escAttr(s.t)+'">'+escHtml(meta.label)+'</span></div>'
-      +     '<h1 class="det-h1">'+escHtml(s.n)+'</h1>'
+      +     '<h1 class="det-h1">'+summaryHtml(s.n)+'</h1>'
       +     '<p class="ss-last-reviewed" style="font-size:12.5px;color:var(--color-text-tertiary);margin:0 0 12px">Last reviewed <time datetime="2026-10-15">15 October 2026</time> · <a href="/about.html#transparency">SupplementScore team</a></p>'
       +     (catsHtml ? '<div class="det-cats">'+catsHtml+'</div>' : '')
       +     (tldr ? '<p class="det-tldr">'+summaryHtml(tldr)+'</p>' : '')
