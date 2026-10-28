@@ -27,6 +27,17 @@ for (const [name, urlPath, ready] of SHOTS) {
       if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
       window.scrollTo(0, 0);
     });
+    // Supplement and article pages inject styles.css 300ms after first paint.
+    // A screenshot taken before that sheet applies is a stable but unstyled frame.
+    await page.waitForFunction(() => {
+      const links = [...document.querySelectorAll('link[rel="stylesheet"]')];
+      const full = links.find((link) => /styles\.css/.test(link.getAttribute('href') || ''));
+      if (!full || !full.sheet) return false;
+      const media = full.media || '';
+      if (media && media !== 'all') return false;
+      try { return full.sheet.cssRules.length > 0; }
+      catch (e) { return false; }
+    }, null, { timeout: 15000 });
     await expect(page).toHaveScreenshot(name + '.png', {
       fullPage: false,
       animations: 'disabled',

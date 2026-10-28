@@ -8,6 +8,87 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
+  /* One trust line, desktop only, at the left of the 1024px column.
+     The homepage already has it in the stats bar. Other pages get the
+     same element: inside a page bar, or on the body when the page has
+     neither. Never the footer, a menu, or a second copy. */
+  (function placeTrustLine(){
+    var LABEL = 'Independent · No industry funding';
+    function ensure(){
+      if (!document.body || document.body.classList.contains('is-modal')) return null;
+      var el = document.querySelector('.ss-np');
+      if (!el) {
+        el = document.createElement('span');
+        el.className = 'ss-np';
+        el.textContent = LABEL;
+        var pagebar = document.querySelector('.ss-pagebar-inner');
+        if (pagebar) {
+          var brand = pagebar.querySelector('.ss-pagebar-brand');
+          if (brand) brand.insertAdjacentElement('afterend', el);
+          else pagebar.insertBefore(el, pagebar.firstChild);
+        } else {
+          var banner = document.createElement('header');
+          banner.className = 'ss-np-banner';
+          banner.appendChild(el);
+          document.body.insertBefore(banner, document.body.firstChild);
+        }
+      } else if (el.parentElement === document.body) {
+        var wrap = document.createElement('header');
+        wrap.className = 'ss-np-banner';
+        el.parentElement.insertBefore(wrap, el);
+        wrap.appendChild(el);
+      }
+      return el;
+    }
+    /* documentElement.clientWidth includes the scrollbar gutter, but the
+       columns are centered in the body's layout width, which does not.
+       Reading the body keeps the label on the same edge as the homepage. */
+    function columnLeft(){
+      var L = document.body.clientWidth;
+      var gutter = 16;
+      var inner = Math.max(0, L - gutter * 2);
+      var col = Math.min(1024, inner);
+      return gutter + (inner - col) / 2 + 24;
+    }
+    function rowCenter(){
+      var nodes = document.querySelectorAll('a.rc-close, a.pg-close-fab, a.reader-close-fab, a.hub-close-fab, a.cmp-close-fab, a.bro-close-fab, a.d-close-fab');
+      for (var i = 0; i < nodes.length; i++) {
+        var s = getComputedStyle(nodes[i]);
+        if (s.display === 'none' || s.visibility === 'hidden') continue;
+        var r = nodes[i].getBoundingClientRect();
+        if (r.width < 8 || r.height < 8) continue;
+        return r.top + r.height / 2 + window.scrollY;
+      }
+      return 38;
+    }
+    function align(){
+      var el = ensure();
+      if (!el) return;
+      var w = el.getBoundingClientRect().width;
+      if (w > 40) document.documentElement.style.setProperty('--ss-np-pad', Math.ceil(24 + w + 20) + 'px');
+      if (el.closest('.beta-bar, .ss-pagebar')) return;
+      if (!window.matchMedia('(min-width:1024px)').matches) return;
+      var banner = el.closest('header.ss-np-banner') || el;
+      var parent = banner.offsetParent || document.documentElement;
+      var pr = parent.getBoundingClientRect();
+      var border = parseFloat(getComputedStyle(parent).borderLeftWidth) || 0;
+      banner.style.left = (columnLeft() - pr.left - window.scrollX - border) + 'px';
+      var h = 32;
+      var parentTop = pr.top + window.scrollY;
+      banner.style.top = (rowCenter() - h / 2 - parentTop) + 'px';
+      banner.style.height = h + 'px';
+    }
+    window.addEventListener('resize', align);
+    window.addEventListener('load', align);
+    var tries = 0;
+    var timer = setInterval(function(){
+      tries++;
+      align();
+      if (document.querySelector('a.rc-close') || tries > 20) clearInterval(timer);
+    }, 100);
+    setTimeout(align, 0);
+  })();
+
   /* A refresh was landing on the footer.
      Chromium scroll-anchors to whatever was on screen. Research chrome,
      a stylesheet applied after first paint, and slots filled in after
@@ -26,9 +107,11 @@
     var isHome = path === '/' || /\/index\.html$/.test(path);
     var hash = (location.hash || '').replace(/^#/, '');
     var tabHash = hash === 'research' || hash === 'about' || hash === 'profile' || hash === 'supplements';
-    var KEY = 'ss-scroll:' + path;
+    function scrollKey(){
+      return 'ss-scroll:' + (location.pathname || '/') + (location.hash || '');
+    }
     var user = false;
-    function markUser(){ user = true; }
+    function markUser(){ user = true; window.__ssScrollUser = true; }
     if (navType !== 'back_forward') {
       ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function(type){
         window.addEventListener(type, markUser, { capture: true, passive: true });
@@ -37,7 +120,7 @@
     if (!(isHome && navType !== 'reload')) {
       window.addEventListener('pagehide', function(){
         if (navType === 'reload' && !user) return;
-        try { sessionStorage.setItem(KEY, String(Math.round(window.scrollY || 0))); } catch (e) {}
+        try { sessionStorage.setItem(scrollKey(), String(Math.round(window.scrollY || 0))); } catch (e) {}
       });
     }
     function blurFooterFocus(){
@@ -62,9 +145,11 @@
     if (hash && !tabHash) return;
 
     var target = 0;
-    if (navType === 'reload' && !tabHash) {
+    /* Homepage reloads stay at the top. A saved offset is for the next
+       non-reload visit, and reading it here is what jumped a refresh. */
+    if (navType === 'reload' && !tabHash && !isHome) {
       var raw = null;
-      try { raw = sessionStorage.getItem(KEY); } catch (e) {}
+      try { raw = sessionStorage.getItem(scrollKey()); } catch (e) {}
       /* No saved offset: leave the browser's own restoration alone.
          Forcing the top here would undo a reload that already landed
          in the right place. */
@@ -440,14 +525,50 @@
   +   'line-height:0;cursor:pointer;font-size:0 !important;transform:none !important}'
   + '.ss-x:hover,.ss-x:active{transform:none !important;color:var(--color-text-primary,#0c0a09) !important}'
   + '.ss-x svg{width:18px !important;height:18px !important;display:block !important;flex:none}'
-  + 'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
-  + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab,html:not(.ss-in-iframe) a.ss-x.rc-close{'
-  +   'position:fixed !important;top:8px !important;right:16px !important;z-index:80 !important}'
   + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab svg{width:18px !important;height:18px !important}'
   + 'html.rc-chrome-active a.ss-x.reader-close-fab,html.rc-chrome-active a.ss-x.pg-close-fab{display:none !important}'
   + 'body:has(.ss-pagebar) a.ss-x.pg-close-fab,body:has(.ss-pagebar) a.ss-x.hub-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.bro-close-fab,body:has(.ss-pagebar) a.ss-x.cmp-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.d-close-fab{display:none !important}'
+    /* Desktop: every × sits 16px inside the top-right of the panel it closes.
+       A viewport right:16px lands outside a centered column once the scrollbar
+       gutter is counted. Phone rules below keep the viewport corner. */
+  + '@media(min-width:769px){'
+  +   '.ss-pagebar-inner{position:relative;min-height:76px;padding:16px 76px 16px 16px;box-sizing:border-box}'
+  +   'a.ss-pagebar-x{position:absolute !important;top:16px !important;right:16px !important;z-index:2}'
+  +   'html.rc-chrome-active .ar-column,html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,'
+  +   'html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{position:relative}'
+  +   'a.ss-x.rc-close{position:absolute !important;top:16px !important;right:16px !important;z-index:5 !important}'
+  +   'html.rc-chrome-active .rc-top{box-sizing:border-box;min-height:72px;padding-right:72px;align-items:center}'
+  +   'body:has(main.det-wrap):not(.is-modal){position:relative}'
+  +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions{'
+  +     'position:absolute;top:0;left:50%;transform:translateX(-50%);'
+  +     'width:min(880px,calc(100% - 2rem));height:0;margin:0;padding:0;border:0;'
+  +     'overflow:visible;pointer-events:none;z-index:80}'
+  +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>a.ss-x.pg-close-fab{'
+  +     'position:absolute !important;top:16px !important;right:16px !important;z-index:80 !important;pointer-events:auto}'
+  +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{'
+  +     'position:absolute !important;top:16px !important;right:68px !important;pointer-events:auto}'
+  +   'body:has(main.det-wrap):not(.is-modal)>main.det-wrap{padding-top:72px}'
+  +   '.src-modal-panel,.art-modal-pane{position:relative}'
+  +   '.src-modal-head,.art-modal-chrome{position:relative;padding-right:76px}'
+  +   '.src-modal-close,.art-modal-close{position:absolute !important;top:16px !important;right:16px !important;z-index:3}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(:has(.beta-bar)):not(.is-modal){position:relative}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>a.ss-x,'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{'
+  +     'position:absolute !important;top:16px !important;pointer-events:auto;z-index:80 !important}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>a.ss-x{right:16px !important}'
+  +   'body:not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{right:68px !important}'
+  +   'body:has(>nav.ss-page-actions):not(:has(.ss-pagebar)):not(:has(main.det-wrap)):not(:has(.beta-bar)):not(:has(main.ar-wrap)):not(:has(main.sx-wrap)):not(:has(main.ca-wrap)):not(:has(main.sk-wrap)):not(:has(.rc-top)):not(.is-modal)>main{padding-top:72px !important}'
+  + '}'
+  + '@media(min-width:1024px){'
+  +   'header.ss-np-banner{display:flex;align-items:center;position:absolute;z-index:30;height:32px;margin:0;padding:0;border:0;background:transparent;pointer-events:none}'
+  +   'header.ss-np-banner>.ss-np{display:inline-flex;position:static;height:32px;align-items:center}'
+  +   'html.rc-chrome-active .ar-toc{padding-top:64px;box-sizing:border-box}'
+  +   '.ss-pagebar-inner{justify-content:flex-start;gap:0;padding-left:24px}'
+  +   '.ss-pagebar-inner>.ss-np{position:static;height:32px;margin:0 0 0 22px;transform:none}'
+  + '}'
+  + 'body.is-modal .ss-np{display:none !important}'
     /* Phone: every corner × sits 8px from the top and 16px from the right. */
   + '@media(max-width:768px){'
   +   'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
@@ -827,6 +948,7 @@
     initBreadcrumbs();
     initShareFab();
     placePageActions();
+    alignFloatingPanel();
     nameModalMain();
     /* 2026-05-24 — belt-and-braces: also remove any pre-existing
        .ssux-handout buttons in case an older cached page injected one. */
@@ -928,6 +1050,39 @@
     nav.appendChild(closeFab);
   }
 
+  /* Pages whose close is a body-level fab (not the supplement column and
+     not a page bar) size that fab's nav to the main panel, then the
+     desktop rule parks the × 16px inside that box. */
+  function alignFloatingPanel(){
+    var nav = document.querySelector('nav.ss-page-actions');
+    if (!nav) return;
+    var desktop = window.matchMedia('(min-width:769px)').matches;
+    var skip = !desktop || !document.body || document.body.classList.contains('is-modal')
+      || document.querySelector('.ss-pagebar') || document.querySelector('main.det-wrap');
+    if (skip) {
+      ['position','top','left','width','height','transform','margin','pointer-events','overflow'].forEach(function(prop){
+        nav.style.removeProperty(prop);
+      });
+      return;
+    }
+    var panel = document.querySelector('main');
+    if (!panel) return;
+    var pr = panel.getBoundingClientRect();
+    var br = document.body.getBoundingClientRect();
+    nav.style.setProperty('position', 'absolute', 'important');
+    /* Absolute offsets are from the body's padding edge, which lines up
+       with the border box when the body has no border. Subtracting
+       padding shifts the × a second 16px away from the panel. */
+    nav.style.setProperty('top', (pr.top - br.top) + 'px', 'important');
+    nav.style.setProperty('left', (pr.left - br.left) + 'px', 'important');
+    nav.style.setProperty('width', pr.width + 'px', 'important');
+    nav.style.setProperty('height', '0px', 'important');
+    nav.style.setProperty('transform', 'none', 'important');
+    nav.style.setProperty('margin', '0', 'important');
+    nav.style.setProperty('pointer-events', 'none', 'important');
+    nav.style.setProperty('overflow', 'visible', 'important');
+  }
+
   /* The supplement card iframe repeats the page's unnamed main and footer.
      Name this main and hide the footer (the stylesheet also hides it) so
      the open card is not a second copy of those landmarks. */
@@ -981,6 +1136,8 @@
   } else {
     boot();
   }
+  window.addEventListener('resize', alignFloatingPanel);
+  window.addEventListener('load', alignFloatingPanel);
 
   /* Keep hyphenated headline compounds on one line (Most-Studied). */
   function keepHeadlineCompounds(){

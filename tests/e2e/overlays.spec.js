@@ -306,20 +306,65 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
   expect(contrast(share.fg, share.bg)).toBeGreaterThanOrEqual(4.5);
 });
 
-test('desktop close controls share one corner', async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'desktop corner');
+async function panelCorner(page, closeSel, panelSel) {
+  await page.waitForFunction((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return false;
+    let node = el;
+    while (node) {
+      if (node.getAnimations().some((anim) => anim.playState === 'running')) return false;
+      node = node.parentElement;
+    }
+    const width = el.getBoundingClientRect().width;
+    return width >= 44 && width < 44.01;
+  }, closeSel);
+  return page.evaluate(({ closeSel, panelSel }) => {
+    const close = document.querySelector(closeSel);
+    const panel = document.querySelector(panelSel);
+    const cr = close.getBoundingClientRect();
+    const pr = panel.getBoundingClientRect();
+    return {
+      w: cr.width,
+      h: cr.height,
+      topGap: cr.top - pr.top,
+      rightGap: pr.right - cr.right,
+    };
+  }, { closeSel, panelSel });
+}
+
+function expectPanelCorner(box, label) {
+  expect(box.w, label + ' width').toBeGreaterThanOrEqual(44);
+  expect(box.w, label + ' width').toBeLessThan(44.01);
+  expect(box.h, label + ' height').toBeGreaterThanOrEqual(44);
+  expect(box.h, label + ' height').toBeLessThan(44.01);
+  expect(box.topGap, label + ' top').toBeGreaterThanOrEqual(15);
+  expect(box.topGap, label + ' top').toBeLessThanOrEqual(17);
+  expect(box.rightGap, label + ' right').toBeGreaterThanOrEqual(15);
+  expect(box.rightGap, label + ' right').toBeLessThanOrEqual(17);
+}
+
+test('desktop close controls sit 16px inside the panel they close', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop panel corner');
   const targets = [
-    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x'],
-    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
+    ['/about.html', 'a.ss-pagebar-x', '.ss-pagebar-inner'],
+    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x', 'main.det-wrap'],
+    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x', '.ar-column'],
+    ['/for/menopause.html', 'a.reader-close-fab.ss-x', 'main'],
   ];
-  for (const [path, selector] of targets) {
+  for (const [path, closeSel, panelSel] of targets) {
     await goto(page, path);
-    await page.waitForSelector(selector);
-    expectCorner(await cornerBox(page, selector), path);
+    await page.waitForSelector(panelSel);
+    await page.waitForSelector(closeSel);
+    expectPanelCorner(await panelCorner(page, closeSel, panelSel), path);
   }
+  await goto(page, '/');
+  // #104 removed the homepage source-logo row on 2026-10-27. The modal close is still on the page.
+  await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
+  await page.waitForSelector('#sources-modal.open .src-modal-close');
+  expectPanelCorner(await panelCorner(page, '#sources-modal.open .src-modal-close', '.src-modal-panel'), 'sources');
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
-  expectCorner(await cornerBox(page, '.ssm-x'), 'detail');
+  expectPanelCorner(await panelCorner(page, '.ssm-x', '.ssm-card'), 'detail');
 });
 
 test('supplement close is inside a landmark and the open card does not repeat one', async ({ page }) => {
