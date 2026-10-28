@@ -358,7 +358,8 @@ test('desktop close controls sit 16px inside the panel they close', async ({ pag
     expectPanelCorner(await panelCorner(page, closeSel, panelSel), path);
   }
   await goto(page, '/');
-  await page.locator('.ix-sources-more').evaluate((el) => el.click());
+  // #104 removed the homepage source-logo row on 2026-10-27. The modal close is still on the page.
+  await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
   await page.waitForSelector('#sources-modal.open .src-modal-close');
   expectPanelCorner(await panelCorner(page, '#sources-modal.open .src-modal-close', '.src-modal-panel'), 'sources');
   await openSupplement(page);
