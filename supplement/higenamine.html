@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Higenamine (norcoclaurine, pre-workout)",
   "description": "A beta-adrenergic agonist found in some pre-workout and fat-burning supplements. Banned by WADA in 2017 due to stimulant properties. Causes dose-dependent increases in heart rate and blood pressure with risk of cardiac arrhythmias. FDA issued warnings about supplements containing higenamine. Often undeclared on labels — found in products containing aconite, lotus seed, or Nandina. No evidence it enhances exercise performance.",
-  "activeIngredient": "Higenamine",
-  "isProprietary": false,
   "safetyConsideration": "Documented safety risks including possible organ damage, drug interactions, or regulatory warnings. Do not use without clinician supervision. SupplementScore Tier 4.",
   "url": "https://supplementscore.org/supplement/higenamine.html",
   "image": "https://supplementscore.org/og/default.png",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/higenamine.html"
   },
-  "alternateName": "norcoclaurine, pre-workout",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "AVOID — banned by WADA; causes cardiac arrhythmias; often undeclared in pre-workout supplements"
-  }
+  "alternateName": "norcoclaurine, pre-workout"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

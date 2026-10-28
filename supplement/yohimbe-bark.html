@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Yohimbe bark (Pausinystalia yohimbe)",
   "description": "Yohimbine, the active compound in yohimbe bark, is a potent stimulant with a narrow safety window. Multiple reports of dangerous blood pressure spikes, heart attacks, and seizures are linked to bark supplements. FDA warns yohimbine content varies by up to 10-fold between products, making dosing unpredictable and dangerous. Prescription yohimbine HCl is the only regulated option.",
-  "activeIngredient": "Yohimbe bark",
-  "isProprietary": false,
   "safetyConsideration": "Documented safety risks including possible organ damage, drug interactions, or regulatory warnings. Do not use without clinician supervision. SupplementScore Tier 4.",
   "url": "https://supplementscore.org/supplement/yohimbe-bark.html",
   "image": "https://supplementscore.org/og/default.png",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/yohimbe-bark.html"
   },
-  "alternateName": "Pausinystalia yohimbe",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "AVOID supplement-form yohimbe bark entirely — unpredictable dosing causes cardiac emergencies; prescription yohimbine HCl only under medical supervision"
-  }
+  "alternateName": "Pausinystalia yohimbe"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

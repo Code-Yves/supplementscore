@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Omega-3 (high dose)",
   "description": "High-dose omega-3 (≥2 g/day EPA+DHA) targeted at hypertriglyceridemia (>500 mg/dL) and secondary cardiovascular prevention. The 2024 Tseng network meta-analysis (PMID 39805484) confirms 2,000–4,000 mg/day for ≥1 year improves LV ejection fraction in heart failure. SAFETY UPDATE (O'Keefe 2024 PMID 39617283): RCTs at 1.8–4 g/day showed a ~50% increase in atrial-fibrillation risk (dose-dependent, vagally-mediated).",
-  "activeIngredient": "Omega-3",
-  "isProprietary": false,
   "safetyConsideration": "Promising or situational evidence; benefits depend on indication and dosing. SupplementScore Tier 2.",
   "url": "https://supplementscore.org/supplement/omega-3-high-dose.html",
   "image": "https://supplementscore.org/og/default.png",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/omega-3-high-dose.html"
   },
-  "alternateName": "high dose",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "Triglyceride reduction / cardiovascular risk: 2–4 g/day EPA+DHA with a fatty meal; prescription EPA-only (icosapentaenoic acid, Vascepa) 4 g/day is the only formulation with REDUCE-IT evidence. Over-t"
-  }
+  "alternateName": "high dose"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

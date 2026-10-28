@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Berberine-containing Coptis (Huang Lian)",
   "description": "Coptis chinensis is the traditional TCM source of berberine, used for centuries to treat damp-heat conditions and digestive infections. The whole herb contains additional alkaloids beyond berberine alone. A 2024 review found Coptis extracts have broader antimicrobial activity than purified berberine. Same drug interaction cautions as berberine apply.",
-  "activeIngredient": "Berberine-containing Coptis",
-  "isProprietary": false,
   "safetyConsideration": "Trending in wellness culture but limited clinical evidence. SupplementScore Tier 3.",
   "url": "https://supplementscore.org/supplement/berberine-containing-coptis.html",
   "image": "https://supplementscore.org/og/berberine-containing-coptis.webp",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/berberine-containing-coptis.html"
   },
-  "alternateName": "Huang Lian",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "500–1,000 mg/day Coptis extract; lower dose than pure berberine due to additional active alkaloids"
-  }
+  "alternateName": "Huang Lian"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

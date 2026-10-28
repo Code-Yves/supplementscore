@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Ashwagandha (KSM-66)",
   "description": "May ease perceived stress in some adults, but the largest 2026 pooled effects are not credible. A 2026 meta-analysis reported implausibly large effects on stress, depression, and anxiety (standardized mean differences about -5.7 to -6.9; PMID 41644067, doi:10.1016/j.ctim.2026.103325). A 2026 hormone review found lower cortisol, no change in TSH or T3, a modest T4 increase, and higher testosterone in men only (PMID 41740946, doi:10.1055/a-2802-8363). A 2026 glycemic review found a very-low-certainty fasting-glucose reduction of 3.09 mg/dL and no clear HbA1c effect (PMID 42641800, doi:10.1016/j.diabres.2026.113529). Safety data beyond 3 months is limited, and rare cases of liver injury have been reported. Stop and get medical care for jaundice, dark urine, or pain in the upper abdomen. Avoid in pregnancy and while breastfeeding. Best used in cycles of 8 to 12 weeks on, then 2 to 4 weeks off. Choose a standardized extract like KSM-66.",
-  "activeIngredient": "Ashwagandha",
-  "isProprietary": false,
   "safetyConsideration": "Promising or situational evidence; benefits depend on indication and dosing. SupplementScore Tier 2.",
   "url": "https://supplementscore.org/supplement/ashwagandha.html",
   "image": "https://supplementscore.org/og/ashwagandha.webp",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/ashwagandha.html"
   },
-  "alternateName": "KSM-66",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "300–600 mg/day standardised extract; cycle 8–12 wks on, 2–4 off"
-  }
+  "alternateName": "KSM-66"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

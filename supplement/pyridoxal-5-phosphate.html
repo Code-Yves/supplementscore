@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Pyridoxal 5-phosphate (P5P)",
   "description": "The bioactive coenzyme form of vitamin B6 that bypasses the hepatic conversion pyridoxine HCl requires. Preferred in those with impaired hepatic function, aldehyde oxidase deficiency, or on drugs that inhibit B6 conversion. Essential cofactor for over 140 enzymatic reactions including neurotransmitter synthesis (GABA, serotonin, dopamine), homocysteine methylation, and haem formation. High-dose vitamin B6 causes sensory neuropathy.",
-  "activeIngredient": "Pyridoxal 5-phosphate",
-  "isProprietary": false,
   "safetyConsideration": "Promising or situational evidence; benefits depend on indication and dosing. SupplementScore Tier 2.",
   "url": "https://supplementscore.org/supplement/pyridoxal-5-phosphate.html",
   "image": "https://supplementscore.org/og/pyridoxal-5-phosphate.webp",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/pyridoxal-5-phosphate.html"
   },
-  "alternateName": "P5P",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "Products often provide 20–50 mg. The US upper limit is 100 mg/day. EFSA’s 2023 long-term upper limit is 12 mg/day of vitamin B6 from every form, including P5P. Short higher courses, such as pregnancy "
-  }
+  "alternateName": "P5P"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

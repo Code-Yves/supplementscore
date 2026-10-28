@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Ferrous bisglycinate (gentle iron)",
   "description": "Iron chelated with glycine amino acid — the best-tolerated oral iron form and increasingly the evidence-based first choice for iron deficiency. The 2023 Fischer meta-analysis (17 RCTs, PMID 36728680, Nutrition Reviews) found ferrous bisglycinate significantly raised hemoglobin in pregnant women vs other iron supplements (SMD 0.54 g/dL; 95% CI 0.15–0.94) and produced 64% fewer gastrointestinal adverse events (IRR 0.36; 95% CI 0.17–0.76).",
-  "activeIngredient": "Ferrous bisglycinate",
-  "isProprietary": false,
   "safetyConsideration": "Strong evidence base; safe for adult use at standard doses. SupplementScore Tier 1.",
   "url": "https://supplementscore.org/supplement/ferrous-bisglycinate.html",
   "image": "https://supplementscore.org/og/ferrous-bisglycinate.webp",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/ferrous-bisglycinate.html"
   },
-  "alternateName": "gentle iron",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "25–50 mg/day elemental iron as ferrous bisglycinate for deficiency treatment. Every-other-day dosing (rather than daily) may improve net absorption by allowing hepcidin levels to reset between doses. "
-  }
+  "alternateName": "gentle iron"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

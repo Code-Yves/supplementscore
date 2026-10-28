@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Collagen for muscle strength",
   "description": "Collagen is missing key amino acids needed for muscle building and cannot replace complete protein sources like whey or eggs. A 2024 review of 13 trials found no significant effect on muscle strength or power. While collagen has benefits for skin and joints, it should never be marketed or used as a muscle-building protein supplement.",
-  "activeIngredient": "Collagen for muscle strength",
-  "isProprietary": false,
   "safetyConsideration": "Trending in wellness culture but limited clinical evidence. SupplementScore Tier 3.",
   "url": "https://supplementscore.org/supplement/collagen-for-muscle-strength.html",
   "image": "https://supplementscore.org/og/collagen-for-muscle-strength.webp",
@@ -408,11 +406,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/collagen-for-muscle-strength.html"
-  },
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "No dose recommendation — collagen is not a complete protein and adds no muscle-building benefit beyond what 0.4 g/kg whey or other complete protein per meal already provides. If your goal is muscle, p"
   }
 }
 </script>

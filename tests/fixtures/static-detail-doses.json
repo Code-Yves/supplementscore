@@ -1,0 +1,127 @@
+[
+  {
+    "supplement": "Multivitamins (healthy adults)",
+    "slug": "multivitamins",
+    "expected": "One tablet/day"
+  },
+  {
+    "supplement": "Turkesterone / Ecdysteroids",
+    "slug": "turkesterone-ecdysteroids",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Saw palmetto (Serenoa repens)",
+    "slug": "saw-palmetto",
+    "expected": "320 mg/day"
+  },
+  {
+    "supplement": "High-dose fat-soluble vitamins (A, E)",
+    "slug": "high-dose-fat-soluble-vitamins",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Calcium",
+    "slug": "calcium",
+    "expected": "500 mg/day"
+  },
+  {
+    "supplement": "Calendula (Calendula officinalis)",
+    "slug": "calendula",
+    "expected": "500–1,000 mg/day"
+  },
+  {
+    "supplement": "Methylcobalamin (high-dose neurological)",
+    "slug": "methylcobalamin",
+    "expected": "500-1,500 mcg/day"
+  },
+  {
+    "supplement": "GHK-Cu peptide (copper peptide)",
+    "slug": "ghk-cu-peptide",
+    "expected": "1–2%"
+  },
+  {
+    "supplement": "Palmitoyl tripeptide-1 (matrixyl, oral)",
+    "slug": "palmitoyl-tripeptide-1",
+    "expected": "3–5%"
+  },
+  {
+    "supplement": "Helichrysum italicum (immortelle)",
+    "slug": "helichrysum-italicum",
+    "expected": "2–5%"
+  },
+  {
+    "supplement": "Capsaicin (standardised)",
+    "slug": "capsaicin",
+    "expected": "0.025–0.075%"
+  },
+  {
+    "supplement": "GHK-Cu (copper tripeptide, topical)",
+    "slug": "ghk-cu",
+    "expected": "0.1–2%"
+  },
+  {
+    "supplement": "Senolytic stack (quercetin + dasatinib protocols)",
+    "slug": "senolytic-stack",
+    "expected": "1,000 mg"
+  },
+  {
+    "supplement": "Androsterone",
+    "slug": "androsterone",
+    "expected": "No set dose"
+  },
+  {
+    "supplement": "C60 fullerene (carbon 60)",
+    "slug": "c60-fullerene",
+    "expected": "No set dose"
+  },
+  {
+    "supplement": "MOTS-c (mitochondrial peptide)",
+    "slug": "mots-c",
+    "expected": "No set dose"
+  },
+  {
+    "supplement": "Black ant extract (Polyrhachis)",
+    "slug": "black-ant-extract",
+    "expected": "No set dose"
+  },
+  {
+    "supplement": "CBD (Cannabidiol)",
+    "slug": "cbd",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Essential oils (oral, general)",
+    "slug": "essential-oils",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Omega-3-6-9 blends",
+    "slug": "omega-3-6-9-blends",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Rapamycin (off-label longevity)",
+    "slug": "rapamycin",
+    "expected": "See protocol"
+  },
+  {
+    "supplement": "Tung oil tree extract (Vernicia fordii)",
+    "slug": "tung-oil-tree-extract",
+    "expected": "Topical only"
+  },
+  {
+    "supplement": "Hemp seed oil",
+    "slug": "hemp-seed-oil",
+    "expected": "1–2 tbsp/day"
+  },
+  {
+    "supplement": "Flaxseed oil (ALA omega-3)",
+    "slug": "flaxseed-oil",
+    "expected": "1–2 tbsp/day"
+  },
+  {
+    "supplement": "Detox supplements",
+    "slug": "detox-supplements",
+    "expected": "Avoid"
+  }
+]

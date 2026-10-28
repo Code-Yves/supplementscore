@@ -30,16 +30,36 @@
   // A protocol that opens with a warning is not a daily dose. Show a short
   // label and never a number pulled out of that warning — a lethal amount,
   // or another supplement's dose named as the alternative. A warning that
-  // applies only to some people (smokers, people on a medication) says so
-  // instead of telling everyone never to take it.
+  // applies only to some people says so, instead of telling everyone to avoid it.
+  // "Avoid" is the soft label. Lethal, fatal, toxic, banned, illegal, a
+  // controlled substance, a carcinogen, or no safe dose is "Do not take".
+  function severeDoseWarning(t){
+    if(/\b(?:lethal|fatal)\b/i.test(t)) return true;
+    // "toxic compounds" describes a preparation (kava), not a ban on the herb.
+    if(/\btoxic\b(?!\s+compounds\b)/i.test(t)) return true;
+    // A WADA-only ban, or a comparison with a banned drug, is not this item's ban.
+    if(/\bbanned\b(?!\s+by\s+wada\b)/i.test(t) && !/\bsimilar\s+to\s+banned\b/i.test(t)) return true;
+    if(/\billegal\b/i.test(t)) return true;
+    if(/controlled\s+substance/i.test(t) || /\bschedule\s+i\b/i.test(t)) return true;
+    if(/carcinogen/i.test(t)) return true;
+    if(/\bno\s+safe\s+(?:dose|intake|supplement)\b/i.test(t)) return true;
+    if(/\bdeaths?\b/i.test(t)) return true;
+    if(/industrial\s+bleach/i.test(t)) return true;
+    if(/\b(?:not\s+approved\s+for\s+human\s+use|never\s+approved|withdrawn\s+from\s+all\s+markets)\b/i.test(t)) return true;
+    return false;
+  }
   function warningDoseLabel(text){
     var t = String(text || '').trim();
     if(!/^(?:avoid|do\s+not|don'?t|not\s+recommended|not\s+advised|never\b|toxic\b|lethal\b|fatal\b|deadly\b|unsafe\b|dangerous\b|banned\b|contraindicated\b|(?:no|zero)\s+safe\b)/i.test(t)) return '';
     var opening = t.split(/[.!?](?:\s|$)/)[0];
     if(/\b(?:patients?\s+on\b|on\s+(?:medications?|medicines?|drugs?|warfarin|blood\s+thinners?|anticoagulants?)\b|taking\s+(?:medications?|medicines?|drugs?|warfarin)\b|CYP\s*\d|drug\s+interactions?)\b/i.test(opening)) return 'Check interactions';
     if(/\b(?:if\s+you\s+smoke|smokers?|have\s+ever\s+smoked|if\s+you(?:'re|\s+are)\s+pregnant|pregnan(?:t|cy)|breastfeed(?:ing)?|not\s+everyone|some\s+people|people\s+with|if\s+you\s+have)\b/i.test(opening)) return 'Not for everyone';
-    if(/^do\s+not\s+supplement\b/i.test(t)) return 'Do not supplement';
-    if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Not advised';
+    if(/^do\s+not\s+supplement\b/i.test(t)) return 'Avoid';
+    if(/^(?:not\s+recommended|not\s+advised)\b/i.test(t)) return 'Avoid';
+    // Prescribed use, or a named safer form, is not a ban on every use.
+    if(/\bexcept\s+as\s+a\s+medicine\s+prescribed\b/i.test(t)) return 'Avoid';
+    if(/\bchronic\s+whole\s+licorice\b/i.test(t)) return 'Avoid';
+    if(severeDoseWarning(t)) return 'Do not take';
     if(/^avoid\b/i.test(t)) return 'Avoid';
     return 'Do not take';
   }
@@ -49,24 +69,87 @@
   // no unit in the protocol is not shown; the cell says "See protocol".
   function compactDose(dose){
     if(!dose || !String(dose).trim()) return 'See protocol';
-    var text = String(dose).trim();
+    var text = String(dose).replace(/\s+/g, ' ').trim();
     var warned = warningDoseLabel(text);
     if(warned) return warned;
-    var rangeRe = /([\d.,]+\s*[–\-−]\s*[\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
-    var singleRe = /([\d.,]+\s*[a-zA-Zµμ%]+(?:\/[A-Za-z]+)?)/;
+    // An upper limit, or a dose that produced a null result, is not a dose to take.
+    if(/^safe upper limits\b/i.test(text) || /^null results\b/i.test(text)) return 'See protocol';
+    // "Do not use" with no studied dose is an avoid, not a chopped sentence.
+    if(/^no evidence-based dose\b/i.test(text) && /\bdo not use\b/i.test(text)) return 'Avoid';
+    // These openings name a product or a supervision rule, not a dose to copy.
+    if(/^(?:only pharmaceutical-grade|only enteric-coated|pure omega-3|requires physician supervision)\b/i.test(text)) return 'See protocol';
+    // The first number can be a total-intake target. The supplement dose is the later one.
+    var supplemental = text.match(/typical supplemental dose:\s*(\d[\d.,]*\s*mg\/day)/i);
+    if(supplemental && /\bmg\/day\s+total\b/i.test(text)) return supplemental[1].replace(/\s+/g, ' ');
+    var low = text.toLowerCase();
+    if(/^subcutaneous injection\b/.test(low) || /^injection only\b/.test(low)) return 'Injection only';
+    // Both spaces are non-breaking so "No human dose" stays on one line at 390px.
+    if(/^no established human\b/.test(low) || /^no human dose\b/.test(low)) return 'No\u00A0human\u00A0dose';
+    if(/^no established\b/.test(low)) return 'No set dose';
+    // Real dose units only. A time word or a capitalised word is not a unit,
+    // so "30-60 min", "3–5 days" and "2024 Endocrine" cannot win.
+    var num = '[0-9⁰¹²³⁴⁵⁶⁷⁸⁹][0-9⁰¹²³⁴⁵⁶⁷⁸⁹.,]*';
+    var unit = 'mg|mcg|µg|μg|ug|g|kg|iu|ml|l|cfu|kcal|mmol|mol|billion|million|ppm|fcc|fu|usp|%|capsules?|tablets?|drops?|scoops?|teaspoons?|tablespoons?|cups?|sachets?|sprays?';
+    var per = '(?:\\/(?:day|kg|week|dose|serving))?';
+    var bound = '(?![A-Za-zµμ%])';
+    var rangeRe = new RegExp('('+num+'\\s*(?:'+unit+')?'+bound+'\\s*[–\\-−]\\s*'+num+'\\s*(?:'+unit+')'+bound+per+')', 'ig');
+    var singleRe = new RegExp('('+num+'\\s*[BMK]?\\s*(?:'+unit+')'+bound+per+')', 'ig');
+    var countGapRe = new RegExp('('+num+')(?:\\s+[A-Za-z][A-Za-z0-9-]*){1,4}\\s+(capsules?|tablets?|drops?|scoops?|teaspoons?|tablespoons?|cups?|sachets?|sprays?)(\\/day)?'+bound, 'ig');
+    function collect(chunk){
+      var ranges = [], singles = [];
+      var m;
+      rangeRe.lastIndex = 0;
+      while((m = rangeRe.exec(chunk))) ranges.push({at: m.index, hit: m[1].replace(/\s+/g, ' ').trim()});
+      singleRe.lastIndex = 0;
+      while((m = singleRe.exec(chunk))) singles.push({at: m.index, hit: m[1].replace(/\s+/g, ' ').trim()});
+      countGapRe.lastIndex = 0;
+      while((m = countGapRe.exec(chunk))){
+        singles.push({at: m.index, hit: (m[1] + ' ' + m[2] + (m[3] || '')).replace(/\s+/g, ' ')});
+      }
+      ranges.sort(function(a, b){ return a.at - b.at; });
+      singles.sort(function(a, b){ return a.at - b.at; });
+      var range = ranges[0], single = singles[0];
+      // "320 mg/day (85–95% fatty acids)" is a dose. A purity percent does not replace it.
+      if(range && /%$/.test(range.hit) && single && single.at < range.at && !/%$/.test(single.hit)) return single.hit;
+      if(range) return range.hit;
+      if(single) return single.hit;
+      return null;
+    }
     // Semicolons and clause commas break the protocol. A comma before a
     // digit is a thousands separator, not a new clause.
     var first = text.split(/\s*;\s*|\s*,\s*(?!\d)/)[0].trim();
-    var m = first.match(rangeRe) || first.match(singleRe);
-    if(m) return m[1].replace(/\s+/g, ' ');
-    if(/^[\d.,]+$/.test(first) || /[\d.,]+\s*[–\-−]\s*[\d.,]+$/.test(first)){
-      m = text.match(rangeRe) || text.match(singleRe);
-      if(m) return m[1].replace(/\s+/g, ' ');
-      return 'See protocol';
+    var counted = first.match(/^(one|two|three)\s+(?:capsules?|tablets?|sachets?|drops?|scoops?|cups?|teaspoons?|tablespoons?)(?:\/day)?/i);
+    if(counted){
+      var label = counted[0].replace(/\s+/g, ' ');
+      return label.charAt(0).toUpperCase() + label.slice(1);
     }
-    var w = first.split(/\s+/);
-    var phrase = w.slice(0, Math.min(3, w.length)).join(' ');
+    var found = collect(first);
+    if(found) return tidyDose(found);
+    if(/^topical use only\b/i.test(first)) return 'Topical only';
+    // The opening names no amount. A later real unit can fill it in, unless
+    // the opening already says there is no dose. Otherwise keep the written label.
+    var denies = /^(?:no (?:established|evidence|safe|standardised|standardized)|zero safe|requires physician|only |topical use only)/i.test(first);
+    if(!denies){
+      found = collect(text);
+      if(found) return tidyDose(found);
+    }
+    var phrase = first.split(/\s+/).slice(0, 3).join(' ').replace(/[.,:;]+$/, '');
     return phrase || 'See protocol';
+  }
+
+  function tidyDose(hit){
+    return String(hit).replace(/tablespoons\/day/gi, 'tbsp/day').replace(/tablespoon\/day/gi, 'tbsp/day');
+  }
+
+  // The line under Daily dose. Nattokinase keeps its dose; the blood-thinner
+  // caution sits underneath, in place of "see protocol".
+  function doseStatSub(text, compact){
+    if(!compact || compact === 'See protocol') return '';
+    var shown = String(compact);
+    var t = String(text || '');
+    if(/\bFU\/day\b/i.test(shown) && /\bAVOID\b/.test(t) && /\b(?:warfarin|aspirin|blood\s+thinners?)\b/i.test(t)) return 'Check interactions';
+    if(/\bmg\/day\s+total\b/i.test(t) && /typical supplemental dose/i.test(t)) return '1–1.2 g total';
+    return 'see protocol';
   }
 
   // "Continuous" / "Cycled" derived from cycle prose
@@ -128,12 +211,11 @@
     return b === 'avoid' ? 'avoid' : b === 'caution' ? 'caution' : b === 'extra' ? 'support' : '';
   }
 
-  /* ── Dynamic JSON-LD (DietarySupplement + BreadcrumbList) ───────────────────
-     supplement.html ships a static WebPage JSON-LD block as a fallback for
-     non-JS crawlers. When we have a real ?slug= and a resolved supplement, we
-     inject a richer DietarySupplement block plus a supplement-specific
-     BreadcrumbList. Google has executed JS for indexing since 2019 — these
-     dynamic blocks are picked up. See [[project_launch_prep_2026_06_06]]. */
+  /* ── Dynamic JSON-LD (MedicalEntity + BreadcrumbList) ──────────────────────
+     DietarySupplement subclasses Product, so Google Product snippets require
+     offers, review, or aggregateRating. This site does not sell supplements.
+     Keep the type MedicalEntity and do not emit Product fields
+     (activeIngredient, isProprietary, recommendedIntake). */
   function injectSchema(s, slug){
     if (!s || !slug) return;
     var url = window.__SS_CANON ? window.__SS_CANON(slug) : 'https://supplementscore.org/supplement.html?slug=' + encodeURIComponent(slug);
@@ -141,7 +223,6 @@
     // Extract alternateName from a parenthesized qualifier ("Omega-3 (EPA/DHA)" → "EPA/DHA")
     var altMatch = name.match(/\(([^)]+)\)/);
     var altName = altMatch ? altMatch[1].trim() : null;
-    var bareName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
     // Description: cap at ~480 chars to keep JSON-LD lean. Strip newlines.
     var desc = (s.desc || '').replace(/\s+/g, ' ').trim();
     if (desc.length > 480) desc = desc.slice(0, 477).trim() + '…';
@@ -154,24 +235,12 @@
       t4: 'Documented safety risks including possible organ damage, drug interactions, or regulatory warnings. Do not use without clinician supervision. SupplementScore Tier 4.'
     };
     var safety = safetyByTier[s.t] || 'See methodology for current evidence rating.';
-    // Recommended intake — DietarySupplement inherits a few medical-related
-    // properties; recommendedIntake takes a RecommendedDoseSchedule.
-    var doseObj = null;
-    if (s.dose) {
-      doseObj = {
-        "@type": "RecommendedDoseSchedule",
-        "doseUnit": "varies — see description",
-        "doseSchedule": String(s.dose).slice(0, 200)
-      };
-    }
     var ogImg = document.querySelector('meta[property="og:image"]');
     var supplementSchema = {
       "@context": "https://schema.org",
       "@type": "MedicalEntity",
       "name": name,
       "description": desc || (name + ' — evidence-based supplement detail.'),
-      "activeIngredient": bareName || name,
-      "isProprietary": false,
       "safetyConsideration": safety,
       "url": url,
       "image": (ogImg && ogImg.getAttribute('content')) || "https://supplementscore.org/og/default.png",
@@ -185,7 +254,6 @@
       "mainEntityOfPage": {"@type": "WebPage", "@id": url}
     };
     if (altName) supplementSchema.alternateName = altName;
-    if (doseObj) supplementSchema.recommendedIntake = doseObj;
 
     var breadcrumbSchema = {
       "@context": "https://schema.org",
@@ -374,6 +442,7 @@
 
   var tldr = tldrFromDesc(s.desc);
   var dose = compactDose(s.dose);
+  var sub = doseStatSub(s.dose, dose);
   var cycle = cycleSummary(s.cycle);
   var cats = categoriesFromTag(s.tag);
 
@@ -508,7 +577,7 @@
   // Hero stats — Onset / Daily dose / Cost rating
   var statsHtml =
       '<div class="det-stat"><div class="det-stat-lbl">Onset</div><div class="det-stat-val">'+escHtml(onsetLabel(s.o))+'</div><div class="det-stat-sub">to see effects</div></div>'
-    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div>'+(dose==='See protocol'?'':'<div class="det-stat-sub">see protocol</div>')+'</div>'
+    + '<div class="det-stat"><div class="det-stat-lbl">Daily dose</div><div class="det-stat-val">'+escHtml(dose)+'</div>'+(sub?('<div class="det-stat-sub">'+escHtml(sub)+'</div>'):'')+'</div>'
     + '<div class="det-stat"><div class="det-stat-lbl">Cost</div><div class="det-stat-val">'+escHtml(costLabel(s.c))+'</div><div class="det-stat-sub">value rating</div></div>';
 
   // Hero sub-score bars

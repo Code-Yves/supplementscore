@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Psyllium husk (Plantago ovata)",
   "description": "Psyllium from Plantago ovata seeds is the husk used in fibre supplements. It is one ingredient, previously split across two cards. The FDA authorises a coronary-heart-disease health claim at 7 g/day of soluble fibre from psyllium. The 2024 Zhu meta-analysis (29 RCTs, 2,769 participants, PMID 38688104) found LDL cholesterol about 0.35 mmol/L lower and total cholesterol about 0.28 mmol/L lower.",
-  "activeIngredient": "Psyllium husk",
-  "isProprietary": false,
   "safetyConsideration": "Strong evidence base; safe for adult use at standard doses. SupplementScore Tier 1.",
   "url": "https://supplementscore.org/supplement/psyllium-husk.html",
   "image": "https://supplementscore.org/og/psyllium-husk.webp",
@@ -409,12 +407,7 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/psyllium-husk.html"
   },
-  "alternateName": "Plantago ovata",
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "5–10 g/day in divided doses, each with at least 240 mL water. Start at 2.5 g/day and increase over 1–2 weeks, up to 15 g/day. The FDA cholesterol claim uses 7 g/day of soluble fibre from psyllium."
-  }
+  "alternateName": "Plantago ovata"
 }
 </script>
   <!-- SEO-BREADCRUMB:start -->

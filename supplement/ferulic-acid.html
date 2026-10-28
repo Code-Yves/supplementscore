@@ -68,8 +68,8 @@
 .det-stat{flex:1;padding-right:16px;min-width:0}
 .det-stat + .det-stat{padding-left:16px;border-left:1px solid var(--color-border-tertiary)}
 .det-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:3px}
-.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;word-wrap:break-word;overflow-wrap:break-word}
-.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}
+.det-stat-val{font-size:15px;font-weight:700;color:var(--color-text-primary);line-height:1.2;font-variant-numeric:tabular-nums;hyphens:none;overflow-wrap:normal;word-break:normal}
+.det-stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3}@media(min-width:360px) and (max-width:480px){.det-stat-val{font-size:13px}}@media(max-width:359px){.det-stats{flex-wrap:wrap;row-gap:12px}.det-stat{flex:1 1 100%;padding-right:0}.det-stat + .det-stat{padding-left:0;border-left:0;padding-top:12px;border-top:1px solid var(--color-border-tertiary)}}
 
 .det-score-corner{position:absolute;top:32px;right:38px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 @media(max-width:680px){.det-score-corner{position:static;align-items:flex-start;margin-bottom:16px}}
@@ -390,8 +390,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "@type": "MedicalEntity",
   "name": "Ferulic acid",
   "description": "A hydroxycinnamic acid found abundantly in oat bran, brown rice, wheat bran, and coffee (a major contributor to coffee's antioxidant capacity). Quenches superoxide, hydroxyl, and peroxyl radicals. Small RCTs suggest 400–1,000 mg/day reduces exercise-induced oxidative stress markers and may blunt delayed onset muscle soreness (DOMS). Topical dermatology uses ferulic acid + vitamins C and E as a synergistic UV protection and anti-aging combination.",
-  "activeIngredient": "Ferulic acid",
-  "isProprietary": false,
   "safetyConsideration": "Promising or situational evidence; benefits depend on indication and dosing. SupplementScore Tier 2.",
   "url": "https://supplementscore.org/supplement/ferulic-acid.html",
   "image": "https://supplementscore.org/og/ferulic-acid.webp",
@@ -408,11 +406,6 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://supplementscore.org/supplement/ferulic-acid.html"
-  },
-  "recommendedIntake": {
-    "@type": "RecommendedDoseSchedule",
-    "doseUnit": "varies — see description",
-    "doseSchedule": "400–1,000 mg/day ferulic acid from rice bran or wheat bran extract; often included in antioxidant stacks with vitamins C and E"
   }
 }
 </script>
