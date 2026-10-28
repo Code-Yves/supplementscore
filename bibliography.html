@@ -35,7 +35,7 @@
     .bib-h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.5px; margin:0 0 8px; }
     .bib-sub { color: var(--color-text-secondary); font-size: 14.5px; margin-bottom:20px; max-width: 720px; line-height: 1.55; }
     .bib-stats { display: flex; gap:8px; flex-wrap: wrap; margin:16px 0 24px; }
-    .bib-stat { font-size: 12px; padding:8px 11px; border-radius: 999px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); cursor: pointer; transition: all .12s; }
+    .bib-stat { font-size: 12px; padding:8px 14px; border-radius: 999px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); cursor: pointer; transition: all .12s; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; }
     .bib-stat.on, .bib-stat:hover { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
     .bib-search { width: 100%; padding:11px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; background: var(--color-background-primary); margin-bottom:16px; box-sizing: border-box; }
     .bib-search:focus { border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(123,31,162,.12); }
@@ -45,7 +45,7 @@
     tbody tr:last-child td { border-bottom: 0; }
     tbody tr.hidden { display: none; }
     .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
-    .bib-fpill { display: inline-block; font-size: 10px; font-weight: 700; padding:2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
+    .bib-fpill { display: inline-block; font-size: 12px; font-weight: 700; padding:2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
     .bib-text { color: var(--color-text-secondary); line-height: 1.5; max-width: 600px; }
     .bib-foot { margin-top:28px; font-size: 12px; color: var(--color-text-tertiary); padding:16px 0; border-top: 0.5px solid var(--color-border-tertiary); }
     @media (max-width: 640px) {
@@ -181,7 +181,7 @@
   var letter = (letters && letters.getAttribute('data-default')) || 'A';
   var rows = [];
   var SEARCH_CAP = 60;
-  var COLORS = { public:'#0D9488', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#8A8780' };
+  var COLORS = { public:'#155A50', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#57534E' };
   var LABELS = { public:'public', nonprofit:'nonprofit', industry:'industry', mixed:'mixed', none_disclosed:'none disclosed' };
   function esc(s){
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');

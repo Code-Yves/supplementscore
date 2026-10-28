@@ -186,11 +186,11 @@ const FUNDER_LABEL = {
   none_disclosed: 'none disclosed',
 };
 const FUNDER_COLOR = {
-  public: ['#0D9488', '#0D9488'],
+  public: ['#155A50', '#155A50'],
   nonprofit: ['#4B7BE5', '#4B7BE5'],
   industry: ['#CA8A04', '#CA8A04'],
   mixed: ['#7B1FA2', '#7B1FA2'],
-  none_disclosed: ['#8A8780', '#8A8780'],
+  none_disclosed: ['#57534E', '#57534E'],
 };
 
 function letterOf(reference) {
@@ -212,7 +212,7 @@ const BIB_CLIENT = `<!-- BIB_SCRIPT:start -->
   var letter = (letters && letters.getAttribute('data-default')) || 'A';
   var rows = [];
   var SEARCH_CAP = 60;
-  var COLORS = { public:'#0D9488', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#8A8780' };
+  var COLORS = { public:'#155A50', nonprofit:'#4B7BE5', industry:'#CA8A04', mixed:'#7B1FA2', none_disclosed:'#57534E' };
   var LABELS = { public:'public', nonprofit:'nonprofit', industry:'industry', mixed:'mixed', none_disclosed:'none disclosed' };
   function esc(s){
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
