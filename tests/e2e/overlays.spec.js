@@ -14,14 +14,28 @@ async function openSupplement(page) {
 }
 
 async function openAboutInModal(page) {
+  const before = await page.evaluate(() => history.length);
   const frame = page.frameLocator('iframe.ssm-frame');
   await frame.locator('footer a[href="/about.html"]').first().evaluate((el) => el.click());
+  // The about page is an iframe navigation in the joint session history.
+  // Back before that entry exists pops the supplement instead.
+  await expect.poll(() => page.evaluate(() => history.length)).toBeGreaterThan(before);
   await page.waitForFunction(() => {
     const frameEl = document.querySelector('iframe.ssm-frame');
-    try { return /\/about\.html$/.test(frameEl.contentWindow.location.pathname); }
-    catch (e) { return false; }
+    try {
+      const win = frameEl.contentWindow;
+      const doc = frameEl.contentDocument;
+      return doc && doc.readyState === 'complete' && /\/about\.html$/.test(win.location.pathname) && doc.querySelector('h1');
+    } catch (e) { return false; }
   });
   return frame;
+}
+
+async function stepHistory(page, dir) {
+  await page.evaluate((which) => {
+    if (which === 'back') history.back();
+    else history.forward();
+  }, dir);
 }
 
 async function switchTab(frame, hash) {
@@ -109,14 +123,14 @@ test('tab switches do not add history, and Back/Forward restore one layer', asyn
   await switchTab(frame, '#methodology');
   await switchTab(frame, '#transparency');
   await expect.poll(() => page.frameLocator('iframe.ssm-frame').locator(':root').evaluate(() => location.hash)).toBe('#transparency');
-  await page.evaluate(() => history.back());
-  await expect.poll(async () => (await modalState(page)).heading, { timeout: 8000 }).toMatch(/theanine/i);
+  await stepHistory(page, 'back');
+  await expect.poll(async () => (await modalState(page)).heading).toMatch(/theanine/i);
   const back = await modalState(page);
   expect(back.open).toBe(true);
   expect(back.frame).not.toMatch(/about\.html/);
   expect(back.top).toContain('supplement=l-theanine');
-  await page.evaluate(() => history.forward());
-  await expect.poll(async () => (await modalState(page)).frame, { timeout: 8000 }).toMatch(/about\.html#transparency/);
+  await stepHistory(page, 'forward');
+  await expect.poll(async () => (await modalState(page)).frame).toMatch(/about\.html#transparency/);
   expect((await modalState(page)).open).toBe(true);
 });
 
@@ -142,14 +156,24 @@ test('standalone about × and Esc leave from any tab', async ({ page }) => {
 test('supplement ×, Esc, Back, and Forward', async ({ page }) => {
   await openSupplement(page);
   await page.locator('.ssm-x').click();
-  await expect(page.locator('.ssm.open')).toHaveCount(0);
-  await expect.poll(() => page.url()).not.toContain('supplement=');
-  await page.evaluate(() => history.forward());
+  await expect.poll(async () => page.evaluate(() => ({
+    supplement: /[?&]supplement=/.test(location.search),
+    open: !!document.querySelector('.ssm.open'),
+    settled: !(history.state && history.state.ssm),
+  }))).toEqual({ supplement: false, open: false, settled: true });
+  await stepHistory(page, 'forward');
   await expect.poll(() => page.url()).toContain('supplement=l-theanine');
   await expect(page.locator('.ssm.open')).toHaveCount(1);
-  await page.evaluate(() => history.back());
-  await expect.poll(() => page.url()).not.toContain('supplement=');
-  await expect(page.locator('.ssm.open')).toHaveCount(0);
+  await page.waitForFunction(() => {
+    const frame = document.querySelector('iframe.ssm-frame');
+    try { return /theanine/i.test(((frame.contentDocument.querySelector('h1') || {}).textContent) || ''); }
+    catch (e) { return false; }
+  });
+  await stepHistory(page, 'back');
+  await expect.poll(async () => page.evaluate(() => ({
+    supplement: /[?&]supplement=/.test(location.search),
+    open: !!document.querySelector('.ssm.open'),
+  }))).toEqual({ supplement: false, open: false });
 
   await openSupplement(page);
   await page.locator('.ssm-x').focus();

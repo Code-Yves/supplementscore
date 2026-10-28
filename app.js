@@ -287,7 +287,7 @@ function _buildHardAvoidPredicate(){
     if(health.kidney === 'severe' && CONDITIONS.ckd_stage_4_5) impliedConds.add('ckd_stage_4_5');
     if(health.liver === 'cirrhosis' && CONDITIONS.liver) impliedConds.add('liver');
     if(health.liver === 'impaired' && CONDITIONS.nafld) impliedConds.add('nafld');
-    if(typeof sex !== 'undefined' && sex === 'fp' && CONDITIONS.pregnant) impliedConds.add('pregnant');
+    if(typeof profilePregnancyCaution === 'function' && profilePregnancyCaution() && CONDITIONS.pregnant) impliedConds.add('pregnant');
   }
   const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ...impliedConds]);
   const condAvoid = {};
@@ -371,7 +371,7 @@ function profileAugmentationPass(recs, opts){
     if(health.liver === 'impaired' && CONDITIONS.nafld) _impliedConds.add('nafld');
     /* Round-4 fix: inject 'pregnant' synthetic condition so the hard-avoid list
        (teratogens, abortifacients, uterine stimulants) prunes recommendations. */
-    if(typeof sex !== 'undefined' && sex === 'fp' && CONDITIONS.pregnant) _impliedConds.add('pregnant');
+    if(typeof profilePregnancyCaution === 'function' && profilePregnancyCaution() && CONDITIONS.pregnant) _impliedConds.add('pregnant');
   }
   const effectiveConds = new Set([...(typeof selectedConds!=='undefined'?selectedConds:[]), ..._impliedConds]);
 
@@ -726,7 +726,41 @@ if(_ageInput){
   updAge(_ageInput.value);
 }
 let sex=null;
-function pickSex(s){if(s!=='m'&&s!=='f'&&s!=='fp')return;sex=s;const bm=document.getElementById('bm'),bf=document.getElementById('bf'),bp=document.getElementById('bp');if(bm)bm.className='pf-sex-opt sx-btn'+(s==='m'?' on-m':'');if(bf)bf.className='pf-sex-opt sx-btn'+(s==='f'?' on-f':'');if(bp)bp.className='pf-sex-opt sx-btn'+(s==='fp'?' on-fp':'');/* Round-4 a11y: keep aria-checked in sync. */ if(bm)bm.setAttribute('aria-checked',s==='m'?'true':'false');if(bf)bf.setAttribute('aria-checked',s==='f'?'true':'false');if(bp)bp.setAttribute('aria-checked',s==='fp'?'true':'false');const serr=document.getElementById('serr');if(serr)serr.style.display='none';}
+/* null means the question was skipped. Skipping keeps pregnancy warnings on.
+   Older saved profiles used sex 'fp'. */
+let pregnantOrBf=null;
+function _paintSex(){
+  const bm=document.getElementById('bm'),bf=document.getElementById('bf');
+  if(bm){bm.className='pf-sex-opt sx-btn'+(sex==='m'?' on-m':'');bm.setAttribute('aria-checked',sex==='m'?'true':'false');}
+  if(bf){bf.className='pf-sex-opt sx-btn'+(sex==='f'?' on-f':'');bf.setAttribute('aria-checked',sex==='f'?'true':'false');}
+  const no=document.getElementById('preg-no'),yes=document.getElementById('preg-yes');
+  const answered=pregnantOrBf===true||pregnantOrBf===false;
+  if(no){no.className='pf-sex-opt sx-btn'+(answered&&!pregnantOrBf?' on-f':'');no.setAttribute('aria-checked',answered&&!pregnantOrBf?'true':'false');}
+  if(yes){yes.className='pf-sex-opt sx-btn'+(answered&&pregnantOrBf?' on-fp':'');yes.setAttribute('aria-checked',answered&&pregnantOrBf?'true':'false');}
+  const field=document.getElementById('preg-field');
+  if(field){
+    const hide=sex==='m';
+    field.hidden=hide;
+    field.style.display=hide?'none':'';
+  }
+}
+function pickSex(s){
+  if(s==='fp'){sex='f';pregnantOrBf=true;_paintSex();const serr=document.getElementById('serr');if(serr)serr.style.display='none';return;}
+  if(s!=='m'&&s!=='f')return;
+  sex=s;_paintSex();
+  const serr=document.getElementById('serr');if(serr)serr.style.display='none';
+}
+function setPregnantOrBf(yes){pregnantOrBf=!!yes;_paintSex();}
+/* Explicit yes only. Dose text and the summary line use this. */
+function profileIsPregnant(){return pregnantOrBf===true&&sex!=='m';}
+/* Unanswered stays cautious. Male hides the question and turns the warnings off. */
+function profilePregnancyCaution(){return sex!=='m'&&pregnantOrBf!==false;}
+function profileSexLabel(kind){
+  const preg=profileIsPregnant();
+  if(kind==='adj'){const base=sex==='m'?'Male':'Female';return preg?base+', pregnant or breastfeeding':base;}
+  const base=sex==='m'?'man':'woman';
+  return preg?base+' who is pregnant or breastfeeding':base;
+}
 function editP(){
   const vres=document.getElementById('v-res');if(vres)vres.style.display='none';
   const vin=document.getElementById('v-input');if(vin)vin.style.display='block';
@@ -768,7 +802,7 @@ function _wizPaintJumpRail() {
   }).join('');
 }
 function tbadge(t){const m=TM[t];return m&&(t==='t1'||t==='t2')?`<span class="tbadge" style="background:${m.bg};color:${m.tx}">${t==='t1'?'Tier 1':'Tier 2'}</span>`:'';}
-function getRecs(age,sx){const iF=sx==='f'||sx==='fp',isPreg=sx==='fp',repAge=iF&&age>=18&&age<=50,young=age<31,midA=age>=31&&age<46,midAged=age>=46&&age<61,senior=age>=61;const r=[];r.push({n:'Vitamin D3',p:'essential',tier:'t1',tf:true,e:4,s:4,why:'Deficiency affects ~40% of adults globally. VITAL trial: 2,000 IU/day reduced cancer mortality 17% and autoimmune disease risk significantly.',dose:'1,000–2,000 IU/day maintenance (test 25-OH-D first; 4,000 IU/day to correct deficiency)'});r.push({n:'Magnesium',p:'essential',tier:'t1',tf:false,e:4,s:5,why:'NIH ODS: ~48% of Americans fall below the EAR. Supports sleep, insulin sensitivity, cardiovascular, and cognitive health.',dose:'200–400 mg/day magnesium glycinate (sleep/CNS) or malate (energy/exercise); 30–45 min before bed for sleep support'});if(sx==='m')r.push({n:'Zinc',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'Men lose zinc through sweat at higher rates and require it for testosterone biosynthesis, immune function, and prostate health.',dose:'15–25 mg/day zinc picolinate or bisglycinate (do not exceed 40 mg/day)'});if(repAge){r.push({n:'Iron',p:'essential',tier:'t2',tf:true,e:4,s:3,why:'WHO: iron deficiency anaemia affects 24.8% of the global population, disproportionately women of reproductive age.',dose:'30–60 mg/day ferrous bisglycinate — test ferritin first'});r.push({n:'Folate (5-MTHF)',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'USPSTF Grade A. WHO: 400 mcg daily for all women of reproductive age. Neural tube defects form days 21–28 — must begin before conception.',dose:'400–600 mcg/day 5-MTHF (methylfolate), preferred over synthetic folic acid'});}if(isPreg){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'DHA is the primary structural fat in the foetal brain and retina. WHO recommends 300 mg DHA/day during pregnancy. CHILD cohort: higher maternal DHA linked to improved neurodevelopmental outcomes.',dose:'300–600 mg DHA/day (from 1–2 g EPA+DHA); choose a prenatal-formulated fish or algal oil'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Foetal skeletal mineralisation draws heavily from maternal stores. NIH: requirements increase to 1,000–1,300 mg/day during pregnancy. WHO meta-analysis: calcium supplementation reduces preeclampsia risk by 55% in low-intake populations.',dose:'500 mg elemental calcium × 2 daily with meals; space 2 hours from iron'});r.push({n:'Ginger (Zingiber officinale)',p:'recommended',tier:'t2',tf:false,e:4,s:5,why:'Cochrane meta-analysis: significant reduction in nausea and vomiting of pregnancy. First-line non-pharmacological therapy.',dose:'1–1.5 g/day in divided doses for NVP'});r.push({n:'Vitamin B6 (P5P)',p:'recommended',tier:'t2',tf:false,e:3,s:3,why:'USPSTF recommends 10–25 mg TID for nausea and vomiting of pregnancy. ACOG first-line monotherapy for mild NVP.',dose:'10–25 mg × 3 daily. Do not exceed 100 mg/day.'});r.push({n:'Choline',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: essential for foetal brain development and neural tube closure. Most prenatal vitamins do not contain adequate choline.',dose:'450–550 mg/day from food + supplementation'});r.push({n:'Iodine',p:'essential',tier:'t2',tf:false,e:4,s:3,why:'WHO: iodine requirements increase 50% during pregnancy. Deficiency is the most preventable cause of cognitive impairment in newborns.',dose:'220 mcg/day total from diet + supplementation'});}if(young){r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'ISSN Level A — most evidence-backed performance supplement. NIH ODS: strong long-term safety record. 2024 data confirmed cognitive benefits.',dose:'3–5 g/day — no loading needed'});r.push({n:'Omega-3 (EPA/DHA)',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'NIH VITAL trial (25,871 participants): 2,000 mg/day cut MI by 28% and reduced cancer mortality 17%. Building cardiovascular foundation now maximises cumulative benefit.',dose:'1–2 g/day EPA+DHA from a quality fish oil'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Reduces cortisol and stress reactivity — highly relevant during high-demand academic or work phases. Works cumulatively over 4–8 weeks.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Promotes relaxed alertness without sedation. Particularly effective for exam stress and focus during cognitive work.',dose:'100–200 mg for focus; 200–400 mg alone for calm/sleep support'});r.push({n:'Rhodiola rosea',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'2025 meta-analysis (26 RCTs): significant improvements in VO2max and time to exhaustion. Also reduces perceived mental fatigue under stress.',dose:'200–400 mg/day standardised extract; 6–8 wks on, 2–4 wks off'});}if(midA){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk begins its meaningful rise in this decade. NIH VITAL trial and 2025 meta-analysis (42 RCTs) both confirm significant CVD mortality and MI reduction.',dose:'1–2 g/day EPA+DHA. Higher (2–4 g/day) if triglycerides are elevated.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle mass declines from the early 30s at ~1% per year. Creatine with resistance training is the most evidence-backed intervention.',dose:'3–5 g/day continuously'});r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk begins rising in the 30s. Rotterdam Study: 57% reduced cardiac mortality in those with highest MK-7 intake. Pairs synergistically with Vitamin D3.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Cortisol dysregulation peaks in this career and life stage. HPA axis modulation is most clinically relevant from age 30–55.',dose:'300–600 mg/day; cycle 8–12 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports calm focus and sleep quality without dependency — particularly useful if stress is impacting sleep or daytime performance.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});if(iF)r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'2024 systematic review (46 RCTs): depression ES=−4.26, anxiety ES=−3.75. Particularly relevant for perimenopause mood changes. Non-inferior to conventional drugs.',dose:'28–30 mg/day standardised saffron extract'});}if(midAged){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk accelerates significantly in this decade. 2025 meta-analysis (42 RCTs, 176K+) and VITAL trial both confirm meaningful CVD mortality reduction.',dose:'2–4 g/day EPA+DHA — higher if cardiovascular risk factors are present'});r.push({n:'Vitamin B12',p:'recommended',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: B12 absorption requires intrinsic factor that declines with age; PPIs and metformin significantly impair uptake. Deficiency affects ~20% of adults over 50.',dose:'500–1,000 mcg/day oral cyanocobalamin. Test serum B12 and MMA.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle loss accelerates in this decade. Creatine with resistance training is the most evidence-backed strategy for preserving lean mass and cognitive function.',dose:'3–5 g/day continuously'});if(iF)r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Declining oestrogen during perimenopause sharply accelerates bone loss. MK-7 activates osteocalcin (bone calcium) and matrix Gla protein (arterial protection).',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});else r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk rises meaningfully from middle age. Rotterdam Study: 57% reduced cardiac mortality in highest MK intake group.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Lutein + Zeaxanthin',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'AMD risk begins rising now. AREDS2 trial (NIH-funded): confirmed ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'CoQ10 (Ubiquinol)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: statins block CoQ10 synthesis; mitochondrial CoQ10 declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality in heart failure.',dose:'100–200 mg/day ubiquinol with a fatty meal'});r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'Among the most evidence-backed botanicals for mood. 2024 review (46 RCTs): depression ES=−4.26. Relevant for both stress-related mood changes and sleep quality.',dose:'28–30 mg/day standardised saffron extract'});}if(senior){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD is the leading cause of death in this age group. NIH VITAL trial and 2025 meta-analysis confirm significant reductions in CV mortality, MI, and CHD.',dose:'2–4 g/day EPA+DHA. Consider icosapent ethyl if CVD diagnosed.'});r.push({n:'Vitamin B12',p:'essential',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: deficiency affects ~20% of adults over 60; absorption impaired by gastric acid decline, PPIs, and metformin. Neurological damage is progressive.',dose:'500–1,000 mcg/day oral cyanocobalamin. Discuss IM injections with GP if absorption impaired.'});r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Bone fracture and arterial calcification risk accelerate sharply after 60. K2 activates proteins that direct calcium into bone and away from arteries.',dose:'90–200 mcg/day MK-7, paired with Vitamin D3'});r.push({n:'Creatine monohydrate',p:'essential',tier:'t1',tf:false,e:5,s:5,why:'Sarcopenia is the primary driver of frailty and falls. NIH ODS: creatine with resistance training is the most evidence-backed intervention for preserving muscle and cognitive function after 60.',dose:'3–5 g/day — no loading needed. Take consistently including rest days.'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Bone mineral density declines progressively after 60. NIH ODS: most older adults do not meet the 1,200 mg/day calcium requirement from diet alone. Paired with D3 and K2 for maximum skeletal benefit.',dose:'500 mg elemental calcium × 2 daily with meals; do not take single doses above 500 mg'});r.push({n:'Lutein + Zeaxanthin',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'AMD is the leading cause of blindness in adults over 60. AREDS2 trial (NIH-funded, 4,203 participants): ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'HMB (β-Hydroxy-β-methylbutyrate)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: evidence strongest in older adults. 2025 meta-analysis (21 RCTs, 1,935 adults >50): significant improvements in lean mass.',dose:'3 g/day (1 g × 3 with meals). Allow ≥12 weeks alongside resistance exercise.'});r.push({n:'Whey protein',p:'recommended',tier:'t1',tf:false,e:4,s:5,why:'Appetite decreases with age while protein requirements increase. NIH ODS: adequate dietary protein is essential.',dose:'20–40 g/serving after resistance exercise. Target ≥1.2–1.6 g/kg body weight/day.'});r.push({n:'CoQ10 (Ubiquinol)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: CoQ10 depleted by statins and declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality (RR=0.64) in heart failure.',dose:'200–400 mg/day ubiquinol in 2 doses with fatty meals'});r.push({n:'Acetyl-L-Carnitine (ALCAR)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: L-carnitine synthesis declines with age. Multiple meta-analyses confirm significant cognitive improvement in older adults with MCI.',dose:'1,500–2,000 mg/day in 2–3 divided doses (morning and early afternoon; avoid evening)'});r.push({n:'Phosphatidylserine',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'FDA qualified health claim for cognitive decline. Multiple RCTs confirm improvements in memory, recall, and learning in older adults. Supports cortisol regulation and neuronal membrane integrity.',dose:'300–400 mg/day in 2–3 divided doses with meals; allow 4–8 weeks for full benefit'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Supports HPA axis resilience, preserves lean muscle mass, and improves sleep quality — all key concerns in older adults.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports sleep quality and calm focus without drug interactions or dependency — ideal for older adults managing multiple medications.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});}const seen=new Set();return r.filter(x=>{if(seen.has(x.n))return false;seen.add(x.n);return true;});}
+function getRecs(age,sx){const isPreg=(sx==='fp')||(typeof profileIsPregnant==='function'&&profileIsPregnant()),iF=sx==='f'||sx==='fp'||isPreg,repAge=iF&&age>=18&&age<=50,young=age<31,midA=age>=31&&age<46,midAged=age>=46&&age<61,senior=age>=61;const r=[];r.push({n:'Vitamin D3',p:'essential',tier:'t1',tf:true,e:4,s:4,why:'Deficiency affects ~40% of adults globally. VITAL trial: 2,000 IU/day reduced cancer mortality 17% and autoimmune disease risk significantly.',dose:'1,000–2,000 IU/day is a common adult maintenance range. Discuss the dose with your doctor.'});r.push({n:'Magnesium',p:'essential',tier:'t1',tf:false,e:4,s:5,why:'NIH ODS: ~48% of Americans fall below the EAR. Supports sleep, insulin sensitivity, cardiovascular, and cognitive health.',dose:'200–400 mg/day magnesium glycinate (sleep/CNS) or malate (energy/exercise); 30–45 min before bed for sleep support'});if(sx==='m')r.push({n:'Zinc',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'Men lose zinc through sweat at higher rates and require it for testosterone biosynthesis, immune function, and prostate health.',dose:'15–25 mg/day zinc picolinate or bisglycinate (do not exceed 40 mg/day)'});if(repAge){r.push({n:'Iron',p:'essential',tier:'t2',tf:true,e:4,s:3,why:'WHO: iron deficiency anaemia affects 24.8% of the global population, disproportionately women of reproductive age.',dose:'30–60 mg/day ferrous bisglycinate — test ferritin first'});r.push({n:'Folate (5-MTHF)',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'USPSTF Grade A. WHO: 400 mcg daily for all women of reproductive age. Neural tube defects form days 21–28 — must begin before conception.',dose:'400–600 mcg/day 5-MTHF (methylfolate), preferred over synthetic folic acid'});}if(isPreg){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'DHA is the primary structural fat in the foetal brain and retina. WHO recommends 300 mg DHA/day during pregnancy. CHILD cohort: higher maternal DHA linked to improved neurodevelopmental outcomes.',dose:'300–600 mg DHA/day (from 1–2 g EPA+DHA); choose a prenatal-formulated fish or algal oil'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Foetal skeletal mineralisation draws heavily from maternal stores. NIH: requirements increase to 1,000–1,300 mg/day during pregnancy. WHO meta-analysis: calcium supplementation reduces preeclampsia risk by 55% in low-intake populations.',dose:'500 mg elemental calcium × 2 daily with meals; space 2 hours from iron'});r.push({n:'Ginger (Zingiber officinale)',p:'recommended',tier:'t2',tf:false,e:4,s:5,why:'Cochrane meta-analysis: significant reduction in nausea and vomiting of pregnancy. First-line non-pharmacological therapy.',dose:'1–1.5 g/day in divided doses for NVP'});r.push({n:'Vitamin B6 (P5P)',p:'recommended',tier:'t2',tf:false,e:3,s:3,why:'USPSTF recommends 10–25 mg TID for nausea and vomiting of pregnancy. ACOG first-line monotherapy for mild NVP.',dose:'10–25 mg × 3 daily. Do not exceed 100 mg/day.'});r.push({n:'Choline',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: essential for foetal brain development and neural tube closure. Most prenatal vitamins do not contain adequate choline.',dose:'450–550 mg/day from food + supplementation'});r.push({n:'Iodine',p:'essential',tier:'t2',tf:false,e:4,s:3,why:'WHO: iodine requirements increase 50% during pregnancy. Deficiency is the most preventable cause of cognitive impairment in newborns.',dose:'About 220 mcg/day is a published pregnancy figure, counting food. Discuss iodine with your doctor.'});}if(young){r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'ISSN Level A — most evidence-backed performance supplement. NIH ODS: strong long-term safety record. 2024 data confirmed cognitive benefits.',dose:'3–5 g/day — no loading needed'});r.push({n:'Omega-3 (EPA/DHA)',p:'recommended',tier:'t1',tf:false,e:4,s:4,why:'NIH VITAL trial (25,871 participants): 2,000 mg/day cut MI by 28% and reduced cancer mortality 17%. Building cardiovascular foundation now maximises cumulative benefit.',dose:'1–2 g/day EPA+DHA from a quality fish oil'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Reduces cortisol and stress reactivity — highly relevant during high-demand academic or work phases. Works cumulatively over 4–8 weeks.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Promotes relaxed alertness without sedation. Particularly effective for exam stress and focus during cognitive work.',dose:'100–200 mg for focus; 200–400 mg alone for calm/sleep support'});r.push({n:'Rhodiola rosea',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'2025 meta-analysis (26 RCTs): significant improvements in VO2max and time to exhaustion. Also reduces perceived mental fatigue under stress.',dose:'200–400 mg/day standardised extract; 6–8 wks on, 2–4 wks off'});}if(midA){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk begins its meaningful rise in this decade. NIH VITAL trial and 2025 meta-analysis (42 RCTs) both confirm significant CVD mortality and MI reduction.',dose:'1–2 g/day EPA+DHA. Higher (2–4 g/day) if triglycerides are elevated.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle mass declines from the early 30s at ~1% per year. Creatine with resistance training is the most evidence-backed intervention.',dose:'3–5 g/day continuously'});r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk begins rising in the 30s. Rotterdam Study: 57% reduced cardiac mortality in those with highest MK-7 intake. Pairs synergistically with Vitamin D3.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Cortisol dysregulation peaks in this career and life stage. HPA axis modulation is most clinically relevant from age 30–55.',dose:'300–600 mg/day; cycle 8–12 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports calm focus and sleep quality without dependency — particularly useful if stress is impacting sleep or daytime performance.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});if(iF)r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'2024 systematic review (46 RCTs): depression ES=−4.26, anxiety ES=−3.75. Particularly relevant for perimenopause mood changes. Non-inferior to conventional drugs.',dose:'28–30 mg/day standardised saffron extract'});}if(midAged){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD risk accelerates significantly in this decade. 2025 meta-analysis (42 RCTs, 176K+) and VITAL trial both confirm meaningful CVD mortality reduction.',dose:'2–4 g/day EPA+DHA — higher if cardiovascular risk factors are present'});r.push({n:'Vitamin B12',p:'recommended',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: B12 absorption requires intrinsic factor that declines with age; PPIs and metformin significantly impair uptake. Deficiency affects ~20% of adults over 50.',dose:'500–1,000 mcg/day oral cyanocobalamin. Test serum B12 and MMA.'});r.push({n:'Creatine monohydrate',p:'recommended',tier:'t1',tf:false,e:5,s:5,why:'Muscle loss accelerates in this decade. Creatine with resistance training is the most evidence-backed strategy for preserving lean mass and cognitive function.',dose:'3–5 g/day continuously'});if(iF)r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Declining oestrogen during perimenopause sharply accelerates bone loss. MK-7 activates osteocalcin (bone calcium) and matrix Gla protein (arterial protection).',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});else r.push({n:'Vitamin K2 (MK-7)',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'Arterial calcification risk rises meaningfully from middle age. Rotterdam Study: 57% reduced cardiac mortality in highest MK intake group.',dose:'90–200 mcg/day MK-7 alongside Vitamin D3'});r.push({n:'Lutein + Zeaxanthin',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'AMD risk begins rising now. AREDS2 trial (NIH-funded): confirmed ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'CoQ10 (Ubiquinol)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: statins block CoQ10 synthesis; mitochondrial CoQ10 declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality in heart failure.',dose:'100–200 mg/day ubiquinol with a fatty meal'});r.push({n:'Saffron (Crocus sativus)',p:'consider',tier:'t2',tf:false,e:4,s:4,why:'Among the most evidence-backed botanicals for mood. 2024 review (46 RCTs): depression ES=−4.26. Relevant for both stress-related mood changes and sleep quality.',dose:'28–30 mg/day standardised saffron extract'});}if(senior){r.push({n:'Omega-3 (EPA/DHA)',p:'essential',tier:'t1',tf:false,e:4,s:4,why:'CVD is the leading cause of death in this age group. NIH VITAL trial and 2025 meta-analysis confirm significant reductions in CV mortality, MI, and CHD.',dose:'2–4 g/day EPA+DHA. Consider icosapent ethyl if CVD diagnosed.'});r.push({n:'Vitamin B12',p:'essential',tier:'t1',tf:true,e:4,s:5,why:'NIH ODS: deficiency affects ~20% of adults over 60; absorption impaired by gastric acid decline, PPIs, and metformin. Neurological damage is progressive.',dose:'500–1,000 mcg/day oral cyanocobalamin. Discuss IM injections with GP if absorption impaired.'});r.push({n:'Vitamin K2 (MK-7)',p:'essential',tier:'t2',tf:false,e:3,s:5,why:'Bone fracture and arterial calcification risk accelerate sharply after 60. K2 activates proteins that direct calcium into bone and away from arteries.',dose:'90–200 mcg/day MK-7, paired with Vitamin D3'});r.push({n:'Creatine monohydrate',p:'essential',tier:'t1',tf:false,e:5,s:5,why:'Sarcopenia is the primary driver of frailty and falls. NIH ODS: creatine with resistance training is the most evidence-backed intervention for preserving muscle and cognitive function after 60.',dose:'3–5 g/day — no loading needed. Take consistently including rest days.'});r.push({n:'Calcium',p:'essential',tier:'t2',tf:false,e:4,s:4,why:'Bone mineral density declines progressively after 60. NIH ODS: most older adults do not meet the 1,200 mg/day calcium requirement from diet alone. Paired with D3 and K2 for maximum skeletal benefit.',dose:'500 mg elemental calcium × 2 daily with meals; do not take single doses above 500 mg'});r.push({n:'Lutein + Zeaxanthin',p:'recommended',tier:'t2',tf:false,e:3,s:5,why:'AMD is the leading cause of blindness in adults over 60. AREDS2 trial (NIH-funded, 4,203 participants): ~26% AMD progression risk reduction.',dose:'10 mg lutein + 2 mg zeaxanthin/day (AREDS2 formula) with a fatty meal'});r.push({n:'HMB (β-Hydroxy-β-methylbutyrate)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: evidence strongest in older adults. 2025 meta-analysis (21 RCTs, 1,935 adults >50): significant improvements in lean mass.',dose:'3 g/day (1 g × 3 with meals). Allow ≥12 weeks alongside resistance exercise.'});r.push({n:'Whey protein',p:'recommended',tier:'t1',tf:false,e:4,s:5,why:'Appetite decreases with age while protein requirements increase. NIH ODS: adequate dietary protein is essential.',dose:'20–40 g/serving after resistance exercise. Target ≥1.2–1.6 g/kg body weight/day.'});r.push({n:'CoQ10 (Ubiquinol)',p:'recommended',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: CoQ10 depleted by statins and declines with age. 2024 meta-analysis (33 RCTs): reduces all-cause mortality (RR=0.64) in heart failure.',dose:'200–400 mg/day ubiquinol in 2 doses with fatty meals'});r.push({n:'Acetyl-L-Carnitine (ALCAR)',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'NIH ODS: L-carnitine synthesis declines with age. Multiple meta-analyses confirm significant cognitive improvement in older adults with MCI.',dose:'1,500–2,000 mg/day in 2–3 divided doses (morning and early afternoon; avoid evening)'});r.push({n:'Phosphatidylserine',p:'consider',tier:'t2',tf:false,e:3,s:4,why:'FDA qualified health claim for cognitive decline. Multiple RCTs confirm improvements in memory, recall, and learning in older adults. Supports cortisol regulation and neuronal membrane integrity.',dose:'300–400 mg/day in 2–3 divided doses with meals; allow 4–8 weeks for full benefit'});r.push({n:'Ashwagandha (KSM-66)',p:'consider',tier:'t2',tf:false,e:4,s:3,why:'Supports HPA axis resilience, preserves lean muscle mass, and improves sleep quality — all key concerns in older adults.',dose:'300 mg KSM-66 with dinner; cycle 8 wks on, 2–4 wks off'});r.push({n:'L-Theanine',p:'consider',tier:'t2',tf:false,e:3,s:5,why:'Supports sleep quality and calm focus without drug interactions or dependency — ideal for older adults managing multiple medications.',dose:'200–400 mg/day; 30–45 min before bed for sleep support'});}const seen=new Set();return r.filter(x=>{if(seen.has(x.n))return false;seen.add(x.n);return true;});}
 function applyMedExtras(recs,mi){
   mi.extra.forEach(n=>{
     if(!recs.find(r=>r.n===n)){
@@ -841,96 +875,62 @@ const DOSE_CALCULATORS = {
     g = Math.max(15, Math.min(25, g));
     return {dose: `${g} g 60-90 min pre-exercise`, basis: '0.25 g/kg × your weight'};
   },
-  'Vitamin D3': (p) => {
-    let iu = 1000;
-    const reasons = [];
-    // BMI bump
-    if(p.bmi && p.bmi >= 30){ iu += 1000; reasons.push('higher BMI'); }
-    // Smoker bump
-    if(p.smoking === 'current'){ iu += 1000; reasons.push('smoker'); }
-    // Older adults
-    if(p.age >= 65){ iu += 1000; reasons.push('age 65+'); }
-    // Lab-driven boost (if 25-OH-D deficient)
-    if(p.labs && p.labs.vitD != null){
-      if(p.labs.vitD < 20){ iu = Math.max(iu, 4000); reasons.push('25-OH-D <20 ng/mL'); }
-      else if(p.labs.vitD < 30){ iu = Math.max(iu, 2000); reasons.push('25-OH-D <30 ng/mL'); }
-    }
-    // Pregnancy/breastfeeding
-    if(p.sex === 'fp'){ iu = Math.max(iu, 2000); reasons.push('pregnancy'); }
-    // CKD cap (active form may be needed; supplemental D is capped lower)
-    if(p.kidney === 'severe'){ return {dose: 'Per nephrologist (often calcitriol)', basis: 'severe kidney impairment'}; }
-    if(p.kidney === 'moderate'){ iu = Math.min(iu, 2000); reasons.push('CKD stage 3 cap'); }
-    iu = Math.min(iu, 5000);  // general UL above which physician supervision warranted
-    return {dose: `${iu.toLocaleString()} IU/day with a fatty meal`, basis: reasons.length ? `${reasons.join(', ')}` : 'baseline'};
+  'Vitamin D3': () => {
+    return {dose: '1,000–2,000 IU/day with a fatty meal is a common adult maintenance range. Discuss the dose with your doctor.', basis: 'general adult range'};
   },
   'Magnesium': (p) => {
-    if(!p.wtKg) return {dose: '300-400 mg elemental/day', basis: 'general adult dose'};
-    let mg = Math.round(p.wtKg * 4);  // 4 mg/kg/day elemental
+    const kidneyNote = (p.kidney === 'severe' || p.kidney === 'moderate')
+      ? ' Discuss the dose with your doctor before using magnesium with reduced kidney function.'
+      : ' Discuss the dose with your doctor.';
+    if(!p.wtKg) return {dose: '200–400 mg elemental/day.' + kidneyNote, basis: 'general adult range'};
+    let mg = Math.round(p.wtKg * 4);  // 4 mg/kg/day elemental, kept inside a published range
     mg = Math.max(200, Math.min(600, mg));
-    if(p.kidney === 'severe') return {dose: 'AVOID supplemental magnesium', basis: 'severe kidney impairment'};
-    if(p.kidney === 'moderate'){ mg = Math.min(mg, 250); return {dose: `${mg} mg elemental/day`, basis: 'CKD stage 3 cap (max 250 mg)'}; }
-    return {dose: `${mg} mg elemental/day`, basis: '4 mg/kg × your weight'};
+    return {dose: `${mg} mg elemental/day.` + kidneyNote, basis: '4 mg/kg × your weight, inside a general range'};
   },
   'Iron': (p) => {
-    // RDA targets, only suggest if labs flag deficiency or sex-driven default
-    if(p.labs && p.labs.ferritin != null && p.labs.ferritin < 30){
-      return {dose: '30-60 mg ferrous bisglycinate every other day, with vitamin C, away from coffee/tea/calcium', basis: `ferritin ${p.labs.ferritin} ng/mL — alternate-day dosing improves absorption (Stoffel 2017)`};
-    }
-    if(p.sex === 'f' && p.age >= 18 && p.age <= 50) return {dose: '18 mg/day RDA via diet first; supplement only if ferritin <30 ng/mL', basis: 'premenopausal female RDA'};
-    if(p.sex === 'fp') return {dose: '27 mg/day (prenatal RDA)', basis: 'pregnancy'};
-    if(p.sex === 'm') return {dose: '8 mg/day RDA — supplement only if ferritin <30', basis: 'adult male RDA — overshooting raises CV risk'};
-    return null;
+    if(p.pregnant) return {dose: 'Prenatal products often supply about 27 mg/day. Discuss the dose with your doctor.', basis: 'general pregnancy range'};
+    if(p.sex === 'f' && p.age >= 18 && p.age <= 50) return {dose: '18 mg/day is the premenopausal RDA, usually from food first. Discuss the dose with your doctor.', basis: 'general adult range'};
+    if(p.sex === 'm') return {dose: '8 mg/day is the adult male RDA, usually from food first. Discuss the dose with your doctor.', basis: 'general adult range'};
+    return {dose: 'Discuss the dose with your doctor. Iron is not set from a lab value here.', basis: 'general range'};
   },
   'Omega-3 (EPA/DHA)': (p) => {
     let g = 1;
     const reasons = [];
     if(p.conds.has('depression')){ g = 2; reasons.push('depression — EPA-dominant'); }
     if(p.conds.has('rheumatoid_arthritis')){ g = 2.5; reasons.push('RA'); }
-    if(p.labs && p.labs.triglycerides != null && p.labs.triglycerides > 200){ g = Math.max(g, 3); reasons.push('elevated triglycerides'); }
-    /* Round-11 (editorial review): body weight / BMI predicts omega-3 index
-       response — higher adiposity dilutes membrane incorporation, so a heavier
-       person needs a higher dose for the same index (Flock 2013; Walker 2019
-       dose-response). Modest floor bump at BMI≥30. The AFib and organ caps below
-       still take precedence. */
-    if(p.bmi && p.bmi >= 30){ g = Math.max(g, 1.5); reasons.push('higher BMI — larger volume of distribution'); }
-    if(p.conds.has('atrial_fibrillation')){ g = Math.min(g, 1); reasons.push('AFib — cap below 2 g (high-dose AF signal in REDUCE-IT/STRENGTH)'); }
-    if(p.kidney === 'severe' || p.liver === 'cirrhosis'){ g = Math.min(g, 1.5); }
-    return {dose: `${g} g/day combined EPA + DHA, with a fatty meal`, basis: reasons.length ? reasons.join(', ') : 'baseline cardiovascular dose'};
+    if(p.conds.has('atrial_fibrillation')){ g = Math.min(g, 1); reasons.push('AFib — trials used about 1 g; high doses have an AF signal in REDUCE-IT/STRENGTH'); }
+    if(p.kidney === 'severe' || p.kidney === 'moderate' || p.liver === 'cirrhosis' || p.liver === 'impaired'){
+      reasons.push('discuss the dose with your doctor — no automatic kidney or liver cap');
+    }
+    return {dose: `${g} g/day combined EPA + DHA, with a fatty meal. Discuss the dose with your doctor.`, basis: reasons.length ? reasons.join(', ') : 'general adult range'};
   },
   'Choline': (p) => {
-    if(p.sex === 'fp') return {dose: '450 mg/day (pregnancy AI)', basis: 'pregnancy AI per IOM'};
-    if(p.sex === 'f') return {dose: '425 mg/day (female AI)', basis: 'female AI per IOM'};
-    if(p.sex === 'm') return {dose: '550 mg/day (male AI)', basis: 'male AI per IOM'};
-    return null;
+    if(p.pregnant) return {dose: 'Pregnancy adequate intake is often listed around 450 mg/day. Discuss the dose with your doctor.', basis: 'general pregnancy range'};
+    if(p.sex === 'f') return {dose: '425 mg/day is the female adequate intake. Discuss the dose with your doctor.', basis: 'general adult range'};
+    if(p.sex === 'm') return {dose: '550 mg/day is the male adequate intake. Discuss the dose with your doctor.', basis: 'general adult range'};
+    return {dose: 'Discuss the dose with your doctor.', basis: 'general range'};
   },
   'Vitamin C (moderate dose)': (p) => {
     let mg = (p.sex === 'f') ? 75 : 90;
     const reasons = [];
     if(p.smoking === 'current'){ mg += 35; reasons.push('smoker (+35 mg)'); }
-    if(p.kidney === 'severe') return {dose: 'AVOID — kidney stones / oxalate accumulation risk', basis: 'severe kidney impairment'};
-    if(p.kidney === 'moderate'){ mg = Math.min(mg, 250); reasons.push('CKD stage 3 cap'); }
-    if(p.conds.has('kidney_stones')){ mg = Math.min(mg, 250); reasons.push('history of stones'); }
-    return {dose: `${mg}-500 mg/day in divided doses with food`, basis: reasons.length ? reasons.join(', ') : 'RDA baseline'};
+    if(p.kidney === 'severe' || p.kidney === 'moderate' || p.conds.has('kidney_stones')){
+      return {dose: '75–90 mg/day is the adult RDA. Discuss the dose with your doctor before using vitamin C with reduced kidney function or a history of stones.', basis: 'general range; no automatic kidney cap'};
+    }
+    return {dose: `${mg}–500 mg/day in divided doses with food. Discuss the dose with your doctor.`, basis: reasons.length ? reasons.join(', ') : 'general adult range'};
   },
-  'Selenium': (p) => {
-    let mcg = 100;
-    const reasons = ['general supplementation'];
-    if(p.conds.has('hashimotos')){ mcg = 200; reasons.push('Hashimoto\'s — TPO antibody reduction protocol'); }
-    if(p.conds.has('graves')){ mcg = 200; reasons.push('Graves — supports TPO + GTH balance'); }
-    mcg = Math.min(mcg, 200);  // hard cap to avoid selenosis
-    return {dose: `${mcg} mcg/day selenomethionine`, basis: reasons.join(', ') + '; UL is 400 mcg'};
+  'Selenium': () => {
+    return {dose: '55–200 mcg/day selenomethionine is a common range. Do not start selenium or iodine from a thyroid lab. Discuss the dose with your doctor.', basis: 'general adult range'};
+  },
+  'Iodine': () => {
+    return {dose: '150 mcg/day is a common adult amount from food and iodised salt. Pregnancy needs are often listed around 220 mcg/day. Discuss the dose with your doctor.', basis: 'general adult range'};
   },
   'Zinc': (p) => {
     let mg = (p.sex === 'f') ? 8 : 11;
     const reasons = [(p.sex === 'f' ? 'female' : 'male') + ' RDA'];
-    if(p.sex === 'fp'){ mg = 12; reasons[0] = 'pregnancy RDA'; }
+    if(p.pregnant){ mg = 12; reasons[0] = 'pregnancy RDA, as a general range'; }
     if(p.smoking === 'current') reasons.push('smoker');
-    /* Round-11 (editorial review): obesity is associated with lower serum zinc
-       (sequestration + lower absorption efficiency); guidance only — aim the
-       upper end of the range rather than changing the RDA floor. */
-    if(p.bmi && p.bmi >= 30) reasons.push('higher BMI — serum zinc often lower; aim upper end');
-    if(mg >= 25) reasons.push('add 1-2 mg copper');
-    return {dose: `${mg}-25 mg/day with food (split if dose >25)`, basis: reasons.join(', ') + '; UL is 40 mg'};
+    return {dose: `${mg}–25 mg/day with food is a common range. Discuss the dose with your doctor.`, basis: reasons.join(', ')};
   },
   'CoQ10 (Ubiquinol)': (p) => {
     let mg = 100;
@@ -946,8 +946,8 @@ const DOSE_CALCULATORS = {
     const reasons = ['baseline antioxidant dose'];
     if(p.conds.has('long_covid') || p.conds.has('cfs')){ mg = 1200; reasons[0] = 'long COVID / CFS protocol'; }
     if(p.conds.has('ptsd')){ mg = 1200; reasons[0] = 'PTSD trial dose'; }
-    if(p.liver === 'cirrhosis'){ mg = Math.min(mg, 600); reasons.push('liver cap'); }
-    return {dose: `${mg} mg/day in divided doses (BID)`, basis: reasons.join(', ')};
+    if(p.liver === 'cirrhosis' || p.liver === 'impaired') reasons.push('discuss the dose with your doctor — no automatic liver cap');
+    return {dose: `${mg} mg/day in divided doses (BID). Discuss the dose with your doctor.`, basis: reasons.join(', ')};
   },
   'Citrulline (L-citrulline, pure form)': (p) => {
     if(!p.wtKg) return {dose: '6-8 g pre-exercise', basis: 'general performance dose'};
@@ -971,7 +971,7 @@ const DOSE_CALCULATORS = {
   'Folate (5-MTHF)': (p) => {
     let mcg = 400;
     const reasons = ['baseline RDA'];
-    if(p.sex === 'fp'){ mcg = 600; reasons[0] = 'pregnancy RDA'; }
+    if(p.pregnant){ mcg = 600; reasons[0] = 'pregnancy RDA, as a general range'; }
     if(p.conds.has('female_fertility') || p.conds.has('male_fertility')){ mcg = Math.max(mcg, 800); reasons.push('preconception (start ≥3 months pre-TTC)'); }
     if([...p.meds].some(k=>['mood_stabilizer','seizure'].includes(k))){ mcg = Math.max(mcg, 800); reasons.push('on anticonvulsant — depletion offset'); }
     return {dose: `${mcg} mcg/day 5-MTHF with food`, basis: reasons.join(', ')};
@@ -981,9 +981,7 @@ const DOSE_CALCULATORS = {
     const reasons = ['baseline'];
     if(p.age >= 50){ mcg = 500; reasons[0] = 'age 50+ (atrophic gastritis)'; }
     if([...p.meds].some(k=>['ppi','h2_blocker','metformin'].includes(k))){ mcg = 1000; reasons.push('on PPI/H2-blocker/metformin (depletion)'); }
-    if(p.labs && p.labs.b12 != null && p.labs.b12 < 300){ mcg = 2000; reasons.push(`B12 ${p.labs.b12} pg/mL — sublingual or IM`); }
-    if(p.labs && p.labs.mma != null && p.labs.mma > 270){ mcg = Math.max(mcg, 1000); reasons.push(`elevated MMA — functional B12 deficiency`); }
-    return {dose: `${mcg.toLocaleString()} mcg/day sublingual or oral`, basis: reasons.join(', ')};
+    return {dose: `${mcg.toLocaleString()} mcg/day is a common oral range. A lab result does not set the dose. Discuss it with your doctor.`, basis: reasons.join(', ')};
   }
 };
 function getPersonalizedDose(r){
@@ -1011,7 +1009,8 @@ function getPersonalizedDose(r){
   }
   const profile = {
     age: ageVal,
-    sex: typeof sex !== 'undefined' ? sex : '',
+    sex: (typeof sex !== 'undefined' && sex === 'fp') ? 'f' : (typeof sex !== 'undefined' ? sex : ''),
+    pregnant: typeof profileIsPregnant === 'function' ? profileIsPregnant() : false,
     wtKg, bmi,
     kidney: (document.getElementById('kidney-fn')?.value) || 'normal',
     liver: (document.getElementById('liver-fn')?.value) || 'normal',
@@ -1954,8 +1953,8 @@ function _toggleBwRow(rowEl){
    feels deliberate rather than padded. */
 const LOAD_STEPS=[
   {at:0, text:'Filtering 733 supplements…', sub:'Matching to your age, sex, and goals'},
-  {at:20,text:'Checking medication interactions…', sub:'Cross-referencing drug-supplement pairs'},
-  {at:45,text:'Cross-referencing your labs…', sub:'Tightening doses to your bloodwork'},
+  {at:20,text:'Noting medications you listed…', sub:'A partial list of known conflicts, not a complete screen'},
+  {at:45,text:'Reading the labs you entered…', sub:'Flagging results outside a typical range. Doses stay general.'},
   {at:70,text:'Ranking by personal fit…', sub:'Evidence × your profile'},
   {at:90,text:'Finalising recommendations…', sub:'Almost ready'}
 ];
@@ -2113,7 +2112,7 @@ function _showRecs(){
     const bwResEl=document.getElementById('bw-results');if(bwResEl)bwResEl.style.display='none';
   }
 
-  const sexLabel=sex==='fp'?'pregnant woman':sex==='m'?'man':'woman';
+  const sexLabel=profileSexLabel('noun');
   const resHd=document.getElementById('res-hd');if(resHd)resHd.textContent='Your recommendations';
   const resSh=document.getElementById('res-sh');if(resSh)resSh.textContent=`${age}-year-old ${sexLabel} \u00B7 Last updated today`;
 
@@ -2304,7 +2303,7 @@ function _updateHeroSubtitle(opts){
     ? recsRaw.filter(function(r){ return !hiddenSupps.has(r.n); })
     : recsRaw;
   const age = (opts && opts.age) || parseInt(document.getElementById('asl')?.value, 10) || 0;
-  const sexLabel = (opts && opts.sexLabel) || (sex === 'fp' ? 'pregnant woman' : sex === 'm' ? 'man' : 'woman');
+  const sexLabel = (opts && opts.sexLabel) || profileSexLabel('noun');
   const _bSF = function(r){ const s = _suppByName.get(r.n); return s ? calcScore(s) >= 60 : true; };
   /* When opts has counts, trust them (set by _showRecs from the same recs).
      Otherwise recompute against the hidden-filtered recs array. */
@@ -6392,6 +6391,7 @@ function saveProfile(){
     bodyUnit:(typeof _bodyUnit==='function')?_bodyUnit():'imperial',heightCm:document.getElementById('prof-height-cm')?.value||'',weightKg:document.getElementById('prof-weight-kg')?.value||'',
     bloodWork:Object.keys(bloodWork).length>0?bloodWork:undefined,
     // Plan B1 — Health Status fields
+    pregnantOrBf:pregnantOrBf,
     kidney_fn:document.getElementById('kidney-fn')?.value||'normal',
     liver_fn:document.getElementById('liver-fn')?.value||'normal',
     smoking:document.getElementById('smoking-status')?.value||'never',
@@ -6488,7 +6488,13 @@ function loadProfile(){
     // Validate sex against the known set; an invalid value silently falls through to
     // sex==='' default elsewhere, which was previously the source of subtle "looks like
     // female by default" bugs after a tampered or stale localStorage payload.
-    if(p.sex&&(p.sex==='m'||p.sex==='f'||p.sex==='fp'))pickSex(p.sex);
+    if(p.sex==='fp'){pickSex('f');setPregnantOrBf(true);}
+    else if(p.sex==='m'||p.sex==='f'){
+      pickSex(p.sex);
+      if(p.pregnantOrBf===true)setPregnantOrBf(true);
+      else if(p.pregnantOrBf===false)setPregnantOrBf(false);
+      else{pregnantOrBf=null;_paintSex();}
+    }
     // Filter persisted Set members against the live key tables. A previous session may
     // have saved a med/condition/goal key that has since been removed from data.js;
     // without this filter, downstream code would do MEDS[k].avoid.forEach(...) and crash.
@@ -6575,8 +6581,8 @@ function clearProfile(){
   lsRemove('ss-profile');
   const asl=document.getElementById('asl');if(asl){asl.value=35;updAge(35);}
   sex=null;
-  // Fix: restore pf-sex-opt class so pill styling isn't lost after clear
-  ['bm','bf','bp'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='pf-sex-opt sx-btn';});
+  pregnantOrBf=null;
+  _paintSex();
   selectedMeds=new Set();renderMedChips();
   selectedConds=new Set();renderCondChips();
   selectedGoals=new Set();renderGoalChips();
@@ -6616,6 +6622,8 @@ function getShareUrl(){
   const params=new URLSearchParams();
   params.set('age',age);
   if(sex)params.set('sex',sex);
+  if(pregnantOrBf===true)params.set('preg','1');
+  else if(pregnantOrBf===false)params.set('preg','0');
   if(selectedMeds.size)params.set('meds',[...selectedMeds].join(','));
   if(selectedConds.size)params.set('conds',[...selectedConds].join(','));
   if(selectedGoals.size)params.set('goals',[...selectedGoals].join(','));
@@ -6629,7 +6637,11 @@ function loadFromUrl(){
   const asl=document.getElementById('asl');if(asl){asl.value=age;updAge(age);}
   // Validate sex against the allowed set so a tampered URL like ?sex=foo can't
   // leave the app in an inconsistent state where downstream code assumes 'm'|'f'|'fp'.
-  const s=params.get('sex');if(s&&(s==='m'||s==='f'||s==='fp'))pickSex(s);
+  const s=params.get('sex');
+  if(s==='fp'){pickSex('f');setPregnantOrBf(true);}
+  else if(s==='m'||s==='f')pickSex(s);
+  if(params.get('preg')==='1')setPregnantOrBf(true);
+  if(params.get('preg')==='0')setPregnantOrBf(false);
   // Filter URL-supplied Set keys against the live tables. A bookmarked URL or shared
   // link may reference a med/condition/goal that has since been renamed or removed;
   // without filtering, downstream MEDS[k].avoid.forEach(...) calls would throw.
@@ -6670,7 +6682,7 @@ function sendEmailReport(){
   const hangGuard=setTimeout(()=>{if(btn.disabled){btn.textContent='Try again';btn.disabled=false;}},15000);
   const ageEl=document.getElementById('asl');
   const age=ageEl?ageEl.value:'';
-  const sexLabel=sex==='fp'?'Pregnant woman':sex==='m'?'Male':'Female';
+  const sexLabel=profileSexLabel('adj');
   let summary='SupplementScore Recommendations\n';
   summary+='Profile: '+age+' year old '+sexLabel+'\n';
   if(selectedMeds.size)summary+='Medications: '+[...selectedMeds].map(k=>MEDS[k]?.label||k).join(', ')+'\n';

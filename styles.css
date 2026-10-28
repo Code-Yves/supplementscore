@@ -1751,6 +1751,7 @@ body{ overflow-x:clip; }
 .wiz-field-group{margin-bottom:16px}
 .wiz-field-label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);margin-bottom:7px}
 .wiz-field-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-tertiary);font-size:10px}
+.wiz-preg-help{margin:6px 0 0;font-size:12px;font-weight:400;line-height:1.5;color:var(--color-text-tertiary)}
 /* Height + weight inline row */
 .wiz-hw-row{display:flex;align-items:center;gap:8px}
 /* Round-11: height/weight unit toggle (imperial ↔ metric). */
