@@ -1147,7 +1147,7 @@ function generatePDF(mode){
   doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(PUR[0],PUR[1],PUR[2]);
   doc.text('HOW YOUR SUPPLEMENTS ARE SCORED',M,ky);ky+=7;
   doc.setFont('times','italic');doc.setFontSize(9.5);doc.setTextColor(80,80,80);
-  doc.splitTextToSize('Each supplement receives a composite score from 0\u2013100 weighted across clinical efficacy, safety profile, and research depth. Scores reflect the current published evidence and are adjusted for your specific health profile.',TW).forEach(l=>{doc.text(l,M,ky);ky+=5;});ky+=8;
+  doc.splitTextToSize('Each supplement receives a composite score from 20\u2013100 weighted across clinical efficacy, safety profile, and research depth. Scores reflect the current published evidence and are adjusted for your specific health profile.',TW).forEach(l=>{doc.text(l,M,ky);ky+=5;});ky+=8;
   const guide=[
     // Brand-aligned ramp: brand green for the strongest tier, then darker green, muted gray, light gray.
     {range:'80\u2013100',label:'Exceptional Evidence',col:GOLD,desc:'Multiple large RCTs, consistent meta-analyses, and validated mechanisms of action'},

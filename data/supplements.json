@@ -90,8 +90,8 @@
       "drug_interaction_inverse": 3
     },
     "description": "Second most deficient mineral in Western diets — nearly 50% of adults fall below the estimated average requirement. Involved in over 300 enzymatic reactions, ATP synthesis, DNA repair, nerve transmission, and muscle relaxation. A 2024 meta-analysis (Behers, PMID 39519450) confirmed magnesium supplementation at doses up to 360 mg/day reduces systolic blood pressure by 3.03 mmHg in normotensive adults, with larger effects at durations over 3 months. A 2021 systematic review (Mah, PMID 33865376, 3 RCTs) found oral magnesium reduced sleep onset latency by 17 minutes in older adults, though evidence quality was low. Avoid magnesium oxide — only 4% absorbed. Preferred forms: glycinate (sleep/calm), citrate (constipation), or malate (energy/muscle). UL 350 mg/day from supplements for adults.",
-    "dose": "200–400 mg/day elemental magnesium from glycinate, malate, or citrate. The supplement UL is 350 mg/day from non-food sources for adults (diarrhea risk above this). Divide doses if taking >200 mg/day.",
-    "tips": "Take with food to reduce stomach upset. Evening or bedtime dosing preferred for sleep and relaxation benefit. Space at least 2 hours from fluoroquinolone and tetracycline antibiotics, bisphosphonates, and levothyroxine — magnesium significantly reduces their absorption. Space 2 hours from calcium and iron supplements to avoid competition.",
+    "dose": "200–350 mg/day elemental magnesium from glycinate, malate, or citrate. The supplemental upper limit is 350 mg/day from non-food sources; take more only with clinician guidance. Divide doses if taking more than 200 mg/day.",
+    "tips": "Take with food to reduce stomach upset. Evening or bedtime dosing preferred for sleep and relaxation benefit. Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium — ciprofloxacin labeling uses that interval, and NIH ODS says at least 2 hours before or 4–6 hours after, because magnesium binds the drug. Also separate tetracycline antibiotics, bisphosphonates, and levothyroxine by at least 2 hours. Space 2 hours from calcium and iron supplements to avoid competition.",
     "cycle": "Safe for continuous daily use. Kidneys excrete excess in healthy adults. Monitor if on diuretics or with kidney impairment. No cycling needed."
   },
   {
@@ -6091,7 +6091,7 @@
       "drug_interaction_inverse": 4
     },
     "description": "Combines magnesium with the amino acid taurine, both of which independently support cardiovascular health. The combination may offer synergistic blood pressure and heart rhythm benefits compared to other magnesium forms. Preferred by cardiologists for patients with arrhythmias or hypertension. Gentle on the stomach with minimal laxative effect. Less research than glycinate or citrate forms but strong theoretical rationale for cardiac use.",
-    "dose": "200–400 mg elemental magnesium from magnesium taurate; preferred for cardiovascular indications",
+    "dose": "200–350 mg elemental magnesium from magnesium taurate; preferred for cardiovascular indications. Higher doses only with clinician guidance.",
     "tips": "Take with food in the evening — magnesium can have a calming effect and helps with sleep. Avoid taking with calcium supplements at the same time if possible."
   },
   {
@@ -7081,9 +7081,9 @@
       "drug_interaction_inverse": 3
     },
     "description": "Magnesium bound to citric acid — one of the most bioavailable and affordable oral magnesium forms. Its osmotic laxative effect is both its key advantage (for constipation) and its main limitation (loose stools at higher doses). A 2024 narrative review confirmed citrate is among the top-absorbed oral magnesium salts alongside glycinate and malate, substantially outperforming oxide (~4% absorption). The 2021 Mah meta-analysis (PMID 33865376) of oral magnesium for insomnia showed 17-minute sleep onset improvement; citrate was one of the forms used. Not the preferred choice for people with IBS-D or those prone to loose stools. UL from supplements 350 mg elemental magnesium per day.",
-    "dose": "200–400 mg elemental magnesium from citrate daily. Typical 500 mg citrate tablet provides ~84 mg elemental magnesium — read the label. For constipation, 290 mg elemental magnesium/day is a useful starting dose. Take with food.",
-    "tips": "Take with food and a full glass of water to reduce GI discomfort. Evening dosing capitalises on magnesium's relaxation effects. Reduce dose by 50 mg increments if stools become too loose. Space at least 2 hours from fluoroquinolone/tetracycline antibiotics, levothyroxine, and bisphosphonates. Do not use high-dose citrate solution (laxative preparation) as a daily supplement — this is a different product at much higher doses.",
-    "cycle": "Safe for continuous daily supplementation at maintenance doses (200–400 mg elemental/day). Higher laxative doses (1,000+ mg elemental) should not be used daily. No cycling required at supplement doses."
+    "dose": "200–350 mg elemental magnesium from citrate daily. Typical 500 mg citrate tablet provides ~84 mg elemental magnesium — read the label. For constipation, 290 mg elemental magnesium/day is a useful starting dose. Take more than 350 mg/day only with clinician guidance. Take with food.",
+    "tips": "Take with food and a full glass of water to reduce GI discomfort. Evening dosing capitalises on magnesium's relaxation effects. Reduce dose by 50 mg increments if stools become too loose. Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium. Also separate tetracycline antibiotics, levothyroxine, and bisphosphonates by at least 2 hours. Do not use high-dose citrate solution (laxative preparation) as a daily supplement — this is a different product at much higher doses.",
+    "cycle": "Safe for continuous daily supplementation at maintenance doses (200–350 mg elemental/day). Higher laxative doses (1,000+ mg elemental) should not be used daily. No cycling required at supplement doses."
   },
   {
     "name": "Magnesium malate",
@@ -7100,7 +7100,7 @@
       "drug_interaction_inverse": 5
     },
     "description": "Combines magnesium with malic acid, which plays a key role in cellular energy production via the Krebs cycle. Theoretically preferred for fatigue, fibromyalgia, and muscle performance because malic acid supports ATP synthesis. Small trials in fibromyalgia show reduced pain and tenderness. Well absorbed with minimal laxative effect. Less clinical evidence than citrate or glycinate forms.",
-    "dose": "200–400 mg elemental Mg from magnesium malate; malic acid supports energy metabolism",
+    "dose": "200–350 mg elemental magnesium from magnesium malate; malic acid supports energy metabolism. Higher doses only with clinician guidance.",
     "tips": "Take with food in the morning or afternoon — the malic acid component supports energy so avoid close to bedtime. Water or juice both fine."
   },
   {
@@ -12358,9 +12358,9 @@
       "cost": 4,
       "drug_interaction_inverse": 3
     },
-    "description": "Magnesium chelated to two glycine molecules — the most-recommended form for sleep and anxiety because glycine itself is independently calming (partial NMDA co-agonist and glycine-receptor agonist at CNS synapses, with a separate sleep-promoting RCT at 3 g, Inagawa 2006). Oral magnesium supplementation improved sleep onset latency by 17 minutes in a 2021 meta-analysis (Mah, 3 RCTs, PMID 33865376). Glycinate form is better tolerated than oxide, sulfate, or chloride — minimal laxative effect at doses up to 400 mg elemental magnesium per day, making it the preferred choice for continuous daily use. Elemental content is lower per gram than oxide, but absorption rate is substantially higher. UL from supplements 350 mg elemental magnesium per day.",
-    "dose": "200–400 mg elemental magnesium as glycinate daily. A typical 400 mg glycinate capsule provides approximately 50–80 mg elemental magnesium — check the label for elemental content. Evening dose preferred.",
-    "tips": "Take 30–60 minutes before bed for sleep benefit. Combine with 3 g glycine (separate supplement) for additive sleep effect. Space at least 2 hours from fluoroquinolone/tetracycline antibiotics, levothyroxine, and bisphosphonates. Very well tolerated — minimal GI effects even at therapeutic doses. Can be used long-term without cycling.",
+    "description": "Magnesium chelated to two glycine molecules — the most-recommended form for sleep and anxiety because glycine itself is independently calming (partial NMDA co-agonist and glycine-receptor agonist at CNS synapses, with a separate sleep-promoting RCT at 3 g, Inagawa 2006). Oral magnesium supplementation improved sleep onset latency by 17 minutes in a 2021 meta-analysis (Mah, 3 RCTs, PMID 33865376). Glycinate form is better tolerated than oxide, sulfate, or chloride — little laxative effect at supplemental doses at or below the 350 mg/day upper limit, making it the preferred choice for continuous daily use. Elemental content is lower per gram than oxide, but absorption rate is substantially higher. UL from supplements 350 mg elemental magnesium per day.",
+    "dose": "200–350 mg elemental magnesium daily, toward the evening if sleep is the goal. Read the elemental line, not the capsule weight. Do not exceed the 350 mg/day supplemental upper limit unless a clinician sets a higher dose.",
+    "tips": "Take 30–60 minutes before bed for sleep benefit. Combine with 3 g glycine (separate supplement) for additive sleep effect. Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium. Also separate tetracycline antibiotics, levothyroxine, and bisphosphonates by at least 2 hours. Very well tolerated — minimal GI effects even at therapeutic doses. Can be used long-term without cycling.",
     "cycle": "Safe for indefinite continuous use at recommended doses. No evidence of dependence. Benefits (sleep quality, relaxation, blood pressure) accumulate over 4–8 weeks of consistent use."
   },
   {
