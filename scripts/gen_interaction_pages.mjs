@@ -67,7 +67,7 @@ const css = `
     .ix-page{max-width:680px;margin:0 auto;padding:16px 16px 32px;line-height:1.6;font-size:16px;box-sizing:border-box}
     .ix-warn{margin:0 0 16px;padding:8px 16px;border-left:4px solid var(--color-brand);background:var(--color-warn-bg);color:var(--color-warn-text-strong);font-size:16px;line-height:1.4}
     .ix-lede,.ix-note,.ix-card p,.ix-sources{font-size:16px;line-height:1.6;color:var(--color-text-primary)}
-    .ix-lede{margin:0 0 16px;max-width:680px}
+    .ix-lede{margin:0 0 16px;max-width:640px}
     .ix-note{margin:0 0 16px;color:var(--color-text-secondary);max-width:680px}
     .ix-page h2{font-size:1.25rem;margin:24px 0 8px}
     .ix-card{border:1px solid var(--color-border-tertiary);padding:16px;margin:0 0 16px;background:var(--color-background-primary);max-width:680px}

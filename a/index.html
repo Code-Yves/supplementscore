@@ -36,13 +36,13 @@
     .lede{font-size:16px;line-height:1.6;color:var(--color-text-secondary);margin:0 0 16px;max-width:680px}
     .az-search{margin:0 0 16px}
     .az-search input{width:100%;box-sizing:border-box;font-size:16px;min-height:44px;padding:8px 16px;border:1px solid var(--color-border-tertiary);border-radius:8px;background:var(--color-background-primary);color:inherit}
-    .az-jump{display:flex;flex-wrap:nowrap;gap:4px;margin:0 0 16px;overflow-x:auto;max-width:100%}
+    .az-jump{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 16px;overflow-x:auto;max-width:100%}
     .az-jump a{flex:0 0 44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--color-brand);text-decoration:none}
     .az-jump a:hover,.az-jump a:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
     .az-group{margin:0 0 24px}
     .az-group h2{font-size:1.25rem;margin:0 0 8px;scroll-margin-top:88px}
     .az-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-    .az-list a{display:block;font-size:16px;line-height:1.4;color:var(--color-text-primary);text-decoration:none}
+    .az-list a{display:block;font-size:16px;line-height:1.4;padding:8px 0;color:var(--color-text-primary);text-decoration:none}
     .az-list a:hover,.az-list a:focus-visible{color:var(--color-brand);outline:2px solid var(--color-brand);outline-offset:2px}
     @media (min-width:768px){
       .lede{font-size:18px}
@@ -58,7 +58,7 @@
 <body class="art-index">
 <nav class="site-nav" aria-label="Primary">
   <div class="site-nav-inner">
-    <a class="site-nav-brand" href="/" aria-label="SupplementScore home">
+    <a class="site-nav-brand" href="/" aria-label="SupplementScore.org home">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
       <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
     </a>
@@ -74,8 +74,8 @@
   <h1>Research articles</h1>
   <p class="lede">Evidence-based articles on supplements, interactions, and health claims. Each piece names the trials it uses.</p>
   <form class="az-search" role="search" action="/search.html" method="get">
-    <label class="sr-only" for="az-q">Search supplements, research, conditions</label>
-    <input id="az-q" type="search" name="q" placeholder="Search supplements, research, conditions…" autocomplete="off" enterkeyhint="search">
+    <label class="sr-only" for="az-search">Search supplements, research, conditions</label>
+    <input id="az-search" type="search" name="q" placeholder="Search supplements, research, conditions…" autocomplete="off" enterkeyhint="search">
   </form>
   <nav class="az-jump" aria-label="Jump to a letter" tabindex="0">
       <a href="#az-num">#</a>
@@ -915,5 +915,28 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
 </script>
 </footer>
 <!-- SS_FOOTER_END -->
+<script>
+(function () {
+  var input = document.getElementById('az-search');
+  if (!input) return;
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.az-group'));
+  function apply() {
+    var q = input.value.trim().toLowerCase();
+    groups.forEach(function (group) {
+      var shown = 0;
+      group.querySelectorAll('.az-list li').forEach(function (li) {
+        var hit = !q || (li.textContent || '').toLowerCase().indexOf(q) !== -1;
+        li.hidden = !hit;
+        if (hit) shown += 1;
+      });
+      group.hidden = shown === 0;
+      var id = group.getAttribute('aria-labelledby');
+      var jump = id && document.querySelector('.az-jump a[href="#' + id + '"]');
+      if (jump) jump.hidden = group.hidden;
+    });
+  }
+  input.addEventListener('input', apply);
+})();
+</script>
 </body>
 </html>
