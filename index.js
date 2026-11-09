@@ -615,24 +615,17 @@ function _refreshArtDropdownCounts(){
       Object.assign(_artCounts, counts);
     }
   } catch (_) {}
-  const labels = {
-    quickread: 'Top 10 Lists',
-    guide: 'Guide',
-    breakthrough: 'Breakthrough',
-    kids: 'Kids',
-    myth: 'Reality Check',
-    safety: 'Safety Alert',
-    condition: 'Condition',
-    stack: 'Stack'
-  };
   const menu = document.getElementById('art-filter-menu');
   if (!menu) return;
+  const cats = window.SS_RESEARCH_CATS || {};
   menu.querySelectorAll('.cdd-item[data-val]').forEach(item => {
     const v = item.getAttribute('data-val');
-    const base = labels[v];
-    if (!base) return;
+    const meta = cats[v];
+    if (!meta || !meta.label) return;
+    const name = item.querySelector('.art-name');
+    if (!name) return;
     const n = counts[v] || 0;
-    item.textContent = n ? base + ' (' + n + ')' : base;
+    name.textContent = n ? meta.label + ' (' + n + ')' : meta.label;
   });
 }
 function _reinjectArticleListUI(){
