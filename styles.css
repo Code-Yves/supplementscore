@@ -4579,7 +4579,7 @@ main.ar-wrap #hero.mag .mag-lead p,
 main.sx-wrap #hero.mag .mag-lead p,
 main.ca-wrap #hero.mag .mag-lead p,
 main.sk-wrap #hero.mag .mag-lead p{
-  margin:0;color:#57534e;font-size:15px;line-height:1.5;
+  margin:0;color:#57534e;font-size:15px;line-height:1.5;text-wrap:pretty;
 }
 main.ar-wrap > #hero.mag,
 main.sx-wrap > #hero.mag,

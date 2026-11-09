@@ -6092,7 +6092,7 @@
     },
     "description": "Combines magnesium with the amino acid taurine, both of which independently support cardiovascular health. The combination may offer synergistic blood pressure and heart rhythm benefits compared to other magnesium forms. Preferred by cardiologists for patients with arrhythmias or hypertension. Gentle on the stomach with minimal laxative effect. Less research than glycinate or citrate forms but strong theoretical rationale for cardiac use.",
     "dose": "200–350 mg elemental magnesium from magnesium taurate; preferred for cardiovascular indications. Higher doses only with clinician guidance.",
-    "tips": "Take with food in the evening — magnesium can have a calming effect and helps with sleep. Avoid taking with calcium supplements at the same time if possible."
+    "tips": "Take with food in the evening — magnesium can have a calming effect and helps with sleep. Avoid taking with calcium supplements at the same time if possible. Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium."
   },
   {
     "name": "Aged garlic extract (Kyolic)",
@@ -7101,7 +7101,7 @@
     },
     "description": "Combines magnesium with malic acid, which plays a key role in cellular energy production via the Krebs cycle. Theoretically preferred for fatigue, fibromyalgia, and muscle performance because malic acid supports ATP synthesis. Small trials in fibromyalgia show reduced pain and tenderness. Well absorbed with minimal laxative effect. Less clinical evidence than citrate or glycinate forms.",
     "dose": "200–350 mg elemental magnesium from magnesium malate; malic acid supports energy metabolism. Higher doses only with clinician guidance.",
-    "tips": "Take with food in the morning or afternoon — the malic acid component supports energy so avoid close to bedtime. Water or juice both fine."
+    "tips": "Take with food in the morning or afternoon — the malic acid component supports energy so avoid close to bedtime. Water or juice both fine. Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium."
   },
   {
     "name": "Calcium hydroxyapatite (MCHC)",
@@ -7930,7 +7930,7 @@
     },
     "description": "Combines magnesium with orotic acid, which plays a role in cellular energy and heart muscle function. A few older European studies suggest benefit for heart failure. The most expensive magnesium form with the least general-use evidence. Rarely justified over glycinate, citrate, or malate forms for most people.",
     "dose": "400–800 mg/day magnesium orotate; expensive with limited evidence advantage over other forms",
-    "tips": "Take with food and water. Evening works well as magnesium supports relaxation. Consider glycinate or citrate as more cost-effective alternatives."
+    "tips": "Take with food and water. Evening works well as magnesium supports relaxation. Consider glycinate or citrate as more cost-effective alternatives. Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium."
   },
   {
     "name": "7-Keto DHEA",
