@@ -12,12 +12,22 @@ html body:has(.ss-pagebar):not(.ss-home):not(:has(main.ar-wrap)):not(:has(main.d
 }
 body:has(.ss-pagebar):not(.ss-home) > .site-nav,
 body:has(.ss-pagebar):not(.ss-home) > .beta-bar{display:none !important}
-body:has(.ss-pagebar) .pg-close-fab,
-body:has(.ss-pagebar) .pg-share-fab,
 body:has(.ss-pagebar) .bro-close-fab,
 body:has(.ss-pagebar) .hub-close-fab,
 body:has(.ss-pagebar) .cmp-close-fab,
-body:has(.ss-pagebar) .d-close-fab{display:none !important}
+body:has(.ss-pagebar) .d-close-fab,
+body:has(.ss-pagebar) .reader-close-fab{display:none !important}
+/* On a phone the bar already owns the corner. A supplement page keeps
+   its column close on desktop, under the bar. Other pages keep the
+   close that research chrome draws on the article. */
+@media(max-width:768px){
+  body:has(.ss-pagebar) .pg-close-fab,
+  body:has(.ss-pagebar) .pg-share-fab{display:none !important}
+}
+@media(min-width:769px){
+  body:has(.ss-pagebar):not(:has(main.det-wrap)) .pg-close-fab,
+  body:has(.ss-pagebar):not(:has(main.det-wrap)) .pg-share-fab{display:none !important}
+}
 body:has(.ss-pagebar) .eg-back,
 body:has(.ss-pagebar) .bib-back,
 body:has(.ss-pagebar) .gl-back,

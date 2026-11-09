@@ -287,14 +287,29 @@ function expectCorner(box, label) {
 
 test('phone close controls are 44px and share one corner', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'iphone', 'phone corner');
-  const targets = [
-    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
-  ];
-  for (const [path, selector] of targets) {
-    await goto(page, path);
-    await page.waitForSelector(selector);
-    expectCorner(await cornerBox(page, selector), path);
-  }
+  await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
+  await page.waitForSelector('a.rc-close.ss-x');
+  await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
+  const article = await page.evaluate(() => {
+    function box(sel) {
+      const el = document.querySelector(sel);
+      const r = el.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, w: r.width, h: r.height };
+    }
+    return {
+      bar: box('header.ss-pagebar'),
+      barX: box('header.ss-pagebar a.ss-pagebar-x'),
+      close: box('a.rc-close.ss-x'),
+    };
+  });
+  expect(article.barX.w).toBeGreaterThanOrEqual(44);
+  expect(article.barX.w).toBeLessThan(44.01);
+  expect(article.close.w).toBeGreaterThanOrEqual(44);
+  expect(article.close.w).toBeLessThan(44.01);
+  expect(article.close.h).toBeGreaterThanOrEqual(44);
+  expect(article.close.h).toBeLessThan(44.01);
+  // The research × stays on the article header. The bar already owns the corner.
+  expect(article.close.top).toBeGreaterThanOrEqual(article.bar.bottom - 1);
   await goto(page, '/supplement/l-theanine.html');
   await expectDisc(page, 'header.ss-pagebar a.ss-pagebar-x', 'supplement');
   await openSupplement(page);
@@ -360,11 +375,9 @@ test('desktop close controls sit 16px inside the panel they close', async ({ pag
   test.skip(testInfo.project.name !== 'desktop', 'desktop panel corner');
   const targets = [
     ['/about.html', 'a.ss-pagebar-x', '.ss-pagebar-inner'],
-    // The supplement page's close lives in the top bar. The old
-    // .pg-close-fab stays in the markup and is hidden once the bar is present.
-    ['/supplement/l-theanine.html', 'header.ss-pagebar a.ss-pagebar-x', '.ss-pagebar-inner'],
+    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x', 'main.det-wrap'],
     ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x', '.ar-column'],
-    ['/for/menopause.html', 'a.reader-close-fab.ss-x', 'main'],
+    ['/for/menopause.html', 'a.rc-close.ss-x', '.ar-column'],
   ];
   for (const [path, closeSel, panelSel] of targets) {
     await goto(page, path);
