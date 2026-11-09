@@ -213,12 +213,13 @@
   function bucketLabel(b){
     if (b === 'avoid') return 'Avoid';
     if (b === 'caution') return 'Caution';
+    if (b === 'separate') return 'Separate doses';
     if (b === 'extra') return 'Possible benefit (low evidence)';
     if (b === 'clear') return 'No known conflict';
     return '';
   }
   function bucketClass(b){
-    return b === 'avoid' ? 'avoid' : b === 'caution' ? 'caution' : b === 'extra' ? 'support' : '';
+    return b === 'avoid' ? 'avoid' : (b === 'caution' || b === 'separate') ? 'caution' : b === 'extra' ? 'support' : '';
   }
 
   /* ── Dynamic JSON-LD (MedicalEntity + BreadcrumbList) ──────────────────────
@@ -462,14 +463,18 @@
   var cycle = cycleSummary(s.cycle);
   var cats = categoriesFromTag(s.tag);
 
-  // Alert banner — derive from data
+  // Alert banner — derive from data.
+  // Fluoroquinolones chelate magnesium; the label is dose separation, not a ban.
   var avoidMeds = meds.filter(function(m){return m.bucket==='avoid';});
+  var magFq = /magnesium/i.test(s.n || '') && meds.some(function(m){ return m.slug === 'fluoroquinolone'; });
   var alertHtml = '';
   if (s.t === 't4'){
     var a4 = avoidMeds.length
       ? 'Avoid combining with ' + avoidMeds.slice(0, 2).map(function(m){return m.name;}).join(', ') + (avoidMeds.length > 2 ? ', and others.' : '.')
       : 'Significant safety concerns documented. Review the safety section before use.';
     alertHtml = '<div class="det-alert high"><span class="det-alert-icon">⚠︎</span><div><b>Tier 4 — risky / avoid.</b> '+escHtml(a4)+' <a href="#det-related">See related ↓</a></div></div>';
+  } else if (magFq){
+    alertHtml = '<div class="det-alert med"><span class="det-alert-icon">⚠︎</span><div><b>Separate doses.</b> Take a fluoroquinolone antibiotic at least 2 hours before or 6 hours after magnesium. <a href="#det-related">See related ↓</a></div></div>';
   } else if (avoidMeds.length){
     alertHtml = '<div class="det-alert med"><span class="det-alert-icon">⚠︎</span><div><b>Do not stack</b> with '+avoidMeds.slice(0, 2).map(function(m){return escHtml(m.name);}).join(', ')+(avoidMeds.length > 2 ? ', and others.' : '.')+' <a href="#det-related">See related ↓</a></div></div>';
   }

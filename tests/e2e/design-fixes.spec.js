@@ -46,7 +46,7 @@ test('the funding line is a header label, and prose is a sentence', async ({ pag
       meta: document.querySelector('meta[name="description"]').getAttribute('content'),
     };
   });
-  expect(home.lede).toBe('Derived exclusively from peer-reviewed clinical trials and credible research institutions.');
+  expect(home.lede).toBe('Drawn from peer-reviewed trials and meta-analyses, plus regulator dossiers and observational safety data.');
   expect(home.lede).not.toContain('Independent ·');
   expect(home.lede).not.toMatch(/non-profit/i);
   expect(home.label).toBe('Independent · No industry funding');

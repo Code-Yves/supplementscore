@@ -1022,7 +1022,7 @@
     .rc-chart-k{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#155A50;margin-bottom:4px;display:flex;align-items:center;gap:7px}
     .rc-chart-k::before{content:"";width:6px;height:6px;border-radius:50%;background:#155A50}
     .rc-chart-title{font-size:1rem;font-weight:700;color:#1E1B4B;margin:0 0 16px;line-height:1.3;letter-spacing:-.01em}
-    .rc-chart-row{display:grid;grid-template-columns:155px 1fr 58px;gap:12px;align-items:center;margin-bottom:8px}
+    .rc-chart-row{display:grid;grid-template-columns:155px 1fr 80px;gap:12px;align-items:center;margin-bottom:8px}
     .rc-chart-row:last-of-type{margin-bottom:0}
     .rc-chart-label{font-size:.82rem;color:#374151;font-weight:600;line-height:1.25}
     .rc-chart-label small{display:block;font-size:.7rem;color:#6b7280;font-weight:500;margin-top:1px}
@@ -1038,7 +1038,7 @@
     .rc-chart-legend{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
     .rc-chart-leg{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;color:#4b5563;font-weight:600}
     .rc-chart-leg .sw{width:10px;height:10px;border-radius:3px}
-    @media(max-width:560px){.rc-chart-row{grid-template-columns:100px 1fr 48px;gap:8px}.rc-chart-label{font-size:.76rem}.rc-chart-label small{font-size:.66rem}}
+    @media(max-width:560px){.rc-chart-row{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) 4.5rem;gap:8px}.rc-chart-label,.rc-chart-val{min-width:0}.rc-chart-label{font-size:.76rem}.rc-chart-label small{font-size:.66rem}}
 
 /* ============================================================
    2026-05-21 — Index + Research merge follow-up fixes.
@@ -1186,6 +1186,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 @media (min-width: 601px){
   #hero.mag{ max-width: none; margin-left:0; margin-right:0; }
 }
+#hero.mag .mag-lead p{text-wrap:pretty}
 #hero.mag .mag-lead:hover h2,
 #hero.mag .mag-side a:hover h2,
 #hero.mag .mag-side a:hover h3{ color: #0c0a09; }

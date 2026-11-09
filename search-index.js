@@ -316,12 +316,13 @@
     Object.keys(M).forEach(function (k) {
       var m = M[k];
       var bucket = null;
-      if      ((m.avoid   || []).indexOf(name) >= 0) bucket = 'avoid';
+      if (k === 'fluoroquinolone' && /magnesium/i.test(name) && ((m.caution || []).indexOf(name) >= 0 || (m.avoid || []).indexOf(name) >= 0)) bucket = 'separate';
+      else if ((m.avoid   || []).indexOf(name) >= 0) bucket = 'avoid';
       else if ((m.caution || []).indexOf(name) >= 0) bucket = 'caution';
       else if ((m.extra   || []).indexOf(name) >= 0) bucket = 'extra';
       if (bucket) hits.push({ slug: k, name: m.label, bucket: bucket });
     });
-    var rank = { avoid: 0, caution: 1, extra: 2, clear: 3 };
+    var rank = { avoid: 0, separate: 0, caution: 1, extra: 2, clear: 3 };
     hits.sort(function (a, b) {
       return (rank[a.bucket] - rank[b.bucket]) || String(a.name).localeCompare(String(b.name));
     });

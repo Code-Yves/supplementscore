@@ -51,7 +51,7 @@ Tier 1 placement requires at least one **independently funded** randomised contr
 
 ## Sources
 
-Scores draw exclusively from peer-reviewed primary literature and credible institutional positions:
+Scores draw from peer-reviewed trials and meta-analyses, regulator dossiers, observational safety data, and credible institutional positions:
 
 - **Primary literature**: PubMed, Cochrane Library, ClinicalTrials.gov, bioRxiv, ChEMBL
 - **Institutional positions**: NIH ODS, FDA, EFSA, WHO, EMA, Health Canada, MedlinePlus
