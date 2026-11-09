@@ -375,15 +375,23 @@
   max-width: 900px; margin:32px auto 0;
   padding:24px 20px 8px;
   border-top: 1px solid var(--color-border-soft, rgba(0,0,0,.06));
+  text-align:center;
 }
-/* Hide the source-logos block on phones — eats vertical space and pushes
-   the actual list below the fold. Logos remain on tablet/desktop. */
-@media (max-width: 600px){ .ix-sources{ display: none; } }
+/* 2026-05-21, confirmed 2026-10-27: the logo row stays off the first screen. */
+.ix-hero .ix-sources{ display:none !important; }
+.ix-sources-note{
+  margin:12px auto 0;
+  max-width:62ch;
+  font-size:13px;
+  line-height:1.45;
+  text-align:center;
+  color:var(--color-text-secondary,#57534e);
+}
 /* Direction A — Tighter Editorial (2026-05-20):
    tracking .12em→.22em and size 9→9.5 nudge "Sources from" toward a
    small-caps masthead feel. */
 .ix-sources-label{
-  font-size: 9.5px; font-weight: 600; letter-spacing: .22em;
+  font-size: 12px; font-weight: 600; letter-spacing: .22em;
   text-transform: uppercase; color: var(--color-text-tertiary);
   text-align: center; margin-bottom:16px;
 }
@@ -475,7 +483,8 @@
   font-family: inherit; font-size: 12.5px; font-weight: 400; letter-spacing: .01em;
   color: var(--color-text-tertiary);
   border: 0; background: transparent;
-  padding:4px 16px;
+  min-height:44px;
+  padding:10px 16px;
   display: inline-flex; align-items: center; justify-content: center; gap:8px;
   white-space: nowrap; align-self: center;
   cursor: pointer;
@@ -594,7 +603,8 @@
   letter-spacing: -.01em;
 }
 .src-modal-sub{
-  font-size: 11px; color: var(--color-text-tertiary); margin-top:2px;
+  font-size: 12px; color: var(--color-text-tertiary); margin-top:2px;
+  text-wrap:balance;
 }
 .src-modal-close{
   width: 44px; height: 44px; min-width: 44px; min-height: 44px;
@@ -642,7 +652,7 @@
    Bump specificity to (0,2,0) by scoping under .ix-hero — same as
    the offending rule, with source order winning the tie. ix-sources
    gets an explicit z-index:1 so the relationship is unambiguous. */
-.ix-hero .ix-search{ z-index: 5; }
+.ix-hero .ix-search{ z-index: 200; }
 .ix-hero .ix-sources{ z-index: 1; }
 .ix-search input{
   width: 100%; padding:12px 20px 12px 44px;
@@ -1012,7 +1022,7 @@
     .rc-chart-k{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#155A50;margin-bottom:4px;display:flex;align-items:center;gap:7px}
     .rc-chart-k::before{content:"";width:6px;height:6px;border-radius:50%;background:#155A50}
     .rc-chart-title{font-size:1rem;font-weight:700;color:#1E1B4B;margin:0 0 16px;line-height:1.3;letter-spacing:-.01em}
-    .rc-chart-row{display:grid;grid-template-columns:155px 1fr 58px;gap:12px;align-items:center;margin-bottom:8px}
+    .rc-chart-row{display:grid;grid-template-columns:155px 1fr 80px;gap:12px;align-items:center;margin-bottom:8px}
     .rc-chart-row:last-of-type{margin-bottom:0}
     .rc-chart-label{font-size:.82rem;color:#374151;font-weight:600;line-height:1.25}
     .rc-chart-label small{display:block;font-size:.7rem;color:#6b7280;font-weight:500;margin-top:1px}
@@ -1028,7 +1038,7 @@
     .rc-chart-legend{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
     .rc-chart-leg{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;color:#4b5563;font-weight:600}
     .rc-chart-leg .sw{width:10px;height:10px;border-radius:3px}
-    @media(max-width:560px){.rc-chart-row{grid-template-columns:100px 1fr 48px;gap:8px}.rc-chart-label{font-size:.76rem}.rc-chart-label small{font-size:.66rem}}
+    @media(max-width:560px){.rc-chart-row{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) 4.5rem;gap:8px}.rc-chart-label,.rc-chart-val{min-width:0}.rc-chart-label{font-size:.76rem}.rc-chart-label small{font-size:.66rem}}
 
 /* ============================================================
    2026-05-21 — Index + Research merge follow-up fixes.
@@ -1134,19 +1144,16 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 /* ---------- z-index ladder for the Index landing ----------
    Designed top-down so each layer's relationships are explicit:
 
-    100  .gs-ac autocomplete  hero search dropdown (above EVERYTHING below)
+    200  #ix-hero-form     hero search, including its dropdown
      90  .beta-bar         green status banner — always on top of chrome
-     80  #main-sticky      sticky filter pills (under banner; under dropdown)
-     50  .ix-search        the hero search container
-     40  .ix-hero          headline + lede + search wrapper
+     80  #main-sticky      sticky filter pills (under the search dropdown)
       2  #hero             rotating-article carousel
       0  .ix-hero-bg       (hidden anyway)
 
-   2026-05-25 — dropdown raised 60 → 100 so it sits above #main-sticky's
-   filter pills. Previously the hero dropdown extended down past the hero
-   and was occluded by the "Goal / Age & Sex / Symptom / Research" pills.
-   The fix prioritizes the rule that a SEARCH DROPDOWN must always cover
-   chrome below it, even if that chrome is a sticky bar.
+   The dropdown's own z-index cannot escape a parent stacking context.
+   .ix-hero used to be z-index 40, so the filter bar (z-index 80) painted
+   through the Research rows. The hero itself stays z-index:auto, and the
+   search form is the layer above the filter bar.
 
    Earlier this was tangled — the banner sat at z=20 which is BELOW
    the .ix-hero stacking context I introduced (z=40) to keep the
@@ -1158,11 +1165,11 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 .beta-bar{ z-index: 90 !important; }
 .ix-hero{
   position: relative;
-  z-index: 40;
+  z-index: auto;
   overflow: visible;
 }
 .ix-search{ position: relative; z-index: 50; }
-#ix-hero-form{ position: relative; z-index: 50; }
+#ix-hero-form{ position: relative; z-index: 200; }
 .gs-ac,
 #ix-ac,
 #ix-sticky-ac{
@@ -1179,6 +1186,7 @@ body.hero-search-gone #main-sticky .sticky-bar-search .ix-search-sticky{
 @media (min-width: 601px){
   #hero.mag{ max-width: none; margin-left:0; margin-right:0; }
 }
+#hero.mag .mag-lead p{text-wrap:pretty}
 #hero.mag .mag-lead:hover h2,
 #hero.mag .mag-side a:hover h2,
 #hero.mag .mag-side a:hover h3{ color: #0c0a09; }
@@ -1809,6 +1817,9 @@ body.on-profile #main-sticky{
   body.tab-supplements .beta-bar-stat-sep{color:#155A50}
   body.tab-supplements.hero-search-gone .beta-bar{justify-content:space-between}
 }
+@media (min-width:1024px){
+  body.tab-supplements .beta-bar{padding-left:var(--ss-np-pad,300px)}
+}
 @media (max-width:600px){
   #supplements-view > .container{
     padding-left:0;
@@ -1845,3 +1856,12 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   text-wrap:balance;hyphens:none;
 }
 #hero.mag a.mag-arrow{text-decoration:none;color:#155A50}
+
+/* Phones must not point at logos that are hidden. The whole first-screen
+   row stays off; this also drops the label if the row is turned back on. */
+@media (max-width: 600px){
+  .ix-hero .ix-sources{ display:none !important; }
+  .ix-sources-label,
+  .ix-sources-logos{ display:none; }
+  .ix-sources-note{ margin-top:0; }
+}

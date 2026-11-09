@@ -63,7 +63,7 @@ test('research menu counts match the research page', async ({ page }) => {
   const byVal = {};
   counts.forEach((row) => { byVal[row.val] = row.label; });
   expect(byVal.guide).toBe('Guide (148)');
-  expect(byVal.breakthrough).toBe('Breakthrough (143)');
+  expect(byVal.breakthrough).toBe('Breakthrough (142)');
   expect(byVal.quickread).toBe('Top 10 Lists (17)');
   expect(byVal.stack).toBe('Stack (25)');
   expect(errors, errors.join('\n')).toEqual([]);

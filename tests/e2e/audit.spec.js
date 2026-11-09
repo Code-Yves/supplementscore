@@ -295,9 +295,14 @@ test('phone footer text is not covered by the back-to-top button', async ({ page
     const links = [...document.querySelectorAll('link[rel="stylesheet"]')];
     return links.some((link) => /\/styles\.css/.test(link.href) && link.sheet);
   });
-  await page.mouse.wheel(0, 240);
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await page.waitForSelector('.ssux-top.show');
+  // On this phone viewport, scrollTo and scrollIntoView move the page without
+  // a scroll event, so the button never adds .show. A wheel from past 600px
+  // does fire one. A synthetic scroll event scrolls back to the top.
+  await page.waitForFunction(() => document.documentElement.scrollHeight > window.innerHeight + 800);
+  await page.evaluate(() => { document.scrollingElement.scrollTop = 700; });
+  await page.mouse.wheel(0, 400);
+  await expect(page.locator('.ssux-top.show')).toBeVisible();
+  await page.locator('footer.site-footer').evaluate((el) => el.scrollIntoView({ block: 'end' }));
   const box = await page.evaluate(() => {
     const footer = document.querySelector('footer.site-footer');
     const button = document.querySelector('.ssux-top');

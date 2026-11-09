@@ -190,7 +190,7 @@
       "strength": 4,
       "goal": "Active vitamin D (calcitriol) production",
       "rationale": "Mg is a cofactor for hepatic 25-hydroxylation and renal 1-alpha hydroxylation of D3. Low Mg = low active D even with adequate dose.",
-      "dose": "Mg glycinate 200-400 mg + D3 1,000-2,000 IU."
+      "dose": "Mg glycinate 200-350 mg + D3 1,000-2,000 IU."
     },
     {
       "id": "p14",
@@ -399,7 +399,7 @@
       "strength": 4,
       "goal": "Comprehensive bone protocol (post-menopausal / fracture risk)",
       "rationale": "Builds on the WHI Ca+D trial; adds Mg (cofactor), K2 (bone deposition), and optional boron for matrix support.",
-      "dose": "Ca 500 mg x2/day + Mg 200-400 mg + D3 1,000-2,000 IU + MK-7 90-200 mcg + boron 3 mg."
+      "dose": "Ca 500 mg x2/day + Mg 200-350 mg + D3 1,000-2,000 IU + MK-7 90-200 mcg + boron 3 mg."
     },
     {
       "id": "p31",
@@ -974,7 +974,7 @@
       "kind": "cofactor",
       "strength": 4,
       "rationale": "Magnesium is a cofactor for the enzymes converting vitamin D to its active form. Vitamin D supplementation increases magnesium needs.",
-      "dose": "Vitamin D3 1000-2000 IU + Magnesium 200-400 mg/day with food.",
+      "dose": "Vitamin D3 1000-2000 IU + Magnesium 200-350 mg/day with food.",
       "id": "p71"
     },
     {
@@ -1075,7 +1075,7 @@
       "strength": 4,
       "goal": "Magnesium uptake + cofactor activation for ~300 enzymes",
       "rationale": "B6 (pyridoxal-5-phosphate) is required for many magnesium-dependent enzymes; trials show greater PMS, anxiety, and migraine benefit when paired vs. magnesium alone.",
-      "dose": "Magnesium glycinate 200-400 mg + P5P 25-50 mg/day, evening with food.",
+      "dose": "Magnesium glycinate 200-350 mg + P5P 25-50 mg/day, evening with food.",
       "id": "p79"
     },
     {
@@ -1088,7 +1088,7 @@
       "strength": 5,
       "goal": "Bone deposition triad — calcium absorbed (D3), directed to bone (K2), enzymes activated (Mg)",
       "rationale": "Magnesium is the cofactor that activates vitamin D and converts inactive osteocalcin; K2 then directs the calcium D3 absorbs into bone instead of arteries.",
-      "dose": "D3 1000-2000 IU + MK-7 100-200 mcg + Mg glycinate 200-400 mg, with the largest meal.",
+      "dose": "D3 1000-2000 IU + MK-7 100-200 mcg + Mg glycinate 200-350 mg, with the largest meal.",
       "contraindications": [
         "warfarin (for K2)"
       ],
@@ -2624,7 +2624,7 @@
       "kind": "absorption-conflict",
       "strength": 5,
       "goal": "Chelation of antibiotic",
-      "rationale": "Magnesium chelates fluoroquinolones and tetracyclines in the gut, sharply reducing antibiotic absorption; separate by ≥4 h (Mg taken AFTER antibiotic).",
+      "rationale": "Magnesium chelates fluoroquinolones and tetracyclines in the gut and can sharply reduce antibiotic absorption. Take a fluoroquinolone at least 2 hours before or 6 hours after magnesium, and separate tetracyclines by at least 2 hours.",
       "direction": "timing-separation",
       "confidence": "high",
       "evidence_pmids": [
@@ -2713,7 +2713,7 @@
       "kind": "absorption-conflict",
       "strength": 5,
       "goal": "Chelation of antibiotics",
-      "rationale": "Citrate-form Mg still chelates fluoroquinolones, tetracyclines and bisphosphonates; separate by ≥4 h.",
+      "rationale": "Citrate-form magnesium still chelates fluoroquinolones, tetracyclines, and bisphosphonates. Take a fluoroquinolone at least 2 hours before or 6 hours after magnesium, and separate tetracyclines and bisphosphonates by at least 2 hours.",
       "direction": "timing-separation",
       "confidence": "high",
       "evidence_pmids": [

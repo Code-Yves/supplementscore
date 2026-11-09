@@ -147,14 +147,27 @@
       '</a>';
   }
 
+  function catMeta(id) {
+    return (window.SS_RESEARCH_CATS && window.SS_RESEARCH_CATS[id]) || {};
+  }
+  function catLabel(id, fallback) {
+    return catMeta(id).label || fallback || TYPE_LABEL[id] || id;
+  }
+  function catBlurb(id) {
+    return catMeta(id).blurb || '';
+  }
+
   function renderMenus(countMap) {
     var typeMenu = document.getElementById('rh-type-menu');
     if (typeMenu) {
       typeMenu.innerHTML = TYPES.map(function (pair) {
         var n = pair[0] === 'all' ? countMap.all : (countMap[pair[0]] || 0);
         var on = state.type === pair[0];
+        var blurb = catBlurb(pair[0]);
         return '<button type="button" role="option" data-value="' + pair[0] + '" aria-selected="' + (on ? 'true' : 'false') + '">' +
-          '<span>' + esc(pair[1]) + '</span><span class="rh-opt-n">' + n + '</span></button>';
+          '<span class="rh-opt-top"><span class="rh-opt-name">' + esc(catLabel(pair[0], pair[1])) + '</span><span class="rh-opt-n">' + n + '</span></span>' +
+          (blurb ? '<span class="rh-opt-blurb">' + esc(blurb) + '</span>' : '') +
+          '</button>';
       }).join('');
     }
     var typeLabel = document.getElementById('rh-type-label');
@@ -177,9 +190,11 @@
       var cat = pair[0];
       var items = filtered().filter(function (a) { return a.cat === cat; }).slice(0, 3);
       var n = countMap[cat];
-      return '<section class="rh-sec">' +
-        '<div class="rh-sec-h"><h2>' + esc(pair[1]) + ' <span class="rh-sec-n">' + n + '</span></h2>' +
-        '<button type="button" class="rh-seeall" data-cat="' + esc(cat) + '">See all ' + n + ' →</button></div>' +
+      var blurb = catBlurb(cat);
+      return '<section class="rh-sec" data-cat="' + esc(cat) + '">' +
+        '<div class="rh-sec-h"><div class="rh-sec-titles"><h2>' + esc(catLabel(cat, pair[1])) + ' <span class="rh-sec-n">' + n + '</span></h2>' +
+        (blurb ? '<p class="rh-sec-blurb">' + esc(blurb) + '</p>' : '') +
+        '</div><button type="button" class="rh-seeall" data-cat="' + esc(cat) + '">See all ' + n + ' →</button></div>' +
         '<div class="rh-grid">' + items.map(function (a) { return rowHtml(a, false); }).join('') + '</div>' +
         '</section>';
     }).join('');

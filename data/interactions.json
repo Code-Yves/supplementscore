@@ -479,7 +479,7 @@
       "classes": ["quinolone", "tetracycline"],
       "severity": "separate",
       "title": "Magnesium can block tetracycline and quinolone antibiotics",
-      "explanation": "NIH ODS says magnesium can form insoluble complexes with tetracyclines, such as doxycycline, and with quinolone antibiotics, such as ciprofloxacin and levofloxacin. Those antibiotics should be taken at least 2 hours before, or 4 to 6 hours after, a magnesium supplement. Separate the doses. Do not skip the antibiotic.",
+      "explanation": "NIH ODS says magnesium can form insoluble complexes with tetracyclines, such as doxycycline, and with quinolone antibiotics, such as ciprofloxacin and levofloxacin. Take the antibiotic at least 2 hours before or 6 hours after magnesium. Ciprofloxacin labeling uses that interval. NIH ODS says at least 2 hours before or 4 to 6 hours after a magnesium supplement. Separate the doses. Do not skip the antibiotic.",
       "supplements": [
         {"slug": "magnesium", "name": "Magnesium"},
         {"slug": "magnesium-glycinate", "name": "Magnesium glycinate"},
