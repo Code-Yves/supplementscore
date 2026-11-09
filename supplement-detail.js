@@ -328,17 +328,23 @@
      so the Sources & further reading renderer below can use it immediately. */
 
   if (!slug){
-    /* 2026-05-24 — The old "Pick a supplement" picker (8 hard-coded sample
-       tiles) was dead UX: users only landed here because something was
-       broken (a ?n= link that we now correctly handle, or a manually-typed
-       /supplement.html with no query). Redirect to the homepage instead. */
-    location.replace('/');
+    /* Bare /supplement.html is not a record. Send it to the catalog.
+       A redirect to / is a soft 404. */
+    location.replace('/browse.html');
     return;
   }
 
   var s = window.SS.getSupplement(slug);
   if (!s){
-    root.innerHTML = '<a class="det-back" href="search.html?q=' + encodeURIComponent(slug.replace(/-/g,' ')) + '">‹ Back to search</a><h1 class="det-h1">Supplement not found</h1><p style="color:var(--color-text-secondary)">No record for slug "'+escHtml(slug)+'". Try the <a href="search.html">search</a>.</p>';
+    var robots = document.querySelector('meta[name="robots"]');
+    if (robots) robots.setAttribute('content', 'noindex,follow');
+    else {
+      var meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex,follow';
+      document.head.appendChild(meta);
+    }
+    location.replace('/search.html?q=' + encodeURIComponent(slug.replace(/-/g, ' ')));
     return;
   }
   /* Static pages ship the full card in the HTML. Do not replace it — that

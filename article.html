@@ -59,7 +59,7 @@
       setNoindex();
       var id = (new URLSearchParams(location.search).get('id') || '').trim();
       if (!id) {
-        redirect('/#research');
+        redirect('/a/index.html');
         return;
       }
       if (/^[a-z0-9-]+$/.test(id) && !/^\d+$/.test(id)) {
@@ -167,8 +167,8 @@
   }
   if (!id){
     ensureNoindex();
-    root.innerHTML = '<a class="dt-back" href="/#research">‹ Research</a><h1 class="dt-h1">No article specified</h1><p>Redirecting to <a href="/#research">Research</a>…</p>';
-    try { location.replace('/#research'); } catch(_){}
+    root.innerHTML = '<p>Opening the <a href="/a/index.html">article index</a>…</p>';
+    try { location.replace('/a/index.html'); } catch(_){}
     return;
   }
   // Kebab slug → static article (head already redirects; body is a fallback)
@@ -190,7 +190,7 @@
   var a = window.SS.getArticle(id);
   if (!a){
     ensureNoindex();
-    root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Article not found</h1><p>No article #' + escapeHtml(id) + '.</p>';
+    try { location.replace('/search.html?q=' + encodeURIComponent(id)); } catch(_){}
     return;
   }
   document.title = a.t + ' — SupplementScore';

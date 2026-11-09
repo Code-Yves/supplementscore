@@ -13,6 +13,8 @@ Fails if:
   5. Any remaining HTML has <html lang="fr|es">.
 
 Skips _archive/, reviews/, scripts/, _mockups/.
+Locale URLs must stay crawlable (no Disallow: /fr/ or /es/) so Google can
+see noindex. Blocking them is "Indexed, though blocked by robots.txt".
 Usage: python3 scripts/check_english_only.py
 """
 from __future__ import annotations
@@ -192,10 +194,11 @@ def main() -> int:
             problems.append(f"404 mapping {src} -> {got!r}, expected {expected!r}")
 
     robots = (ROOT / "robots.txt").read_text(encoding="utf-8", errors="ignore")
-    if "Disallow: /fr/" not in robots:
-        problems.append("robots.txt missing Disallow: /fr/")
-    if "Disallow: /es/" not in robots:
-        problems.append("robots.txt missing Disallow: /es/")
+    # Disallow hides noindex. Google then reports "Indexed, though blocked by robots.txt".
+    if re.search(r"(?m)^Disallow:\s*/fr/", robots):
+        problems.append("robots.txt Disallow: /fr/ hides noindex from Google")
+    if re.search(r"(?m)^Disallow:\s*/es/", robots):
+        problems.append("robots.txt Disallow: /es/ hides noindex from Google")
 
     print("== English-only site check ==")
 

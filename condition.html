@@ -46,7 +46,12 @@
         // SPA is alternate; static /condition/<slug>.html is the indexable URL
         setNoindex();
       } else {
-        setNoindex(); // bare shell (also robots Disallow)
+        setNoindex();
+        var refresh = document.createElement('meta');
+        refresh.httpEquiv = 'refresh';
+        refresh.content = '0;url=/condition/';
+        document.head.appendChild(refresh);
+        location.replace('/condition/');
       }
     } catch (_) {}
   })();
@@ -120,7 +125,7 @@
 </div>
 <nav class="site-nav" aria-label="Primary">
   <div class="site-nav-inner">
-    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore home">
+    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore.org home">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
       <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
     </a>
@@ -143,9 +148,9 @@
   var p = new URLSearchParams(location.search);
   var slug = (p.get('slug') || '').trim();
   var root = document.getElementById('dt-root');
-  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No condition specified</h1>'; return; }
+  if (!slug){ location.replace('/condition/'); return; }
   var c = window.SS.getCondition(slug);
-  if (!c){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Condition not found</h1><p class="dt-tag">No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
+  if (!c){ location.replace('/search.html?q=' + encodeURIComponent(slug.replace(/-/g, ' '))); return; }
   document.title = c.label + ' — SupplementScore';
 
   var picks = (c.supps || []).map(function(name){
