@@ -59,7 +59,7 @@
       setNoindex();
       var id = (new URLSearchParams(location.search).get('id') || '').trim();
       if (!id) {
-        redirect('/#research');
+        redirect('/a/index.html');
         return;
       }
       if (/^[a-z0-9-]+$/.test(id) && !/^\d+$/.test(id)) {
@@ -236,8 +236,8 @@
   }
   if (!id){
     ensureNoindex();
-    root.innerHTML = '<a class="dt-back" href="/#research">‹ Research</a><h1 class="dt-h1">No article specified</h1><p>Redirecting to <a href="/#research">Research</a>…</p>';
-    try { location.replace('/#research'); } catch(_){}
+    root.innerHTML = '<p>Opening the <a href="/a/index.html">article index</a>…</p>';
+    try { location.replace('/a/index.html'); } catch(_){}
     return;
   }
   // Kebab slug → static article (head already redirects; body is a fallback)
@@ -259,7 +259,7 @@
   var a = window.SS.getArticle(id);
   if (!a){
     ensureNoindex();
-    root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Article not found</h1><p>No article #' + escapeHtml(id) + '.</p>';
+    try { location.replace('/search.html?q=' + encodeURIComponent(id)); } catch(_){}
     return;
   }
   document.title = a.t + ' — SupplementScore';
@@ -326,9 +326,10 @@
       <a href="/evidence-guide.html">Evidence guide</a>
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>
+      <a href="/transparency.html">How it's made</a>
     </nav>
     <div class="site-footer-contrib">
-      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-eyebrow">Independent · No industry funding</div>
       <div class="site-footer-contrib-title">Help build the database</div>
       <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
       <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
@@ -337,7 +338,7 @@
         <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
       </form>
     </div>
-    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
 /* Footer contributor form — small handler shared by every page that ships the

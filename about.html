@@ -206,7 +206,7 @@
 
   <section class="ab-sec" id="about">
     <h2>About</h2>
-    <p>SupplementScore is a free, public, non-profit reference. It grades dietary supplements against published clinical trials. Every score traces back to peer-reviewed research. The database currently scores 780+ supplements, cites 3,200+ studies, and draws on 61 sources. Industry funding is $0.</p>
+    <p>SupplementScore is a free, independent public reference and takes no industry funding. It grades dietary supplements against published clinical trials. Every score traces back to peer-reviewed research. The database currently scores 734 supplements, cites 3,222 studies, and draws on 61 sources. Industry funding is $0.</p>
 
     <h3 id="why">Why we exist</h3>
     <p>The right supplement can change someone’s sleep, joint pain, energy, or migraines. The wrong one can drain a wallet, interact with a prescription, or harm an organ. Honest information is hard to find. The supplement industry generates over $50 billion a year in the US alone, and most of what you read online is written by someone trying to sell you something.</p>
@@ -230,7 +230,7 @@
     <h3 id="roadmap">Roadmap</h3>
     <p>Four stages toward more personal recommendations.</p>
     <ol>
-      <li><strong>Comprehensive database — active.</strong> 780+ supplements scored on six clinical dimensions, from systematic reviews, meta-analyses, and human trials across 61 sources. Updated continuously.</li>
+      <li><strong>Comprehensive database — active.</strong> 734 supplements scored on six clinical dimensions, from systematic reviews, meta-analyses, and human trials across 61 sources. Updated continuously.</li>
       <li><strong>Personalized recommendations — in progress.</strong> A profile engine that builds a plan from age, sex, goals, conditions, and medications: what to take, what to avoid, dosing, timing, and interactions.</li>
       <li><strong>Blood work and lab integration — coming soon.</strong> Upload a blood panel or urine test. Results are compared with optimal ranges to point at deficiencies.</li>
       <li><strong>DNA-based personalization — planned.</strong> Use MTHFR, VDR, CYP, and APOE variants to adjust for how you absorb, metabolise, and respond to nutrients.</li>
@@ -256,7 +256,7 @@
 
   <section class="ab-sec" id="methodology">
     <h2>Methodology</h2>
-    <p>Six scores, each from 1 to 5, roll into one number from 0 to 100. Efficacy is weighted 7, safety 4, research depth 3, and onset, cost, and drug-interaction risk 2 each. The highest possible total is 100. Efficacy and safety count the most. The formula is <code>calcScore</code> in <code>app.js</code> and is open to inspect. The headline score does not set the tier by itself. Citation and safety rules below still have to be met.</p>
+    <p>Six scores, each from 1 to 5, roll into one number from 20 to 100. Efficacy is weighted 7, safety 4, research depth 3, and onset, cost, and drug-interaction risk 2 each. Those weights add to 20, and every sub-score is at least 1, so the lowest possible total is 20 and the highest is 100. Efficacy and safety count the most. The formula is <code>calcScore</code> in <code>app.js</code> and is open to inspect. The headline score does not set the tier by itself. Citation and safety rules below still have to be met.</p>
 
     <h3 id="tiers">The four evidence tiers</h3>
     <p>Every supplement is placed in one tier. The tier is the headline call: how confident the evidence is, and what the risk profile looks like.</p>
@@ -312,7 +312,7 @@
       <li><strong>Safety floor, Tier 1 and Tier 2.</strong> No active FDA, EFSA, TGA, or Health Canada warning that makes the supplement inappropriate for the general adult population.</li>
       <li><strong>Replication, Tier 1 only.</strong> The pivotal effect has been seen in at least two independent samples. That can be two analyses that do not share one research group’s data. It does not have to be two separate trials.</li>
     </ul>
-    <p>Safety moves are the exception. If a major regulator issues a contraindication or a recall, the supplement moves to Tier 4 within one deploy, whatever the efficacy score. A composite of 72 or higher is required for Tier 1 and is not enough on its own. Many entries sit in that band and stay Tier 2 because the citation gate or the replication rule is not met. Tier 4 can also be assigned above a score of 40 when a regulator has warned against the product. In the prior 12 months: 12 net promotions, 4 demotions, and 1 safety-driven move. The audit trail is <code>_archive/score-changes.csv</code>.</p>
+    <p>Safety moves are the exception. If a major regulator issues a contraindication or a recall, the supplement moves to Tier 4 within one deploy, whatever the efficacy score. A composite of 72 or higher is required for Tier 1 and is not enough on its own. Many entries sit in that band and stay Tier 2 because the citation gate or the replication rule is not met. Tier 4 can also be assigned above a score of 40 when a regulator has warned against the product. In the prior 12 months: 12 net promotions, 4 demotions, and 1 safety-driven move. The public log is <a href="/data/score-changes.csv">score-changes.csv</a> (date, slug, from, to, reason). Rows from before this file was published were not exported. The narrative of those moves is in this section.</p>
     <div class="ab-note">
       <strong>Worked example — psyllium husk.</strong>
       The 2024 Zhu meta-analysis (29 randomised trials, 2,769 adults, PMID 38688104) found Plantago / psyllium lowered LDL cholesterol by about 0.35 mmol/L. That paper is a university review, not an NIH trial. An earlier version of this page called it NIH-supported and counted 27 trials. Both details were wrong. Together with the FDA-authorised health claim at 7 grams a day of soluble fibre, and older independent cholesterol trials, the record supports Tier 1. There is one psyllium card. A second soluble-fibre card described the same husk and now redirects here.
@@ -402,7 +402,7 @@
       <li>Citations flag industry funding in amber and a competing-interest disclosure in red, so a reader can weigh them.</li>
     </ul>
     <p>The 25% figure is a discount, not a deletion. Many industry trials are well designed and add real evidence. The number comes from meta-research on funding bias. We will revise it as our own tracking accumulates.</p>
-    <p>SupplementScore itself is a non-profit. We take no money from manufacturers, distributors, retailers, or affiliate programs, and we do not run advertising. Hosting and tools are paid from reader donations and the operator’s personal funds. Editorial staff disclose equity, consulting, and speaking ties to the supplement industry from the prior three years. Someone with an active industry tie cannot write or second-read an entry where that conflict applies. How the site is paid for, how a brand page is chosen, and how to ask for a correction are in <a href="#transparency">Transparency</a>.</p>
+    <p>SupplementScore is independent and takes no industry funding. We take no money from manufacturers, distributors, retailers, or affiliate programs, and we do not run advertising. Hosting and tools are paid from reader donations and the operator’s personal funds. Editorial staff disclose equity, consulting, and speaking ties to the supplement industry from the prior three years. Someone with an active industry tie cannot write or second-read an entry where that conflict applies. How the site is paid for, how a brand page is chosen, and how to ask for a correction are in <a href="#transparency">Transparency</a>.</p>
 
     <h3 id="cadence">Review cadence</h3>
     <div class="ab-scroll">
@@ -421,7 +421,7 @@
 
     <h3 id="interactions">How interactions are modeled</h3>
     <p>Three pieces. <strong>Pairs</strong> are positive synergies, such as vitamin D3 with K2 for bone density, or iron with vitamin C for absorption, each with a 1–5 strength. <strong>Cautions</strong> are negative pairs: <code>caution</code> (an additive risk worth attention) or <code>avoid</code> (skip the combination). St. John’s wort with an SSRI is <code>avoid</code> because of serotonin syndrome. Ashwagandha with thyroid medication is a <code>caution</code>. <strong>Mechanism groups</strong> bundle supplements that share a pathway — bleed, serotonin, sedation, stimulant, hepatotoxic, hypoglycemic, hypotensive, thyroid modulator, and others — and flag any two members against each other.</p>
-    <p>In a profile stack, conflicts show up in three places: a chip on the card, a grouped row that names the mechanism, and a banner at the top of the plan. Drug–supplement interactions are a separate system, in build as phase 2 of the roadmap.</p>
+    <p>In a profile stack, conflicts show up in three places: a chip on the card, a grouped row that names the mechanism, and a banner at the top of the plan. The profile flags known drug–supplement conflicts from a partial list. No flag does not mean a combination is safe. Discuss supplements and doses with your doctor or pharmacist. A fuller interaction system is still in build as phase 2 of the roadmap.</p>
 
     <h3 id="glossary">Glossary</h3>
     <p>Plain-language definitions for the research terms used on the site.</p>
@@ -500,7 +500,7 @@
     <h3 id="faq">Questions</h3>
     <p>Short restatements of the rules above.</p>
     <h4>How is a SupplementScore calculated?</h4>
-    <p>Six scores from 1 to 5 — efficacy, safety, research depth, onset, cost, and drug-interaction risk — are weighted efficacy ×7, safety ×4, research depth ×3, and the other three ×2. The total is out of 100. Tier 1 also requires an independently funded confirmatory trial. Industry-only evidence cannot make that call.</p>
+    <p>Six scores from 1 to 5 — efficacy, safety, research depth, onset, cost, and drug-interaction risk — are weighted efficacy ×7, safety ×4, research depth ×3, and the other three ×2. The weighted total runs from 20 to 100, because each sub-score is at least 1 and the weights add to 20. Tier 1 also requires an independently funded confirmatory trial. Industry-only evidence cannot make that call.</p>
     <h4>Does SupplementScore take affiliate commissions, ads, or brand payments?</h4>
     <p>No. There are no affiliate links, no ads, no sponsored rankings, and no payments from a brand to be listed, scored, or left out. Hosting is paid from reader donations and the operator’s personal funds. The full policy is in <a href="#transparency">Transparency</a>.</p>
     <h4>What sources are used?</h4>
@@ -529,7 +529,7 @@
 
   <section class="ab-sec" id="transparency">
     <h2>Transparency</h2>
-    <p>This section says, in one place, what we do not sell, how a score is chosen, how a brand gets listed, who pays for the site, and how to correct a mistake. Last reviewed <time datetime="2026-10-15">15 October 2026</time>. No named reviewer.</p>
+    <p>This section says, in one place, what we do not sell, how a score is chosen, how a brand gets listed, who pays for the site, and how to correct a mistake. Last reviewed <time datetime="2026-10-21">21 October 2026</time>. No named reviewer. How the pages are written is on <a href="/transparency.html">How SupplementScore is made</a>.</p>
 
     <h3>No affiliate income, ads, or sponsorships</h3>
     <ul>
@@ -741,9 +741,10 @@ function submitContrib(){
       <a href="/evidence-guide.html">Evidence guide</a>
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>
+      <a href="/transparency.html">How it's made</a>
     </nav>
     <div class="site-footer-contrib">
-      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-eyebrow">Independent · No industry funding</div>
       <div class="site-footer-contrib-title">Help build the database</div>
       <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
       <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
@@ -752,7 +753,7 @@ function submitContrib(){
         <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
       </form>
     </div>
-    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
 /* Footer contributor form — small handler shared by every page that ships the

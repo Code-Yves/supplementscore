@@ -37,6 +37,18 @@ jobs:
       - name: Check the top bar matches the partial
         run: python3 scripts/sync_pagebars.py --check
 
+      - name: Check alias catalog
+        run: node scripts/alias_catalog.mjs --check
+
+      - name: Check bibliography, scores, and totals
+        run: node scripts/site_counts.mjs --check
+
+      - name: Check comparison scores, symptom guides, and product warnings
+        run: python3 scripts/content_fixes.py --check
+
+      - name: Check review dates match the pages
+        run: python3 scripts/content_dates.py --check
+
       - name: Run regression suite
         run: npm test
         env:

@@ -103,9 +103,26 @@
    other script (e.g. switchTab) has a chance to interfere. */
 (function(){
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  var KEY = 'ss-scroll:' + location.pathname;
+  function scrollKey(){
+    return 'ss-scroll:' + location.pathname + (location.hash || '');
+  }
+  function isHome(){
+    var path = location.pathname || '/';
+    return path === '/' || /\/index\.html$/.test(path);
+  }
+  var user = false;
+  function markUser(){ user = true; window.__ssScrollUser = true; }
+  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function(type){
+    window.addEventListener(type, markUser, { capture: true, passive: true });
+  });
+  function navType(){
+    var navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    return navEntry && navEntry.type ? navEntry.type : 'navigate';
+  }
   function save(){
-    try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch(_){}
+    /* An untouched homepage reload must not replace a saved offset with 0. */
+    if (navType() === 'reload' && isHome() && !user && !window.__ssScrollUser) return;
+    try { sessionStorage.setItem(scrollKey(), String(window.scrollY)); } catch(_){}
   }
   window.addEventListener('beforeunload', save);
   window.addEventListener('pagehide', save);
@@ -116,7 +133,11 @@
   // "Articles" from discover.html) and should land at the top of the new tab,
   // not a previous scroll position. Restore is only for "back to where I was"
   // navigations like the X close button or browser-back from a sub-page.
+  // A homepage reload also stays at the top: restoring the saved offset is
+  // what jumped a refresh down the page.
   window.addEventListener('DOMContentLoaded', function(){
+    var KEY = scrollKey();
+    if (isHome() && navType() === 'reload') return;
     var hash = (location.hash || '').replace(/^#/, '').toLowerCase().split('?')[0];
     var TAB_HASHES = {research:1, about:1, profile:1, supplements:1};
     if (TAB_HASHES[hash]) {
@@ -135,7 +156,7 @@
       return;
     }
     var saved = null;
-    try { saved = sessionStorage.getItem(KEY); } catch(_){}
+    try { saved = sessionStorage.getItem(scrollKey()); } catch(_){}
     if (saved === null) return;
     var y = parseInt(saved, 10);
     if (isNaN(y) || y <= 0) return;
@@ -154,7 +175,7 @@
 </script>
 <style>html{color-scheme:light}</style>
 <title>SupplementScore — evidence-based supplement ratings</title>
-<meta name="description" content="Non-profit, evidence-based supplement reference. 780+ supplements rated across 6 dimensions citing 3,200+ PubMed-indexed studies. Free.">
+<meta name="description" content="SupplementScore is independent and takes no industry funding. Evidence-based supplement reference. 734 supplements rated across 6 dimensions citing 3,222 PubMed-indexed studies. Free.">
 <meta name="keywords" content="supplement ratings, evidence-based supplements, supplement research, creatine, omega-3, vitamin D, magnesium, supplement safety, supplement efficacy, peer-reviewed supplement data, best supplements, supplement score">
 <meta name="author" content="SupplementScore.org">
 <meta name="robots" content="index, follow">
@@ -170,8 +191,8 @@
 <!-- Open Graph / Social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://supplementscore.org/">
-<meta property="og:title" content="SupplementScore — 780+ Supplements Rated by Science">
-<meta property="og:description" content="Non-profit, evidence-based supplement reference. Every rating backed by peer-reviewed clinical trials. No endorsements, no sponsors. Free forever.">
+<meta property="og:title" content="SupplementScore — 734 Supplements Rated by Science">
+<meta property="og:description" content="SupplementScore is independent and takes no industry funding. Evidence-based supplement reference. Every rating backed by peer-reviewed clinical trials. No endorsements, no sponsors. Free forever.">
 <meta property="og:site_name" content="SupplementScore">
 <meta property="og:image" content="https://supplementscore.org/og/default.png">
 <meta property="og:image:width" content="1200">
@@ -180,8 +201,8 @@
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SupplementScore — 780+ Supplements Rated by Science">
-<meta name="twitter:description" content="Non-profit, evidence-based supplement reference. 780+ supplements scored across efficacy, safety, research depth, and more. Zero sponsors.">
+<meta name="twitter:title" content="SupplementScore — 734 Supplements Rated by Science">
+<meta name="twitter:description" content="SupplementScore is independent and takes no industry funding. Evidence-based supplement reference. 734 supplements scored across efficacy, safety, research depth, and more. Zero sponsors.">
 <meta name="twitter:image" content="https://supplementscore.org/og/default.png">
 
 <!-- Theme color for mobile browser chrome -->
@@ -194,7 +215,7 @@
   "@type": "WebSite",
   "name": "SupplementScore",
   "url": "https://supplementscore.org",
-  "description": "Non-profit, evidence-based supplement reference rating 780+ supplements across 6 dimensions using peer-reviewed clinical trials.",
+  "description": "SupplementScore is independent and takes no industry funding. Evidence-based supplement reference rating 734 supplements across 6 dimensions using peer-reviewed clinical trials.",
   "publisher": {
     "@type": "Organization",
     "name": "SupplementScore",
@@ -218,7 +239,7 @@
   "alternateName": "SupplementScore.org",
   "url": "https://supplementscore.org",
   "logo": "https://supplementscore.org/og/default.png",
-  "description": "Non-profit, evidence-based supplement rating database. Rates 780+ supplements across efficacy, safety, research depth, onset time, cost-effectiveness, and drug interaction risk using peer-reviewed clinical trials.",
+  "description": "SupplementScore is independent and takes no industry funding. Evidence-based supplement rating database. Rates 734 supplements across efficacy, safety, research depth, onset time, cost-effectiveness, and drug interaction risk using peer-reviewed clinical trials.",
   "email": "editorial@supplementscore.org",
   "foundingDate": "2026",
   "contactPoint": {
@@ -245,7 +266,7 @@
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "SupplementScore Evidence Database",
-  "description": "Open dataset of 780+ dietary supplement ratings across efficacy, safety, research depth, onset time, cost-effectiveness, and drug-interaction risk. Built on 3,200+ cited PubMed-indexed studies, plus sources such as Cochrane, NIH, WHO, and EFSA.",
+  "description": "Open dataset of 734 dietary supplement ratings across efficacy, safety, research depth, onset time, cost-effectiveness, and drug-interaction risk. Built on 3,222 cited PubMed-indexed studies, plus sources such as Cochrane, NIH, WHO, and EFSA.",
   "url": "https://supplementscore.org",
   "keywords": ["supplements", "evidence-based", "clinical trials", "meta-analysis", "drug interactions", "nutrition", "pharmacology"],
   "creator": {
@@ -279,7 +300,7 @@
       "name": "How are supplement scores calculated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Each supplement is scored from 1 to 5 on efficacy, safety, research depth, onset, cost, and drug-interaction risk. Efficacy is weighted 7, safety 4, research depth 3, and the other three 2. That total is out of 100. Tier 1 also needs an independently funded confirmatory trial. The full rules are on the about page."
+        "text": "Each supplement is scored from 1 to 5 on efficacy, safety, research depth, onset, cost, and drug-interaction risk. Efficacy is weighted 7, safety 4, research depth 3, and the other three 2. Because each rating is at least 1, that total runs from 20 to 100. Tier 1 also needs an independently funded confirmatory trial. The full rules are on the about page."
       }
     },
     {
@@ -413,6 +434,14 @@ input,button{font-family:inherit}
 .beta-bar-stat-sep{font-size:11px;font-weight:400;opacity:.35;color:var(--color-brand)}
 .beta-bar-pulse{width:7px;height:7px;border-radius:50%;background:var(--color-brand);flex:0 0 auto}
 .beta-bar-search{display:none}
+.ss-np{display:none;align-items:center;font-size:13px;font-weight:500;line-height:1;letter-spacing:0;text-transform:none;color:#57534e;white-space:nowrap;flex:none;pointer-events:none}
+header.ss-np-banner{display:none}
+@media(min-width:1024px){
+  .beta-bar:has(>.ss-np){position:relative}
+  .beta-bar>.ss-np{display:inline-flex;position:absolute;left:max(24px,calc((100% - 1024px) / 2 + 24px));right:auto;top:50%;height:32px;transform:translateY(-50%);margin:0}
+  html[data-pre-tab="research"] .beta-bar>.ss-np,
+  body.tab-research .beta-bar>.ss-np{left:max(40px,calc((100% - 1024px) / 2 + 24px))}
+}
 .ix-hero{max-width:1024px;margin:0 auto;padding:16px 0 0;text-align:left;position:relative}
 .hero-statbar{display:none}
 .ix-hero h1{font-size:64px;font-weight:700;letter-spacing:-1.8px;line-height:1.04;margin:0 0 16px;max-width:22ch;color:var(--color-text-primary);text-align:left;text-wrap:pretty;text-wrap:balance}
@@ -428,7 +457,7 @@ input,button{font-family:inherit}
 #hero.mag .mag-lead{display:block;color:inherit;text-decoration:none}
 #hero.mag .mag-kicker{display:block;margin:0 0 8px;font-size:12px;font-weight:650;letter-spacing:0;text-transform:none;color:#155A50;line-height:1.3}
 #hero.mag .mag-lead h2{margin:0 0 8px;font-size:28px;font-weight:700;letter-spacing:-.45px;line-height:1.15;color:#0c0a09}
-#hero.mag .mag-lead p{margin:0;color:#57534e;font-size:15px;line-height:1.5}
+#hero.mag .mag-lead p{margin:0;color:#57534e;font-size:15px;line-height:1.5;text-wrap:pretty}
 #hero.mag .mag-more{display:inline-block;margin-top:16px;color:#155A50;font-size:14px;font-weight:650;line-height:1.3;text-decoration:underline;text-underline-offset:3px}
 #hero.mag .mag-side{display:flex;flex-direction:column;border-left:1px solid #dcdad7;padding-left:24px}
 #hero.mag .mag-side a{display:block;color:inherit;text-decoration:none;padding:16px 0;border-bottom:1px solid #dcdad7}
@@ -840,9 +869,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
 <div class="beta-bar" role="status" aria-live="polite">
   <span class="beta-bar-pulse" aria-hidden="true"></span>
   <span class="beta-bar-stats">
-    <span class="beta-bar-stat">780+ Supplements</span>
+    <span class="beta-bar-stat">734 Supplements</span>
     <span class="beta-bar-stat-sep" aria-hidden="true">/</span>
-    <span class="beta-bar-stat">3,200+ Studies</span>
+    <span class="beta-bar-stat">3,222 Studies</span>
     <span class="beta-bar-stat-sep" aria-hidden="true">/</span>
     <span class="beta-bar-stat">0 Endorsements</span>
   </span>
@@ -853,6 +882,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     </svg>
     <input type="search" id="ix-banner-search" name="q" placeholder="Search supplements…" autocomplete="off" aria-label="Search the index" tabindex="-1">
   </form>
+  <span class="ss-np">Independent · No industry funding</span>
 </div>
 <script>
 /* Last-updated indicator — pulls the date of the most recent commit on main
@@ -903,28 +933,28 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   <svg aria-hidden="true" width="64" height="64" viewBox="0 0 24 24" style="color:#155A50;margin-bottom:12px"><use href="#ss-logo"/></svg>
   <div class="page-logo-label">SupplementScore<span>.org</span></div>
   <p class="page-title" style="text-align:center">Supplement information<br>you can trust.</p>
-  <div class="page-subtitle">Unbiased and conflict-free. Every score derived exclusively from peer-reviewed clinical trials and credible research institutions.</div>
+  <div class="page-subtitle">Unbiased and conflict-free. Scores draw on peer-reviewed trials and meta-analyses, regulator dossiers, and observational safety data.</div>
 </div>
 
 <div class="ev-card legacy-trust-hero" style="padding:1.25rem;margin-bottom:.75rem">
   <div class="stat-row">
     <div class="stat-col stat-col--bordered">
-      <div class="ev-number stat-number">3,200+</div>
+      <div class="ev-number stat-number">3,222</div>
       <div class="ev-label" style="margin-top:4px">PubMed-Indexed Studies Cited</div>
       <div class="stat-sub">Unique PubMed IDs across our pages</div>
     </div>
     <div class="stat-col stat-col--bordered">
-      <div class="ev-number stat-number">780</div>
+      <div class="ev-number stat-number">734</div>
       <div class="ev-label" style="margin-top:4px">Supplements Reviewed &amp; Scored</div>
       <div class="stat-sub">Updated regularly with new evidence</div>
     </div>
     <div class="stat-col">
       <div class="ev-number stat-number">0</div>
       <div class="ev-label" style="margin-top:4px">Endorsements or Sponsorships</div>
-      <div class="stat-sub">100% independent &amp; non-profit</div>
+      <div class="stat-sub">SupplementScore is independent and takes no industry funding.</div>
     </div>
   </div>
-  <div class="logo-strip" role="group" aria-label="Trusted research sources">
+  <div class="logo-strip" role="group" aria-label="Sources we cite">
     <a class="lk" href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" aria-label="NIH"><img class="mk" width="120" height="22" src="source-logos/nih.svg" alt="NIH" loading="lazy" decoding="async"></a>
     <a class="lk" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener noreferrer" aria-label="Cochrane Library"><img class="mk" width="120" height="22" src="source-logos/cochrane.svg" alt="Cochrane Library" loading="lazy" decoding="async"></a>
     <a class="lk" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" aria-label="PubMed"><img class="mk" width="120" height="22" src="source-logos/pubmed.svg" alt="PubMed" loading="lazy" decoding="async"></a>
@@ -943,7 +973,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <svg aria-hidden="true" class="chv" id="chv2" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <div class="src-detail" id="src-detail2">
-    <div class="src-desc-text">Every rating, dose, and recommendation is drawn from <strong>randomised controlled trials (RCTs)</strong> and <strong>meta-analyses</strong> published between 2024 and early 2026. No supplement company funding influences these ratings.</div>
+    <div class="src-desc-text">Every rating, dose, and recommendation is drawn from <strong>randomised controlled trials (RCTs)</strong> and <strong>meta-analyses</strong> updated with trials through early 2026. No supplement company funding influences these ratings.</div>
     <div class="src-grid">
       <a class="src-item" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" class="src-il"><use href="#lg-cochrane"/></svg><div><div class="src-in">Cochrane</div><div class="src-is">Systematic reviews</div></div></a>
       <a class="src-item" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" class="src-il"><use href="#lg-pubmed"/></svg><div><div class="src-in">PubMed</div><div class="src-is">NLM biomedical index</div></div></a>
@@ -1032,14 +1062,14 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   <!-- Headline is one sentence. Desktop and tablet wrap to two balanced
        lines from the 22ch measure. Phones may use three. No forced breaks. -->
   <div class="hero-statbar" aria-label="Evidence scope">
-    <span class="hero-stat"><span class="hero-stat-num">780+</span><span class="hero-stat-lbl">supplements</span></span>
-    <span class="hero-stat"><span class="hero-stat-num">3,200+</span><span class="hero-stat-lbl">studies</span></span>
+    <span class="hero-stat"><span class="hero-stat-num">734</span><span class="hero-stat-lbl">supplements</span></span>
+    <span class="hero-stat"><span class="hero-stat-num">3,222</span><span class="hero-stat-lbl">studies</span></span>
     <span class="hero-stat"><span class="hero-stat-num">0</span><span class="hero-stat-lbl">endorsements</span></span>
   </div>
   <h1>Know which <span class="ix-hero-em">supplements</span> actually work.</h1>
   <!-- "Every score" stripped from the lede per copy direction; new first word
        capitalised so the sentence still reads as a complete statement. -->
-  <p class="lede">Derived exclusively from peer-reviewed clinical trials and credible research institutions. 100% independent and non&#8209;profit.</p>
+  <p class="lede">Drawn from peer-reviewed trials and meta-analyses, plus regulator dossiers and observational safety data.</p>
 
   <form class="ix-search" id="ix-hero-form" role="search" action="search.html" method="GET">
     <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -1050,26 +1080,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <div class="gs-ac" id="ix-ac" role="listbox" aria-label="Search suggestions"></div>
   </form>
 
-  <!-- 2026-05-21 — Source-logos strip hidden from the Index hero. Markup is kept so the existing #sources-modal trigger ("View all 51 other sources") still resolves correctly when reached from the footer's Methodology → "Sources we trust" link. The visual logo strip is replaced just below by the rotating-article hero (#hero). -->
-  <div class="ix-sources" style="display:none">
-    <div class="ix-sources-label">Sources from</div>
-    <div class="ix-sources-logos">
-      <img src="source-logos/nih.svg"       alt="NIH" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/cochrane.svg"  alt="Cochrane" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/pubmed.svg"    alt="PubMed" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/who.svg"       alt="WHO" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/fda.svg"       alt="FDA" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/harvard.svg"   alt="Harvard" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/jhu.svg"       alt="Johns Hopkins" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/lancet.svg"    alt="The Lancet" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/nejm.svg"      alt="NEJM" width="120" height="32" loading="lazy" decoding="async">
-      <img src="source-logos/stanford.svg"  alt="Stanford" width="120" height="32" loading="lazy" decoding="async">
-      <button class="ix-sources-more" onclick="document.getElementById('sources-modal').classList.add('open')" aria-haspopup="dialog">
-        <span>View all 51 other sources</span>
-        <svg class="ix-sources-more-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-  </div>
+  <!-- 2026-05-21 — The source logo row stays off the first screen. Yves confirmed that on 2026-10-27. Do not put the logos, "Sources we cite", or a line that points at those logos back in this hero. -->
 </section>
 
 <!-- MAGAZINE HERO — one lead story and two shorter ones. Arrows, the arrow keys, and a sideways swipe move all three through the same 20 articles. Shown on phones, stacked. -->
@@ -1100,7 +1111,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <p class="mag-sr" id="mag-live" aria-live="polite">Showing 1 of 20. The 10 Most Dangerous Supplements (Still Legally Sold)</p>
         </div>
       </div>
-      <script type="application/json" id="mag-articles">[{"title": "The 10 Most Dangerous Supplements (Still Legally Sold)", "dek": "Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.", "meta": "May 9, 2026 · 4 min", "href": "a/the-10-most-dangerous-supplements-still-legally-sold.html", "cat": "Top 10 Lists"}, {"title": "Supplements to Preserve Muscle on Ozempic", "dek": "Up to 40% of the weight lost on a GLP-1 drug can be muscle. Protein and resistance training do the heavy lifting — here's exactly where creatine, HMB, vitamin D and omega-3 fit, and what to skip.", "meta": "Jun 6, 2026 · 7 min", "href": "a/supplements-to-preserve-muscle-on-glp-1-drugs.html", "cat": "Guide"}, {"title": "Supplements for Kids in Competitive Sports", "dek": "For most young athletes, food, sleep and training beat anything in a tub — and the real risks are contamination and stimulants. What's safe, what's hype, and the straight answer on creatine for teens.", "meta": "Jun 6, 2026 · 8 min", "href": "a/supplements-for-kids-in-competitive-sports.html", "cat": "Kids"}, {"title": "Why “Detox” Supplements Are a $3 Billion Scam", "dek": "Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.", "meta": "Updated Mar 29, 2026 · 6 min", "href": "a/why-detox-supplements-are-a-3-billion-scam.html", "cat": "Reality Check"}, {"title": "Berberine: Is It Really Nature’s Ozempic?", "dek": "Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence. Here's what a 500mg dose actually does, and what it doesn't.", "meta": "Updated Mar 8, 2026 · 7 min", "href": "a/berberine-is-it-really-nature-s-ozempic.html", "cat": "Reality Check"}, {"title": "The 10 Most Overhyped Supplements of 2026", "dek": "The TikTok-to-trial-data gap, in 10 entries. Sea moss, turkesterone, NMN, lion's mane and more — supplements with huge marketing budgets and shockingly thin clinical evidence.", "meta": "May 12, 2026 · 4 min", "href": "a/the-10-most-overhyped-supplements-of-2026.html", "cat": "Top 10 Lists"}, {"title": "CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says", "dek": "The April 2026 CDC MMWR reviewed 1,955 kava calls to U.S. poison centers. Serious outcomes peaked at 39% in 2024. Kratom co-use is driving the worst cases.", "meta": "Updated Apr 24, 2026 · 6 min", "href": "#article-4", "show": 4, "cat": "Safety Alert"}, {"title": "The Cheapest Effective Supplements vs the Priciest Hyped Ones", "dek": "$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.", "meta": "May 9, 2026 · 4 min", "href": "a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html", "cat": "Top 10 Lists"}, {"title": "NAD+ Precursors: Separating Hype from Longevity Evidence", "dek": "NMN and NR are sold as anti-aging miracles. The mouse data is compelling — but human trials tell a much more nuanced story. Here's what's real.", "meta": "Updated Apr 11, 2026 · 9 min", "href": "a/nmn-and-nad-why-raising-a-biomarker-isn-t-the-same-as-slowing-aging.html", "cat": "Guide"}, {"title": "Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation", "dek": "High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity. We break down who's at risk, what dose is safe, and which forms to avoid.", "meta": "Updated Apr 9, 2026 · 6 min", "href": "a/turmeric-vs-curcumin-why-the-supplement-industry-misleads-you.html", "cat": "Reality Check"}, {"title": "12 Supplement Mistakes You Should Literally Never Make", "dek": "Pediatric melatonin ER visits rose 530% from 2012–21. St. John's Wort + SSRIs. Kava + alcohol. Twelve mistakes with documented hospital outcomes — and the people who keep making them.", "meta": "May 9, 2026 · 5 min", "href": "a/12-supplement-mistakes-you-should-literally-never-make.html", "cat": "Top 10 Lists"}, {"title": "Why Most Probiotic Supplements Don't Actually Work", "dek": "The $61B probiotic market sells you billions of CFUs that mostly die in stomach acid before they reach your gut. Here's which strains have the trials to back them up — and which are pure marketing.", "meta": "Updated Apr 14, 2026 · 8 min", "href": "a/the-science-of-gut-health-beyond-probiotics.html", "cat": "Breakthrough"}, {"title": "Collagen Peptides: Are You Paying $40 for Gelatin?", "dek": "The skin and joint claims have more marketing than evidence behind them. Here's what hydrolyzed collagen actually does — and a cheaper alternative that works just as well.", "meta": "Updated Apr 2, 2026 · 7 min", "href": "a/the-truth-about-collagen-supplements-what-13-clinical-trials-actually-show.html", "cat": "Breakthrough"}, {"title": "Green Tea Extract: When ‘Healthy’ Damages Your Liver", "dek": "Published case series tie high-dose EGCG extracts to acute liver injury and transplant. Brewed green tea is safe — but the concentrated capsules are a very different story.", "meta": "Updated Apr 30, 2026 · 7 min", "href": "a/green-tea-extract-and-liver-failure-what-you-need-to-know.html", "cat": "Safety Alert"}, {"title": "Psyllium Husk: 100+ Clinical Trials and an FDA Health Claim for Cholesterol Reduction", "dek": "More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it. LDL down 15 mg/dL. HbA1c down 0.4%. FDA-approved heart health claim since 1998. Here is why nobody is talking about it.", "meta": "Updated Apr 17, 2026 · 11 min", "href": "#article-92", "show": 92, "cat": "Breakthrough"}, {"title": "Creatine for Brain Health: What the New Meta-Analyses Actually Show", "dek": "Two new meta-analyses (Prokopidis 2023, Xu 2024) confirm creatine improves memory and cognition in healthy adults — not just athletes. The effect is real, but smaller than the marketing claims.", "meta": "Updated Apr 24, 2026 · 7 min", "href": "a/creatine-for-brain-health-what-the-new-meta-analyses-actually-show.html", "cat": "Breakthrough"}, {"title": "10 Supplements That Interact With the Most Prescription Drugs", "dek": "St. John's Wort, berberine, magnesium, melatonin — the supplements that interact with the most prescription drug classes. The list that should be taped to every medicine cabinet.", "meta": "May 9, 2026 · 4 min", "href": "a/10-supplements-that-interact-with-the-most-prescription-drugs.html", "cat": "Top 10 Lists"}, {"title": "Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide", "dek": "The only magnesium form proven to cross the blood-brain barrier in animal studies. But do the human trials actually back up the cognitive claims? We dig into all four studies.", "meta": "Updated Apr 8, 2026 · 8 min", "href": "a/magnesium-forms-explained-glycinate-vs-citrate-vs-threonate-vs-oxide.html", "cat": "Guide"}, {"title": "The 10 Supplements People Are Actually Deficient In", "dek": "95% of U.S. adults fall short on fibre. 90% on choline. 90% on omega-3. The 10 nutrients where pills genuinely fill a population-wide gap — not the trendy ones.", "meta": "May 9, 2026 · 4 min", "href": "a/the-10-supplements-people-are-actually-deficient-in.html", "cat": "Top 10 Lists"}, {"title": "LMNT vs Liquid IV vs DIY: The Electrolyte Price War", "dek": "Electrolyte mixes have gone mainstream. We compare sodium-to-sugar ratios, cost per serving, and whether you can make the same thing at home for a fraction of the price.", "meta": "Updated Apr 10, 2026 · 6 min", "href": "a/electrolytes-for-athletes-science-vs-marketing.html", "cat": "Guide"}]</script>
+      <script type="application/json" id="mag-articles">[{"title": "The 10 Most Dangerous Supplements (Still Legally Sold)", "dek": "Documented liver failure, kidney damage, cancer, or deaths. Several of these are still legally sold in the United States — including one that's just an FDA warning away from a recall.", "meta": "May 9, 2026 · 4 min", "href": "a/the-10-most-dangerous-supplements-still-legally-sold.html", "cat": "Top 10 Lists"}, {"title": "Supplements to Preserve Muscle on Ozempic", "dek": "Up to 40% of the weight lost on a GLP-1 drug can be muscle. Protein and resistance training do the heavy lifting — here's exactly where creatine, HMB, vitamin D and omega-3 fit, and what to skip.", "meta": "Jun 6, 2026 · 7 min", "href": "a/supplements-to-preserve-muscle-on-glp-1-drugs.html", "cat": "Guide"}, {"title": "Supplements for Kids in Competitive Sports", "dek": "For most young athletes, food, sleep and training beat anything in a tub — and the real risks are contamination and stimulants. What's safe, what's hype, and the straight answer on creatine for teens.", "meta": "Jun 6, 2026 · 8 min", "href": "a/supplements-for-kids-in-competitive-sports.html", "cat": "Kids"}, {"title": "Why “Detox” Supplements Are a $3 Billion Scam", "dek": "Your liver and kidneys already detoxify you. No supplement can improve on millions of years of evolution — but the industry banks on you not knowing that.", "meta": "Updated Mar 29, 2026 · 6 min", "href": "a/why-detox-supplements-are-a-3-billion-scam.html", "cat": "Reality Check"}, {"title": "Berberine: Is It Really Nature’s Ozempic?", "dek": "Berberine does lower blood sugar — but comparing it to GLP-1 receptor agonists misrepresents both the mechanism and the evidence. Here's what a 500mg dose actually does, and what it doesn't.", "meta": "Updated Mar 8, 2026 · 7 min", "href": "a/berberine-is-it-really-nature-s-ozempic.html", "cat": "Reality Check"}, {"title": "The 10 Most Overhyped Supplements of 2026", "dek": "The TikTok-to-trial-data gap, in 10 entries. Sea moss, turkesterone, NMN, lion's mane and more — supplements with huge marketing budgets and shockingly thin clinical evidence.", "meta": "May 12, 2026 · 4 min", "href": "a/the-10-most-overhyped-supplements-of-2026.html", "cat": "Top 10 Lists"}, {"title": "CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says", "dek": "The April 2026 CDC MMWR counted 3,101 kava reports (1,754 kava only, 1,347 multi-substance). Serious outcomes peaked at 39% in 2024, and kratom co-use drives the worst cases.", "meta": "Updated Apr 24, 2026 · 6 min", "href": "#article-4", "show": 4, "cat": "Safety Alert"}, {"title": "The Cheapest Effective Supplements vs the Priciest Hyped Ones", "dek": "$5 of creatine has more clinical evidence behind it than every $1,500-a-month NAD+ IV combined. Price ≠ evidence — here's the full split between the cheap proven workhorses and the premium-priced lab toys.", "meta": "May 9, 2026 · 4 min", "href": "a/the-cheapest-effective-supplements-vs-the-priciest-hyped-ones.html", "cat": "Top 10 Lists"}, {"title": "NAD+ Precursors: Separating Hype from Longevity Evidence", "dek": "NMN and NR are sold as anti-aging miracles. The mouse data is compelling — but human trials tell a much more nuanced story. Here's what's real.", "meta": "Updated Apr 11, 2026 · 9 min", "href": "a/nmn-and-nad-why-raising-a-biomarker-isn-t-the-same-as-slowing-aging.html", "cat": "Guide"}, {"title": "Turmeric & Liver: When an Anti-Inflammatory Becomes the Inflammation", "dek": "High-dose turmeric extracts have triggered over 30 cases of severe hepatotoxicity. We break down who's at risk, what dose is safe, and which forms to avoid.", "meta": "Updated Apr 9, 2026 · 6 min", "href": "a/turmeric-vs-curcumin-why-the-supplement-industry-misleads-you.html", "cat": "Reality Check"}, {"title": "12 Supplement Mistakes You Should Literally Never Make", "dek": "Pediatric melatonin ER visits rose 530% from 2012–21. St. John's Wort + SSRIs. Kava + alcohol. Twelve mistakes with documented hospital outcomes — and the people who keep making them.", "meta": "May 9, 2026 · 5 min", "href": "a/12-supplement-mistakes-you-should-literally-never-make.html", "cat": "Top 10 Lists"}, {"title": "Why Most Probiotic Supplements Don't Actually Work", "dek": "The $61B probiotic market sells you billions of CFUs that mostly die in stomach acid before they reach your gut. Here's which strains have the trials to back them up — and which are pure marketing.", "meta": "Updated Apr 14, 2026 · 8 min", "href": "a/the-science-of-gut-health-beyond-probiotics.html", "cat": "Breakthrough"}, {"title": "Collagen Peptides: Are You Paying $40 for Gelatin?", "dek": "The skin and joint claims have more marketing than evidence behind them. Here's what hydrolyzed collagen actually does — and a cheaper alternative that works just as well.", "meta": "Updated Apr 2, 2026 · 7 min", "href": "a/the-truth-about-collagen-supplements-what-13-clinical-trials-actually-show.html", "cat": "Breakthrough"}, {"title": "Green Tea Extract: When ‘Healthy’ Damages Your Liver", "dek": "Published case series tie high-dose EGCG extracts to acute liver injury and transplant. Brewed green tea is safe — but the concentrated capsules are a very different story.", "meta": "Updated Apr 30, 2026 · 7 min", "href": "a/green-tea-extract-and-liver-failure-what-you-need-to-know.html", "cat": "Safety Alert"}, {"title": "Psyllium Husk: 100+ Clinical Trials and an FDA Health Claim for Cholesterol Reduction", "dek": "More high-quality trial evidence than almost any supplement on the market — yet wellness culture ignores it. LDL down 15 mg/dL. HbA1c down 0.4%. FDA-approved heart health claim since 1998. Here is why nobody is talking about it.", "meta": "Updated Apr 17, 2026 · 11 min", "href": "#article-92", "show": 92, "cat": "Breakthrough"}, {"title": "Creatine for Brain Health: What the New Meta-Analyses Actually Show", "dek": "Two new meta-analyses (Prokopidis 2023, Xu 2024) confirm creatine improves memory and cognition in healthy adults — not just athletes. The effect is real, but smaller than the marketing claims.", "meta": "Updated Apr 24, 2026 · 7 min", "href": "a/creatine-for-brain-health-what-the-new-meta-analyses-actually-show.html", "cat": "Breakthrough"}, {"title": "10 Supplements That Interact With the Most Prescription Drugs", "dek": "St. John's Wort, berberine, magnesium, melatonin — the supplements that interact with the most prescription drug classes. The list that should be taped to every medicine cabinet.", "meta": "May 9, 2026 · 4 min", "href": "a/10-supplements-that-interact-with-the-most-prescription-drugs.html", "cat": "Top 10 Lists"}, {"title": "Magnesium Forms Explained: Glycinate vs Citrate vs Threonate vs Oxide", "dek": "The only magnesium form proven to cross the blood-brain barrier in animal studies. But do the human trials actually back up the cognitive claims? We dig into all four studies.", "meta": "Updated Apr 8, 2026 · 8 min", "href": "a/magnesium-forms-explained-glycinate-vs-citrate-vs-threonate-vs-oxide.html", "cat": "Guide"}, {"title": "The 10 Supplements People Are Actually Deficient In", "dek": "95% of U.S. adults fall short on fibre. 90% on choline. 90% on omega-3. The 10 nutrients where pills genuinely fill a population-wide gap — not the trendy ones.", "meta": "May 9, 2026 · 4 min", "href": "a/the-10-supplements-people-are-actually-deficient-in.html", "cat": "Top 10 Lists"}, {"title": "LMNT vs Liquid IV vs DIY: The Electrolyte Price War", "dek": "Electrolyte mixes have gone mainstream. We compare sodium-to-sugar ratios, cost per serving, and whether you can make the same thing at home for a fraction of the price.", "meta": "Updated Apr 10, 2026 · 6 min", "href": "a/electrolytes-for-athletes-science-vs-marketing.html", "cat": "Guide"}]</script>
     </section>
 <!-- /MAGAZINE HERO -->
 
@@ -1182,7 +1193,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         </div>
         <div class="gate-eyebrow">Beta</div>
         <h2 class="gate-title">Your plan,<br>built by science.</h2>
-        <p class="gate-desc">A personalized supplement stack ranked by the same evidence database behind 780 supplement scores — tailored to your age, goals, and health.</p>
+        <p class="gate-desc">A personalized supplement stack ranked by the same evidence database behind 734 supplement scores — tailored to your age, goals, and health.</p>
       </div>
       <!-- Steps -->
       <div class="gate-steps">
@@ -1192,7 +1203,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         </div>
         <div class="gate-step">
           <div class="gate-step-num">2</div>
-          <div class="gate-step-text"><strong>Upload blood work <span class="gate-optional">(optional)</span></strong>We'll flag deficiencies and tailor doses to your labs</div>
+          <div class="gate-step-text"><strong>Upload blood work <span class="gate-optional">(optional)</span></strong>We'll flag results outside a typical range. Doses stay general — discuss them with your doctor.</div>
         </div>
         <div class="gate-step">
           <div class="gate-step-num">3</div>
@@ -1206,9 +1217,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       </form>
       <!-- Trust strip -->
       <div class="gate-trust">
-        <span class="gate-trust-item">780 supplements scored</span>
+        <span class="gate-trust-item">734 supplements scored</span>
         <span class="gate-trust-dot"></span>
-        <span class="gate-trust-item">3,200+ studies cited</span>
+        <span class="gate-trust-item">3,222 studies cited</span>
         <span class="gate-trust-dot"></span>
         <span class="gate-trust-item">No affiliate links</span>
       </div>
@@ -1287,22 +1298,28 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 3: About You -->
         <div class="wiz-step" id="wiz-step-3">
           <p class="wiz-step-q">About you</p>
-          <p class="wiz-step-sub">Used to calibrate doses and filter unsuitable supplements.</p>
+          <p class="wiz-step-sub" style="text-wrap:pretty">Used to filter unsuitable supplements. Doses stay general ranges — discuss them with your doctor.</p>
           <div class="wiz-field-group">
             <label class="wiz-field-label" for="asl">Age</label>
             <input type="number" class="wiz-input" id="asl" min="18" max="90" value="35" aria-label="Age" onchange="clampAge(this)">
           </div>
           <div class="wiz-field-group">
             <label class="wiz-field-label" id="sex-label">Biological sex</label>
-            <!-- Round-4 a11y: radiogroup so screen readers announce "1 of 3 selected". -->
             <div class="pf-sex-pill" role="radiogroup" aria-labelledby="sex-label">
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bm" onclick="pickSex('m')">Male</button>
               <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bf" onclick="pickSex('f')">Female</button>
-              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="bp" onclick="pickSex('fp')">Pregnant</button>
             </div>
           </div>
+          <div class="wiz-field-group" id="preg-field">
+            <label class="wiz-field-label" id="preg-label">Are you pregnant or breastfeeding?</label>
+            <div class="pf-sex-pill" role="radiogroup" aria-labelledby="preg-label">
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-no" onclick="setPregnantOrBf(false)">No</button>
+              <button type="button" role="radio" aria-checked="false" class="pf-sex-opt sx-btn" id="preg-yes" onclick="setPregnantOrBf(true)">Yes</button>
+            </div>
+            <p class="wiz-preg-help">We ask this so we can flag supplements to avoid during pregnancy or breastfeeding.</p>
+          </div>
           <div class="wiz-field-group">
-            <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — enables BMI and tightens doses by ±25%)</span></label>
+            <label class="wiz-field-label"><span>Height &amp; Weight</span> <span class="wiz-field-opt">(optional — used for BMI and for weight-based athletic doses)</span></label>
             <div class="hw-unit-toggle" role="group" aria-label="Height and weight units">
               <button type="button" class="hw-unit-btn on" id="hw-unit-imperial" aria-pressed="true" onclick="setBodyUnit('imperial')">ft / lb</button>
               <button type="button" class="hw-unit-btn" id="hw-unit-metric" aria-pressed="false" onclick="setBodyUnit('metric')">cm / kg</button>
@@ -1351,7 +1368,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 5: Medications -->
         <div class="wiz-step" id="wiz-step-5">
           <p class="wiz-step-q">Any medications?</p>
-          <p class="wiz-step-sub">We'll filter out supplements that interact. What's in your cabinet?</p>
+          <p class="wiz-step-sub">We flag known conflicts from a partial list. No flag does not mean a combination is safe. Discuss interactions with your doctor or pharmacist.</p>
           <div class="drug-typeahead-wrap">
             <div class="drug-typeahead-input-wrap">
               <input type="text" id="drug-typeahead-input" class="drug-typeahead-input" placeholder="Start typing a drug name (generic or brand)..." autocomplete="off" oninput="onDrugTypeaheadInput(event)" onkeydown="onDrugTypeaheadKey(event)" onfocus="onDrugTypeaheadInput(event)">
@@ -1363,7 +1380,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
                to the chip-heavy Conditions and Health steps. Lists what gets
                filtered, with examples — non-clickable, just informational. -->
           <div class="wiz-meds-explainer">
-            <div class="wiz-meds-explainer-h">What we check for</div>
+            <div class="wiz-meds-explainer-h">Examples from the partial list</div>
             <ul class="wiz-meds-explainer-list">
               <li><b>Blood thinners</b> — warfarin, apixaban, rivaroxaban — flagged with vitamin K2, fish oil, ginkgo, garlic, ginger, vitamin E.</li>
               <li><b>Statins</b> — atorvastatin, rosuvastatin, simvastatin — boost CoQ10, flag red yeast rice and grapefruit-interacting items.</li>
@@ -1380,7 +1397,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 6: Health Status -->
         <div class="wiz-step" id="wiz-step-6">
           <p class="wiz-step-q">Health status</p>
-          <p class="wiz-step-sub">Helps us filter supplements that stress the kidneys or liver.</p>
+          <p class="wiz-step-sub">Used to flag supplements that can stress the kidneys or liver. We do not set a personal dose cap. Discuss doses with your doctor.</p>
           <div class="wiz-field-group">
             <label class="wiz-field-label" for="kidney-fn">Kidney function</label>
             <select id="kidney-fn" class="wiz-select" onchange="onHealthChange()">
@@ -1413,7 +1430,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <!-- STEP 7: Blood Work -->
         <div class="wiz-step" id="wiz-step-7">
           <p class="wiz-step-q">Blood work <span class="wiz-optional">(optional)</span></p>
-          <p class="wiz-step-sub">Upload a lab PDF for more precise recommendations and tighter doses. 100% client&#8209;side &middot; nothing leaves your browser.</p>
+          <p class="wiz-step-sub">Upload a lab PDF to see which results sit outside a typical range. We will not set a dose from your labs. Discuss any change with your doctor. 100% client&#8209;side &middot; nothing leaves your browser.</p>
           <div id="bw-upload" class="bw-upload-zone" role="button" tabindex="0" aria-label="Upload lab report PDF" onclick="document.getElementById('bw-file').click()" onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('bw-file').click()" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="event.preventDefault();this.classList.remove('dragging');if(event.dataTransfer.files[0])handleBwUpload(event.dataTransfer.files[0])">
             <div class="bw-upload-icon">
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3-3 3 3"/></svg>
@@ -1441,17 +1458,17 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
                user which biomarkers feed dose calibration and why this is worth
                the extra step. Pure information, no clickable elements. -->
           <div class="wiz-meds-explainer">
-            <div class="wiz-meds-explainer-h">What labs change in your plan</div>
+            <div class="wiz-meds-explainer-h">What labs can flag</div>
             <ul class="wiz-meds-explainer-list">
-              <li><b>Vitamin D (25-OH)</b> — sets your D3 dose. Below 20 ng/mL → 4,000 IU; below 30 → 2,000 IU; otherwise 1,000 IU maintenance.</li>
-              <li><b>Ferritin / Iron</b> — flags deficiency or overload. Below 30 ng/mL pushes iron up; above 200 stops iron suggestions.</li>
-              <li><b>Vitamin B12 / MMA</b> — low B12 or elevated MMA pushes the form to methylcobalamin and the dose up to 1,000–2,000 mcg.</li>
-              <li><b>Magnesium RBC</b> — below 4.2 mg/dL nudges magnesium glycinate higher.</li>
-              <li><b>HbA1c, fasting glucose, lipids</b> — guide berberine, omega-3 dose, and red-yeast-rice flagging.</li>
-              <li><b>TSH, fT4, fT3</b> — low thyroid signals selenium + iodine; high signals avoid extra iodine.</li>
-              <li><b>eGFR, AST/ALT</b> — auto-cap doses on supplements that stress kidneys or liver.</li>
+              <li><b>Vitamin D (25-OH)</b> — flags a low or high result. A common adult maintenance range is 1,000–2,000 IU/day. Discuss the dose with your doctor.</li>
+              <li><b>Ferritin / Iron</b> — flags a low or high result. Discuss any iron dose with your doctor.</li>
+              <li><b>Vitamin B12 / MMA</b> — flags a low result. Discuss the dose with your doctor.</li>
+              <li><b>Magnesium RBC</b> — flags a low result. A common adult supplemental range is 200–350 mg elemental a day. Discuss a higher dose with your doctor.</li>
+              <li><b>HbA1c, fasting glucose, lipids</b> — flags results outside a typical range. Discuss any change with your doctor.</li>
+              <li><b>TSH, fT4, fT3</b> — flags a thyroid result. Do not start iodine or selenium from a lab value. Discuss them with your doctor.</li>
+              <li><b>eGFR, AST/ALT</b> — flags a kidney or liver result. We do not cap a dose from these numbers. Discuss them with your doctor.</li>
             </ul>
-            <p class="wiz-meds-explainer-foot">Skip if you don't have recent labs — the engine still works, it just uses population averages instead of your numbers.</p>
+            <p class="wiz-meds-explainer-foot">Skip if you don't have recent labs. The plan still uses general ranges, not a dose calculated from your numbers.</p>
           </div>
           <span id="pf-count-bw" style="display:none"></span>
         </div>
@@ -1472,7 +1489,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <div class="loading-overlay" id="v-loading">
       <div class="loading-ring"></div>
       <div class="loading-text" id="load-text">Analyzing your profile…</div>
-      <div class="loading-sub" id="load-sub">Matching against 780 supplements</div>
+      <div class="loading-sub" id="load-sub">Matching against 734 supplements</div>
       <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
     </div>
     <div id="v-res" style="display:none">
@@ -1498,14 +1515,14 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       </div>
       <!-- Add supplement to plan — Round-5: clearer framing so the user knows
            this search adds NEW supplements (not already on the plan) from the
-           780-supplement database. -->
+           734-supplement database. -->
       <div class="add-supp-card" id="add-supp-card">
         <div class="add-supp-label">Add something we missed</div>
         <div class="add-supp-row">
           <span class="add-supp-icon-leading" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </span>
-          <input type="text" class="add-supp-input" id="add-supp-search" placeholder="Add a supplement to your plan — search by name…" autocomplete="off" aria-label="Add a supplement to your plan from our 780-supplement database" oninput="filterSuppSearch(this.value)" onfocus="filterSuppSearch(this.value)" onblur="setTimeout(hideSuppDropdown,180)" onkeydown="handleSearchKeydown(event)">
+          <input type="text" class="add-supp-input" id="add-supp-search" placeholder="Add a supplement to your plan — search by name…" autocomplete="off" aria-label="Add a supplement to your plan from our 734-supplement database" oninput="filterSuppSearch(this.value)" onfocus="filterSuppSearch(this.value)" onblur="setTimeout(hideSuppDropdown,180)" onkeydown="handleSearchKeydown(event)">
         </div>
         <div class="ac-dropdown" id="add-supp-dropdown" style="display:none"></div>
       </div>
@@ -1579,9 +1596,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   <h2>Honest, independent supplement evidence — free for everyone.</h2>
   <p class="lede">We built SupplementScore to fix the most broken part of wellness: the gap between what a label says and what the clinical evidence actually shows. Every score traces back to peer-reviewed research. No sponsorships, no affiliates, no ads.</p>
   <div class="abt-stats">
-    <div class="abt-stat"><div class="num">780+</div><div class="lbl">Supplements scored</div></div>
+    <div class="abt-stat"><div class="num">734</div><div class="lbl">Supplements scored</div></div>
     <div class="abt-stat"><div class="num">61</div><div class="lbl">Research sources</div></div>
-    <div class="abt-stat"><div class="num">3,200+</div><div class="lbl">Studies cited</div></div>
+    <div class="abt-stat"><div class="num">3,222</div><div class="lbl">Studies cited</div></div>
     <div class="abt-stat"><div class="num">$0</div><div class="lbl">Industry funding</div></div>
   </div>
 </div>
@@ -1594,7 +1611,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
     <div class="abt-tier t1">
       <div class="tn">TIER 01</div>
       <div class="tname">Proven Effective</div>
-      <div class="tdesc">Backed by multiple large clinical trials, systematic reviews, and meta-analyses. Consistent, replicated results across independent research groups. Considered safe and effective by the WHO, NIH, and EFSA.</div>
+      <div class="tdesc">Backed by multiple large clinical trials, systematic reviews, and meta-analyses. Consistent, replicated results across independent research groups. See each page for regulator positions.</div>
       <div class="tpill">RCTs &amp; Meta-Analyses</div>
     </div>
     <div class="abt-tier t2">
@@ -1663,7 +1680,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       <div class="abt-road-num">1</div>
       <span class="abt-road-badge">Active</span>
       <div class="abt-road-title">Comprehensive Supplement Database</div>
-      <div class="abt-road-desc">780+ supplements evaluated across 6 clinical dimensions, every rating derived from systematic reviews, meta-analyses, and human clinical trials across 61 peer-reviewed sources. Continuously updated.</div>
+      <div class="abt-road-desc">734 supplements evaluated across 6 clinical dimensions, every rating derived from systematic reviews, meta-analyses, and human clinical trials across 61 peer-reviewed sources. Continuously updated.</div>
     </div>
     <div class="abt-road-card s2">
       <div class="abt-road-num">2</div>
@@ -1732,7 +1749,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
   <p style="margin:0 0 12px;color:var(--color-text-secondary);font-size:14.5px">Short answers. The scoring rules, sources, and contact address are on the <a href="/about.html">about page</a>.</p>
   <details style="border-top:1px solid var(--color-border-tertiary);padding:12px 0">
     <summary style="cursor:pointer;font-weight:700">How are supplement scores calculated?</summary>
-    <p style="margin:8px 0 0;color:var(--color-text-secondary);font-size:15px;line-height:1.6">Each supplement is scored from 1 to 5 on efficacy, safety, research depth, onset, cost, and drug-interaction risk. Efficacy is weighted 7, safety 4, research depth 3, and the other three 2. That total is out of 100. Tier 1 also needs an independently funded confirmatory trial. The full rules are on the about page.</p>
+    <p style="margin:8px 0 0;color:var(--color-text-secondary);font-size:15px;line-height:1.6">Each supplement is scored from 1 to 5 on efficacy, safety, research depth, onset, cost, and drug-interaction risk. Efficacy is weighted 7, safety 4, research depth 3, and the other three 2. Because each rating is at least 1, that total runs from 20 to 100. Tier 1 also needs an independently funded confirmatory trial. The full rules are on the about page.</p>
   </details>
   <details style="border-top:1px solid var(--color-border-tertiary);padding:12px 0">
     <summary style="cursor:pointer;font-weight:700">Does SupplementScore use affiliate links or ads?</summary>
@@ -1812,7 +1829,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       <div class="article-content">
         <div class="article-cat"><span class="feat-kicker"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>Guide</div>
         <div class="article-title">The Complete Beginner's Guide to Supplements: What Actually Works in 2026</div>
-        <div class="article-desc">A systematic evaluation of 780 supplements against the randomized-trial evidence base identified 12 that clear the bar for a healthy adult: vitamin D3 (in deficiency), creatine, omega-3, magnesium glycinate, B12 (in at-risk groups), and a handful of others. The rest of the aisle doesn’t.</div>
+        <div class="article-desc">A systematic evaluation of 734 supplements against the randomized-trial evidence base identified 12 that clear the bar for a healthy adult: vitamin D3 (in deficiency), creatine, omega-3, magnesium glycinate, B12 (in at-risk groups), and a handful of others. The rest of the aisle doesn’t.</div>
         <div class="article-meta">Apr 8, 2026 &middot; 12 min read</div>
       </div>
     </div>
@@ -1867,7 +1884,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <div class="article-content">
           <div class="article-cat">Safety Alert</div>
           <div class="article-title">CDC Warning: Kava Poisoning Calls Have Climbed Sharply — Here's What the Data Actually Says</div>
-          <div class="article-desc">April 2026 CDC MMWR: 1,955 kava calls from 2000–2025. Serious outcomes peaked at 39% in 2024. Kratom co-use reached 30% in 2025. No acute liver failure cases from kava alone.</div>
+          <div class="article-desc">April 2026 CDC MMWR: 3,101 kava reports from 2000–2025 (1,754 kava only, 1,347 with other substances). Serious outcomes peaked at 39% in 2024. Kratom co-use reached 30% in 2025. No acute liver failure cases from kava alone.</div>
           <div class="article-meta">Apr 24, 2026</div>
         </div>
       </div>
@@ -2121,9 +2138,19 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <div class="rc-chart-k">Kava: What the 2026 CDC Report Found</div>
         <h3 class="rc-chart-title">U.S. poison-center calls about kava, 2000–2025</h3>
         <div class="rc-chart-row">
-          <div class="rc-chart-label">Total kava exposure calls<small>2000–2025, all ages</small></div>
-          <div class="rc-chart-bar"><div class="rc-chart-fill hi" style="width:88%"></div></div>
-          <div class="rc-chart-val">1,955</div>
+          <div class="rc-chart-label">Total kava exposure reports<small>2000–2025, single- and multi-substance</small></div>
+          <div class="rc-chart-bar"><div class="rc-chart-fill hi" style="width:100%"></div></div>
+          <div class="rc-chart-val">3,101</div>
+        </div>
+        <div class="rc-chart-row">
+          <div class="rc-chart-label">Single-substance (kava only)<small>2000–2025</small></div>
+          <div class="rc-chart-bar"><div class="rc-chart-fill mid" style="width:57%"></div></div>
+          <div class="rc-chart-val">1,754</div>
+        </div>
+        <div class="rc-chart-row">
+          <div class="rc-chart-label">Multiple-substance<small>kava plus another substance</small></div>
+          <div class="rc-chart-bar"><div class="rc-chart-fill mid" style="width:43%"></div></div>
+          <div class="rc-chart-val">1,347</div>
         </div>
         <div class="rc-chart-row">
           <div class="rc-chart-label">Serious medical outcome (2000)<small>start of data</small></div>
@@ -2136,7 +2163,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
           <div class="rc-chart-val">39%</div>
         </div>
         <div class="rc-chart-row">
-          <div class="rc-chart-label">Kratom co-use (2025)<small>kava calls also involving kratom</small></div>
+          <div class="rc-chart-label">Kratom co-use (2025)<small>share of all kava reports</small></div>
           <div class="rc-chart-bar"><div class="rc-chart-fill mid" style="width:30%"></div></div>
           <div class="rc-chart-val">30%</div>
         </div>
@@ -2154,9 +2181,9 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       </div>
 
       <h3>What the 2026 CDC Report Actually Says</h3>
-      <p>On April 3, 2026, the CDC's <em>Morbidity and Mortality Weekly Report</em> (MMWR) published an analysis of kava-related calls to America's Poison Centers from January 2000 through June 2025 (Towers et al., MMWR 75(12);2026). The authors reviewed 1,955 kava exposure calls across 25+ years. The headline finding: the share of calls rated as a "serious medical outcome" rose from about 12% in 2000 to a peak of 39% in 2024, then 32% in the first half of 2025. A "serious medical outcome" means the person needed medical treatment or had notable clinical effects — not that they died.</p>
-      <p>Call volume itself has climbed sharply in recent years, likely because kava bars and concentrated extracts have grown popular. A second pattern in the data: many of the worst calls involved co-use with kratom. In the first half of 2025, roughly 30% of kava calls also involved kratom, up from near zero in earlier years. Kratom has its own hepatotoxicity signal, and the combination appears to drive a disproportionate share of serious outcomes.</p>
-      <p>Importantly, the MMWR dataset did <strong>not</strong> identify any cases of acute liver failure from kava alone. Elevated liver enzymes — an early warning sign of liver stress — appeared in about 1.7% of kava-only calls and about 6.3% of kava-plus-kratom calls. That is higher than expected for a "natural" product, but it is different from the transplant-level liver failure cases that made headlines in Europe 20 years ago. Those European cases are real and are discussed below, but they came from a different pattern of use (concentrated extracts, often with other drugs or alcohol) and they are not what the 2026 CDC data describe.</p>
+      <p>On April 2, 2026, the CDC's <em>Morbidity and Mortality Weekly Report</em> (MMWR) published an analysis of kava-related reports to the National Poison Data System from January 2000 through December 2025 (Towers et al., MMWR 75(12);2026). The authors reviewed 3,101 kava exposure reports: 1,754 were single-substance (kava only) and 1,347 (43%) were multiple-substance. The headline finding: the share of reports rated as a serious medical outcome rose from 12% in 2000 to a peak of 39% in 2024, then 32% in 2025. A "serious medical outcome" means the person needed medical treatment or had notable clinical effects — not that they died.</p>
+      <p>Call volume itself has climbed sharply in recent years, likely because kava bars and concentrated extracts have grown popular. A second pattern in the data: many of the worst calls involved co-use with kratom. In 2025, 30% of kava reports (61 of 203) also involved kratom, up from near zero in earlier years. Kratom has its own hepatotoxicity signal, and the combination appears to drive a disproportionate share of serious outcomes.</p>
+      <p>Importantly, the MMWR dataset did <strong>not</strong> identify any cases of acute liver failure from kava alone. Elevated liver enzymes — an early warning sign of liver stress — appeared in 1.7% of single-substance (kava-only) reports and 6.3% of kava-plus-kratom reports. That is higher than expected for a "natural" product, but it is different from the transplant-level liver failure cases that made headlines in Europe 20 years ago. Those European cases are real and are discussed below, but they came from a different pattern of use (concentrated extracts, often with other drugs or alcohol) and they are not what the 2026 CDC data describe.</p>
       <p>The CDC authors recommended that healthcare providers ask patients directly about kava and kratom use when evaluating unexplained liver enzyme elevations, because patients often do not volunteer supplement use.</p>
 
       <h3>Traditional Kava vs. Concentrated Supplement Extracts</h3>
@@ -4367,9 +4394,10 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
       <a href="/evidence-guide.html">Evidence guide</a>
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>
+      <a href="/transparency.html">How it's made</a>
     </nav>
     <div class="site-footer-contrib">
-      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-eyebrow">Independent · No industry funding</div>
       <div class="site-footer-contrib-title">Help build the database</div>
       <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
       <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
@@ -4378,7 +4406,7 @@ h1,h2,h3,.article-title,.hub-title,.det-h1,.mag-lead h2,.mag-side h2,.mag-side h
         <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
       </form>
     </div>
-    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
 /* Footer contributor form — small handler shared by every page that ships the
@@ -4492,6 +4520,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     'home-decor.js?v=4cc4ab9c',
     'data.js?v=73269c9a',
     'pairings-data.js?v=3d504fe3',
+    'research-cats.js',
     'app.js?v=design3',
     'pdf-export.js?v=9fa240f5',
     'a/manifest.js?v=0324b59d',
@@ -4522,7 +4551,7 @@ window.ssFooterContrib = window.ssFooterContrib || function(e){
     <div role="dialog" aria-modal="true" class="src-modal-head">
       <div>
         <div role="dialog" aria-modal="true" class="src-modal-title" id="src-modal-title">All 61 Sources</div>
-        <div role="dialog" aria-modal="true" class="src-modal-sub">Every score is drawn exclusively from these institutions &amp; journals</div>
+        <div role="dialog" aria-modal="true" class="src-modal-sub">None of these organisations reviews or endorses SupplementScore.</div>
       </div>
       <button class="src-modal-close" onclick="document.getElementById('sources-modal').classList.remove('open')" aria-label="Close">&times;</button>
     </div>

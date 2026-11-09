@@ -1,18 +1,16 @@
 User-agent: *
 Allow: /
 
-# Block internal mockup directory from crawling (not deployed but defensive)
-Disallow: /_mockups/
-Disallow: /mockup-
-Disallow: /_iframe-test.html
+# Mockups and the iframe test carry noindex. They must stay crawlable so Google
+# can see that tag. Blocking them is "Indexed, though blocked by robots.txt".
 
 # Block archived / superseded pages — duplicate content of live pages, and their
 # stale internal links point at dropped URLs (→ 404s in Search Console if crawled)
 Disallow: /_archive/
 
-# Retired locale trees — on-disk stubs remain for bookmarks; do not crawl.
-Disallow: /fr/
-Disallow: /es/
+# Retired /fr/ and /es/ URLs are English noindex stubs, or a real 404 once the
+# homepage-only indexes were removed. Do not Disallow them. A robots block
+# hides noindex from Google and is reported as "Indexed, though blocked by robots.txt".
 
 # Internal review notes, not user-facing content.
 Disallow: /reviews/
@@ -21,13 +19,15 @@ Disallow: /reviews/
 Disallow: /_docs/
 
 # Homepage article-card fragment — injected into /, not a standalone page.
+# Wrapping it in a noindex document would be inserted into the homepage.
 Disallow: /data/article-cards-deferred.html
 
-# Block raw data files — public for direct download via /data/index.html, but should not appear as search results
-Disallow: /data/*.csv$
-Disallow: /data/*.json$
+# /data/*.json and /data/*.csv are public downloads, linked from the homepage
+# Dataset schema and /about.html. Blocking them left the URLs indexed without
+# a crawl. Leave them crawlable.
 
-# RSS feeds — available to feed readers, but no need to surface in web search
+# RSS feeds are not linked from pages and are not in the sitemap. GitHub Pages
+# cannot send a noindex header for XML, so these stay out of the crawl.
 Disallow: /feed.xml
 Disallow: /feed-breakthrough.xml
 Disallow: /feed-guide.xml
@@ -35,21 +35,11 @@ Disallow: /feed-kids.xml
 Disallow: /feed-reality-check.xml
 Disallow: /feed-safety-alert.xml
 
-# SPA detail shells — block bare paths only ($ = end of URL incl. query per Google).
-# Canonical indexable supplement URLs are /supplement/<slug>.html (prerendered; see sitemap-supplements.xml).
-# Explicit Allow makes query variants unambiguously crawlable even if a tester ignores $.
-# /article.html is a thin SPA shell (noindex + redirect); real articles live at /a/<slug>.html.
-Allow: /supplement.html?
-Allow: /condition.html?
-Allow: /medication.html?
-Allow: /compare.html?
-Allow: /biomarker.html?
-Disallow: /supplement.html$
-Disallow: /condition.html$
-Disallow: /medication.html$
-Disallow: /compare.html$
-Disallow: /biomarker.html$
-Disallow: /article.html
+# SPA shells (/supplement.html, /condition.html, /medication.html, /compare.html,
+# /biomarker.html, /article.html) are noindex. Bare URLs redirect to the real
+# hub. Query URLs such as /supplement.html?slug= still render long-tail records
+# that have no prerendered page. Do not Disallow the shells: Google cannot see
+# noindex on a blocked URL.
 
 # Sitemap index — references all shards
 Sitemap: https://supplementscore.org/sitemap-index.xml
@@ -64,3 +54,4 @@ Sitemap: https://supplementscore.org/sitemap-medications.xml
 Sitemap: https://supplementscore.org/sitemap-stacks.xml
 Sitemap: https://supplementscore.org/sitemap-hubs.xml
 Sitemap: https://supplementscore.org/sitemap-brands.xml
+Sitemap: https://supplementscore.org/sitemap-interactions.xml

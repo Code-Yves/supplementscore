@@ -1,6 +1,6 @@
 # SupplementScore
 
-**[supplementscore.org](https://supplementscore.org/)** — a non-profit, evidence-based supplement reference. No sponsorships, no affiliate links, no paid placements.
+**[supplementscore.org](https://supplementscore.org/)** — SupplementScore is independent and takes no industry funding. Evidence-based supplement reference. No sponsorships, no affiliate links, no paid placements.
 
 Every supplement is scored from peer-reviewed clinical trials and meta-analyses. Sources are weighted by funding independence and methodological strength. When the evidence changes, the score changes — and we keep a [public log](https://supplementscore.org/changed-our-mind.html) of every reversal.
 
@@ -51,7 +51,7 @@ Tier 1 placement requires at least one **independently funded** randomised contr
 
 ## Sources
 
-Scores draw exclusively from peer-reviewed primary literature and credible institutional positions:
+Scores draw from peer-reviewed trials and meta-analyses, regulator dossiers, observational safety data, and credible institutional positions:
 
 - **Primary literature**: PubMed, Cochrane Library, ClinicalTrials.gov, bioRxiv, ChEMBL
 - **Institutional positions**: NIH ODS, FDA, EFSA, WHO, EMA, Health Canada, MedlinePlus

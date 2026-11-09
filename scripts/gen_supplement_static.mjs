@@ -125,7 +125,6 @@ for (const { slug, s } of pages) {
   const title = `${s.n} — SupplementScore`;
   const desc = clip(s.desc, 155) || `${s.n}: evidence tier, dose, interactions and citations on SupplementScore.`;
   const img = ogImageFor(slug);
-  const bareName = String(s.n || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim();
   const altMatch = String(s.n || '').match(/\(([^)]+)\)/);
   let h = shell;
   h = h.replace('<head>\n', `<head>\n<base href="/">\n<script>window.__SS_SLUG=${JSON.stringify(slug)};</script>\n`);
@@ -162,8 +161,6 @@ for (const { slug, s } of pages) {
     '@type': 'MedicalEntity',
     name: s.n,
     description: schemaDesc || `${s.n} — evidence-based supplement detail.`,
-    activeIngredient: bareName || s.n,
-    isProprietary: false,
     safetyConsideration: SAFETY[s.t] || 'See methodology for current evidence rating.',
     url,
     image: img,
@@ -177,13 +174,6 @@ for (const { slug, s } of pages) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': url }
   };
   if (altMatch) dietary.alternateName = altMatch[1].trim();
-  if (s.dose) {
-    dietary.recommendedIntake = {
-      '@type': 'RecommendedDoseSchedule',
-      doseUnit: 'varies — see description',
-      doseSchedule: String(s.dose).slice(0, 200)
-    };
-  }
   const breadcrumb = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

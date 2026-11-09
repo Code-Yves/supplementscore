@@ -14,14 +14,28 @@ async function openSupplement(page) {
 }
 
 async function openAboutInModal(page) {
+  const before = await page.evaluate(() => history.length);
   const frame = page.frameLocator('iframe.ssm-frame');
   await frame.locator('footer a[href="/about.html"]').first().evaluate((el) => el.click());
+  // The about page is an iframe navigation in the joint session history.
+  // Back before that entry exists pops the supplement instead.
+  await expect.poll(() => page.evaluate(() => history.length)).toBeGreaterThan(before);
   await page.waitForFunction(() => {
     const frameEl = document.querySelector('iframe.ssm-frame');
-    try { return /\/about\.html$/.test(frameEl.contentWindow.location.pathname); }
-    catch (e) { return false; }
+    try {
+      const win = frameEl.contentWindow;
+      const doc = frameEl.contentDocument;
+      return doc && doc.readyState === 'complete' && /\/about\.html$/.test(win.location.pathname) && doc.querySelector('h1');
+    } catch (e) { return false; }
   });
   return frame;
+}
+
+async function stepHistory(page, dir) {
+  await page.evaluate((which) => {
+    if (which === 'back') history.back();
+    else history.forward();
+  }, dir);
 }
 
 async function switchTab(frame, hash) {
@@ -109,14 +123,14 @@ test('tab switches do not add history, and Back/Forward restore one layer', asyn
   await switchTab(frame, '#methodology');
   await switchTab(frame, '#transparency');
   await expect.poll(() => page.frameLocator('iframe.ssm-frame').locator(':root').evaluate(() => location.hash)).toBe('#transparency');
-  await page.evaluate(() => history.back());
-  await expect.poll(async () => (await modalState(page)).heading, { timeout: 8000 }).toMatch(/theanine/i);
+  await stepHistory(page, 'back');
+  await expect.poll(async () => (await modalState(page)).heading).toMatch(/theanine/i);
   const back = await modalState(page);
   expect(back.open).toBe(true);
   expect(back.frame).not.toMatch(/about\.html/);
   expect(back.top).toContain('supplement=l-theanine');
-  await page.evaluate(() => history.forward());
-  await expect.poll(async () => (await modalState(page)).frame, { timeout: 8000 }).toMatch(/about\.html#transparency/);
+  await stepHistory(page, 'forward');
+  await expect.poll(async () => (await modalState(page)).frame).toMatch(/about\.html#transparency/);
   expect((await modalState(page)).open).toBe(true);
 });
 
@@ -142,14 +156,24 @@ test('standalone about × and Esc leave from any tab', async ({ page }) => {
 test('supplement ×, Esc, Back, and Forward', async ({ page }) => {
   await openSupplement(page);
   await page.locator('.ssm-x').click();
-  await expect(page.locator('.ssm.open')).toHaveCount(0);
-  await expect.poll(() => page.url()).not.toContain('supplement=');
-  await page.evaluate(() => history.forward());
+  await expect.poll(async () => page.evaluate(() => ({
+    supplement: /[?&]supplement=/.test(location.search),
+    open: !!document.querySelector('.ssm.open'),
+    settled: !(history.state && history.state.ssm),
+  }))).toEqual({ supplement: false, open: false, settled: true });
+  await stepHistory(page, 'forward');
   await expect.poll(() => page.url()).toContain('supplement=l-theanine');
   await expect(page.locator('.ssm.open')).toHaveCount(1);
-  await page.evaluate(() => history.back());
-  await expect.poll(() => page.url()).not.toContain('supplement=');
-  await expect(page.locator('.ssm.open')).toHaveCount(0);
+  await page.waitForFunction(() => {
+    const frame = document.querySelector('iframe.ssm-frame');
+    try { return /theanine/i.test(((frame.contentDocument.querySelector('h1') || {}).textContent) || ''); }
+    catch (e) { return false; }
+  });
+  await stepHistory(page, 'back');
+  await expect.poll(async () => page.evaluate(() => ({
+    supplement: /[?&]supplement=/.test(location.search),
+    open: !!document.querySelector('.ssm.open'),
+  }))).toEqual({ supplement: false, open: false });
 
   await openSupplement(page);
   await page.locator('.ssm-x').focus();
@@ -184,7 +208,7 @@ test('close controls share one round ×', async ({ page }) => {
   expectRound(await roundClose(page, 'header.ss-pagebar a.ss-pagebar-x'), 'supplement');
 
   await goto(page, '/');
-  await page.locator('.ix-sources-more').evaluate((el) => el.click());
+  await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
   await expect(page.locator('#sources-modal.open')).toBeVisible();
   expectRound(await roundClose(page, '#sources-modal.open .src-modal-close'), 'sources');
   await page.keyboard.press('Escape');
@@ -295,21 +319,67 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
   expect(contrast(share.fg, share.bg)).toBeGreaterThanOrEqual(4.5);
 });
 
-test('desktop close controls share one corner', async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'desktop corner');
+async function panelCorner(page, closeSel, panelSel) {
+  await page.waitForFunction((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return false;
+    let node = el;
+    while (node) {
+      if (node.getAnimations().some((anim) => anim.playState === 'running')) return false;
+      node = node.parentElement;
+    }
+    const width = el.getBoundingClientRect().width;
+    return width >= 44 && width < 44.01;
+  }, closeSel);
+  return page.evaluate(({ closeSel, panelSel }) => {
+    const close = document.querySelector(closeSel);
+    const panel = document.querySelector(panelSel);
+    const cr = close.getBoundingClientRect();
+    const pr = panel.getBoundingClientRect();
+    return {
+      w: cr.width,
+      h: cr.height,
+      topGap: cr.top - pr.top,
+      rightGap: pr.right - cr.right,
+    };
+  }, { closeSel, panelSel });
+}
+
+function expectPanelCorner(box, label) {
+  expect(box.w, label + ' width').toBeGreaterThanOrEqual(44);
+  expect(box.w, label + ' width').toBeLessThan(44.01);
+  expect(box.h, label + ' height').toBeGreaterThanOrEqual(44);
+  expect(box.h, label + ' height').toBeLessThan(44.01);
+  expect(box.topGap, label + ' top').toBeGreaterThanOrEqual(15);
+  expect(box.topGap, label + ' top').toBeLessThanOrEqual(17);
+  expect(box.rightGap, label + ' right').toBeGreaterThanOrEqual(15);
+  expect(box.rightGap, label + ' right').toBeLessThanOrEqual(17);
+}
+
+test('desktop close controls sit 16px inside the panel they close', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop panel corner');
   const targets = [
-    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
+    ['/about.html', 'a.ss-pagebar-x', '.ss-pagebar-inner'],
+    // The supplement page's close lives in the top bar. The old
+    // .pg-close-fab stays in the markup and is hidden once the bar is present.
+    ['/supplement/l-theanine.html', 'header.ss-pagebar a.ss-pagebar-x', '.ss-pagebar-inner'],
+    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x', '.ar-column'],
+    ['/for/menopause.html', 'a.reader-close-fab.ss-x', 'main'],
   ];
-  for (const [path, selector] of targets) {
+  for (const [path, closeSel, panelSel] of targets) {
     await goto(page, path);
-    await page.waitForSelector(selector);
-    expectCorner(await cornerBox(page, selector), path);
+    await page.waitForSelector(panelSel);
+    await page.waitForSelector(closeSel);
+    expectPanelCorner(await panelCorner(page, closeSel, panelSel), path);
   }
-  await goto(page, '/supplement/l-theanine.html');
-  await expectDisc(page, 'header.ss-pagebar a.ss-pagebar-x', 'supplement');
+  await goto(page, '/');
+  // #104 removed the homepage source-logo row on 2026-10-27. The modal close is still on the page.
+  await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
+  await page.waitForSelector('#sources-modal.open .src-modal-close');
+  expectPanelCorner(await panelCorner(page, '#sources-modal.open .src-modal-close', '.src-modal-panel'), 'sources');
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
-  expectCorner(await cornerBox(page, '.ssm-x'), 'detail');
+  expectPanelCorner(await panelCorner(page, '.ssm-x', '.ssm-card'), 'detail');
 });
 
 test('supplement close is inside a landmark and the open card does not repeat one', async ({ page }) => {

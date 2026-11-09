@@ -68,6 +68,10 @@ export function slugify(name) { return SS.slugify(name); }
 export function resolveSupplement(slug) { return SS.getSupplement(String(slug == null ? '' : slug)); }
 export function isValidSupplementSlug(slug) { return !!resolveSupplement(slug); }
 
+export function allSupplements() {
+  return ctx.S || (ctx.window && ctx.window.S) || [];
+}
+
 export function validSupplementSlugs() {
   const S = (ctx.S || (ctx.window && ctx.window.S) || []);
   const set = new Set();
@@ -100,4 +104,4 @@ export function validSupplementSlugs() {
   return set;
 }
 
-export default { slugify, resolveSupplement, isValidSupplementSlug, validSupplementSlugs };
+export default { slugify, resolveSupplement, isValidSupplementSlug, validSupplementSlugs, allSupplements };

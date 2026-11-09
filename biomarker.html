@@ -186,7 +186,7 @@
 </div>
 <nav class="site-nav" aria-label="Primary">
   <div class="site-nav-inner">
-    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore home">
+    <a class="site-nav-brand" href="index.html" aria-label="SupplementScore.org home">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 3.75C4.5 3.75 4.5 3 6 3H18C19.5 3 19.5 3.75 19.5 3.75V13.5C19.5 18.75 15.75 21 12 21.75C8.25 21 4.5 18.75 4.5 13.5V3.75Z"/><rect x="7.1" y="12" width="2.6" height="5.25" rx=".94" fill="white"/><rect x="10.7" y="9" width="2.6" height="8.25" rx=".94" fill="white"/><rect x="14.25" y="6" width="2.6" height="11.25" rx=".94" fill="white"/></svg>
       <span class="site-nav-brand-name">SupplementScore<span>.org</span></span>
     </a>
@@ -219,7 +219,7 @@
     return;
   }
   var b = window.SS.getBiomarker(slug);
-  if (!b){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Biomarker not found</h1><p>No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
+  if (!b){ location.replace('/search.html?q=' + encodeURIComponent(slug.replace(/-/g, ' '))); return; }
   document.title = b.name + ' — SupplementScore';
 
   // Reference range visualization: 5-zone mapping low/optLow/optHigh/high.
@@ -277,9 +277,10 @@
       <a href="/evidence-guide.html">Evidence guide</a>
       <a href="/#profile" onclick="window._tabSwitchByUser=true">Profile <span class="site-footer-beta" aria-label="Beta">(Beta)</span></a>
       <a href="/about.html">About</a>
+      <a href="/transparency.html">How it's made</a>
     </nav>
     <div class="site-footer-contrib">
-      <div class="site-footer-contrib-eyebrow">Non-profit · volunteer-run</div>
+      <div class="site-footer-contrib-eyebrow">Independent · No industry funding</div>
       <div class="site-footer-contrib-title">Help build the database</div>
       <div class="site-footer-contrib-desc">Clinicians, researchers, developers, help us improve this site.</div>
       <form class="site-footer-contrib-form" onsubmit="return ssFooterContrib(event)" novalidate>
@@ -288,7 +289,7 @@
         <div class="site-footer-contrib-success" role="status" aria-live="polite">✓ Thanks! We'll be in touch.</div>
       </form>
     </div>
-    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/privacy.html">Terms &amp; Privacy</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
+    <div class="site-footer-bottom">© 2026 SupplementScore · CC-BY 4.0 · <a href="/about.html#transparency">No ads, sponsors, or affiliate links</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:editorial@supplementscore.org">editorial@supplementscore.org</a> · Educational reference, not medical advice. Always consult a clinician before changing your supplement regimen.</div>
   </div>
 <script>
 /* Footer contributor form — small handler shared by every page that ships the

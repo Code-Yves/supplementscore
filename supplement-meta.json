@@ -785,11 +785,11 @@
   },
   "d-mannose": {
     "name": "D-Mannose",
-    "score": 64,
-    "tier": "Tier 2",
-    "efficacy": 2,
+    "score": 57,
+    "tier": "Tier 3",
+    "efficacy": 1,
     "safety": 5,
-    "tag": "UTI prevention · Bladder health"
+    "tag": "Recurrent UTI"
   },
   "astragalus-astragalus-membranaceus": {
     "name": "Astragalus (Astragalus membranaceus)",

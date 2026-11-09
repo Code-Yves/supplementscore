@@ -2,7 +2,7 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>https://supplementscore.org/sitemap.xml</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-09</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-supplements.xml</loc>
@@ -18,7 +18,7 @@
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-conditions.xml</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://supplementscore.org/sitemap-stacks.xml</loc>
@@ -36,5 +36,10 @@
     <loc>https://supplementscore.org/sitemap-brands.xml</loc>
     <lastmod>2026-10-15</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>https://supplementscore.org/sitemap-interactions.xml</loc>
+    <lastmod>2026-10-15</lastmod>
+  </sitemap>
 </sitemapindex>
+
 

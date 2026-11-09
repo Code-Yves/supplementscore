@@ -276,10 +276,36 @@ body.tab-research .site-footer {
   font-weight: 700;
   box-shadow: inset 3px 0 0 #155A50;
 }
+#research-view .rh-menu [role="option"] {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 8px;
+}
+#research-view .rh-opt-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+#research-view .rh-opt-name {
+  font-weight: 600;
+  line-height: 1.25;
+}
+#research-view .rh-menu [role="option"][aria-selected="true"] .rh-opt-name {
+  font-weight: 700;
+}
 #research-view .rh-opt-n {
   color: #57534e;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
+}
+#research-view .rh-opt-blurb {
+  color: #57534e;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
 }
 
 @media (max-width: 767px) {
@@ -329,6 +355,17 @@ body.tab-research .site-footer {
   justify-content: space-between;
   gap: 16px;
   margin: 0 0 16px;
+}
+#research-view .rh-sec-titles {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+#research-view .rh-sec-blurb {
+  margin: 8px 0 0;
+  color: #57534e;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.35;
 }
 #research-view .rh-sec-h h2 {
   margin: 0;
