@@ -12,8 +12,9 @@
 <!-- No static robots/canonical. Google skips JS when original HTML has
      noindex, so a shell-wide noindex excluded every sitemap
      /supplement.html?slug= URL (GSC "Excluded by noindex", 2026-09-16).
-     Bare /supplement.html$ stays Disallow'd in robots.txt; JS below
-     adds noindex only for non-slug URLs. -->
+     Bare /supplement.html stays crawlable and is noindex plus a redirect to
+     /browse.html. Do not Disallow it: Google cannot see noindex through
+     robots.txt ("Indexed, though blocked by robots.txt"). -->
 <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
 <link rel="stylesheet" href="/critical.css?v=design3">
@@ -270,7 +271,9 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
      2026-09-17 — do not emit a query-less canonical or noindex in the
      original HTML. Google will not run this script if the response
      already contains noindex, and a static canonical to the bare shell
-     (robots-blocked) would collapse every ?slug= URL onto that shell. */
+     would collapse every ?slug= URL onto that shell.
+     2026-11-09 — bare /supplement.html stays crawlable, noindex, and
+     redirects to /browse.html. Do not Disallow it in robots.txt. */
   (function(){
     function addNoindex() {
       var existing = document.querySelector('meta[name="robots"]');
@@ -369,8 +372,16 @@ body.is-modal .det-compare-btn svg{width:13px;height:13px;color:currentColor}
         var robots = document.querySelector('meta[name="robots"]');
         if (robots) robots.setAttribute('content', 'index,follow');
       } else {
-        // Bare shell (robots Disallow) or non-canonical query — noindex
+        // Bare shell or non-canonical query. noindex, and send the bare URL
+        // to the catalog. A homepage redirect is a soft 404.
         addNoindex();
+        if (!slug && !name) {
+          var refresh = document.createElement('meta');
+          refresh.httpEquiv = 'refresh';
+          refresh.content = '0;url=/browse.html';
+          document.head.appendChild(refresh);
+          location.replace('/browse.html');
+        }
       }
     } catch (_) {}
   })();

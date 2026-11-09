@@ -112,7 +112,7 @@ function head(opts) {
     : `https://supplementscore.org/interactions/${opts.file}`;
   const crumbs = [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://supplementscore.org/" },
-    { "@type": "ListItem", position: 2, name: "Interaction checker", item: "https://supplementscore.org/interactions/" }
+    { "@type": "ListItem", position: 2, name: "Interaction guides", item: "https://supplementscore.org/interactions/" }
   ];
   if (opts.file !== 'index.html') {
     crumbs.push({ "@type": "ListItem", position: 3, name: opts.crumb, item: url });
@@ -141,9 +141,9 @@ function head(opts) {
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <style>html{color-scheme:light}</style>
-  <link rel="stylesheet" href="/critical.css?v=2cd7a7c1">
-  <link rel="stylesheet" href="/styles.css?v=b12faq01" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/styles.css?v=b12faq01"></noscript>
+  <link rel="stylesheet" href="/critical.css?v=design3">
+  <link rel="stylesheet" href="/styles.css?v=design3" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/styles.css?v=design3"></noscript>
   <style>${css}</style>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io; base-uri 'self'; form-action 'self' https://formspree.io;">
   <script type="application/ld+json">
@@ -174,40 +174,20 @@ const pageLinks = data.pages.map((p) =>
 ).join('\n');
 
 const indexBody = `
-  <section class="ix-check" id="checker">
-    <h2>Check a combination</h2>
-    <p class="ix-help">Pick one or more medicines and one or more supplements. You can also pick just a medicine to see every cited flag for that group.</p>
-    <div class="ix-cols">
-      <div>
-        <label for="ix-med-q">Medicine or drug class</label>
-        <input id="ix-med-q" type="search" placeholder="Search warfarin, metformin, lisinopril" autocomplete="off" enterkeyhint="search">
-        <div id="ix-meds" class="ix-picks"></div>
-      </div>
-      <div>
-        <label for="ix-sup-q">Supplement</label>
-        <input id="ix-sup-q" type="search" placeholder="Search vitamin K, berberine, iron" autocomplete="off" enterkeyhint="search">
-        <div id="ix-sups" class="ix-picks"></div>
-      </div>
-    </div>
-    <div id="ix-selected" class="ix-selected" aria-live="polite"></div>
-    <div id="ix-results"></div>
-  </section>
   <h2>Guides by medicine</h2>
-  <p>These pages are the same cited lists, written out so they can be read without running a script.</p>
+  <p>Each page is a cited list you can read without running a script. Pick the medicine, then read the pairs we can tie to NIH ODS, NCCIH, a regulator page, or a peer-reviewed review.</p>
   <div class="ix-links">${pageLinks}</div>
-  <script type="application/json" id="ix-data">${JSON.stringify(data)}</script>
-  <script src="/interactions/checker.js?v=1" defer></script>
 `;
 
 fs.writeFileSync(path.join(outDir, 'index.html'), head({
   file: 'index.html',
-  title: 'Supplement and medication interaction checker — SupplementScore',
-  description: 'Check cited interactions between supplements and common medicines: warfarin, SSRIs, statins, thyroid medicine, diabetes drugs, blood pressure pills, birth control, and immunosuppressants. Talk to a pharmacist. No ads.',
-  crumb: 'Interaction checker',
+  title: 'Supplement and medication interaction guides — SupplementScore',
+  description: 'Cited interactions between supplements and common medicines: warfarin, SSRIs, statins, thyroid medicine, diabetes drugs, blood pressure pills, birth control, and immunosuppressants. Talk to a pharmacist. No ads.',
+  crumb: 'Interaction guides',
   kicker: 'No ads · cited pairs only',
-  h1: 'Supplement and medication interaction checker',
-  lede: 'Pick a medicine, a supplement, or both. Each flag has a plain-language explanation and a link to NIH ODS, NCCIH, a regulator page, or a peer-reviewed review. We do not fill gaps with guesses.',
-  note: 'The checker runs in your browser. It does not send the medicines you select to us.',
+  h1: 'Supplement and medication interaction guides',
+  lede: 'Each guide lists only pairs we can tie to a public source. A missing pair is not a safety clearance. Talk to a pharmacist before you change a supplement.',
+  note: 'These pages do not send the medicine you are reading about to us.',
   body: indexBody
 }));
 
@@ -222,7 +202,7 @@ for (const page of data.pages) {
   const body = `
     <p class="ix-note">Names people search: ${esc(page.also)}</p>
     ${grouped}
-    <p><a href="/interactions/">Check a different combination</a></p>
+    <p><a href="/interactions/">All interaction guides</a></p>
   `;
   fs.writeFileSync(path.join(outDir, page.slug + '.html'), head({
     file: page.slug + '.html',
@@ -254,21 +234,20 @@ let detail = fs.readFileSync(detailPath, 'utf8');
 const block = '/* SS_IX_SLUGS_BEGIN */\n  var SS_IX_SLUGS = ' +
   JSON.stringify(Object.fromEntries([...slugs].sort().map((s) => [s, 1]))) +
   ';\n  /* SS_IX_SLUGS_END */';
-if (!detail.includes('/* SS_IX_SLUGS_BEGIN */')) throw new Error('slug marker missing');
-detail = detail.replace(/\/\* SS_IX_SLUGS_BEGIN \*\/[\s\S]*?\/\* SS_IX_SLUGS_END \*\//, block);
-fs.writeFileSync(detailPath, detail);
+if (detail.includes('/* SS_IX_SLUGS_BEGIN */')) {
+  detail = detail.replace(/\/\* SS_IX_SLUGS_BEGIN \*\/[\s\S]*?\/\* SS_IX_SLUGS_END \*\//, block);
+  fs.writeFileSync(detailPath, detail);
+}
 
 const needle = '<a href="/about.html#transparency">Funding, brand listings, and corrections</a>';
 let linked = 0;
+let skipped = 0;
 for (const slug of slugs) {
   const file = path.join(root, 'supplement', slug + '.html');
   let html = fs.readFileSync(file, 'utf8');
   const href = `<a href="/interactions/#s=${slug}">Cited medication interactions</a>`;
   if (html.includes(href)) { linked++; continue; }
-  if (!html.includes(needle)) {
-    console.warn('no sources block', slug);
-    continue;
-  }
+  if (!html.includes(needle)) { skipped++; continue; }
   html = html.replace(needle, needle + href);
   fs.writeFileSync(file, html);
   linked++;
@@ -292,19 +271,12 @@ if (!indexXml.includes('sitemap-interactions.xml')) {
   fs.writeFileSync(indexPath, indexXml);
 }
 
-const robotsPath = path.join(root, 'robots.txt');
-let robots = fs.readFileSync(robotsPath, 'utf8');
-if (!robots.includes('sitemap-interactions.xml')) {
-  robots = robots.trimEnd() + '\nSitemap: https://supplementscore.org/sitemap-interactions.xml\n';
-  fs.writeFileSync(robotsPath, robots);
-}
-
 const medHub = path.join(root, 'm/index.html');
 let hub = fs.readFileSync(medHub, 'utf8');
-const hubLine = '<p class="hub-lede" style="margin-top:-12px">For a shorter checker limited to pairs we can cite, use the <a href="/interactions/">supplement and medication interaction checker</a>. The medicine pages below are a separate, older set.</p>';
+const hubLine = '<p class="hub-lede" style="margin-top:-12px">For cited supplement interactions by medicine, see the <a href="/interactions/">interaction guides</a>. The medicine pages below are a separate, older set.</p>';
 if (!hub.includes('/interactions/')) {
   hub = hub.replace('</p>\n\n  <div class="hub-grid">', '</p>\n' + hubLine + '\n  <div class="hub-grid">');
   fs.writeFileSync(medHub, hub);
 }
 
-console.log(`pages ${data.pages.length + 1} interactions ${data.interactions.length} supplement links ${linked}`);
+console.log(`pages ${data.pages.length + 1} interactions ${data.interactions.length} supplement links ${linked} skipped ${skipped}`);

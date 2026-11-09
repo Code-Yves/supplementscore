@@ -46,7 +46,12 @@
         // SPA is alternate; static /condition/<slug>.html is the indexable URL
         setNoindex();
       } else {
-        setNoindex(); // bare shell (also robots Disallow)
+        setNoindex();
+        var refresh = document.createElement('meta');
+        refresh.httpEquiv = 'refresh';
+        refresh.content = '0;url=/condition/';
+        document.head.appendChild(refresh);
+        location.replace('/condition/');
       }
     } catch (_) {}
   })();
@@ -143,9 +148,9 @@
   var p = new URLSearchParams(location.search);
   var slug = (p.get('slug') || '').trim();
   var root = document.getElementById('dt-root');
-  if (!slug){ root.innerHTML = '<a class="dt-back" href="index.html">‹ Back</a><h1 class="dt-h1">No condition specified</h1>'; return; }
+  if (!slug){ location.replace('/condition/'); return; }
   var c = window.SS.getCondition(slug);
-  if (!c){ root.innerHTML = '<a class="dt-back" href="search.html">‹ Back to search</a><h1 class="dt-h1">Condition not found</h1><p class="dt-tag">No record for slug "' + escapeHtml(slug) + '".</p>'; return; }
+  if (!c){ location.replace('/search.html?q=' + encodeURIComponent(slug.replace(/-/g, ' '))); return; }
   document.title = c.label + ' — SupplementScore';
 
   var picks = (c.supps || []).map(function(name){
