@@ -181,6 +181,7 @@
     if (path.indexOf('/stack/') === 0) return '/stack/';
     if (path.indexOf('/for/') === 0) return '/';
     if (path.indexOf('/a/') === 0) return '/#research';
+    if (path.indexOf('/interactions/') === 0) return '/interactions/';
     return '/';
   }
 

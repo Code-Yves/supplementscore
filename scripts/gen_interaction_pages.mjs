@@ -64,46 +64,40 @@ function rowsFor(classIds) {
 
 const css = `
     body{background:var(--color-background-primary);color:var(--color-text-primary)}
-    .ix-wrap{max-width:760px;margin:0 auto;padding:28px 18px 72px;line-height:1.6}
-    .ix-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 8px}
-    .ix-wrap h1{font-size:1.7rem;line-height:1.2;margin:0 0 12px}
-    .ix-lede{font-size:1.05rem;margin:0 0 14px}
-    .ix-note{font-size:14.5px;color:var(--color-text-secondary);margin:0 0 16px}
-    .ix-disclaimer{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:14px 16px;margin:0 0 22px}
-    .ix-disclaimer strong{display:block;margin-bottom:4px}
-    .ix-disclaimer p{margin:0;font-size:15px}
-    .ix-meta{font-size:13px;color:var(--color-text-tertiary);margin:0 0 22px}
-    .ix-wrap h2{font-size:1.25rem;margin:28px 0 10px}
-    .ix-card{border:1px solid var(--color-border-tertiary);border-radius:12px;padding:14px 14px 12px;margin:0 0 12px;background:var(--color-background-primary)}
-    .ix-card h3{font-size:1.05rem;line-height:1.35;margin:0 0 8px}
-    .ix-sev{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.02em;margin:0 0 8px;padding:3px 8px;border-radius:999px}
-    .ix-avoid .ix-sev{background:#fee2e2;color:#991b1b}
-    .ix-caution .ix-sev{background:#ffedd5;color:#9a3412}
-    .ix-separate .ix-sev{background:#e0f2fe;color:#075985}
-    .ix-labs .ix-sev{background:#ede9fe;color:#5b21b6}
-    .ix-monitor .ix-sev{background:#ccfbf1;color:#115e59}
-    .ix-supps{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-    .ix-supps a,.ix-links a{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--color-background-secondary);text-decoration:none}
-    .ix-sources{margin:8px 0 0 18px;padding:0;font-size:14px}
-    .ix-sources li{margin:0 0 4px}
+    .ix-page{max-width:680px;margin:0 auto;padding:16px 16px 32px;line-height:1.6;font-size:16px;box-sizing:border-box}
+    .ix-warn{margin:0 0 16px;padding:8px 16px;border-left:4px solid var(--color-brand);background:var(--color-warn-bg);color:var(--color-warn-text-strong);font-size:16px;line-height:1.4}
+    .ix-lede,.ix-note,.ix-card p,.ix-sources{font-size:16px;line-height:1.6;color:var(--color-text-primary)}
+    .ix-lede{margin:0 0 16px;max-width:680px}
+    .ix-note{margin:0 0 16px;color:var(--color-text-secondary);max-width:680px}
+    .ix-page h2{font-size:1.25rem;margin:24px 0 8px}
+    .ix-card{border:1px solid var(--color-border-tertiary);padding:16px;margin:0 0 16px;background:var(--color-background-primary);max-width:680px}
+    .ix-card h3{font-size:1.125rem;line-height:1.35;margin:0 0 8px}
+    .ix-sev{display:block;margin:0 0 8px;font-size:16px;font-weight:700;line-height:1.4;color:var(--color-brand);background:none;border:0;padding:0}
+    .ix-supps{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0}
+    .ix-supps a{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;color:var(--color-brand);background:none;border-radius:0;text-decoration:underline;text-underline-offset:4px;font-size:16px}
+    .ix-supps a:hover,.ix-supps a:focus-visible{color:var(--color-brand-hover, #0f4a41)}
+    .ix-supps a:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+    .ix-sources{margin:8px 0 0 16px;padding:0}
+    .ix-sources li{margin:0 0 8px}
     .ix-kind{color:var(--color-text-tertiary)}
     .ix-links{display:flex;flex-direction:column;gap:8px;margin:8px 0 0}
-    .ix-links a{border-radius:10px}
-    .ix-check{border-top:1px solid var(--color-border-tertiary);padding-top:8px}
-    .ix-cols{display:grid;grid-template-columns:1fr;gap:16px}
-    @media(min-width:760px){.ix-cols{grid-template-columns:1fr 1fr}}
-    .ix-check label{display:block;font-weight:650;margin-bottom:6px}
-    .ix-check input{width:100%;font-size:16px;padding:12px 12px;border-radius:10px;border:1px solid var(--color-border-tertiary);background:var(--color-background-primary);color:inherit}
-    .ix-picks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;max-height:280px;overflow:auto}
-    .ix-picks button{font:inherit;font-size:14px;min-height:44px;padding:8px 12px;border-radius:999px;border:1px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:inherit}
-    .ix-picks button.on{background:#115e59;color:#fff;border-color:#115e59}
-    .ix-selected{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
-    .ix-chip,.ix-clear{font:inherit;min-height:44px;padding:8px 12px;border-radius:999px;border:1px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:inherit}
-    .ix-hit{outline:2px solid #115e59}
-    .ix-none,.ix-prompt,.ix-empty{font-size:15px}
-    .ix-results-h{margin-top:8px}
-    .ix-wrap a{color:var(--color-text-primary)}
-    .ix-disclaimer a{color:inherit}
+    .ix-links a{display:block;padding:16px;min-height:44px;border:1px solid var(--color-border-tertiary);border-radius:0;background:var(--color-background-secondary);color:var(--color-text-primary);text-decoration:none}
+    .ix-links a:hover{color:var(--color-brand);border-color:var(--color-brand)}
+    .ix-links a:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;color:var(--color-brand)}
+    .site-nav{margin:0;width:100%}
+    html.rc-chrome-active main.ix-page.ar-wrap .ar-column{max-width:680px;font-size:16px}
+    @media (min-width:768px){
+      .ix-page{font-size:18px;padding:24px 24px 32px}
+      .ix-lede,.ix-note,.ix-card p,.ix-sources{font-size:18px}
+      html.rc-chrome-active main.ix-page.ar-wrap .ar-column,
+      html.rc-chrome-active main.ix-page.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:18px}
+    }
+    @media (max-width:767px){
+      html.rc-chrome-active main.ix-page.ar-wrap .ar-column p:not(.ar-kicker):not(.ar-byline){font-size:16px}
+    }
+    @media (max-width:600px){
+      body:has(main.ix-page){padding-top:0 !important}
+    }
 `;
 
 function head(opts) {
@@ -147,20 +141,20 @@ function head(opts) {
   <style>${css}</style>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://formspree.io; base-uri 'self'; form-action 'self' https://formspree.io;">
   <script type="application/ld+json">
+  ${JSON.stringify({ "@context": "https://schema.org", "@type": "Article", "headline": opts.h1, "articleSection": "Interactions", "dateModified": data.updated, "author": { "@type": "Organization", "name": "SupplementScore team" } })}
+  </script>
+  <script type="application/ld+json">
   ${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: crumbs })}
   </script>
+  <script src="/_site-ux.js?v=design3" defer></script>
+  <script src="/_research-chrome.js?v=design3" defer></script>
 </head>
 <body>
-<main class="ix-wrap">
-  <p class="ix-kicker">${esc(opts.kicker)}</p>
+<main class="ar-wrap ix-page">
   <h1>${esc(opts.h1)}</h1>
-  <div class="ix-disclaimer" role="note">
-    <strong>Talk to a pharmacist before you change anything.</strong>
-    <p>This is an educational list of interactions tied to a public source. It is not a complete medication review and it is not medical advice. Ask a pharmacist, or the clinician who prescribes the medicine, before you start, stop, or change a supplement. A pair that is missing here is not a safety clearance. SupplementScore takes no ads, sponsorships, or affiliate income. <a href="/about.html#transparency">How this site is funded</a>.</p>
-  </div>
-  <p class="ix-lede">${esc(opts.lede)}</p>
+  <p class="ix-warn">Ask a pharmacist before you change a supplement.</p>
+  ${opts.lede ? `<p class="ix-lede">${esc(opts.lede)}</p>` : ''}
   ${opts.note ? `<p class="ix-note">${esc(opts.note)}</p>` : ''}
-  <p class="ix-meta">Last reviewed <time datetime="${data.updated}">15 October 2026</time> · <a href="/about.html#transparency">SupplementScore team</a></p>
   ${opts.body}
 </main>
 ${footer}
@@ -175,19 +169,18 @@ const pageLinks = data.pages.map((p) =>
 
 const indexBody = `
   <h2>Guides by medicine</h2>
-  <p>Each page is a cited list you can read without running a script. Pick the medicine, then read the pairs we can tie to NIH ODS, NCCIH, a regulator page, or a peer-reviewed review.</p>
   <div class="ix-links">${pageLinks}</div>
 `;
 
 fs.writeFileSync(path.join(outDir, 'index.html'), head({
   file: 'index.html',
   title: 'Supplement and medication interaction guides — SupplementScore',
-  description: 'Cited interactions between supplements and common medicines: warfarin, SSRIs, statins, thyroid medicine, diabetes drugs, blood pressure pills, birth control, and immunosuppressants. Talk to a pharmacist. No ads.',
+  description: 'Cited pairs for common medicines. Warfarin, SSRIs, statins, thyroid medicine, diabetes drugs, blood pressure, birth control, and immunosuppressants.',
   crumb: 'Interaction guides',
   kicker: 'No ads · cited pairs only',
-  h1: 'Supplement and medication interaction guides',
-  lede: 'Each guide lists only pairs we can tie to a public source. A missing pair is not a safety clearance. Talk to a pharmacist before you change a supplement.',
-  note: 'These pages do not send the medicine you are reading about to us.',
+  h1: 'Interaction guides',
+  lede: '',
+  note: '',
   body: indexBody
 }));
 
