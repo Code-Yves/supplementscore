@@ -98,6 +98,8 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
         statsGap: lr && sr ? sr.left - lr.right : null,
         inHeader: !!(el && el.closest('header, [role="banner"]')),
         inBar: !!(el && el.closest('.beta-bar, .ss-pagebar')),
+        inTrustStrip: !!(el && el.closest('.beta-bar')),
+        betaCy: barRect ? barRect.top + barRect.height / 2 : null,
       };
     });
   }
@@ -107,14 +109,21 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
     expect(box.text, path).toBe('Independent · No industry funding');
     expect(box.height, path).toBeGreaterThanOrEqual(31);
     expect(box.height, path).toBeLessThanOrEqual(33);
-    expect(Math.abs(box.cy - box.rowCy), path).toBeLessThanOrEqual(2);
-    if (box.afterBrand !== null) {
-      expect(box.afterBrand, path).toBeGreaterThanOrEqual(20);
-      expect(box.afterBrand, path).toBeLessThanOrEqual(24);
-      expect(Math.abs(box.brandLeft - home.left), path).toBeLessThanOrEqual(2);
+    // The homepage trust line stays in the strip under the nav bar.
+    // Inner pages place it in the bar, 22px after the wordmark.
+    if (box.inTrustStrip) {
+      expect(Math.abs(box.cy - box.betaCy), path + ' trust strip').toBeLessThanOrEqual(2);
+      expect(Math.abs(box.brandLeft - box.left), path + ' column').toBeLessThanOrEqual(2);
     } else {
-      expect(Math.abs(box.left - home.left), path).toBeLessThanOrEqual(2);
-      expect(box.inHeader || box.inBar, path).toBe(true);
+      expect(Math.abs(box.cy - box.rowCy), path).toBeLessThanOrEqual(2);
+      if (box.afterBrand !== null) {
+        expect(box.afterBrand, path).toBeGreaterThanOrEqual(20);
+        expect(box.afterBrand, path).toBeLessThanOrEqual(24);
+        expect(Math.abs(box.brandLeft - home.left), path).toBeLessThanOrEqual(2);
+      } else {
+        expect(Math.abs(box.left - home.left), path).toBeLessThanOrEqual(2);
+        expect(box.inHeader || box.inBar, path).toBe(true);
+      }
     }
     if (box.statsGap !== null) expect(box.statsGap, path).toBeGreaterThanOrEqual(16);
   }
@@ -129,9 +138,15 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
   await page.waitForSelector('#research-view .rh-mast h1');
   const research = await labelBox();
   expectColumn(research, home, '/#research');
-  const researchBar = await page.evaluate(() => document.querySelector('.beta-bar').getBoundingClientRect().top);
-  expect(researchBar).toBeGreaterThanOrEqual(19);
-  expect(researchBar).toBeLessThanOrEqual(21);
+  const researchBar = await page.evaluate(() => {
+    const beta = document.querySelector('.beta-bar').getBoundingClientRect();
+    const nav = document.querySelector('header.ss-pagebar').getBoundingClientRect();
+    return { gap: beta.top - nav.bottom };
+  });
+  // The strip used to sit 20px from the viewport. It now sits in that
+  // same gap directly under the nav bar, and the two do not overlap.
+  expect(researchBar.gap).toBeGreaterThanOrEqual(12);
+  expect(researchBar.gap).toBeLessThanOrEqual(20);
 
   const paths = [
     '/a/berberine-is-it-really-nature-s-ozempic.html',
@@ -165,7 +180,10 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
   await page.waitForSelector('a.rc-close');
   await page.waitForTimeout(150);
   const articleNarrow = await labelBox();
-  expect(Math.abs(articleNarrow.left - homeNarrow.left)).toBeLessThanOrEqual(2);
+  // The wordmark owns the column edge. The trust text sits 22px after it,
+  // so the shared edge is the wordmark, not the text.
+  const articleEdge = articleNarrow.inTrustStrip ? articleNarrow.left : articleNarrow.brandLeft;
+  expect(Math.abs(articleEdge - homeNarrow.left)).toBeLessThanOrEqual(2);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await goto(page, '/');
@@ -283,12 +301,16 @@ test('the homepage title keeps its offset from main', async ({ page }, testInfo)
   const home = await page.evaluate(() => {
     const h1 = document.querySelector('.ix-hero h1');
     const main = document.querySelector('main');
+    const bar = document.querySelector('header.ss-pagebar');
     return {
       top: h1.getBoundingClientRect().top,
       pad: parseFloat(getComputedStyle(main).paddingTop) || 0,
+      barH: bar ? bar.getBoundingClientRect().height : 0,
     };
   });
-  expect(Math.abs(home.top - 64)).toBeLessThanOrEqual(2);
+  // 64px is the title's offset from the top of the page content. The nav
+  // bar is in normal flow, so that same offset now starts below the bar.
+  expect(Math.abs(home.top - (64 + home.barH))).toBeLessThanOrEqual(2);
   expect(home.pad).toBeLessThan(8);
 
   await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
