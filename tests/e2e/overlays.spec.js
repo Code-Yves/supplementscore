@@ -197,15 +197,21 @@ test('refresh keeps a supplement deep link and an about hash', async ({ page }) 
 
 test('close controls share one round ×', async ({ page }) => {
   await goto(page, '/about.html');
-  expectRound(await roundClose(page, 'a.ss-pagebar-x'), 'about');
+  const about = await roundClose(page, 'a.ss-pagebar-x');
+  expect(about.w, 'about width').toBeGreaterThanOrEqual(44);
+  expect(about.h, 'about height').toBeGreaterThanOrEqual(44);
+  expect(about.radius, 'about square').toBeLessThan(4);
 
   await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
   await page.waitForSelector('a.rc-close svg');
   expectRound(await roundClose(page, 'a.rc-close'), 'article');
 
   await goto(page, '/supplement/l-theanine.html');
-  await page.waitForSelector('a.pg-close-fab.ss-x');
-  expectRound(await roundClose(page, 'a.pg-close-fab'), 'supplement');
+  await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
+  const supplement = await roundClose(page, 'header.ss-pagebar a.ss-pagebar-x');
+  expect(supplement.w, 'supplement width').toBeGreaterThanOrEqual(44);
+  expect(supplement.h, 'supplement height').toBeGreaterThanOrEqual(44);
+  expect(supplement.radius, 'supplement square').toBeLessThan(4);
 
   await goto(page, '/');
   await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
@@ -217,6 +223,18 @@ test('close controls share one round ×', async ({ page }) => {
   await openSupplement(page);
   expectRound(await roundClose(page, '.ssm-x'), 'supplement modal');
 });
+
+async function expectDisc(page, selector, label) {
+  await page.waitForSelector(selector);
+  const box = await page.locator(selector).evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    return { w: rect.width, h: rect.height };
+  });
+  expect(box.w, label + ' width').toBeGreaterThanOrEqual(44);
+  expect(box.w, label + ' width').toBeLessThan(44.01);
+  expect(box.h, label + ' height').toBeGreaterThanOrEqual(44);
+  expect(box.h, label + ' height').toBeLessThan(44.01);
+}
 
 function contrast(fg, bg) {
   function lin(channel) {
@@ -275,15 +293,30 @@ function expectCorner(box, label) {
 
 test('phone close controls are 44px and share one corner', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'iphone', 'phone corner');
-  const targets = [
-    ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x'],
-    ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x'],
-  ];
-  for (const [path, selector] of targets) {
-    await goto(page, path);
-    await page.waitForSelector(selector);
-    expectCorner(await cornerBox(page, selector), path);
-  }
+  await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
+  await page.waitForSelector('a.rc-close.ss-x');
+  const article = await page.evaluate(() => {
+    function box(sel) {
+      const el = document.querySelector(sel);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      const s = getComputedStyle(el);
+      return { top: r.top, bottom: r.bottom, w: r.width, h: r.height, shown: s.display !== 'none' && r.width > 2 };
+    }
+    return {
+      bar: box('header.ss-pagebar'),
+      barX: box('header.ss-pagebar a.ss-pagebar-x'),
+      close: box('a.rc-close.ss-x'),
+    };
+  });
+  expect(article.barX.shown, 'bar close hidden when the article has its own').toBe(false);
+  expect(article.close.w).toBeGreaterThanOrEqual(44);
+  expect(article.close.w).toBeLessThan(44.01);
+  expect(article.close.h).toBeGreaterThanOrEqual(44);
+  expect(article.close.h).toBeLessThan(44.01);
+  expect(article.close.top).toBeGreaterThanOrEqual(article.bar.bottom - 1);
+  await goto(page, '/supplement/l-theanine.html');
+  await expectDisc(page, 'header.ss-pagebar a.ss-pagebar-x', 'supplement');
   await openSupplement(page);
   await page.waitForSelector('.ssm-x.ss-x');
   const modal = await cornerBox(page, '.ssm-x');
@@ -345,11 +378,25 @@ function expectPanelCorner(box, label) {
 
 test('desktop close controls sit 16px inside the panel they close', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'desktop panel corner');
+  await goto(page, '/about.html');
+  await page.waitForSelector('main.ab-wrap');
+  await page.waitForSelector('a.ss-pagebar-x');
+  const about = await page.evaluate(() => {
+    const close = document.querySelector('a.ss-pagebar-x').getBoundingClientRect();
+    const col = document.querySelector('main.ab-wrap').getBoundingClientRect();
+    const bar = document.querySelector('header.ss-pagebar').getBoundingClientRect();
+    return {
+      w: close.width,
+      h: close.height,
+      topGap: close.top - bar.top,
+      rightGap: col.right - close.right,
+    };
+  });
+  expectPanelCorner(about, '/about.html column');
   const targets = [
-    ['/about.html', 'a.ss-pagebar-x', '.ss-pagebar-inner'],
     ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x', 'main.det-wrap'],
     ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x', '.ar-column'],
-    ['/for/menopause.html', 'a.reader-close-fab.ss-x', 'main'],
+    ['/for/menopause.html', 'a.rc-close.ss-x', '.ar-column'],
   ];
   for (const [path, closeSel, panelSel] of targets) {
     await goto(page, path);
@@ -369,13 +416,13 @@ test('desktop close controls sit 16px inside the panel they close', async ({ pag
 
 test('supplement close is inside a landmark and the open card does not repeat one', async ({ page }) => {
   await goto(page, '/supplement/l-theanine.html');
-  await page.waitForSelector('nav.ss-page-actions a.pg-close-fab');
+  await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
   const landmark = await page.evaluate(() => {
-    const close = document.querySelector('a.pg-close-fab');
-    const nav = close.closest('nav');
-    return nav ? nav.getAttribute('aria-label') : '';
+    const close = document.querySelector('header.ss-pagebar a.ss-pagebar-x');
+    const header = close && close.closest('header');
+    return header ? header.tagName : '';
   });
-  expect(landmark).toBe('Page');
+  expect(landmark).toBe('HEADER');
 
   await openSupplement(page);
   const frame = await page.frameLocator('iframe.ssm-frame').locator('body').evaluate(() => {

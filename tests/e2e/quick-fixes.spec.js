@@ -112,7 +112,9 @@ test('prescription tags are not labelled Synergy', async ({ page }) => {
   expect(tags).not.toContain('Synergy');
   expect(tags).toContain('Possible benefit (low evidence)');
   await expect(page.locator('.det-med-note')).toContainText('No known conflict');
-  expect(['Avoid', 'Caution']).toContain(tags[0]);
+  // The fluoroquinolone row is dose timing. Main already labels it
+  // Separate doses; Avoid and Caution are the other severity tags.
+  expect(['Avoid', 'Caution', 'Separate doses']).toContain(tags[0]);
 });
 
 test('kids multivitamin does not use the adult card', async ({ page }) => {

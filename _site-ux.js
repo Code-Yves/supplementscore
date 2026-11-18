@@ -8,35 +8,28 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
-  /* One trust line, desktop only, at the left of the 1024px column.
-     The homepage already has it in the stats bar. Other pages get the
-     same element: inside a page bar, or on the body when the page has
-     neither. Never the footer, a menu, or a second copy. */
+  /* One trust line, desktop only. The homepage keeps it in the stats
+     bar. Inner pages keep it out of the nav row so it cannot push the
+     links over the search field. */
   (function placeTrustLine(){
     var LABEL = 'Independent · No industry funding';
     function ensure(){
       if (!document.body || document.body.classList.contains('is-modal')) return null;
       var el = document.querySelector('.ss-np');
+      if (document.body.classList.contains('ss-home')) return el;
       if (!el) {
         el = document.createElement('span');
         el.className = 'ss-np';
         el.textContent = LABEL;
-        var pagebar = document.querySelector('.ss-pagebar-inner');
-        if (pagebar) {
-          var brand = pagebar.querySelector('.ss-pagebar-brand');
-          if (brand) brand.insertAdjacentElement('afterend', el);
-          else pagebar.insertBefore(el, pagebar.firstChild);
-        } else {
-          var banner = document.createElement('header');
-          banner.className = 'ss-np-banner';
-          banner.appendChild(el);
-          document.body.insertBefore(banner, document.body.firstChild);
-        }
-      } else if (el.parentElement === document.body) {
-        var wrap = document.createElement('header');
-        wrap.className = 'ss-np-banner';
-        el.parentElement.insertBefore(wrap, el);
-        wrap.appendChild(el);
+      }
+      if (el.closest('.ss-pagebar') && el.parentNode) el.parentNode.removeChild(el);
+      var banner = el.closest('header.ss-np-banner');
+      if (!banner) {
+        banner = document.createElement('header');
+        banner.className = 'ss-np-banner';
+        banner.setAttribute('aria-hidden', 'true');
+        banner.appendChild(el);
+        document.body.insertBefore(banner, document.body.firstChild);
       }
       return el;
     }
@@ -61,14 +54,210 @@
       }
       return 38;
     }
+    function barParts(){
+      return {
+        inner: document.querySelector('.ss-pagebar-inner'),
+        bar: document.querySelector('header.ss-pagebar'),
+        close: document.querySelector('header.ss-pagebar a.ss-pagebar-x'),
+        search: document.querySelector('.ss-pagebar-search'),
+        nav: document.querySelector('.ss-pagebar-nav')
+      };
+    }
+    function resetSearchPin(parts){
+      if (parts.close) parts.close.style.removeProperty('right');
+      if (parts.bar) parts.bar.classList.remove('ss-search-icon');
+      if (parts.search) {
+        ['margin-left','margin-right','flex','width','min-width','max-width','position','left','right','top','transform','z-index'].forEach(function(prop){
+          parts.search.style.removeProperty(prop);
+        });
+      }
+      if (parts.nav) parts.nav.style.removeProperty('gap');
+    }
+    /* From 1025px the row is links, 32px, a 200px field, 16px, then the ×.
+       The × stays 16px inside the page column. Narrower widths keep the
+       layout they already have. */
+    function placeWideSearch(){
+      if (document.body.classList.contains('ss-home')) return;
+      if (!window.matchMedia('(min-width:1025px)').matches) return;
+      var parts = barParts();
+      var inner = parts.inner;
+      var close = parts.close;
+      var search = parts.search;
+      var nav = parts.nav;
+      var column = document.querySelector('main');
+      if (!inner || !close || !search || !column) return;
+      if (getComputedStyle(search).display === 'none' && !parts.bar.classList.contains('ss-search-icon')) return;
+      resetSearchPin(parts);
+      var col = column.getBoundingClientRect();
+      var innerBox = inner.getBoundingClientRect();
+      var closeRight = col.right - 16;
+      var closeLeft = closeRight - 44;
+      var searchRight = closeLeft - 16;
+      var searchLeft = searchRight - 200;
+      close.style.setProperty('right', (innerBox.right - closeRight) + 'px', 'important');
+      search.style.position = 'absolute';
+      search.style.left = (searchLeft - innerBox.left) + 'px';
+      search.style.top = '50%';
+      search.style.transform = 'translateY(-50%)';
+      search.style.marginLeft = '0';
+      search.style.marginRight = '0';
+      search.style.flex = 'none';
+      search.style.width = '200px';
+      search.style.minWidth = '200px';
+      search.style.maxWidth = '200px';
+      search.style.zIndex = '1';
+      if (!nav || nav.getBoundingClientRect().width < 2) return;
+      var navRight = nav.getBoundingClientRect().right;
+      var overflow = navRight - (searchLeft - 32);
+      if (overflow <= 0.5) return;
+      var pad = parseFloat(getComputedStyle(inner).paddingLeft) || 0;
+      inner.style.paddingLeft = Math.max(0, pad - overflow) + 'px';
+      var banner = document.querySelector('header.ss-np-banner');
+      if (!banner) return;
+      if (banner.style.left && banner.style.left !== '0px') {
+        banner.style.left = ((parseFloat(banner.style.left) || 0) - overflow) + 'px';
+      }
+      if (banner.style.paddingLeft) {
+        banner.style.paddingLeft = Math.max(0, (parseFloat(banner.style.paddingLeft) || 0) - overflow) + 'px';
+      }
+    }
+    function alignBarToTitle(){
+      var parts = barParts();
+      var inner = parts.inner;
+      if (!inner || document.body.classList.contains('ss-home')) return;
+      if (window.matchMedia('(max-width:768px)').matches) {
+        inner.style.paddingLeft = '';
+        resetSearchPin(parts);
+        return;
+      }
+      var title = document.querySelector('main h1, .bro-wrap h1, .hub-wrap h1, .art-wrap h1');
+      if (title) {
+        var left = title.getBoundingClientRect().left;
+        if (left >= 8) inner.style.paddingLeft = Math.round(left) + 'px';
+      }
+      if (window.matchMedia('(min-width:1025px)').matches) return;
+      /* 769–1024. The × stays 16px inside the column. Search moves
+         beside it instead of sliding underneath. */
+      var close = parts.close;
+      var search = parts.search;
+      var nav = parts.nav;
+      var bar = parts.bar;
+      if (!close || !bar) return;
+      resetSearchPin(parts);
+      var column = document.querySelector('main');
+      if (!column) return;
+      var col = column.getBoundingClientRect();
+      var innerBox = inner.getBoundingClientRect();
+      var inset = innerBox.right - (col.right - 16);
+      if (inset < 16) inset = 16;
+      close.style.setProperty('right', Math.round(inset) + 'px', 'important');
+      var closeLeft = col.right - 16 - 44;
+      var closeRight = col.right - 16;
+      var GAP = 8;
+      if (nav && nav.getBoundingClientRect().width > 2) {
+        var navBox = nav.getBoundingClientRect();
+        if (navBox.right > closeLeft - GAP) {
+          var overflow = navBox.right - (closeLeft - GAP);
+          var gaps = Math.max(1, nav.querySelectorAll('a').length - 1);
+          var current = parseFloat(getComputedStyle(nav).gap) || 16;
+          nav.style.gap = Math.max(8, current - Math.ceil(overflow / gaps)) + 'px';
+        }
+      }
+      if (!search || getComputedStyle(search).display === 'none') return;
+      var searchBox = search.getBoundingClientRect();
+      if (searchBox.width < 2) return;
+      var hitsClose = searchBox.left < closeRight && searchBox.right > closeLeft;
+      if (!hitsClose) return;
+      var roomRight = innerBox.right - 16 - (closeRight + GAP);
+      if (roomRight >= 96) {
+        var width = Math.min(200, Math.floor(roomRight));
+        var shift = (closeRight + GAP) - searchBox.left;
+        var margin = (parseFloat(getComputedStyle(search).marginLeft) || 0) + shift;
+        search.style.marginLeft = Math.round(margin) + 'px';
+        search.style.flex = '0 0 ' + width + 'px';
+        search.style.width = width + 'px';
+        search.style.minWidth = width + 'px';
+        search.style.maxWidth = width + 'px';
+        return;
+      }
+      var roomLeft = Math.floor(closeLeft - GAP - searchBox.left);
+      if (roomLeft >= 96) {
+        search.style.flex = '0 0 ' + roomLeft + 'px';
+        search.style.width = roomLeft + 'px';
+        search.style.minWidth = '0';
+        search.style.maxWidth = roomLeft + 'px';
+        return;
+      }
+      bar.classList.add('ss-search-icon');
+    }
+    function measureBar(){
+      var bar = document.querySelector('header.ss-pagebar');
+      if (!bar) return;
+      var h = Math.round(bar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--ss-bar-h', h + 'px');
+      document.body.style.setProperty('--ss-bar-h', h + 'px');
+    }
     function align(){
+      alignBarToTitle();
+      measureBar();
       var el = ensure();
       if (!el) return;
       var w = el.getBoundingClientRect().width;
       if (w > 40) document.documentElement.style.setProperty('--ss-np-pad', Math.ceil(24 + w + 20) + 'px');
-      if (el.closest('.beta-bar, .ss-pagebar')) return;
+      if (el.closest('.beta-bar')) return;
+      var nav = document.querySelector('.ss-pagebar-nav');
+      if (nav) nav.style.marginLeft = '';
       if (!window.matchMedia('(min-width:1024px)').matches) return;
       var banner = el.closest('header.ss-np-banner') || el;
+      var bar = document.querySelector('header.ss-pagebar');
+      var brand = document.querySelector('.ss-pagebar-brand');
+      if (bar && brand && w > 40) {
+        var brandBox = brand.getBoundingClientRect();
+        var barBox = bar.getBoundingClientRect();
+        var navW = nav ? nav.scrollWidth : 0;
+        var need = brandBox.right + 22 + w + 24 + navW + 16 + 200 + 76;
+        var fits = need <= document.documentElement.clientWidth;
+        banner.style.height = '32px';
+        banner.style.display = 'flex';
+        banner.style.pointerEvents = 'none';
+        if (fits) {
+          if (document.body.firstChild !== banner) document.body.insertBefore(banner, document.body.firstChild);
+          banner.style.position = 'absolute';
+          banner.style.margin = '0';
+          banner.style.paddingLeft = '0';
+          banner.style.width = 'auto';
+          banner.style.left = (brandBox.right + 22) + 'px';
+          banner.style.top = (barBox.top + (barBox.height - 32) / 2 + window.scrollY) + 'px';
+          banner.style.zIndex = '45';
+          if (nav) nav.style.marginLeft = (22 + w + 24) + 'px';
+        } else {
+          /* In the document flow, under the bar, so it cannot cover the
+             article toolbar or the title. Absolute placement did. */
+          if (banner.previousElementSibling !== bar) bar.parentNode.insertBefore(banner, bar.nextSibling);
+          banner.style.position = 'relative';
+          banner.style.left = '0';
+          banner.style.top = '0';
+          banner.style.margin = '8px 0 0';
+          banner.style.paddingLeft = Math.round(brandBox.left) + 'px';
+          banner.style.width = '100%';
+          banner.style.boxSizing = 'border-box';
+          banner.style.zIndex = '1';
+        }
+        /* The supplement × is pinned 16px under a 77px bar. A trust line
+           in the flow drops the panel, so the × has to drop with it. */
+        var drop = 0;
+        if (!fits) {
+          var br = banner.getBoundingClientRect();
+          drop = Math.round(br.top - barBox.bottom + br.height);
+        }
+        var pinned = document.querySelectorAll('a.pg-close-fab, .pg-share-fab');
+        for (var pi = 0; pi < pinned.length; pi++) {
+          if (drop > 8) pinned[pi].style.setProperty('top', (Math.round(barBox.height) + drop + 16) + 'px', 'important');
+          else pinned[pi].style.removeProperty('top');
+        }
+        placeWideSearch();
+        return;
+      }
       var parent = banner.offsetParent || document.documentElement;
       var pr = parent.getBoundingClientRect();
       var border = parseFloat(getComputedStyle(parent).borderLeftWidth) || 0;
@@ -77,6 +266,7 @@
       var parentTop = pr.top + window.scrollY;
       banner.style.top = (rowCenter() - h / 2 - parentTop) + 'px';
       banner.style.height = h + 'px';
+      placeWideSearch();
     }
     window.addEventListener('resize', align);
     window.addEventListener('load', align);
@@ -84,7 +274,7 @@
     var timer = setInterval(function(){
       tries++;
       align();
-      if (document.querySelector('a.rc-close') || tries > 20) clearInterval(timer);
+      if (tries > 30) clearInterval(timer);
     }, 100);
     setTimeout(align, 0);
   })();
@@ -338,6 +528,7 @@
   }
   document.addEventListener('keydown', function(ev){
     if (ev.key !== 'Escape' || ev.defaultPrevented) return;
+    if (ev.target && ev.target.closest && ev.target.closest('.ss-pagebar-search, .ss-pagebar-search-btn')) return;
     if (document.querySelector('.cdd-menu.open, .cdd-open')) return;
     var src = document.getElementById('sources-modal');
     if (src && src.classList.contains('open')) {
@@ -527,14 +718,14 @@
   + '.ss-x svg{width:18px !important;height:18px !important;display:block !important;flex:none}'
   + 'body:has(main.det-wrap)>a.ss-x.pg-close-fab svg{width:18px !important;height:18px !important}'
   + 'html.rc-chrome-active a.ss-x.reader-close-fab,html.rc-chrome-active a.ss-x.pg-close-fab{display:none !important}'
-  + 'body:has(.ss-pagebar) a.ss-x.pg-close-fab,body:has(.ss-pagebar) a.ss-x.hub-close-fab,'
+  + 'body:has(.ss-pagebar) a.ss-x.hub-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.bro-close-fab,body:has(.ss-pagebar) a.ss-x.cmp-close-fab,'
   + 'body:has(.ss-pagebar) a.ss-x.d-close-fab{display:none !important}'
     /* Desktop: every × sits 16px inside the top-right of the panel it closes.
        A viewport right:16px lands outside a centered column once the scrollbar
        gutter is counted. Phone rules below keep the viewport corner. */
   + '@media(min-width:769px){'
-  +   '.ss-pagebar-inner{position:relative;min-height:76px;padding:16px 76px 16px 16px;box-sizing:border-box}'
+  +   'header.ss-pagebar>.ss-pagebar-inner{position:relative !important;min-height:76px;padding:16px 76px 16px 16px;box-sizing:border-box}'
   +   'a.ss-pagebar-x{position:absolute !important;top:16px !important;right:16px !important;z-index:2}'
   +   'html.rc-chrome-active .ar-column,html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,'
   +   'html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{position:relative}'
@@ -550,6 +741,9 @@
   +   'body:has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{'
   +     'position:absolute !important;top:16px !important;right:68px !important;pointer-events:auto}'
   +   'body:has(main.det-wrap):not(.is-modal)>main.det-wrap{padding-top:72px}'
+  +   'body:has(.ss-pagebar):has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>a.ss-x.pg-close-fab,'
+  +   'body:has(.ss-pagebar):has(main.det-wrap):not(.is-modal)>nav.ss-page-actions>.pg-share-fab{top:93px !important}'
+  +   'body:has(.ss-pagebar):has(main.det-wrap):not(.is-modal)>main.det-wrap{padding-top:96px}'
   +   '.src-modal-panel,.art-modal-pane{position:relative}'
   +   '.src-modal-head,.art-modal-chrome{position:relative;padding-right:76px}'
   +   '.src-modal-close,.art-modal-close{position:absolute !important;top:16px !important;right:16px !important;z-index:3}'
@@ -565,8 +759,8 @@
   +   'header.ss-np-banner{display:flex;align-items:center;position:absolute;z-index:30;height:32px;margin:0;padding:0;border:0;background:transparent;pointer-events:none}'
   +   'header.ss-np-banner>.ss-np{display:inline-flex;position:static;height:32px;align-items:center}'
   +   'html.rc-chrome-active .ar-toc{padding-top:64px;box-sizing:border-box}'
-  +   '.ss-pagebar-inner{justify-content:flex-start;gap:0;padding-left:24px}'
-  +   '.ss-pagebar-inner>.ss-np{position:static;height:32px;margin:0 0 0 22px;transform:none}'
+  +   '.ss-pagebar-inner{justify-content:flex-start;gap:16px}'
+  +   '.ss-pagebar-inner>.ss-np{position:absolute !important;margin:0 !important}'
   + '}'
   + 'body.is-modal .ss-np{display:none !important}'
     /* Phone: every corner × sits 8px from the top and 16px from the right. */
@@ -574,6 +768,11 @@
   +   'a.ss-x.pg-close-fab,a.ss-x.reader-close-fab,a.ss-x.hub-close-fab,a.ss-x.d-close-fab,a.ss-x.bro-close-fab,a.ss-x.cmp-close-fab,'
   +   'html:not(.ss-in-iframe) a.ss-x.rc-close{'
   +     'position:fixed !important;top:8px !important;right:16px !important;z-index:80 !important}'
+  +   'body:has(.ss-pagebar) a.ss-x.pg-close-fab{display:none !important}'
+  +   'body:has(.ss-pagebar) .ar-column,body:has(.ss-pagebar) main.ar-wrap,body:has(.ss-pagebar) main.sx-wrap,'
+  +   'body:has(.ss-pagebar) main.ca-wrap,body:has(.ss-pagebar) main.sk-wrap{position:relative}'
+  +   'body:has(.ss-pagebar) a.ss-x.rc-close{'
+  +     'position:absolute !important;top:16px !important;right:16px !important;z-index:5 !important}'
   +   'button.pg-share-fab{top:8px !important;right:68px !important;width:44px !important;height:44px !important;'
   +     'min-width:44px !important;min-height:44px !important;padding:0 !important;border-radius:50% !important}'
   +   'html.rc-chrome-active:not(.ss-in-iframe) main .rc-top{padding-right:68px !important}'
