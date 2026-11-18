@@ -840,9 +840,9 @@ header.ss-np-banner{display:none}
     left:max(40px,calc((100% - 1024px) / 2 + 24px));
   }
   .ss-pagebar-inner>.ss-np{
-    position:static;
+    position:absolute;
     height:32px;
-    margin:0 0 0 22px;
+    margin:0;
     transform:none;
   }
   header.ss-np-banner{

@@ -8,35 +8,28 @@
   if (window.__SS_UX_INIT__) return;
   window.__SS_UX_INIT__ = true;
 
-  /* One trust line, desktop only, at the left of the 1024px column.
-     The homepage already has it in the stats bar. Other pages get the
-     same element: inside a page bar, or on the body when the page has
-     neither. Never the footer, a menu, or a second copy. */
+  /* One trust line, desktop only. The homepage keeps it in the stats
+     bar. Inner pages keep it out of the nav row so it cannot push the
+     links over the search field. */
   (function placeTrustLine(){
     var LABEL = 'Independent · No industry funding';
     function ensure(){
       if (!document.body || document.body.classList.contains('is-modal')) return null;
       var el = document.querySelector('.ss-np');
+      if (document.body.classList.contains('ss-home')) return el;
       if (!el) {
         el = document.createElement('span');
         el.className = 'ss-np';
         el.textContent = LABEL;
-        var pagebar = document.querySelector('.ss-pagebar-inner');
-        if (pagebar) {
-          var brand = pagebar.querySelector('.ss-pagebar-brand');
-          if (brand) brand.insertAdjacentElement('afterend', el);
-          else pagebar.insertBefore(el, pagebar.firstChild);
-        } else {
-          var banner = document.createElement('header');
-          banner.className = 'ss-np-banner';
-          banner.appendChild(el);
-          document.body.insertBefore(banner, document.body.firstChild);
-        }
-      } else if (el.parentElement === document.body) {
-        var wrap = document.createElement('header');
-        wrap.className = 'ss-np-banner';
-        el.parentElement.insertBefore(wrap, el);
-        wrap.appendChild(el);
+      }
+      if (el.closest('.ss-pagebar') && el.parentNode) el.parentNode.removeChild(el);
+      var banner = el.closest('header.ss-np-banner');
+      if (!banner) {
+        banner = document.createElement('header');
+        banner.className = 'ss-np-banner';
+        banner.setAttribute('aria-hidden', 'true');
+        banner.appendChild(el);
+        document.body.insertBefore(banner, document.body.firstChild);
       }
       return el;
     }
@@ -61,14 +54,85 @@
       }
       return 38;
     }
+    function alignBarToTitle(){
+      var inner = document.querySelector('.ss-pagebar-inner');
+      if (!inner || document.body.classList.contains('ss-home')) return;
+      if (window.matchMedia('(max-width:768px)').matches) {
+        inner.style.paddingLeft = '';
+        return;
+      }
+      var title = document.querySelector('main h1, .bro-wrap h1, .hub-wrap h1, .art-wrap h1');
+      if (!title) return;
+      var left = title.getBoundingClientRect().left;
+      if (left >= 8) inner.style.paddingLeft = Math.round(left) + 'px';
+    }
+    function measureBar(){
+      var bar = document.querySelector('header.ss-pagebar');
+      if (!bar) return;
+      var h = Math.round(bar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--ss-bar-h', h + 'px');
+      document.body.style.setProperty('--ss-bar-h', h + 'px');
+    }
     function align(){
+      alignBarToTitle();
+      measureBar();
       var el = ensure();
       if (!el) return;
       var w = el.getBoundingClientRect().width;
       if (w > 40) document.documentElement.style.setProperty('--ss-np-pad', Math.ceil(24 + w + 20) + 'px');
-      if (el.closest('.beta-bar, .ss-pagebar')) return;
+      if (el.closest('.beta-bar')) return;
+      var nav = document.querySelector('.ss-pagebar-nav');
+      if (nav) nav.style.marginLeft = '';
       if (!window.matchMedia('(min-width:1024px)').matches) return;
       var banner = el.closest('header.ss-np-banner') || el;
+      var bar = document.querySelector('header.ss-pagebar');
+      var brand = document.querySelector('.ss-pagebar-brand');
+      if (bar && brand && w > 40) {
+        var brandBox = brand.getBoundingClientRect();
+        var barBox = bar.getBoundingClientRect();
+        var navW = nav ? nav.scrollWidth : 0;
+        var need = brandBox.right + 22 + w + 24 + navW + 16 + 200 + 76;
+        var fits = need <= document.documentElement.clientWidth;
+        banner.style.height = '32px';
+        banner.style.display = 'flex';
+        banner.style.pointerEvents = 'none';
+        if (fits) {
+          if (document.body.firstChild !== banner) document.body.insertBefore(banner, document.body.firstChild);
+          banner.style.position = 'absolute';
+          banner.style.margin = '0';
+          banner.style.paddingLeft = '0';
+          banner.style.width = 'auto';
+          banner.style.left = (brandBox.right + 22) + 'px';
+          banner.style.top = (barBox.top + (barBox.height - 32) / 2 + window.scrollY) + 'px';
+          banner.style.zIndex = '45';
+          if (nav) nav.style.marginLeft = (22 + w + 24) + 'px';
+        } else {
+          /* In the document flow, under the bar, so it cannot cover the
+             article toolbar or the title. Absolute placement did. */
+          if (banner.previousElementSibling !== bar) bar.parentNode.insertBefore(banner, bar.nextSibling);
+          banner.style.position = 'relative';
+          banner.style.left = '0';
+          banner.style.top = '0';
+          banner.style.margin = '8px 0 0';
+          banner.style.paddingLeft = Math.round(brandBox.left) + 'px';
+          banner.style.width = '100%';
+          banner.style.boxSizing = 'border-box';
+          banner.style.zIndex = '1';
+        }
+        /* The supplement × is pinned 16px under a 77px bar. A trust line
+           in the flow drops the panel, so the × has to drop with it. */
+        var drop = 0;
+        if (!fits) {
+          var br = banner.getBoundingClientRect();
+          drop = Math.round(br.top - barBox.bottom + br.height);
+        }
+        var pinned = document.querySelectorAll('a.pg-close-fab, .pg-share-fab');
+        for (var pi = 0; pi < pinned.length; pi++) {
+          if (drop > 8) pinned[pi].style.setProperty('top', (Math.round(barBox.height) + drop + 16) + 'px', 'important');
+          else pinned[pi].style.removeProperty('top');
+        }
+        return;
+      }
       var parent = banner.offsetParent || document.documentElement;
       var pr = parent.getBoundingClientRect();
       var border = parseFloat(getComputedStyle(parent).borderLeftWidth) || 0;
@@ -84,7 +148,7 @@
     var timer = setInterval(function(){
       tries++;
       align();
-      if (document.querySelector('a.rc-close') || tries > 20) clearInterval(timer);
+      if (tries > 30) clearInterval(timer);
     }, 100);
     setTimeout(align, 0);
   })();
@@ -338,6 +402,7 @@
   }
   document.addEventListener('keydown', function(ev){
     if (ev.key !== 'Escape' || ev.defaultPrevented) return;
+    if (ev.target && ev.target.closest && ev.target.closest('.ss-pagebar-search, .ss-pagebar-search-btn')) return;
     if (document.querySelector('.cdd-menu.open, .cdd-open')) return;
     var src = document.getElementById('sources-modal');
     if (src && src.classList.contains('open')) {
@@ -534,7 +599,7 @@
        A viewport right:16px lands outside a centered column once the scrollbar
        gutter is counted. Phone rules below keep the viewport corner. */
   + '@media(min-width:769px){'
-  +   '.ss-pagebar-inner{position:relative;min-height:76px;padding:16px 76px 16px 16px;box-sizing:border-box}'
+  +   'header.ss-pagebar>.ss-pagebar-inner{position:relative !important;min-height:76px;padding:16px 76px 16px 16px;box-sizing:border-box}'
   +   'a.ss-pagebar-x{position:absolute !important;top:16px !important;right:16px !important;z-index:2}'
   +   'html.rc-chrome-active .ar-column,html.rc-chrome-active main.ar-wrap,html.rc-chrome-active main.sx-wrap,'
   +   'html.rc-chrome-active main.ca-wrap,html.rc-chrome-active main.sk-wrap{position:relative}'
@@ -568,8 +633,8 @@
   +   'header.ss-np-banner{display:flex;align-items:center;position:absolute;z-index:30;height:32px;margin:0;padding:0;border:0;background:transparent;pointer-events:none}'
   +   'header.ss-np-banner>.ss-np{display:inline-flex;position:static;height:32px;align-items:center}'
   +   'html.rc-chrome-active .ar-toc{padding-top:64px;box-sizing:border-box}'
-  +   '.ss-pagebar-inner{justify-content:flex-start;gap:0;padding-left:24px}'
-  +   '.ss-pagebar-inner>.ss-np{position:static;height:32px;margin:0 0 0 22px;transform:none}'
+  +   '.ss-pagebar-inner{justify-content:flex-start;gap:16px}'
+  +   '.ss-pagebar-inner>.ss-np{position:absolute !important;margin:0 !important}'
   + '}'
   + 'body.is-modal .ss-np{display:none !important}'
     /* Phone: every corner × sits 8px from the top and 16px from the right. */
