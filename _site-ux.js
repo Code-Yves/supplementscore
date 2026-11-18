@@ -54,25 +54,80 @@
       }
       return 38;
     }
+    function barParts(){
+      return {
+        inner: document.querySelector('.ss-pagebar-inner'),
+        bar: document.querySelector('header.ss-pagebar'),
+        close: document.querySelector('header.ss-pagebar a.ss-pagebar-x'),
+        search: document.querySelector('.ss-pagebar-search'),
+        nav: document.querySelector('.ss-pagebar-nav')
+      };
+    }
+    function resetSearchPin(parts){
+      if (parts.close) parts.close.style.removeProperty('right');
+      if (parts.bar) parts.bar.classList.remove('ss-search-icon');
+      if (parts.search) {
+        ['margin-left','margin-right','flex','width','min-width','max-width','position','left','right','top','transform','z-index'].forEach(function(prop){
+          parts.search.style.removeProperty(prop);
+        });
+      }
+      if (parts.nav) parts.nav.style.removeProperty('gap');
+    }
+    /* From 1025px the row is links, 32px, a 200px field, 16px, then the ×.
+       The × stays 16px inside the page column. Narrower widths keep the
+       layout they already have. */
+    function placeWideSearch(){
+      if (document.body.classList.contains('ss-home')) return;
+      if (!window.matchMedia('(min-width:1025px)').matches) return;
+      var parts = barParts();
+      var inner = parts.inner;
+      var close = parts.close;
+      var search = parts.search;
+      var nav = parts.nav;
+      var column = document.querySelector('main');
+      if (!inner || !close || !search || !column) return;
+      if (getComputedStyle(search).display === 'none' && !parts.bar.classList.contains('ss-search-icon')) return;
+      resetSearchPin(parts);
+      var col = column.getBoundingClientRect();
+      var innerBox = inner.getBoundingClientRect();
+      var closeRight = col.right - 16;
+      var closeLeft = closeRight - 44;
+      var searchRight = closeLeft - 16;
+      var searchLeft = searchRight - 200;
+      close.style.setProperty('right', (innerBox.right - closeRight) + 'px', 'important');
+      search.style.position = 'absolute';
+      search.style.left = (searchLeft - innerBox.left) + 'px';
+      search.style.top = '50%';
+      search.style.transform = 'translateY(-50%)';
+      search.style.marginLeft = '0';
+      search.style.marginRight = '0';
+      search.style.flex = 'none';
+      search.style.width = '200px';
+      search.style.minWidth = '200px';
+      search.style.maxWidth = '200px';
+      search.style.zIndex = '1';
+      if (!nav || nav.getBoundingClientRect().width < 2) return;
+      var navRight = nav.getBoundingClientRect().right;
+      var overflow = navRight - (searchLeft - 32);
+      if (overflow <= 0.5) return;
+      var pad = parseFloat(getComputedStyle(inner).paddingLeft) || 0;
+      inner.style.paddingLeft = Math.max(0, pad - overflow) + 'px';
+      var banner = document.querySelector('header.ss-np-banner');
+      if (!banner) return;
+      if (banner.style.left && banner.style.left !== '0px') {
+        banner.style.left = ((parseFloat(banner.style.left) || 0) - overflow) + 'px';
+      }
+      if (banner.style.paddingLeft) {
+        banner.style.paddingLeft = Math.max(0, (parseFloat(banner.style.paddingLeft) || 0) - overflow) + 'px';
+      }
+    }
     function alignBarToTitle(){
-      var inner = document.querySelector('.ss-pagebar-inner');
-      var bar = document.querySelector('header.ss-pagebar');
-      var close = document.querySelector('header.ss-pagebar a.ss-pagebar-x');
-      var search = document.querySelector('.ss-pagebar-search');
-      var nav = document.querySelector('.ss-pagebar-nav');
+      var parts = barParts();
+      var inner = parts.inner;
       if (!inner || document.body.classList.contains('ss-home')) return;
       if (window.matchMedia('(max-width:768px)').matches) {
         inner.style.paddingLeft = '';
-        if (close) close.style.removeProperty('right');
-        if (bar) bar.classList.remove('ss-search-icon');
-        if (search) {
-          search.style.removeProperty('margin-left');
-          search.style.removeProperty('flex');
-          search.style.removeProperty('width');
-          search.style.removeProperty('min-width');
-          search.style.removeProperty('max-width');
-        }
-        if (nav) nav.style.removeProperty('gap');
+        resetSearchPin(parts);
         return;
       }
       var title = document.querySelector('main h1, .bro-wrap h1, .hub-wrap h1, .art-wrap h1');
@@ -80,18 +135,15 @@
         var left = title.getBoundingClientRect().left;
         if (left >= 8) inner.style.paddingLeft = Math.round(left) + 'px';
       }
-      /* The × sits 16px inside the page column, not the viewport.
-         Search stays a full field beside it, and never underneath it. */
+      if (window.matchMedia('(min-width:1025px)').matches) return;
+      /* 769–1024. The × stays 16px inside the column. Search moves
+         beside it instead of sliding underneath. */
+      var close = parts.close;
+      var search = parts.search;
+      var nav = parts.nav;
+      var bar = parts.bar;
       if (!close || !bar) return;
-      if (search) {
-        search.style.removeProperty('margin-left');
-        search.style.removeProperty('flex');
-        search.style.removeProperty('width');
-        search.style.removeProperty('min-width');
-        search.style.removeProperty('max-width');
-      }
-      if (nav) nav.style.removeProperty('gap');
-      bar.classList.remove('ss-search-icon');
+      resetSearchPin(parts);
       var column = document.querySelector('main');
       if (!column) return;
       var col = column.getBoundingClientRect();
@@ -203,6 +255,7 @@
           if (drop > 8) pinned[pi].style.setProperty('top', (Math.round(barBox.height) + drop + 16) + 'px', 'important');
           else pinned[pi].style.removeProperty('top');
         }
+        placeWideSearch();
         return;
       }
       var parent = banner.offsetParent || document.documentElement;
@@ -213,6 +266,7 @@
       var parentTop = pr.top + window.scrollY;
       banner.style.top = (rowCenter() - h / 2 - parentTop) + 'px';
       banner.style.height = h + 'px';
+      placeWideSearch();
     }
     window.addEventListener('resize', align);
     window.addEventListener('load', align);

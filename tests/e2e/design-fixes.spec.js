@@ -117,6 +117,24 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
           }
           return hit;
         })(),
+        wideSearch: (function () {
+          const form = document.querySelector('.ss-pagebar-search');
+          const x = document.querySelector('header.ss-pagebar a.ss-pagebar-x');
+          const main = document.querySelector('main');
+          if (!form || getComputedStyle(form).position !== 'absolute') return null;
+          const fr = form.getBoundingClientRect();
+          const xr = x && getComputedStyle(x).display !== 'none' ? x.getBoundingClientRect() : null;
+          const col = main ? main.getBoundingClientRect() : null;
+          const link = document.querySelector('.ss-pagebar-nav a:last-child');
+          const lrk = link ? link.getBoundingClientRect() : null;
+          return {
+            w: fr.width,
+            gapLinks: lrk ? fr.left - lrk.right : null,
+            gapX: xr ? xr.left - fr.right : null,
+            inset: xr && col ? col.right - xr.right : null,
+            past: Math.max(fr.right, xr ? xr.right : 0) - (col ? col.right : fr.right),
+          };
+        })(),
       };
     });
   }
@@ -134,7 +152,14 @@ test('the trust label sits in one spot inside the 1024 column', async ({ page },
     } else {
       expect(box.inPagebar, path).toBe(false);
       expect(box.navOverlap, path).toBeLessThanOrEqual(0);
-      if (box.titleLeft != null) {
+      if (box.wideSearch) {
+        expect(box.wideSearch.w, path + ' search').toBe(200);
+        expect(box.wideSearch.gapX, path + ' close gap').toBeGreaterThanOrEqual(15);
+        expect(box.wideSearch.gapX, path + ' close gap').toBeLessThanOrEqual(17);
+        expect(box.wideSearch.inset, path + ' inset').toBeGreaterThanOrEqual(15);
+        expect(box.wideSearch.inset, path + ' inset').toBeLessThanOrEqual(17);
+        expect(box.wideSearch.past, path + ' column').toBeLessThanOrEqual(0.5);
+      } else if (box.titleLeft != null) {
         expect(Math.abs(box.brandLeft - box.titleLeft), path + ' title').toBeLessThanOrEqual(2);
       }
     }
