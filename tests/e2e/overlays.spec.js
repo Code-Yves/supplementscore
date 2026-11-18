@@ -197,7 +197,10 @@ test('refresh keeps a supplement deep link and an about hash', async ({ page }) 
 
 test('close controls share one round ×', async ({ page }) => {
   await goto(page, '/about.html');
-  expectRound(await roundClose(page, 'a.ss-pagebar-x'), 'about');
+  const about = await roundClose(page, 'a.ss-pagebar-x');
+  expect(about.w, 'about width').toBeGreaterThanOrEqual(44);
+  expect(about.h, 'about height').toBeGreaterThanOrEqual(44);
+  expect(about.radius, 'about square').toBeLessThan(4);
 
   await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
   await page.waitForSelector('a.rc-close svg');
@@ -205,7 +208,10 @@ test('close controls share one round ×', async ({ page }) => {
 
   await goto(page, '/supplement/l-theanine.html');
   await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
-  expectRound(await roundClose(page, 'header.ss-pagebar a.ss-pagebar-x'), 'supplement');
+  const supplement = await roundClose(page, 'header.ss-pagebar a.ss-pagebar-x');
+  expect(supplement.w, 'supplement width').toBeGreaterThanOrEqual(44);
+  expect(supplement.h, 'supplement height').toBeGreaterThanOrEqual(44);
+  expect(supplement.radius, 'supplement square').toBeLessThan(4);
 
   await goto(page, '/');
   await page.locator('#sources-modal').evaluate((el) => el.classList.add('open'));
@@ -289,12 +295,13 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
   test.skip(testInfo.project.name !== 'iphone', 'phone corner');
   await goto(page, '/a/berberine-is-it-really-nature-s-ozempic.html');
   await page.waitForSelector('a.rc-close.ss-x');
-  await page.waitForSelector('header.ss-pagebar a.ss-pagebar-x');
   const article = await page.evaluate(() => {
     function box(sel) {
       const el = document.querySelector(sel);
+      if (!el) return null;
       const r = el.getBoundingClientRect();
-      return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, w: r.width, h: r.height };
+      const s = getComputedStyle(el);
+      return { top: r.top, bottom: r.bottom, w: r.width, h: r.height, shown: s.display !== 'none' && r.width > 2 };
     }
     return {
       bar: box('header.ss-pagebar'),
@@ -302,13 +309,11 @@ test('phone close controls are 44px and share one corner', async ({ page }, test
       close: box('a.rc-close.ss-x'),
     };
   });
-  expect(article.barX.w).toBeGreaterThanOrEqual(44);
-  expect(article.barX.w).toBeLessThan(44.01);
+  expect(article.barX.shown, 'bar close hidden when the article has its own').toBe(false);
   expect(article.close.w).toBeGreaterThanOrEqual(44);
   expect(article.close.w).toBeLessThan(44.01);
   expect(article.close.h).toBeGreaterThanOrEqual(44);
   expect(article.close.h).toBeLessThan(44.01);
-  // The research × stays on the article header. The bar already owns the corner.
   expect(article.close.top).toBeGreaterThanOrEqual(article.bar.bottom - 1);
   await goto(page, '/supplement/l-theanine.html');
   await expectDisc(page, 'header.ss-pagebar a.ss-pagebar-x', 'supplement');

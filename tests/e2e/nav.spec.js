@@ -20,7 +20,9 @@ async function expectBar(page) {
     await expect(bar.locator('a', { hasText: name }).first()).toHaveAttribute('href', href);
   }
   await expect(bar.locator('form.ss-pagebar-search')).toHaveAttribute('action', '/search.html');
-  await expect(bar.locator('input[name="q"]')).toBeVisible();
+  const input = bar.locator('input[name="q"]');
+  if (!(await input.isVisible())) await bar.locator('.ss-pagebar-search-btn').click();
+  await expect(input).toBeVisible();
 }
 
 test('homepage keeps the trust strip and adds navigation', async ({ page }, testInfo) => {
@@ -71,7 +73,9 @@ test('phone menu opens the links without sideways scroll', async ({ page }, test
 
 test('the bar search opens the search page', async ({ page }) => {
   await goto(page, '/about.html');
-  await page.locator('header.ss-pagebar input[name="q"]').fill('magnesium');
+  const input = page.locator('header.ss-pagebar input[name="q"]');
+  if (!(await input.isVisible())) await page.locator('.ss-pagebar-search-btn').click();
+  await input.fill('magnesium');
   await Promise.all([
     page.waitForURL(/\/search\.html\?q=magnesium/),
     page.locator('header.ss-pagebar form').evaluate((form) => form.submit()),
