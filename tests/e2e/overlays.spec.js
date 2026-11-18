@@ -378,8 +378,22 @@ function expectPanelCorner(box, label) {
 
 test('desktop close controls sit 16px inside the panel they close', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'desktop panel corner');
+  await goto(page, '/about.html');
+  await page.waitForSelector('main.ab-wrap');
+  await page.waitForSelector('a.ss-pagebar-x');
+  const about = await page.evaluate(() => {
+    const close = document.querySelector('a.ss-pagebar-x').getBoundingClientRect();
+    const col = document.querySelector('main.ab-wrap').getBoundingClientRect();
+    const bar = document.querySelector('header.ss-pagebar').getBoundingClientRect();
+    return {
+      w: close.width,
+      h: close.height,
+      topGap: close.top - bar.top,
+      rightGap: col.right - close.right,
+    };
+  });
+  expectPanelCorner(about, '/about.html column');
   const targets = [
-    ['/about.html', 'a.ss-pagebar-x', '.ss-pagebar-inner'],
     ['/supplement/l-theanine.html', 'a.pg-close-fab.ss-x', 'main.det-wrap'],
     ['/a/berberine-is-it-really-nature-s-ozempic.html', 'a.rc-close.ss-x', '.ar-column'],
     ['/for/menopause.html', 'a.rc-close.ss-x', '.ar-column'],
