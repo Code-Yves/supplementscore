@@ -363,6 +363,42 @@ header.ss-pagebar > .ss-pagebar-inner{position:relative}
   .ss-pagebar-search input{font-size:16px;width:100%}
   body:has(a.rc-close) header.ss-pagebar .ss-pagebar-x{display:none !important}
 }
+/* Supplement phones lost the body gutter, so the score, title, and
+   breadcrumb sat on the screen edge. Other pages keep their own inset. */
+@media(max-width:600px){
+  html body:has(.ss-pagebar) > main.det-wrap{
+    padding-left:16px !important;
+    padding-right:16px !important;
+  }
+  html body:has(.ss-pagebar) > main.det-wrap > .ssux-bc{
+    padding-left:0;
+    padding-right:0;
+  }
+}
+/* When the column is too narrow for a 200px field beside the ×,
+   search becomes the same icon used on a phone. */
+@media(min-width:769px){
+  header.ss-pagebar.ss-search-icon .ss-pagebar-search-btn{display:inline-flex}
+  header.ss-pagebar.ss-search-icon .ss-pagebar-search{
+    display:none;
+    position:absolute;
+    left:0;
+    right:0;
+    top:100%;
+    width:auto;
+    min-width:0;
+    max-width:none;
+    flex:none;
+    margin:0;
+    padding:8px 16px 12px;
+    background:var(--color-background-primary,#fff);
+    border-bottom:1px solid var(--color-border-tertiary,#e6e4df);
+    box-sizing:border-box;
+    z-index:3;
+  }
+  header.ss-pagebar.ss-search-icon .ss-pagebar-search.is-open{display:flex}
+  header.ss-pagebar.ss-search-icon .ss-pagebar-search input{width:100%;font-size:16px}
+}
 
 /* Homepage: the bar is in the padded body, so bleed it to the edges the
    same way the trust strip does. Keep that strip. Sticky filters and the

@@ -56,15 +56,87 @@
     }
     function alignBarToTitle(){
       var inner = document.querySelector('.ss-pagebar-inner');
+      var bar = document.querySelector('header.ss-pagebar');
+      var close = document.querySelector('header.ss-pagebar a.ss-pagebar-x');
+      var search = document.querySelector('.ss-pagebar-search');
+      var nav = document.querySelector('.ss-pagebar-nav');
       if (!inner || document.body.classList.contains('ss-home')) return;
       if (window.matchMedia('(max-width:768px)').matches) {
         inner.style.paddingLeft = '';
+        if (close) close.style.removeProperty('right');
+        if (bar) bar.classList.remove('ss-search-icon');
+        if (search) {
+          search.style.removeProperty('margin-left');
+          search.style.removeProperty('flex');
+          search.style.removeProperty('width');
+          search.style.removeProperty('min-width');
+          search.style.removeProperty('max-width');
+        }
+        if (nav) nav.style.removeProperty('gap');
         return;
       }
       var title = document.querySelector('main h1, .bro-wrap h1, .hub-wrap h1, .art-wrap h1');
-      if (!title) return;
-      var left = title.getBoundingClientRect().left;
-      if (left >= 8) inner.style.paddingLeft = Math.round(left) + 'px';
+      if (title) {
+        var left = title.getBoundingClientRect().left;
+        if (left >= 8) inner.style.paddingLeft = Math.round(left) + 'px';
+      }
+      /* The × sits 16px inside the page column, not the viewport.
+         Search stays a full field beside it, and never underneath it. */
+      if (!close || !bar) return;
+      if (search) {
+        search.style.removeProperty('margin-left');
+        search.style.removeProperty('flex');
+        search.style.removeProperty('width');
+        search.style.removeProperty('min-width');
+        search.style.removeProperty('max-width');
+      }
+      if (nav) nav.style.removeProperty('gap');
+      bar.classList.remove('ss-search-icon');
+      var column = document.querySelector('main');
+      if (!column) return;
+      var col = column.getBoundingClientRect();
+      var innerBox = inner.getBoundingClientRect();
+      var inset = innerBox.right - (col.right - 16);
+      if (inset < 16) inset = 16;
+      close.style.setProperty('right', Math.round(inset) + 'px', 'important');
+      var closeLeft = col.right - 16 - 44;
+      var closeRight = col.right - 16;
+      var GAP = 8;
+      if (nav && nav.getBoundingClientRect().width > 2) {
+        var navBox = nav.getBoundingClientRect();
+        if (navBox.right > closeLeft - GAP) {
+          var overflow = navBox.right - (closeLeft - GAP);
+          var gaps = Math.max(1, nav.querySelectorAll('a').length - 1);
+          var current = parseFloat(getComputedStyle(nav).gap) || 16;
+          nav.style.gap = Math.max(8, current - Math.ceil(overflow / gaps)) + 'px';
+        }
+      }
+      if (!search || getComputedStyle(search).display === 'none') return;
+      var searchBox = search.getBoundingClientRect();
+      if (searchBox.width < 2) return;
+      var hitsClose = searchBox.left < closeRight && searchBox.right > closeLeft;
+      if (!hitsClose) return;
+      var roomRight = innerBox.right - 16 - (closeRight + GAP);
+      if (roomRight >= 96) {
+        var width = Math.min(200, Math.floor(roomRight));
+        var shift = (closeRight + GAP) - searchBox.left;
+        var margin = (parseFloat(getComputedStyle(search).marginLeft) || 0) + shift;
+        search.style.marginLeft = Math.round(margin) + 'px';
+        search.style.flex = '0 0 ' + width + 'px';
+        search.style.width = width + 'px';
+        search.style.minWidth = width + 'px';
+        search.style.maxWidth = width + 'px';
+        return;
+      }
+      var roomLeft = Math.floor(closeLeft - GAP - searchBox.left);
+      if (roomLeft >= 96) {
+        search.style.flex = '0 0 ' + roomLeft + 'px';
+        search.style.width = roomLeft + 'px';
+        search.style.minWidth = '0';
+        search.style.maxWidth = roomLeft + 'px';
+        return;
+      }
+      bar.classList.add('ss-search-icon');
     }
     function measureBar(){
       var bar = document.querySelector('header.ss-pagebar');
